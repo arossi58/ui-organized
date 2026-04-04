@@ -128,6 +128,11 @@ const typeScaleSchema = z.object({
    * e.g. { "body-large": 16, "heading-medium": 24, "display-large": 48 }
    */
   steps: z.record(z.string(), z.number().positive()),
+  /**
+   * Multiplier applied on top of the system's per-step line height ratios.
+   * 1.0 = default system ratios. Range: 0.75 (tighter) – 1.5 (looser).
+   */
+  lineHeightScale: z.number().positive().default(1.0),
 });
 
 const typographySchema = z.object({

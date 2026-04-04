@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import { useBuilderStore } from "../state/themeState";
+import { LINE_HEIGHT_MULTIPLIERS } from "@ds/utils";
 import styles from "./PreviewTypography.module.css";
 
 // CSS custom properties aren't in React.CSSProperties — cast inline style objects with this.
@@ -47,7 +48,7 @@ const BODY_WEIGHT_VARS: Record<string, string> = {
 };
 
 export function PreviewTypography() {
-  const { headingFamily, bodyFamily, headingWeights, bodyWeights, typeScaleSteps } = useBuilderStore();
+  const { headingFamily, bodyFamily, headingWeights, bodyWeights, typeScaleSteps, lineHeightScale } = useBuilderStore();
 
   return (
     <div className={styles.root}>
@@ -56,24 +57,29 @@ export function PreviewTypography() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Display</h2>
         <div className={styles.scaleList}>
-          {DISPLAY_STEPS.map((step) => (
-            <div key={step} className={styles.scaleRow}>
-              <div className={styles.rowMeta}>
-                <span className={styles.stepName}>{step}</span>
-                <span className={styles.stepSize}>{typeScaleSteps[step] ?? "—"}px</span>
+          {DISPLAY_STEPS.map((step) => {
+            const px = typeScaleSteps[step] ?? 0;
+            const lh = Math.round(px * (LINE_HEIGHT_MULTIPLIERS[step] ?? 1.5) * lineHeightScale * 10) / 10;
+            return (
+              <div key={step} className={styles.scaleRow}>
+                <div className={styles.rowMeta}>
+                  <span className={styles.stepName}>{step}</span>
+                  <span className={styles.stepSize}>{px}px / {lh}px</span>
+                </div>
+                <span
+                  className={styles.sample}
+                  style={{
+                    fontSize: `var(--type-size-${step})`,
+                    lineHeight: `var(--type-leading-${step})`,
+                    fontFamily: "var(--type-font-heading)",
+                    fontWeight: "var(--type-weight-heading-semibold)",
+                  } as LooseStyle}
+                >
+                  {SAMPLE[step]}
+                </span>
               </div>
-              <span
-                className={styles.sample}
-                style={{
-                  fontSize: `var(--type-size-${step})`,
-                  fontFamily: "var(--type-font-heading)",
-                  fontWeight: "var(--type-weight-heading-semibold)",
-                } as LooseStyle}
-              >
-                {SAMPLE[step]}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -81,24 +87,29 @@ export function PreviewTypography() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Headings</h2>
         <div className={styles.scaleList}>
-          {HEADING_STEPS.map((step) => (
-            <div key={step} className={styles.scaleRow}>
-              <div className={styles.rowMeta}>
-                <span className={styles.stepName}>{step}</span>
-                <span className={styles.stepSize}>{typeScaleSteps[step] ?? "—"}px</span>
+          {HEADING_STEPS.map((step) => {
+            const px = typeScaleSteps[step] ?? 0;
+            const lh = Math.round(px * (LINE_HEIGHT_MULTIPLIERS[step] ?? 1.5) * lineHeightScale * 10) / 10;
+            return (
+              <div key={step} className={styles.scaleRow}>
+                <div className={styles.rowMeta}>
+                  <span className={styles.stepName}>{step}</span>
+                  <span className={styles.stepSize}>{px}px / {lh}px</span>
+                </div>
+                <span
+                  className={styles.sample}
+                  style={{
+                    fontSize: `var(--type-size-${step})`,
+                    lineHeight: `var(--type-leading-${step})`,
+                    fontFamily: "var(--type-font-heading)",
+                    fontWeight: "var(--type-weight-heading-semibold)",
+                  } as LooseStyle}
+                >
+                  {SAMPLE[step]}
+                </span>
               </div>
-              <span
-                className={styles.sample}
-                style={{
-                  fontSize: `var(--type-size-${step})`,
-                  fontFamily: "var(--type-font-heading)",
-                  fontWeight: "var(--type-weight-heading-semibold)",
-                } as LooseStyle}
-              >
-                {SAMPLE[step]}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -106,24 +117,29 @@ export function PreviewTypography() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Body &amp; Caption</h2>
         <div className={styles.scaleList}>
-          {BODY_STEPS.map((step) => (
-            <div key={step} className={styles.scaleRow}>
-              <div className={styles.rowMeta}>
-                <span className={styles.stepName}>{step}</span>
-                <span className={styles.stepSize}>{typeScaleSteps[step] ?? "—"}px</span>
+          {BODY_STEPS.map((step) => {
+            const px = typeScaleSteps[step] ?? 0;
+            const lh = Math.round(px * (LINE_HEIGHT_MULTIPLIERS[step] ?? 1.5) * lineHeightScale * 10) / 10;
+            return (
+              <div key={step} className={styles.scaleRow}>
+                <div className={styles.rowMeta}>
+                  <span className={styles.stepName}>{step}</span>
+                  <span className={styles.stepSize}>{px}px / {lh}px</span>
+                </div>
+                <span
+                  className={styles.sample}
+                  style={{
+                    fontSize: `var(--type-size-${step})`,
+                    lineHeight: `var(--type-leading-${step})`,
+                    fontFamily: "var(--type-font-body)",
+                    fontWeight: "var(--type-weight-body-regular)",
+                  } as LooseStyle}
+                >
+                  {SAMPLE[step]}
+                </span>
               </div>
-              <span
-                className={styles.sample}
-                style={{
-                  fontSize: `var(--type-size-${step})`,
-                  fontFamily: "var(--type-font-body)",
-                  fontWeight: "var(--type-weight-body-regular)",
-                } as LooseStyle}
-              >
-                {SAMPLE[step]}
-              </span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 

@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
-import { useBuilderStore } from "../state/themeState";
+import { useBuilderStore, DEFAULT_LINE_HEIGHT_SCALE } from "../state/themeState";
 import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
-import { TYPE_SCALE_STEP_NAMES } from "@ds/utils";
+import { TYPE_SCALE_STEP_NAMES, LINE_HEIGHT_MULTIPLIERS } from "@ds/utils";
 import styles from "./TypographyPanel.module.css";
 
 // ─── Scale ratio options ──────────────────────────────────────────────────────
@@ -147,21 +147,25 @@ function TypeScaleSpecimen({
   steps,
   headingFamily,
   bodyFamily,
+  lineHeightScale,
 }: {
   steps: Record<string, number>;
   headingFamily: string;
   bodyFamily: string;
+  lineHeightScale: number;
 }) {
   return (
     <div className={styles.specimen}>
       {TYPE_SCALE_STEP_NAMES.map((stepName) => {
         const px = steps[stepName] ?? 16;
         const isHeading = HEADING_STEPS.includes(stepName);
+        const lhMultiplier = LINE_HEIGHT_MULTIPLIERS[stepName] ?? 1.5;
+        const lh = Math.round(px * lhMultiplier * lineHeightScale * 10) / 10;
         return (
           <div key={stepName} className={styles.specimenRow}>
             <div className={styles.specimenMeta}>
               <span className={styles.specimenName}>{stepName}</span>
-              <span className={styles.specimenPx}>{px}px</span>
+              <span className={styles.specimenPx}>{px}px / {lh}</span>
             </div>
             <span
               className={styles.specimenText}
@@ -188,7 +192,8 @@ export function TypographyPanel() {
     headingFamily, headingWeights,
     bodyFamily, bodyWeights,
     typeScaleBase, typeScaleRatio, typeScaleSteps,
-    setHeadingFont, setBodyFont, setTypeScale,
+    lineHeightScale,
+    setHeadingFont, setBodyFont, setTypeScale, setLineHeightScale,
   } = useBuilderStore();
 
   const { fonts, loading } = useGoogleFonts();
@@ -280,10 +285,33 @@ export function TypographyPanel() {
           </div>
         </div>
 
+        <div className={styles.controlGroup}>
+          <label className={styles.controlLabel}>
+            Line height scale
+            <span className={styles.sliderValue}>{lineHeightScale.toFixed(2)}×</span>
+          </label>
+          <input
+            type="range"
+            className={styles.slider}
+            min={0.75}
+            max={1.5}
+            step={0.05}
+            value={lineHeightScale}
+            onChange={(e) => setLineHeightScale(Number(e.target.value))}
+          />
+          <div className={styles.sliderTicks}>
+            <span>0.75</span>
+            <span>1.00</span>
+            <span>1.25</span>
+            <span>1.50</span>
+          </div>
+        </div>
+
         <TypeScaleSpecimen
           steps={typeScaleSteps}
           headingFamily={headingFamily}
           bodyFamily={bodyFamily}
+          lineHeightScale={lineHeightScale}
         />
       </section>
     </div>

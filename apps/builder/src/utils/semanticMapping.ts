@@ -10,7 +10,7 @@
  * predictable, and works regardless of CSS cascade subtleties.
  */
 
-import type { ColorRamp } from "@ds/utils";
+import { LINE_HEIGHT_MULTIPLIERS, type ColorRamp } from "@ds/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -83,6 +83,7 @@ export function computeTypographyVars(
   headingWeights: Record<string, number>,
   bodyWeights: Record<string, number>,
   typeScaleSteps: Record<string, number>,
+  lineHeightScale: number,
 ): CSSVarMap {
   const vars: CSSVarMap = {};
 
@@ -101,9 +102,14 @@ export function computeTypographyVars(
   vars["--type-weight-body-semibold"] = String(bodyWeights.strong   ?? 600);
   vars["--type-weight-body-bold"]     = String(bodyWeights.heavy    ?? 700);
 
-  // Font sizes
+  // Font sizes + line heights
+  // Components reference --type-leading-{step} — emit that name so they respond
+  // to the scale factor. PreviewTypography uses the same vars.
   for (const [stepName, px] of Object.entries(typeScaleSteps)) {
     vars[`--type-size-${stepName}`] = `${px}px`;
+    const baseMultiplier = LINE_HEIGHT_MULTIPLIERS[stepName] ?? 1.5;
+    const lh = Math.round(px * baseMultiplier * lineHeightScale * 100) / 100;
+    vars[`--type-leading-${stepName}`] = `${lh}px`;
   }
 
   return vars;
@@ -143,6 +149,7 @@ export function computeAllPreviewVars(params: {
   headingWeights: Record<string, number>;
   bodyWeights: Record<string, number>;
   typeScaleSteps: Record<string, number>;
+  lineHeightScale: number;
   spacingScale: Record<string, number>;
   borderRadius: Record<string, number>;
 }): CSSVarMap {
@@ -154,6 +161,7 @@ export function computeAllPreviewVars(params: {
       params.headingWeights,
       params.bodyWeights,
       params.typeScaleSteps,
+      params.lineHeightScale,
     ),
     ...computeSpacingVars(params.spacingScale),
     ...computeRadiusVars(params.borderRadius),

@@ -170,6 +170,30 @@
 .controlLabel {
   font-size: 12px;
   color: var(--builder-text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sliderValue {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--builder-accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.slider {
+  width: 100%;
+  accent-color: var(--builder-accent);
+  cursor: pointer;
+}
+
+.sliderTicks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--builder-text-tertiary);
+  font-variant-numeric: tabular-nums;
 }
 
 .numberRow {

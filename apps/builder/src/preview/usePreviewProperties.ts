@@ -20,6 +20,7 @@ export function usePreviewProperties(): PreviewStyle {
     headingWeights,
     bodyWeights,
     typeScaleSteps,
+    lineHeightScale,
     spacingScale,
     borderRadius,
   } = useBuilderStore();
@@ -34,6 +35,7 @@ export function usePreviewProperties(): PreviewStyle {
         headingWeights,
         bodyWeights,
         typeScaleSteps,
+        lineHeightScale,
         spacingScale,
         borderRadius,
       }) as PreviewStyle,
@@ -45,6 +47,7 @@ export function usePreviewProperties(): PreviewStyle {
       headingWeights,
       bodyWeights,
       typeScaleSteps,
+      lineHeightScale,
       spacingScale,
       borderRadius,
     ],

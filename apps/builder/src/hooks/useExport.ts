@@ -289,6 +289,7 @@ export function useExport() {
           base: state.typeScaleBase,
           ratio: state.typeScaleRatio,
           steps: state.typeScaleSteps,
+          lineHeightScale: state.lineHeightScale,
         },
       },
       icons: {

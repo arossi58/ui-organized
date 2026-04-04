@@ -9,9 +9,11 @@ import {
   type NeutralPresetName,
 } from "@ds/utils";
 
+export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
+
 // ─── Default values ───────────────────────────────────────────────────────────
 
-const DEFAULT_BRAND_HEX = "#008ffb";
+const DEFAULT_BRAND_HEX    = "#008ffb";
 const DEFAULT_NEUTRAL: NeutralPresetName = "shark";
 const DEFAULT_HEADING_FAMILY = "Roboto";
 const DEFAULT_BODY_FAMILY = "Roboto";
@@ -85,6 +87,7 @@ export interface BuilderState {
   typeScaleBase: number;
   typeScaleRatio: number;
   typeScaleSteps: Record<string, number>;
+  lineHeightScale: number;
 
   // Border radius
   radiusBase: number;
@@ -107,6 +110,7 @@ export interface BuilderState {
   setHeadingFont: (family: string, weights: Record<string, number>) => void;
   setBodyFont: (family: string, weights: Record<string, number>) => void;
   setTypeScale: (base: number, ratio: number) => void;
+  setLineHeightScale: (scale: number) => void;
   setRadiusBase: (base: number) => void;
   setSpacingBase: (base: number) => void;
   setIcons: (config: Partial<IconsConfig>) => void;
@@ -131,6 +135,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   typeScaleBase: DEFAULT_TYPE_BASE,
   typeScaleRatio: DEFAULT_TYPE_RATIO,
   typeScaleSteps: calculateTypeScale(DEFAULT_TYPE_BASE, DEFAULT_TYPE_RATIO),
+  lineHeightScale: DEFAULT_LINE_HEIGHT_SCALE,
 
   // Border radius
   radiusBase: DEFAULT_RADIUS_BASE,
@@ -172,6 +177,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       typeScaleRatio: ratio,
       typeScaleSteps: calculateTypeScale(base, ratio),
     })),
+
+  setLineHeightScale: (scale) => set(() => ({ lineHeightScale: scale })),
 
   setRadiusBase: (base) =>
     set(() => ({
