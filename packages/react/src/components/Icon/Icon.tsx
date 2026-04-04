@@ -33,19 +33,25 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
 
   if (!IconComponent) return null;
 
+  // Resolve the effective stroke for outline icons.
+  // baseStroke is always applied so users see their chosen weight immediately.
+  // When strokeAdjustment is on, the stroke is also scaled by size.
+  const effectiveStroke =
+    style === "outline"
+      ? shouldAdjustStroke(strokeAdjustment, style)
+        ? adjustStrokeWidth(size, baseStroke, baseSize)
+        : baseStroke
+      : undefined;
+
   // Build SVG props per library
   const svgProps: Record<string, unknown> = {};
 
   if (library === "lucide") {
     svgProps["size"] = size;
-    if (shouldAdjustStroke(strokeAdjustment, style)) {
-      svgProps["strokeWidth"] = adjustStrokeWidth(size, baseStroke, baseSize);
-    }
+    if (effectiveStroke !== undefined) svgProps["strokeWidth"] = effectiveStroke;
   } else if (library === "tabler") {
     svgProps["size"] = size;
-    if (shouldAdjustStroke(strokeAdjustment, style)) {
-      svgProps["stroke"] = adjustStrokeWidth(size, baseStroke, baseSize);
-    }
+    if (effectiveStroke !== undefined) svgProps["stroke"] = effectiveStroke;
   } else {
     // Heroicons: size via width/height props + inline style
     svgProps["width"] = size;
