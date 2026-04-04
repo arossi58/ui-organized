@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 import { adjustStrokeWidth, shouldAdjustStroke } from "@ds/utils";
 import { useIconConfig } from "../../context/IconContext.js";
 import { lucideIconSet } from "../../icons/lucide.js";
-import { tablerIconSet } from "../../icons/tabler.js";
+import { tablerIconSet, tablerSolidSet } from "../../icons/tabler.js";
 import { heroiconsOutlineSet, heroiconsSolidSet } from "../../icons/heroicons.js";
 import type { IconProps } from "./Icon.types.js";
 import "./Icon.css";
@@ -26,7 +26,7 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
   if (library === "lucide") {
     IconComponent = lucideIconSet[name];
   } else if (library === "tabler") {
-    IconComponent = tablerIconSet[name];
+    IconComponent = (style === "solid" ? tablerSolidSet[name] : undefined) ?? tablerIconSet[name];
   } else {
     IconComponent = style === "solid" ? heroiconsSolidSet[name] : heroiconsOutlineSet[name];
   }
@@ -53,9 +53,10 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
     svgProps["size"] = size;
     if (effectiveStroke !== undefined) svgProps["stroke"] = effectiveStroke;
   } else {
-    // Heroicons: size via width/height props + inline style
+    // Heroicons: size via width/height; stroke via strokeWidth SVG prop
     svgProps["width"] = size;
     svgProps["height"] = size;
+    if (effectiveStroke !== undefined) svgProps["strokeWidth"] = effectiveStroke;
   }
 
   return (

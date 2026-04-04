@@ -19,6 +19,14 @@ import {
   IconPencil, IconPhone, IconPlus, IconRefresh,
   IconSearch, IconSettings, IconSortAscending, IconSortDescending,
   IconStar, IconTag, IconTrash, IconUpload, IconUser, IconUsers, IconX,
+  // Filled variants
+  IconAlertCircleFilled, IconAlertTriangleFilled,
+  IconBookmarkFilled, IconCalendarFilled, IconCircleCheckFilled, IconClockFilled,
+  IconCopyFilled, IconEyeFilled, IconFilterFilled,
+  IconHeartFilled, IconHomeFilled, IconInfoCircleFilled,
+  IconLockFilled, IconMailFilled, IconPencilFilled, IconPhoneFilled,
+  IconPlusFilled, IconSearchFilled, IconSettingsFilled,
+  IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled,
 } from "@tabler/icons-react";
 import type { CanonicalIconName } from "@ds/utils";
 import type { ComponentType } from "react";
@@ -71,4 +79,35 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "home":           IconHome,
   "calendar":       IconCalendar,
   "clock":          IconClock,
+};
+
+/**
+ * Tabler filled/solid icon set.
+ * Only icons that have an official filled variant are listed here.
+ * Icons without a filled variant fall back to the outline set in Icon.tsx.
+ */
+export const tablerSolidSet: Partial<Record<CanonicalIconName, ComponentType<any>>> = {
+  "alert-circle":   IconAlertCircleFilled,
+  "alert-triangle": IconAlertTriangleFilled,
+  "bookmark":       IconBookmarkFilled,
+  "calendar":       IconCalendarFilled,
+  "check-circle":   IconCircleCheckFilled,
+  "clock":          IconClockFilled,
+  "copy":           IconCopyFilled,
+  "edit":           IconPencilFilled,
+  "eye":            IconEyeFilled,
+  "filter":         IconFilterFilled,
+  "heart":          IconHeartFilled,
+  "home":           IconHomeFilled,
+  "info":           IconInfoCircleFilled,
+  "lock":           IconLockFilled,
+  "mail":           IconMailFilled,
+  "phone":          IconPhoneFilled,
+  "plus":           IconPlusFilled,
+  "search":         IconSearchFilled,
+  "settings":       IconSettingsFilled,
+  "star":           IconStarFilled,
+  "tag":            IconTagFilled,
+  "trash":          IconTrashFilled,
+  "user":           IconUserFilled,
 };
