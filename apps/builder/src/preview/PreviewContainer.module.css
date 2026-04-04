@@ -1,8 +1,51 @@
-.wrapper {
+.container {
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Tab bar ─────────────────────────────────────────────────────────────── */
+
+.tabBar {
+  display: flex;
+  gap: 2px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--builder-border);
+  background: var(--builder-surface);
+  flex-shrink: 0;
+}
+
+.tab {
+  padding: 5px 12px;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--builder-text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.tab:hover {
+  background: var(--builder-surface-hover);
+  color: var(--builder-text-primary);
+}
+
+.tabActive {
+  background: var(--builder-accent-subtle);
+  color: var(--builder-accent);
+}
+
+/* ── Themed content area ─────────────────────────────────────────────────── */
+
+.content {
+  flex: 1;
   overflow-y: auto;
   background-color: var(--color-surface-base);
   color: var(--color-text-text-primary);
   font-family: var(--type-font-body);
-  padding: 24px;
+  padding: 32px;
 }

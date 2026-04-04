@@ -194,6 +194,7 @@ export function PreviewKitchenSink() {
           <h2 className={styles.sectionTitle}>Tabs</h2>
           <Tabs tabs={TABS_ITEMS} defaultValue="overview" />
         </section>
+
     </div>
   );
 }

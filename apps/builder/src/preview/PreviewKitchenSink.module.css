@@ -61,9 +61,14 @@
   gap: 8px;
 }
 
+
 @media (max-width: 600px) {
   .twoCol,
   .cardGrid {
     grid-template-columns: 1fr;
+  }
+
+  .iconGrid {
+    grid-template-columns: repeat(6, 1fr);
   }
 }
