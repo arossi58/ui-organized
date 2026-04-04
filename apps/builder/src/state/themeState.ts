@@ -18,24 +18,40 @@ const DEFAULT_BODY_FAMILY = "Roboto";
 const DEFAULT_TYPE_BASE = 16;
 const DEFAULT_TYPE_RATIO = 1.25;
 const DEFAULT_SPACING_BASE = 4;
+const DEFAULT_RADIUS_BASE = 4;
 
 const DEFAULT_WEIGHTS = { default: 400, emphasis: 500, strong: 600, heavy: 700 };
 
-const DEFAULT_RADIUS: Record<string, number> = {
-  "radius-01": 2,
-  "radius-02": 4,
-  "radius-03": 6,
-  "radius-04": 8,
-  "radius-05": 12,
-  "radius-06": 16,
-  "radius-07": 20,
-  "radius-08": 24,
-  "radius-09": 28,
-  "radius-10": 32,
-  "radius-11": 40,
-  "radius-12": 48,
-  "radius-full": 99999,
+// ─── Radius scale ─────────────────────────────────────────────────────────────
+
+/**
+ * Fixed multipliers for the radius scale relative to the base unit.
+ * At base=4: 2, 4, 6, 8, 12, 16, 20, 24, 28, 32, 40, 48 — matches the
+ * canonical token values from the design library.
+ */
+export const RADIUS_MULTIPLIERS: Record<string, number> = {
+  "radius-01": 0.5,
+  "radius-02": 1,
+  "radius-03": 1.5,
+  "radius-04": 2,
+  "radius-05": 3,
+  "radius-06": 4,
+  "radius-07": 5,
+  "radius-08": 6,
+  "radius-09": 7,
+  "radius-10": 8,
+  "radius-11": 10,
+  "radius-12": 12,
 };
+
+export function generateRadiusScale(base: number): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const [key, mult] of Object.entries(RADIUS_MULTIPLIERS)) {
+    result[key] = Math.round(base * mult);
+  }
+  result["radius-full"] = 99999;
+  return result;
+}
 
 export type ActivePanel = "color" | "typography" | "radius" | "spacing" | "export";
 
@@ -58,6 +74,7 @@ export interface BuilderState {
   typeScaleSteps: Record<string, number>;
 
   // Border radius
+  radiusBase: number;
   borderRadius: Record<string, number>;
 
   // Spacing
@@ -74,7 +91,7 @@ export interface BuilderState {
   setHeadingFont: (family: string, weights: Record<string, number>) => void;
   setBodyFont: (family: string, weights: Record<string, number>) => void;
   setTypeScale: (base: number, ratio: number) => void;
-  setRadius: (key: string, value: number) => void;
+  setRadiusBase: (base: number) => void;
   setSpacingBase: (base: number) => void;
   setActivePanel: (panel: ActivePanel) => void;
   setThemeName: (name: string) => void;
@@ -99,7 +116,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   typeScaleSteps: calculateTypeScale(DEFAULT_TYPE_BASE, DEFAULT_TYPE_RATIO),
 
   // Border radius
-  borderRadius: { ...DEFAULT_RADIUS },
+  radiusBase: DEFAULT_RADIUS_BASE,
+  borderRadius: generateRadiusScale(DEFAULT_RADIUS_BASE),
 
   // Spacing
   spacingBaseUnit: DEFAULT_SPACING_BASE,
@@ -135,9 +153,10 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       typeScaleSteps: calculateTypeScale(base, ratio),
     })),
 
-  setRadius: (key, value) =>
-    set((state) => ({
-      borderRadius: { ...state.borderRadius, [key]: value },
+  setRadiusBase: (base) =>
+    set(() => ({
+      radiusBase: base,
+      borderRadius: generateRadiusScale(base),
     })),
 
   setSpacingBase: (base) =>
