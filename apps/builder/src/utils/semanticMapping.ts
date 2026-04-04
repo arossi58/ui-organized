@@ -1,18 +1,13 @@
 /**
  * Semantic color mapping for the live preview.
  *
- * Given the current brand ramp and neutral ramp, computes all CSS custom
- * property values that need to be written to the preview container. This
- * directly overrides the values from @ds/tokens/variables.css so that
- * components inside the preview reflect the user's choices.
+ * Given the current brand ramp and neutral ramp, writes ALL color-related CSS
+ * custom properties as directly-resolved hex values onto the preview container.
  *
- * Strategy:
- * - Write brand primitive ramp (`--brand-100` … `--brand-1600`) so component
- *   tokens that use `var(--brand-XXX)` resolve to the new brand color.
- * - Write neutral-dependent semantic tokens as resolved hex values, since the
- *   base CSS uses `var(--shark-XXX)` and we can't rename that reference live.
- * - Static functional / text / border tokens are inherited from `:root` and do
- *   not need to be overridden.
+ * We do NOT rely on var() chains (e.g. setting --brand-1200 and hoping that
+ * --color-interactive-primary-default: var(--brand-1200) re-resolves). Instead
+ * every semantic token is written with its final hex value. This is explicit,
+ * predictable, and works regardless of CSS cascade subtleties.
  */
 
 import type { ColorRamp } from "@ds/utils";
@@ -30,10 +25,9 @@ function step(ramp: ColorRamp, s: string): string {
 // ─── Main mapping function ────────────────────────────────────────────────────
 
 /**
- * Compute preview CSS custom properties from the current brand + neutral ramps.
- *
- * Only properties that vary with user input are included. Static values
- * (functional status colors, white/black ramps, overlays) come from `:root`.
+ * Compute all color CSS custom properties with resolved hex values.
+ * Covers brand primitives, brand-dependent semantic tokens, and
+ * neutral-dependent semantic tokens.
  */
 export function computeColorVars(
   brandRamp: ColorRamp,
@@ -41,26 +35,37 @@ export function computeColorVars(
 ): CSSVarMap {
   const vars: CSSVarMap = {};
 
-  // ── Brand primitives (overrides :root --brand-XXX) ──────────────────────────
+  // ── Brand primitive ramp ─────────────────────────────────────────────────────
   for (const s of ["100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400","1500","1600"]) {
     vars[`--brand-${s}`] = step(brandRamp, s);
   }
 
+  // ── Brand-dependent semantic tokens (resolved directly — no var() chain) ─────
+  vars["--color-interactive-primary-default"]  = step(brandRamp, "1200");
+  vars["--color-interactive-primary-hover"]    = step(brandRamp, "1400");
+  vars["--color-interactive-primary-active"]   = step(brandRamp, "1600");
+  vars["--color-interactive-primary-selected"] = step(brandRamp, "1200");
+
+  vars["--color-interactive-tertiary-default"]  = step(brandRamp, "900");
+  vars["--color-interactive-tertiary-hover"]    = step(brandRamp, "700");
+  vars["--color-interactive-tertiary-active"]   = step(brandRamp, "600");
+  vars["--color-interactive-tertiary-selected"] = step(brandRamp, "1000");
+
   // ── Neutral-dependent semantic tokens ────────────────────────────────────────
-  // Surface — maps to neutral dark steps (surface = dark UI background in dark mode)
+  // Surfaces
   vars["--color-surface-base"]     = step(neutralRamp, "1600");
   vars["--color-surface-subtle"]   = step(neutralRamp, "1500");
   vars["--color-surface-medium"]   = step(neutralRamp, "1400");
   vars["--color-surface-emphasis"] = step(neutralRamp, "1300");
   vars["--color-surface-strong"]   = step(neutralRamp, "1200");
 
-  // Secondary interactive — uses neutral mid-dark steps
+  // Secondary interactive
   vars["--color-interactive-secondary-default"]  = step(neutralRamp, "1100");
   vars["--color-interactive-secondary-hover"]    = step(neutralRamp, "900");
   vars["--color-interactive-secondary-active"]   = step(neutralRamp, "700");
   vars["--color-interactive-secondary-selected"] = step(neutralRamp, "900");
 
-  // UI interactive (form controls, toggles, etc.)
+  // UI interactive (form controls, toggles)
   vars["--color-interactive-ui-default"]  = step(neutralRamp, "1300");
   vars["--color-interactive-ui-hover"]    = step(neutralRamp, "1100");
   vars["--color-interactive-ui-active"]   = step(neutralRamp, "1200");
