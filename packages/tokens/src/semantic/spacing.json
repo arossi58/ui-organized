@@ -1,0 +1,20 @@
+{
+  "spacing": {
+    "space-005": { "$type": "dimension", "$value": "2px" },
+    "space-01":  { "$type": "dimension", "$value": "4px" },
+    "space-015": { "$type": "dimension", "$value": "6px" },
+    "space-02":  { "$type": "dimension", "$value": "8px" },
+    "space-025": { "$type": "dimension", "$value": "10px" },
+    "space-03":  { "$type": "dimension", "$value": "12px" },
+    "space-04":  { "$type": "dimension", "$value": "16px" },
+    "space-05":  { "$type": "dimension", "$value": "20px" },
+    "space-06":  { "$type": "dimension", "$value": "24px" },
+    "space-07":  { "$type": "dimension", "$value": "28px" },
+    "space-08":  { "$type": "dimension", "$value": "32px" },
+    "space-09":  { "$type": "dimension", "$value": "36px" },
+    "space-10":  { "$type": "dimension", "$value": "40px" },
+    "space-12":  { "$type": "dimension", "$value": "48px" },
+    "space-16":  { "$type": "dimension", "$value": "64px" },
+    "space-32":  { "$type": "dimension", "$value": "128px" }
+  }
+}

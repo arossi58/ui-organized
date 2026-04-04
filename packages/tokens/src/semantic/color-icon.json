@@ -1,0 +1,7 @@
+{
+  "color-icon": {
+    "icon-primary":   { "$type": "color", "$value": "{white.100}" },
+    "icon-secondary": { "$type": "color", "$value": "{white.800}" },
+    "icon-tertiary":  { "$type": "color", "$value": "{white.1100}" }
+  }
+}

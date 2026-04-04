@@ -1,0 +1,11 @@
+{
+  "extends": "@ds/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["src", "config.ts", "build.ts", "transform.ts"]
+}

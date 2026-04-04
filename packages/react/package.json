@@ -1,0 +1,56 @@
+{
+  "name": "@ds/react",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/index.css"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
+    "test": "vitest run",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "lucide-react": ">=0.400.0",
+    "@tabler/icons-react": ">=3.0.0",
+    "@heroicons/react": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "lucide-react": { "optional": true },
+    "@tabler/icons-react": { "optional": true },
+    "@heroicons/react": { "optional": true }
+  },
+  "dependencies": {
+    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@ds/schema": "workspace:*",
+    "@ds/tokens": "workspace:*",
+    "@ds/utils": "workspace:*",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0"
+  },
+  "devDependencies": {
+    "@ds/tsconfig": "workspace:*",
+    "@heroicons/react": "^2.0.0",
+    "@tabler/icons-react": "^3.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "lucide-react": "^0.400.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

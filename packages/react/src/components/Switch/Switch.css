@@ -1,0 +1,71 @@
+/* ─── Switch wrapper ──────────────────────────────────────────────────────── */
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  cursor: pointer;
+}
+
+.switch[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Switch track (the Root element) ────────────────────────────────────── */
+
+.switch__track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+  background-color: var(--color-interactive-secondary-default);
+  border-radius: var(--radius-status);
+  outline: none;
+  transition: background-color 200ms ease;
+}
+
+.switch__track:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.switch__track[data-checked] {
+  background-color: var(--color-interactive-primary-default);
+}
+
+.switch__track:hover:not([data-disabled])[data-checked] {
+  background-color: var(--color-interactive-primary-hover);
+}
+
+.switch__track:hover:not([data-disabled]):not([data-checked]) {
+  background-color: var(--color-interactive-secondary-hover);
+}
+
+/* ─── Switch thumb ────────────────────────────────────────────────────────── */
+
+.switch__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--color-interactive-contents);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: left 200ms ease;
+}
+
+.switch__track[data-checked] .switch__thumb {
+  left: 23px;
+}
+
+/* ─── Switch label ────────────────────────────────────────────────────────── */
+
+.switch__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  user-select: none;
+}

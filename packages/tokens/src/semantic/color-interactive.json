@@ -1,0 +1,49 @@
+{
+  "color-interactive": {
+    "primary": {
+      "default":  { "$type": "color", "$value": "{brand.1200}" },
+      "hover":    { "$type": "color", "$value": "{brand.1400}" },
+      "active":   { "$type": "color", "$value": "{brand.1600}" },
+      "selected": { "$type": "color", "$value": "{brand.1200}" }
+    },
+    "secondary": {
+      "default":  { "$type": "color", "$value": "{shark.1100}" },
+      "hover":    { "$type": "color", "$value": "{shark.900}" },
+      "active":   { "$type": "color", "$value": "{shark.700}" },
+      "selected": { "$type": "color", "$value": "{shark.900}" }
+    },
+    "tertiary": {
+      "default":  { "$type": "color", "$value": "{brand.900}" },
+      "hover":    { "$type": "color", "$value": "{brand.700}" },
+      "active":   { "$type": "color", "$value": "{brand.600}" },
+      "selected": { "$type": "color", "$value": "{brand.1000}" }
+    },
+    "ghost": {
+      "default": { "$type": "color", "$value": "rgba(252, 252, 252, 0)" },
+      "hover":   { "$type": "color", "$value": "{black.800}" },
+      "active":  { "$type": "color", "$value": "{black.1000}" }
+    },
+    "destructive": {
+      "default":       { "$type": "color", "$value": "{crimson.1000}" },
+      "default-ghost": { "$type": "color", "$value": "{crimson.800}" },
+      "hover":         { "$type": "color", "$value": "{crimson.1200}" },
+      "hover-ghost":   { "$type": "color", "$value": "{crimson.600}" },
+      "active":        { "$type": "color", "$value": "{crimson.1300}" },
+      "active-ghost":  { "$type": "color", "$value": "{crimson.400}" }
+    },
+    "contents": { "$type": "color", "$value": "{white.100}" },
+    "ui": {
+      "default":  { "$type": "color", "$value": "{shark.1300}" },
+      "hover":    { "$type": "color", "$value": "{shark.1100}" },
+      "active":   { "$type": "color", "$value": "{shark.1200}" },
+      "selected": { "$type": "color", "$value": "{shark.1200}" }
+    },
+    "focus":         { "$type": "color", "$value": "{white.100}" },
+    "focus-inverse": { "$type": "color", "$value": "{black.1600}" },
+    "inactive": {
+      "inactive-01": { "$type": "color", "$value": "{black.600}" },
+      "inactive-02": { "$type": "color", "$value": "{black.400}" },
+      "inactive-03": { "$type": "color", "$value": "{black.200}" }
+    }
+  }
+}

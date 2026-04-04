@@ -1,0 +1,9 @@
+{
+  "color-border": {
+    "subtle":     { "$type": "color", "$value": "{black.1100}" },
+    "medium":     { "$type": "color", "$value": "{black.1000}" },
+    "emphasis":   { "$type": "color", "$value": "{black.900}" },
+    "strong":     { "$type": "color", "$value": "{black.800}" },
+    "data-entry": { "$type": "color", "$value": "{black.700}" }
+  }
+}

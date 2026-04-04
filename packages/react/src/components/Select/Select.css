@@ -1,0 +1,237 @@
+/* ─── Select field root ───────────────────────────────────────────────────── */
+
+.select-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  position: relative;
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+.select-field__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-secondary);
+}
+
+/* ─── Trigger ─────────────────────────────────────────────────────────────── */
+
+.select-field__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  background-color: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.select-field__trigger:focus-visible {
+  border-color: var(--color-border-data-entry);
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.select-field__trigger[data-popup-open] {
+  border-color: var(--color-border-data-entry);
+}
+
+.select-field__trigger[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.select-field__trigger[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.select-field__trigger:disabled,
+.select-field__trigger[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Placeholder text ────────────────────────────────────────────────────── */
+
+.select-field__placeholder {
+  color: var(--color-text-text-placeholder);
+}
+
+/* ─── Chevron icon ────────────────────────────────────────────────────────── */
+
+.select-field__icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-text-tertiary);
+}
+
+.select-field__icon .icon {
+  transition: transform 150ms ease;
+}
+
+.select-field__trigger[data-popup-open] .select-field__icon .icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Description (helper text) ───────────────────────────────────────────── */
+
+.select-field__description {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Error message ───────────────────────────────────────────────────────── */
+
+.select-field__error {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-status-error-message);
+}
+
+/* ─── Popup positioner ────────────────────────────────────────────────────── */
+
+.select-positioner {
+  z-index: 50;
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+.select-popup {
+  background-color: var(--color-surface-medium);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-01) 0;
+  min-width: var(--available-width);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  outline: none;
+  transform-origin: top;
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+.select-popup[data-ending-style],
+.select-popup[data-starting-style] {
+  opacity: 0;
+  transform: scaleY(0.95);
+}
+
+/* ─── List ────────────────────────────────────────────────────────────────── */
+
+.select-popup__list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 280px;
+  overscroll-behavior: contain;
+  outline: none;
+}
+
+/* ─── Item ────────────────────────────────────────────────────────────────── */
+
+.select-popup__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-015) var(--spacing-space-03);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 100ms ease;
+  user-select: none;
+}
+
+.select-popup__item[data-highlighted] {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.select-popup__item[data-selected] {
+  background-color: var(--color-interactive-ui-selected);
+  font-weight: var(--type-weight-body-medium);
+}
+
+.select-popup__item[data-disabled] {
+  color: var(--color-interactive-inactive-inactive-01);
+  cursor: not-allowed;
+}
+
+/* ─── Item indicator (selected checkmark) ─────────────────────────────────── */
+
+.select-popup__item-indicator {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-interactive-tertiary-default);
+  opacity: 0;
+}
+
+.select-popup__item[data-selected] .select-popup__item-indicator {
+  opacity: 1;
+}
+
+.select-popup__item-indicator::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -1px);
+}
+
+/* ─── Size: sm ────────────────────────────────────────────────────────────── */
+
+.select-field--sm .select-field__label {
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.select-field--sm .select-field__trigger {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* ─── Size: lg ────────────────────────────────────────────────────────────── */
+
+.select-field--lg .select-field__label {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.select-field--lg .select-field__trigger {
+  padding: var(--spacing-space-02) var(--spacing-space-04);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}

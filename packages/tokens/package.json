@@ -1,0 +1,39 @@
+{
+  "name": "@ds/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./variables.css": "./output/variables.css"
+  },
+  "scripts": {
+    "transform": "tsx transform.ts",
+    "build:tokens": "tsx build.ts",
+    "build": "tsx build.ts && tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest run",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ds/schema": "workspace:*",
+    "@ds/utils": "workspace:*",
+    "style-dictionary": "^4.0.0"
+  },
+  "devDependencies": {
+    "@ds/tsconfig": "workspace:*",
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

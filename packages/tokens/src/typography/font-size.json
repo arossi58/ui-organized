@@ -1,0 +1,16 @@
+{
+  "type": {
+    "size": {
+      "display-xlarge": { "$type": "dimension", "$value": "64px" },
+      "display-large":  { "$type": "dimension", "$value": "48px" },
+      "display-medium": { "$type": "dimension", "$value": "40px" },
+      "heading-large":  { "$type": "dimension", "$value": "32px" },
+      "heading-medium": { "$type": "dimension", "$value": "24px" },
+      "heading-small":  { "$type": "dimension", "$value": "20px" },
+      "body-large":     { "$type": "dimension", "$value": "16px" },
+      "body-medium":    { "$type": "dimension", "$value": "14px" },
+      "body-small":     { "$type": "dimension", "$value": "12px" },
+      "caption":        { "$type": "dimension", "$value": "10px" }
+    }
+  }
+}

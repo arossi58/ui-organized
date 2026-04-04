@@ -1,0 +1,18 @@
+{
+  "type": {
+    "weight": {
+      "body": {
+        "regular":  { "$type": "number", "$value": 400 },
+        "medium":   { "$type": "number", "$value": 500 },
+        "semibold": { "$type": "number", "$value": 600 },
+        "bold":     { "$type": "number", "$value": 700 }
+      },
+      "heading": {
+        "regular":  { "$type": "number", "$value": 400 },
+        "medium":   { "$type": "number", "$value": 500 },
+        "semibold": { "$type": "number", "$value": 600 },
+        "bold":     { "$type": "number", "$value": 700 }
+      }
+    }
+  }
+}

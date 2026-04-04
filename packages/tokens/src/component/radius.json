@@ -1,0 +1,7 @@
+{
+  "radius": {
+    "interactive": { "$type": "dimension", "$value": "{border-radius.radius-04}" },
+    "checkbox":    { "$type": "dimension", "$value": "{border-radius.radius-02}" },
+    "status":      { "$type": "dimension", "$value": "{border-radius.radius-full}" }
+  }
+}

@@ -1,0 +1,17 @@
+/* ─── Icon wrapper ────────────────────────────────────────────────────────── */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  /* Inherits color from parent — icons use currentColor */
+  color: inherit;
+  /* Prevent icon from being selectable */
+  user-select: none;
+  line-height: 0;
+}
+
+.icon svg {
+  display: block;
+}

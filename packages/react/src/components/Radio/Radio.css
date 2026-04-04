@@ -1,0 +1,99 @@
+/* ─── Radio group root ────────────────────────────────────────────────────── */
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.radio-group__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-secondary);
+  margin-bottom: var(--spacing-space-01);
+}
+
+.radio-group__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+}
+
+.radio-group--horizontal .radio-group__items {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-04);
+}
+
+/* ─── Radio item ──────────────────────────────────────────────────────────── */
+
+.radio-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  cursor: pointer;
+}
+
+.radio-item[data-disabled],
+.radio-item--disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Radio control (the circle) ──────────────────────────────────────────── */
+
+.radio-item__control {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background-color: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-medium);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.radio-item__control:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.radio-item__control:hover:not([data-disabled]) {
+  border-color: var(--color-border-data-entry);
+}
+
+.radio-item__control[data-checked] {
+  border-color: var(--color-interactive-primary-default);
+}
+
+/* ─── Radio indicator (inner dot) ─────────────────────────────────────────── */
+
+.radio-item__indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-interactive-primary-default);
+  transform: scale(0);
+  transition: transform 150ms ease;
+}
+
+.radio-item__control[data-checked] .radio-item__indicator {
+  transform: scale(1);
+}
+
+/* ─── Radio label ─────────────────────────────────────────────────────────── */
+
+.radio-item__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  user-select: none;
+}

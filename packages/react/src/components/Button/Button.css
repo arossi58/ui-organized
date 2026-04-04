@@ -1,0 +1,121 @@
+/* ─── Button base ─────────────────────────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-02);
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-weight: var(--type-weight-body-medium);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+  outline: none;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.btn:disabled,
+.btn[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ─── Intent: primary ─────────────────────────────────────────────────────── */
+
+.btn--primary {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  border-color: transparent;
+}
+
+.btn--primary:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-primary-hover);
+}
+
+.btn--primary:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-primary-active);
+}
+
+/* ─── Intent: secondary ───────────────────────────────────────────────────── */
+
+.btn--secondary {
+  background-color: var(--color-interactive-secondary-default);
+  color: var(--color-text-text-primary);
+  border-color: var(--color-border-subtle);
+}
+
+.btn--secondary:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-secondary-hover);
+}
+
+.btn--secondary:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-secondary-active);
+}
+
+/* ─── Intent: ghost ───────────────────────────────────────────────────────── */
+
+.btn--ghost {
+  background-color: var(--color-interactive-ghost-default);
+  color: var(--color-text-text-interactive);
+  border-color: transparent;
+}
+
+.btn--ghost:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ghost-hover);
+}
+
+.btn--ghost:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ghost-active);
+}
+
+/* ─── Intent: destructive ─────────────────────────────────────────────────── */
+
+.btn--destructive {
+  background-color: var(--color-interactive-destructive-default);
+  color: var(--color-interactive-contents);
+  border-color: transparent;
+}
+
+.btn--destructive:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-destructive-hover);
+}
+
+.btn--destructive:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-destructive-active);
+}
+
+/* ─── Size: sm ────────────────────────────────────────────────────────────── */
+
+.btn--sm {
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* ─── Size: md ────────────────────────────────────────────────────────────── */
+
+.btn--md {
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+/* ─── Size: lg ────────────────────────────────────────────────────────────── */
+
+.btn--lg {
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}

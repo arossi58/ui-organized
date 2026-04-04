@@ -1,0 +1,16 @@
+{
+  "dimension": {
+    "dimension-01": { "$type": "dimension", "$value": "40px" },
+    "dimension-02": { "$type": "dimension", "$value": "80px" },
+    "dimension-03": { "$type": "dimension", "$value": "120px" },
+    "dimension-04": { "$type": "dimension", "$value": "160px" },
+    "dimension-05": { "$type": "dimension", "$value": "200px" },
+    "dimension-06": { "$type": "dimension", "$value": "240px" },
+    "dimension-07": { "$type": "dimension", "$value": "280px" },
+    "dimension-08": { "$type": "dimension", "$value": "320px" },
+    "dimension-09": { "$type": "dimension", "$value": "360px" },
+    "dimension-10": { "$type": "dimension", "$value": "400px" },
+    "dimension-11": { "$type": "dimension", "$value": "480px" },
+    "dimension-12": { "$type": "dimension", "$value": "560px" }
+  }
+}

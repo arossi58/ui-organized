@@ -1,0 +1,106 @@
+/* ─── Checkbox wrapper ────────────────────────────────────────────────────── */
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  cursor: pointer;
+}
+
+.checkbox[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Checkbox control (the visual box) ───────────────────────────────────── */
+
+.checkbox__control {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  background-color: var(--color-surface-subtle);
+  border: 1.5px solid var(--color-border-medium);
+  border-radius: var(--radius-checkbox);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.checkbox__control:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.checkbox__control[data-checked],
+.checkbox__control[data-indeterminate] {
+  background-color: var(--color-interactive-primary-default);
+  border-color: var(--color-interactive-primary-default);
+}
+
+.checkbox__control:hover:not([data-disabled]) {
+  border-color: var(--color-border-data-entry);
+}
+
+.checkbox__control[data-checked]:hover:not([data-disabled]),
+.checkbox__control[data-indeterminate]:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-primary-hover);
+  border-color: var(--color-interactive-primary-hover);
+}
+
+/* ─── Indicator (checkmark / indeterminate dash) ──────────────────────────── */
+
+.checkbox__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: var(--color-interactive-contents);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+.checkbox__control[data-checked] .checkbox__indicator,
+.checkbox__control[data-indeterminate] .checkbox__indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Checkmark */
+.checkbox__indicator--check::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translate(-1px, -2px);
+}
+
+/* Indeterminate dash */
+.checkbox__indicator--indeterminate::after {
+  content: "";
+  display: block;
+  width: 9px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+}
+
+/* ─── Label text ──────────────────────────────────────────────────────────── */
+
+.checkbox__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  user-select: none;
+}

@@ -1,0 +1,8 @@
+{
+  "type": {
+    "font": {
+      "heading": { "$type": "fontFamily", "$value": "Roboto" },
+      "body":    { "$type": "fontFamily", "$value": "Roboto" }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+/* ─── Input field root ────────────────────────────────────────────────────── */
+
+.input-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+.input-field__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-secondary);
+}
+
+/* ─── Control (input element) ─────────────────────────────────────────────── */
+
+.input-field__control {
+  width: 100%;
+  background-color: var(--color-surface-subtle);
+  border: 1px solid var(--color-border-medium);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.input-field__control::placeholder {
+  color: var(--color-text-text-placeholder);
+}
+
+.input-field__control:focus-visible {
+  border-color: var(--color-border-data-entry);
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.input-field__control[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.input-field__control[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.input-field__control:disabled,
+.input-field__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Description (helper text) ───────────────────────────────────────────── */
+
+.input-field__description {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Error message ───────────────────────────────────────────────────────── */
+
+.input-field__error {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-status-error-message);
+}
+
+/* ─── Size: sm ────────────────────────────────────────────────────────────── */
+
+.input-field--sm .input-field__label {
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.input-field--sm .input-field__control {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* ─── Size: md (default — already set on base) ────────────────────────────── */
+
+/* ─── Size: lg ────────────────────────────────────────────────────────────── */
+
+.input-field--lg .input-field__label {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.input-field--lg .input-field__control {
+  padding: var(--spacing-space-02) var(--spacing-space-04);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}

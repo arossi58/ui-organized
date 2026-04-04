@@ -1,0 +1,17 @@
+{
+  "Button": {
+    "Small": {
+      "horizontal": { "$type": "dimension", "$value": "{spacing.space-02}" },
+      "vertical":   { "$type": "dimension", "$value": "{spacing.space-005}" }
+    },
+    "Medium": {
+      "horizontal": { "$type": "dimension", "$value": "{spacing.space-03}" },
+      "vertical":   { "$type": "dimension", "$value": "{spacing.space-01}" }
+    },
+    "Large": {
+      "horizontal": { "$type": "dimension", "$value": "{spacing.space-04}" },
+      "vertical":   { "$type": "dimension", "$value": "{spacing.space-02}" },
+      "square":     { "$type": "dimension", "$value": "{spacing.space-025}" }
+    }
+  }
+}
