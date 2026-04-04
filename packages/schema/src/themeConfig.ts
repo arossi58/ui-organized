@@ -160,8 +160,19 @@ const iconsSchema = z.object({
   /**
    * When true, stroke width is adjusted per size to maintain consistent
    * optical weight across icon sizes. Only applies to stroke/outline styles.
+   * Formula: stroke = baseStroke × (size / baseSize)^0.50
    */
   strokeAdjustment: z.boolean(),
+  /**
+   * The reference/design size in pixels at which baseStroke is defined.
+   * At this size no adjustment is applied. Defaults to 24.
+   */
+  baseSize: z.number().positive().default(24),
+  /**
+   * The stroke width at the reference size (baseSize).
+   * Lucide and Tabler use 2. Adjust to match your chosen library's default.
+   */
+  baseStroke: z.number().positive().default(2),
 });
 
 // ─── Border Radius ────────────────────────────────────────────────────────────

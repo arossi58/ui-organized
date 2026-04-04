@@ -3,6 +3,7 @@ import { ColorPanel } from "./panels/ColorPanel";
 import { TypographyPanel } from "./panels/TypographyPanel";
 import { BorderRadiusPanel } from "./panels/BorderRadiusPanel";
 import { SpacingPanel } from "./panels/SpacingPanel";
+import { IconsPanel } from "./panels/IconsPanel";
 import { ExportPanel } from "./panels/ExportPanel";
 import { PreviewContainer } from "./preview/PreviewContainer";
 import styles from "./App.module.css";
@@ -12,6 +13,7 @@ const TABS: { id: ActivePanel; label: string }[] = [
   { id: "typography", label: "Typography" },
   { id: "radius",     label: "Radius" },
   { id: "spacing",    label: "Spacing" },
+  { id: "icons",      label: "Icons" },
   { id: "export",     label: "Export" },
 ];
 
@@ -21,6 +23,7 @@ function PanelContent({ active }: { active: ActivePanel }) {
     case "typography": return <TypographyPanel />;
     case "radius":     return <BorderRadiusPanel />;
     case "spacing":    return <SpacingPanel />;
+    case "icons":      return <IconsPanel />;
     case "export":     return <ExportPanel />;
   }
 }

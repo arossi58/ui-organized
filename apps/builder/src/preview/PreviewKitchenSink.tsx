@@ -12,7 +12,6 @@ import {
   Badge,
   Alert,
   Tabs,
-  IconProvider,
 } from "@ds/react";
 import styles from "./PreviewKitchenSink.module.css";
 
@@ -36,8 +35,7 @@ const TABS_ITEMS = [
 
 export function PreviewKitchenSink() {
   return (
-    <IconProvider library="lucide" style="outline" strokeAdjustment={true}>
-      <div className={styles.root}>
+    <div className={styles.root}>
         {/* ── Section: Buttons ─────────────────────────────────────────────── */}
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Buttons</h2>
@@ -196,7 +194,6 @@ export function PreviewKitchenSink() {
           <h2 className={styles.sectionTitle}>Tabs</h2>
           <Tabs tabs={TABS_ITEMS} defaultValue="overview" />
         </section>
-      </div>
-    </IconProvider>
+    </div>
   );
 }

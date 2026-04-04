@@ -53,7 +53,20 @@ export function generateRadiusScale(base: number): Record<string, number> {
   return result;
 }
 
-export type ActivePanel = "color" | "typography" | "radius" | "spacing" | "export";
+export type IconLibrary = "lucide" | "tabler" | "heroicons";
+export type IconStyle   = "outline" | "solid";
+
+export interface IconsConfig {
+  library: IconLibrary;
+  style: IconStyle;
+  strokeAdjustment: boolean;
+  /** Reference size in px — stroke is unchanged at this size. Default 24. */
+  baseSize: number;
+  /** Stroke width at the reference size. Default 2 (Lucide/Tabler native). */
+  baseStroke: number;
+}
+
+export type ActivePanel = "color" | "typography" | "radius" | "spacing" | "icons" | "export";
 
 // ─── State shape ──────────────────────────────────────────────────────────────
 
@@ -81,6 +94,9 @@ export interface BuilderState {
   spacingBaseUnit: number;
   spacingScale: Record<string, number>;
 
+  // Icons
+  icons: IconsConfig;
+
   // UI state
   activePanel: ActivePanel;
   themeName: string;
@@ -93,6 +109,7 @@ export interface BuilderState {
   setTypeScale: (base: number, ratio: number) => void;
   setRadiusBase: (base: number) => void;
   setSpacingBase: (base: number) => void;
+  setIcons: (config: Partial<IconsConfig>) => void;
   setActivePanel: (panel: ActivePanel) => void;
   setThemeName: (name: string) => void;
 }
@@ -122,6 +139,9 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   // Spacing
   spacingBaseUnit: DEFAULT_SPACING_BASE,
   spacingScale: generateSpacingScale(DEFAULT_SPACING_BASE),
+
+  // Icons
+  icons: { library: "lucide", style: "outline", strokeAdjustment: false, baseSize: 24, baseStroke: 2 },
 
   // UI state
   activePanel: "color",
@@ -164,6 +184,9 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       spacingBaseUnit: base,
       spacingScale: generateSpacingScale(base),
     })),
+
+  setIcons: (config) =>
+    set((state) => ({ icons: { ...state.icons, ...config } })),
 
   setActivePanel: (panel) => set(() => ({ activePanel: panel })),
 

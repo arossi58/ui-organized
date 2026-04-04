@@ -1,11 +1,11 @@
+import { IconProvider } from "@ds/react";
+import { useBuilderStore } from "../state/themeState";
 import { usePreviewProperties } from "./usePreviewProperties";
 import { PreviewKitchenSink } from "./PreviewKitchenSink";
 import styles from "./PreviewContainer.module.css";
 
 export function PreviewContainer() {
-  // React applies CSS custom properties (--foo: bar) via element.style.setProperty
-  // when the key starts with '--'. The intersection type ensures TypeScript accepts
-  // the keys while React applies them correctly to the DOM.
+  const { icons } = useBuilderStore();
   const previewStyle = usePreviewProperties();
 
   return (
@@ -14,7 +14,15 @@ export function PreviewContainer() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       style={previewStyle as any}
     >
-      <PreviewKitchenSink />
+      <IconProvider
+        library={icons.library}
+        style={icons.style}
+        strokeAdjustment={icons.strokeAdjustment}
+        baseSize={icons.baseSize}
+        baseStroke={icons.baseStroke}
+      >
+        <PreviewKitchenSink />
+      </IconProvider>
     </div>
   );
 }

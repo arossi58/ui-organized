@@ -19,7 +19,7 @@ import "./Icon.css";
  * or @heroicons/react — they always go through this component.
  */
 export function Icon({ name, size = 24, label, className }: IconProps) {
-  const { library, style, strokeAdjustment } = useIconConfig();
+  const { library, style, strokeAdjustment, baseSize, baseStroke } = useIconConfig();
 
   // Resolve the correct component set
   let IconComponent: React.ComponentType<Record<string, unknown>> | undefined;
@@ -39,12 +39,12 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
   if (library === "lucide") {
     svgProps["size"] = size;
     if (shouldAdjustStroke(strokeAdjustment, style)) {
-      svgProps["strokeWidth"] = adjustStrokeWidth(size);
+      svgProps["strokeWidth"] = adjustStrokeWidth(size, baseStroke, baseSize);
     }
   } else if (library === "tabler") {
     svgProps["size"] = size;
     if (shouldAdjustStroke(strokeAdjustment, style)) {
-      svgProps["stroke"] = adjustStrokeWidth(size);
+      svgProps["stroke"] = adjustStrokeWidth(size, baseStroke, baseSize);
     }
   } else {
     // Heroicons: size via width/height props + inline style

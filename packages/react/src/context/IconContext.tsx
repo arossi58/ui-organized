@@ -11,12 +11,24 @@ export interface IconConfig {
    * optical weight. Only applies to outline style.
    */
   strokeAdjustment: boolean;
+  /**
+   * The design/reference size in pixels at which the base stroke is defined.
+   * At this size no adjustment is made. Defaults to 24.
+   */
+  baseSize: number;
+  /**
+   * Stroke width at the reference size. Defaults to 2, which matches
+   * Lucide and Tabler's native stroke width.
+   */
+  baseStroke: number;
 }
 
 const defaultIconConfig: IconConfig = {
   library: "lucide",
   style: "outline",
   strokeAdjustment: false,
+  baseSize: 24,
+  baseStroke: 2,
 };
 
 export const IconContext = createContext<IconConfig>(defaultIconConfig);
@@ -25,7 +37,7 @@ export function useIconConfig(): IconConfig {
   return useContext(IconContext);
 }
 
-export interface IconProviderProps extends IconConfig {
+export interface IconProviderProps extends Partial<Pick<IconConfig, "baseSize" | "baseStroke">>, Omit<IconConfig, "baseSize" | "baseStroke"> {
   children: ReactNode;
 }
 
@@ -41,9 +53,16 @@ export interface IconProviderProps extends IconConfig {
  * </IconProvider>
  * ```
  */
-export function IconProvider({ library, style, strokeAdjustment, children }: IconProviderProps) {
+export function IconProvider({
+  library,
+  style,
+  strokeAdjustment,
+  baseSize = 24,
+  baseStroke = 2,
+  children,
+}: IconProviderProps) {
   return (
-    <IconContext.Provider value={{ library, style, strokeAdjustment }}>
+    <IconContext.Provider value={{ library, style, strokeAdjustment, baseSize, baseStroke }}>
       {children}
     </IconContext.Provider>
   );

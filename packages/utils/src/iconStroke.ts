@@ -3,11 +3,15 @@
  *
  * Adjusts the stroke width of outline/stroke-style icons based on their
  * rendered size so that all icons appear optically weighted the same across
- * sizes. At the reference size (24px) no adjustment is made.
+ * sizes. At the reference size no adjustment is made.
  *
- * The adjustment uses a logarithmic curve: larger icons get a thinner stroke,
- * smaller icons get a slightly thicker stroke, preserving the visual weight
- * ratio between stroke and icon area.
+ * Formula: stroke = baseStroke × (size / referenceSize) ^ intensity
+ *
+ * This matches the scale used by icon-organized.com with the default
+ * intensity of 0.50 (their "recommended" compensation level).
+ * Example at baseStroke=2, referenceSize=24, intensity=0.50:
+ *   12px → 1.41  |  16px → 1.63  |  20px → 1.83  |  24px → 2.00
+ *   32px → 2.31  |  40px → 2.58  |  48px → 2.83  |  64px → 3.27
  *
  * Only applied to stroke-based icon styles (outline). Solid/filled icons
  * ignore this setting entirely.
@@ -15,29 +19,29 @@
 
 export const ICON_REFERENCE_SIZE = 24;
 export const ICON_DEFAULT_STROKE = 2;
+export const ICON_STROKE_INTENSITY = 0.5;
 
 /**
  * Calculate the optically corrected stroke width for a given icon size.
  *
- * @param size - The rendered icon size in pixels.
- * @param baseStroke - The library's native stroke width at reference size.
- *   Defaults to 2, which is Lucide's and Tabler's native stroke width.
- * @returns The adjusted stroke width, clamped to [1, 3] and rounded to
- *   the nearest quarter (0.25) for crisp rendering.
+ * @param size          - The rendered icon size in pixels.
+ * @param baseStroke    - Stroke width at the reference size. Defaults to 2.
+ * @param referenceSize - The design/reference size. Defaults to 24px.
+ * @param intensity     - Compensation intensity (0 = no adjustment, 1.5 = very aggressive).
+ *   Defaults to 0.50, the recommended value from icon-organized.com.
+ * @returns The adjusted stroke width, rounded to the nearest 0.25 for crisp rendering.
  */
-export function adjustStrokeWidth(size: number, baseStroke = ICON_DEFAULT_STROKE): number {
+export function adjustStrokeWidth(
+  size: number,
+  baseStroke = ICON_DEFAULT_STROKE,
+  referenceSize = ICON_REFERENCE_SIZE,
+  intensity = ICON_STROKE_INTENSITY,
+): number {
   if (size <= 0) return baseStroke;
-  if (size === ICON_REFERENCE_SIZE) return baseStroke;
-
-  // Logarithmic correction: maintains optical weight ratio across sizes
-  const factor = Math.log(ICON_REFERENCE_SIZE) / Math.log(size);
-  const adjusted = baseStroke * factor;
-
+  // stroke = baseStroke × (size / referenceSize)^intensity
+  const adjusted = baseStroke * Math.pow(size / referenceSize, intensity);
   // Round to nearest 0.25 for clean sub-pixel rendering
-  const rounded = Math.round(adjusted * 4) / 4;
-
-  // Clamp to a practical range
-  return Math.min(3, Math.max(1, rounded));
+  return Math.round(adjusted * 4) / 4;
 }
 
 /**

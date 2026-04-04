@@ -292,9 +292,11 @@ export function useExport() {
         },
       },
       icons: {
-        library: "lucide",
-        style: "outline",
-        strokeAdjustment: true,
+        library: state.icons.library,
+        style: state.icons.style,
+        strokeAdjustment: state.icons.strokeAdjustment,
+        baseSize: state.icons.baseSize,
+        baseStroke: state.icons.baseStroke,
       },
       borderRadius: state.borderRadius,
       spacing: {
