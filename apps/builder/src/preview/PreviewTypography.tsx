@@ -26,10 +26,10 @@ const SAMPLE: Record<string, string> = {
 };
 
 const WEIGHT_LABELS: Record<string, string> = {
-  default:  "Regular",
-  emphasis: "Medium",
-  strong:   "Semibold",
-  heavy:    "Bold",
+  default:  "Default",
+  emphasis: "Emphasis",
+  strong:   "Strong",
+  heavy:    "Heavy",
 };
 
 // Maps store weight key → CSS var suffix

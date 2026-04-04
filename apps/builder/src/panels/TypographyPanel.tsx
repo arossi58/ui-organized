@@ -19,10 +19,10 @@ const RATIO_PRESETS = [
 const HEADING_STEPS = ["display-xlarge","display-large","display-medium","heading-large","heading-medium","heading-small"];
 
 const WEIGHT_ROLES = [
-  { key: "default",  label: "Default (Regular)" },
-  { key: "emphasis", label: "Emphasis (Medium)" },
-  { key: "strong",   label: "Strong (SemiBold)" },
-  { key: "heavy",    label: "Heavy (Bold)" },
+  { key: "default",  label: "Default" },
+  { key: "emphasis", label: "Emphasis" },
+  { key: "strong",   label: "Strong" },
+  { key: "heavy",    label: "Heavy" },
 ];
 
 // ─── Font search dropdown ─────────────────────────────────────────────────────
