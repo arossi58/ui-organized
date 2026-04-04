@@ -1,0 +1,136 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--builder-text-primary);
+  margin: 0;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--builder-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radiusRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radiusName {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--builder-text-secondary);
+  min-width: 80px;
+}
+
+.radiusInput {
+  width: 60px;
+  padding: 5px 7px;
+  border: 1px solid var(--builder-border);
+  border-radius: 5px;
+  background: var(--builder-surface-input);
+  color: var(--builder-text-primary);
+  font-size: 13px;
+  outline: none;
+}
+
+.radiusInput:focus {
+  border-color: var(--builder-accent);
+}
+
+.unit {
+  font-size: 12px;
+  color: var(--builder-text-tertiary);
+}
+
+.fixedValue {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--builder-text-tertiary);
+}
+
+.fixedLabel {
+  font-size: 11px;
+  color: var(--builder-text-tertiary);
+  font-style: italic;
+}
+
+.preview {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--builder-accent);
+  background: var(--builder-surface-hover);
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: border-radius 0.15s;
+}
+
+/* Component preview */
+.componentPreview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
+  background: var(--builder-surface-input);
+  border-radius: 8px;
+  border: 1px solid var(--builder-border);
+}
+
+.previewCard {
+  padding: 16px 20px;
+  border: 1px solid var(--builder-border);
+  background: var(--builder-surface);
+  color: var(--builder-text-primary);
+  font-size: 13px;
+  transition: border-radius 0.15s;
+}
+
+.previewButton {
+  padding: 8px 16px;
+  background: var(--builder-accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  transition: border-radius 0.15s;
+  display: flex;
+  align-items: center;
+}
+
+.previewPill {
+  padding: 4px 12px;
+  background: var(--builder-accent);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.previewInput {
+  padding: 8px 12px;
+  border: 1px solid var(--builder-border);
+  background: var(--builder-surface-input);
+  color: var(--builder-text-secondary);
+  font-size: 13px;
+  transition: border-radius 0.15s;
+}

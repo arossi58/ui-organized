@@ -1,0 +1,117 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--builder-text-primary);
+  margin: 0;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--builder-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.baseRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.baseInput {
+  width: 72px;
+  padding: 8px 10px;
+  border: 1px solid var(--builder-border);
+  border-radius: 6px;
+  background: var(--builder-surface-input);
+  color: var(--builder-text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  text-align: center;
+}
+
+.baseInput:focus {
+  border-color: var(--builder-accent);
+}
+
+.unit {
+  font-size: 14px;
+  color: var(--builder-text-secondary);
+  font-weight: 500;
+}
+
+.scaleTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--builder-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 100px 80px 60px 1fr;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--builder-surface-hover);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--builder-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 100px 80px 60px 1fr;
+  gap: 8px;
+  padding: 7px 12px;
+  align-items: center;
+  border-top: 1px solid var(--builder-border);
+  transition: background 0.1s;
+}
+
+.tableRow:hover {
+  background: var(--builder-surface-hover);
+}
+
+.tokenName {
+  font-family: monospace;
+  font-size: 12px;
+  color: var(--builder-text-primary);
+}
+
+.multiplier {
+  font-size: 12px;
+  color: var(--builder-text-tertiary);
+  font-family: monospace;
+}
+
+.value {
+  font-size: 12px;
+  color: var(--builder-accent);
+  font-family: monospace;
+  font-weight: 600;
+}
+
+.bar {
+  height: 10px;
+  background: var(--builder-accent);
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: width 0.2s ease;
+}

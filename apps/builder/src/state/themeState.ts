@@ -1,0 +1,164 @@
+import { create } from "zustand";
+import {
+  generateColorRamp,
+  parseToOklch,
+  getNeutralPreset,
+  calculateTypeScale,
+  generateSpacingScale,
+  type ColorRamp,
+  type NeutralPresetName,
+} from "@ds/utils";
+
+// ─── Default values ───────────────────────────────────────────────────────────
+
+const DEFAULT_BRAND_HEX = "#008ffb";
+const DEFAULT_NEUTRAL: NeutralPresetName = "shark";
+const DEFAULT_HEADING_FAMILY = "Roboto";
+const DEFAULT_BODY_FAMILY = "Roboto";
+const DEFAULT_TYPE_BASE = 16;
+const DEFAULT_TYPE_RATIO = 1.25;
+const DEFAULT_SPACING_BASE = 4;
+
+const DEFAULT_WEIGHTS = { default: 400, emphasis: 500, strong: 600, heavy: 700 };
+
+const DEFAULT_RADIUS: Record<string, number> = {
+  "radius-01": 2,
+  "radius-02": 4,
+  "radius-03": 6,
+  "radius-04": 8,
+  "radius-05": 12,
+  "radius-06": 16,
+  "radius-07": 20,
+  "radius-08": 24,
+  "radius-09": 28,
+  "radius-10": 32,
+  "radius-11": 40,
+  "radius-12": 48,
+  "radius-full": 99999,
+};
+
+export type ActivePanel = "color" | "typography" | "radius" | "spacing" | "export";
+
+// ─── State shape ──────────────────────────────────────────────────────────────
+
+export interface BuilderState {
+  // Color
+  brandHex: string;
+  brandRamp: ColorRamp;
+  neutralPreset: NeutralPresetName;
+  neutralRamp: ColorRamp;
+
+  // Typography
+  headingFamily: string;
+  headingWeights: Record<string, number>;
+  bodyFamily: string;
+  bodyWeights: Record<string, number>;
+  typeScaleBase: number;
+  typeScaleRatio: number;
+  typeScaleSteps: Record<string, number>;
+
+  // Border radius
+  borderRadius: Record<string, number>;
+
+  // Spacing
+  spacingBaseUnit: number;
+  spacingScale: Record<string, number>;
+
+  // UI state
+  activePanel: ActivePanel;
+  themeName: string;
+
+  // Actions
+  setBrandColor: (hex: string) => void;
+  setNeutralPreset: (name: NeutralPresetName) => void;
+  setHeadingFont: (family: string, weights: Record<string, number>) => void;
+  setBodyFont: (family: string, weights: Record<string, number>) => void;
+  setTypeScale: (base: number, ratio: number) => void;
+  setRadius: (key: string, value: number) => void;
+  setSpacingBase: (base: number) => void;
+  setActivePanel: (panel: ActivePanel) => void;
+  setThemeName: (name: string) => void;
+}
+
+// ─── Store ────────────────────────────────────────────────────────────────────
+
+export const useBuilderStore = create<BuilderState>((set) => ({
+  // Color
+  brandHex: DEFAULT_BRAND_HEX,
+  brandRamp: generateColorRamp(DEFAULT_BRAND_HEX),
+  neutralPreset: DEFAULT_NEUTRAL,
+  neutralRamp: getNeutralPreset(DEFAULT_NEUTRAL),
+
+  // Typography
+  headingFamily: DEFAULT_HEADING_FAMILY,
+  headingWeights: { ...DEFAULT_WEIGHTS },
+  bodyFamily: DEFAULT_BODY_FAMILY,
+  bodyWeights: { ...DEFAULT_WEIGHTS },
+  typeScaleBase: DEFAULT_TYPE_BASE,
+  typeScaleRatio: DEFAULT_TYPE_RATIO,
+  typeScaleSteps: calculateTypeScale(DEFAULT_TYPE_BASE, DEFAULT_TYPE_RATIO),
+
+  // Border radius
+  borderRadius: { ...DEFAULT_RADIUS },
+
+  // Spacing
+  spacingBaseUnit: DEFAULT_SPACING_BASE,
+  spacingScale: generateSpacingScale(DEFAULT_SPACING_BASE),
+
+  // UI state
+  activePanel: "color",
+  themeName: "My Theme",
+
+  // Actions
+  setBrandColor: (hex: string) =>
+    set(() => ({
+      brandHex: hex,
+      brandRamp: generateColorRamp(hex),
+    })),
+
+  setNeutralPreset: (name: NeutralPresetName) =>
+    set(() => ({
+      neutralPreset: name,
+      neutralRamp: getNeutralPreset(name),
+    })),
+
+  setHeadingFont: (family, weights) =>
+    set(() => ({ headingFamily: family, headingWeights: weights })),
+
+  setBodyFont: (family, weights) =>
+    set(() => ({ bodyFamily: family, bodyWeights: weights })),
+
+  setTypeScale: (base, ratio) =>
+    set(() => ({
+      typeScaleBase: base,
+      typeScaleRatio: ratio,
+      typeScaleSteps: calculateTypeScale(base, ratio),
+    })),
+
+  setRadius: (key, value) =>
+    set((state) => ({
+      borderRadius: { ...state.borderRadius, [key]: value },
+    })),
+
+  setSpacingBase: (base) =>
+    set(() => ({
+      spacingBaseUnit: base,
+      spacingScale: generateSpacingScale(base),
+    })),
+
+  setActivePanel: (panel) => set(() => ({ activePanel: panel })),
+
+  setThemeName: (name) => set(() => ({ themeName: name })),
+}));
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Convert a hex color to an oklch() CSS string via @ds/utils */
+export function hexToOklchString(hex: string): string {
+  try {
+    const { l, c, h } = parseToOklch(hex);
+    return `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${h.toFixed(1)})`;
+  } catch {
+    return "oklch(0 0 0)";
+  }
+}

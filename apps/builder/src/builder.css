@@ -1,0 +1,56 @@
+/* Google Fonts base load */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* ── Builder design tokens (independent of the DS preview tokens) ────────── */
+:root {
+  /* Builder UI surfaces — dark chrome */
+  --builder-bg:             #0e0f11;
+  --builder-surface:        #13151a;
+  --builder-surface-input:  #1a1d24;
+  --builder-surface-hover:  #1f222b;
+
+  /* Builder borders */
+  --builder-border: rgba(255, 255, 255, 0.08);
+
+  /* Builder text */
+  --builder-text-primary:   #f0f2f5;
+  --builder-text-secondary: #8b909a;
+  --builder-text-tertiary:  #5a5f6a;
+
+  /* Accent (matches default brand) */
+  --builder-accent:        #2490ff;
+  --builder-accent-subtle: rgba(36, 144, 255, 0.12);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Google Fonts base load */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
