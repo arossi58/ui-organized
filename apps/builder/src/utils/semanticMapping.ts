@@ -108,7 +108,7 @@ export function computeColorVars(
   // darker end of the ramp, clamped at 1600.
   const base1600L = parseLightness(neutralRamp["1600"]?.oklch ?? "oklch(0.044 0 0)");
   const isDarkFirst = base1600L < 0.10;
-  const DARK_SHIFT = 3;
+  const DARK_SHIFT = 4;
 
   function nstep(s: string): string {
     if (isDarkFirst) return step(neutralRamp, s);
