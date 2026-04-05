@@ -22,6 +22,40 @@ function step(ramp: ColorRamp, s: string): string {
   return ramp[s]?.hex ?? "#000000";
 }
 
+/**
+ * Parse the OKLCH lightness component from an oklch() string.
+ * e.g. "oklch(0.191 0.012 250)" → 0.191
+ */
+function parseLightness(oklch: string): number {
+  const m = oklch.match(/oklch\(\s*([0-9.]+)/);
+  return m ? parseFloat(m[1]) : 0;
+}
+
+/**
+ * Find the ramp step whose lightness is closest to targetL.
+ * Used to produce perceptually consistent semantic token mappings across
+ * ramps that span different absolute lightness ranges (e.g. Shark vs Dove).
+ */
+function findStepByLightness(ramp: ColorRamp, targetL: number): string {
+  let closest = "1600";
+  let minDiff = Infinity;
+  for (const [key, swatch] of Object.entries(ramp)) {
+    const diff = Math.abs(parseLightness(swatch.oklch) - targetL);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closest = key;
+    }
+  }
+  return closest;
+}
+
+/**
+ * Return the hex value of the ramp step closest to the given lightness target.
+ */
+function atL(ramp: ColorRamp, targetL: number): string {
+  return step(ramp, findStepByLightness(ramp, targetL));
+}
+
 // ─── Main mapping function ────────────────────────────────────────────────────
 
 /**
@@ -52,24 +86,35 @@ export function computeColorVars(
   vars["--color-interactive-tertiary-selected"] = step(brandRamp, "1000");
 
   // ── Neutral-dependent semantic tokens ────────────────────────────────────────
-  // Surfaces
-  vars["--color-surface-base"]     = step(neutralRamp, "1600");
-  vars["--color-surface-subtle"]   = step(neutralRamp, "1500");
-  vars["--color-surface-medium"]   = step(neutralRamp, "1400");
-  vars["--color-surface-emphasis"] = step(neutralRamp, "1300");
-  vars["--color-surface-strong"]   = step(neutralRamp, "1200");
+  // All neutral mappings use lightness-offset lookups rather than hardcoded
+  // step numbers. Offsets were calibrated against Shark (the canonical dark
+  // neutral) so the visual relationships stay consistent when switching presets.
+  //
+  // Shark step reference lightness values used to derive offsets:
+  //   1600→0.044  1500→0.082  1400→0.108  1300→0.136  1200→0.163
+  //   1100→0.191  900→0.252   700→0.359
+  //
+  // Each offset is: targetStep.L − baseL(1600).L for Shark.
+  const baseL = parseLightness(neutralRamp["1600"]?.oklch ?? "oklch(0.044 0 0)");
+
+  // Surfaces — step up in lightness from the darkest available stop
+  vars["--color-surface-base"]     = step(neutralRamp, "1600");          // always darkest stop
+  vars["--color-surface-subtle"]   = atL(neutralRamp, baseL + 0.038);    // +0.038 → Shark 1500
+  vars["--color-surface-medium"]   = atL(neutralRamp, baseL + 0.064);    // +0.064 → Shark 1400
+  vars["--color-surface-emphasis"] = atL(neutralRamp, baseL + 0.092);    // +0.092 → Shark 1300
+  vars["--color-surface-strong"]   = atL(neutralRamp, baseL + 0.119);    // +0.119 → Shark 1200
 
   // Secondary interactive
-  vars["--color-interactive-secondary-default"]  = step(neutralRamp, "1100");
-  vars["--color-interactive-secondary-hover"]    = step(neutralRamp, "900");
-  vars["--color-interactive-secondary-active"]   = step(neutralRamp, "700");
-  vars["--color-interactive-secondary-selected"] = step(neutralRamp, "900");
+  vars["--color-interactive-secondary-default"]  = atL(neutralRamp, baseL + 0.147); // → Shark 1100
+  vars["--color-interactive-secondary-hover"]    = atL(neutralRamp, baseL + 0.208); // → Shark 900
+  vars["--color-interactive-secondary-active"]   = atL(neutralRamp, baseL + 0.315); // → Shark 700
+  vars["--color-interactive-secondary-selected"] = atL(neutralRamp, baseL + 0.208); // → Shark 900
 
   // UI interactive (form controls, toggles)
-  vars["--color-interactive-ui-default"]  = step(neutralRamp, "1300");
-  vars["--color-interactive-ui-hover"]    = step(neutralRamp, "1100");
-  vars["--color-interactive-ui-active"]   = step(neutralRamp, "1200");
-  vars["--color-interactive-ui-selected"] = step(neutralRamp, "1200");
+  vars["--color-interactive-ui-default"]  = atL(neutralRamp, baseL + 0.092); // → Shark 1300
+  vars["--color-interactive-ui-hover"]    = atL(neutralRamp, baseL + 0.147); // → Shark 1100
+  vars["--color-interactive-ui-active"]   = atL(neutralRamp, baseL + 0.119); // → Shark 1200
+  vars["--color-interactive-ui-selected"] = atL(neutralRamp, baseL + 0.119); // → Shark 1200
 
   return vars;
 }
