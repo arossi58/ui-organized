@@ -13,8 +13,10 @@ type PreviewStyle = React.CSSProperties & Record<`--${string}`, string>;
  */
 export function usePreviewProperties(): PreviewStyle {
   const {
+    brandHex,
     brandRamp,
     neutralRamp,
+    brandShade,
     headingFamily,
     bodyFamily,
     headingWeights,
@@ -28,8 +30,10 @@ export function usePreviewProperties(): PreviewStyle {
   return useMemo(
     () =>
       computeAllPreviewVars({
+        brandHex,
         brandRamp,
         neutralRamp,
+        brandShade,
         headingFamily,
         bodyFamily,
         headingWeights,
@@ -40,8 +44,10 @@ export function usePreviewProperties(): PreviewStyle {
         borderRadius,
       }) as PreviewStyle,
     [
+      brandHex,
       brandRamp,
       neutralRamp,
+      brandShade,
       headingFamily,
       bodyFamily,
       headingWeights,

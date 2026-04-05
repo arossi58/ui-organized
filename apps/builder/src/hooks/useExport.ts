@@ -264,6 +264,7 @@ export function useExport() {
           hex: state.brandHex,
           oklch: hexToOklchString(state.brandHex),
         },
+        brandShade: state.brandShade,
         neutralPreset: state.neutralPreset,
         resolvedPrimitives: {
           brand:    toColorSwatchRamp(state.brandRamp),

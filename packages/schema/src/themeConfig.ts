@@ -78,6 +78,11 @@ const colorSchema = z.object({
     oklch: oklchColor,
   }),
   /**
+   * Which step of the brand ramp is used as the primary interactive color.
+   * Defaults to "1200".
+   */
+  brandShade: z.string().default("1200"),
+  /**
    * Identifier for the selected neutral preset.
    * Must be one of the named neutrals: dove, mythical, flint, waterloo,
    * stone, cave, juniper, battleship, squirrel, hemp, shark, mavic.

@@ -76,6 +76,8 @@ export interface BuilderState {
   // Color
   brandHex: string;
   brandRamp: ColorRamp;
+  /** Which step in the brand ramp is used as the primary interactive color. Default "1200". */
+  brandShade: string;
   neutralPreset: NeutralPresetName;
   neutralRamp: ColorRamp;
 
@@ -106,6 +108,7 @@ export interface BuilderState {
 
   // Actions
   setBrandColor: (hex: string) => void;
+  setBrandShade: (shade: string) => void;
   setNeutralPreset: (name: NeutralPresetName) => void;
   setHeadingFont: (family: string, weights: Record<string, number>) => void;
   setBodyFont: (family: string, weights: Record<string, number>) => void;
@@ -124,6 +127,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   // Color
   brandHex: DEFAULT_BRAND_HEX,
   brandRamp: generateColorRamp(DEFAULT_BRAND_HEX),
+  brandShade: "1200",
   neutralPreset: DEFAULT_NEUTRAL,
   neutralRamp: getNeutralPreset(DEFAULT_NEUTRAL),
 
@@ -158,6 +162,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       brandHex: hex,
       brandRamp: generateColorRamp(hex),
     })),
+
+  setBrandShade: (shade: string) => set(() => ({ brandShade: shade })),
 
   setNeutralPreset: (name: NeutralPresetName) =>
     set(() => ({

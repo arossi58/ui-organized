@@ -66,19 +66,44 @@ function atL(ramp: ColorRamp, targetL: number): string {
 export function computeColorVars(
   brandRamp: ColorRamp,
   neutralRamp: ColorRamp,
+  brandShade: string,
+  brandHex: string,
 ): CSSVarMap {
   const vars: CSSVarMap = {};
 
   // ── Brand primitive ramp ─────────────────────────────────────────────────────
-  for (const s of ["100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400","1500","1600"]) {
+  const ALL_STEPS = ["100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400","1500","1600"];
+  for (const s of ALL_STEPS) {
     vars[`--brand-${s}`] = step(brandRamp, s);
   }
 
-  // ── Brand-dependent semantic tokens (resolved directly — no var() chain) ─────
-  vars["--color-interactive-primary-default"]  = step(brandRamp, "1200");
-  vars["--color-interactive-primary-hover"]    = step(brandRamp, "1400");
-  vars["--color-interactive-primary-active"]   = step(brandRamp, "1600");
-  vars["--color-interactive-primary-selected"] = step(brandRamp, "1200");
+  // ── Brand-dependent semantic tokens ──────────────────────────────────────────
+  // When brandShade is "input" the user's exact picked hex is used as the
+  // primary default. Hover/active are still derived from the nearest ramp step.
+  let primaryHex: string;
+  let anchorIndex: number;
+
+  if (brandShade === "input") {
+    primaryHex = brandHex;
+    // Find the nearest ramp step by luminance to anchor hover/active offsets
+    anchorIndex = ALL_STEPS.indexOf(findStepByLightness(brandRamp, parseLightness(
+      // Approximate oklch lightness from relative luminance
+      `oklch(${Math.sqrt(0.2126 * Math.pow(parseInt(brandHex.slice(1,3),16)/255,2.2) + 0.7152 * Math.pow(parseInt(brandHex.slice(3,5),16)/255,2.2) + 0.0722 * Math.pow(parseInt(brandHex.slice(5,7),16)/255,2.2)).toFixed(3)} 0 0)`
+    )));
+    if (anchorIndex < 0) anchorIndex = 11; // fallback to 1200
+  } else {
+    primaryHex = step(brandRamp, brandShade);
+    anchorIndex = ALL_STEPS.indexOf(brandShade);
+    if (anchorIndex < 0) anchorIndex = 11;
+  }
+
+  const hoverShade  = ALL_STEPS[Math.min(anchorIndex + 2, ALL_STEPS.length - 1)];
+  const activeShade = ALL_STEPS[Math.min(anchorIndex + 4, ALL_STEPS.length - 1)];
+
+  vars["--color-interactive-primary-default"]  = primaryHex;
+  vars["--color-interactive-primary-hover"]    = step(brandRamp, hoverShade);
+  vars["--color-interactive-primary-active"]   = step(brandRamp, activeShade);
+  vars["--color-interactive-primary-selected"] = primaryHex;
 
   vars["--color-interactive-tertiary-default"]  = step(brandRamp, "900");
   vars["--color-interactive-tertiary-hover"]    = step(brandRamp, "700");
@@ -189,6 +214,8 @@ export function computeRadiusVars(borderRadius: Record<string, number>): CSSVarM
 export function computeAllPreviewVars(params: {
   brandRamp: ColorRamp;
   neutralRamp: ColorRamp;
+  brandShade: string;
+  brandHex: string;
   headingFamily: string;
   bodyFamily: string;
   headingWeights: Record<string, number>;
@@ -199,7 +226,7 @@ export function computeAllPreviewVars(params: {
   borderRadius: Record<string, number>;
 }): CSSVarMap {
   return {
-    ...computeColorVars(params.brandRamp, params.neutralRamp),
+    ...computeColorVars(params.brandRamp, params.neutralRamp, params.brandShade, params.brandHex),
     ...computeTypographyVars(
       params.headingFamily,
       params.bodyFamily,

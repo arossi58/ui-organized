@@ -83,6 +83,177 @@
   text-overflow: ellipsis;
 }
 
+/* Primary shade selector */
+.shadeSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.shadePalette {
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  height: 44px;
+  gap: 0;
+}
+
+/* The input color cell is slightly wider and separated by a small gap */
+.shadeCellInput {
+  flex: 0 0 30px;
+  border-right: 2px solid var(--builder-bg);
+  border-radius: 6px 0 0 6px;
+  position: relative;
+}
+
+.shadeCellInputLabel {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  pointer-events: none;
+  line-height: 1;
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Dot shown on the ramp step that matches the input hex */
+.shadeCellInputDot {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 0 1.5px rgba(0,0,0,0.3);
+  pointer-events: none;
+}
+
+.shadeCell {
+  flex: 1;
+  position: relative;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shadeCell:not(:disabled):hover {
+  transform: scaleY(1.08);
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.shadeCellSelected {
+  outline: 3px solid #fff;
+  outline-offset: -3px;
+  z-index: 2;
+}
+
+.shadeCellDisabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.shadeCellCheck {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  pointer-events: none;
+}
+
+.shadeCellBan {
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  pointer-events: none;
+}
+
+/* Contrast readout */
+.contrastReadout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--builder-border);
+  background: var(--builder-surface-input);
+}
+
+.contrastReadoutPass {
+  border-color: rgba(56, 161, 105, 0.3);
+}
+
+.contrastReadoutFail {
+  border-color: rgba(230, 48, 48, 0.3);
+}
+
+.contrastSwatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contrastSwatchLabel {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.contrastInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.contrastRatio {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--builder-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.contrastLabel {
+  font-size: 12px;
+  color: var(--builder-text-secondary);
+}
+
+.contrastShade {
+  font-size: 10px;
+  font-family: monospace;
+  color: var(--builder-text-tertiary);
+}
+
+.contrastBadge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+.contrastBadgePass {
+  background: rgba(56, 161, 105, 0.15);
+  color: #68d391;
+}
+
+.contrastBadgeFail {
+  background: rgba(230, 48, 48, 0.15);
+  color: #fc8181;
+}
+
 /* Neutral grid */
 .neutralGrid {
   display: grid;
