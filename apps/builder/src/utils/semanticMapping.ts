@@ -103,17 +103,8 @@ export function computeColorVars(
   vars["--color-interactive-tertiary-selected"] = step(brandRamp, "1000");
 
   // ── Neutral-dependent semantic tokens ────────────────────────────────────────
-  // For dark-first presets (Shark, Mavic) use steps as-is.
-  // For light-first presets shift all assignments up by 3 stops toward the
-  // darker end of the ramp, clamped at 1600.
-  const base1600L = parseLightness(neutralRamp["1600"]?.oklch ?? "oklch(0.044 0 0)");
-  const isDarkFirst = base1600L < 0.10;
-  const DARK_SHIFT = 4;
-
   function nstep(s: string): string {
-    if (isDarkFirst) return step(neutralRamp, s);
-    const idx = ALL_STEPS.indexOf(s);
-    return step(neutralRamp, ALL_STEPS[Math.min(ALL_STEPS.length - 1, idx + DARK_SHIFT)]);
+    return step(neutralRamp, s);
   }
 
   // Surfaces
