@@ -10,7 +10,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     intent: {
       control: "select",
-      options: ["primary", "secondary", "ghost", "destructive"],
+      options: ["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"],
     },
     size: {
       control: "select",
@@ -45,8 +45,10 @@ export const AllIntents: Story = {
     <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
       <Button intent="primary">Primary</Button>
       <Button intent="secondary">Secondary</Button>
+      <Button intent="tertiary">Tertiary</Button>
       <Button intent="ghost">Ghost</Button>
       <Button intent="destructive">Destructive</Button>
+      <Button intent="destructive-ghost">Destructive Ghost</Button>
     </div>
   ),
 };
@@ -81,11 +83,13 @@ export const WithIcon: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
       <Button intent="primary" disabled>Primary</Button>
       <Button intent="secondary" disabled>Secondary</Button>
+      <Button intent="tertiary" disabled>Tertiary</Button>
       <Button intent="ghost" disabled>Ghost</Button>
       <Button intent="destructive" disabled>Destructive</Button>
+      <Button intent="destructive-ghost" disabled>Destructive Ghost</Button>
     </div>
   ),
 };
@@ -93,7 +97,7 @@ export const Disabled: Story = {
 export const AllVariantsGrid: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-      {(["primary", "secondary", "ghost", "destructive"] as const).map((intent) => (
+      {(["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const).map((intent) => (
         <div key={intent} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           {(["sm", "md", "lg"] as const).map((size) => (
             <Button key={size} intent={intent} size={size}>

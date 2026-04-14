@@ -9,28 +9,43 @@
 /* ─── Label ───────────────────────────────────────────────────────────────── */
 
 .input-field__label {
+  display: flex;
+  align-items: center;
+  gap: 2px;
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-medium);
-  line-height: var(--type-leading-body-medium);
-  color: var(--color-text-text-secondary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Required indicator ──────────────────────────────────────────────────── */
+
+.input-field__required {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-status-error-message);
+  flex-shrink: 0;
 }
 
 /* ─── Control (input element) ─────────────────────────────────────────────── */
 
 .input-field__control {
   width: 100%;
-  background-color: var(--color-surface-subtle);
-  border: 1px solid var(--color-border-medium);
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
+  font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-medium);
+  line-height: var(--type-leading-body-large);
   color: var(--color-text-text-primary);
-  padding: var(--spacing-space-02) var(--spacing-space-03);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
   outline: none;
   transition:
+    background-color 150ms ease,
     border-color 150ms ease,
     box-shadow 150ms ease;
 }
@@ -39,13 +54,16 @@
   color: var(--color-text-text-placeholder);
 }
 
-.input-field__control:focus-visible {
-  border-color: var(--color-border-data-entry);
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+.input-field__control:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
 }
 
-.input-field__control[data-invalid] {
-  border-color: var(--color-status-error);
+.input-field__control:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.input-field__control:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 .input-field__control[data-invalid]:focus-visible {
@@ -54,8 +72,10 @@
 
 .input-field__control:disabled,
 .input-field__control[data-disabled] {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  color: var(--color-interactive-inactive-inactive-02);
   cursor: not-allowed;
-  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* ─── Description (helper text) ───────────────────────────────────────────── */
@@ -71,37 +91,26 @@
 /* ─── Error message ───────────────────────────────────────────────────────── */
 
 .input-field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-medium);
   line-height: var(--type-leading-body-small);
   color: var(--color-status-error-message);
 }
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */
 
-.input-field--sm .input-field__label {
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
-}
-
 .input-field--sm .input-field__control {
-  padding: var(--spacing-space-01) var(--spacing-space-02);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
 }
 
 /* ─── Size: md (default — already set on base) ────────────────────────────── */
 
 /* ─── Size: lg ────────────────────────────────────────────────────────────── */
 
-.input-field--lg .input-field__label {
-  font-size: var(--type-size-body-large);
-  line-height: var(--type-leading-body-large);
-}
-
 .input-field--lg .input-field__control {
-  padding: var(--spacing-space-02) var(--spacing-space-04);
-  font-size: var(--type-size-body-large);
-  line-height: var(--type-leading-body-large);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }

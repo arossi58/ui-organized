@@ -4,11 +4,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-space-02);
+  gap: var(--spacing-space-01);
   border: 1px solid transparent;
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-medium);
+  line-height: var(--type-leading-body-large);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -52,8 +54,8 @@
 
 .btn--secondary {
   background-color: var(--color-interactive-secondary-default);
-  color: var(--color-text-text-primary);
-  border-color: var(--color-border-subtle);
+  color: var(--color-interactive-contents);
+  border-color: transparent;
 }
 
 .btn--secondary:hover:not(:disabled):not([data-disabled]) {
@@ -64,11 +66,29 @@
   background-color: var(--color-interactive-secondary-active);
 }
 
+/* ─── Intent: tertiary ────────────────────────────────────────────────────── */
+
+.btn--tertiary {
+  background-color: transparent;
+  color: var(--color-interactive-tertiary-default);
+  border-color: var(--color-interactive-tertiary-default);
+}
+
+.btn--tertiary:hover:not(:disabled):not([data-disabled]) {
+  color: var(--color-interactive-tertiary-hover);
+  border-color: var(--color-interactive-tertiary-hover);
+}
+
+.btn--tertiary:active:not(:disabled):not([data-disabled]) {
+  color: var(--color-interactive-tertiary-active);
+  border-color: var(--color-interactive-tertiary-active);
+}
+
 /* ─── Intent: ghost ───────────────────────────────────────────────────────── */
 
 .btn--ghost {
   background-color: var(--color-interactive-ghost-default);
-  color: var(--color-text-text-interactive);
+  color: var(--color-interactive-contents);
   border-color: transparent;
 }
 
@@ -96,26 +116,36 @@
   background-color: var(--color-interactive-destructive-active);
 }
 
+/* ─── Intent: destructive-ghost ───────────────────────────────────────────── */
+
+.btn--destructive-ghost {
+  background-color: transparent;
+  color: var(--color-interactive-destructive-default-ghost);
+  border-color: transparent;
+}
+
+.btn--destructive-ghost:hover:not(:disabled):not([data-disabled]) {
+  color: var(--color-interactive-destructive-hover-ghost);
+}
+
+.btn--destructive-ghost:active:not(:disabled):not([data-disabled]) {
+  color: var(--color-interactive-destructive-active-ghost);
+}
+
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */
 
 .btn--sm {
   padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
 }
 
 /* ─── Size: md ────────────────────────────────────────────────────────────── */
 
 .btn--md {
   padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
 }
 
 /* ─── Size: lg ────────────────────────────────────────────────────────────── */
 
 .btn--lg {
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
-  font-size: var(--type-size-body-large);
-  line-height: var(--type-leading-body-large);
 }

@@ -3,7 +3,7 @@ import type { CanonicalIconName } from "@ds/utils";
 
 export interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
   /** Visual style intent. Defaults to 'primary'. */
-  intent?: "primary" | "secondary" | "ghost" | "destructive";
+  intent?: "primary" | "secondary" | "tertiary" | "ghost" | "destructive" | "destructive-ghost";
   /** Size variant. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
   /**

@@ -9,6 +9,7 @@ export function Input({
   helperText,
   error,
   size,
+  required,
   id,
   className,
   ...inputProps
@@ -22,10 +23,14 @@ export function Input({
       invalid={isInvalid}
     >
       {label && (
-        <Field.Label className="input-field__label">{label}</Field.Label>
+        <Field.Label className="input-field__label">
+          {label}
+          {required && <span className="input-field__required" aria-hidden="true" />}
+        </Field.Label>
       )}
       <Field.Control
         className="input-field__control"
+        required={required}
         {...inputProps}
       />
       {helperText && !isInvalid && (
