@@ -87,29 +87,29 @@ export const semanticColorTokens = {
   // ── Status ────────────────────────────────────────────────────────────────
   "color-status": {
     // Success
-    success:           { $value: "{lima.1300}",       $type: "color" },
-    "success-bg":      { $value: "{lima.1600}",       $type: "color" },
+    success:           { $value: "{lima.700}",        $type: "color" },
+    "success-bg":      { $value: "{lima.1100}",       $type: "color" },
     "success-content": { $value: "{lima.300}",        $type: "color" },
     // Info (primary blue)
-    info:              { $value: "{cerulean.1300}",   $type: "color" },
-    "info-bg":         { $value: "{cerulean.1600}",   $type: "color" },
+    info:              { $value: "{cerulean.800}",    $type: "color" },
+    "info-bg":         { $value: "{cerulean.1100}",   $type: "color" },
     "info-content":    { $value: "{cerulean.300}",    $type: "color" },
     // Info secondary (teal)
-    "info-secondary":          { $value: "{caribbean.1300}", $type: "color" },
-    "info-secondary-bg":       { $value: "{caribbean.1600}", $type: "color" },
+    "info-secondary":          { $value: "{caribbean.700}",  $type: "color" },
+    "info-secondary-bg":       { $value: "{caribbean.1100}", $type: "color" },
     "info-secondary-content":  { $value: "{caribbean.300}",  $type: "color" },
-    // Caution (yellow)
-    caution:           { $value: "{candlelight.1300}", $type: "color" },
-    "caution-bg":      { $value: "{candlelight.1600}", $type: "color" },
+    // Caution (yellow — uses dark text when emphasized)
+    caution:           { $value: "{candlelight.600}",  $type: "color" },
+    "caution-bg":      { $value: "{candlelight.1100}", $type: "color" },
     "caution-content": { $value: "{candlelight.300}",  $type: "color" },
     // Warning (pink)
-    warning:           { $value: "{cerise.1300}",     $type: "color" },
-    "warning-bg":      { $value: "{cerise.1600}",     $type: "color" },
+    warning:           { $value: "{cerise.800}",      $type: "color" },
+    "warning-bg":      { $value: "{cerise.1100}",     $type: "color" },
     "warning-content": { $value: "{cerise.300}",      $type: "color" },
     // Error
-    error:             { $value: "{crimson.1300}",    $type: "color" },
-    "error-message":   { $value: "{crimson.800}",     $type: "color" },
-    "error-bg":        { $value: "{crimson.1600}",    $type: "color" },
+    error:             { $value: "{crimson.800}",     $type: "color" },
+    "error-message":   { $value: "{crimson.600}",     $type: "color" },
+    "error-bg":        { $value: "{crimson.1100}",    $type: "color" },
     "error-content":   { $value: "{crimson.300}",     $type: "color" },
   },
 

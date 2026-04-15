@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Badge } from "@ds/react";
 
+const VARIANTS = ["success", "info", "info-secondary", "caution", "warning", "error"] as const;
+const SIZES = ["sm", "md", "lg"] as const;
+
 const meta: Meta<typeof Badge> = {
   title: "Components/Badge",
   component: Badge,
@@ -10,12 +13,13 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "success", "warning", "error", "info"],
+      options: VARIANTS,
     },
     size: {
       control: "select",
-      options: ["sm", "md"],
+      options: SIZES,
     },
+    emphasized: { control: "boolean" },
     children: { control: "text" },
   },
 };
@@ -25,20 +29,33 @@ type Story = StoryObj<typeof Badge>;
 
 export const Default: Story = {
   args: {
-    children: "Badge",
-    variant: "default",
+    children: "Status",
+    variant: "success",
     size: "md",
+    emphasized: true,
   },
 };
 
-export const AllVariants: Story = {
+export const Emphasized: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-      <Badge variant="default">Default</Badge>
-      <Badge variant="info">Info</Badge>
-      <Badge variant="success">Success</Badge>
-      <Badge variant="warning">Warning</Badge>
-      <Badge variant="error">Error</Badge>
+      {VARIANTS.map((variant) => (
+        <Badge key={variant} variant={variant} emphasized>
+          {variant}
+        </Badge>
+      ))}
+    </div>
+  ),
+};
+
+export const Subdued: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+      {VARIANTS.map((variant) => (
+        <Badge key={variant} variant={variant} emphasized={false}>
+          {variant}
+        </Badge>
+      ))}
     </div>
   ),
 };
@@ -46,19 +63,34 @@ export const AllVariants: Story = {
 export const AllSizes: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <Badge size="sm">Small</Badge>
-      <Badge size="md">Medium</Badge>
+      {SIZES.map((size) => (
+        <Badge key={size} variant="success" size={size}>
+          {size}
+        </Badge>
+      ))}
     </div>
   ),
 };
 
-export const AllVariantsAndSizes: Story = {
+export const AllVariantsGrid: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-      {(["default", "info", "success", "warning", "error"] as const).map((variant) => (
-        <div key={variant} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-          <Badge variant={variant} size="sm">{variant}</Badge>
-          <Badge variant={variant} size="md">{variant}</Badge>
+      {SIZES.map((size) => (
+        <div key={size} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            {VARIANTS.map((variant) => (
+              <Badge key={variant} variant={variant} size={size} emphasized>
+                {variant}
+              </Badge>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+            {VARIANTS.map((variant) => (
+              <Badge key={variant} variant={variant} size={size} emphasized={false}>
+                {variant}
+              </Badge>
+            ))}
+          </div>
         </div>
       ))}
     </div>

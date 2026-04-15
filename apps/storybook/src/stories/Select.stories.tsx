@@ -59,11 +59,30 @@ export const WithError: Story = {
   },
 };
 
+export const Required: Story = {
+  args: {
+    options: FRUIT_OPTIONS,
+    label: "Favorite fruit",
+    placeholder: "Select a fruit…",
+    required: true,
+    helperText: "This field is required.",
+  },
+};
+
 export const WithDefaultValue: Story = {
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
     defaultValue: "cherry",
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    options: FRUIT_OPTIONS,
+    label: "Favorite fruit",
+    placeholder: "Select a fruit…",
+    disabled: true,
   },
 };
 
@@ -81,7 +100,9 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <Select options={FRUIT_OPTIONS} label="Default" placeholder="Default state" />
+      <Select options={FRUIT_OPTIONS} label="Required" placeholder="Required state" required />
       <Select options={FRUIT_OPTIONS} label="With helper" placeholder="With helper" helperText="This is helper text." />
+      <Select options={FRUIT_OPTIONS} label="With value" defaultValue="apple" />
       <Select options={FRUIT_OPTIONS} label="Error state" placeholder="Error state" error="This field is required." />
       <Select options={FRUIT_OPTIONS} label="Disabled" placeholder="Disabled state" disabled />
     </div>

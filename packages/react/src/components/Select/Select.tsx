@@ -31,7 +31,10 @@ export function Select({
       disabled={disabled}
     >
       {label && (
-        <Field.Label className="select-field__label">{label}</Field.Label>
+        <Field.Label className="select-field__label">
+          {label}
+          {required && <span className="select-field__required" aria-hidden="true" />}
+        </Field.Label>
       )}
       <BaseSelect.Root
         value={value}
@@ -71,8 +74,10 @@ export function Select({
                     disabled={opt.disabled}
                     className="select-popup__item"
                   >
-                    <BaseSelect.ItemIndicator className="select-popup__item-indicator" />
                     <BaseSelect.ItemText>{opt.label}</BaseSelect.ItemText>
+                    <BaseSelect.ItemIndicator className="select-popup__item-indicator">
+                      <Icon name="check" size={20} />
+                    </BaseSelect.ItemIndicator>
                   </BaseSelect.Item>
                 ))}
               </BaseSelect.List>
