@@ -25,6 +25,7 @@ export function usePreviewProperties(): PreviewStyle {
     lineHeightScale,
     spacingScale,
     borderRadius,
+    previewMode,
   } = useBuilderStore();
 
   return useMemo(
@@ -42,6 +43,7 @@ export function usePreviewProperties(): PreviewStyle {
         lineHeightScale,
         spacingScale,
         borderRadius,
+        mode: previewMode,
       }) as PreviewStyle,
     [
       brandHex,
@@ -56,6 +58,7 @@ export function usePreviewProperties(): PreviewStyle {
       lineHeightScale,
       spacingScale,
       borderRadius,
+      previewMode,
     ],
   );
 }

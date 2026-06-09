@@ -14,7 +14,7 @@ export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
 // ─── Default values ───────────────────────────────────────────────────────────
 
 const DEFAULT_BRAND_HEX    = "#008ffb";
-const DEFAULT_NEUTRAL: NeutralPresetName = "shark";
+const DEFAULT_NEUTRAL: NeutralPresetName = "flint";
 const DEFAULT_HEADING_FAMILY = "Roboto";
 const DEFAULT_BODY_FAMILY = "Roboto";
 const DEFAULT_TYPE_BASE = 16;
@@ -105,6 +105,7 @@ export interface BuilderState {
   // UI state
   activePanel: ActivePanel;
   themeName: string;
+  previewMode: "light" | "dark";
 
   // Actions
   setBrandColor: (hex: string) => void;
@@ -119,6 +120,7 @@ export interface BuilderState {
   setIcons: (config: Partial<IconsConfig>) => void;
   setActivePanel: (panel: ActivePanel) => void;
   setThemeName: (name: string) => void;
+  setPreviewMode: (mode: "light" | "dark") => void;
 }
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -155,6 +157,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   // UI state
   activePanel: "color",
   themeName: "My Theme",
+  previewMode: "dark" as "light" | "dark",
 
   // Actions
   setBrandColor: (hex: string) =>
@@ -204,6 +207,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   setActivePanel: (panel) => set(() => ({ activePanel: panel })),
 
   setThemeName: (name) => set(() => ({ themeName: name })),
+
+  setPreviewMode: (mode) => set(() => ({ previewMode: mode })),
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

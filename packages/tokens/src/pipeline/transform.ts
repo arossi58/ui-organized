@@ -169,9 +169,12 @@ export function transformConfig(config: ThemeConfig): TransformResult {
   for (const [modeName, semanticMap] of Object.entries(color.modes)) {
     const resolved: Record<string, string> = {};
     for (const [semanticKey, primitiveRef] of Object.entries(semanticMap)) {
-      const hex = resolvePrimitiveRef(primitiveRef, color.resolvedPrimitives);
-      if (hex) {
-        resolved[semanticKey] = hex;
+      if (primitiveRef.startsWith("css:")) {
+        // Raw CSS value — pass through without primitive resolution
+        resolved[semanticKey] = primitiveRef.slice(4);
+      } else {
+        const hex = resolvePrimitiveRef(primitiveRef, color.resolvedPrimitives);
+        if (hex) resolved[semanticKey] = hex;
       }
     }
     modeOverrides[modeName] = resolved;

@@ -176,11 +176,11 @@ Note: Once dual font support is wired into the component library, you'll split `
 #### What the Preview Receives
 
 ```
---semantic-border-radius-radius-01: 2px
---semantic-border-radius-radius-02: 4px
+--border-radius-radius-01: 2px
+--border-radius-radius-02: 4px
 ...
---semantic-border-radius-radius-12: 24px
---semantic-border-radius-radius-full: 99999px
+--border-radius-radius-12: 24px
+--border-radius-radius-full: 99999px
 ```
 
 ---
@@ -216,11 +216,56 @@ Note: Once dual font support is wired into the component library, you'll split `
 #### What the Preview Receives
 
 ```
---semantic-spacing-space-005: 2px
---semantic-spacing-space-01: 4px
+--spacing-space-005: 2px
+--spacing-space-01: 4px
 ...
---semantic-spacing-space-32: 128px
+--spacing-space-32: 128px
 ```
+
+---
+
+### 4b. Elevation Layering Tokens (System-Owned, No UI Panel)
+
+The elevation layering tokens are system-owned values — they are NOT user-configurable and do NOT have a control panel in the builder. However, the builder must:
+
+1. Write the elevation values to the preview container so components using elevation layering render correctly
+2. Include the elevation values in the exported config
+
+These tokens are mode-dependent composite values that combine a specific neutral ramp step with a fixed opacity percentage:
+
+- **Dark mode (your current default):** neutral 400 step at 8% (subtle) and 16% (medium)
+- **Light mode (added later):** neutral 1400 step at 8% (subtle) and 16% (medium)
+
+The logic: in dark mode, a lighter shade brightens layers above the base surface. In light mode, a darker shade darkens layers above it. The opacity percentages stay constant; only the neutral step shifts per mode.
+
+When the user changes the neutral preset, the overlay colors update automatically because they derive from the selected preset's ramp.
+
+#### How Components Use Overlay Layering
+
+A component that needs to sit visually above its parent surface uses the overlay token as its background:
+
+```css
+.card {
+  background-color: var(--semantic-color-elevation-subtle);
+}
+
+.card .nested-panel {
+  background-color: var(--semantic-color-elevation-medium);
+}
+```
+
+The solid surface tokens (`color-surface-base`, `color-surface-subtle`, etc.) remain for base-level layouts. Overlay layering is for components that need to visually elevate above whatever surface they're placed on.
+
+#### What the Preview Receives
+
+For dark mode (current default), using the selected neutral preset's 400 step:
+
+```
+--semantic-color-elevation-subtle: oklch(from [neutral-400-value] l c h / 0.08)
+--semantic-color-elevation-medium: oklch(from [neutral-400-value] l c h / 0.16)
+```
+
+The builder computes the actual color value by taking the 400 step from the selected neutral preset's ramp and applying 8% or 16% opacity.
 
 ---
 
@@ -306,6 +351,12 @@ The exported JSON structure (Phase 1, without icons):
         "100": { "hex": "#919baf", "oklch": "oklch(...)" },
         "...": "full selected neutral ramp"
       }
+    },
+    "elevation": {
+      "subtle": 0.08,
+      "medium": 0.16,
+      "darkModeStep": 400,
+      "lightModeStep": 1400
     },
     "modes": {
       "dark": {
@@ -426,6 +477,8 @@ The exported JSON structure (Phase 1, without icons):
 **Typography stores both the source inputs (base, ratio) and the resolved steps.** The resolved rounded values are the source of truth. The base and ratio are metadata for reference.
 
 **Spacing stores only the base unit.** The multipliers are a system opinion and don't need to be in the config — the build pipeline knows them.
+
+**Elevation layering tokens are system-owned composites.** The export includes the fixed opacity percentages (8% and 16%) and the mode-dependent neutral steps (400 for dark, 1400 for light) in the `elevation` section within `color`. The build pipeline uses these to generate the correct `--semantic-color-elevation-subtle` and `--semantic-color-elevation-medium` CSS values for each mode. These values change when the neutral preset changes because they derive from the selected preset's ramp.
 
 #### Export Action
 

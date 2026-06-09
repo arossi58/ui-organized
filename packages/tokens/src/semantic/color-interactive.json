@@ -36,7 +36,10 @@
       "default":  { "$type": "color", "$value": "{shark.1300}" },
       "hover":    { "$type": "color", "$value": "{shark.1100}" },
       "active":   { "$type": "color", "$value": "{shark.1200}" },
-      "selected": { "$type": "color", "$value": "{shark.1200}" }
+      "selected": { "$type": "color", "$value": "{shark.1200}" },
+      "inverse":  { "$type": "color", "$value": "{shark.100}" },
+      "light":    { "$type": "color", "$value": "{shark.100}" },
+      "dark":     { "$type": "color", "$value": "{shark.1600}" }
     },
     "focus":         { "$type": "color", "$value": "{white.100}" },
     "focus-inverse": { "$type": "color", "$value": "{black.1600}" },

@@ -28,100 +28,38 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  position: relative;
 }
 
-.pickerLabel {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--builder-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.pickerField {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 10px;
+/* Font search input */
+.fontSearchInput {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 10px;
   border: 1px solid var(--builder-border);
   border-radius: 6px;
   background: var(--builder-surface-input);
-  cursor: pointer;
-  font-size: 14px;
   color: var(--builder-text-primary);
-  user-select: none;
-}
-
-.pickerField:hover {
-  border-color: var(--builder-accent);
-}
-
-.chevron {
-  font-size: 10px;
-  color: var(--builder-text-secondary);
-}
-
-/* Dropdown */
-.dropdown {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  right: 0;
-  z-index: 100;
-  background: var(--builder-surface);
-  border: 1px solid var(--builder-border);
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-}
-
-.searchInput {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 10px 12px;
-  border: none;
-  border-bottom: 1px solid var(--builder-border);
-  background: var(--builder-surface-input);
-  color: var(--builder-text-primary);
-  font-size: 13px;
+  font-size: 12px;
   outline: none;
 }
 
-.dropdownLoading {
-  padding: 16px;
-  font-size: 13px;
-  color: var(--builder-text-secondary);
-  text-align: center;
+.fontSearchInput:focus {
+  border-color: var(--builder-accent);
 }
 
-.fontList {
-  list-style: none;
-  margin: 0;
-  padding: 4px;
-  max-height: 240px;
-  overflow-y: auto;
-}
-
-.fontItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  color: var(--builder-text-primary);
-}
-
-.fontItem:hover,
-.fontItemActive {
-  background: var(--builder-surface-hover);
-}
-
-.fontWeightHint {
-  font-size: 11px;
+.fontSearchInput::placeholder {
   color: var(--builder-text-tertiary);
+}
+
+.fontSearchInput:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Weight select wrapper */
+.weightSelectWrap {
+  width: 80px;
+  flex-shrink: 0;
 }
 
 /* Weight roles */
@@ -142,16 +80,6 @@
   font-size: 12px;
   color: var(--builder-text-secondary);
   flex: 1;
-}
-
-.weightSelect {
-  padding: 4px 6px;
-  border: 1px solid var(--builder-border);
-  border-radius: 5px;
-  background: var(--builder-surface-input);
-  color: var(--builder-text-primary);
-  font-size: 12px;
-  cursor: pointer;
 }
 
 /* Scale controls */

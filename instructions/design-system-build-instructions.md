@@ -77,11 +77,11 @@ This is the first package to build because everything depends on it.
 
 Define the theme config schema using Zod. The schema must validate:
 - `metadata` — name (string), schemaVersion (semver string), timestamp (ISO string, optional)
-- `color` — brandColor object with `hex` (string) and `oklch` (string) fields, neutralPreset (string enum of available preset names), resolvedPrimitives (the fully expanded color ramps — brand and neutral), modes (Record of mode names to semantic mapping objects)
+- `color` — brandColor object with `hex` (string) and `oklch` (string) fields, neutralPreset (string enum of available preset names), resolvedPrimitives (the fully expanded color ramps — brand and neutral), elevation (subtle and medium opacity values + darkModeStep/lightModeStep numbers), modes (Record of mode names to semantic mapping objects)
 - `typography` — headingFont object (family string, weights Record mapping semantic role to number), bodyFont object (same shape), scale object (base number, ratio number as metadata, steps Record mapping semantic step name to rounded pixel number)
 - `icons` — library (enum: "lucide" | "tabler" | "heroicons"), style (enum: "outline" | "solid"), strokeAdjustment (boolean)
-- `borderRadius` — Record of named sizes (none, sm, md, lg, xl, full) to pixel numbers
-- `spacing` — baseUnit (number)
+- `borderRadius` — Record of named sizes (radius-01 through radius-12 + radius-full) to pixel numbers (own Figma collection)
+- `spacing` — baseUnit (number) (own Figma collection)
 
 Export the inferred TypeScript type: `export type ThemeConfig = z.infer<typeof themeConfigSchema>`
 
@@ -97,7 +97,9 @@ Build the pure utility functions that contain the system's intelligence.
 
 **Color generation:** Port your existing OKLCH palette generation algorithm to a TypeScript function. Input: a single color (hex or OKLCH). Output: a full shade ramp (array of color objects, each with hex and OKLCH representations). This is the same algorithm your Figma plugin uses — extract it into this shared package so the logic exists in one place.
 
-**Neutral presets:** Define the preset library as a data structure. Each preset is a named set of pre-generated neutral color ramps. Start with 4-6 presets (e.g., warm, cool, slate, zinc, stone, neutral). These are static data, not generated at runtime.
+**Neutral presets:** Define the preset library as a data structure. Each preset is a named set of pre-generated neutral color ramps. Include all 12 presets: dove, mythical, flint, waterloo, stone, cave, juniper, battleship, squirrel, hemp, mavic, shark. These are static data, not generated at runtime.
+
+**Elevation layering:** Define the two elevation levels (color-elevation/subtle at 8%, color-elevation/medium at 16%) and the mode-dependent neutral step mapping (dark mode uses step 400, light mode uses step 1400). Include a utility function that takes the selected neutral preset, the current mode, and the elevation level, and returns the computed composite color value (the neutral step's color at the specified opacity). This function is called by the builder's preview and by the token pipeline during build.
 
 **Type scale:** Function that takes a base size and ratio, calculates each scale step, and rounds to the nearest target value. Input: base (number), ratio (number), steps (array of step names). Output: Record of step name to rounded pixel value. The step names and their order are fixed system opinions defined here.
 

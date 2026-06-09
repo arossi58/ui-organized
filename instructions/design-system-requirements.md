@@ -22,17 +22,17 @@ A white-label design system ecosystem that allows users to theme a component lib
 ### Top-Level Structure
 
 - **metadata** — theme name, schema version number, timestamp
-- **color** — brand colors, UI/functional colors, neutral palette selection
+- **color** — brand colors, UI/functional colors, neutral palette selection, opacity layering tokens
 - **typography** — dual font configuration, type scale, semantic weight mappings
 - **icons** — icon library selection, style preference, stroke weight adjustment
-- **borderRadius** — named radius values
-- **spacing** — single base unit value
+- **borderRadius** — named radius values (own Figma collection, separate from semantic tokens)
+- **spacing** — single base unit value (own Figma collection, separate from semantic tokens)
 
 ### Color
 
 - **User inputs (2 total):**
   - One brand color (stored in both OKLCH and hex)
-  - One neutral preset identifier (selected from a curated preset library, e.g., "warm", "cool", "slate", "zinc")
+  - One neutral preset identifier (selected from a curated preset library: dove, mythical, flint, waterloo, stone, cave, juniper, battleship, squirrel, hemp, mavic, shark)
 - **System-generated from inputs:**
   - Full brand color shade ramp generated from the single brand color via OKLCH palette algorithm
   - Full neutral ramp provided by the selected preset
@@ -41,6 +41,17 @@ A white-label design system ecosystem that allows users to theme a component lib
 - **Config storage (hybrid):**
   - Stores the two source inputs (brand color value + neutral preset ID) for human readability
   - Also stores the fully resolved generated values for portability — consumers don't need generation logic
+- **Opacity layering tokens:**
+  - Two named elevation levels: color-elevation/subtle (8% opacity) and color-elevation/medium (16% opacity)
+  - The overlay color is a specific step from the selected neutral ramp, applied at the specified opacity
+  - **Dark mode:** Uses the neutral 400 step (a lighter shade) at 8% and 16% — brightens layers above the base
+  - **Light mode:** Uses the neutral 1400 step (a darker shade) at 8% and 16% — darkens layers above the base
+  - The opacity percentages are constant across modes; the neutral step shifts per mode
+  - This creates automatic visual separation when elements are nested — each layer appears distinct from its parent
+  - Changing the neutral preset updates all layers automatically since they derive from the selected neutral's ramp
+  - Overlay tokens are mode-dependent composite values (neutral step + opacity), not simple opacity numbers
+  - Solid surface tokens (base, subtle, medium, emphasis, strong) remain for base-level surfaces — opacity layering complements them, does not replace them
+  - Overlay values are system-owned (not user-configurable beyond neutral preset selection)
 - **Semantic mappings (mode-dependent):**
   - Modes object containing named entries (light, dark, or arbitrary mode names)
   - Each mode is a complete map of semantic token names to primitive references
@@ -82,12 +93,14 @@ A white-label design system ecosystem that allows users to theme a component lib
 
 ### Border Radius
 
-- Named scale: none, sm, md, lg, xl, full (or similar)
+- Own Figma variable collection (separate from Primitive and Semantic collections)
+- Named scale: radius-01 through radius-12 + radius-full (or similar)
 - Each value set independently by the user (not derived from a base unit)
 - Values stored as pixel numbers
 
 ### Spacing
 
+- Own Figma variable collection (separate from Primitive and Semantic collections)
 - Single base unit value (e.g., 4px or 8px)
 - Fixed multipliers defined by the system (not user-configurable)
 - Build pipeline generates the full spacing scale from base × multipliers

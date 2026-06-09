@@ -2,6 +2,7 @@ import { RadioGroup as BaseRadioGroup } from "@base-ui-components/react/radio-gr
 import { Radio as BaseRadio } from "@base-ui-components/react/radio";
 import { clsx } from "clsx";
 import { radioGroupStyles } from "./Radio.styles.js";
+import { Icon } from "../Icon/index.js";
 import type { RadioGroupProps } from "./Radio.types.js";
 import "./Radio.css";
 
@@ -32,19 +33,30 @@ export function RadioGroup({
         className="radio-group__items"
       >
         {options.map((opt) => (
-          <label
-            key={opt.value}
-            className={clsx("radio-item", opt.disabled && "radio-item--disabled")}
-          >
-            <BaseRadio.Root
-              value={opt.value}
-              disabled={opt.disabled}
-              className="radio-item__control"
+          <div key={opt.value} className="radio-item-wrap">
+            <label
+              className={clsx(
+                "radio-item",
+                opt.disabled && "radio-item--disabled",
+                opt.error && "radio-item--error",
+              )}
             >
-              <BaseRadio.Indicator className="radio-item__indicator" />
-            </BaseRadio.Root>
-            <span className="radio-item__label">{opt.label}</span>
-          </label>
+              <BaseRadio.Root
+                value={opt.value}
+                disabled={opt.disabled}
+                className="radio-item__control"
+              >
+                <BaseRadio.Indicator className="radio-item__indicator" />
+              </BaseRadio.Root>
+              <span className="radio-item__label">{opt.label}</span>
+            </label>
+            {opt.error && (
+              <div className="radio-item__error-message">
+                <Icon name="alert-circle" size={16} />
+                <span className="radio-item__error-text">{opt.error}</span>
+              </div>
+            )}
+          </div>
         ))}
       </BaseRadioGroup>
     </div>

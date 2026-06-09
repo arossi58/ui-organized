@@ -1,33 +1,23 @@
 import { describe, it, expect } from "vitest";
 import { generateModes, type ResolvedPrimitives } from "./modeGeneration.js";
 
-// Minimal primitives using 100-1600 step convention
+const makeRamp = (steps: string[]): Record<string, { hex: string; oklch: string }> =>
+  Object.fromEntries(steps.map((s) => [s, { hex: "#000000", oklch: "oklch(0 0 0)" }]));
+
+const ALL_STEPS = ["100","200","300","400","500","600","700","800","900","1000","1100","1200","1300","1400","1500","1600"];
+
 const mockPrimitives: ResolvedPrimitives = {
-  brand: {
-    "100":  { hex: "#e2f2ff", oklch: "oklch(0.940 0.030 240)" },
-    "300":  { hex: "#a9d9ff", oklch: "oklch(0.850 0.090 240)" },
-    "600":  { hex: "#52b4ff", oklch: "oklch(0.730 0.160 240)" },
-    "700":  { hex: "#35a7ff", oklch: "oklch(0.690 0.175 240)" },
-    "900":  { hex: "#008ffb", oklch: "oklch(0.603 0.190 240)" },
-    "1000": { hex: "#007dde", oklch: "oklch(0.540 0.185 240)" },
-    "1200": { hex: "#005aa5", oklch: "oklch(0.400 0.165 240)" },
-    "1400": { hex: "#00396c", oklch: "oklch(0.270 0.130 240)" },
-    "1600": { hex: "#001a33", oklch: "oklch(0.130 0.070 240)" },
-  },
-  neutral: {
-    "100":  { hex: "#919baf", oklch: "oklch(0.653 0.040 250)" },
-    "400":  { hex: "#636f87", oklch: "oklch(0.503 0.033 250)" },
-    "900":  { hex: "#262b34", oklch: "oklch(0.252 0.016 250)" },
-    "1200": { hex: "#181a22", oklch: "oklch(0.163 0.010 250)" },
-    "1400": { hex: "#0f1016", oklch: "oklch(0.108 0.006 250)" },
-    "1500": { hex: "#0b0b10", oklch: "oklch(0.082 0.004 250)" },
-    "1600": { hex: "#060609", oklch: "oklch(0.044 0.002 250)" },
-  },
+  brand:   makeRamp(ALL_STEPS),
+  neutral: makeRamp(ALL_STEPS),
+  black:   makeRamp(ALL_STEPS),
+  white:   makeRamp(ALL_STEPS),
   functional: {
-    success: { "500": { hex: "#22c55e", oklch: "oklch(0.72 0.19 145)" } },
-    warning: { "500": { hex: "#f59e0b", oklch: "oklch(0.78 0.18 74)" } },
-    error:   { "500": { hex: "#ef4444", oklch: "oklch(0.63 0.22 27)" } },
-    info:    { "500": { hex: "#3b82f6", oklch: "oklch(0.62 0.20 251)" } },
+    lima:        makeRamp(ALL_STEPS),
+    cerulean:    makeRamp(ALL_STEPS),
+    caribbean:   makeRamp(ALL_STEPS),
+    candlelight: makeRamp(ALL_STEPS),
+    cerise:      makeRamp(ALL_STEPS),
+    crimson:     makeRamp(ALL_STEPS),
   },
 };
 
@@ -40,37 +30,78 @@ describe("generateModes", () => {
   });
 
   const requiredKeys = [
-    "bg.primary",
-    "bg.secondary",
-    "fg.primary",
-    "fg.secondary",
-    "interactive.default",
-    "interactive.hover",
-    "border.default",
-    "functional.success",
-    "functional.error",
+    "color-surface.base",
+    "color-surface.subtle",
+    "color-text.text-primary",
+    "color-text.text-secondary",
+    "color-border.subtle",
+    "color-border.data-entry",
+    "color-icon.icon-primary",
+    "color-interactive.primary.default",
+    "color-interactive.primary.hover",
+    "color-interactive.primary.active",
+    "color-interactive.secondary.default",
+    "color-interactive.tertiary.default",
+    "color-interactive.ghost.hover",
+    "color-interactive.destructive.default",
+    "color-interactive.contents",
+    "color-interactive.focus",
+    "color-interactive.ui.default",
+    "color-interactive.inactive.inactive-01",
+    "color-status.success",
+    "color-status.success-bg",
+    "color-status.error",
+    "color-status.error-message",
+    "color-elevation.subtle",
+    "color-elevation.medium",
   ];
 
   for (const key of requiredKeys) {
-    it(`light mode includes "${key}"`, () => {
-      expect(modes.light[key]).toBeDefined();
-    });
     it(`dark mode includes "${key}"`, () => {
       expect(modes.dark[key]).toBeDefined();
     });
+    it(`light mode includes "${key}"`, () => {
+      expect(modes.light[key]).toBeDefined();
+    });
   }
 
-  it("light and dark interactive.default use different brand steps", () => {
-    expect(modes.light["interactive.default"]).not.toBe(modes.dark["interactive.default"]);
+  it("light and dark surface.base use different steps", () => {
+    expect(modes.light["color-surface.base"]).toBe("neutral.100");
+    expect(modes.dark["color-surface.base"]).toBe("black.1600");
   });
 
-  it("all values are primitive reference strings (palette.step format)", () => {
-    const allValues = [
-      ...Object.values(modes.light),
-      ...Object.values(modes.dark),
-    ];
-    for (const val of allValues) {
-      expect(val).toMatch(/^[a-z]+(\.[a-z]+)*\.\d+$/);
+  it("primary default uses brandShade", () => {
+    expect(modes.dark["color-interactive.primary.default"]).toBe("brand.1200");
+    expect(modes.light["color-interactive.primary.default"]).toBe("brand.1200");
+  });
+
+  it("primary default respects custom brandShade", () => {
+    const custom = generateModes(mockPrimitives, "900");
+    expect(custom.dark["color-interactive.primary.default"]).toBe("brand.900");
+    expect(custom.dark["color-interactive.primary.hover"]).toBe("brand.1100");
+    expect(custom.dark["color-interactive.primary.active"]).toBe("brand.1300");
+  });
+
+  it("elevation uses css: prefix for OKLCH composite values", () => {
+    expect(modes.dark["color-elevation.subtle"]).toMatch(/^css:oklch\(/);
+    expect(modes.light["color-elevation.subtle"]).toMatch(/^css:oklch\(/);
+  });
+
+  it("dark elevation uses neutral-400, light elevation uses neutral-1400", () => {
+    expect(modes.dark["color-elevation.subtle"]).toContain("--neutral-400");
+    expect(modes.light["color-elevation.subtle"]).toContain("--neutral-1400");
+  });
+
+  it("primitive reference values use palette.step format", () => {
+    for (const [key, val] of Object.entries(modes.dark)) {
+      if (!val.startsWith("css:")) {
+        expect(val, `dark["${key}"]`).toMatch(/^[a-z][a-z0-9-]*\.\d+(-[a-z]+)*$/);
+      }
+    }
+    for (const [key, val] of Object.entries(modes.light)) {
+      if (!val.startsWith("css:")) {
+        expect(val, `light["${key}"]`).toMatch(/^[a-z][a-z0-9-]*\.\d+(-[a-z]+)*$/);
+      }
     }
   });
 });

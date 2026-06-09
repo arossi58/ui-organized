@@ -1,2726 +1,726 @@
-[
-  {
-    "Primitive": {
-      "modes": {
-        "Light": {
-          "curtain": {
-            "black-80p": {
-              "$type": "color",
-              "$value": "rgba(0, 0, 0, 0.8)"
-            },
-            "black-1200-80p": {
-              "$type": "color",
-              "$value": "rgba(32, 32, 32, 0.8)"
-            }
-          },
-          "white": {
-            "100": {
-              "$type": "color",
-              "$value": "#fcfcfc"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#f2f2f2"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#e8e8e8"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#dfdfdf"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#d5d5d5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#cbcbcb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#c1c1c1"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#b8b8b8"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#aeaeae"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#a4a4a4"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#9a9a9a"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#909090"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#878787"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#7d7d7d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#737373"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#696969"
-            }
-          },
-          "black": {
-            "100": {
-              "$type": "color",
-              "$value": "#747474"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#6c6c6c"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#656565"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#5d5d5d"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#565656"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#4e4e4e"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#464646"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#3f3f3f"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#373737"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#303030"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#282828"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#202020"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#191919"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#111111"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#090909"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#020202"
-            }
-          },
-          "dove": {
-            "100": {
-              "$type": "color",
-              "$value": "#f7f4f6"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#ebe4e8"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#ded3db"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#d2c3cd"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#c5b3bf"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#b8a4b1"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#aa94a3"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#9d8595"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#8f7687"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#7f6a78"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#6e5e69"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#5d525a"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#4d464b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#3d393c"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2e2c2d"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1f1e1e"
-            }
-          },
-          "mythical": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f4f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4e4eb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d4d3de"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c4c3d2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b5b3c5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a6a4b8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#9794aa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#89859d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#7a768f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6d6a7f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#615e6e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#54525d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#47464d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#39393d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2c2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1e1f"
-            }
-          },
-          "flint": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f5f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4e6eb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d3d7de"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c3c8d2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b3b9c5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a4aab8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#949caa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#858d9d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#767e8f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6a717f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#5e636e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#52565d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#46484d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#393a3d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2c2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1e1f"
-            }
-          },
-          "waterloo ": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f4f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4e4eb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d3d4de"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c3c4d2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b3b5c5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a4a6b8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#9497aa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#85899d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#767a8f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6a6d7f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#5e616e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#52545d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#46474d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#39393d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2c2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1e1f"
-            }
-          },
-          "stone": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f6f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4e8eb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d3dbde"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c3cdd2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b3bfc5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a4b1b8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#94a3aa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#85959d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#76878f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6a787f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#5e696e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#525a5d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#464b4d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#393c3d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2d2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1e1f"
-            }
-          },
-          "cave": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f7f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4ebeb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d3dede"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c3d1d2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b3c3c5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a4b6b8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#94a8aa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#859a9d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#768b8f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6a7b7f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#5e6b6e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#525b5d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#464c4d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#393d3d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2d2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1f1f"
-            }
-          },
-          "juniper": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f7f7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4ebeb"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d3dede"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c3d2d2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b3c5c5"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a4b8b8"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#94aaaa"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#859d9d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#768f8f"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6a7f7f"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#5e6e6e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#525d5d"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#464d4d"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#393d3d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2e2e"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1f1f"
-            }
-          },
-          "battleship": {
-            "100": {
-              "$type": "color",
-              "$value": "#f4f7f4"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e4ebe4"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d4ded3"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c4d2c3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#b5c5b3"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#a6b8a4"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#97aa94"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#899d85"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#7a8f76"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#6d7f6a"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#616e5e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#545d52"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#474d46"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#393d39"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2c2e2c"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1e1f1e"
-            }
-          },
-          "squirrel": {
-            "100": {
-              "$type": "color",
-              "$value": "#f7f6f4"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#ebe8e4"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#dedad3"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#d2ccc3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#c5bdb3"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#b8afa4"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#aaa094"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#9d9185"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#8f8276"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#7f746a"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#6e665e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#5d5752"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#4d4946"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#3d3b39"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2e2d2c"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1f1e1e"
-            }
-          },
-          "hemp": {
-            "100": {
-              "$type": "color",
-              "$value": "#f7f4f4"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#ebe4e4"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#ded3d3"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#d2c3c3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#c5b3b3"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#b8a4a4"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#aa9494"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#9d8585"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#8f7676"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#7f6a6a"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#6e5e5e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#5d5252"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#4d4646"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#3d3939"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2e2c2c"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1f1e1e"
-            }
-          },
-          "passion": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdeef2"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fad5df"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6bbcc"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3a2ba"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef89a8"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb7196"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e65885"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e24075"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd2864"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c82157"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae1e4b"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#941b40"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b1835"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#62142a"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a101f"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#320b15"
-            }
-          },
-          "cerise": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdeef5"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fad5e6"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6bbd7"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3a2c9"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef89ba"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb71ac"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e6589e"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e24090"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd2882"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c82173"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae1e64"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#941b55"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b1847"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#621438"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a102a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#320b1d"
-            }
-          },
-          "violet": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdeefa"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fad5f2"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6bbeb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3a2e4"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef89dc"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb71d5"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e658ce"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e240c6"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd28bf"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c821aa"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae1e93"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#941b7c"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b1866"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#621451"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a103c"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#320b28"
-            }
-          },
-          "eggplant": {
-            "100": {
-              "$type": "color",
-              "$value": "#fbeefd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#f5d5fa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#eebbf6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#e7a2f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#e089ef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#d871eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#d058e6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#c840e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#bf28dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#ad21c8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#981eae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#831b94"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#6e187b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#581462"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#43104a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#2d0b32"
-            }
-          },
-          "purple": {
-            "100": {
-              "$type": "color",
-              "$value": "#f6eefd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e8d5fa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#dabbf6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#cca2f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#be89ef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#af71eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#a058e6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#9140e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#8228dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#7521c8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#681eae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#5a1b94"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#4c187b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#3d1462"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2f104a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#200b32"
-            }
-          },
-          "lapis": {
-            "100": {
-              "$type": "color",
-              "$value": "#f1eefd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#dcd5fa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#c7bbf6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#b1a2f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#9c89ef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#8771eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#7158e6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#5c40e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#4628dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#3f21c8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#391eae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#331b94"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#2c187b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#251462"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#1d104a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#140b32"
-            }
-          },
-          "persian": {
-            "100": {
-              "$type": "color",
-              "$value": "#eef0fd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5dafa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbc4f6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2aef3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#8999ef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#7184eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#586fe6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#405ae2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#2846dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#213bc8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1e34ae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b2c94"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#18257b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#141e62"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#10164a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b0f32"
-            }
-          },
-          "cerulean": {
-            "100": {
-              "$type": "color",
-              "$value": "#eef2fd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5dffa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbccf6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2baf3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89a8ef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#7196eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#5885e6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#4075e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#2864dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#2157c8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1e4bae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b4094"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#18357b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#142a62"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#101f4a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b1532"
-            }
-          },
-          "aqua": {
-            "100": {
-              "$type": "color",
-              "$value": "#eef5fd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5e6fa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbd7f6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2c9f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89baef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71aceb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#589ee6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#4090e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#2882dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#2173c8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1e64ae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b5594"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#18477b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#143862"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#102a4a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b1d32"
-            }
-          },
-          "damselfly": {
-            "100": {
-              "$type": "color",
-              "$value": "#eef8fd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5edfa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbe3f6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2d8f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89cdef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71c2eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#58b7e6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#40ace2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#28a1dd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#218fc8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1e7cae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b6994"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#18577b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#144562"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#10334a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b2332"
-            }
-          },
-          "scooter": {
-            "100": {
-              "$type": "color",
-              "$value": "#eefafd"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5f2fa"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbebf6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2e4f3"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89dcef"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71d5eb"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#58cee6"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#40c6e2"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#28bfdd"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#21aac8"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1e93ae"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b7c94"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#18667b"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#145162"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#103c4a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b2832"
-            }
-          },
-          "caribbean": {
-            "100": {
-              "$type": "color",
-              "$value": "#eefdf9"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5faf0"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbf6e6"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2f3db"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89efd0"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71ebc5"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#58e6ba"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#40e2ae"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#28dda1"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#21c892"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1eae81"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b9470"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#187b5e"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#14624c"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#104a3a"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b3228"
-            }
-          },
-          "emerald": {
-            "100": {
-              "$type": "color",
-              "$value": "#eefdf6"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5fae8"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbf6da"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2f3cc"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89efbe"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71ebaf"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#58e6a0"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#40e291"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#28dd82"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#21c875"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1eae68"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b945a"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#187b4c"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#14623d"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#104a2f"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b3220"
-            }
-          },
-          "malachite": {
-            "100": {
-              "$type": "color",
-              "$value": "#eefdee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#d5fad5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#bbf6bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#a2f3a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#89ef89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#71eb71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#58e658"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#40e240"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#28dd28"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#21c822"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1eae20"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#1b941e"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#187b1a"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#146216"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#104a12"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b320d"
-            }
-          },
-          "lima": {
-            "100": {
-              "$type": "color",
-              "$value": "#f5fdee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#e6fad5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#d7f6bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#c9f3a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#baef89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#aceb71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#9ee658"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#90e240"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#82dd28"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#73c821"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#64ae1e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#55941b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#477b18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#386214"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#2a4a10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#1d320b"
-            }
-          },
-          "inch worm": {
-            "100": {
-              "$type": "color",
-              "$value": "#f8fdee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#edfad5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#e3f6bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#d8f3a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#cdef89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#c2eb71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#b7e658"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#ace240"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#a1dd28"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#8fc821"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#7cae1e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#69941b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#577b18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#456214"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#334a10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#23320b"
-            }
-          },
-          "lime": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdfdee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fafad5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6f6bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3f3a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#efef89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#ebeb71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e6e658"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e2e240"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dddd28"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c6c821"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#acae1e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#92941b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#787b18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#606214"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#484a10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#30320b"
-            }
-          },
-          "candlelight": {
-            "100": {
-              "$type": "color",
-              "$value": "#fffefa"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fff9df"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#fff4c4"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#fff0a9"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ffec8e"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#ffe973"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#ffe658"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#ffe33d"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#ffe122"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#fddf09"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#e8ce03"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#ccb704"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#b0a005"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#958805"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#7a7105"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#605905"
-            }
-          },
-          "midas": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdfbee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#faf5d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6eebb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3e7a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#efe089"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#ebd871"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e6d058"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e2c840"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#ddbf28"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c8ad21"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae981e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#94831b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b6e18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#625814"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a4310"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#322d0b"
-            }
-          },
-          "lightning": {
-            "100": {
-              "$type": "color",
-              "$value": "#fffdf7"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fff6da"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#ffeebe"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#ffe7a1"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#fedf85"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#fed768"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#fecf4c"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#fdc730"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#fdbe13"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#f0b304"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#d29f05"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#b58b06"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#987606"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#7b6106"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#5f4c05"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#433704"
-            }
-          },
-          "dough": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdf9ee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#faf0d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6e6bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3dba2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#efd089"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#ebc571"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e6ba58"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e2ae40"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dda128"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c89221"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae811e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#94701b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b5e18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#624c14"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a3a10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#32280b"
-            }
-          },
-          "meteor": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdf6ee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fae8d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6dabb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3cca2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#efbe89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#ebaf71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e6a058"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e29140"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd8228"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c87521"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae681e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#945a1b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b4c18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#623d14"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a2f10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#32200b"
-            }
-          },
-          "mars": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdf3ee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fae1d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6cfbb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3bda2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#efab89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb9971"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e68858"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e27640"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd6428"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c85a21"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae501e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#94461b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b3c18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#623114"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a2610"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#321a0b"
-            }
-          },
-          "pumpkin": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdf1ee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fadcd5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6c7bb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3b1a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef9c89"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb8771"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e67158"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e25c40"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd4628"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c83f21"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae391e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#94331b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b2c18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#622514"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a1d10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#32140b"
-            }
-          },
-          "cinnabar": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdefee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fad7d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6bfbb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3a8a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef9189"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb7a71"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e66458"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e24d40"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd3728"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c83021"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae2d1e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#94281b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b2318"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#621e14"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a1710"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#32100b"
-            }
-          },
-          "crimson": {
-            "100": {
-              "$type": "color",
-              "$value": "#fdeeee"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#fad5d5"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#f6bbbb"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#f3a2a2"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#ef8989"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#eb7171"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#e65858"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#e24040"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#dd2828"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#c82221"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#ae201e"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#941e1b"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#7b1a18"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#621614"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#4a1210"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#320d0b"
-            }
-          },
-          "mavic": {
-            "100": {
-              "$type": "color",
-              "$value": "#cacdd4"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#babec7"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#aaafba"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#9aa0ae"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#8a91a1"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#7a8294"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#6c7486"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#5f6676"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#525866"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#474c5b"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#3c414f"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#323543"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#282a37"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#1e1f2a"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#14151d"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#0b0b10"
-            }
-          },
-          "shark": {
-            "100": {
-              "$type": "color",
-              "$value": "#919baf"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#808ca3"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#707d97"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#636f87"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#566277"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#4a5466"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#3e4655"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#323945"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#262b34"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#21252e"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#1d2028"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#181a22"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#14151c"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#0f1016"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#0b0b10"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#060609"
-            }
-          },
-          "brand": {
-            "100": {
-              "$type": "color",
-              "$value": "#e2f2ff"
-            },
-            "200": {
-              "$type": "color",
-              "$value": "#c5e5ff"
-            },
-            "300": {
-              "$type": "color",
-              "$value": "#a9d9ff"
-            },
-            "400": {
-              "$type": "color",
-              "$value": "#8cccff"
-            },
-            "500": {
-              "$type": "color",
-              "$value": "#6fc0ff"
-            },
-            "600": {
-              "$type": "color",
-              "$value": "#52b4ff"
-            },
-            "700": {
-              "$type": "color",
-              "$value": "#35a7ff"
-            },
-            "800": {
-              "$type": "color",
-              "$value": "#199bff"
-            },
-            "900": {
-              "$type": "color",
-              "$value": "#008ffb"
-            },
-            "1000": {
-              "$type": "color",
-              "$value": "#007dde"
-            },
-            "1100": {
-              "$type": "color",
-              "$value": "#006bc2"
-            },
-            "1200": {
-              "$type": "color",
-              "$value": "#005aa5"
-            },
-            "1300": {
-              "$type": "color",
-              "$value": "#004989"
-            },
-            "1400": {
-              "$type": "color",
-              "$value": "#00396c"
-            },
-            "1500": {
-              "$type": "color",
-              "$value": "#00294f"
-            },
-            "1600": {
-              "$type": "color",
-              "$value": "#001a33"
-            }
-          }
-        }
-      }
+{
+    "light": {
+        "white100": "#fcfcfc",
+        "white200": "#f2f2f2",
+        "white300": "#e8e8e8",
+        "white400": "#dfdfdf",
+        "white500": "#d5d5d5",
+        "white600": "#cbcbcb",
+        "white700": "#c1c1c1",
+        "white800": "#b8b8b8",
+        "white900": "#aeaeae",
+        "white1000": "#a4a4a4",
+        "white1100": "#9a9a9a",
+        "white1200": "#909090",
+        "white1300": "#878787",
+        "white1400": "#7d7d7d",
+        "white1500": "#737373",
+        "white1600": "#696969",
+        "black100": "#747474",
+        "black200": "#6c6c6c",
+        "black300": "#656565",
+        "black400": "#5d5d5d",
+        "black500": "#565656",
+        "black600": "#4e4e4e",
+        "black700": "#464646",
+        "black800": "#3f3f3f",
+        "black900": "#373737",
+        "black1000": "#303030",
+        "black1100": "#282828",
+        "black1200": "#202020",
+        "black1300": "#191919",
+        "black1400": "#111111",
+        "black1500": "#090909",
+        "black1600": "#020202",
+        "dove100": "#f5eff3",
+        "dove200": "#e9dee6",
+        "dove300": "#decdd8",
+        "dove400": "#d1bdca",
+        "dove500": "#c4adbd",
+        "dove600": "#b79daf",
+        "dove700": "#a98ea1",
+        "dove800": "#9b8092",
+        "dove900": "#8c7284",
+        "dove1000": "#7b6775",
+        "dove1100": "#6a5b65",
+        "dove1200": "#594f56",
+        "dove1300": "#494247",
+        "dove1400": "#393538",
+        "dove1500": "#2a2829",
+        "dove1600": "#1b1a1b",
+        "mythical100": "#f0eff5",
+        "mythical200": "#e0deea",
+        "mythical300": "#d0cdde",
+        "mythical400": "#c0bcd1",
+        "mythical500": "#b0acc5",
+        "mythical600": "#a19db7",
+        "mythical700": "#928eaa",
+        "mythical800": "#837f9c",
+        "mythical900": "#75718d",
+        "mythical1000": "#69667b",
+        "mythical1100": "#5c5a6a",
+        "mythical1200": "#504e5a",
+        "mythical1300": "#434249",
+        "mythical1400": "#353539",
+        "mythical1500": "#28282a",
+        "mythical1600": "#1a1a1b",
+        "flint100": "#f0f1f5",
+        "flint200": "#dfe1e9",
+        "flint300": "#ced2dd",
+        "flint400": "#bec2d1",
+        "flint500": "#aeb3c4",
+        "flint600": "#9ea5b7",
+        "flint700": "#8f96aa",
+        "flint800": "#7f889d",
+        "flint900": "#70798f",
+        "flint1000": "#656c7d",
+        "flint1100": "#5a5f6c",
+        "flint1200": "#4e525b",
+        "flint1300": "#42454b",
+        "flint1400": "#35373b",
+        "flint1500": "#28292b",
+        "flint1600": "#1b1b1c",
+        "waterloo100": "#f4f4f7",
+        "waterloo200": "#e4e4eb",
+        "waterloo300": "#d3d4de",
+        "waterloo400": "#c3c4d2",
+        "waterloo500": "#b3b5c5",
+        "waterloo600": "#a4a6b8",
+        "waterloo700": "#9497aa",
+        "waterloo800": "#85899d",
+        "waterloo900": "#767a8f",
+        "waterloo1000": "#6a6d7f",
+        "waterloo1100": "#5e616e",
+        "waterloo1200": "#52545d",
+        "waterloo1300": "#46474d",
+        "waterloo1400": "#39393d",
+        "waterloo1500": "#2c2c2e",
+        "waterloo1600": "#1e1e1f",
+        "stone100": "#eff3f5",
+        "stone200": "#dee6e9",
+        "stone300": "#cdd8de",
+        "stone400": "#bdcad1",
+        "stone500": "#adbdc4",
+        "stone600": "#9dafb7",
+        "stone700": "#8ea1a9",
+        "stone800": "#80929b",
+        "stone900": "#72848c",
+        "stone1000": "#67757b",
+        "stone1100": "#5b656a",
+        "stone1200": "#4f5659",
+        "stone1300": "#424749",
+        "stone1400": "#353839",
+        "stone1500": "#28292a",
+        "stone1600": "#1a1b1b",
+        "cave100": "#eff3f4",
+        "cave200": "#dee6e8",
+        "cave300": "#ced9dc",
+        "cave400": "#becccf",
+        "cave500": "#aebfc2",
+        "cave600": "#9eb1b5",
+        "cave700": "#8fa4a8",
+        "cave800": "#80969a",
+        "cave900": "#71888c",
+        "cave1000": "#66787b",
+        "cave1100": "#5a686a",
+        "cave1200": "#4e5859",
+        "cave1300": "#424849",
+        "cave1400": "#353939",
+        "cave1500": "#28292a",
+        "cave1600": "#1a1b1b",
+        "juniper100": "#f4f7f7",
+        "juniper200": "#e4ebeb",
+        "juniper300": "#d3dede",
+        "juniper400": "#c3d2d2",
+        "juniper500": "#b3c5c5",
+        "juniper600": "#a4b8b8",
+        "juniper700": "#94aaaa",
+        "juniper800": "#859d9d",
+        "juniper900": "#768f8f",
+        "juniper1000": "#6a7f7f",
+        "juniper1100": "#5e6e6e",
+        "juniper1200": "#525d5d",
+        "juniper1300": "#464d4d",
+        "juniper1400": "#393d3d",
+        "juniper1500": "#2c2e2e",
+        "juniper1600": "#1e1f1f",
+        "battleship100": "#eff4ef",
+        "battleship200": "#dee8de",
+        "battleship300": "#cedcce",
+        "battleship400": "#bfcfbe",
+        "battleship500": "#b0c2ae",
+        "battleship600": "#a1b59f",
+        "battleship700": "#92a78f",
+        "battleship800": "#849a81",
+        "battleship900": "#768b72",
+        "battleship1000": "#6a7a67",
+        "battleship1100": "#5d695b",
+        "battleship1200": "#50594f",
+        "battleship1300": "#434942",
+        "battleship1400": "#363935",
+        "battleship1500": "#282a28",
+        "battleship1600": "#1a1b1a",
+        "squirrel100": "#f7f6f4",
+        "squirrel200": "#ebe8e4",
+        "squirrel300": "#dedad3",
+        "squirrel400": "#d2ccc3",
+        "squirrel500": "#c5bdb3",
+        "squirrel600": "#b8afa4",
+        "squirrel700": "#aaa094",
+        "squirrel800": "#9d9185",
+        "squirrel900": "#8f8276",
+        "squirrel1000": "#7f746a",
+        "squirrel1100": "#6e665e",
+        "squirrel1200": "#5d5752",
+        "squirrel1300": "#4d4946",
+        "squirrel1400": "#3d3b39",
+        "squirrel1500": "#2e2d2c",
+        "squirrel1600": "#1f1e1e",
+        "hemp100": "#f7f4f4",
+        "hemp200": "#ebe4e4",
+        "hemp300": "#ded3d3",
+        "hemp400": "#d2c3c3",
+        "hemp500": "#c5b3b3",
+        "hemp600": "#b8a4a4",
+        "hemp700": "#aa9494",
+        "hemp800": "#9d8585",
+        "hemp900": "#8f7676",
+        "hemp1000": "#7f6a6a",
+        "hemp1100": "#6e5e5e",
+        "hemp1200": "#5d5252",
+        "hemp1300": "#4d4646",
+        "hemp1400": "#3d3939",
+        "hemp1500": "#2e2c2c",
+        "hemp1600": "#1f1e1e",
+        "passion100": "#fdeef2",
+        "passion200": "#fad5df",
+        "passion300": "#f6bbcc",
+        "passion400": "#f3a2ba",
+        "passion500": "#ef89a8",
+        "passion600": "#eb7196",
+        "passion700": "#e65885",
+        "passion800": "#e24075",
+        "passion900": "#dd2864",
+        "passion1000": "#c82157",
+        "passion1100": "#ae1e4b",
+        "passion1200": "#941b40",
+        "passion1300": "#7b1835",
+        "passion1400": "#62142a",
+        "passion1500": "#4a101f",
+        "passion1600": "#320b15",
+        "cerise100": "#fdeef5",
+        "cerise200": "#fad5e6",
+        "cerise300": "#f6bbd7",
+        "cerise400": "#f3a2c9",
+        "cerise500": "#ef89ba",
+        "cerise600": "#eb71ac",
+        "cerise700": "#e6589e",
+        "cerise800": "#e24090",
+        "cerise900": "#dd2882",
+        "cerise1000": "#c82173",
+        "cerise1100": "#ae1e64",
+        "cerise1200": "#941b55",
+        "cerise1300": "#7b1847",
+        "cerise1400": "#621438",
+        "cerise1500": "#4a102a",
+        "cerise1600": "#320b1d",
+        "violet100": "#fdeefa",
+        "violet200": "#fad5f2",
+        "violet300": "#f6bbeb",
+        "violet400": "#f3a2e4",
+        "violet500": "#ef89dc",
+        "violet600": "#eb71d5",
+        "violet700": "#e658ce",
+        "violet800": "#e240c6",
+        "violet900": "#dd28bf",
+        "violet1000": "#c821aa",
+        "violet1100": "#ae1e93",
+        "violet1200": "#941b7c",
+        "violet1300": "#7b1866",
+        "violet1400": "#621451",
+        "violet1500": "#4a103c",
+        "violet1600": "#320b28",
+        "eggplant100": "#fbeefd",
+        "eggplant200": "#f5d5fa",
+        "eggplant300": "#eebbf6",
+        "eggplant400": "#e7a2f3",
+        "eggplant500": "#e089ef",
+        "eggplant600": "#d871eb",
+        "eggplant700": "#d058e6",
+        "eggplant800": "#c840e2",
+        "eggplant900": "#bf28dd",
+        "eggplant1000": "#ad21c8",
+        "eggplant1100": "#981eae",
+        "eggplant1200": "#831b94",
+        "eggplant1300": "#6e187b",
+        "eggplant1400": "#581462",
+        "eggplant1500": "#43104a",
+        "eggplant1600": "#2d0b32",
+        "purple100": "#f6eefd",
+        "purple200": "#e8d5fa",
+        "purple300": "#dabbf6",
+        "purple400": "#cca2f3",
+        "purple500": "#be89ef",
+        "purple600": "#af71eb",
+        "purple700": "#a058e6",
+        "purple800": "#9140e2",
+        "purple900": "#8228dd",
+        "purple1000": "#7521c8",
+        "purple1100": "#681eae",
+        "purple1200": "#5a1b94",
+        "purple1300": "#4c187b",
+        "purple1400": "#3d1462",
+        "purple1500": "#2f104a",
+        "purple1600": "#200b32",
+        "lapis100": "#f1eefd",
+        "lapis200": "#dcd5fa",
+        "lapis300": "#c7bbf6",
+        "lapis400": "#b1a2f3",
+        "lapis500": "#9c89ef",
+        "lapis600": "#8771eb",
+        "lapis700": "#7158e6",
+        "lapis800": "#5c40e2",
+        "lapis900": "#4628dd",
+        "lapis1000": "#3f21c8",
+        "lapis1100": "#391eae",
+        "lapis1200": "#331b94",
+        "lapis1300": "#2c187b",
+        "lapis1400": "#251462",
+        "lapis1500": "#1d104a",
+        "lapis1600": "#140b32",
+        "persian100": "#eef0fd",
+        "persian200": "#d5dafa",
+        "persian300": "#bbc4f6",
+        "persian400": "#a2aef3",
+        "persian500": "#8999ef",
+        "persian600": "#7184eb",
+        "persian700": "#586fe6",
+        "persian800": "#405ae2",
+        "persian900": "#2846dd",
+        "persian1000": "#213bc8",
+        "persian1100": "#1e34ae",
+        "persian1200": "#1b2c94",
+        "persian1300": "#18257b",
+        "persian1400": "#141e62",
+        "persian1500": "#10164a",
+        "persian1600": "#0b0f32",
+        "cerulean100": "#eef2fd",
+        "cerulean200": "#d5dffa",
+        "cerulean300": "#bbccf6",
+        "cerulean400": "#a2baf3",
+        "cerulean500": "#89a8ef",
+        "cerulean600": "#7196eb",
+        "cerulean700": "#5885e6",
+        "cerulean800": "#4075e2",
+        "cerulean900": "#2864dd",
+        "cerulean1000": "#2157c8",
+        "cerulean1100": "#1e4bae",
+        "cerulean1200": "#1b4094",
+        "cerulean1300": "#18357b",
+        "cerulean1400": "#142a62",
+        "cerulean1500": "#101f4a",
+        "cerulean1600": "#0b1532",
+        "aqua100": "#eef5fd",
+        "aqua200": "#d5e6fa",
+        "aqua300": "#bbd7f6",
+        "aqua400": "#a2c9f3",
+        "aqua500": "#89baef",
+        "aqua600": "#71aceb",
+        "aqua700": "#589ee6",
+        "aqua800": "#4090e2",
+        "aqua900": "#2882dd",
+        "aqua1000": "#2173c8",
+        "aqua1100": "#1e64ae",
+        "aqua1200": "#1b5594",
+        "aqua1300": "#18477b",
+        "aqua1400": "#143862",
+        "aqua1500": "#102a4a",
+        "aqua1600": "#0b1d32",
+        "damselfly100": "#eef8fd",
+        "damselfly200": "#d5edfa",
+        "damselfly300": "#bbe3f6",
+        "damselfly400": "#a2d8f3",
+        "damselfly500": "#89cdef",
+        "damselfly600": "#71c2eb",
+        "damselfly700": "#58b7e6",
+        "damselfly800": "#40ace2",
+        "damselfly900": "#28a1dd",
+        "damselfly1000": "#218fc8",
+        "damselfly1100": "#1e7cae",
+        "damselfly1200": "#1b6994",
+        "damselfly1300": "#18577b",
+        "damselfly1400": "#144562",
+        "damselfly1500": "#10334a",
+        "damselfly1600": "#0b2332",
+        "scooter100": "#eefafd",
+        "scooter200": "#d5f2fa",
+        "scooter300": "#bbebf6",
+        "scooter400": "#a2e4f3",
+        "scooter500": "#89dcef",
+        "scooter600": "#71d5eb",
+        "scooter700": "#58cee6",
+        "scooter800": "#40c6e2",
+        "scooter900": "#28bfdd",
+        "scooter1000": "#21aac8",
+        "scooter1100": "#1e93ae",
+        "scooter1200": "#1b7c94",
+        "scooter1300": "#18667b",
+        "scooter1400": "#145162",
+        "scooter1500": "#103c4a",
+        "scooter1600": "#0b2832",
+        "caribbean100": "#eefdf9",
+        "caribbean200": "#d5faf0",
+        "caribbean300": "#bbf6e6",
+        "caribbean400": "#a2f3db",
+        "caribbean500": "#89efd0",
+        "caribbean600": "#71ebc5",
+        "caribbean700": "#58e6ba",
+        "caribbean800": "#40e2ae",
+        "caribbean900": "#28dda1",
+        "caribbean1000": "#21c892",
+        "caribbean1100": "#1eae81",
+        "caribbean1200": "#1b9470",
+        "caribbean1300": "#187b5e",
+        "caribbean1400": "#14624c",
+        "caribbean1500": "#104a3a",
+        "caribbean1600": "#0b3228",
+        "emerald100": "#eefdf6",
+        "emerald200": "#d5fae8",
+        "emerald300": "#bbf6da",
+        "emerald400": "#a2f3cc",
+        "emerald500": "#89efbe",
+        "emerald600": "#71ebaf",
+        "emerald700": "#58e6a0",
+        "emerald800": "#40e291",
+        "emerald900": "#28dd82",
+        "emerald1000": "#21c875",
+        "emerald1100": "#1eae68",
+        "emerald1200": "#1b945a",
+        "emerald1300": "#187b4c",
+        "emerald1400": "#14623d",
+        "emerald1500": "#104a2f",
+        "emerald1600": "#0b3220",
+        "malachite100": "#eefdee",
+        "malachite200": "#d5fad5",
+        "malachite300": "#bbf6bb",
+        "malachite400": "#a2f3a2",
+        "malachite500": "#89ef89",
+        "malachite600": "#71eb71",
+        "malachite700": "#58e658",
+        "malachite800": "#40e240",
+        "malachite900": "#28dd28",
+        "malachite1000": "#21c822",
+        "malachite1100": "#1eae20",
+        "malachite1200": "#1b941e",
+        "malachite1300": "#187b1a",
+        "malachite1400": "#146216",
+        "malachite1500": "#104a12",
+        "malachite1600": "#0b320d",
+        "lima100": "#f5fdee",
+        "lima200": "#e6fad5",
+        "lima300": "#d7f6bb",
+        "lima400": "#c9f3a2",
+        "lima500": "#baef89",
+        "lima600": "#aceb71",
+        "lima700": "#9ee658",
+        "lima800": "#90e240",
+        "lima900": "#82dd28",
+        "lima1000": "#73c821",
+        "lima1100": "#64ae1e",
+        "lima1200": "#55941b",
+        "lima1300": "#477b18",
+        "lima1400": "#386214",
+        "lima1500": "#2a4a10",
+        "lima1600": "#1d320b",
+        "inchWorm100": "#f8fdee",
+        "inchWorm200": "#edfad5",
+        "inchWorm300": "#e3f6bb",
+        "inchWorm400": "#d8f3a2",
+        "inchWorm500": "#cdef89",
+        "inchWorm600": "#c2eb71",
+        "inchWorm700": "#b7e658",
+        "inchWorm800": "#ace240",
+        "inchWorm900": "#a1dd28",
+        "inchWorm1000": "#8fc821",
+        "inchWorm1100": "#7cae1e",
+        "inchWorm1200": "#69941b",
+        "inchWorm1300": "#577b18",
+        "inchWorm1400": "#456214",
+        "inchWorm1500": "#334a10",
+        "inchWorm1600": "#23320b",
+        "lime100": "#fdfdee",
+        "lime200": "#fafad5",
+        "lime300": "#f6f6bb",
+        "lime400": "#f3f3a2",
+        "lime500": "#efef89",
+        "lime600": "#ebeb71",
+        "lime700": "#e6e658",
+        "lime800": "#e2e240",
+        "lime900": "#dddd28",
+        "lime1000": "#c6c821",
+        "lime1100": "#acae1e",
+        "lime1200": "#92941b",
+        "lime1300": "#787b18",
+        "lime1400": "#606214",
+        "lime1500": "#484a10",
+        "lime1600": "#30320b",
+        "candlelight100": "#fffefa",
+        "candlelight200": "#fff9df",
+        "candlelight300": "#fff4c4",
+        "candlelight400": "#fff0a9",
+        "candlelight500": "#ffec8e",
+        "candlelight600": "#ffe973",
+        "candlelight700": "#ffe658",
+        "candlelight800": "#ffe33d",
+        "candlelight900": "#ffe122",
+        "candlelight1000": "#fddf09",
+        "candlelight1100": "#e8ce03",
+        "candlelight1200": "#ccb704",
+        "candlelight1300": "#b0a005",
+        "candlelight1400": "#958805",
+        "candlelight1500": "#7a7105",
+        "candlelight1600": "#605905",
+        "midas100": "#fdfbee",
+        "midas200": "#faf5d5",
+        "midas300": "#f6eebb",
+        "midas400": "#f3e7a2",
+        "midas500": "#efe089",
+        "midas600": "#ebd871",
+        "midas700": "#e6d058",
+        "midas800": "#e2c840",
+        "midas900": "#ddbf28",
+        "midas1000": "#c8ad21",
+        "midas1100": "#ae981e",
+        "midas1200": "#94831b",
+        "midas1300": "#7b6e18",
+        "midas1400": "#625814",
+        "midas1500": "#4a4310",
+        "midas1600": "#322d0b",
+        "lightning100": "#fffdf7",
+        "lightning200": "#fff6da",
+        "lightning300": "#ffeebe",
+        "lightning400": "#ffe7a1",
+        "lightning500": "#fedf85",
+        "lightning600": "#fed768",
+        "lightning700": "#fecf4c",
+        "lightning800": "#fdc730",
+        "lightning900": "#fdbe13",
+        "lightning1000": "#f0b304",
+        "lightning1100": "#d29f05",
+        "lightning1200": "#b58b06",
+        "lightning1300": "#987606",
+        "lightning1400": "#7b6106",
+        "lightning1500": "#5f4c05",
+        "lightning1600": "#433704",
+        "dough100": "#fdf9ee",
+        "dough200": "#faf0d5",
+        "dough300": "#f6e6bb",
+        "dough400": "#f3dba2",
+        "dough500": "#efd089",
+        "dough600": "#ebc571",
+        "dough700": "#e6ba58",
+        "dough800": "#e2ae40",
+        "dough900": "#dda128",
+        "dough1000": "#c89221",
+        "dough1100": "#ae811e",
+        "dough1200": "#94701b",
+        "dough1300": "#7b5e18",
+        "dough1400": "#624c14",
+        "dough1500": "#4a3a10",
+        "dough1600": "#32280b",
+        "meteor100": "#fdf6ee",
+        "meteor200": "#fae8d5",
+        "meteor300": "#f6dabb",
+        "meteor400": "#f3cca2",
+        "meteor500": "#efbe89",
+        "meteor600": "#ebaf71",
+        "meteor700": "#e6a058",
+        "meteor800": "#e29140",
+        "meteor900": "#dd8228",
+        "meteor1000": "#c87521",
+        "meteor1100": "#ae681e",
+        "meteor1200": "#945a1b",
+        "meteor1300": "#7b4c18",
+        "meteor1400": "#623d14",
+        "meteor1500": "#4a2f10",
+        "meteor1600": "#32200b",
+        "mars100": "#fdf3ee",
+        "mars200": "#fae1d5",
+        "mars300": "#f6cfbb",
+        "mars400": "#f3bda2",
+        "mars500": "#efab89",
+        "mars600": "#eb9971",
+        "mars700": "#e68858",
+        "mars800": "#e27640",
+        "mars900": "#dd6428",
+        "mars1000": "#c85a21",
+        "mars1100": "#ae501e",
+        "mars1200": "#94461b",
+        "mars1300": "#7b3c18",
+        "mars1400": "#623114",
+        "mars1500": "#4a2610",
+        "mars1600": "#321a0b",
+        "pumpkin100": "#fdf1ee",
+        "pumpkin200": "#fadcd5",
+        "pumpkin300": "#f6c7bb",
+        "pumpkin400": "#f3b1a2",
+        "pumpkin500": "#ef9c89",
+        "pumpkin600": "#eb8771",
+        "pumpkin700": "#e67158",
+        "pumpkin800": "#e25c40",
+        "pumpkin900": "#dd4628",
+        "pumpkin1000": "#c83f21",
+        "pumpkin1100": "#ae391e",
+        "pumpkin1200": "#94331b",
+        "pumpkin1300": "#7b2c18",
+        "pumpkin1400": "#622514",
+        "pumpkin1500": "#4a1d10",
+        "pumpkin1600": "#32140b",
+        "cinnabar100": "#fdefee",
+        "cinnabar200": "#fad7d5",
+        "cinnabar300": "#f6bfbb",
+        "cinnabar400": "#f3a8a2",
+        "cinnabar500": "#ef9189",
+        "cinnabar600": "#eb7a71",
+        "cinnabar700": "#e66458",
+        "cinnabar800": "#e24d40",
+        "cinnabar900": "#dd3728",
+        "cinnabar1000": "#c83021",
+        "cinnabar1100": "#ae2d1e",
+        "cinnabar1200": "#94281b",
+        "cinnabar1300": "#7b2318",
+        "cinnabar1400": "#621e14",
+        "cinnabar1500": "#4a1710",
+        "cinnabar1600": "#32100b",
+        "crimson100": "#fdeeee",
+        "crimson200": "#fad5d5",
+        "crimson300": "#f6bbbb",
+        "crimson400": "#f3a2a2",
+        "crimson500": "#ef8989",
+        "crimson600": "#eb7171",
+        "crimson700": "#e65858",
+        "crimson800": "#e24040",
+        "crimson900": "#dd2828",
+        "crimson1000": "#c82221",
+        "crimson1100": "#ae201e",
+        "crimson1200": "#941e1b",
+        "crimson1300": "#7b1a18",
+        "crimson1400": "#621614",
+        "crimson1500": "#4a1210",
+        "crimson1600": "#320d0b",
+        "curtainBlack80p": "#000000cc",
+        "curtainBlack120080p": "#202020cc",
+        "mavic100": "#f1f1f4",
+        "mavic200": "#e1e1e7",
+        "mavic300": "#d1d1db",
+        "mavic400": "#c1c1ce",
+        "mavic500": "#b1b2c1",
+        "mavic600": "#a0a2b5",
+        "mavic700": "#9093a8",
+        "mavic800": "#80849c",
+        "mavic900": "#70758f",
+        "mavic1000": "#63687f",
+        "mavic1100": "#565b70",
+        "mavic1200": "#494e60",
+        "mavic1300": "#3d4150",
+        "mavic1400": "#303340",
+        "mavic1500": "#242630",
+        "mavic1600": "#17191f",
+        "shark100": "#f0f1f5",
+        "shark200": "#dcdfe8",
+        "shark300": "#c9cddb",
+        "shark400": "#b5bacd",
+        "shark500": "#a1a8c0",
+        "shark600": "#8e97b3",
+        "shark700": "#7a85a5",
+        "shark800": "#677398",
+        "shark900": "#5c6586",
+        "shark1000": "#515775",
+        "shark1100": "#464a64",
+        "shark1200": "#3a3d52",
+        "shark1300": "#2f3041",
+        "shark1400": "#232430",
+        "shark1500": "#171720",
+        "shark1600": "#0b0b0f",
+        "brand100": "#e2f2ff",
+        "brand200": "#c5e5ff",
+        "brand300": "#a9d9ff",
+        "brand400": "#8cccff",
+        "brand500": "#6fc0ff",
+        "brand600": "#52b4ff",
+        "brand700": "#35a7ff",
+        "brand800": "#199bff",
+        "brand900": "#008ffb",
+        "brand1000": "#007dde",
+        "brand1100": "#006bc2",
+        "brand1200": "#005aa5",
+        "brand1300": "#004989",
+        "brand1400": "#00396c",
+        "brand1500": "#00294f",
+        "brand1600": "#001a33",
+        "stormGray100": "#eeeff4",
+        "stormGray200": "#dddfe8",
+        "stormGray300": "#cccfdc",
+        "stormGray400": "#bcbfd0",
+        "stormGray500": "#acb0c3",
+        "stormGray600": "#9da1b5",
+        "stormGray700": "#8e92a7",
+        "stormGray800": "#808499",
+        "stormGray900": "#72768a",
+        "stormGray1000": "#666979",
+        "stormGray1100": "#5a5d68",
+        "stormGray1200": "#4e5058",
+        "stormGray1300": "#414248",
+        "stormGray1400": "#343538",
+        "stormGray1500": "#272729",
+        "stormGray1600": "#19191a",
+        "sirocco100": "#f0f5f5",
+        "sirocco200": "#dee8e8",
+        "sirocco300": "#cddbdb",
+        "sirocco400": "#bbcece",
+        "sirocco500": "#abc0c0",
+        "sirocco600": "#9bb1b1",
+        "sirocco700": "#8ba2a2",
+        "sirocco800": "#7c9393",
+        "sirocco900": "#6e8282",
+        "sirocco1000": "#617171",
+        "sirocco1100": "#545f5f",
+        "sirocco1200": "#474e4e",
+        "sirocco1300": "#393d3d",
+        "sirocco1400": "#2b2d2d",
+        "sirocco1500": "#1c1d1d",
+        "sirocco1600": "#0d0d0d",
+        "stonewall100": "#f6f4f1",
+        "stonewall200": "#eae6e0",
+        "stonewall300": "#ded8cf",
+        "stonewall400": "#d2cabf",
+        "stonewall500": "#c5bcaf",
+        "stonewall600": "#b8aea0",
+        "stonewall700": "#aaa091",
+        "stonewall800": "#9c9282",
+        "stonewall900": "#8d8374",
+        "stonewall1000": "#7c7468",
+        "stonewall1100": "#6b665d",
+        "stonewall1200": "#5b5750",
+        "stonewall1300": "#4b4844",
+        "stonewall1400": "#3b3937",
+        "stonewall1500": "#2c2b2a",
+        "stonewall1600": "#1d1c1c",
+        "opium100": "#f4efef",
+        "opium200": "#e8dede",
+        "opium300": "#dccece",
+        "opium400": "#cfbebe",
+        "opium500": "#c2aeae",
+        "opium600": "#b59f9f",
+        "opium700": "#a78f8f",
+        "opium800": "#9a8181",
+        "opium900": "#8b7272",
+        "opium1000": "#7a6767",
+        "opium1100": "#695b5b",
+        "opium1200": "#594f4f",
+        "opium1300": "#494242",
+        "opium1400": "#393535",
+        "opium1500": "#2a2828",
+        "opium1600": "#1b1a1a"
     }
-  }
-]
+}

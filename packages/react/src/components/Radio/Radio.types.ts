@@ -2,6 +2,8 @@ export interface RadioOption {
   value: string;
   label: string;
   disabled?: boolean;
+  /** Error message shown beneath the option. Puts the control in error state. */
+  error?: string;
 }
 
 export interface RadioGroupProps {

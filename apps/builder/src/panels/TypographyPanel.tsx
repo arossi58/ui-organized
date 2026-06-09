@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
-import { useBuilderStore, DEFAULT_LINE_HEIGHT_SCALE } from "../state/themeState";
+import { useBuilderStore } from "../state/themeState";
 import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
 import { TYPE_SCALE_STEP_NAMES, LINE_HEIGHT_MULTIPLIERS } from "@ds/utils";
+import { Select, type SelectOption } from "@ds/react";
 import styles from "./TypographyPanel.module.css";
 
 // ─── Scale ratio options ──────────────────────────────────────────────────────
@@ -43,97 +44,66 @@ function FontPicker({
   onSelect: (family: string, weights: Record<string, number>) => void;
 }) {
   const [query, setQuery] = useState("");
-  const [open, setOpen] = useState(false);
 
   const filtered = useMemo(() => {
-    if (!query) return fonts.slice(0, 50);
+    if (!query) return fonts.slice(0, 100);
     const q = query.toLowerCase();
-    return fonts.filter((f) => f.family.toLowerCase().includes(q)).slice(0, 50);
+    return fonts.filter((f) => f.family.toLowerCase().includes(q)).slice(0, 100);
   }, [fonts, query]);
+
+  const fontOptions: SelectOption[] = filtered.map((f) => ({ value: f.family, label: f.family }));
 
   const selectedFont = fonts.find((f) => f.family === value) ?? null;
   const availableWeights = selectedFont ? getAvailableWeights(selectedFont) : [400];
+  const weightOptions: SelectOption[] = availableWeights.map((w) => ({ value: String(w), label: String(w) }));
 
-  function handleSelect(font: GoogleFont) {
+  function handleFontChange(family: string) {
+    const font = fonts.find((f) => f.family === family);
+    if (!font) return;
     const ws = getAvailableWeights(font);
     loadGoogleFont(font.family, ws);
-
-    // Map semantic weight roles to nearest available weight
-    function nearest(target: number): number {
-      return ws.reduce((prev, curr) =>
+    const nearest = (target: number) =>
+      ws.reduce((prev, curr) =>
         Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev,
       );
-    }
-    const newWeights = {
+    onSelect(font.family, {
       default:  nearest(400),
       emphasis: nearest(500),
       strong:   nearest(600),
       heavy:    nearest(700),
-    };
-    onSelect(font.family, newWeights);
-    setOpen(false);
-    setQuery("");
+    });
   }
 
   return (
     <div className={styles.pickerWrap}>
-      <label className={styles.pickerLabel}>{label}</label>
-
-      <div className={styles.pickerField} onClick={() => setOpen((o) => !o)}>
-        <span style={{ fontFamily: `'${value}', sans-serif` }}>{value}</span>
-        <span className={styles.chevron}>{open ? "▲" : "▼"}</span>
-      </div>
-
-      {open && (
-        <div className={styles.dropdown}>
-          <input
-            autoFocus
-            className={styles.searchInput}
-            placeholder="Search fonts…"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onClick={(e) => e.stopPropagation()}
-          />
-          {loading ? (
-            <div className={styles.dropdownLoading}>Loading fonts…</div>
-          ) : (
-            <ul className={styles.fontList}>
-              {filtered.map((font) => (
-                <li
-                  key={font.family}
-                  className={`${styles.fontItem} ${font.family === value ? styles.fontItemActive : ""}`}
-                  onClick={() => handleSelect(font)}
-                >
-                  <span style={{ fontFamily: `'${font.family}', sans-serif` }}>
-                    {font.family}
-                  </span>
-                  <span className={styles.fontWeightHint}>
-                    {getAvailableWeights(font).join(", ")}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
-
-      {/* Weight role assignment */}
+      <input
+        className={styles.fontSearchInput}
+        placeholder="Search fonts…"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        disabled={loading}
+        aria-label={`Search ${label}`}
+      />
+      <Select
+        label={label}
+        value={value}
+        options={fontOptions}
+        onValueChange={handleFontChange}
+        disabled={loading}
+        size="sm"
+      />
       <div className={styles.weightRoles}>
         {WEIGHT_ROLES.map(({ key, label: wLabel }) => (
           <div key={key} className={styles.weightRow}>
             <span className={styles.weightRoleLabel}>{wLabel}</span>
-            <select
-              className={styles.weightSelect}
-              value={weights[key] ?? 400}
-              onChange={(e) => {
-                const newWeights = { ...weights, [key]: Number(e.target.value) };
-                onSelect(value, newWeights);
-              }}
-            >
-              {availableWeights.map((w) => (
-                <option key={w} value={w}>{w}</option>
-              ))}
-            </select>
+            <div className={styles.weightSelectWrap}>
+              <Select
+                value={String(weights[key] ?? 400)}
+                options={weightOptions}
+                onValueChange={(v) => onSelect(value, { ...weights, [key]: Number(v) })}
+                size="sm"
+              />
+            </div>
           </div>
         ))}
       </div>

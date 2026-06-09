@@ -45,9 +45,9 @@ Array wrapper (remove)
 
 ### `ui-tokens.json`
 
-Contains three collections in an array:
+Contains collections in an array. After your Figma restructure, the collections will be:
 
-**Collection 1 — Component tokens** (has Desktop/Mobile modes)
+**Collection — Component tokens** (has Desktop/Mobile modes)
 ```
 Component
 └── modes
@@ -59,33 +59,48 @@ Component
     └── Mobile (same structure, different spacing values)
 ```
 
-**Collection 2 — Semantic tokens** (single "Value" mode)
+**Collection — Semantic tokens** (single "Value" mode)
 ```
 Semantic
 └── modes
     └── Value
-        ├── border-radius (radius-01 through radius-12 + radius-full, raw px values)
         ├── color-border (subtle, medium, emphasis, strong, data-entry → primitive refs)
         ├── color-interactive
         │   ├── primary (default/hover/active/selected → brand refs)
-        │   ├── secondary (default/hover/active/selected → shark refs)
+        │   ├── secondary (default/hover/active/selected → neutral refs)
         │   ├── tertiary (default/hover/active/selected → brand refs)
         │   ├── ghost (default/hover/active → black refs)
         │   ├── destructive (default/hover/active + ghost variants → crimson refs)
         │   ├── contents → white.100
-        │   ├── ui (default/hover/active/selected → shark refs)
+        │   ├── ui (default/hover/active/selected → neutral refs)
         │   ├── focus / focus-inverse
         │   └── inactive (inactive-01/02/03 → black refs)
         ├── color-icon (icon-primary/secondary/tertiary → white refs)
         ├── color-status (success/info/caution/warning/error with -bg/-content variants)
-        ├── color-surface (base/subtle/medium/emphasis/strong/overlay)
+        ├── color-surface (base/subtle/medium/emphasis/strong/overlay — solid values)
         ├── color-text (primary/secondary/interactive/tertiary/placeholder/inverse)
-        ├── spacing (space-005 through space-32, raw px values)
+        ├── color-elevation (subtle/medium — mode-dependent composite values for layering)
         ├── dimension (dimension-01 through dimension-12, raw px values)
         └── brand → references {brand.900}
 ```
 
-**Collection 3 — Typography** (has Desktop/Mobile modes)
+**Collection — Border Radius** (own collection, separate from Semantic)
+```
+Border Radius
+└── modes
+    └── Value
+        └── radius-01 through radius-12 + radius-full (raw px values)
+```
+
+**Collection — Spacing** (own collection, separate from Semantic)
+```
+Spacing
+└── modes
+    └── Value
+        └── space-005 through space-32 (raw px values)
+```
+
+**Collection — Typography** (has Desktop/Mobile modes)
 ```
 Typography
 └── modes
@@ -125,12 +140,15 @@ packages/tokens/
 │   │   ├── color-interactive.json    # Interactive state colors → primitive refs
 │   │   ├── color-icon.json           # Icon colors → primitive refs
 │   │   ├── color-status.json         # Status colors → primitive refs
-│   │   ├── color-surface.json        # Surface/background colors → primitive refs
+│   │   ├── color-surface.json        # Surface/background colors → primitive refs (solid values)
 │   │   ├── color-text.json           # Text colors → primitive refs
-│   │   ├── border-radius.json        # Radius scale (raw values)
-│   │   ├── spacing.json              # Spacing scale (raw values)
+│   │   ├── color-elevation.json       # Elevation layering tokens (subtle, medium — mode-dependent composites)
 │   │   ├── dimension.json            # Dimension scale (raw values)
 │   │   └── brand.json                # Brand alias → primitive ref
+│   ├── border-radius/
+│   │   └── border-radius.json        # Radius scale (raw values, own Figma collection)
+│   ├── spacing/
+│   │   └── spacing.json              # Spacing scale (raw values, own Figma collection)
 │   ├── component/
 │   │   ├── button.desktop.json       # Button spacing for desktop
 │   │   ├── button.mobile.json        # Button spacing for mobile
@@ -140,7 +158,7 @@ packages/tokens/
 │   │   ├── font-size.mobile.json     # Type scale for mobile
 │   │   └── font-families.json        # Font family + weight roles
 │   └── curtain/
-│       └── overlay.json              # Overlay/curtain opacity colors
+│       └── overlay.json              # Overlay/curtain opacity colors (rgba)
 ├── transform.ts                      # Script that converts raw Figma export → DTCG files above
 ├── config.ts                         # Style Dictionary configuration
 ├── build.ts                          # Build script entry point
@@ -187,8 +205,8 @@ The rule: prepend the collection name to the path.
 | `{lima.1300}` | `{primitive.lima.1300}` |
 | `{cerulean.1300}` | `{primitive.cerulean.1300}` |
 | (all other primitive color refs) | `{primitive.[name].[step]}` |
-| `{border-radius.radius-04}` | `{semantic.border-radius.radius-04}` |
-| `{spacing.space-02}` | `{semantic.spacing.space-02}` |
+| `{border-radius.radius-04}` | `{border-radius.radius-04}` (own collection, no prefix change needed) |
+| `{spacing.space-02}` | `{spacing.space-02}` (own collection, no prefix change needed) |
 
 The transform script should detect references by the `{...}` pattern and prepend the correct collection prefix based on where the referenced token lives.
 
@@ -428,17 +446,15 @@ With `outputReferences: true`, your generated `variables.css` should look like t
   --semantic-color-icon-secondary: var(--primitive-white-800);
   --semantic-color-icon-tertiary: var(--primitive-white-1100);
 
-  /* Spacing */
-  --semantic-spacing-space-005: 2px;
-  --semantic-spacing-space-01: 4px;
-  --semantic-spacing-space-015: 6px;
-  --semantic-spacing-space-02: 8px;
-  /* ... through space-32 */
+  /* Elevation layering tokens — mode-dependent composite values */
+  /* Dark mode (default): neutral 400 step at 8% and 16% opacity */
+  --semantic-color-elevation-subtle: oklch(from var(--primitive-neutral-400) l c h / 0.08);
+  --semantic-color-elevation-medium: oklch(from var(--primitive-neutral-400) l c h / 0.16);
 
-  /* Border radius */
-  --semantic-border-radius-radius-01: 2px;
-  --semantic-border-radius-radius-02: 4px;
-  /* ... through radius-12, radius-full */
+  /* Note: In light mode, these override to use neutral 1400 step:
+     --semantic-color-elevation-subtle: oklch(from var(--primitive-neutral-1400) l c h / 0.08);
+     --semantic-color-elevation-medium: oklch(from var(--primitive-neutral-1400) l c h / 0.16);
+  */
 
   /* Dimensions */
   --semantic-dimension-dimension-01: 40px;
@@ -450,23 +466,46 @@ With `outputReferences: true`, your generated `variables.css` should look like t
 }
 
 /* ============================================
+   BORDER RADIUS TOKENS — own collection
+   ============================================ */
+
+:root {
+  --border-radius-radius-01: 2px;
+  --border-radius-radius-02: 4px;
+  /* ... through radius-12 */
+  --border-radius-radius-full: 99999px;
+}
+
+/* ============================================
+   SPACING TOKENS — own collection
+   ============================================ */
+
+:root {
+  --spacing-space-005: 2px;
+  --spacing-space-01: 4px;
+  --spacing-space-015: 6px;
+  --spacing-space-02: 8px;
+  /* ... through space-32 */
+}
+
+/* ============================================
    COMPONENT TOKENS — aliases referencing semantics
    ============================================ */
 
 :root {
   /* Component radius */
-  --component-radius-interactive: var(--semantic-border-radius-radius-04);
-  --component-radius-checkbox: var(--semantic-border-radius-radius-02);
-  --component-radius-status: var(--semantic-border-radius-radius-full);
+  --component-radius-interactive: var(--border-radius-radius-04);
+  --component-radius-checkbox: var(--border-radius-radius-02);
+  --component-radius-status: var(--border-radius-radius-full);
 
   /* Button - Desktop (default) */
-  --component-button-small-horizontal: var(--semantic-spacing-space-02);
-  --component-button-small-vertical: var(--semantic-spacing-space-005);
-  --component-button-medium-horizontal: var(--semantic-spacing-space-03);
-  --component-button-medium-vertical: var(--semantic-spacing-space-01);
-  --component-button-large-horizontal: var(--semantic-spacing-space-04);
-  --component-button-large-vertical: var(--semantic-spacing-space-02);
-  --component-button-large-square: var(--semantic-spacing-space-025);
+  --component-button-small-horizontal: var(--spacing-space-02);
+  --component-button-small-vertical: var(--spacing-space-005);
+  --component-button-medium-horizontal: var(--spacing-space-03);
+  --component-button-medium-vertical: var(--spacing-space-01);
+  --component-button-large-horizontal: var(--spacing-space-04);
+  --component-button-large-vertical: var(--spacing-space-02);
+  --component-button-large-square: var(--spacing-space-025);
 }
 
 /* ============================================
@@ -617,24 +656,28 @@ The `react` package's build:
 
 ## Adding Modes Later
 
-### Dark mode (color modes)
+### Light mode (color modes)
 
-When ready, this is the process:
+Your current Figma tokens default to dark mode (surfaces are dark, text is light). When adding light mode:
 
-1. Set up your Figma variables with a Dark mode on the semantic color collection
-2. Export the dark mode semantic values (same token names, different primitive references)
-3. Add a second semantic token file set (or a mode-specific override file)
-4. Configure Style Dictionary to output dark mode values scoped to `[data-mode="dark"]`:
+1. Set up your Figma variables with a Light mode on the semantic color collection
+2. Export the light mode semantic values (same token names, different primitive references)
+3. Add a mode-specific override file
+4. Configure Style Dictionary to output light mode values scoped to `[data-mode="light"]`:
 
 ```css
-[data-mode="dark"] {
-  --semantic-color-surface-base: var(--primitive-shark-100);
+[data-mode="light"] {
+  --semantic-color-surface-base: var(--primitive-neutral-100);
   --semantic-color-text-primary: var(--primitive-black-1600);
   /* ... all semantic color overrides */
+
+  /* Elevation tokens shift to the 1400 step in light mode */
+  --semantic-color-elevation-subtle: oklch(from var(--primitive-neutral-1400) l c h / 0.08);
+  --semantic-color-elevation-medium: oklch(from var(--primitive-neutral-1400) l c h / 0.16);
 }
 ```
 
-Primitive tokens don't change. Only semantic color mappings shift. Components reference semantics, so they update automatically.
+Primitive tokens don't change. Only semantic color mappings and overlay composite values shift. Components reference semantics, so they update automatically.
 
 ### Mobile mode (responsive/density modes)
 
@@ -677,7 +720,9 @@ The full paths (`--semantic-color-border-subtle`) are verbose. Once your token a
 |---|---|
 | `--semantic-color-border-subtle` | `--color-border-subtle` |
 | `--semantic-color-interactive-primary-default` | `--color-interactive-primary-default` |
-| `--semantic-spacing-space-02` | `--spacing-space-02` |
+| `--semantic-color-elevation-subtle` | `--color-elevation-subtle` |
+| `--spacing-space-02` | `--space-02` |
+| `--border-radius-radius-04` | `--radius-04` |
 | `--component-button-small-horizontal` | `--button-small-horizontal` |
 | `--typography-font-size-body-large` | `--font-size-body-large` |
 | `--primitive-brand-900` | `--brand-900` |
