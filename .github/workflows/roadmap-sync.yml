@@ -42,7 +42,7 @@ jobs:
           # Admin config — point these at the real account + project number.
           # ROADMAP_OWNER is the username for a personal project.
           ROADMAP_OWNER: arossi58
-          ROADMAP_PROJECT_NUMBER: "1"
+          ROADMAP_PROJECT_NUMBER: "2"
         run: node apps/marketing/scripts/sync-roadmap.mjs
 
       # The script rewrites the file only when the content (ignoring syncedAt)

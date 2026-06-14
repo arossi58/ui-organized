@@ -51,7 +51,7 @@ export const COLUMN_ORDER: Array<{ id: ColumnId; title: string }> = [
 ];
 
 /** Where the board points when there's no synced data yet (empty/error state). */
-export const FALLBACK_PROJECT_URL = "https://github.com/users/arossi58/projects/1";
+export const FALLBACK_PROJECT_URL = "https://github.com/users/arossi58/projects/2";
 
 /**
  * Return the columns in canonical board order, tolerating a payload that omits

@@ -51,4 +51,4 @@ export function RoadmapSection() {
 }
 
 /** Where "Learn how you can contribute" points — the public project board. */
-const LINKS_CONTRIBUTE = "https://github.com/users/arossi58/projects/1";
+const LINKS_CONTRIBUTE = "https://github.com/users/arossi58/projects/2";
