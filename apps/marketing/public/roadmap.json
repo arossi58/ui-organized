@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-14T21:50:00.711Z",
+  "syncedAt": "2026-06-14T22:07:26.114Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -10,7 +10,7 @@
         {
           "id": "PVTI_lAHOAd2RT84BaZqpzgvuCfw",
           "title": "Update color palette tool with new UI",
-          "type": "development",
+          "type": "design",
           "url": "https://github.com/arossi58/ui-organized/issues/1",
           "labels": []
         }
