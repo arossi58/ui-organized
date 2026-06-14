@@ -31,7 +31,7 @@
         {
           "id": "b4",
           "title": "Recipes: theming an existing app in under an hour",
-          "type": "docs",
+          "type": "documentation",
           "url": "https://github.com/ui-organized/ui-organized/issues/151",
           "labels": ["docs"]
         }
@@ -99,7 +99,7 @@
         {
           "id": "d5",
           "title": "Getting-started docs and component gallery",
-          "type": "docs",
+          "type": "documentation",
           "url": "https://github.com/ui-organized/ui-organized/issues/124",
           "labels": ["docs"]
         },

@@ -11,9 +11,10 @@ on:
   issues:
     types: [opened, edited, closed, reopened, deleted, labeled, unlabeled, transferred]
 
-# The commit-back needs write access; nothing else does.
+# The commit-back needs write access; dispatching the deploy needs actions:write.
 permissions:
   contents: write
+  actions: write
 
 # Don't let two syncs race on the same file.
 concurrency:
@@ -46,9 +47,10 @@ jobs:
         run: node apps/marketing/scripts/sync-roadmap.mjs
 
       # The script rewrites the file only when the content (ignoring syncedAt)
-      # changed, so a dirty working tree here means a real update — commit it,
-      # and the push to main triggers the static redeploy.
+      # changed, so a dirty working tree here means a real update — commit it
+      # and flag that a deploy is needed.
       - name: Commit if changed
+        id: commit
         run: |
           if [[ -z "$(git status --porcelain apps/marketing/public/roadmap.json)" ]]; then
             echo "No roadmap changes — nothing to commit."
@@ -59,3 +61,14 @@ jobs:
           git add apps/marketing/public/roadmap.json
           git commit -m "chore(roadmap): sync board from GitHub Projects"
           git push
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made with the default GITHUB_TOKEN does NOT trigger other
+      # workflows (GitHub's recursion guard), so deploy.yml won't fire on the
+      # commit above. Dispatch it explicitly — workflow_dispatch is exempt from
+      # that guard, so the site actually rebuilds with the fresh roadmap.json.
+      - name: Trigger site deploy
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml

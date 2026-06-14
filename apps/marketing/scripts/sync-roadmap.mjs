@@ -100,13 +100,34 @@ function columnForStatus(name) {
   }
 }
 
-/** Map a Type single-select name to a contract type (default development). */
+/**
+ * Map the project's "Type" single-select option to a contract tag (see
+ * TYPE_META in src/lib/roadmap.ts). Matching is case-insensitive; a few aliases
+ * let the option text differ from the key. Unknown/empty → "development".
+ */
+const TAGS = new Set([
+  "design",
+  "development",
+  "documentation",
+  "testing",
+  "community",
+  "bug",
+]);
+const TAG_ALIASES = {
+  docs: "documentation",
+  doc: "documentation",
+  dev: "development",
+  test: "testing",
+  qa: "testing",
+  "bug / fix": "bug",
+  "bug/fix": "bug",
+  bugfix: "bug",
+  fix: "bug",
+};
 function typeForName(name) {
-  const t = (name ?? "").toLowerCase();
-  if (t === "design" || t === "development" || t === "docs" || t === "community") {
-    return t;
-  }
-  return "development";
+  const raw = (name ?? "").trim().toLowerCase();
+  const t = TAG_ALIASES[raw] ?? raw;
+  return TAGS.has(t) ? t : "development";
 }
 
 async function fetchProject() {

@@ -5,7 +5,13 @@
  * React, no DOM here, so the helpers are unit-testable.
  */
 
-export type RoadmapType = "design" | "development" | "docs" | "community";
+export type RoadmapType =
+  | "design"
+  | "development"
+  | "documentation"
+  | "testing"
+  | "community"
+  | "bug";
 export type ColumnId = "backlog" | "in-progress" | "done";
 
 export interface RoadmapItem {
@@ -31,16 +37,27 @@ export interface RoadmapData {
 }
 
 /**
- * Per-type presentation, defined once (SITE.md §7.4): the display label and the
- * *site token* the type is associated with. The roadmap card maps each type to a
- * design-system `Badge` variant for its colour; this stays the single source for
- * the label + ordering.
+ * Design-system `Badge` colour variants. Kept as a local union (not imported
+ * from @ds/react) so this module stays React-free and unit-testable; RoadmapCard
+ * passes these straight to `<Badge variant>`, so a wrong value fails to compile
+ * there.
  */
-export const TYPE_META: Record<RoadmapType, { label: string; token: string }> = {
-  design: { label: "Design", token: "--site-magenta" },
-  development: { label: "Development", token: "--site-cobalt" },
-  docs: { label: "Docs", token: "--site-sun" },
-  community: { label: "Community", token: "--site-green" },
+type BadgeVariant = "success" | "info" | "info-secondary" | "caution" | "warning" | "error";
+
+/**
+ * Per-type presentation, defined once (SITE.md §7.4) — the single source of
+ * truth for a tag's display label and its `Badge` colour. To add a tag: add a
+ * value to `RoadmapType`, an entry here, and a matching option to the project's
+ * `Type` single-select field (plus an alias in sync-roadmap.mjs if the option
+ * text differs from the key).
+ */
+export const TYPE_META: Record<RoadmapType, { label: string; badge: BadgeVariant }> = {
+  design: { label: "Design", badge: "info-secondary" },
+  development: { label: "Development", badge: "info" },
+  documentation: { label: "Documentation", badge: "caution" },
+  testing: { label: "Testing", badge: "success" },
+  community: { label: "Community", badge: "warning" },
+  bug: { label: "Bug / Fix", badge: "error" },
 };
 
 /** Column order + display titles, so the board and the contract agree. */

@@ -1,19 +1,6 @@
-import { Badge, Card, CardBody, type BadgeProps } from "@ds/react";
-import { TYPE_META, type RoadmapItem, type RoadmapType } from "../../lib/roadmap";
+import { Badge, Card, CardBody } from "@ds/react";
+import { TYPE_META, type RoadmapItem } from "../../lib/roadmap";
 import "./roadmap-card.css";
-
-/**
- * Per-type category colour, expressed through the design-system `Badge`'s own
- * status variants (subdued) rather than a bespoke chip — so the board's tags
- * speak the library's language. Maps the four roadmap types onto distinct
- * variants for at-a-glance scanning.
- */
-const TYPE_BADGE: Record<RoadmapType, NonNullable<BadgeProps["variant"]>> = {
-  design: "info-secondary",
-  development: "info",
-  docs: "caution",
-  community: "success",
-};
 
 interface RoadmapCardProps {
   item: RoadmapItem;
@@ -34,7 +21,7 @@ export function RoadmapCard({ item }: RoadmapCardProps) {
       <CardBody className="roadmap-card__body">
         <p className="roadmap-card__title">{item.title}</p>
         <span className="roadmap-card__meta">
-          <Badge variant={TYPE_BADGE[item.type]} emphasized={false} size="sm">
+          <Badge variant={TYPE_META[item.type].badge} emphasized={false} size="sm">
             {TYPE_META[item.type].label}
           </Badge>
           {isDraft && <span className="roadmap-card__draft">draft</span>}
