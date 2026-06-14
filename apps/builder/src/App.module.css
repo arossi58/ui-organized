@@ -101,6 +101,47 @@
   letter-spacing: 0.06em;
 }
 
+/* Preview light/dark mode switch */
+.modeSwitch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--builder-surface-input);
+  border: 1px solid var(--builder-border);
+  border-radius: 7px;
+}
+
+.modeButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border: none;
+  background: none;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--builder-text-secondary);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.modeButton:hover {
+  color: var(--builder-text-primary);
+}
+
+.modeButtonActive,
+.modeButtonActive:hover {
+  background: var(--builder-surface-hover);
+  color: var(--builder-text-primary);
+}
+
+.modeButton svg {
+  width: 14px;
+  height: 14px;
+}
+
 .previewBody {
   flex: 1;
   overflow: hidden;

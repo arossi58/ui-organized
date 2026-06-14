@@ -1,0 +1,32 @@
+{
+  "color-text": {
+    "text-primary": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "text-secondary": {
+      "$type": "color",
+      "$value": "{grey.2000}"
+    },
+    "text-tertiary": {
+      "$type": "color",
+      "$value": "{grey.1600}"
+    },
+    "text-placeholder": {
+      "$type": "color",
+      "$value": "{grey.1400}"
+    },
+    "text-inverse": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "text-dark": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "text-light": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    }
+  }
+}

@@ -1,0 +1,82 @@
+.feature-trio {
+  /* Soft brand wash over cream — same recipe as the prototype's after-stage */
+  background:
+    radial-gradient(1100px 600px at 88% 0%, var(--site-wash-magenta), transparent 65%),
+    radial-gradient(900px 600px at 6% 30%, var(--site-wash-cobalt), transparent 60%),
+    radial-gradient(900px 700px at 60% 100%, var(--site-wash-sun), transparent 60%),
+    var(--site-cream);
+}
+
+.feature-trio__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-space-05);
+}
+
+@media (max-width: 860px) {
+  .feature-trio__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.feature-trio__cell {
+  display: flex;
+}
+
+.feature-trio__card {
+  width: 100%;
+  background: var(--site-paper);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .feature-trio__card:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0 var(--site-ink);
+  }
+}
+
+/* Accent bar — color set by card position, mapped to site tokens */
+.feature-trio__accent {
+  display: block;
+  width: var(--spacing-space-08);
+  height: var(--spacing-space-015);
+  border-radius: var(--border-radius-radius-full);
+  margin-bottom: var(--spacing-space-04);
+}
+
+.feature-trio__cell:nth-child(1) .feature-trio__accent {
+  background: var(--site-cobalt);
+}
+.feature-trio__cell:nth-child(2) .feature-trio__accent {
+  background: var(--site-magenta);
+}
+.feature-trio__cell:nth-child(3) .feature-trio__accent {
+  background: var(--site-green);
+}
+
+/* Stagger the reveal within the grid (~80ms apart) */
+@media (prefers-reduced-motion: no-preference) {
+  .feature-trio__cell:nth-child(2) {
+    transition-delay: 0.08s;
+  }
+  .feature-trio__cell:nth-child(3) {
+    transition-delay: 0.16s;
+  }
+}
+
+.feature-trio__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 21px;
+  margin: 0 0 var(--spacing-space-02);
+  color: var(--site-ink);
+}
+
+.feature-trio__body {
+  color: var(--site-ink-soft);
+  font-size: 15.5px;
+  margin: 0;
+}

@@ -1,0 +1,174 @@
+/* ─── Range (slider) root ─────────────────────────────────────────────────── */
+
+/* A labelled slider built on Base UI's Slider. The header carries the label and
+   the live value readout; the track sits below, optionally flanked by start/end
+   labels. Track 4px, thumb 20px, brand fill — matching Figma 340:632. */
+.range {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Header (label + value readout) ──────────────────────────────────────── */
+
+.range__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  width: 100%;
+}
+
+.range__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+.range__value {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-primary);
+}
+
+/* ─── Slider row (start label · control · end label) ──────────────────────── */
+
+.range__slider {
+  width: 100%;
+}
+
+.range__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  width: 100%;
+}
+
+.range__range-label {
+  flex-shrink: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Control (interactive area) ──────────────────────────────────────────── */
+
+.range__control {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  height: 20px;
+  cursor: pointer;
+  touch-action: none;
+}
+
+/* ─── Track (inactive rail) ───────────────────────────────────────────────── */
+
+.range__track {
+  position: relative;
+  flex: 1 1 auto;
+  height: 4px;
+  border-radius: var(--border-radius-radius-01);
+  background-color: var(--color-surface-overlay-tertiary);
+}
+
+/* ─── Indicator (filled portion) ──────────────────────────────────────────── */
+
+.range__indicator {
+  position: absolute;
+  height: 100%;
+  border-radius: var(--border-radius-radius-01);
+  background-color: var(--color-interactive-primary-selected);
+}
+
+/* ─── Thumb ───────────────────────────────────────────────────────────────── */
+
+.range__thumb {
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--border-radius-radius-full);
+  background-color: var(--color-interactive-contents);
+  border: 1px solid var(--color-border-data-entry);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  outline: none;
+  cursor: grab;
+}
+
+.range__thumb[data-dragging] {
+  cursor: grabbing;
+}
+
+/* The nested <input type="range"> covers the thumb but stays invisible. */
+.range__thumb input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+/* Focus — show the inset focus ring on keyboard focus (Figma focus-light). */
+.range__thumb:has(input:focus-visible) {
+  border-color: transparent;
+  box-shadow:
+    0 0 0 1px var(--color-interactive-focus-inverse),
+    0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Error ───────────────────────────────────────────────────────────────── */
+
+/* In the error state the thumb drops its data-entry border; the inline message
+   is rendered by the shared <FieldError> component below the slider. */
+.range[data-invalid] .range__thumb {
+  border-color: transparent;
+}
+
+/* ─── Disabled ────────────────────────────────────────────────────────────── */
+
+.range[data-disabled] {
+  cursor: not-allowed;
+}
+
+.range[data-disabled] .range__control {
+  cursor: not-allowed;
+}
+
+.range[data-disabled] .range__track,
+.range[data-disabled] .range__indicator {
+  background-color: var(--color-interactive-inactive-inactive-01);
+}
+
+.range[data-disabled] .range__thumb {
+  background-color: var(--color-interactive-inactive-inactive-02);
+  border-color: transparent;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Size: sm ────────────────────────────────────────────────────────────── */
+
+.range--sm {
+  gap: var(--spacing-space-01);
+}
+
+/* ─── Size: md (default) ──────────────────────────────────────────────────── */
+
+.range--md {
+  gap: var(--spacing-space-02);
+}
+
+/* ─── Size: lg ────────────────────────────────────────────────────────────── */
+
+.range--lg {
+  gap: calc(var(--spacing-space-02) + var(--spacing-space-01));
+}

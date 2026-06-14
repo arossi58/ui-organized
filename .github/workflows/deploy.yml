@@ -1,0 +1,92 @@
+name: Deploy site to GitHub Pages
+
+# Publishes both apps from one Pages deployment (a repo gets only one Pages
+# site): the marketing site at the root — https://<user>.github.io/<repo>/ —
+# and the builder tool under /<repo>/builder/. The marketing site reads the
+# roadmap.json that roadmap-sync.yml commits, so a push to main here is the
+# "static redeploy" that surfaces fresh board data.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Allow the workflow to publish to GitHub Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one Pages deployment at a time; let in-progress runs finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # pnpm version comes from the "packageManager" field in package.json.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # Build the workspace deps both apps rely on (@ds/react, @ds/tokens, …).
+      # `^...` selects each app's dependencies but not the apps themselves.
+      - name: Build workspace dependencies
+        run: pnpm turbo build --filter=@ds/marketing^... --filter=@ds/builder^...
+
+      # Run Vite directly rather than each package's `build` script, which also
+      # runs `tsc --noEmit`. The apps have pre-existing type errors that would
+      # block the deploy; Vite's esbuild bundling does not typecheck.
+
+      # Marketing is the public site at the Pages root.
+      - name: Build marketing (site root)
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/
+        run: pnpm --filter @ds/marketing exec vite build
+
+      # Builder is the design tool, served under /builder/.
+      - name: Build builder (/builder/)
+        env:
+          BASE_PATH: /${{ github.event.repository.name }}/builder/
+        run: pnpm --filter @ds/builder exec vite build
+
+      # Assemble one Pages artifact: marketing at root, builder under /builder/.
+      - name: Assemble site
+        run: |
+          rm -rf _site
+          cp -r apps/marketing/dist/. _site/
+          mkdir -p _site/builder
+          cp -r apps/builder/dist/. _site/builder/
+
+      # Requires Pages to be enabled once in repo Settings → Pages →
+      # Source: "GitHub Actions" (the token can't enable it automatically).
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

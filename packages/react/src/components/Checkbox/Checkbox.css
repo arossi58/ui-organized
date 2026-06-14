@@ -18,8 +18,8 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  background-color: var(--color-surface-subtle);
-  border: 1.5px solid var(--color-border-medium);
+  background-color: var(--color-surface-primary);
+  border:  2px solid var(--color-interactive-ui-inverse);
   border-radius: var(--radius-checkbox);
   display: flex;
   align-items: center;
@@ -98,9 +98,9 @@
 
 .checkbox__label {
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
+  font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-medium);
+  line-height: var(--type-leading-body-large);
   color: var(--color-text-text-primary);
   user-select: none;
 }

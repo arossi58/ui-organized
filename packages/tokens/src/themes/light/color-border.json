@@ -1,0 +1,16 @@
+{
+  "color-border": {
+    "primary": {
+      "$type": "color",
+      "$value": "{grey.800}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{grey.500}"
+    },
+    "data-entry": {
+      "$type": "color",
+      "$value": "{grey.1600}"
+    }
+  }
+}

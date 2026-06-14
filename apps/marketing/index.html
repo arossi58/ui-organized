@@ -1,0 +1,43 @@
+<!doctype html>
+<!-- Single global theme control: this `data-theme` is the one source of truth for
+     every @ds/react component's colours across the whole site. It runs light by
+     default; change it here to re-theme the entire site. No component overrides it. -->
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Apply the stored light/dark choice before first paint so the page never
+         flashes the wrong mode. The brand colour is applied by the app
+         (ThemeProvider); this only needs to settle `data-theme`. -->
+    <script>
+      try {
+        var t = JSON.parse(localStorage.getItem("ui-org-site-theme") || "null");
+        if (t && (t.mode === "dark" || t.mode === "light")) {
+          document.documentElement.setAttribute("data-theme", t.mode);
+        }
+      } catch (e) {}
+    </script>
+    <title>UI Organized — From pile to product</title>
+    <meta
+      name="description"
+      content="An open source design system ecosystem: a web theme builder, a Figma plugin, and an npm component library — all driven by one theme config."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%2317150F' stroke-width='11' stroke-linecap='round' fill='none'%3E%3Cline x1='34' y1='8' x2='34' y2='92'/%3E%3Cline x1='66' y1='8' x2='66' y2='92'/%3E%3Cline x1='8' y1='34' x2='92' y2='34'/%3E%3Cline x1='8' y1='66' x2='92' y2='66'/%3E%3C/g%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Roboto — the design system's type family (var(--type-font-*)), the UI /
+         body default. EB Garamond — the brand display serif for big headings
+         (the hero title), per the Branding mockup. -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600;700&family=Roboto:wght@400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

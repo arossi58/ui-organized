@@ -1,0 +1,23 @@
+/* Freshness pill — a link around the design-system info Badge; the Badge owns
+   the visual, this just makes it tappable and focusable without underlining. */
+.sync-status {
+  display: inline-flex;
+  text-decoration: none;
+  border-radius: var(--radius-status);
+  outline: none;
+  flex-shrink: 0;
+}
+
+.sync-status:focus-visible {
+  outline: 2px solid var(--site-orange);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sync-status {
+    transition: opacity 0.16s ease;
+  }
+  .sync-status:hover {
+    opacity: 0.8;
+  }
+}

@@ -63,9 +63,9 @@
 
 .switch__label {
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
+  font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-medium);
+  line-height: var(--type-leading-body-large);
   color: var(--color-text-text-primary);
   user-select: none;
 }

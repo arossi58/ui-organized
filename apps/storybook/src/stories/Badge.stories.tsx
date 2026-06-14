@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Badge } from "@ds/react";
 
 const VARIANTS = ["success", "info", "info-secondary", "caution", "warning", "error"] as const;

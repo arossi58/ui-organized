@@ -13,7 +13,6 @@ type PreviewStyle = React.CSSProperties & Record<`--${string}`, string>;
  */
 export function usePreviewProperties(): PreviewStyle {
   const {
-    brandHex,
     brandRamp,
     neutralRamp,
     brandShade,
@@ -31,7 +30,6 @@ export function usePreviewProperties(): PreviewStyle {
   return useMemo(
     () =>
       computeAllPreviewVars({
-        brandHex,
         brandRamp,
         neutralRamp,
         brandShade,
@@ -46,7 +44,6 @@ export function usePreviewProperties(): PreviewStyle {
         mode: previewMode,
       }) as PreviewStyle,
     [
-      brandHex,
       brandRamp,
       neutralRamp,
       brandShade,

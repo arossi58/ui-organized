@@ -1,0 +1,76 @@
+.aurora {
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  filter: blur(72px);
+  pointer-events: none;
+}
+
+.aurora__field {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  mix-blend-mode: screen;
+}
+
+.aurora__field--coral {
+  width: 58vmax;
+  height: 58vmax;
+  left: -14%;
+  bottom: -28%;
+  opacity: 0.95;
+  background: radial-gradient(circle at 38% 36%, var(--site-coral), transparent 64%);
+  animation: aurora-drift-a 17s ease-in-out infinite alternate;
+}
+
+.aurora__field--cobalt {
+  width: 54vmax;
+  height: 54vmax;
+  right: -16%;
+  top: -24%;
+  opacity: 0.95;
+  background: radial-gradient(circle at 58% 42%, var(--site-cobalt), transparent 64%);
+  animation: aurora-drift-b 21s ease-in-out infinite alternate;
+}
+
+.aurora__field--magenta {
+  width: 40vmax;
+  height: 40vmax;
+  left: 28%;
+  top: 4%;
+  opacity: 0.5;
+  background: radial-gradient(circle at 50% 50%, var(--site-magenta), transparent 64%);
+  animation: aurora-drift-c 24s ease-in-out infinite alternate;
+}
+
+.aurora__field--sun {
+  width: 32vmax;
+  height: 32vmax;
+  right: 14%;
+  bottom: -14%;
+  opacity: 0.55;
+  background: radial-gradient(circle at 50% 50%, var(--site-sun), transparent 64%);
+  animation: aurora-drift-a 26s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes aurora-drift-a {
+  to {
+    transform: translate(7%, -6%) scale(1.14);
+  }
+}
+@keyframes aurora-drift-b {
+  to {
+    transform: translate(-6%, 7%) scale(1.1);
+  }
+}
+@keyframes aurora-drift-c {
+  to {
+    transform: translate(9%, 9%) scale(1.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora__field {
+    animation: none;
+  }
+}

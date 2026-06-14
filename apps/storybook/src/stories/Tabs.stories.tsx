@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tabs } from "@ds/react";
 
 const BASIC_TABS = [
@@ -18,6 +18,10 @@ const meta: Meta<typeof Tabs> = {
     orientation: {
       control: "select",
       options: ["horizontal", "vertical"],
+    },
+    size: {
+      control: "select",
+      options: ["default", "small"],
     },
   },
 };
@@ -45,6 +49,14 @@ export const Vertical: Story = {
     tabs: BASIC_TABS,
     defaultValue: "overview",
     orientation: "vertical",
+  },
+};
+
+export const Small: Story = {
+  args: {
+    tabs: BASIC_TABS,
+    defaultValue: "overview",
+    size: "small",
   },
 };
 

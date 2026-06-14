@@ -1,0 +1,29 @@
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-04);
+  flex-wrap: wrap;
+  padding: var(--spacing-space-10) var(--section-px) var(--spacing-space-12);
+}
+
+.site-footer__brand {
+  text-decoration: none;
+  color: var(--site-ink);
+}
+
+/* Footer wears a smaller mark than the nav */
+.site-footer__brand .brand-mark__glyph {
+  width: 26px;
+  height: 26px;
+}
+
+.site-footer__brand .brand-mark__word {
+  font-size: 16px;
+}
+
+.site-footer__note {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--site-ink-soft);
+}

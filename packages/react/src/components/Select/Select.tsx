@@ -3,6 +3,7 @@ import { Field } from "@base-ui-components/react/field";
 import { clsx } from "clsx";
 import { selectFieldStyles } from "./Select.styles.js";
 import { Icon } from "../Icon/index.js";
+import { FieldError } from "../FieldError/index.js";
 import type { SelectProps } from "./Select.types.js";
 import "./Select.css";
 
@@ -20,6 +21,7 @@ export function Select({
   name,
   required,
   className,
+  portalContainer,
 }: SelectProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
@@ -63,8 +65,12 @@ export function Select({
             <Icon name="chevron-down" size={16} />
           </BaseSelect.Icon>
         </BaseSelect.Trigger>
-        <BaseSelect.Portal>
-          <BaseSelect.Positioner className="select-positioner" sideOffset={4}>
+        <BaseSelect.Portal container={portalContainer}>
+          <BaseSelect.Positioner
+            className="select-positioner"
+            sideOffset={4}
+            positionMethod="fixed"
+          >
             <BaseSelect.Popup className="select-popup">
               <BaseSelect.List className="select-popup__list">
                 {options.map((opt) => (
@@ -90,8 +96,8 @@ export function Select({
           {helperText}
         </Field.Description>
       )}
-      {isInvalid && (
-        <Field.Error className="select-field__error" match={true}>
+      {isInvalid && errorMessage && (
+        <Field.Error match={true} render={<FieldError />}>
           {errorMessage}
         </Field.Error>
       )}

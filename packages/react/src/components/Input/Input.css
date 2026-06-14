@@ -62,6 +62,11 @@
   background-color: var(--color-interactive-ui-active);
 }
 
+/* Entry — a filled control keeps the active surface (Figma 348:1843). */
+.input-field__control[data-filled]:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-active);
+}
+
 .input-field__control:focus-visible {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
@@ -81,6 +86,9 @@
 /* ─── Description (helper text) ───────────────────────────────────────────── */
 
 .input-field__description {
+  /* Base UI renders the description as a <p>; clear the UA margin so the field's
+     gap (space-01 / 4px) is the only spacing below the control. */
+  margin: 0;
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-regular);
@@ -88,18 +96,7 @@
   color: var(--color-text-text-tertiary);
 }
 
-/* ─── Error message ───────────────────────────────────────────────────────── */
-
-.input-field__error {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-space-01);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-medium);
-  line-height: var(--type-leading-body-small);
-  color: var(--color-status-error-message);
-}
+/* Error message is rendered by the shared <FieldError> component. */
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */
 

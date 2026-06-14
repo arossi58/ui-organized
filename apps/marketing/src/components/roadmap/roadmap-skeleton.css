@@ -1,0 +1,35 @@
+.roadmap-skeleton-card {
+  height: 92px;
+  border-radius: var(--border-radius-radius-05);
+  border: 2px solid color-mix(in srgb, var(--site-ink) 12%, transparent);
+  background: var(--site-paper);
+}
+
+/* Token-coloured shimmer. Motion-gated: under reduced motion the cards are a
+   calm static placeholder rather than a pulsing one. */
+.skeleton {
+  position: relative;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--site-ink) 6%, transparent),
+      transparent
+    );
+    animation: skeleton-sweep 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes skeleton-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}

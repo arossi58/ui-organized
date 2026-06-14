@@ -1,0 +1,42 @@
+/**
+ * Board — one design-system panel (`surface-secondary`) holding three columns
+ * split by hairline rules, the Branding "kanban-baord" frame. The panel owns a
+ * generous min-height so it reads as a board even when sparsely filled; the
+ * columns stretch to it, which lets the dividers run the full height.
+ */
+.roadmap-board {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-secondary);
+  border-radius: var(--border-radius-radius-08);
+  padding: var(--spacing-space-04);
+  min-height: clamp(420px, 52vh, 620px);
+}
+
+.roadmap-board__columns {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+}
+
+/* Full-height hairline divider between columns (the mockup's vertical rules). */
+.roadmap-board__columns > * + * {
+  border-left: 1.5px solid
+    color-mix(in srgb, var(--color-surface-overlay-tertiary) 10%, transparent);
+}
+
+/* Stacked, single-column on narrow screens — the simpler, more accessible
+   default (SITE.md §7.4). Drop the dividers; let the columns breathe. */
+@media (max-width: 860px) {
+  .roadmap-board__columns {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-space-06);
+  }
+  .roadmap-board__columns > * + * {
+    border-left: none;
+    border-top: 1.5px solid
+      color-mix(in srgb, var(--color-surface-overlay-tertiary) 10%, transparent);
+    padding-top: var(--spacing-space-06);
+  }
+}

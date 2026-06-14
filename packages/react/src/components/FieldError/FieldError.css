@@ -1,0 +1,26 @@
+/* ─── Field error message ─────────────────────────────────────────────────── */
+
+/* Inline error pill for form controls. A filled alert icon + message sit on a
+   subdued error-tinted surface, matching Figma 580:7201 (error-message):
+   12px icon, 4px gap/padding, 8px radius, caption-medium text in error-content,
+   line-height 1.2 → 20px tall pill. Both icon and text inherit error-content. */
+.field-error {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-01);
+  border-radius: var(--border-radius-radius-04);
+  background-color: var(--color-status-error-bg);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-medium);
+  line-height: 1.2;
+  color: var(--color-status-error-content);
+}
+
+/* The icon inherits the error-content colour via currentColor. */
+.field-error__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}

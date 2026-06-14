@@ -1,11 +1,32 @@
 {
   "color-surface": {
-    "base":            { "$type": "color", "$value": "{shark.1600}" },
-    "subtle":          { "$type": "color", "$value": "{shark.1500}" },
-    "medium":          { "$type": "color", "$value": "{shark.1400}" },
-    "emphasis":        { "$type": "color", "$value": "{shark.1300}" },
-    "strong":          { "$type": "color", "$value": "{shark.1200}" },
-    "overlay-medium":  { "$type": "color", "$value": "{curtain.black-1200-80p}" },
-    "overlay-strong":  { "$type": "color", "$value": "{curtain.black-80p}" }
+    "base": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "{grey.2300}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{grey.2200}"
+    },
+    "overlay-primary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "overlay-secondary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "overlay-tertiary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "curtain": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.8)"
+    }
   }
 }

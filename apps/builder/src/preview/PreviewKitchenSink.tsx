@@ -13,6 +13,7 @@ import {
   Alert,
   Tabs,
 } from "@ds/react";
+import { usePreviewPortalContainer } from "./previewPortal";
 import styles from "./PreviewKitchenSink.module.css";
 
 const SELECT_OPTIONS = [
@@ -34,6 +35,7 @@ const TABS_ITEMS = [
 ];
 
 export function PreviewKitchenSink() {
+  const portalContainer = usePreviewPortalContainer();
   return (
     <div className={styles.root}>
         {/* ── Section: Buttons ─────────────────────────────────────────────── */}
@@ -88,12 +90,14 @@ export function PreviewKitchenSink() {
                 label="Choose an option"
                 options={SELECT_OPTIONS}
                 placeholder="Select..."
+                portalContainer={portalContainer}
               />
               <Select
                 label="Disabled"
                 options={SELECT_OPTIONS}
                 placeholder="Select..."
                 disabled
+                portalContainer={portalContainer}
               />
             </div>
           </div>

@@ -1,0 +1,128 @@
+/**
+ * Contact form section (Figma 170:15686). A single centered column built on
+ * @ds/react primitives; only the segmented control is hand-rolled here, and it
+ * consumes design-system tokens so it re-themes with the rest of the site.
+ */
+
+.contact-section {
+  background: var(--color-surface-primary);
+}
+
+/* Narrow the shared page wrap down to a single readable form column. */
+.contact-section__wrap {
+  max-width: 600px;
+}
+
+.contact-section__header {
+  margin-bottom: var(--spacing-space-08);
+}
+
+.contact-section__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.2;
+  color: var(--site-ink);
+  margin: 0 0 var(--spacing-space-04);
+}
+
+.contact-section__sub {
+  color: var(--site-ink-soft);
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ─── Form layout ─────────────────────────────────────────────────────────── */
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-06);
+}
+
+/* Give the message field the taller surface from the design (~160px tall). */
+.contact-form__message .input-field__control {
+  min-height: 120px;
+}
+
+.contact-form__submit {
+  width: 100%;
+}
+
+.contact-form__error {
+  margin: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-status-error-message);
+}
+
+.contact-form__captcha {
+  display: flex;
+}
+
+/* ─── Segmented control (inquiry type) ────────────────────────────────────── */
+
+.contact-segmented {
+  display: flex;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-01);
+  background: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-radius-06);
+}
+
+.contact-segmented__item {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-tertiary);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.contact-segmented__item:hover:not([data-active="true"]) {
+  color: var(--color-text-text-primary);
+}
+
+.contact-segmented__item[data-active="true"] {
+  background: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+/* Visually-hidden radio drives state + keyboard nav; the label is the control. */
+.contact-segmented__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.contact-segmented__item:has(.contact-segmented__input:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Honeypot — kept in the DOM but out of sight and out of the tab order ─── */
+
+.contact-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

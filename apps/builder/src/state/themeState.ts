@@ -2,19 +2,19 @@ import { create } from "zustand";
 import {
   generateColorRamp,
   parseToOklch,
-  getNeutralPreset,
+  getCoreFamily,
   calculateTypeScale,
   generateSpacingScale,
   type ColorRamp,
-  type NeutralPresetName,
 } from "@ds/utils";
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
 
 // ─── Default values ───────────────────────────────────────────────────────────
 
-const DEFAULT_BRAND_HEX    = "#008ffb";
-const DEFAULT_NEUTRAL: NeutralPresetName = "flint";
+const DEFAULT_BRAND_FAMILY = "mars";
+const DEFAULT_BRAND_HEX    = "#bc4900"; // mars.1400
+const DEFAULT_NEUTRAL      = "grey";
 const DEFAULT_HEADING_FAMILY = "Roboto";
 const DEFAULT_BODY_FAMILY = "Roboto";
 const DEFAULT_TYPE_BASE = 16;
@@ -74,11 +74,16 @@ export type ActivePanel = "color" | "typography" | "radius" | "spacing" | "icons
 
 export interface BuilderState {
   // Color
+  /** "family" = brand is a named core family; "custom" = generated from brandHex. */
+  brandMode: "family" | "custom";
+  /** Selected core family name when brandMode === "family". */
+  brandFamily: string;
   brandHex: string;
   brandRamp: ColorRamp;
-  /** Which step in the brand ramp is used as the primary interactive color. Default "1200". */
+  /** Which step of the brand ramp is the primary interactive color. Default "1400". */
   brandShade: string;
-  neutralPreset: NeutralPresetName;
+  /** Selected neutral (tinted-grey) core family name. */
+  neutralFamily: string;
   neutralRamp: ColorRamp;
 
   // Typography
@@ -108,9 +113,10 @@ export interface BuilderState {
   previewMode: "light" | "dark";
 
   // Actions
+  setBrandFamily: (name: string) => void;
   setBrandColor: (hex: string) => void;
   setBrandShade: (shade: string) => void;
-  setNeutralPreset: (name: NeutralPresetName) => void;
+  setNeutralFamily: (name: string) => void;
   setHeadingFont: (family: string, weights: Record<string, number>) => void;
   setBodyFont: (family: string, weights: Record<string, number>) => void;
   setTypeScale: (base: number, ratio: number) => void;
@@ -127,11 +133,13 @@ export interface BuilderState {
 
 export const useBuilderStore = create<BuilderState>((set) => ({
   // Color
+  brandMode: "family",
+  brandFamily: DEFAULT_BRAND_FAMILY,
   brandHex: DEFAULT_BRAND_HEX,
-  brandRamp: generateColorRamp(DEFAULT_BRAND_HEX),
-  brandShade: "1200",
-  neutralPreset: DEFAULT_NEUTRAL,
-  neutralRamp: getNeutralPreset(DEFAULT_NEUTRAL),
+  brandRamp: getCoreFamily(DEFAULT_BRAND_FAMILY),
+  brandShade: "1400",
+  neutralFamily: DEFAULT_NEUTRAL,
+  neutralRamp: getCoreFamily(DEFAULT_NEUTRAL),
 
   // Typography
   headingFamily: DEFAULT_HEADING_FAMILY,
@@ -160,18 +168,30 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   previewMode: "dark" as "light" | "dark",
 
   // Actions
+  setBrandFamily: (name: string) =>
+    set(() => {
+      const ramp = getCoreFamily(name);
+      return {
+        brandMode: "family",
+        brandFamily: name,
+        brandRamp: ramp,
+        brandHex: ramp["1400"]?.hex ?? DEFAULT_BRAND_HEX,
+      };
+    }),
+
   setBrandColor: (hex: string) =>
     set(() => ({
+      brandMode: "custom",
       brandHex: hex,
       brandRamp: generateColorRamp(hex),
     })),
 
   setBrandShade: (shade: string) => set(() => ({ brandShade: shade })),
 
-  setNeutralPreset: (name: NeutralPresetName) =>
+  setNeutralFamily: (name: string) =>
     set(() => ({
-      neutralPreset: name,
-      neutralRamp: getNeutralPreset(name),
+      neutralFamily: name,
+      neutralRamp: getCoreFamily(name),
     })),
 
   setHeadingFont: (family, weights) =>

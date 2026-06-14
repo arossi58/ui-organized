@@ -32,10 +32,11 @@ describe("parseToOklch", () => {
 describe("generateColorRamp", () => {
   const ramp = generateColorRamp("#008ffb");
 
-  it("produces all 16 steps (100–1600)", () => {
+  it("produces all 24 steps (100–2400)", () => {
     const expected = [
       "100", "200", "300", "400", "500", "600", "700", "800",
       "900", "1000", "1100", "1200", "1300", "1400", "1500", "1600",
+      "1700", "1800", "1900", "2000", "2100", "2200", "2300", "2400",
     ];
     expect(Object.keys(ramp)).toEqual(expected);
   });
@@ -61,7 +62,7 @@ describe("generateColorRamp", () => {
 
   it("ramp from oklch string produces same step count", () => {
     const rampFromOklch = generateColorRamp("oklch(0.603 0.190 240)");
-    expect(Object.keys(rampFromOklch)).toHaveLength(16);
+    expect(Object.keys(rampFromOklch)).toHaveLength(24);
   });
 
   it("preserves hue across all steps", () => {

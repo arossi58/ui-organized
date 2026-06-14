@@ -1,0 +1,73 @@
+/**
+ * Roadmap card — the library `Card` recoloured to the design system's own
+ * surfaces (the mockup's status-card): `surface-primary` fill, `border-secondary`
+ * hairline, system radius. A soft lift + brand-orange edge on hover marks the
+ * whole card as a link to the issue. Spacing/radius from system tokens.
+ */
+
+/* Whole-card link wrapper (cards with a url). */
+.roadmap-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--border-radius-radius-06);
+  outline: none;
+}
+.roadmap-card__link:focus-visible {
+  outline: 2px solid var(--site-orange);
+  outline-offset: 3px;
+}
+
+.roadmap-card {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-radius-06);
+  transition:
+    transform 0.16s ease,
+    box-shadow 0.16s ease,
+    border-color 0.16s ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roadmap-card__link:hover .roadmap-card {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.1);
+    border-color: color-mix(in srgb, var(--site-orange) 55%, var(--color-border-secondary));
+  }
+}
+
+.roadmap-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+.roadmap-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.roadmap-card__title {
+  margin: 0;
+  font-family: var(--type-font-heading);
+  font-weight: var(--type-weight-body-semibold);
+  font-size: var(--type-size-heading-small);
+  line-height: var(--type-leading-heading-small);
+  color: var(--color-text-text-primary);
+  /* Two-line clamp (SITE.md §7.4). */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Draft label — subtle, sits beside the badge; no link on these cards. */
+.roadmap-card__draft {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-text-secondary);
+}

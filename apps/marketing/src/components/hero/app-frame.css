@@ -1,0 +1,66 @@
+/**
+ * The dark dashboard window the pieces assemble into (SITE.md §5) — a faithful
+ * render of the Branding mockup (Figma node 142:8348). The whole mockup is laid
+ * out in Figma units (FRAME_W×FRAME_H, set inline on `__mockup`) and scaled to
+ * the viewport by `--frame-scale`; the engine sets the root's size / left / top /
+ * font-size / opacity / transform / --frame-scale each measure. All colour comes
+ * from the DS semantic tokens, so the mockup follows the site's single global
+ * theme (light, set once on <html>) — no local override. Decorative.
+ */
+
+.app-frame {
+  position: absolute;
+  z-index: 3;
+  /* size / left / top / font-size / --frame-scale / opacity / transform: engine */
+  opacity: 0;
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-radius-08);
+  box-shadow: var(--site-shadow-frame);
+  overflow: hidden;
+  /* Cap the window height (feedback): the engine sizes the frame to FRAME_H×S
+     (≤640px), so this is the ceiling if the render scale is ever raised. */
+  max-height: 696px;
+}
+
+/* The mockup canvas, drawn at full Figma scale (1200×640) and shrunk to the
+   frame by the engine's --frame-scale (transform-origin top-left so it pins to
+   the corner). Positioned so the content-panel backing can sit at its exact
+   Figma coordinates; everything else is a piece rendered over the stage. */
+.app-frame__mockup {
+  position: relative;
+  transform-origin: top left;
+  transform: scale(var(--frame-scale, 1));
+  background: var(--color-surface-secondary);
+}
+
+/* The content panel the falling control pieces settle into — an empty backing
+   pinned to the mockup's content region in Figma units (264,226 → 24px insets
+   on the right/bottom). The pieces (PieceLayer, z-index 10) render on top. */
+.app-frame__content {
+  position: absolute;
+  left: 264px;
+  top: 226px;
+  right: 24px;
+  bottom: 24px;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-radius-05);
+}
+
+/* The snap lattice, revealed faintly while arranging (SITE.md §6) — the 16px
+   grid pieces snap to, aligned to page space via --dotx/--doty (set by the
+   engine). Faint ink dots on the light surface; no darkening veil. */
+.app-frame__portal {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius-radius-08);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  background: radial-gradient(var(--site-dot-ink-soft) 1px, transparent 1px)
+    var(--dotx, 0px) var(--doty, 0px) / var(--snap-grid-size) var(--snap-grid-size);
+}
+.app-frame.is-gridding .app-frame__portal {
+  opacity: 1;
+}

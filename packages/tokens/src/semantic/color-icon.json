@@ -1,7 +1,24 @@
 {
   "color-icon": {
-    "icon-primary":   { "$type": "color", "$value": "{white.100}" },
-    "icon-secondary": { "$type": "color", "$value": "{white.800}" },
-    "icon-tertiary":  { "$type": "color", "$value": "{white.1100}" }
+    "icon-primary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "icon-secondary": {
+      "$type": "color",
+      "$value": "{grey.500}"
+    },
+    "icon-tertiary": {
+      "$type": "color",
+      "$value": "{grey.900}"
+    },
+    "icon-light": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "icon-dark": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    }
   }
 }

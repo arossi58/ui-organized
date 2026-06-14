@@ -10,6 +10,7 @@ export function Tabs({
   defaultValue,
   onValueChange,
   orientation = "horizontal",
+  size = "default",
   className,
 }: TabsProps) {
   return (
@@ -18,7 +19,7 @@ export function Tabs({
       defaultValue={defaultValue ?? tabs[0]?.value}
       onValueChange={onValueChange}
       orientation={orientation}
-      className={clsx(tabsStyles({ orientation }), className)}
+      className={clsx(tabsStyles({ orientation, size }), className)}
     >
       <BaseTabs.List className="tabs__list">
         {tabs.map((tab) => (
@@ -31,7 +32,6 @@ export function Tabs({
             {tab.label}
           </BaseTabs.Tab>
         ))}
-        <BaseTabs.Indicator className="tabs__indicator" />
       </BaseTabs.List>
       <div className="tabs__panels">
         {tabs.map((tab) => (

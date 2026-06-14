@@ -33,4 +33,11 @@ export interface SelectProps {
   /** Whether a value is required for form submission. */
   required?: boolean;
   className?: string;
+  /**
+   * DOM element to portal the dropdown popup into. Defaults to `document.body`.
+   * Set this to a themed container when theme variables are scoped to a subtree
+   * (rather than `<html>`) so the popup inherits them instead of falling back to
+   * the document defaults.
+   */
+  portalContainer?: HTMLElement | null;
 }

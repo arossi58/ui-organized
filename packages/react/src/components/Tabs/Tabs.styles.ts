@@ -6,9 +6,14 @@ export const tabsStyles = cva("tabs", {
       horizontal: "tabs--horizontal",
       vertical:   "tabs--vertical",
     },
+    size: {
+      default: "tabs--default",
+      small:   "tabs--small",
+    },
   },
   defaultVariants: {
     orientation: "horizontal",
+    size:        "default",
   },
 });
 

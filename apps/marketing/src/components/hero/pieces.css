@@ -1,0 +1,130 @@
+/**
+ * Hero piece structure (SITE.md §5). Every piece is a real `@ds/react` component
+ * (see PhysicsPiece.tsx) rendered into a `__fit` wrapper the engine sizes to the
+ * slot and scales by S. This file owns the positioning shell, arrange-mode
+ * interactivity, and the few fills that let components occupy their slot — the
+ * components carry their own surface/colour from tokens, so they follow the
+ * site's single global theme (light, set once on <html>).
+ */
+
+.piece-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  /* Clicks fall through to the stage (bursts) / matter hit-testing (drag). */
+  pointer-events: none;
+}
+
+.physics-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  border-radius: 12px;
+  color: var(--color-text-text-primary);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Arrange mode (phase 4): the layer stays click-through (bursts pass to the
+ * stage), but the organized pieces go live so clicks/toggles/typing reach them. */
+.piece-layer.is-arrangeable .physics-piece {
+  pointer-events: auto;
+}
+/* Drag affordance — only applied when dragging is enabled (the engine adds
+ * `is-draggable` from ARRANGE.dragEnabled). `touch-action: none` keeps a piece
+ * drag from scrolling the page; scoped here so it never blocks normal scrolling
+ * when dragging is off (SITE.md §8). */
+.piece-layer.is-draggable .physics-piece {
+  cursor: grab;
+  touch-action: none;
+}
+.physics-piece.is-arranging {
+  cursor: grabbing;
+  z-index: 20;
+}
+
+/* ---- real @ds/react pieces (SITE.md §5/§10) ----------------------------- */
+/* Each piece renders its @ds/react component at the library's own size — no
+ * style overrides. The `__fit` wrapper is a plain block sized to the slot
+ * (def.w × def.h, the Figma dimensions) and scaled by `--piece-scale` (= S) so
+ * the component tracks the frame on small viewports: block-level controls
+ * (Input, Select, TextArea, Alert) fill the slot width; content-sized ones
+ * (Button, Switch, Link) keep their natural width, exactly like the mockup. */
+.physics-piece__fit {
+  display: block;
+  transform-origin: top left;
+  transform: scale(var(--piece-scale, 1));
+  /* Inert (decorative) while falling; the engine clears inert when organized. */
+  pointer-events: none;
+}
+/* In the grid the components go live: they take pointer events so clicks/toggles
+ * /typing work, and those events still bubble to the piece root, which decides
+ * tap-vs-drag by the movement threshold. */
+.piece-layer.is-arrangeable .physics-piece__fit {
+  pointer-events: auto;
+}
+
+/* The three stacked checkboxes — spaced as in the mockup (Figma container-vert,
+ * 16px gaps). Each Checkbox keeps its own size. */
+.physics-piece__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+/* ---- dashboard chrome pieces (sidebar / heading / badge / stat) ---------- */
+/* These were the static window shell; per feedback they now fall and assemble
+ * like the controls. Each fills its slot (def.w × def.h) inside the `__fit`
+ * wrapper, which the engine scales by S. */
+
+/* The nav rail. The DS Sidebar is 240px wide / 100% tall with its own surface
+ * and right divider; fill the slot height and round the left corners so it
+ * nests into the window (its square right edge stays flush with the body). */
+.physics-piece__sidebar {
+  height: 100%;
+  border-top-left-radius: var(--border-radius-radius-08);
+  border-bottom-left-radius: var(--border-radius-radius-08);
+  overflow: hidden;
+}
+
+/* The "Welcome!" display heading (was .app-frame__title). */
+.physics-piece__heading {
+  margin: 0;
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-semibold);
+  line-height: var(--type-leading-display-medium);
+  color: var(--color-text-text-primary);
+  white-space: nowrap;
+}
+
+/* Stat card — a big figure over a caption, filling its slot (was .app-frame__stat). */
+.physics-piece__stat {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-04);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-radius-05);
+  color: var(--color-text-text-primary);
+  text-align: center;
+}
+.physics-piece__stat-value {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-semibold);
+  line-height: var(--type-leading-display-medium);
+}
+.physics-piece__stat-label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  white-space: nowrap;
+}

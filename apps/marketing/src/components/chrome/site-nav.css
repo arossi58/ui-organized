@@ -1,0 +1,95 @@
+.site-nav {
+  z-index: 500;
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-space-04) var(--section-px);
+}
+
+/* Overlay: floats over the hero's pinned stage and stays pinned to the top of
+   the viewport for the whole page as you scroll. Fixed (not absolute) so it
+   persists past the hero's scroll track; same offsets keep its position. The
+   hero engine never transforms .hero-stage/.hero-stage__sticky, so the fixed
+   nav keeps the viewport as its containing block and escapes the sticky's
+   overflow:hidden. */
+.site-nav--overlay {
+  position: fixed;
+  inset: 0 0 auto 0;
+}
+/* Solid: in-flow header for content pages. */
+.site-nav--solid {
+  position: relative;
+}
+
+/* The floating pill (Branding mockup): translucent surface, hairline border,
+   slight backdrop blur, fully rounded. Surface + border come from the design
+   system, so the pill flips with light/dark mode. */
+.site-nav__pill {
+  width: 100%;
+  max-width: 1040px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-05);
+  padding: var(--spacing-space-02) var(--spacing-space-04);
+  background: var(--site-nav-surface);
+  border: 1px solid var(--site-nav-border);
+  border-radius: var(--border-radius-radius-full);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Logo sits at the far left and takes the slack so the links centre. */
+.site-nav__brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 1 0 0;
+  text-decoration: none;
+  color: var(--color-text-text-primary);
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--spacing-space-06);
+}
+
+.site-nav__link {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--color-text-text-primary);
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--border-radius-radius-full);
+  transition: color 0.15s ease;
+}
+.site-nav__link:hover {
+  color: var(--color-interactive-primary-default);
+}
+.site-nav__link:focus-visible {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: 3px;
+}
+
+/* Active link — brand pill (mockup): brand fill with the DS's on-brand text. */
+.site-nav__link--active,
+.site-nav__link--active:hover {
+  background: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  padding: var(--spacing-space-01) var(--spacing-space-04);
+}
+
+/* Theme menu pinned to the right; mirrors the brand's left slack so the link
+   row stays optically centred. */
+.site-nav__theme {
+  display: flex;
+  flex: 1 0 0;
+  justify-content: flex-end;
+}
+
+/* On narrow screens, drop the link row — keep the logo + theme menu. */
+@media (max-width: 720px) {
+  .site-nav__links {
+    display: none;
+  }
+}

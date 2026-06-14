@@ -1,0 +1,57 @@
+.hero-stage {
+  position: relative;
+  /* Track length = how much scrolling it takes to get past the hero. Taller
+     than the content needs, so there's a margin of scroll before it releases.
+     Mirrors STAGE.trackVh in lib/stagePhases.ts. */
+  height: 360vh;
+  background: var(--color-surface-primary);
+  /* Light hero: re-tone the dot lattice to ink so it shows on cream. Scoped
+     override — the global --site-dot-ink stays cream for the (dark) portal. */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+/* Reduced motion: no scroll track, just the finished layout in one viewport */
+.hero-stage--static {
+  height: 100svh;
+}
+
+/* Soft scroll-snap target at the moment the layout reaches edit mode. Sits at
+   P≈0.72 of the track: 0.72 × (360vh track − 100vh sticky) ≈ 187vh. Pairs with
+   `scroll-snap-type: y proximity` on <html> for a slight pull, not a trap. */
+.hero-stage__snap {
+  position: absolute;
+  left: 0;
+  top: calc((360vh - 100vh) * 0.72);
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+  scroll-snap-align: start;
+}
+.hero-stage--static .hero-stage__snap {
+  display: none;
+}
+
+.hero-stage__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  /* Contain the screen-blended gradient layers to the stage */
+  isolation: isolate;
+  background: var(--color-surface-primary);
+  color: var(--site-ink);
+}
+
+.hero-stage--static .hero-stage__sticky {
+  position: relative;
+}
+
+/* Dot lattice above the aurora/glow, below the frame + content */
+.hero-stage__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Light hero: nav brand uses the default ink color (no override needed) */

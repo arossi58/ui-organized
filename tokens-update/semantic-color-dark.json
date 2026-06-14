@@ -1,0 +1,102 @@
+{
+  "color-border": {
+    "primary": "#272727",
+    "secondary": "#353535",
+    "data-entry": "#444444"
+  },
+  "color-interactive": {
+    "primary": {
+      "default": "#bc4900",
+      "hover": "#933800",
+      "active": "#cd5613",
+      "selected": "#bc4900"
+    },
+    "secondary": {
+      "default": "#fcfcfc",
+      "hover": "#fcfcfc",
+      "active": "#fcfcfc",
+      "selected": "#fcfcfc"
+    },
+    "tertiary": {
+      "default": "#e86e34",
+      "hover": "#933800",
+      "active": "#cd5613",
+      "selected": "#007dde"
+    },
+    "ghost": {
+      "default": "#fcfcfc",
+      "hover": "#fcfcfc",
+      "active": "#fcfcfc"
+    },
+    "destructive": {
+      "default": "#a8000e",
+      "default-ghost": "#eb3934",
+      "hover": "#810008",
+      "active": "#bc0011"
+    },
+    "contents": "#fcfcfc",
+    "ui": {
+      "default": "#fcfcfc",
+      "hover": "#fcfcfc",
+      "active": "#fcfcfc",
+      "selected": "#fcfcfc",
+      "inverse": "#bababa",
+      "light": "#fcfcfc",
+      "dark": "#030303"
+    },
+    "focus": "#fcfcfc",
+    "focus-inverse": "#030303",
+    "inactive": {
+      "inactive-01": "#353535",
+      "inactive-02": "#545454",
+      "inactive-03": "#747474"
+    }
+  },
+  "color-icon": {
+    "icon-primary": "#fcfcfc",
+    "icon-seconadry": "#e3e3e3",
+    "icon-tertiary": "#cccccc",
+    "icon-light": "#fcfcfc",
+    "icon-dark": "#030303"
+  },
+  "color-status": {
+    "success": "#4d8b00",
+    "success-bg": "#173000",
+    "success-content": "#c5f8a4",
+    "info": "#0037a5",
+    "info-bg": "#001244",
+    "info-content": "#a7c7ff",
+    "info-secondary": "#008c63",
+    "info-secondary-bg": "#003020",
+    "info-secondary-content": "#a9f9d4",
+    "caution": "#a08c00",
+    "caution-bg": "#362e00",
+    "caution-content": "#fcf3c4",
+    "warning": "#940052",
+    "warning-bg": "#39001c",
+    "warning-content": "#ffb4ce",
+    "error": "#94000b",
+    "error-message": "#bc0011",
+    "error-bg": "#3a0002",
+    "error-content": "#ffb5ac"
+  },
+  "color-surface": {
+    "base": "#030303",
+    "primary": "#0d0d0d",
+    "secondary": "#191919",
+    "overlay-primary": "#fcfcfc",
+    "overlay-secondary": "#fcfcfc",
+    "overlay-tertiary": "#fcfcfc",
+    "curtain": "#000000"
+  },
+  "color-text": {
+    "text-primary": "#fcfcfc",
+    "text-secondary": "#e3e3e3",
+    "text-tertiary": "#cccccc",
+    "text-placeholder": "#969696",
+    "text-inverse": "#030303",
+    "text-dark": "#030303",
+    "text-light": "#fcfcfc"
+  },
+  "brand": "#bc4900"
+}

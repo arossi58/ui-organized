@@ -1,0 +1,32 @@
+{
+  "color-surface": {
+    "base": {
+      "$type": "color",
+      "$value": "{grey.500}"
+    },
+    "primary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "secondary": {
+      "$type": "color",
+      "$value": "{grey.300}"
+    },
+    "overlay-primary": {
+      "$type": "color",
+      "$value": "#020202"
+    },
+    "overlay-secondary": {
+      "$type": "color",
+      "$value": "#020202"
+    },
+    "overlay-tertiary": {
+      "$type": "color",
+      "$value": "#020202"
+    },
+    "curtain": {
+      "$type": "color",
+      "$value": "rgba(0, 0, 0, 0.8)"
+    }
+  }
+}

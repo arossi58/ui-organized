@@ -1,0 +1,100 @@
+{
+  "brand": {
+    "100": {
+      "$type": "color",
+      "$value": "{mars.100}"
+    },
+    "200": {
+      "$type": "color",
+      "$value": "{mars.200}"
+    },
+    "300": {
+      "$type": "color",
+      "$value": "{mars.300}"
+    },
+    "400": {
+      "$type": "color",
+      "$value": "{mars.400}"
+    },
+    "500": {
+      "$type": "color",
+      "$value": "{mars.500}"
+    },
+    "600": {
+      "$type": "color",
+      "$value": "{mars.600}"
+    },
+    "700": {
+      "$type": "color",
+      "$value": "{mars.700}"
+    },
+    "800": {
+      "$type": "color",
+      "$value": "{mars.800}"
+    },
+    "900": {
+      "$type": "color",
+      "$value": "{mars.900}"
+    },
+    "1000": {
+      "$type": "color",
+      "$value": "{mars.1000}"
+    },
+    "1100": {
+      "$type": "color",
+      "$value": "{mars.1100}"
+    },
+    "1200": {
+      "$type": "color",
+      "$value": "{mars.1200}"
+    },
+    "1300": {
+      "$type": "color",
+      "$value": "{mars.1300}"
+    },
+    "1400": {
+      "$type": "color",
+      "$value": "{mars.1400}"
+    },
+    "1500": {
+      "$type": "color",
+      "$value": "{mars.1500}"
+    },
+    "1600": {
+      "$type": "color",
+      "$value": "{mars.1600}"
+    },
+    "1700": {
+      "$type": "color",
+      "$value": "{mars.1700}"
+    },
+    "1800": {
+      "$type": "color",
+      "$value": "{mars.1800}"
+    },
+    "1900": {
+      "$type": "color",
+      "$value": "{mars.1900}"
+    },
+    "2000": {
+      "$type": "color",
+      "$value": "{mars.2000}"
+    },
+    "2100": {
+      "$type": "color",
+      "$value": "{mars.2100}"
+    },
+    "2200": {
+      "$type": "color",
+      "$value": "{mars.2200}"
+    },
+    "2300": {
+      "$type": "color",
+      "$value": "{mars.2300}"
+    },
+    "2400": {
+      "$type": "color",
+      "$value": "{mars.2400}"
+    }
+  }
+}

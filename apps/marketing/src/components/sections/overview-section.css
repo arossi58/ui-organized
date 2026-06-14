@@ -1,0 +1,181 @@
+/* Overview — three tall cards, each with a hover-only monochrome→orange
+   animation. Mirrors the Figma "Branding" overview row, mapped onto the site's
+   light paper/cream surfaces and DS tokens. */
+
+.overview {
+  /* Warm brand wash — orange/coral derived from the brand tokens via color-mix
+     (per site-tokens.css: brand-accent alphas are mixed against the source
+     tokens), so the backdrop tracks the accent the cards light up to. */
+  background:
+    radial-gradient(900px 560px at 12% 0%, color-mix(in srgb, var(--site-orange) 15%, transparent), transparent 60%),
+    radial-gradient(820px 600px at 92% 38%, color-mix(in srgb, var(--site-coral) 12%, transparent), transparent 62%),
+    radial-gradient(700px 520px at 62% 100%, color-mix(in srgb, var(--site-orange) 9%, transparent), transparent 60%),
+    var(--color-surface-primary);
+}
+
+/* Section header — editorial serif title + body-large lede (Branding mockup). */
+.overview__head {
+  margin-bottom: var(--spacing-space-12);
+}
+
+.overview__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(34px, 4.6vw, 48px);
+  line-height: 1.15;
+  margin: 0 0 var(--spacing-space-03);
+  color: var(--site-ink);
+}
+
+.overview__lede {
+  margin: 0;
+  max-width: 78ch;
+  font-size: var(--type-size-body-large);
+  line-height: 1.5;
+  color: var(--site-ink);
+}
+
+.overview__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-space-06);
+}
+
+@media (max-width: 880px) {
+  .overview__grid {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+}
+
+.overview__cell {
+  display: flex;
+}
+
+/* Stagger the scroll-reveal across the row (~90ms apart). */
+@media (prefers-reduced-motion: no-preference) {
+  .overview__cell:nth-child(2) {
+    transition-delay: 0.09s;
+  }
+  .overview__cell:nth-child(3) {
+    transition-delay: 0.18s;
+  }
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────── */
+.ov-card {
+  /* Resting art colour (monochrome) and the hover accent live on the card so
+     both the stage tint and any future trim can read from one place. Must be
+     OPAQUE: the gooey filter thresholds alpha, so a translucent fill would be
+     crushed to nothing. */
+  --ov-shape: #d0ccc2;
+  --ov-shape-active: var(--site-orange);
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: clamp(420px, 44vw, 520px);
+  /* Neutral surface from the design system — reads as a clean panel on the
+     section's warm wash and re-themes with light/dark. */
+  background: var(--color-surface-primary);
+  border: 1px solid rgba(23, 21, 15, 0.08);
+  border-radius: var(--border-radius-radius-large, 24px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  outline: none;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease;
+}
+
+.ov-card:focus-visible {
+  border-color: color-mix(in srgb, var(--site-orange) 55%, transparent);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 0 0 3px color-mix(in srgb, var(--site-orange) 35%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ov-card.is-active {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
+    border-color: rgba(23, 21, 15, 0.12);
+  }
+}
+
+/* Animation stage — fills the top, art is centred and tinted by --ov-shape. */
+.ov-card__stage {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: var(--spacing-space-03);
+  color: var(--ov-shape);
+  transition: color 0.45s ease;
+}
+
+.ov-card.is-active .ov-card__stage {
+  color: var(--ov-shape-active);
+}
+
+/* ── Foot (title + blurb) ─────────────────────────────────────────────── */
+.ov-card__foot {
+  flex: 0 0 auto;
+  padding: var(--spacing-space-08);
+  word-break: break-word;
+}
+
+.ov-card__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(26px, 2.6vw, 40px);
+  line-height: 1.2;
+  margin: 0 0 var(--spacing-space-02);
+  color: var(--site-ink);
+}
+
+.ov-card__body {
+  font-size: 14px;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--site-ink-soft);
+}
+
+/* ── Art primitives ───────────────────────────────────────────────────── */
+.ov-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* SVG arts fill the stage while keeping their square aspect. */
+.ov-art--design,
+.ov-art--plugins {
+  max-height: 400px;
+}
+
+/* Code art — vertical stack of rounded "lines of code". */
+.ov-art--code {
+  display: flex;
+  align-items: center;
+}
+
+.ov-code {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  padding-inline: var(--spacing-space-04);
+}
+
+.ov-line {
+  display: block;
+  height: 13px;
+  border-radius: var(--border-radius-radius-full, 999px);
+  background: currentColor;
+  opacity: 1;
+  will-change: transform, opacity;
+}

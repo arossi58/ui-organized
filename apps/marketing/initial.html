@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI Organized — From pile to product</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%2317150F' stroke-width='11' stroke-linecap='round' fill='none'%3E%3Cline x1='34' y1='8' x2='34' y2='92'/%3E%3Cline x1='66' y1='8' x2='66' y2='92'/%3E%3Cline x1='8' y1='34' x2='92' y2='34'/%3E%3Cline x1='8' y1='66' x2='92' y2='66'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F2E8;
+    --paper:#FBF8F1;
+    --ink:#17150F;
+    --deep:#0D0C14;
+    --ink-soft:rgba(23,21,15,.62);
+    --cream-soft:rgba(247,242,232,.66);
+    --coral:#FF5A36;
+    --magenta:#FF6FBF;
+    --cobalt:#2B4BF2;
+    --sun:#FFC93C;
+    --green:#1FB868;
+    --violet:#8C5BFF;
+    --font-display:'Baloo 2', system-ui, sans-serif;
+    --font-body:'Hanken Grotesk', system-ui, sans-serif;
+    --font-mono:'DM Mono', ui-monospace, monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--cream); color:var(--ink);
+    font-family:var(--font-body); font-size:17px; line-height:1.55;
+    -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  a{color:inherit;} button{font:inherit; cursor:pointer;}
+  :focus-visible{outline:3px solid var(--cobalt); outline-offset:3px; border-radius:6px;}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:absolute; top:0; left:0; right:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px clamp(20px,4vw,48px);
+    pointer-events:none;
+  }
+  .nav a{pointer-events:auto;}
+  .nav .brand{color:var(--cream);}
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none;}
+  .brand svg{width:34px; height:34px; display:block;}
+  .brand span{font-family:var(--font-display); font-weight:700; font-size:21px;}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-display); font-weight:700; font-size:16px;
+    padding:11px 22px; border-radius:999px; border:2.5px solid var(--ink);
+    background:var(--ink); color:var(--cream); text-decoration:none;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 6px 0 rgba(0,0,0,.25);}
+  .btn--cream{background:var(--cream); color:var(--ink); border-color:var(--cream);}
+  .nav .btn{background:var(--cream); color:var(--ink); border-color:var(--cream);}
+
+  /* ---------- Scroll stage ---------- */
+  .stage{height:300vh; position:relative;}
+  .sticky{
+    position:sticky; top:0; height:100svh; overflow:hidden;
+    background:var(--deep);
+  }
+  /* drifting aurora gradient fields */
+  .bg{position:absolute; inset:-12%; z-index:0; filter:blur(72px); pointer-events:none;}
+  .bg i{position:absolute; border-radius:50%; mix-blend-mode:screen; display:block;}
+  .bg i:nth-child(1){
+    width:58vmax; height:58vmax; left:-14%; bottom:-28%;
+    background:radial-gradient(circle at 38% 36%, var(--coral), transparent 64%);
+    opacity:.95; animation:drift-a 17s ease-in-out infinite alternate;
+  }
+  .bg i:nth-child(2){
+    width:54vmax; height:54vmax; right:-16%; top:-24%;
+    background:radial-gradient(circle at 58% 42%, var(--cobalt), transparent 64%);
+    opacity:.95; animation:drift-b 21s ease-in-out infinite alternate;
+  }
+  .bg i:nth-child(3){
+    width:40vmax; height:40vmax; left:28%; top:4%;
+    background:radial-gradient(circle at 50% 50%, var(--magenta), transparent 64%);
+    opacity:.5; animation:drift-c 24s ease-in-out infinite alternate;
+  }
+  .bg i:nth-child(4){
+    width:32vmax; height:32vmax; right:14%; bottom:-14%;
+    background:radial-gradient(circle at 50% 50%, var(--sun), transparent 64%);
+    opacity:.55; animation:drift-a 26s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes drift-a{ to{transform:translate(7%, -6%) scale(1.14);} }
+  @keyframes drift-b{ to{transform:translate(-6%, 7%) scale(1.10);} }
+  @keyframes drift-c{ to{transform:translate(9%, 9%) scale(1.18);} }
+  @media (prefers-reduced-motion: reduce){ .bg i{animation:none;} }
+
+  /* gradient glow that trails the cursor */
+  .glow{
+    position:absolute; z-index:1; width:520px; height:520px; border-radius:50%;
+    pointer-events:none; mix-blend-mode:screen; filter:blur(46px);
+    background:radial-gradient(circle, rgba(255,111,191,.55), rgba(43,75,242,.30) 46%, transparent 72%);
+    left:50%; top:42%; transform:translate(-50%,-50%);
+  }
+  /* gradient burst on click */
+  .burst{
+    position:absolute; z-index:1; width:360px; height:360px; border-radius:50%;
+    pointer-events:none; mix-blend-mode:screen; filter:blur(34px);
+    transform:translate(-50%,-50%) scale(.15); opacity:.95;
+    animation:burst .9s cubic-bezier(.16,.84,.44,1) forwards;
+  }
+  @keyframes burst{ to{transform:translate(-50%,-50%) scale(1.7); opacity:0;} }
+
+  /* dot grid, kept from the logo's graph paper — now light over the gradient */
+  .sticky::before{
+    content:""; position:absolute; inset:0; z-index:2; pointer-events:none;
+    background-image:radial-gradient(rgba(247,242,232,.20) 1.5px, transparent 1.5px);
+    background-size:44px 44px;
+  }
+
+  /* film grain over the gradients */
+  .grain{
+    position:fixed; inset:0; z-index:90; pointer-events:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay; opacity:.10;
+  }
+
+  .hero-title{
+    position:absolute; top:13svh; left:0; right:0; z-index:5;
+    text-align:center; padding:0 20px; pointer-events:none;
+    transform-origin:50% 0;
+    transition:none;
+  }
+  .hero-title .eyebrow{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--cream-soft); margin-bottom:14px;
+  }
+  .hero-title h1{
+    font-family:var(--font-display); font-weight:800;
+    font-size:clamp(40px, 6vw, 72px); line-height:1.02; letter-spacing:-.015em;
+    color:var(--cream);
+  }
+  .hero-title h1 em{
+    font-style:normal;
+    background:linear-gradient(95deg, var(--sun), var(--coral) 45%, var(--magenta));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .scroll-hint{
+    margin-top:20px; font-family:var(--font-mono); font-size:13.5px; color:var(--cream-soft);
+  }
+  .scroll-hint span{display:inline-block; animation:bob 1.4s ease-in-out infinite;}
+  @keyframes bob{ 0%,100%{transform:translateY(0);} 50%{transform:translateY(6px);} }
+  @media (prefers-reduced-motion: reduce){ .scroll-hint span{animation:none;} }
+
+  .end-caption{
+    position:absolute; bottom:6svh; left:0; right:0; z-index:5;
+    text-align:center; opacity:0; pointer-events:none; padding:0 20px;
+  }
+  .end-caption h2{
+    font-family:var(--font-display); font-weight:700; color:var(--cream);
+    font-size:clamp(26px, 3.4vw, 40px); margin-bottom:14px;
+  }
+  .end-caption .btn{pointer-events:auto; background:var(--cream); color:var(--ink); border-color:var(--cream);}
+  .end-caption .cap-note{
+    font-family:var(--font-mono); font-size:13px; color:var(--cream-soft);
+    margin:-4px 0 16px;
+  }
+
+  /* ---------- App frame (the organized target) ---------- */
+  .frame{
+    position:absolute; z-index:3;
+    background-color:var(--paper);
+    border:2.5px solid var(--ink); border-radius:20px;
+    box-shadow:0 28px 80px rgba(0,0,0,.5);
+    opacity:0;
+    transition:background-color .25s ease;
+  }
+  /* while arranging, the frame interior opens into the hero — a portal */
+  .frame.gridding{background-color:transparent;}
+  .frame-bar{
+    height:2.75em; border-bottom:2px solid var(--ink);
+    background:var(--paper); border-radius:17px 17px 0 0;
+    display:flex; align-items:center; gap:8px; padding:0 1em;
+  }
+  .frame-bar i{width:.75em; height:.75em; border-radius:50%; border:2px solid var(--ink); display:block;}
+  .frame-bar i:nth-child(1){background:var(--coral);}
+  .frame-bar i:nth-child(2){background:var(--sun);}
+  .frame-bar i:nth-child(3){background:var(--green);}
+  .frame-divider{
+    position:absolute; top:4em; bottom:1.25em; left:50%; width:0;
+    border-left:1.5px dashed rgba(23,21,15,.18);
+    transition:opacity .2s ease;
+  }
+  .frame.gridding .frame-divider{opacity:0;}
+  /* the hero's dot grid, continued through the portal and aligned to it —
+     these dots are also the snap lattice for arranging */
+  .frame::after{
+    content:""; position:absolute; left:0; right:0; top:2.75em; bottom:0;
+    border-radius:0 0 17px 17px; pointer-events:none;
+    background:
+      radial-gradient(rgba(247,242,232,.22) 1.5px, transparent 1.5px)
+        var(--dotx, 0px) var(--doty, 0px) / 44px 44px,
+      linear-gradient(rgba(13,12,20,.36), rgba(13,12,20,.36));
+    opacity:0; transition:opacity .25s ease;
+  }
+  .frame.gridding::after{opacity:1;}
+
+  /* ---------- Pieces (UI elements) ---------- */
+  .piece{
+    position:absolute; top:0; left:0; z-index:10;
+    will-change:transform;
+    box-shadow:0 8px 22px rgba(0,0,0,.35);
+    border-radius:12px;
+    user-select:none; -webkit-user-select:none;
+  }
+  .piece.grabbable{cursor:grab;}
+  .pieces-layer.frozen .piece{box-shadow:0 3px 10px rgba(0,0,0,.22);}
+  .pieces-layer.arrangeable .piece{cursor:grab; touch-action:none;}
+  .piece.arranging{cursor:grabbing; z-index:20; box-shadow:0 16px 32px rgba(0,0,0,.45);}
+
+  /* individual piece looks */
+  .p-navpill{
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; gap:8px; padding:0 14px;
+    font-family:var(--font-display); font-weight:700; font-size:.95em;
+  }
+  .p-navpill svg{width:1.2em; height:1.2em;}
+  .p-search{
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; gap:8px; padding:0 14px;
+    font-family:var(--font-mono); font-size:.82em; color:var(--ink-soft);
+  }
+  .p-search b{font-weight:500;}
+  .p-heading{padding:4px 2px; border-radius:8px;}
+  .p-heading i{display:block; border-radius:6px; background:var(--ink);}
+  .p-heading i:nth-child(1){height:34%; width:92%; margin-bottom:10%;}
+  .p-heading i:nth-child(2){height:34%; width:64%; background:linear-gradient(90deg, var(--coral), var(--magenta));}
+  .p-btnp{
+    background:linear-gradient(120deg, var(--coral), var(--magenta));
+    border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; color:#fff; font-size:.95em;
+    text-shadow:0 1px 0 rgba(23,21,15,.25);
+  }
+  .p-btng{
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display); font-weight:700; font-size:.95em;
+  }
+  .p-toggle{
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; gap:10px; padding:0 10px;
+    font-family:var(--font-mono); font-size:.78em;
+  }
+  .p-toggle .knobwrap{
+    width:2.6em; height:1.5em; border-radius:999px; background:var(--green);
+    border:2px solid var(--ink); position:relative; flex:none;
+  }
+  .p-toggle .knobwrap i{
+    position:absolute; right:2px; top:50%; transform:translateY(-50%);
+    width:1em; height:1em; border-radius:50%; background:#fff; border:2px solid var(--ink);
+  }
+  .p-slider{display:flex; align-items:center; border-radius:999px;}
+  .p-slider .track{flex:1; height:8px; border-radius:999px; background:rgba(23,21,15,.18); position:relative;}
+  .p-slider .track::before{content:""; position:absolute; inset:0 38% 0 0; border-radius:999px; background:linear-gradient(90deg, var(--cobalt), var(--violet));}
+  .p-slider .thumb{
+    position:absolute; left:58%; width:20px; height:20px; border-radius:50%;
+    background:#fff; border:2.5px solid var(--ink); top:50%; transform:translate(-50%,-50%);
+  }
+  .p-progress{border-radius:999px; background:rgba(23,21,15,.15); overflow:hidden;}
+  .p-progress i{display:block; height:100%; width:72%; border-radius:999px; background:linear-gradient(90deg, var(--sun), var(--coral));}
+  .p-avatar{
+    border-radius:50%; border:2.5px solid var(--ink);
+    background:radial-gradient(circle at 32% 28%, var(--sun), var(--coral) 80%);
+  }
+  .p-badge{
+    background:var(--ink); color:var(--cream); border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:.74em; letter-spacing:.08em;
+  }
+  .p-tag{
+    background:var(--paper); border:2px dashed rgba(23,21,15,.45); border-radius:999px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-mono); font-size:.78em; color:var(--ink-soft);
+  }
+  .p-swatches{
+    background:var(--paper); border:2px solid var(--ink); border-radius:999px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .p-swatches i{width:1.2em; height:1.2em; border-radius:50%; border:2px solid var(--ink);}
+  .p-swatches i:nth-child(1){background:var(--coral);}
+  .p-swatches i:nth-child(2){background:var(--cobalt);}
+  .p-swatches i:nth-child(3){background:var(--sun);}
+  .p-swatches i:nth-child(4){background:var(--green);}
+  .p-chart{
+    background:var(--paper); border:2px solid var(--ink); border-radius:14px;
+    display:flex; align-items:flex-end; justify-content:center; gap:8px; padding:10px;
+  }
+  .p-chart i{width:16%; border-radius:6px 6px 3px 3px;}
+  .p-chart i:nth-child(1){height:45%; background:var(--cobalt);}
+  .p-chart i:nth-child(2){height:80%; background:var(--coral);}
+  .p-chart i:nth-child(3){height:60%; background:var(--sun);}
+  .p-check{
+    background:var(--paper); border:2px solid var(--ink); border-radius:12px;
+    display:flex; align-items:center; gap:9px; padding:0 12px;
+    font-family:var(--font-mono); font-size:.76em;
+  }
+  .p-check .box{
+    width:1.25em; height:1.25em; border-radius:6px; background:var(--green);
+    border:2px solid var(--ink); color:#fff; flex:none;
+    display:flex; align-items:center; justify-content:center; font-size:.8em; font-weight:700;
+  }
+
+  /* ---------- After-stage content ---------- */
+  section{padding:clamp(70px,9vw,120px) clamp(20px,4vw,48px);}
+  .wrap{max-width:1040px; margin:0 auto;}
+  .sec-eyebrow{
+    font-family:var(--font-mono); font-size:13px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;
+  }
+  h2.sec{
+    font-family:var(--font-display); font-weight:700;
+    font-size:clamp(30px,3.8vw,46px); line-height:1.08; margin-bottom:14px;
+  }
+  .sec-sub{color:var(--ink-soft); max-width:58ch; margin-bottom:46px; font-size:18px;}
+  .trio{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
+  @media (max-width:860px){ .trio{grid-template-columns:1fr;} }
+  .trio div{
+    border:2.5px solid var(--ink); border-radius:20px; background:var(--paper);
+    padding:26px 24px;
+  }
+  .trio h3{font-family:var(--font-display); font-weight:700; font-size:21px; margin-bottom:6px;}
+  .trio p{color:var(--ink-soft); font-size:15.5px;}
+  .after{
+    border-top:none;
+    background:
+      radial-gradient(1100px 600px at 88% 0%, rgba(255,111,191,.18), transparent 65%),
+      radial-gradient(900px 600px at 6% 30%, rgba(43,75,242,.12), transparent 60%),
+      radial-gradient(900px 700px at 60% 100%, rgba(255,201,60,.16), transparent 60%),
+      var(--cream);
+  }
+
+  .cta-band{
+    background:var(--deep); color:var(--cream); border-radius:30px;
+    max-width:1040px; margin:0 auto; text-align:center;
+    padding:clamp(50px,6vw,80px) clamp(26px,5vw,70px);
+    position:relative; overflow:hidden;
+  }
+  .cta-band::before, .cta-band::after{
+    content:""; position:absolute; border-radius:50%; filter:blur(60px);
+    mix-blend-mode:screen; pointer-events:none;
+  }
+  .cta-band::before{
+    width:420px; height:420px; left:-120px; bottom:-180px;
+    background:radial-gradient(circle, var(--coral), transparent 65%);
+  }
+  .cta-band::after{
+    width:460px; height:460px; right:-140px; top:-200px;
+    background:radial-gradient(circle, var(--cobalt), transparent 65%);
+  }
+  .cta-band > *{position:relative; z-index:2;}
+  .cta-band h2{font-family:var(--font-display); font-weight:700; font-size:clamp(30px,3.6vw,44px); margin-bottom:10px;}
+  .cta-band p{color:rgba(247,242,232,.7); margin-bottom:30px;}
+
+  footer{
+    padding:40px clamp(20px,4vw,48px) 52px;
+    display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  }
+  footer .brand svg{width:26px; height:26px;}
+  footer .brand span{font-size:16px;}
+  .foot-note{font-family:var(--font-mono); font-size:13px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ============ SCROLL STAGE ============ -->
+<div class="stage" id="stage">
+  <div class="sticky" id="sticky">
+
+    <nav class="nav">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 100 100" aria-hidden="true">
+          <g stroke="currentColor" stroke-width="11" stroke-linecap="round" fill="none">
+            <line x1="34" y1="8" x2="34" y2="92"/><line x1="66" y1="8" x2="66" y2="92"/>
+            <line x1="8" y1="34" x2="92" y2="34"/><line x1="8" y1="66" x2="92" y2="66"/>
+          </g>
+        </svg>
+        <span>UI Organized</span>
+      </a>
+      <a class="btn" href="#">Open the builder</a>
+    </nav>
+
+    <div class="bg" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="glow" id="glow" aria-hidden="true"></div>
+
+    <div class="hero-title" id="heroTitle">
+      <p class="eyebrow">Theme builder · Figma plugin · npm package</p>
+      <h1>Your UI is <em>in pieces.</em></h1>
+      <p class="scroll-hint">scroll — we’ll take it from here <span>↓</span></p>
+    </div>
+
+    <div class="frame" id="frame" aria-hidden="true">
+      <div class="frame-bar"><i></i><i></i><i></i></div>
+      <div class="frame-divider"></div>
+    </div>
+
+    <div class="pieces-layer" id="piecesLayer" aria-hidden="true"></div>
+
+    <div class="end-caption" id="endCaption">
+      <h2>Every piece in its place.</h2>
+      <p class="cap-note">drag any piece to rearrange — it stays on the grid</p>
+      <a class="btn" href="#">Start building — it’s free</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ AFTER ============ -->
+<section class="after">
+  <div class="wrap">
+    <p class="sec-eyebrow">Why it works</p>
+    <h2 class="sec">Order isn’t a cleanup. It’s a system.</h2>
+    <p class="sec-sub">UI Organized keeps your components, tokens, and design files generated from one theme config — so things never get the chance to pile up again.</p>
+    <div class="trio">
+      <div><h3>Theme builder</h3><p>One brand color and a curated neutral become a full palette, type scale, and spacing system — light and dark included.</p></div>
+      <div><h3>Figma plugin</h3><p>Variables, modes, and styles synced from the same config. The canvas and the codebase finally agree.</p></div>
+      <div><h3>npm package</h3><p>CSS tokens and accessible components built on headless primitives, ready to drop into production.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cta-band">
+    <h2>Bring order to your UI.</h2>
+    <p>Open source, client-side, and free to use.</p>
+    <a class="btn btn--cream" href="#">Open the builder</a>
+  </div>
+</section>
+
+<footer>
+  <a class="brand" href="#" style="color:var(--ink)">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <g stroke="currentColor" stroke-width="11" stroke-linecap="round" fill="none">
+        <line x1="34" y1="8" x2="34" y2="92"/><line x1="66" y1="8" x2="66" y2="92"/>
+        <line x1="8" y1="34" x2="92" y2="34"/><line x1="8" y1="66" x2="92" y2="66"/>
+      </g>
+    </svg>
+    <span>UI Organized</span>
+  </a>
+  <span class="foot-note">Open source · MIT license</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  var stage = document.getElementById('stage');
+  var sticky = document.getElementById('sticky');
+  var layer = document.getElementById('piecesLayer');
+  var frameEl = document.getElementById('frame');
+  var heroTitle = document.getElementById('heroTitle');
+  var endCaption = document.getElementById('endCaption');
+  var glowEl = document.getElementById('glow');
+  var titleEyebrow = heroTitle.querySelector('.eyebrow');
+  var titleHint = heroTitle.querySelector('.scroll-hint');
+
+  var Engine = Matter.Engine, Bodies = Matter.Bodies, Body = Matter.Body,
+      Composite = Matter.Composite, Mouse = Matter.Mouse,
+      MouseConstraint = Matter.MouseConstraint;
+
+  var W = 0, H = 0, S = 1;          // viewport + scale factor
+  var engine, walls = [], mouseConstraint = null;
+  var pieces = [];
+  var P = 0;                        // scroll progress 0..1
+  var PHASE_A_END = 0.12;           // pure physics below this
+  var inPhysics = true;
+
+  // arrange mode: once fully organized, pieces can be dragged on a fixed grid
+  var ORG_T = 0.965;                // all stagger lerps are complete past this
+  var organizedMode = false;
+  var DOT = 44;                     // hero dot-grid spacing (px) — also the snap lattice
+  var FRAME_PAD = 12, BAR_H = 44;   // keep-out zones inside the frame (frame units)
+
+  /* ============================================================
+     PIECE DEFINITIONS — sizes + target slots in 760x470 frame space
+     (cx, cy are slot centers inside the frame, below its title bar)
+     ============================================================ */
+  var FRAME_W = 760, FRAME_H = 470;
+  var DEFS = [
+    { cls:'p-navpill',  w:158, h:42, shape:'rect',   cx:118, cy:86,
+      html:'<svg viewBox="0 0 100 100"><g stroke="#17150F" stroke-width="11" stroke-linecap="round" fill="none"><line x1="34" y1="8" x2="34" y2="92"/><line x1="66" y1="8" x2="66" y2="92"/><line x1="8" y1="34" x2="92" y2="34"/><line x1="8" y1="66" x2="92" y2="66"/></g></svg>Organized' },
+    { cls:'p-search',   w:208, h:42, shape:'rect',   cx:612, cy:86,  html:'<b>⌕</b> search tokens…' },
+    { cls:'p-heading',  w:244, h:66, shape:'rect',   cx:192, cy:172, html:'<i></i><i></i>' },
+    { cls:'p-btnp',     w:122, h:46, shape:'rect',   cx:132, cy:252, html:'Publish' },
+    { cls:'p-btng',     w:114, h:46, shape:'rect',   cx:262, cy:252, html:'Preview' },
+    { cls:'p-toggle',   w:158, h:38, shape:'rect',   cx:150, cy:318, html:'<span class="knobwrap"><i></i></span>dark mode' },
+    { cls:'p-slider',   w:196, h:30, shape:'rect',   cx:170, cy:372, html:'<span class="track"></span><span class="thumb"></span>' },
+    { cls:'p-progress', w:196, h:18, shape:'rect',   cx:170, cy:420, html:'<i></i>' },
+    { cls:'p-avatar',   w:54,  h:54, shape:'circle', cx:424, cy:170, html:'' },
+    { cls:'p-badge',    w:66,  h:30, shape:'rect',   cx:498, cy:170, html:'PRO' },
+    { cls:'p-tag',      w:104, h:32, shape:'rect',   cx:600, cy:170, html:'#tokens' },
+    { cls:'p-swatches', w:156, h:38, shape:'rect',   cx:478, cy:244, html:'<i></i><i></i><i></i><i></i>' },
+    { cls:'p-chart',    w:116, h:78, shape:'rect',   cx:642, cy:262, html:'<i></i><i></i><i></i>' },
+    { cls:'p-check',    w:168, h:36, shape:'rect',   cx:486, cy:322, html:'<span class="box">✓</span>sync to figma' }
+  ];
+
+  var frameRect = { x:0, y:0, w:0, h:0 };
+
+  /* ============================================================
+     BUILD
+     ============================================================ */
+  function measure(){
+    W = sticky.clientWidth;
+    H = sticky.clientHeight;
+    S = Math.min(1, (W * 0.92) / FRAME_W, (H * 0.62) / FRAME_H);
+    frameRect.w = FRAME_W * S;
+    frameRect.h = FRAME_H * S;
+    frameRect.x = (W - frameRect.w) / 2;
+    frameRect.y = H * 0.30;
+    if (frameRect.y + frameRect.h > H - 40) frameRect.y = Math.max(60, H - 40 - frameRect.h);
+    frameEl.style.width = frameRect.w + 'px';
+    frameEl.style.height = frameRect.h + 'px';
+    frameEl.style.left = frameRect.x + 'px';
+    frameEl.style.top = frameRect.y + 'px';
+    frameEl.style.fontSize = (16 * S) + 'px';
+    // align the portal's dots with the hero's dot lattice (2.5 = frame border)
+    function wrap(v){ return ((v % DOT) + DOT) % DOT; }
+    frameEl.style.setProperty('--dotx', -wrap(frameRect.x + 2.5) + 'px');
+    frameEl.style.setProperty('--doty', -wrap(frameRect.y + 2.5 + BAR_H * S) + 'px');
+  }
+
+  function targetForPiece(p){
+    return {
+      x: frameRect.x + p.orgCx * S,
+      y: frameRect.y + p.orgCy * S
+    };
+  }
+
+  function targetFor(def){
+    return {
+      x: frameRect.x + def.cx * S,
+      y: frameRect.y + def.cy * S
+    };
+  }
+
+  function buildPieces(){
+    layer.innerHTML = '';
+    pieces = [];
+    DEFS.forEach(function(def, i){
+      var el = document.createElement('div');
+      el.className = 'piece ' + def.cls + (finePointer ? ' grabbable' : '');
+      var w = def.w * S, h = def.h * S;
+      el.style.width = w + 'px';
+      el.style.height = h + 'px';
+      el.style.fontSize = (16 * S) + 'px';
+      if (def.cls === 'p-avatar' || def.cls === 'p-navpill' || def.cls === 'p-search' ||
+          def.cls === 'p-btnp' || def.cls === 'p-btng' || def.cls === 'p-toggle' ||
+          def.cls === 'p-badge' || def.cls === 'p-tag' || def.cls === 'p-swatches' ||
+          def.cls === 'p-progress' || def.cls === 'p-slider'){
+        el.style.borderRadius = '999px';
+      }
+      if (def.cls === 'p-avatar') el.style.borderRadius = '50%';
+      el.innerHTML = def.html;
+      layer.appendChild(el);
+
+      // body is created now but only enters the world when spawned,
+      // so pieces visibly rain in one at a time after load
+      var body;
+      var opts = { restitution: 0.35, friction: 0.4, frictionAir: 0.012, density: 0.0016 };
+      if (def.shape === 'circle'){
+        body = Bodies.circle(0, -500, w / 2, opts);
+      } else {
+        body = Bodies.rectangle(0, -500, w, h, Object.assign({ chamfer: { radius: Math.min(12, h / 2) } }, opts));
+      }
+      el.style.visibility = 'hidden';
+
+      pieces.push({
+        def: def, el: el, body: body,
+        w: w, h: h, spawned: false,
+        capX: 0, capY: 0, capA: 0,            // captured pose at physics -> scroll handoff
+        t0: (i / DEFS.length) * 0.45,         // stagger start within phase B
+        orgCx: def.cx, orgCy: def.cy,         // current "home" slot in frame units (user-movable)
+        gridDrag: false, gridSnap: false,
+        gx: 0, gy: 0, gvx: 0, gvy: 0          // arrange-mode position + spring velocity (px)
+      });
+      attachArrange(pieces[pieces.length - 1]);
+    });
+  }
+
+  function spawnPiece(p){
+    if (p.spawned) return;
+    p.spawned = true;
+    var margin = Math.max(p.w, p.h);
+    Body.setPosition(p.body, {
+      x: W * 0.12 + (W * 0.76) * Math.random(),
+      y: -margin - 20 - Math.random() * 80
+    });
+    Body.setAngle(p.body, (Math.random() * 0.9 - 0.45));
+    Body.setVelocity(p.body, { x: (Math.random() - 0.5) * 1.5, y: 2 + Math.random() * 3 });
+    Body.setAngularVelocity(p.body, (Math.random() * 0.14 - 0.07));
+    Composite.add(engine.world, p.body);
+    p.el.style.visibility = '';
+  }
+
+  function spawnAllNow(){
+    pieces.forEach(spawnPiece);
+  }
+
+  function scheduleSpawns(){
+    // drop pieces in a shuffled order, one every ~140ms, after a short beat
+    var order = pieces.slice();
+    for (var i = order.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = order[i]; order[i] = order[j]; order[j] = tmp;
+    }
+    order.forEach(function(p, idx){
+      setTimeout(function(){ spawnPiece(p); }, 350 + idx * 140 + Math.random() * 60);
+    });
+  }
+
+  function buildWalls(){
+    walls.forEach(function(wl){ Composite.remove(engine.world, wl); });
+    var T = 200;
+    walls = [
+      Bodies.rectangle(W / 2, H + T / 2, W * 2, T, { isStatic: true }),       // floor
+      Bodies.rectangle(-T / 2, H / 2, T, H * 4, { isStatic: true }),          // left
+      Bodies.rectangle(W + T / 2, H / 2, T, H * 4, { isStatic: true })        // right
+    ];
+    Composite.add(engine.world, walls);
+  }
+
+  function buildMouse(){
+    if (!finePointer || !motionOK) return;
+    var mouse = Mouse.create(sticky);
+    mouse.pixelRatio = 1;
+    // Matter's Mouse hijacks wheel events with preventDefault, which blocks
+    // trackpad/mouse-wheel page scrolling — we only need it for dragging,
+    // so strip the wheel listeners back off
+    mouse.element.removeEventListener('mousewheel', mouse.mousewheel);
+    mouse.element.removeEventListener('DOMMouseScroll', mouse.mousewheel);
+    mouse.element.removeEventListener('wheel', mouse.mousewheel);
+    mouseConstraint = MouseConstraint.create(engine, {
+      mouse: mouse,
+      constraint: { stiffness: 0.18, damping: 0.12, render: { visible: false } }
+    });
+    Composite.add(engine.world, mouseConstraint);
+  }
+
+  /* ============================================================
+     RENDER + PHASES
+     ============================================================ */
+  function setPiece(el, x, y, a, w, h){
+    el.style.transform = 'translate(' + (x - w / 2) + 'px,' + (y - h / 2) + 'px) rotate(' + a + 'rad)';
+  }
+
+  function easeInOut(t){ return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function clamp01(t){ return Math.max(0, Math.min(1, t)); }
+
+  function capturePoses(){
+    spawnAllNow(); // if the user scrolls before every piece has dropped, land the rest instantly
+    pieces.forEach(function(p){
+      p.capX = p.body.position.x;
+      p.capY = p.body.position.y;
+      p.capA = p.body.angle;
+      Body.setStatic(p.body, true);
+    });
+  }
+
+  function releasePoses(){
+    pieces.forEach(function(p){
+      // resume physics from wherever the piece currently is on screen
+      var bp = currentLerpPose(p);
+      Body.setStatic(p.body, false);
+      Body.setPosition(p.body, { x: bp.x, y: bp.y });
+      Body.setAngle(p.body, bp.a);
+      Body.setVelocity(p.body, { x: (Math.random() - 0.5) * 2, y: 1 + Math.random() * 2 });
+      Body.setAngularVelocity(p.body, (Math.random() - 0.5) * 0.08);
+    });
+  }
+
+  function currentLerpPose(p){
+    var span = 0.55;
+    var local = clamp01((P - PHASE_A_END - p.t0 * (1 - PHASE_A_END)) /
+                        (span * (1 - PHASE_A_END)));
+    var e = easeInOut(local);
+    var tgt = targetForPiece(p);
+    return {
+      x: p.capX + (tgt.x - p.capX) * e,
+      y: p.capY + (tgt.y - p.capY) * e,
+      a: p.capA * (1 - e)
+    };
+  }
+
+  function updateScrollProgress(){
+    var rect = stage.getBoundingClientRect();
+    var total = stage.offsetHeight - window.innerHeight;
+    P = total > 0 ? clamp01(-rect.top / total) : 0;
+  }
+
+  function updateOverlays(){
+    // heading stays — it shrinks and tucks up under the nav as the layout forms
+    var t = easeInOut(clamp01(P / 0.3));
+    heroTitle.style.transform =
+      'translateY(' + (-H * 0.085 * t) + 'px) scale(' + (1 - 0.42 * t) + ')';
+    var fade = 1 - clamp01(P / 0.1);
+    titleEyebrow.style.opacity = fade;
+    titleHint.style.opacity = fade;
+
+    var frameIn = clamp01((P - 0.22) / 0.28);
+    var fe = easeInOut(frameIn);
+    frameEl.style.opacity = fe;
+    frameEl.style.transform = 'translateY(' + (26 * (1 - fe)) + 'px) scale(' + (0.96 + 0.04 * fe) + ')';
+
+    var capIn = clamp01((P - 0.86) / 0.12);
+    endCaption.style.opacity = capIn;
+    endCaption.style.transform = 'translateY(' + (18 * (1 - capIn)) + 'px)';
+    endCaption.style.pointerEvents = capIn > 0.6 ? 'auto' : 'none';
+  }
+
+  /* ============================================================
+     ARRANGE MODE — drag organized pieces on a fixed grid
+     ============================================================ */
+  function attachArrange(p){
+    var offX = 0, offY = 0;
+    p.el.addEventListener('pointerdown', function(e){
+      if (!organizedMode || p.gridDrag) return;
+      e.preventDefault();
+      p.el.setPointerCapture(e.pointerId);
+      var rect = sticky.getBoundingClientRect();
+      var px = e.clientX - rect.left, py = e.clientY - rect.top;
+      var pose = targetForPiece(p);
+      var startX = p.gridSnap ? p.gx : pose.x;
+      var startY = p.gridSnap ? p.gy : pose.y;
+      offX = px - startX; offY = py - startY;
+      p.gx = startX; p.gy = startY;
+      p.gridDrag = true; p.gridSnap = false;
+      p.el.classList.add('arranging');
+      frameEl.classList.add('gridding');
+    });
+    p.el.addEventListener('pointermove', function(e){
+      if (!p.gridDrag) return;
+      var rect = sticky.getBoundingClientRect();
+      p.gx = e.clientX - rect.left - offX;
+      p.gy = e.clientY - rect.top - offY;
+    });
+    function up(){
+      if (!p.gridDrag) return;
+      p.gridDrag = false;
+      p.el.classList.remove('arranging');
+      frameEl.classList.remove('gridding');
+      var slot = snapToArrangeGrid(p, { x: p.gx, y: p.gy });
+      p.orgCx = (slot.x - frameRect.x) / S;    // becomes the piece's new home
+      p.orgCy = (slot.y - frameRect.y) / S;
+      p.gridSnap = true; p.gvx = 0; p.gvy = 0;
+    }
+    p.el.addEventListener('pointerup', up);
+    p.el.addEventListener('pointercancel', up);
+  }
+
+  function snapToLattice(wpx, hpx, c, isFree){
+    // snap a piece center (px) to the global dot lattice, clamped inside the
+    // frame, ring-searching for the nearest free spot
+    var b = {
+      minX: frameRect.x + FRAME_PAD * S + wpx / 2,
+      maxX: frameRect.x + (FRAME_W - FRAME_PAD) * S - wpx / 2,
+      minY: frameRect.y + (BAR_H + FRAME_PAD) * S + hpx / 2,
+      maxY: frameRect.y + (FRAME_H - FRAME_PAD) * S - hpx / 2
+    };
+    function clampPt(x, y){
+      return { x: Math.max(b.minX, Math.min(b.maxX, x)),
+               y: Math.max(b.minY, Math.min(b.maxY, y)) };
+    }
+    var base = clampPt(Math.round(c.x / DOT) * DOT, Math.round(c.y / DOT) * DOT);
+    var cand = [];
+    for (var ox = -4; ox <= 4; ox++){
+      for (var oy = -4; oy <= 4; oy++){
+        var pt = clampPt(base.x + ox * DOT, base.y + oy * DOT);
+        var dx = pt.x - c.x, dy = pt.y - c.y;
+        cand.push({ x: pt.x, y: pt.y, d: dx * dx + dy * dy });
+      }
+    }
+    cand.sort(function(a, bb){ return a.d - bb.d; });
+    for (var i = 0; i < cand.length; i++){
+      if (isFree(cand[i])) return cand[i];
+    }
+    return base; // no free slot nearby — allow the overlap rather than losing the piece
+  }
+
+  function arrangeOverlapsPx(p, pos){
+    for (var i = 0; i < pieces.length; i++){
+      var q = pieces[i];
+      if (q === p) continue;
+      var qt = targetForPiece(q);
+      if (Math.abs(pos.x - qt.x) < (p.w + q.w) / 2 - 2 &&
+          Math.abs(pos.y - qt.y) < (p.h + q.h) / 2 - 2) return true;
+    }
+    return false;
+  }
+
+  function snapToArrangeGrid(p, c){
+    return snapToLattice(p.w, p.h, c, function(pos){ return !arrangeOverlapsPx(p, pos); });
+  }
+
+  function quantizeHomes(){
+    // pull every piece's home slot onto the dot lattice, so the layout the
+    // pieces organize into is the same grid the user arranges on
+    pieces.forEach(function(p){
+      var t = targetForPiece(p);
+      var slot = snapToArrangeGrid(p, t);
+      p.orgCx = (slot.x - frameRect.x) / S;
+      p.orgCy = (slot.y - frameRect.y) / S;
+    });
+  }
+
+  function setOrganizedMode(on){
+    organizedMode = on;
+    layer.classList.toggle('arrangeable', on);
+    if (!on){
+      pieces.forEach(function(p){
+        p.gridDrag = false; p.gridSnap = false;
+        p.el.classList.remove('arranging');
+      });
+      frameEl.classList.remove('gridding');
+    }
+  }
+
+  /* ============================================================
+     GRADIENT INTERACTION — glow trails the cursor, bursts on click
+     ============================================================ */
+  var glowX = 0, glowY = 0, glowTX = 0, glowTY = 0, glowLive = false;
+  var BURST_COLORS = [
+    'radial-gradient(circle, rgba(255,90,54,.85), transparent 68%)',
+    'radial-gradient(circle, rgba(43,75,242,.85), transparent 68%)',
+    'radial-gradient(circle, rgba(255,111,191,.85), transparent 68%)',
+    'radial-gradient(circle, rgba(255,201,60,.8), transparent 68%)',
+    'radial-gradient(circle, rgba(140,91,255,.85), transparent 68%)'
+  ];
+  var burstIdx = 0;
+
+  function initGradientInteraction(){
+    sticky.addEventListener('pointermove', function(e){
+      var rect = sticky.getBoundingClientRect();
+      glowTX = e.clientX - rect.left;
+      glowTY = e.clientY - rect.top;
+      if (!glowLive){
+        glowLive = true;
+        glowX = glowTX; glowY = glowTY;
+        glowEl.style.left = '0'; glowEl.style.top = '0';
+      }
+    });
+    sticky.addEventListener('pointerdown', function(e){
+      if (e.target.closest && e.target.closest('.nav')) return;
+      var rect = sticky.getBoundingClientRect();
+      var b = document.createElement('div');
+      b.className = 'burst';
+      b.style.left = (e.clientX - rect.left) + 'px';
+      b.style.top = (e.clientY - rect.top) + 'px';
+      b.style.background = BURST_COLORS[burstIdx % BURST_COLORS.length];
+      burstIdx++;
+      sticky.appendChild(b);
+      b.addEventListener('animationend', function(){ b.remove(); });
+    });
+  }
+
+  function stepGlow(){
+    if (!glowLive) return;
+    glowX += (glowTX - glowX) * 0.07;
+    glowY += (glowTY - glowY) * 0.07;
+    glowEl.style.transform = 'translate(' + (glowX - 260) + 'px,' + (glowY - 260) + 'px)';
+  }
+
+  function frameTick(){
+    updateScrollProgress();
+
+    var wantPhysics = P < PHASE_A_END;
+    if (wantPhysics !== inPhysics){
+      if (wantPhysics){ releasePoses(); layer.classList.remove('frozen'); }
+      else { capturePoses(); layer.classList.add('frozen'); }
+      inPhysics = wantPhysics;
+    }
+
+    var wantOrg = !wantPhysics && P >= ORG_T;
+    if (wantOrg !== organizedMode) setOrganizedMode(wantOrg);
+
+    if (inPhysics){
+      Engine.update(engine, 1000 / 60);
+      pieces.forEach(function(p){
+        if (!p.spawned) return;
+        setPiece(p.el, p.body.position.x, p.body.position.y, p.body.angle, p.w, p.h);
+      });
+    } else {
+      pieces.forEach(function(p){
+        if (p.gridDrag){
+          setPiece(p.el, p.gx, p.gy, 0, p.w, p.h);
+          return;
+        }
+        if (p.gridSnap){
+          var tgt = targetForPiece(p);
+          p.gvx = (p.gvx + (tgt.x - p.gx) * 0.18) * 0.7;
+          p.gvy = (p.gvy + (tgt.y - p.gy) * 0.18) * 0.7;
+          p.gx += p.gvx; p.gy += p.gvy;
+          if (Math.abs(tgt.x - p.gx) < 0.4 && Math.abs(tgt.y - p.gy) < 0.4 &&
+              Math.abs(p.gvx) < 0.05 && Math.abs(p.gvy) < 0.05){
+            p.gridSnap = false;
+            setPiece(p.el, tgt.x, tgt.y, 0, p.w, p.h);
+          } else {
+            setPiece(p.el, p.gx, p.gy, 0, p.w, p.h);
+          }
+          return;
+        }
+        var pose = currentLerpPose(p);
+        setPiece(p.el, pose.x, pose.y, pose.a, p.w, p.h);
+      });
+    }
+
+    updateOverlays();
+    stepGlow();
+    requestAnimationFrame(frameTick);
+  }
+
+  /* ============================================================
+     REDUCED MOTION — show the finished layout, no physics
+     ============================================================ */
+  function staticLayout(){
+    measure();
+    frameEl.style.opacity = 1;
+    heroTitle.querySelector('.scroll-hint').style.display = 'none';
+    endCaption.style.opacity = 1;
+    endCaption.style.pointerEvents = 'auto';
+    stage.style.height = '100svh';
+    layer.innerHTML = '';
+    var placed = [];
+    DEFS.forEach(function(def){
+      var el = document.createElement('div');
+      el.className = 'piece ' + def.cls;
+      var w = def.w * S, h = def.h * S;
+      el.style.width = w + 'px'; el.style.height = h + 'px';
+      el.style.fontSize = (16 * S) + 'px';
+      if (def.cls === 'p-avatar') el.style.borderRadius = '50%';
+      el.innerHTML = def.html;
+      el.style.boxShadow = '0 2px 0 rgba(23,21,15,.08)';
+      layer.appendChild(el);
+      var slot = snapToLattice(w, h, targetFor(def), function(pos){
+        for (var i = 0; i < placed.length; i++){
+          var q = placed[i];
+          if (Math.abs(pos.x - q.x) < (w + q.w) / 2 - 2 &&
+              Math.abs(pos.y - q.y) < (h + q.h) / 2 - 2) return false;
+        }
+        return true;
+      });
+      placed.push({ x: slot.x, y: slot.y, w: w, h: h });
+      setPiece(el, slot.x, slot.y, 0, w, h);
+    });
+  }
+
+  /* ============================================================
+     BOOT
+     ============================================================ */
+  if (!motionOK){
+    staticLayout();
+    window.addEventListener('resize', staticLayout);
+    return;
+  }
+
+  engine = Engine.create();
+  engine.gravity.y = 1;
+
+  measure();
+  buildWalls();
+  buildPieces();
+  quantizeHomes();
+  buildMouse();
+  initGradientInteraction();
+
+  // if the page loads mid-scroll, drop everything instantly and pre-settle the
+  // pile before handing off; otherwise rain the pieces in one by one
+  updateScrollProgress();
+  if (P >= PHASE_A_END){
+    spawnAllNow();
+    for (var k = 0; k < 180; k++){ Engine.update(engine, 1000 / 60); }
+    capturePoses();
+    layer.classList.add('frozen');
+    inPhysics = false;
+  } else {
+    scheduleSpawns();
+  }
+
+  var rto = null;
+  window.addEventListener('resize', function(){
+    clearTimeout(rto);
+    rto = setTimeout(function(){
+      var wasPhysics = inPhysics;
+      measure();
+      buildWalls();
+      // rescale piece DOM + bodies in place
+      pieces.forEach(function(p){
+        var w = p.def.w * S, h = p.def.h * S;
+        var sx = w / p.w;
+        if (Math.abs(sx - 1) > 0.001){ Body.scale(p.body, sx, h / p.h); }
+        p.w = w; p.h = h;
+        p.el.style.width = w + 'px'; p.el.style.height = h + 'px';
+        p.el.style.fontSize = (16 * S) + 'px';
+      });
+      quantizeHomes(); // the lattice is in page space, so homes need re-aligning
+      if (!wasPhysics){ /* re-capture so lerp uses fresh geometry */
+        pieces.forEach(function(p){ Body.setStatic(p.body, false); });
+        capturePoses();
+      }
+    }, 140);
+  });
+
+  requestAnimationFrame(frameTick);
+})();
+</script>
+</body>
+</html>

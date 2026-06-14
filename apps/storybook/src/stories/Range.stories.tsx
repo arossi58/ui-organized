@@ -1,0 +1,122 @@
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { useState } from "react";
+import { Range } from "@ds/react";
+
+const meta: Meta<typeof Range> = {
+  title: "Components/Range",
+  component: Range,
+  parameters: {
+    layout: "padded",
+  },
+  argTypes: {
+    size: {
+      control: "select",
+      options: ["sm", "md", "lg"],
+    },
+    label: { control: "text" },
+    min: { control: "number" },
+    max: { control: "number" },
+    step: { control: "number" },
+    rangeLabels: { control: "boolean" },
+    hideValue: { control: "boolean" },
+    disabled: { control: "boolean" },
+    error: { control: "text" },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof Range>;
+
+const wrap = { display: "flex", flexDirection: "column" as const, gap: "24px", maxWidth: "320px" };
+
+export const Default: Story = {
+  args: {
+    label: "Volume",
+    defaultValue: 40,
+    size: "md",
+  },
+};
+
+export const WithRangeLabels: Story = {
+  args: {
+    label: "Brightness",
+    defaultValue: 60,
+    rangeLabels: true,
+  },
+};
+
+export const AllSizes: Story = {
+  render: () => (
+    <div style={wrap}>
+      <Range size="sm" label="Small" defaultValue={30} rangeLabels />
+      <Range size="md" label="Medium" defaultValue={50} rangeLabels />
+      <Range size="lg" label="Large" defaultValue={70} rangeLabels />
+    </div>
+  ),
+};
+
+export const States: Story = {
+  render: () => (
+    <div style={wrap}>
+      <Range label="Default" defaultValue={50} rangeLabels />
+      <Range label="Disabled" defaultValue={50} rangeLabels disabled />
+      <Range label="Error" defaultValue={50} rangeLabels error="Please pick a lower value." />
+    </div>
+  ),
+};
+
+/** `step` snaps the thumb at regular intervals between min and max. */
+export const SnapAtIntervals: Story = {
+  args: {
+    label: "Rating (steps of 10)",
+    min: 0,
+    max: 100,
+    step: 10,
+    defaultValue: 30,
+    rangeLabels: true,
+  },
+};
+
+/** `snapValues` snaps to a fixed, possibly uneven, set of allowed values. */
+export const SnapToValues: Story = {
+  render: () => {
+    const sizes = [8, 16, 24, 32, 48, 64];
+    return (
+      <div style={wrap}>
+        <Range
+          label="Font size"
+          snapValues={sizes}
+          defaultValue={16}
+          rangeLabels
+          startLabel="8px"
+          endLabel="64px"
+          formatValue={(v) => `${v}px`}
+        />
+      </div>
+    );
+  },
+};
+
+export const Controlled: Story = {
+  render: () => {
+    const [value, setValue] = useState(25);
+    return (
+      <div style={wrap}>
+        <Range
+          label="Opacity"
+          value={value}
+          onValueChange={setValue}
+          rangeLabels
+          formatValue={(v) => `${v}%`}
+        />
+        <div style={{ display: "flex", gap: "8px" }}>
+          {[0, 25, 50, 75, 100].map((v) => (
+            <button key={v} type="button" onClick={() => setValue(v)}>
+              {v}%
+            </button>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};

@@ -1,0 +1,24 @@
+{
+  "color-icon": {
+    "icon-primary": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "icon-secondary": {
+      "$type": "color",
+      "$value": "{grey.2000}"
+    },
+    "icon-tertiary": {
+      "$type": "color",
+      "$value": "{grey.1600}"
+    },
+    "icon-light": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "icon-dark": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    }
+  }
+}

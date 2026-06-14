@@ -1,0 +1,104 @@
+/**
+ * Shared layout primitives — defined once, never re-declared per section
+ * (SITE.md §3.4). Spacing/radius come from system tokens; section padding
+ * rhythm and the page-width wrap live here so every section agrees.
+ */
+
+:root {
+  /* Section rhythm. The vertical clamp tops out at the system's largest
+     spacing token (space-32 = 128px); the inline gutter is a responsive
+     edge margin, not a per-section magic value. */
+  --section-py: clamp(var(--spacing-space-16), 9vw, var(--spacing-space-32));
+  --section-px: clamp(var(--spacing-space-05), 4vw, var(--spacing-space-12));
+  --wrap-max: 1040px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Proximity (not mandatory) snapping: the hero's edit-mode marker
+     (.hero-stage__snap) gives a slight pull as the layout organizes, but the
+     page never traps the scroll — users glide right past it. */
+  scroll-snap-type: y proximity;
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface-primary);
+  color: var(--site-ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+/* Page-width container */
+.wrap {
+  max-width: var(--wrap-max);
+  margin-inline: auto;
+}
+
+/* Section shell — owns the vertical/horizontal rhythm for every section */
+.section {
+  padding-block: var(--section-py);
+  padding-inline: var(--section-px);
+}
+
+/* Mono eyebrow label, shared by every section header */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--site-ink-soft);
+  margin: 0 0 var(--spacing-space-03);
+}
+
+/* Section heading + sub, shared rhythm */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 3.8vw, 46px);
+  line-height: 1.08;
+  margin: 0 0 var(--spacing-space-03);
+}
+
+.section-sub {
+  color: var(--site-ink-soft);
+  max-width: 58ch;
+  margin: 0 0 var(--spacing-space-12);
+  font-size: 18px;
+}
+
+/* Reveal-on-scroll — driven by useRevealOnScroll. The element starts hidden
+   only when motion is allowed; under reduced motion it is visible immediately
+   (SITE.md §8 — reduced motion is a first-class render path, not an afterthought). */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.6s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

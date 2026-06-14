@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
 import { IconProvider } from "@ds/react";
 import "@ds/tokens/variables.css";
@@ -22,7 +22,7 @@ const preview: Preview = {
     ),
   ],
   parameters: {
-    backgrounds: { disable: true },
+    backgrounds: { disabled: true },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -30,6 +30,11 @@ const preview: Preview = {
       },
     },
     layout: "padded",
+    // Show the "Code" panel (story source with args applied) for every story.
+    // https://storybook.js.org/docs/writing-docs/code-panel
+    docs: {
+      codePanel: true,
+    },
   },
 };
 

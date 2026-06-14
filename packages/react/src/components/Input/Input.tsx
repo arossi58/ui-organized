@@ -1,6 +1,7 @@
 import { Field } from "@base-ui-components/react/field";
 import { clsx } from "clsx";
 import { inputFieldStyles } from "./Input.styles.js";
+import { FieldError } from "../FieldError/index.js";
 import type { InputProps } from "./Input.types.js";
 import "./Input.css";
 
@@ -38,8 +39,8 @@ export function Input({
           {helperText}
         </Field.Description>
       )}
-      {isInvalid && (
-        <Field.Error className="input-field__error" match={true}>
+      {isInvalid && errorMessage && (
+        <Field.Error match={true} render={<FieldError />}>
           {errorMessage}
         </Field.Error>
       )}

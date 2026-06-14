@@ -1,0 +1,97 @@
+/**
+ * Site-only design values — the ONE place hard-coded values are allowed.
+ *
+ * Per SITE.md §3.1: components consume the design system's semantic tokens
+ * (`--color-surface-*`, `--color-text-*`, …) first. Values that don't exist in
+ * the system — the marketing brand palette, the deep hero background, aurora
+ * gradient stops, glow/burst alphas — live here, defined once on :root and
+ * consumed everywhere else by reference. Never hard-code these elsewhere.
+ */
+
+:root {
+  /* Marketing brand surfaces */
+  --site-cream: #f7f2e8;
+  --site-paper: #fbf8f1;
+  --site-ink: #17150f;
+  --site-deep: #0d0c14;
+  --site-ink-soft: rgba(23, 21, 15, 0.62);
+  --site-cream-soft: rgba(247, 242, 232, 0.66);
+
+  /* Brand action orange — the primary accent from the Branding mockup (active
+     nav pill, "Get Involved" CTA). */
+  --site-orange: #dd6428;
+
+  /* Floating nav pill (Branding mockup): translucent surface + hairline,
+     derived from the design system's surface/border so it flips with the
+     light/dark theme. */
+  --site-nav-surface: color-mix(in srgb, var(--color-surface-primary) 78%, transparent);
+  --site-nav-border: var(--color-border-secondary);
+
+  /* Brand accent palette (used by sections, gradient layer in phase 2) */
+  --site-coral: #ff5a36;
+  --site-magenta: #ff6fbf;
+  --site-cobalt: #2b4bf2;
+  --site-sun: #ffc93c;
+  --site-green: #1fb868;
+  --site-violet: #8c5bff;
+
+  /* Aurora / wash gradient stops (consumed by section backdrops; phase 2 aurora) */
+  --site-wash-magenta: rgba(255, 111, 191, 0.18);
+  --site-wash-cobalt: rgba(43, 75, 242, 0.12);
+  --site-wash-sun: rgba(255, 201, 60, 0.16);
+
+  /* Decorative gradient-layer values (phase 2: glow/burst alphas, dot lattice).
+     Brand accent alphas are derived with color-mix() against the tokens above,
+     so the only literals here are the ones with no semantic source. */
+  --site-glow-magenta: rgba(255, 111, 191, 0.55);
+  --site-glow-cobalt: rgba(43, 75, 242, 0.3);
+  --site-dot-ink: rgba(247, 242, 232, 0.2);
+  /* Faint ink dots for the lattice on light surfaces (roadmap board panel,
+     phase 5) — the dark-surface cream dots above don't show on cream. */
+  --site-dot-ink-soft: rgba(23, 21, 15, 0.06);
+  /* The decorative hero background dot grid. */
+  --dot-grid-size: 44px;
+  /* The arrange-mode snap lattice (the grid pieces snap to when dragged, shown
+     by the AppFrame portal). Must match `DOT` in lib/lattice.ts. */
+  --snap-grid-size: 16px;
+
+  /* Hero stage — frame + falling pieces (phase 3). Decorative depth shadows
+     and the pure-white used for knobs/thumbs against colored fills. */
+  --site-white: #ffffff;
+  --site-shadow-piece: 0 8px 22px rgba(0, 0, 0, 0.35);
+  --site-shadow-piece-frozen: 0 3px 10px rgba(0, 0, 0, 0.22);
+  --site-shadow-piece-static: 0 2px 0 rgba(23, 21, 15, 0.08);
+  --site-shadow-piece-arranging: 0 16px 32px rgba(0, 0, 0, 0.45);
+  --site-shadow-frame: 0 28px 80px rgba(0, 0, 0, 0.5);
+
+  /* Fonts — the whole site uses the design system's typography (Roboto) via the
+     DS `--type-font-*` tokens, so the marketing pages and the @ds/react
+     components share one type family. Roboto is loaded in index.html; the
+     fallbacks guard against the bare DS token (`Roboto`, no fallback of its own)
+     not loading. The mono role keeps its uppercase/letterspaced label styling
+     but in Roboto too, for a uniformly Roboto site. */
+  --font-display: var(--type-font-heading, "Roboto"), system-ui, sans-serif;
+  --font-body: var(--type-font-body, "Roboto"), system-ui, sans-serif;
+  --font-mono: var(--type-font-body, "Roboto"), system-ui, sans-serif;
+  /* Brand display serif for big headings (the hero title), per the mockup. */
+  --font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+}
+
+/* Dark mode — flip the marketing-only surfaces and ink so the whole site (not
+   just the @ds/react components, which re-theme via the DS tokens) reads
+   correctly in dark mode. The page background is `--color-surface-primary`, a
+   DS token that already flips, so only the site's own values are restated here.
+   The brand accent (`--site-orange`) is re-pointed at the chosen brand primary
+   in JS (ThemeProvider), so it is intentionally not redefined here. */
+[data-theme="dark"] {
+  --site-cream: #17150f;
+  --site-paper: #14121b;
+  --site-deep: #0d0c14;
+  --site-ink: #f7f2e8;
+  --site-ink-soft: rgba(247, 242, 232, 0.66);
+  --site-cream-soft: rgba(23, 21, 15, 0.66);
+
+  /* Lattice dots: faint cream on the dark surface. */
+  --site-dot-ink: rgba(247, 242, 232, 0.14);
+  --site-dot-ink-soft: rgba(247, 242, 232, 0.08);
+}

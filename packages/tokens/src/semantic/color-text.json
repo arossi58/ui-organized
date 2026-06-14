@@ -1,10 +1,32 @@
 {
   "color-text": {
-    "text-primary":     { "$type": "color", "$value": "{white.100}" },
-    "text-secondary":   { "$type": "color", "$value": "{white.800}" },
-    "text-interactive": { "$type": "color", "$value": "{white.100}" },
-    "text-tertiary":    { "$type": "color", "$value": "{white.1100}" },
-    "text-placeholder": { "$type": "color", "$value": "{white.1100}" },
-    "text-inverse":     { "$type": "color", "$value": "{black.1600}" }
+    "text-primary": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    },
+    "text-secondary": {
+      "$type": "color",
+      "$value": "{grey.500}"
+    },
+    "text-tertiary": {
+      "$type": "color",
+      "$value": "{grey.900}"
+    },
+    "text-placeholder": {
+      "$type": "color",
+      "$value": "{grey.1400}"
+    },
+    "text-inverse": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "text-dark": {
+      "$type": "color",
+      "$value": "{grey.2400}"
+    },
+    "text-light": {
+      "$type": "color",
+      "$value": "{grey.100}"
+    }
   }
 }

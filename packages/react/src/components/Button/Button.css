@@ -9,7 +9,7 @@
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
   cursor: pointer;
   text-decoration: none;
@@ -22,9 +22,11 @@
   outline: none;
 }
 
+/* Figma focus is a 2px ring hugging the button (drop-shadow spread 2, offset 0),
+   matching the box-shadow focus used across the rest of the design system. */
 .btn:focus-visible {
-  outline: 2px solid var(--color-interactive-focus);
-  outline-offset: 2px;
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 .btn:disabled,
@@ -54,7 +56,7 @@
 
 .btn--secondary {
   background-color: var(--color-interactive-secondary-default);
-  color: var(--color-interactive-contents);
+  color: var(--color-text-text-primary);
   border-color: transparent;
 }
 
@@ -66,6 +68,15 @@
   background-color: var(--color-interactive-secondary-active);
 }
 
+/* Inactive state (Figma 23:1580): the translucent fill is replaced by a solid
+   inactive surface with muted text rather than the global opacity dim. */
+.btn--secondary:disabled,
+.btn--secondary[data-disabled] {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  color: var(--color-interactive-inactive-inactive-02);
+  opacity: 1;
+}
+
 /* ─── Intent: tertiary ────────────────────────────────────────────────────── */
 
 .btn--tertiary {
@@ -74,21 +85,33 @@
   border-color: var(--color-interactive-tertiary-default);
 }
 
+/* On interaction the outline fills solid with light text (Figma 23:313 / 23:477). */
 .btn--tertiary:hover:not(:disabled):not([data-disabled]) {
-  color: var(--color-interactive-tertiary-hover);
+  background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
+  color: var(--color-text-text-light);
 }
 
 .btn--tertiary:active:not(:disabled):not([data-disabled]) {
-  color: var(--color-interactive-tertiary-active);
+  background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
+  color: var(--color-text-text-light);
+}
+
+/* Inactive state (Figma 23:1582): solid inactive surface, muted text, no outline. */
+.btn--tertiary:disabled,
+.btn--tertiary[data-disabled] {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  border-color: var(--color-interactive-inactive-inactive-01);
+  color: var(--color-interactive-inactive-inactive-02);
+  opacity: 1;
 }
 
 /* ─── Intent: ghost ───────────────────────────────────────────────────────── */
 
 .btn--ghost {
   background-color: var(--color-interactive-ghost-default);
-  color: var(--color-interactive-contents);
+  color: var(--color-text-text-primary);
   border-color: transparent;
 }
 
@@ -98,6 +121,15 @@
 
 .btn--ghost:active:not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-ghost-active);
+}
+
+/* Inactive state (Figma 23:1584): the transparent fill is replaced by a solid
+   inactive surface with muted text rather than the global opacity dim. */
+.btn--ghost:disabled,
+.btn--ghost[data-disabled] {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  color: var(--color-interactive-inactive-inactive-02);
+  opacity: 1;
 }
 
 /* ─── Intent: destructive ─────────────────────────────────────────────────── */
@@ -124,12 +156,15 @@
   border-color: transparent;
 }
 
+/* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
 .btn--destructive-ghost:hover:not(:disabled):not([data-disabled]) {
-  color: var(--color-interactive-destructive-hover-ghost);
+  background-color: var(--color-interactive-destructive-hover);
+  color: var(--color-text-text-light);
 }
 
 .btn--destructive-ghost:active:not(:disabled):not([data-disabled]) {
-  color: var(--color-interactive-destructive-active-ghost);
+  background-color: var(--color-interactive-destructive-active);
+  color: var(--color-text-text-light);
 }
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */

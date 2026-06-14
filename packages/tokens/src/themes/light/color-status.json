@@ -1,0 +1,80 @@
+{
+  "color-status": {
+    "success": {
+      "$type": "color",
+      "$value": "{lima.1000}"
+    },
+    "success-bg": {
+      "$type": "color",
+      "$value": "{lima.500}"
+    },
+    "success-content": {
+      "$type": "color",
+      "$value": "{lima.2100}"
+    },
+    "info": {
+      "$type": "color",
+      "$value": "{cerulean.1000}"
+    },
+    "info-bg": {
+      "$type": "color",
+      "$value": "{cerulean.500}"
+    },
+    "info-content": {
+      "$type": "color",
+      "$value": "{cerulean.2100}"
+    },
+    "info-secondary": {
+      "$type": "color",
+      "$value": "{caribbean.1000}"
+    },
+    "info-secondary-bg": {
+      "$type": "color",
+      "$value": "{caribbean.500}"
+    },
+    "info-secondary-content": {
+      "$type": "color",
+      "$value": "{caribbean.2100}"
+    },
+    "caution": {
+      "$type": "color",
+      "$value": "{candlelight.1300}"
+    },
+    "caution-bg": {
+      "$type": "color",
+      "$value": "{candlelight.500}"
+    },
+    "caution-content": {
+      "$type": "color",
+      "$value": "{candlelight.2100}"
+    },
+    "warning": {
+      "$type": "color",
+      "$value": "{cerise.1000}"
+    },
+    "warning-bg": {
+      "$type": "color",
+      "$value": "{cerise.500}"
+    },
+    "warning-content": {
+      "$type": "color",
+      "$value": "{cerise.2100}"
+    },
+    "error": {
+      "$type": "color",
+      "$value": "{crimson.1000}"
+    },
+    "error-message": {
+      "$type": "color",
+      "$value": "{crimson.1600}"
+    },
+    "error-bg": {
+      "$type": "color",
+      "$value": "{crimson.500}"
+    },
+    "error-content": {
+      "$type": "color",
+      "$value": "{crimson.2100}"
+    }
+  }
+}

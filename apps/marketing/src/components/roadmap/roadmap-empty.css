@@ -1,0 +1,25 @@
+.roadmap-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-16) var(--spacing-space-05);
+  background: var(--site-paper);
+  border: 2px dashed color-mix(in srgb, var(--site-ink) 22%, transparent);
+  border-radius: var(--border-radius-radius-06);
+}
+
+.roadmap-empty__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 22px;
+  color: var(--site-ink);
+}
+
+.roadmap-empty__body {
+  margin: 0 0 var(--spacing-space-02);
+  max-width: 42ch;
+  color: var(--site-ink-soft);
+}

@@ -8,16 +8,16 @@
 /* ─── Variants ────────────────────────────────────────────────────────────── */
 
 .card--default {
-  background-color: var(--color-surface-subtle);
+  background-color: var(--color-surface-primary);
 }
 
 .card--outlined {
   background-color: var(--color-surface-base);
-  border: 1px solid var(--color-border-subtle);
+  border: 1px solid var(--color-border-secondary);
 }
 
 .card--elevated {
-  background-color: var(--color-surface-subtle);
+  background-color: var(--color-surface-primary);
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -2px rgba(0, 0, 0, 0.2);
@@ -45,12 +45,12 @@
 
 .card__header {
   padding-bottom: var(--spacing-space-03);
-  border-bottom: 1px solid var(--color-border-subtle);
+  border-bottom: 1px solid var(--color-border-secondary);
   margin-bottom: var(--spacing-space-04);
 }
 
 .card__footer {
   padding-top: var(--spacing-space-03);
-  border-top: 1px solid var(--color-border-subtle);
+  border-top: 1px solid var(--color-border-secondary);
   margin-top: var(--spacing-space-04);
 }

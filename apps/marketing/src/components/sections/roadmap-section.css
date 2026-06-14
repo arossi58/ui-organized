@@ -1,0 +1,57 @@
+/**
+ * Roadmap section — calm cream behind the design-system board panel (the panel
+ * supplies its own surface, so the section stays quiet). Header mirrors the
+ * Branding mockup: editorial serif title + invite copy on the left, a live
+ * "last updated" status badge on the right.
+ */
+.roadmap-section {
+  background: var(--color-surface-primary);
+}
+
+/* Header row: intro on the left, the freshness badge pinned top-right. */
+.roadmap-section__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-space-06);
+  margin-bottom: var(--spacing-space-08);
+}
+
+.roadmap-section__intro {
+  flex: 1;
+  min-width: 0;
+}
+
+/* The mockup's title is the brand display serif, not the Roboto section title. */
+.roadmap-section__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(34px, 4.6vw, 48px);
+  line-height: 1.15;
+  margin-bottom: var(--spacing-space-03);
+}
+
+.roadmap-section__lede {
+  margin: 0;
+  font-size: var(--type-size-body-large);
+  line-height: 1.5;
+  color: var(--site-ink);
+}
+
+/* Inline invitations — brand orange, the accent the rest of the site lights up
+   to (nav pill, CTA). */
+.roadmap-section__link {
+  color: var(--site-orange);
+  text-decoration: none;
+  font-weight: 500;
+}
+.roadmap-section__link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .roadmap-section__head {
+    flex-direction: column;
+    gap: var(--spacing-space-04);
+  }
+}

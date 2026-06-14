@@ -1,0 +1,335 @@
+/* ─── Nav item (main page) ──────────────────────────────────────────────────── */
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* divider beneath an expanded section, separating it from following items */
+.nav-item--expanded {
+  box-shadow: inset 0 -1px 0 0 var(--color-border-primary);
+}
+
+.nav-item__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--spacing-space-01);
+  width: 100%;
+  padding: var(--spacing-space-02);
+  border: none;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-text-text-secondary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+/* expandable items push the caret to the trailing edge */
+.nav-item__trigger--expandable {
+  justify-content: space-between;
+}
+
+.nav-item__content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+}
+
+.nav-item__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* hover ─ filled primary, primary text (non-selected, enabled only) */
+.nav-item__trigger:hover:not(:disabled):not(.nav-item__trigger--selected) {
+  background-color: var(--color-interactive-primary-hover);
+  color: var(--color-text-text-light);
+}
+
+/* active / pressed */
+.nav-item__trigger:active:not(:disabled):not(.nav-item__trigger--selected) {
+  background-color: var(--color-interactive-primary-active);
+  color: var(--color-text-text-light);
+}
+
+/* focus ─ 2px ring */
+.nav-item__trigger:focus-visible {
+  color: var(--color-text-text-secondary);
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* selected ─ filled primary, emphasized */
+.nav-item__trigger--selected {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-text-text-light);
+  font-weight: var(--type-weight-body-semibold);
+}
+
+/* disabled */
+.nav-item__trigger:disabled {
+  color: var(--color-interactive-inactive-inactive-02);
+  background: transparent;
+  cursor: not-allowed;
+}
+
+/* ─── Sub-page list ─────────────────────────────────────────────────────────── */
+
+/* Smoothly expand/collapse by animating the grid track from 0fr → 1fr — works
+   with content of any height, no JS measurement. `visibility` keeps the
+   collapsed sub-items out of the tab order and the accessibility tree, and
+   (being discretely animated) stays `visible` through the collapse transition. */
+.nav-item__sub-list {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition:
+    grid-template-rows 200ms ease,
+    visibility 200ms ease;
+}
+
+.nav-item--expanded .nav-item__sub-list {
+  grid-template-rows: 1fr;
+  visibility: visible;
+}
+
+/* The grid item must clip its overflow and allow shrinking to 0 for the
+   0fr track to collapse it. Spacing lives here so it animates away too. */
+.nav-item__sub-list-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  min-height: 0;
+  overflow: hidden;
+  padding-top: var(--spacing-space-02);
+  padding-left: var(--spacing-space-03);
+  padding-bottom: var(--spacing-space-02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item__sub-list {
+    transition: none;
+  }
+}
+
+/* ─── Nav sub-item (sub page) ───────────────────────────────────────────────── */
+
+.nav-sub-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  width: 100%;
+  padding: var(--spacing-space-02);
+  border: none;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-text-text-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.nav-sub-item__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* hover ─ subtle overlay, primary text (non-selected, enabled only) */
+.nav-sub-item:hover:not(:disabled):not(.nav-sub-item--selected) {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+/* active / pressed */
+.nav-sub-item:active:not(:disabled):not(.nav-sub-item--selected) {
+  background-color: var(--color-interactive-ui-active);
+  color: var(--color-text-text-primary);
+}
+
+/* focus ─ 2px ring */
+.nav-sub-item:focus-visible {
+  color: var(--color-text-text-primary);
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* selected ─ overlay fill, emphasized */
+.nav-sub-item--selected {
+  background-color: var(--color-interactive-ui-selected);
+  color: var(--color-text-text-primary);
+  font-weight: var(--type-weight-body-semibold);
+}
+
+/* disabled */
+.nav-sub-item:disabled {
+  color: var(--color-interactive-inactive-inactive-02);
+  background: transparent;
+  cursor: not-allowed;
+}
+
+/* ─── Collapsed (icon-only rail) ────────────────────────────────────────────── */
+
+/* Collapse each item to an icon-only square. Only the HEIGHT is pinned — to the
+   normal row height (line-height + even top/bottom padding). The width is left at
+   the inherited 100%, so the item is always exactly as wide as the rail's content
+   area: as the sidebar animates its width, the item tracks it frame-for-frame and
+   shrinks in lockstep (no separate transition needed), resolving to a square once
+   the rail reaches its collapsed width. Pinning the width to 36px instead would
+   make the item snap to its final size at t=0 while the rail was still animating.
+
+   The icon stays left-anchored (the inherited `flex-start`) at the same x as in
+   the expanded row, so it never slides horizontally while the width animates.
+   The label stays in the DOM (visually hidden below) for the accessible name. */
+.nav-item--collapsed .nav-item__trigger,
+.nav-sub-item--collapsed,
+.sidebar--collapsed .sidebar__toggle {
+  box-sizing: border-box;
+  height: calc(var(--type-leading-body-medium) + 2 * var(--spacing-space-02));
+  padding: var(--spacing-space-02);
+  justify-content: flex-start;
+}
+
+/* Visually hide the label but keep it for assistive tech (accessible name).
+   `position: absolute` also pulls it out of flow so the icon centers cleanly. */
+.nav-item--collapsed .nav-item__label,
+.nav-sub-item--collapsed .nav-sub-item__label,
+.sidebar--collapsed .sidebar__toggle-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Sidebar (container) ────────────────────────────────────────────────────── */
+
+.sidebar {
+  --sidebar-width: var(--dimension-dimension-06); /* 240px */
+
+  /* Collapsed rail fits exactly one icon square plus the SAME horizontal padding
+     as the expanded sidebar, so the padding never changes between states:
+     square (line-height + 2·space-02 = 36px) + 2·space-04 padding (16px) = 68px. */
+  --sidebar-width-collapsed: calc(
+    var(--type-leading-body-medium) + 2 * var(--spacing-space-02) + 2 *
+      var(--spacing-space-04)
+  );
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+  width: var(--sidebar-width);
+  height: 100%;
+  padding: var(--spacing-space-04);
+  background: var(--color-surface-primary);
+  border-right: 1px solid var(--color-border-primary);
+  overflow: hidden;
+  transition: width 200ms ease;
+}
+
+.sidebar--collapsed {
+  width: var(--sidebar-width-collapsed);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+  }
+}
+
+/* Logo / wordmark — stable height so collapsing doesn't shift the layout */
+.sidebar__logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  min-height: var(--spacing-space-08);
+  overflow: hidden;
+}
+
+/* Match the collapsed nav items: a left-anchored square that centers its icon on
+   the same vertical line as the nav icons, and stays pinned to the fixed left
+   edge so it doesn't drift while the width animates. */
+.sidebar--collapsed .sidebar__logo {
+  width: calc(var(--type-leading-body-medium) + 2 * var(--spacing-space-02));
+  justify-content: center;
+}
+
+/* Nav items region — scrolls when there are many pages. The negative margin
+   widens the scroll/clip box just enough that item focus rings aren't clipped,
+   while the matching padding keeps items aligned with the logo. */
+.sidebar__nav {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  min-height: 0;
+  margin: 0 calc(-1 * var(--spacing-space-01));
+  padding: 0 var(--spacing-space-01);
+  overflow-y: auto;
+}
+
+/* Footer — pinned to the bottom, separated by a divider */
+.sidebar__footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  flex-shrink: 0;
+  padding-top: var(--spacing-space-04);
+  border-top: 1px solid var(--color-border-primary);
+}
+
+/* Auto expand/collapse toggle */
+.sidebar__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  width: 100%;
+  padding: var(--spacing-space-02);
+  border: none;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-text-text-secondary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-medium);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.sidebar__toggle:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+.sidebar__toggle:focus-visible {
+  color: var(--color-text-text-primary);
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+

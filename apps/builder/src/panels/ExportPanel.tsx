@@ -26,8 +26,9 @@ export function ExportPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Export Theme</h3>
         <p className={styles.hint}>
-          Download a <code>theme.json</code> compatible with the design system's
-          Style Dictionary pipeline. Drop it into your project and run the transform script.
+          Download a ready-to-use <code>theme.css</code> — CSS custom properties for
+          light and dark modes, resolved from your chosen brand and neutral families.
+          Drop it into your project and import it; no build step required.
         </p>
       </section>
 
@@ -48,7 +49,7 @@ export function ExportPanel() {
         onClick={handleExport}
         type="button"
       >
-        Download theme.json
+        Download theme.css
       </button>
 
       {status === "success" && (
@@ -69,26 +70,19 @@ export function ExportPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>How it works</h3>
         <ol className={styles.steps}>
-          <li>Click <strong>Download theme.json</strong> to export your configuration.</li>
+          <li>Click <strong>Download theme.css</strong> to export your theme.</li>
           <li>
-            Drop <code>theme.json</code> and the two Figma export files into the root of your repo
-            (alongside <code>package.json</code>).
+            Drop <code>theme.css</code> into your project (e.g. <code>src/styles/</code>).
           </li>
           <li>
-            Run: <code>pnpm --filter @ds/tokens transform</code> to generate DTCG token files.
+            Import it once at your app entry, after the component styles:
+            <pre className={styles.codeBlock}>{`import '@ds/react/styles.css'
+import './styles/theme.css'`}</pre>
           </li>
           <li>
-            Run: <code>pnpm --filter @ds/tokens build</code> to compile CSS custom properties.
-          </li>
-          <li>
-            In your Vite project, add the plugin:
-            <pre className={styles.codeBlock}>{`import { themePlugin } from '@ds/react-vite'
-
-export default {
-  plugins: [
-    themePlugin({ config: './theme.json' })
-  ]
-}`}</pre>
+            The theme defaults to dark on <code>:root</code>. Toggle modes by setting
+            <code>data-theme="light"</code> or <code>data-theme="dark"</code> on
+            <code>&lt;html&gt;</code>.
           </li>
         </ol>
       </section>

@@ -1,0 +1,61 @@
+name: Sync roadmap from GitHub Projects
+
+# Mirrors the org's Projects v2 board into apps/marketing/public/roadmap.json,
+# which the marketing site consumes (SITE.md §7.2). Projects v2 drag events
+# don't reliably trigger workflows, so the cron is the baseline freshness
+# guarantee; issue events and manual runs refresh sooner.
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+  issues:
+    types: [opened, edited, closed, reopened, deleted, labeled, unlabeled, transferred]
+
+# The commit-back needs write access; nothing else does.
+permissions:
+  contents: write
+
+# Don't let two syncs race on the same file.
+concurrency:
+  group: roadmap-sync
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Pure Node built-ins (global fetch on Node 20) — no install step needed.
+      - name: Sync roadmap.json
+        env:
+          # Fine-grained PAT with read access to Projects. The default
+          # GITHUB_TOKEN can't read Projects v2, hence a dedicated secret —
+          # it exists only here and never reaches the site bundle.
+          ROADMAP_TOKEN: ${{ secrets.ROADMAP_TOKEN }}
+          # Admin config — point these at the real account + project number.
+          # ROADMAP_OWNER is the username for a personal project.
+          ROADMAP_OWNER: arossi58
+          ROADMAP_PROJECT_NUMBER: "1"
+        run: node apps/marketing/scripts/sync-roadmap.mjs
+
+      # The script rewrites the file only when the content (ignoring syncedAt)
+      # changed, so a dirty working tree here means a real update — commit it,
+      # and the push to main triggers the static redeploy.
+      - name: Commit if changed
+        run: |
+          if [[ -z "$(git status --porcelain apps/marketing/public/roadmap.json)" ]]; then
+            echo "No roadmap changes — nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/marketing/public/roadmap.json
+          git commit -m "chore(roadmap): sync board from GitHub Projects"
+          git push

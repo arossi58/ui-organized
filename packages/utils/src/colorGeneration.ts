@@ -1,15 +1,22 @@
 /**
  * OKLCH palette generation algorithm.
  *
- * Given a single brand color (hex or oklch string), produces a full 11-stop
- * shade ramp (50–950) where each stop has both hex and oklch representations.
+ * Given a single brand color (hex or oklch string), produces a full 24-stop
+ * shade ramp (100–2400) where each stop has both hex and oklch representations.
  *
  * The algorithm:
  *   1. Parse the input to OKLCH.
  *   2. Fix the chroma and hue from the input color.
  *   3. Map each ramp step to a target lightness value.
- *   4. Clamp chroma so high/low lightness stops remain neutral enough to look good.
+ *   4. Scale chroma by a per-step envelope (peaks at the mid-dark plateau) so
+ *      light/dark stops read as near-neutral tints, then let the sRGB conversion
+ *      gamut-clamp the saturated mid-range.
  *   5. Convert each stop back to sRGB hex.
+ *
+ * The lightness curve and chroma envelope are derived from the authored core
+ * color library (the brand-typical red/orange/blue/purple families), so a
+ * generated ramp from a custom hex sits in the same visual system as the
+ * named core families. See packages/tokens core-color for the source data.
  */
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -30,50 +37,68 @@ export interface OklchColor {
 // ─── Ramp step configuration ──────────────────────────────────────────────────
 
 /**
- * Target lightness for each ramp step.
- * Steps 100 (lightest) → 1600 (darkest) follow a perceptual curve.
- * 16 steps matching the actual token architecture.
+ * Target lightness (OKLCH L) for each ramp step.
+ * Steps 100 (lightest) → 2400 (darkest) follow a perceptual curve.
+ * 24 steps matching the core color library architecture.
  */
 const RAMP_STEPS: Record<string, number> = {
-  "100":  0.94,
-  "200":  0.89,
-  "300":  0.85,
-  "400":  0.80,
-  "500":  0.77,
-  "600":  0.73,
-  "700":  0.69,
-  "800":  0.64,
-  "900":  0.60,
-  "1000": 0.54,
-  "1100": 0.47,
-  "1200": 0.40,
-  "1300": 0.33,
-  "1400": 0.27,
-  "1500": 0.20,
-  "1600": 0.13,
+  "100":  0.990,
+  "200":  0.952,
+  "300":  0.913,
+  "400":  0.875,
+  "500":  0.837,
+  "600":  0.799,
+  "700":  0.760,
+  "800":  0.722,
+  "900":  0.684,
+  "1000": 0.646,
+  "1100": 0.608,
+  "1200": 0.569,
+  "1300": 0.530,
+  "1400": 0.491,
+  "1500": 0.452,
+  "1600": 0.413,
+  "1700": 0.374,
+  "1800": 0.335,
+  "1900": 0.295,
+  "2000": 0.257,
+  "2100": 0.217,
+  "2200": 0.178,
+  "2300": 0.138,
+  "2400": 0.100,
 };
 
 /**
- * Chroma scale factor per step — lighter and darker stops get less chroma
- * so they read as near-neutral tints rather than saturated colours.
+ * Chroma scale factor per step — a normalized envelope that rises to a plateau
+ * across the mid-dark steps (1000–1300) and tapers at the light/dark ends, so
+ * those stops read as near-neutral tints rather than saturated colours.
+ * Derived from the core library's brand-typical families.
  */
 const CHROMA_SCALE: Record<string, number> = {
-  "100":  0.20,
-  "200":  0.40,
-  "300":  0.60,
-  "400":  0.75,
-  "500":  0.85,
-  "600":  0.92,
-  "700":  0.97,
-  "800":  1.00,
-  "900":  1.00,
-  "1000": 0.97,
-  "1100": 0.90,
-  "1200": 0.82,
-  "1300": 0.72,
-  "1400": 0.60,
-  "1500": 0.45,
-  "1600": 0.30,
+  "100":  0.024,
+  "200":  0.118,
+  "300":  0.218,
+  "400":  0.320,
+  "500":  0.429,
+  "600":  0.544,
+  "700":  0.667,
+  "800":  0.797,
+  "900":  0.933,
+  "1000": 0.998,
+  "1100": 0.998,
+  "1200": 0.998,
+  "1300": 0.998,
+  "1400": 0.969,
+  "1500": 0.906,
+  "1600": 0.836,
+  "1700": 0.761,
+  "1800": 0.682,
+  "1900": 0.602,
+  "2000": 0.523,
+  "2100": 0.443,
+  "2200": 0.365,
+  "2300": 0.286,
+  "2400": 0.209,
 };
 
 // ─── Parsing ──────────────────────────────────────────────────────────────────
@@ -219,7 +244,7 @@ export function parseToOklch(input: string): OklchColor {
 }
 
 /**
- * Generate a full 11-stop brand color ramp from a single color input.
+ * Generate a full 24-stop brand color ramp from a single color input.
  *
  * @param input - Hex string or oklch() string for the brand color.
  * @returns Record of step name → ColorSwatch (hex + oklch).

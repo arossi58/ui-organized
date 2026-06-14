@@ -22,5 +22,7 @@ export interface TabsProps {
   onValueChange?: (value: string | number) => void;
   /** Whether tabs render horizontally or vertically. Defaults to 'horizontal'. */
   orientation?: "horizontal" | "vertical";
+  /** Tab sizing. 'default' uses body-large type, 'small' uses body-medium. Defaults to 'default'. */
+  size?: "default" | "small";
   className?: string;
 }

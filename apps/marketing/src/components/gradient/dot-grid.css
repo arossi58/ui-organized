@@ -1,0 +1,11 @@
+/**
+ * Reusable dot-lattice style (SITE.md §6) — one class, shared by the hero
+ * stage background and (phase 4) the AppFrame portal interior. Consumers set
+ * `--dotx`/`--doty` to offset the lattice so separate surfaces stay aligned;
+ * they default to 0 here.
+ */
+.dot-grid {
+  background-image: radial-gradient(var(--site-dot-ink) 1.5px, transparent 1.5px);
+  background-size: var(--dot-grid-size) var(--dot-grid-size);
+  background-position: var(--dotx, 0px) var(--doty, 0px);
+}
