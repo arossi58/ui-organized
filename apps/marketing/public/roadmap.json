@@ -1,116 +1,30 @@
 {
-  "syncedAt": "2026-06-11T11:56:00Z",
-  "projectUrl": "https://github.com/orgs/ui-organized/projects/1",
-  "doneOverflowUrl": "https://github.com/orgs/ui-organized/projects/1/views/1?filterQuery=status%3ADone",
+  "syncedAt": "2026-06-14T21:50:00.711Z",
+  "projectUrl": "https://github.com/users/arossi58/projects/2",
+  "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
     {
       "id": "backlog",
       "title": "Backlog",
       "items": [
         {
-          "id": "b1",
-          "title": "Per-component density modes (compact / cozy)",
+          "id": "PVTI_lAHOAd2RT84BaZqpzgvuCfw",
+          "title": "Update color palette tool with new UI",
           "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/142",
-          "labels": ["components"]
-        },
-        {
-          "id": "b2",
-          "title": "Motion tokens: durations, easings, and reduced-motion fallbacks",
-          "type": "design",
-          "url": "https://github.com/ui-organized/ui-organized/issues/138",
-          "labels": ["tokens", "motion"]
-        },
-        {
-          "id": "b3",
-          "title": "Contribution guide + good-first-issue triage",
-          "type": "community",
-          "url": null,
-          "labels": ["draft"]
-        },
-        {
-          "id": "b4",
-          "title": "Recipes: theming an existing app in under an hour",
-          "type": "docs",
-          "url": "https://github.com/ui-organized/ui-organized/issues/151",
-          "labels": ["docs"]
+          "url": "https://github.com/arossi58/ui-organized/issues/1",
+          "labels": []
         }
       ]
     },
     {
       "id": "in-progress",
       "title": "In progress",
-      "items": [
-        {
-          "id": "p1",
-          "title": "Marketing site — roadmap page (live GitHub Projects sync)",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/160",
-          "labels": ["site"]
-        },
-        {
-          "id": "p2",
-          "title": "Cream marketing theme for the component library",
-          "type": "design",
-          "url": "https://github.com/ui-organized/ui-organized/issues/156",
-          "labels": ["tokens", "themes"]
-        },
-        {
-          "id": "p3",
-          "title": "Figma plugin: push variable modes back to the theme config",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/149",
-          "labels": ["figma"]
-        }
-      ]
+      "items": []
     },
     {
       "id": "done",
       "title": "Done",
-      "items": [
-        {
-          "id": "d1",
-          "title": "Hero pieces are real @ds/react components",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/158",
-          "labels": ["site"]
-        },
-        {
-          "id": "d2",
-          "title": "Arrange mode + dot-lattice snapping in the hero",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/154",
-          "labels": ["site"]
-        },
-        {
-          "id": "d3",
-          "title": "Runtime light / dark theme switching",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/131",
-          "labels": ["tokens"]
-        },
-        {
-          "id": "d4",
-          "title": "Token pipeline: config → CSS variables with tests",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/118",
-          "labels": ["tokens"]
-        },
-        {
-          "id": "d5",
-          "title": "Getting-started docs and component gallery",
-          "type": "docs",
-          "url": "https://github.com/ui-organized/ui-organized/issues/124",
-          "labels": ["docs"]
-        },
-        {
-          "id": "d6",
-          "title": "Accessible Switch, Checkbox, and Input on headless primitives",
-          "type": "development",
-          "url": "https://github.com/ui-organized/ui-organized/issues/109",
-          "labels": ["components", "a11y"]
-        }
-      ]
+      "items": []
     }
   ]
 }
