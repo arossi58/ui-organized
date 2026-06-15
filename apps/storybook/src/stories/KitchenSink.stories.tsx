@@ -15,7 +15,7 @@ import {
   Select,
   Switch,
   Tabs,
-} from "@ds/react";
+} from "@ui-organized/react";
 
 const meta: Meta = {
   title: "Overview/Kitchen Sink",

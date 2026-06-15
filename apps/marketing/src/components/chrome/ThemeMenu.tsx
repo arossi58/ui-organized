@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Switch } from "@ds/react";
+import { Switch } from "@ui-organized/react";
 import { useTheme } from "../../theme/ThemeProvider";
 import "./theme-menu.css";
 

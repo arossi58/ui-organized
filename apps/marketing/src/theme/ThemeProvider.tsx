@@ -3,14 +3,14 @@
  * root and shared with the nav's theme menu.
  *
  * Light/dark is driven by `data-theme` on `<html>`: the shipped
- * `@ds/tokens/variables.css` already defines every semantic token for both
+ * `@ui-organized/tokens/variables.css` already defines every semantic token for both
  * themes against the default (grey) neutral the site uses, including the
  * *translucent* control surfaces (e.g. `--color-interactive-ui-default` is a
  * 6%-alpha tint), so we let that cascade own them untouched.
  *
  * Only the brand hue changes per the user's choice, so we override just the
  * brand-derived tokens inline — resolved through the design system's single
- * source of truth, `resolveSemanticColors` from `@ds/utils`. Overriding the
+ * source of truth, `resolveSemanticColors` from `@ui-organized/utils`. Overriding the
  * full set would replace those translucent surfaces with opaque hexes (the
  * resolver has no alpha), which inverts inputs/switches/secondary buttons
  * between light and dark — so we deliberately don't. `--site-orange` (the
@@ -26,7 +26,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getCoreFamily, resolveSemanticColors } from "@ds/utils";
+import { getCoreFamily, resolveSemanticColors } from "@ui-organized/utils";
 import { BRAND_OPTIONS, DEFAULT_BRAND, getBrandOption, type BrandOption } from "./brandOptions";
 
 export type ThemeMode = "light" | "dark";

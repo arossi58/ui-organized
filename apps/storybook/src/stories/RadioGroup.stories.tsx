@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { RadioGroup } from "@ds/react";
+import { RadioGroup } from "@ui-organized/react";
 
 const PLAN_OPTIONS = [
   { value: "free", label: "Free" },

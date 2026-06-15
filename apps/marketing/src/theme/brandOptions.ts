@@ -2,12 +2,12 @@
  * The brand colours the site theme menu offers.
  *
  * Every option is a real family from the design system's core palette
- * (`@ds/utils`) — no ad-hoc hexes — and every option is accessibility-checked:
+ * (`@ui-organized/utils`) — no ad-hoc hexes — and every option is accessibility-checked:
  * the shade used as the primary interactive colour must clear WCAG AA (4.5:1)
  * against the white (`#fcfcfc`) text the design system places on brand buttons.
  */
 
-import { getCoreFamily, CORE_STEPS, type ColorRamp } from "@ds/utils";
+import { getCoreFamily, CORE_STEPS, type ColorRamp } from "@ui-organized/utils";
 
 /** White is the text/icon colour on brand (primary) buttons in the DS. */
 const PRIMARY_TEXT_HEX = "#fcfcfc";
@@ -53,7 +53,7 @@ function accessiblePrimaryShade(ramp: ColorRamp): string {
 // ─── Brand options ──────────────────────────────────────────────────────────
 
 export interface BrandOption {
-  /** Core family name — the `@ds/utils` palette key. */
+  /** Core family name — the `@ui-organized/utils` palette key. */
   name: string;
   /** Human-facing label shown in the menu. */
   label: string;

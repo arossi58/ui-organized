@@ -6,8 +6,8 @@
  * semantic `--color-*` custom property, so all components update instantly with
  * no re-render and no JS color math.
  *
- *   import "@ds/tokens/variables.css";
- *   import { initTheme, toggleTheme } from "@ds/tokens";
+ *   import "@ui-organized/tokens/variables.css";
+ *   import { initTheme, toggleTheme } from "@ui-organized/tokens";
  *
  *   initTheme();                 // apply stored / system / default theme on load
  *   button.onclick = toggleTheme; // flip light ⇄ dark

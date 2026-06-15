@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconProvider } from "@ds/react";
+import { IconProvider } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import { usePreviewProperties } from "./usePreviewProperties";
 import { PreviewPortalContext } from "./previewPortal";

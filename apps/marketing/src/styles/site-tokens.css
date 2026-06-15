@@ -65,7 +65,7 @@
   --site-shadow-frame: 0 28px 80px rgba(0, 0, 0, 0.5);
 
   /* Fonts — the whole site uses the design system's typography (Roboto) via the
-     DS `--type-font-*` tokens, so the marketing pages and the @ds/react
+     DS `--type-font-*` tokens, so the marketing pages and the @ui-organized/react
      components share one type family. Roboto is loaded in index.html; the
      fallbacks guard against the bare DS token (`Roboto`, no fallback of its own)
      not loading. The mono role keeps its uppercase/letterspaced label styling
@@ -78,7 +78,7 @@
 }
 
 /* Dark mode — flip the marketing-only surfaces and ink so the whole site (not
-   just the @ds/react components, which re-theme via the DS tokens) reads
+   just the @ui-organized/react components, which re-theme via the DS tokens) reads
    correctly in dark mode. The page background is `--color-surface-primary`, a
    DS token that already flips, so only the site's own values are restated here.
    The brand accent (`--site-orange`) is re-pointed at the chosen brand primary

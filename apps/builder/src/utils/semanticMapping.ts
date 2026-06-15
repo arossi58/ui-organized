@@ -1,7 +1,7 @@
 /**
  * Preview CSS custom properties for the builder.
  *
- * Color tokens are resolved through @ds/utils `resolveSemanticColors`, which is
+ * Color tokens are resolved through @ui-organized/utils `resolveSemanticColors`, which is
  * the SINGLE source of truth — the same reference-based semantic map the shipped
  * library CSS is built from. We substitute the chosen brand and neutral families
  * and write every `--color-*` token as a final resolved hex (no var() chains),
@@ -15,7 +15,7 @@ import {
   LINE_HEIGHT_MULTIPLIERS,
   resolveSemanticColors,
   type ColorRamp,
-} from "@ds/utils";
+} from "@ui-organized/utils";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

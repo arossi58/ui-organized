@@ -12,12 +12,12 @@ import {
   Sidebar,
   Switch,
   TextArea,
-} from "@ds/react";
+} from "@ui-organized/react";
 import type { PieceDef, PieceKind } from "../../lib/pieceManifest";
 import "./pieces.css";
 
 /**
- * Every hero piece is a real `@ds/react` component (SITE.md §5/§10): the site is
+ * Every hero piece is a real `@ui-organized/react` component (SITE.md §5/§10): the site is
  * the demo, so the assembled "app" is built entirely from the library. These are
  * the interactive controls of the Branding dashboard mockup — they fall, fill
  * the content panel `AppFrame` draws, then go live. The piece's slot size/scale/
@@ -129,7 +129,7 @@ const setInitiallyInert = (node: HTMLSpanElement | null) => {
 /**
  * Positioning shell for one hero piece. Holds no logic — the engine writes its
  * width/height, the `--piece-scale` it scales the component by, and its
- * per-frame transform directly. The real `@ds/react` component renders into a
+ * per-frame transform directly. The real `@ui-organized/react` component renders into a
  * `__fit` wrapper sized to the slot and scaled by S (the library components are
  * rem/token-sized, so they can't ride a font-size like the old stickers).
  */

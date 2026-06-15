@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { TextArea } from "@ds/react";
+import { TextArea } from "@ui-organized/react";
 
 const meta: Meta<typeof TextArea> = {
   title: "Components/TextArea",

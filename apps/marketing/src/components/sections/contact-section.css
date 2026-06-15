@@ -1,6 +1,6 @@
 /**
  * Contact form section (Figma 170:15686). A single centered column built on
- * @ds/react primitives; only the segmented control is hand-rolled here, and it
+ * @ui-organized/react primitives; only the segmented control is hand-rolled here, and it
  * consumes design-system tokens so it re-themes with the rest of the site.
  */
 

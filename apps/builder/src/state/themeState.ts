@@ -6,7 +6,7 @@ import {
   calculateTypeScale,
   generateSpacingScale,
   type ColorRamp,
-} from "@ds/utils";
+} from "@ui-organized/utils";
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
 
@@ -233,7 +233,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
-/** Convert a hex color to an oklch() CSS string via @ds/utils */
+/** Convert a hex color to an oklch() CSS string via @ui-organized/utils */
 export function hexToOklchString(hex: string): string {
   try {
     const { l, c, h } = parseToOklch(hex);

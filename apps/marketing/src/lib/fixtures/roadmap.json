@@ -70,7 +70,7 @@
       "items": [
         {
           "id": "d1",
-          "title": "Hero pieces are real @ds/react components",
+          "title": "Hero pieces are real @ui-organized/react components",
           "type": "development",
           "url": "https://github.com/ui-organized/ui-organized/issues/158",
           "labels": ["site"]

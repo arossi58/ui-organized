@@ -1,4 +1,4 @@
-import { Badge, Card, CardBody } from "@ds/react";
+import { Badge, Card, CardBody } from "@ui-organized/react";
 import { TYPE_META, type RoadmapItem } from "../../lib/roadmap";
 import "./roadmap-card.css";
 

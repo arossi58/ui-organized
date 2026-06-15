@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "@ds/react";
+import { Button, type ButtonProps } from "@ui-organized/react";
 import type { ReactElement } from "react";
 
 /**
@@ -7,7 +7,7 @@ import type { ReactElement } from "react";
  * The site's CTAs must be genuine links — readable and clickable without JS,
  * crawlable for SEO (SITE.md §8) — while still being the library `Button`
  * component (SITE.md §10). The underlying base-ui Button supports polymorphic
- * rendering via `render` + `nativeButton`, but the `@ds/react` wrapper's prop
+ * rendering via `render` + `nativeButton`, but the `@ui-organized/react` wrapper's prop
  * type doesn't surface those keys, so we widen it in this one place rather
  * than casting at every call site.
  */

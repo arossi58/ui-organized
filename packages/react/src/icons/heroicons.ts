@@ -106,7 +106,7 @@ import {
   XMarkIcon as CloseSolid,
 } from "@heroicons/react/24/solid";
 
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
 
 export const heroiconsOutlineSet: Record<CanonicalIconName, ComponentType<any>> = {

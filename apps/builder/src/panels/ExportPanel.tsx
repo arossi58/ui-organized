@@ -76,7 +76,7 @@ export function ExportPanel() {
           </li>
           <li>
             Import it once at your app entry, after the component styles:
-            <pre className={styles.codeBlock}>{`import '@ds/react/styles.css'
+            <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles.css'
 import './styles/theme.css'`}</pre>
           </li>
           <li>

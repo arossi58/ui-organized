@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Badge } from "@ds/react";
+import { Badge } from "@ui-organized/react";
 
 const VARIANTS = ["success", "info", "info-secondary", "caution", "warning", "error"] as const;
 const SIZES = ["sm", "md", "lg"] as const;

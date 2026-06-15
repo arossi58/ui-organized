@@ -1,4 +1,4 @@
-import { Card, CardBody } from "@ds/react";
+import { Card, CardBody } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
 import "./feature-trio.css";
 

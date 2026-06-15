@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Select } from "@ds/react";
+import { Select } from "@ui-organized/react";
 
 const FRUIT_OPTIONS = [
   { value: "apple", label: "Apple" },

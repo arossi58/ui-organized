@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { useState } from "react";
-import { Range } from "@ds/react";
+import { Range } from "@ui-organized/react";
 
 const meta: Meta<typeof Range> = {
   title: "Components/Range",

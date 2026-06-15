@@ -1,7 +1,29 @@
 {
-  "name": "@ds/react",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@ui-organized/react",
+  "version": "0.1.0",
+  "description": "React component library for the ui-organized design system, built on Base UI.",
+  "keywords": [
+    "design-system",
+    "react",
+    "components",
+    "ui",
+    "base-ui",
+    "accessible"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/react"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -12,6 +34,14 @@
       "require": "./dist/index.js"
     },
     "./styles": "./dist/index.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --external react",
@@ -34,14 +64,14 @@
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-rc.0",
-    "@ds/schema": "workspace:*",
-    "@ds/tokens": "workspace:*",
-    "@ds/utils": "workspace:*",
+    "@ui-organized/schema": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0"
   },
   "devDependencies": {
-    "@ds/tsconfig": "workspace:*",
+    "@ui-organized/tsconfig": "workspace:*",
     "@heroicons/react": "^2.0.0",
     "@tabler/icons-react": "^3.0.0",
     "@types/react": "^18.0.0",

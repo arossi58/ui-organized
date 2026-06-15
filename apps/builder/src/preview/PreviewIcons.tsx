@@ -1,5 +1,5 @@
-import { Icon } from "@ds/react";
-import type { CanonicalIconName } from "@ds/utils";
+import { Icon } from "@ui-organized/react";
+import type { CanonicalIconName } from "@ui-organized/utils";
 import styles from "./PreviewIcons.module.css";
 
 const ALL_PREVIEW_ICONS: CanonicalIconName[] = [

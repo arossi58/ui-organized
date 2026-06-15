@@ -2,7 +2,7 @@
  * The hero pieces (SITE.md §5). Sizes and slot centers are in *frame units* —
  * pixels at scale S=1 inside the app-frame coordinate space (FRAME_W×FRAME_H).
  * The engine scales them by S for the actual viewport. `kind` selects which
- * `@ds/react` component the PieceLayer renders; `shape` drives the matter-js body.
+ * `@ui-organized/react` component the PieceLayer renders; `shape` drives the matter-js body.
  *
  * The assembled "app" reproduces the Branding dashboard mockup (Figma node
  * 142:8348): a dark product UI built entirely from the library. The *shell* —

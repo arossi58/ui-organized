@@ -1,5 +1,5 @@
 /**
- * @ds/react-vite — Vite plugin for the design system.
+ * @ui-organized/react-vite — Vite plugin for the design system.
  *
  * Reads a theme config JSON file, validates it against the schema, runs the
  * token pipeline, and injects the resulting CSS custom properties into the
@@ -7,7 +7,7 @@
  *
  * Usage (vite.config.ts in a consuming project):
  *
- *   import { themePlugin } from '@ds/react-vite'
+ *   import { themePlugin } from '@ui-organized/react-vite'
  *
  *   export default {
  *     plugins: [
@@ -19,12 +19,12 @@
 import type { Plugin, ResolvedConfig, ViteDevServer } from "vite";
 import { readFileSync } from "fs";
 import { resolve } from "path";
-import { validateConfig } from "@ds/schema";
-import { transformConfig, buildCss } from "@ds/tokens";
+import { validateConfig } from "@ui-organized/schema";
+import { transformConfig, buildCss } from "@ui-organized/tokens";
 
 // ─── Virtual module ────────────────────────────────────────────────────────────
 
-const VIRTUAL_ID = "virtual:@ds/theme";
+const VIRTUAL_ID = "virtual:@ui-organized/theme";
 const RESOLVED_VIRTUAL_ID = "\0" + VIRTUAL_ID;
 
 // ─── Options ──────────────────────────────────────────────────────────────────
@@ -66,7 +66,7 @@ export function themePlugin(options: ThemePluginOptions): Plugin {
         cachedCss = generateCss(resolvedConfigPath);
       } catch (err) {
         this.error(
-          `@ds/react-vite: failed to build theme tokens from "${options.config}".\n${String(err)}`
+          `@ui-organized/react-vite: failed to build theme tokens from "${options.config}".\n${String(err)}`
         );
       }
     },
@@ -105,12 +105,12 @@ export default css;
           }
           server.hot.send({ type: "full-reload" });
           server.config.logger.info(
-            `[@ds/react-vite] Theme config changed — tokens regenerated.`,
+            `[@ui-organized/react-vite] Theme config changed — tokens regenerated.`,
             { timestamp: true }
           );
         } catch (err) {
           server.config.logger.error(
-            `[@ds/react-vite] Token build failed: ${String(err)}`,
+            `[@ui-organized/react-vite] Token build failed: ${String(err)}`,
             { timestamp: true }
           );
         }

@@ -14,13 +14,13 @@
  * Dimension values use "px" suffix strings as required by DTCG.
  */
 
-import type { ThemeConfig } from "@ds/schema";
+import type { ThemeConfig } from "@ui-organized/schema";
 import {
   generateSpacingScale,
   calculateLineHeights,
   resolveWeights,
   type WeightRole,
-} from "@ds/utils";
+} from "@ui-organized/utils";
 
 // ─── DTCG token node ─────────────────────────────────────────────────────────
 

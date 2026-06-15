@@ -21,7 +21,7 @@ import {
   Search, Settings, Star, Tag, Trash2, Upload, User, Users, X,
   ArrowUpAZ,
 } from "lucide-react";
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
 
 export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {

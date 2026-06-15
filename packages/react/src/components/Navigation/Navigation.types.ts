@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Logo / wordmark pinned to the top of the sidebar. */

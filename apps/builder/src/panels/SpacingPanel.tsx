@@ -1,5 +1,5 @@
 import { useBuilderStore } from "../state/themeState";
-import { SPACING_MULTIPLIERS } from "@ds/utils";
+import { SPACING_MULTIPLIERS } from "@ui-organized/utils";
 import styles from "./SpacingPanel.module.css";
 
 const SPACING_STEPS = Object.keys(SPACING_MULTIPLIERS) as (keyof typeof SPACING_MULTIPLIERS)[];

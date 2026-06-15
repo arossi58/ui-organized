@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from "react";
-import { Alert, Button, Input, TextArea } from "@ds/react";
+import { Alert, Button, Input, TextArea } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
 import { Turnstile } from "./Turnstile";
 import {
@@ -29,7 +29,7 @@ type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 /**
  * Contact form — the homepage's closing section (Figma node 170:15686).
  *
- * Built entirely from `@ds/react` primitives (Input, TextArea, Button, Alert)
+ * Built entirely from `@ui-organized/react` primitives (Input, TextArea, Button, Alert)
  * and design-system tokens. It is NOT wired to a backend yet — submission flows
  * through `submitContactForm` in lib/contact.ts, the single integration point.
  *

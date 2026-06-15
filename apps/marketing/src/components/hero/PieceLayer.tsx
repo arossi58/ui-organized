@@ -10,7 +10,7 @@ interface PieceLayerProps {
 /**
  * Renders the hero pieces (SITE.md §5) and collects their elements for the engine.
  * The real heading/CTA content lives in HeroTitle and EndCaption. The layer is
- * NOT blanket `aria-hidden`: every piece is a real `@ds/react` component that is
+ * NOT blanket `aria-hidden`: every piece is a real `@ui-organized/react` component that is
  * `inert` decoration until organized, then goes live (so it must not sit inside
  * an aria-hidden subtree). The layer ref carries the `is-frozen`/`is-arrangeable`
  * classes the engine toggles.

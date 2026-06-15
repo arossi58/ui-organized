@@ -1,5 +1,5 @@
 {
-  "extends": "@ds/tsconfig/base.json",
+  "extends": "@ui-organized/tsconfig/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "lib": ["ES2022", "DOM"],

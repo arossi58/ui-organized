@@ -1,0 +1,57 @@
+name: Release
+
+# Continuous release via Changesets. On every push to main:
+#   - if there are unreleased changesets, opens/updates a "Version Packages" PR
+#     that bumps versions and writes changelogs;
+#   - when that PR is merged (no changesets left, versions bumped), publishes the
+#     changed packages to npm.
+#
+# Requires repo secret NPM_TOKEN — an npm automation token for a member of the
+# @ui-organized org. Settings → Secrets and variables → Actions → New secret.
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push the Version Packages branch and git tags
+  pull-requests: write # open/update the Version Packages PR
+  id-token: write # allow npm provenance if enabled
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # pnpm version comes from the "packageManager" field in package.json.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Create Release PR or publish to npm
+        uses: changesets/action@v1
+        with:
+          version: pnpm version-packages
+          publish: pnpm release
+          commit: "chore: version packages"
+          title: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { FieldError, Input } from "@ds/react";
+import { FieldError, Input } from "@ui-organized/react";
 
 const meta: Meta<typeof FieldError> = {
   title: "Components/FieldError",

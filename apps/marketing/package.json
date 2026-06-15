@@ -1,5 +1,5 @@
 {
-  "name": "@ds/marketing",
+  "name": "@ui-organized/marketing",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -11,9 +11,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@ds/react": "workspace:*",
-    "@ds/tokens": "workspace:*",
-    "@ds/utils": "workspace:*",
+    "@ui-organized/react": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
     "gsap": "^3.15.0",
     "lucide-react": "^0.400.0",
     "matter-js": "^0.20.0",

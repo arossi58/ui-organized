@@ -28,7 +28,7 @@ import {
   IconPlusFilled, IconSearchFilled, IconSettingsFilled,
   IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled,
 } from "@tabler/icons-react";
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
 
 export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {

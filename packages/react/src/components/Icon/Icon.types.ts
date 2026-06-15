@@ -1,4 +1,4 @@
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface IconProps {
   /** Canonical icon name from the design system's defined set. */

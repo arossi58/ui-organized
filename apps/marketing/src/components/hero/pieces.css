@@ -1,5 +1,5 @@
 /**
- * Hero piece structure (SITE.md §5). Every piece is a real `@ds/react` component
+ * Hero piece structure (SITE.md §5). Every piece is a real `@ui-organized/react` component
  * (see PhysicsPiece.tsx) rendered into a `__fit` wrapper the engine sizes to the
  * slot and scales by S. This file owns the positioning shell, arrange-mode
  * interactivity, and the few fills that let components occupy their slot — the
@@ -44,8 +44,8 @@
   z-index: 20;
 }
 
-/* ---- real @ds/react pieces (SITE.md §5/§10) ----------------------------- */
-/* Each piece renders its @ds/react component at the library's own size — no
+/* ---- real @ui-organized/react pieces (SITE.md §5/§10) ----------------------------- */
+/* Each piece renders its @ui-organized/react component at the library's own size — no
  * style overrides. The `__fit` wrapper is a plain block sized to the slot
  * (def.w × def.h, the Figma dimensions) and scaled by `--piece-scale` (= S) so
  * the component tracks the frame on small viewports: block-level controls

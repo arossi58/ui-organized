@@ -41,10 +41,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Build the workspace deps both apps rely on (@ds/react, @ds/tokens, …).
+      # Build the workspace deps both apps rely on (@ui-organized/react, @ui-organized/tokens, …).
       # `^...` selects each app's dependencies but not the apps themselves.
       - name: Build workspace dependencies
-        run: pnpm turbo build --filter=@ds/marketing^... --filter=@ds/builder^...
+        run: pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^...
 
       # Run Vite directly rather than each package's `build` script, which also
       # runs `tsc --noEmit`. The apps have pre-existing type errors that would
@@ -54,13 +54,13 @@ jobs:
       - name: Build marketing (site root)
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
-        run: pnpm --filter @ds/marketing exec vite build
+        run: pnpm --filter @ui-organized/marketing exec vite build
 
       # Builder is the design tool, served under /builder/.
       - name: Build builder (/builder/)
         env:
           BASE_PATH: /${{ github.event.repository.name }}/builder/
-        run: pnpm --filter @ds/builder exec vite build
+        run: pnpm --filter @ui-organized/builder exec vite build
 
       # Assemble one Pages artifact: marketing at root, builder under /builder/.
       - name: Assemble site

@@ -1,4 +1,4 @@
-import { Badge } from "@ds/react";
+import { Badge } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
 import "./how-it-works.css";
 

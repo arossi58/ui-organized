@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Tabs } from "@ds/react";
+import { Tabs } from "@ui-organized/react";
 
 const BASIC_TABS = [
   { value: "overview", label: "Overview", content: <p style={{ margin: 0 }}>Overview panel content goes here.</p> },

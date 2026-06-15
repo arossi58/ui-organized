@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
 import { useBuilderStore } from "../state/themeState";
 import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
-import { TYPE_SCALE_STEP_NAMES, LINE_HEIGHT_MULTIPLIERS } from "@ds/utils";
-import { Select, type SelectOption } from "@ds/react";
+import { TYPE_SCALE_STEP_NAMES, LINE_HEIGHT_MULTIPLIERS } from "@ui-organized/utils";
+import { Select, type SelectOption } from "@ui-organized/react";
 import styles from "./TypographyPanel.module.css";
 
 // ─── Scale ratio options ──────────────────────────────────────────────────────

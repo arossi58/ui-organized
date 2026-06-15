@@ -1,8 +1,8 @@
 import type { Preview } from "@storybook/react-vite";
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
-import { IconProvider } from "@ds/react";
-import "@ds/tokens/variables.css";
-import "@ds/react/styles";
+import { IconProvider } from "@ui-organized/react";
+import "@ui-organized/tokens/variables.css";
+import "@ui-organized/react/styles";
 import "../src/preview.css";
 
 const preview: Preview = {

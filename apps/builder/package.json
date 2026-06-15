@@ -1,5 +1,5 @@
 {
-  "name": "@ds/builder",
+  "name": "@ui-organized/builder",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -10,17 +10,17 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ds/react": "workspace:*",
-    "@ds/schema": "workspace:*",
-    "@ds/tokens": "workspace:*",
-    "@ds/utils": "workspace:*",
+    "@ui-organized/react": "workspace:*",
+    "@ui-organized/schema": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
     "lucide-react": "^0.400.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "zustand": "^4.5.0"
   },
   "devDependencies": {
-    "@ds/tsconfig": "workspace:*",
+    "@ui-organized/tsconfig": "workspace:*",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^4.0.0",

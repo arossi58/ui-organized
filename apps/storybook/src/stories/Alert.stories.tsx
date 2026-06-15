@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Alert } from "@ds/react";
+import { Alert } from "@ui-organized/react";
 import { useState } from "react";
 
 const meta: Meta<typeof Alert> = {

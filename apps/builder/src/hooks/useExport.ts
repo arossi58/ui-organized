@@ -1,5 +1,5 @@
 import { useBuilderStore } from "../state/themeState";
-import { resolveSemanticColors } from "@ds/utils";
+import { resolveSemanticColors } from "@ui-organized/utils";
 import {
   computeTypographyVars,
   computeSpacingVars,

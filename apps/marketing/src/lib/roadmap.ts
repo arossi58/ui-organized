@@ -38,7 +38,7 @@ export interface RoadmapData {
 
 /**
  * Design-system `Badge` colour variants. Kept as a local union (not imported
- * from @ds/react) so this module stays React-free and unit-testable; RoadmapCard
+ * from @ui-organized/react) so this module stays React-free and unit-testable; RoadmapCard
  * passes these straight to `<Badge variant>`, so a wrong value fails to compile
  * there.
  */

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Icon } from "@ds/react";
+import { Icon } from "@ui-organized/react";
 
 const meta: Meta<typeof Icon> = {
   title: "Foundation/Icon",

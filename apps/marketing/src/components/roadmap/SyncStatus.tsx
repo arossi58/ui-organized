@@ -1,4 +1,4 @@
-import { Badge } from "@ds/react";
+import { Badge } from "@ui-organized/react";
 import { type RoadmapData, timeAgo } from "../../lib/roadmap";
 import "./sync-status.css";
 

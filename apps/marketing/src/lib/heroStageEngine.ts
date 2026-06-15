@@ -234,7 +234,7 @@ export function createHeroStageEngine(
     p.el.style.width = `${p.w}px`;
     p.el.style.height = `${p.h}px`;
     p.el.style.fontSize = `${16 * S}px`;
-    // Real `@ds/react` pieces are rem/token-sized, so they can't scale with the
+    // Real `@ui-organized/react` pieces are rem/token-sized, so they can't scale with the
     // em font-size like stickers — their `__fit` wrapper scales by this instead.
     p.el.style.setProperty("--piece-scale", `${S}`);
   }
@@ -397,7 +397,7 @@ export function createHeroStageEngine(
 
   // ---- arrange mode (phase 4) ---------------------------------------------
 
-  /** The real `@ds/react` component element inside a piece (null for stickers). */
+  /** The real `@ui-organized/react` component element inside a piece (null for stickers). */
   function fitOf(p: PieceRuntime): HTMLElement | null {
     return p.el?.querySelector<HTMLElement>(".physics-piece__fit") ?? null;
   }

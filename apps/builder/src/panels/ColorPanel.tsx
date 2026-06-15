@@ -5,7 +5,7 @@ import {
   CORE_STEPS,
   coreColors,
   getCoreFamily,
-} from "@ds/utils";
+} from "@ui-organized/utils";
 import styles from "./ColorPanel.module.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────

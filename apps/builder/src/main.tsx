@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@ds/tokens/variables.css";
-import "@ds/react/styles";
+import "@ui-organized/tokens/variables.css";
+import "@ui-organized/react/styles";
 import "./builder.css";
 import { App } from "./App";
 

@@ -12,7 +12,7 @@ import {
   Badge,
   Alert,
   Tabs,
-} from "@ds/react";
+} from "@ui-organized/react";
 import { usePreviewPortalContainer } from "./previewPortal";
 import styles from "./PreviewKitchenSink.module.css";
 

@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { adjustStrokeWidth, shouldAdjustStroke } from "@ds/utils";
+import { adjustStrokeWidth, shouldAdjustStroke } from "@ui-organized/utils";
 import { useIconConfig } from "../../context/IconContext.js";
 import { lucideIconSet } from "../../icons/lucide.js";
 import { tablerIconSet, tablerSolidSet } from "../../icons/tabler.js";

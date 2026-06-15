@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import { useBuilderStore } from "../state/themeState";
-import { LINE_HEIGHT_MULTIPLIERS } from "@ds/utils";
+import { LINE_HEIGHT_MULTIPLIERS } from "@ui-organized/utils";
 import styles from "./PreviewTypography.module.css";
 
 // CSS custom properties aren't in React.CSSProperties — cast inline style objects with this.

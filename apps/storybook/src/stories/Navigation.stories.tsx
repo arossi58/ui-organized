@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Icon, NavItem, NavSubItem, Sidebar } from "@ds/react";
+import { Icon, NavItem, NavSubItem, Sidebar } from "@ui-organized/react";
 
 /** Sidebar-like surface so the transparent nav items read against a panel. */
 function NavSurface({

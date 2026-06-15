@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { transformConfig } from "./transform.js";
-import exampleTheme from "../../node_modules/@ds/schema/src/example-theme.json" with { type: "json" };
-import { validateConfig } from "@ds/schema";
+import exampleTheme from "../../node_modules/@ui-organized/schema/src/example-theme.json" with { type: "json" };
+import { validateConfig } from "@ui-organized/schema";
 
 const config = validateConfig(exampleTheme);
 

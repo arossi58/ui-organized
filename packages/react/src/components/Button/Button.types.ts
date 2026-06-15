@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type { CanonicalIconName } from "@ds/utils";
+import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
   /** Visual style intent. Defaults to 'primary'. */
