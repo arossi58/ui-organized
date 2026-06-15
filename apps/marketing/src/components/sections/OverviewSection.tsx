@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { Reveal } from "../Reveal";
 import { OverviewCard } from "./OverviewCard";
 import { DesignArt } from "./overview/DesignArt";
@@ -5,7 +6,15 @@ import { PluginsArt } from "./overview/PluginsArt";
 import { CodeArt } from "./overview/CodeArt";
 import "./overview-section.css";
 
-const CARDS = [
+interface OverviewCardDef {
+  title: string;
+  body: string;
+  Art: ComponentType<{ active: boolean }>;
+  /** Optional in-site route the card links to. */
+  href?: string;
+}
+
+const CARDS: OverviewCardDef[] = [
   {
     title: "Design",
     body: "An ever-growing Figma design library.",
@@ -17,11 +26,13 @@ const CARDS = [
     Art: PluginsArt,
   },
   {
+    // The component library — its docs are the embedded Storybook at /docs.
     title: "Code",
     body: "Build with out-of-the-box components.",
     Art: CodeArt,
+    href: "/docs",
   },
-] as const;
+];
 
 /**
  * Overview — the three pillars of UI Organized, each a card with a bespoke
@@ -45,7 +56,12 @@ export function OverviewSection() {
         <div className="overview__grid">
           {CARDS.map((card) => (
             <Reveal key={card.title} className="overview__cell">
-              <OverviewCard title={card.title} body={card.body} Art={card.Art} />
+              <OverviewCard
+                title={card.title}
+                body={card.body}
+                Art={card.Art}
+                href={card.href}
+              />
             </Reveal>
           ))}
         </div>

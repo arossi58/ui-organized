@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { BrandMark } from "./BrandMark";
 import { ThemeMenu } from "./ThemeMenu";
 import { LINKS } from "../../lib/links";
@@ -12,21 +12,28 @@ interface SiteNavProps {
   variant?: "overlay" | "solid";
 }
 
-/** Primary nav items (Branding mockup). Home is the active page; the rest are
- * placeholders until those destinations land. */
-const NAV_LINKS: Array<{ label: string; href: string; active?: boolean }> = [
-  { label: "Home", href: "/", active: true },
-  { label: "Design", href: "#" },
+/**
+ * Primary nav items. `to` items are in-site routes (React Router, so the nav
+ * persists across them); `href` items point at sibling apps / placeholders.
+ * "Docs" is the white-labeled Storybook embedded in the /docs route; "Builder"
+ * the theme tool; "Plugins" a placeholder until it lands.
+ */
+type NavItem = { label: string; to?: string; href?: string };
+const NAV_LINKS: NavItem[] = [
+  { label: "Home", to: "/" },
+  { label: "Docs", to: "/docs" },
   { label: "Plugins", href: "#" },
   { label: "Builder", href: LINKS.builder },
 ];
 
 /**
  * The floating pill nav from the Branding mockup: logomark on the left, the
- * link row with the active item as a brand pill, and the theme menu (brand
- * colour + dark mode) on the right.
+ * link row with the active route shown as a brand pill, and the theme menu
+ * (brand colour + dark mode) on the right.
  */
 export function SiteNav({ variant = "overlay" }: SiteNavProps) {
+  const { pathname } = useLocation();
+
   return (
     <header className={`site-nav site-nav--${variant}`}>
       <div className="site-nav__pill">
@@ -35,16 +42,24 @@ export function SiteNav({ variant = "overlay" }: SiteNavProps) {
         </Link>
 
         <nav className="site-nav__links" aria-label="Primary">
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.label}
-              className={`site-nav__link${link.active ? " site-nav__link--active" : ""}`}
-              href={link.href}
-              aria-current={link.active ? "page" : undefined}
-            >
-              {link.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const active = link.to !== undefined && pathname === link.to;
+            const className = `site-nav__link${active ? " site-nav__link--active" : ""}`;
+            return link.to !== undefined ? (
+              <Link
+                key={link.label}
+                className={className}
+                to={link.to}
+                aria-current={active ? "page" : undefined}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a key={link.label} className={className} href={link.href}>
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         <div className="site-nav__theme">

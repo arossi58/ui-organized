@@ -1,0 +1,38 @@
+/* Docs tab strip. Colours come from DS tokens (resolved against the docs
+   container's `data-theme` + brand vars), so it flips with the theme and the
+   active tab underline tracks the brand. */
+.doc-tabs__bar {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0 0 1.5rem;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.doc-tabs__tab {
+  appearance: none;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  padding: 0.6rem 0.95rem;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-text-text-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.doc-tabs__tab:hover {
+  color: var(--color-text-text-primary);
+}
+
+.doc-tabs__tab.is-active {
+  color: var(--color-text-text-primary);
+  border-bottom-color: var(--color-interactive-primary-default);
+}
+
+.doc-tabs__tab:focus-visible {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

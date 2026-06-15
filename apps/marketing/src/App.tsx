@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Agentation } from "agentation";
 import { HomePage } from "./pages/HomePage";
+import { DocsPage } from "./pages/DocsPage";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
 
@@ -18,6 +19,7 @@ export function App() {
         <Grain />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/docs" element={<DocsPage />} />
         </Routes>
         {/* Agentation — lets AI coding agents annotate the running UI. Dev-only:
             `import.meta.env.DEV` is statically false in production, so Rollup

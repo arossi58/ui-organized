@@ -1,10 +1,11 @@
 name: Deploy site to GitHub Pages
 
-# Publishes both apps from one Pages deployment (a repo gets only one Pages
+# Publishes the apps from one Pages deployment (a repo gets only one Pages
 # site): the marketing site at the root — https://<user>.github.io/<repo>/ —
-# and the builder tool under /<repo>/builder/. The marketing site reads the
-# roadmap.json that roadmap-sync.yml commits, so a push to main here is the
-# "static redeploy" that surfaces fresh board data.
+# the builder tool under /<repo>/builder/, and the white-labeled Storybook
+# under /<repo>/storybook/ (the nav's "Components" link). The marketing site
+# reads the roadmap.json that roadmap-sync.yml commits, so a push to main here
+# is the "static redeploy" that surfaces fresh board data.
 on:
   push:
     branches: [main]
@@ -41,10 +42,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Build the workspace deps both apps rely on (@ui-organized/react, @ui-organized/tokens, …).
-      # `^...` selects each app's dependencies but not the apps themselves.
+      # Build the workspace deps the apps rely on (@ui-organized/react, @ui-organized/tokens,
+      # @ui-organized/utils, …). `^...` selects each app's dependencies but not the apps.
       - name: Build workspace dependencies
-        run: pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^...
+        run: pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^... --filter=@ui-organized/storybook^...
 
       # Run Vite directly rather than each package's `build` script, which also
       # runs `tsc --noEmit`. The apps have pre-existing type errors that would
@@ -62,13 +63,24 @@ jobs:
           BASE_PATH: /${{ github.event.repository.name }}/builder/
         run: pnpm --filter @ui-organized/builder exec vite build
 
-      # Assemble one Pages artifact: marketing at root, builder under /builder/.
+      # Storybook is the white-labeled component explorer, served under
+      # /storybook/. Its static build uses relative asset paths, so it needs no
+      # base-path flag to live under a sub-path. `storybook build` doesn't
+      # typecheck, so (like the Vite builds above) pre-existing TS errors don't
+      # block the deploy.
+      - name: Build Storybook (/storybook/)
+        run: pnpm --filter @ui-organized/storybook exec storybook build
+
+      # Assemble one Pages artifact: marketing at root, builder under /builder/,
+      # Storybook under /storybook/.
       - name: Assemble site
         run: |
           rm -rf _site
           cp -r apps/marketing/dist/. _site/
           mkdir -p _site/builder
           cp -r apps/builder/dist/. _site/builder/
+          mkdir -p _site/storybook
+          cp -r apps/storybook/storybook-static/. _site/storybook/
 
       # Requires Pages to be enabled once in repo Settings → Pages →
       # Source: "GitHub Actions" (the token can't enable it automatically).

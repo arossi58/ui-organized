@@ -16,7 +16,10 @@ export function EndCaption({ rootRef }: EndCaptionProps) {
   return (
     <div className="end-caption" ref={rootRef}>
       <h2 className="end-caption__title">Let’s fix it.</h2>
-      <ButtonLink href="#features" intent="primary" size="lg">
+      {/* Anchors to the overview section below; `scroll-behavior: smooth`
+          (layout.css) makes the jump glide. A real in-page link, so it works
+          without JS and stays crawlable (SITE.md §8). */}
+      <ButtonLink href="#overview" intent="primary" size="lg">
         Get Started
       </ButtonLink>
     </div>

@@ -1,0 +1,63 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+{/* Outbound links — edit in one place. FIGMA is a placeholder until the
+    published library URL lands. */}
+export const NPM = "https://www.npmjs.com/package/@ui-organized/react";
+export const FIGMA = "https://www.figma.com/community";
+export const GITHUB = "https://github.com/arossi58/ui-organized";
+
+<Meta title="Introduction" />
+
+# UI Organized
+
+**UI Organized is an open-source, token-driven design system ecosystem.** A
+single theme config drives everything — design and code — so a brand colour
+chosen once shows up identically in Figma, in the component library, and on the
+products built with it. This Storybook is the live component reference; it's
+itself built with the system.
+
+## The ecosystem
+
+One config flows through every layer:
+
+```
+theme config
+   │   (@ui-organized/schema — Zod-validated shape)
+   ▼
+design tokens  ──►  generation utils  ──►  React components
+(@ui-organized/tokens)   (@ui-organized/utils)        (@ui-organized/react, on Base UI)
+   │                                          ▲
+   └──►  Figma plugin  ·  theme builder  ·  Vite plugin (@ui-organized/react-vite)
+```
+
+### Published packages
+
+| Package | Role |
+| --- | --- |
+| `@ui-organized/react` | React component library, built on Base UI |
+| `@ui-organized/tokens` | Design tokens — typed exports + generated CSS variables |
+| `@ui-organized/schema` | Zod schema / types for the theme config |
+| `@ui-organized/utils` | Colour, type-scale, spacing & semantic-token utilities |
+| `@ui-organized/react-vite` | Vite plugin that builds & injects theme tokens |
+
+### Tools
+
+- **Figma plugin** — pushes the same config into Figma as variables, modes, and styles, keeping design and code in lockstep.
+- **Theme builder** — a web tool to pick a brand + neutral and preview the whole system live, then export the tokens.
+- **This Storybook** — white-labeled component docs (also embedded in the marketing site under **Docs**).
+
+## What makes it better
+
+- **One source of truth.** Components reference semantic *roles*, not hexes. Re-theme by swapping the brand/neutral family — every surface, border, and control follows. See [Foundations → Color](?path=/docs/foundations-color--docs).
+- **Design ↔ code parity.** The Figma plugin emits the *same* config the code consumes, so there's no hand-translation drift between the two.
+- **Accessible by construction.** Brand steps are contrast-checked against on-brand text, and light/dark are first-class — each token carries its own assignment per mode.
+- **Framework-agnostic foundation.** Tokens ship as plain CSS variables and typed exports; the React library is one consumer, not the boundary.
+- **Built on Base UI.** Behaviour, focus management, and accessibility come from a robust headless layer; the design system owns only the look.
+
+## Resources
+
+- <a href={NPM} target="_blank" rel="noreferrer">npm — @ui-organized packages</a>
+- <a href={FIGMA} target="_blank" rel="noreferrer">Figma — design library</a> _(placeholder — drop in the published URL)_
+- <a href={GITHUB} target="_blank" rel="noreferrer">GitHub — source & docs</a>
+
+Browse **Foundations** for the token reference, or **Components** for the library.

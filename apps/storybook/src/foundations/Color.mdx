@@ -1,0 +1,22 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { Tabs, Tab } from "./Tabs";
+import { CoreColorTable } from "./CoreColorTable";
+import { SemanticTokenTable } from "./SemanticTokenTable";
+
+<Meta title="Foundations/Color" />
+
+# Color
+
+UI Organized colour has two layers: a large **core palette** of ready-made OKLCH
+ramps, and the **semantic tokens** that map a small set of roles onto that palette
+for each theme. Components only ever speak in semantic roles; the core palette is
+what those roles — and your custom themes — are built from.
+
+<Tabs>
+  <Tab label="Core colors">
+    <CoreColorTable />
+  </Tab>
+  <Tab label="Semantic tokens">
+    <SemanticTokenTable />
+  </Tab>
+</Tabs>
