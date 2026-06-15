@@ -77,6 +77,13 @@ jobs:
         run: |
           rm -rf _site
           cp -r apps/marketing/dist/. _site/
+          # SPA fallback. The marketing app is a BrowserRouter SPA, so a hard
+          # refresh / direct hit on a client route (e.g. /docs) has no matching
+          # file on Pages and returns a 404. GitHub Pages serves 404.html for any
+          # unknown path; making it a copy of the app shell lets React Router
+          # resolve the route client-side. Assets are absolute under BASE_PATH,
+          # so they load regardless of the requested route's depth.
+          cp _site/index.html _site/404.html
           mkdir -p _site/builder
           cp -r apps/builder/dist/. _site/builder/
           mkdir -p _site/storybook
