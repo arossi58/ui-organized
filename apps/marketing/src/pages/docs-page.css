@@ -2,17 +2,33 @@
    the rest of the viewport "windowed" in a framed panel so it reads as a page
    of the site rather than a separate app. */
 .docs-page {
+  position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
-  background: var(--color-surface-base);
+  /* Match the home hero: flat cream surface carrying the dot lattice. */
+  background: var(--color-surface-primary);
+  /* Contain the dot layer's stacking so the nav + embed stay on top. */
+  isolation: isolate;
+  /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+/* Hero dot lattice as the page backdrop, behind the nav + windowed embed. */
+.docs-page__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
 /* Fills the space under the in-flow nav; min-height:0 lets the iframe shrink to
    it instead of overflowing. Side + bottom padding form the "window" inset (the
    nav already supplies the top gap). */
 .docs-page__stage {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex: 1 1 auto;
   min-height: 0;

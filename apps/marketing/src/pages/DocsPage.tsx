@@ -1,6 +1,7 @@
 import { SiteNav } from "../components/chrome/SiteNav";
 import { LINKS } from "../lib/links";
 import { useTheme } from "../theme/ThemeProvider";
+import "../components/gradient/dot-grid.css";
 import "./docs-page.css";
 
 /**
@@ -18,6 +19,8 @@ export function DocsPage() {
 
   return (
     <div className="docs-page">
+      {/* Same flat-surface dot lattice the home hero sits on, behind the embed. */}
+      <div className="docs-page__dots dot-grid" aria-hidden="true" />
       <SiteNav variant="solid" />
       <main className="docs-page__stage" id="main">
         <iframe
