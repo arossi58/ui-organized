@@ -1,0 +1,76 @@
+/* ─── Date popover surface ────────────────────────────────────────────────────
+   Matches the Select popup surface (background, border, radius, shadow). Holds
+   the Calendar (and, for datetime, a time field footer). */
+
+.date-popover-positioner {
+  z-index: 50;
+}
+
+.date-popover {
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transform-origin: top;
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+.date-popover[data-starting-style],
+.date-popover[data-ending-style] {
+  opacity: 0;
+  transform: scaleY(0.97);
+}
+
+/* ─── Time footer (datetime picker) ───────────────────────────────────────── */
+
+.date-popover__footer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+  padding-top: 0;
+}
+
+.date-popover__time {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Hide the native time picker indicator/spinners — the field is typed and the
+   calendar drives the date. */
+.date-popover__time::-webkit-calendar-picker-indicator,
+.date-popover__time::-webkit-inner-spin-button,
+.date-popover__time::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.date-popover__done {
+  flex-shrink: 0;
+  padding: var(--Button-Small-vertical) var(--Button-Medium-horizontal);
+  border: none;
+  border-radius: var(--radius-interactive);
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-medium, 600);
+  line-height: var(--type-leading-body-small);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.date-popover__done:hover {
+  background-color: var(--color-interactive-primary-hover);
+}
+
+.date-popover__done:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}

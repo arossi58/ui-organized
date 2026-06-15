@@ -1,0 +1,253 @@
+/* ─── Calendar ────────────────────────────────────────────────────────────────
+   The DS-styled month grid shown inside the date pickers' popover. Surface
+   tokens match the Select popup; selected days use the primary interactive fill,
+   the in-range band uses the lighter selected fill. */
+
+.calendar {
+  --calendar-cell: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+  font-family: var(--type-font-body);
+  user-select: none;
+}
+
+/* ─── Header (month nav) ──────────────────────────────────────────────────── */
+
+.calendar__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.calendar__labels {
+  flex: 1;
+  display: flex;
+  min-width: 0;
+}
+
+.calendar__label {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-01);
+}
+
+.calendar__month-name {
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-medium, 600);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-primary);
+}
+
+/* ─── Year dropdown ───────────────────────────────────────────────────────── */
+
+.calendar__year {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.calendar__year-select {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-medium, 600);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-primary);
+  padding: 2px 20px 2px var(--spacing-space-01);
+  border-radius: var(--radius-interactive);
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+.calendar__year-select:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.calendar__year-select:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.calendar__year-chevron {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-text-tertiary);
+  pointer-events: none;
+}
+
+.calendar__nav {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-interactive);
+  color: var(--color-text-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.calendar__nav:hover:not(:disabled) {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+.calendar__nav:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.calendar__nav:disabled {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+}
+
+/* ─── Months row ──────────────────────────────────────────────────────────── */
+
+.calendar__months {
+  display: flex;
+  gap: var(--spacing-space-04);
+}
+
+.calendar__month {
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar__weekdays,
+.calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, var(--calendar-cell));
+}
+
+.calendar__weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Day cell ────────────────────────────────────────────────────────────── */
+
+.calendar__day {
+  position: relative;
+  width: var(--calendar-cell);
+  height: var(--calendar-cell);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: inherit;
+}
+
+/* The selectable circle that carries hover/selected/focus styling. The button
+   itself stays full-cell so the in-range band (its background) tiles seamlessly
+   into the adjacent cells. */
+.calendar__day-label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: var(--type-size-body-large);
+  line-height: 1;
+  color: var(--color-text-text-primary);
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.calendar__day[data-outside] .calendar__day-label {
+  color: var(--color-text-text-placeholder);
+}
+
+.calendar__day:hover:not(:disabled):not([data-selected]) .calendar__day-label {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.calendar__day:focus-visible {
+  outline: none;
+}
+
+.calendar__day:focus-visible .calendar__day-label {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Today — a brand-colored dot under the date. */
+.calendar__day[data-today] .calendar__day-label::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-interactive-primary-default);
+}
+
+/* When today is selected the dot sits on the brand fill — switch it to the
+   on-primary content colour (dark or light per theme) so it stays visible. */
+.calendar__day[data-today][data-selected] .calendar__day-label::after {
+  background-color: var(--color-interactive-contents);
+}
+
+/* In-range band (between the two ends). Full-cell background so neighbours
+   connect; the half-band variants meet the endpoint circles cleanly. */
+.calendar__day[data-in-range] {
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.calendar__day[data-range-lo] {
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    var(--color-interactive-ui-selected) 50%
+  );
+}
+
+.calendar__day[data-range-hi] {
+  background: linear-gradient(
+    to left,
+    transparent 50%,
+    var(--color-interactive-ui-selected) 50%
+  );
+}
+
+/* Selected endpoint / single day — primary fill on top of any band. */
+.calendar__day[data-selected] .calendar__day-label {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+.calendar__day:disabled {
+  cursor: not-allowed;
+}
+
+.calendar__day:disabled .calendar__day-label {
+  color: var(--color-interactive-inactive-inactive-02);
+}

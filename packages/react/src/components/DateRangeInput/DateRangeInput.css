@@ -1,0 +1,31 @@
+/* ─── Date range ──────────────────────────────────────────────────────────────
+   Lays out the start/end pair on one row under the shared `.input-field` column
+   (label / row / helper). Each control reuses the Input field surface and the
+   leading calendar button from InputAffix.css; this file only handles the
+   two-up layout and the separator. */
+
+.date-range__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* Each end shares the row width equally; min-width:0 lets the native date
+   control shrink below its intrinsic width instead of overflowing the row. */
+.date-range__field {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.date-range__separator {
+  flex-shrink: 0;
+  color: var(--color-text-text-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+  user-select: none;
+}
+
+.date-range[data-disabled] .date-range__separator {
+  color: var(--color-interactive-inactive-inactive-02);
+}

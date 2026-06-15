@@ -13,6 +13,25 @@ export type { InputProps, InputVariants } from "./components/Input/index.js";
 export { TextArea } from "./components/TextArea/index.js";
 export type { TextAreaProps, TextAreaVariants } from "./components/TextArea/index.js";
 
+export { SearchInput } from "./components/SearchInput/index.js";
+export type { SearchInputProps, SearchInputVariants } from "./components/SearchInput/index.js";
+
+export { PasswordInput } from "./components/PasswordInput/index.js";
+export type { PasswordInputProps, PasswordInputVariants } from "./components/PasswordInput/index.js";
+
+export { DateInput } from "./components/DateInput/index.js";
+export type { DateInputProps, DateInputVariants } from "./components/DateInput/index.js";
+
+export { DateTimeInput } from "./components/DateTimeInput/index.js";
+export type { DateTimeInputProps, DateTimeInputVariants } from "./components/DateTimeInput/index.js";
+
+export { DateRangeInput } from "./components/DateRangeInput/index.js";
+export type {
+  DateRangeInputProps,
+  DateRangeValue,
+  DateRangeInputVariants,
+} from "./components/DateRangeInput/index.js";
+
 export { FieldError } from "./components/FieldError/index.js";
 export type { FieldErrorProps } from "./components/FieldError/index.js";
 
