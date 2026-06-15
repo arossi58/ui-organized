@@ -1,0 +1,152 @@
+/* Tools route: the marketing nav stays in flow at the top, then the design
+   system's `Sidebar` + a tool panel fill the rest of the viewport, "windowed"
+   in a framed shell so the gallery reads as a page of the site. The sidebar
+   itself (rail, items, selected state) is the DS Navigation component — this
+   sheet only owns the page scaffold around it. Mirrors the docs route. */
+.tools-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-surface-primary);
+  /* Contain the dot layer's stacking so the nav + shell stay on top. */
+  isolation: isolate;
+  /* Re-tone the lattice to ink so it reads on cream (mirrors .docs-page). */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+/* Hero dot lattice as the page backdrop, behind the nav + windowed shell. */
+.tools-page__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Fills the space under the in-flow nav. Side + bottom padding form the
+   "window" inset (the nav already supplies the top gap). */
+.tools-page__stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 0 var(--section-px) var(--spacing-space-05);
+}
+
+/* Framed shell holding the DS sidebar (flush left, with its own border-right
+   divider) and the tool panel. `overflow: hidden` clips the sidebar's divider
+   to the rounded corners so the two regions read as one windowed surface. */
+.tools-shell {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-radius-06);
+  background: var(--color-surface-primary);
+  box-shadow: 0 12px 32px -16px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+/* ── Sidebar brand (the DS Sidebar `logo` slot) ───────────────────────── */
+.tools-brand {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.tools-brand__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--site-ink-soft);
+}
+
+.tools-brand__name {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--site-ink);
+}
+
+/* ── Tool panel ───────────────────────────────────────────────────────── */
+.tools-panel {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 0;
+  padding: var(--spacing-space-12) var(--spacing-space-08);
+  overflow: auto;
+}
+
+/* Tinted disc holding the tool icon, scaled up from the rail's 18px source. */
+.tools-panel__art {
+  display: grid;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+  margin-bottom: var(--spacing-space-05);
+  border-radius: var(--border-radius-radius-full, 999px);
+  background: color-mix(in srgb, var(--site-orange) 12%, transparent);
+  color: var(--site-orange);
+}
+
+.tools-panel__status {
+  margin: 0 0 var(--spacing-space-03);
+  padding: 4px 12px;
+  border-radius: var(--border-radius-radius-full, 999px);
+  border: 1px solid color-mix(in srgb, var(--site-orange) 35%, transparent);
+  color: var(--site-orange);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tools-panel__title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: clamp(28px, 3.4vw, 42px);
+  line-height: 1.12;
+  margin: 0 0 var(--spacing-space-02);
+  color: var(--site-ink);
+}
+
+.tools-panel__tagline {
+  margin: 0 0 var(--spacing-space-04);
+  font-size: var(--type-size-body-large, 18px);
+  color: var(--site-ink);
+}
+
+.tools-panel__desc {
+  margin: 0;
+  max-width: 52ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--site-ink-soft);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 760px) {
+  /* Stack the rail above the panel; the DS sidebar's divider moves to the
+     bottom edge and it spans the full width. */
+  .tools-shell {
+    flex-direction: column;
+  }
+
+  .tools-shell > .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
+
+  .tools-panel {
+    padding: var(--spacing-space-10) var(--spacing-space-05);
+  }
+}

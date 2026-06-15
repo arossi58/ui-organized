@@ -15,14 +15,14 @@ interface SiteNavProps {
 /**
  * Primary nav items. `to` items are in-site routes (React Router, so the nav
  * persists across them); `href` items point at sibling apps / placeholders.
- * "Docs" is the white-labeled Storybook embedded in the /docs route; "Builder"
- * the theme tool; "Plugins" a placeholder until it lands.
+ * "Docs" is the white-labeled Storybook embedded in the /docs route; "Tools" the
+ * design-system tool gallery at /tools; "Builder" the theme tool.
  */
 type NavItem = { label: string; to?: string; href?: string };
 const NAV_LINKS: NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Docs", to: "/docs" },
-  { label: "Plugins", href: "#" },
+  { label: "Tools", to: "/tools" },
   { label: "Builder", href: LINKS.builder },
 ];
 
@@ -43,7 +43,12 @@ export function SiteNav({ variant = "overlay" }: SiteNavProps) {
 
         <nav className="site-nav__links" aria-label="Primary">
           {NAV_LINKS.map((link) => {
-            const active = link.to !== undefined && pathname === link.to;
+            // Active on the exact route or any of its sub-routes (e.g. /tools
+            // highlights for /tools/color-palette). "/" stays exact-match only.
+            const active =
+              link.to !== undefined &&
+              (pathname === link.to ||
+                (link.to !== "/" && pathname.startsWith(`${link.to}/`)));
             const className = `site-nav__link${active ? " site-nav__link--active" : ""}`;
             return link.to !== undefined ? (
               <Link

@@ -21,9 +21,12 @@ const CARDS: OverviewCardDef[] = [
     Art: DesignArt,
   },
   {
-    title: "Plugins",
-    body: "Tools to make design easier.",
+    // The design-system tool gallery at /tools (color palette generator, icon
+    // scaler, theme builder, …).
+    title: "Tools",
+    body: "Generators and utilities to make design easier.",
     Art: PluginsArt,
+    href: "/tools",
   },
   {
     // The component library — its docs are the embedded Storybook at /docs.

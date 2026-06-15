@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Agentation } from "agentation";
 import { HomePage } from "./pages/HomePage";
 import { DocsPage } from "./pages/DocsPage";
+import { ToolsPage } from "./pages/ToolsPage";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
 
@@ -20,6 +21,10 @@ export function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/docs" element={<DocsPage />} />
+          {/* Tools gallery — the bare path shows the first tool; /tools/<id>
+              selects a specific one (both render the same page). */}
+          <Route path="/tools" element={<ToolsPage />} />
+          <Route path="/tools/:toolId" element={<ToolsPage />} />
         </Routes>
         {/* Agentation — lets AI coding agents annotate the running UI. Dev-only:
             `import.meta.env.DEV` is statically false in production, so Rollup
