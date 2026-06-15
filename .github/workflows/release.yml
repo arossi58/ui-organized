@@ -1,16 +1,19 @@
 name: Release
 
-# Continuous release via Changesets. On every push to main:
-#   - if there are unreleased changesets, opens/updates a "Version Packages" PR
-#     that bumps versions and writes changelogs;
-#   - when that PR is merged (no changesets left, versions bumped), publishes the
-#     changed packages to npm.
+# Manual release via Changesets — runs ONLY when you trigger it by hand
+# (GitHub repo → Actions tab → "Release" → "Run workflow"). Pushing code to
+# main never publishes; code deploys and npm releases are fully decoupled.
+#
+# When you run it:
+#   - if there are unreleased changesets in .changeset/, it opens/updates a
+#     "Version Packages" PR (bumps versions + changelogs) and does NOT publish;
+#   - if there are none (versions already bumped), it publishes the changed
+#     packages to npm and pushes their git tags.
 #
 # Requires repo secret NPM_TOKEN — an npm automation token for a member of the
 # @ui-organized org. Settings → Secrets and variables → Actions → New secret.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: release
