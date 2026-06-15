@@ -7,6 +7,12 @@ const meta: Meta<typeof TextArea> = {
   component: TextArea,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "A multi-line text field with an optional `label`, `helperText`, and `error` message; use `size` for density, `resize` to control the drag handle, and the `required` / `disabled` booleans for state.",
+      },
+    },
   },
   argTypes: {
     size: {
@@ -65,6 +71,17 @@ export const Disabled: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<TextArea size="sm" label="Small" placeholder="Your input" helperText="Characters 0/500" />
+<TextArea size="md" label="Medium" placeholder="Your input" helperText="Characters 0/500" />
+<TextArea size="lg" label="Large" placeholder="Your input" helperText="Characters 0/500" />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", gap: "16px", alignItems: "flex-start", maxWidth: "1000px" }}>
       <TextArea size="sm" label="Small" placeholder="Your input" helperText="Characters 0/500" />
@@ -75,6 +92,19 @@ export const AllSizes: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<TextArea label="Default" placeholder="Your input" helperText="Characters 0/500" />
+<TextArea label="With value" defaultValue="Entered data" helperText="Characters 11/500" />
+<TextArea label="Required" placeholder="Your input" required helperText="Characters 0/500" />
+<TextArea label="Error state" placeholder="Your input" error="Error message" />
+<TextArea label="Disabled" placeholder="Your input" disabled helperText="Characters 0/500" />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <TextArea label="Default" placeholder="Your input" helperText="Characters 0/500" />
@@ -88,6 +118,18 @@ export const AllStates: Story = {
 
 /** Drag the bottom-right handle of each field to resize it in the allowed directions. */
 export const Resize: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<TextArea label="Both (default)" placeholder="Resize me in any direction" resize="both" />
+<TextArea label="Vertical only" placeholder="Resize me up/down" resize="vertical" />
+<TextArea label="Horizontal only" placeholder="Resize me left/right" resize="horizontal" />
+<TextArea label="No resize" placeholder="Fixed size" resize="none" />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <TextArea label="Both (default)" placeholder="Resize me in any direction" resize="both" />
@@ -100,6 +142,25 @@ export const Resize: Story = {
 
 /** Live character counter — the canonical use of the helper text (Figma "Characters 0/500"). */
 export const CharacterCounter: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const max = 500;
+const [value, setValue] = useState("");
+
+<TextArea
+  label="Message"
+  placeholder="Your input"
+  maxLength={max}
+  value={value}
+  onChange={(e) => setValue(e.target.value)}
+  helperText={"Characters " + value.length + "/" + max}
+/>
+`.trim(),
+      },
+    },
+  },
   render: () => {
     const max = 500;
     const [value, setValue] = useState("");

@@ -6,6 +6,12 @@ const meta: Meta<typeof Switch> = {
   component: Switch,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Switch is an on/off toggle for an immediate setting; use `label` for the caption, `checked` / `defaultChecked` for state, and `disabled` / `required` for form behavior.",
+      },
+    },
   },
   argTypes: {
     label: { control: "text" },
@@ -32,6 +38,16 @@ export const Checked: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Switch label="Disabled off" disabled />
+<Switch label="Disabled on" disabled defaultChecked />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <Switch label="Disabled off" disabled />
@@ -41,6 +57,18 @@ export const Disabled: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Switch label="Off state" />
+<Switch label="On state" defaultChecked />
+<Switch label="Disabled off" disabled />
+<Switch label="Disabled on" disabled defaultChecked />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <Switch label="Off state" />

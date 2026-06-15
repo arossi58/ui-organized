@@ -6,6 +6,12 @@ const meta: Meta<typeof FieldError> = {
   component: FieldError,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "FieldError renders a validation error pill from the message passed as `children`, and renders nothing when the message is empty; it typically sits beneath an invalid form control.",
+      },
+    },
   },
   argTypes: {
     children: { control: "text" },
@@ -38,6 +44,20 @@ export const LongMessage: Story = {
 
 /** How it appears in context, wired under an invalid form control. */
 export const InFormContext: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Input
+  label="Email"
+  placeholder="you@example.com"
+  defaultValue="not-an-email"
+  error="Enter a valid email address."
+/>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "320px" }}>
       <Input

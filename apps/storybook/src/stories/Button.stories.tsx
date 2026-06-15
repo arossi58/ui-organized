@@ -6,6 +6,12 @@ const meta: Meta<typeof Button> = {
   component: Button,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Buttons trigger actions. Use `intent` to convey emphasis and tone, `size` for density, and `icon` / `iconPosition` to pair a label with a leading or trailing icon.",
+      },
+    },
   },
   argTypes: {
     intent: {
@@ -41,6 +47,20 @@ export const Default: Story = {
 };
 
 export const AllIntents: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button intent="primary">Primary</Button>
+<Button intent="secondary">Secondary</Button>
+<Button intent="tertiary">Tertiary</Button>
+<Button intent="ghost">Ghost</Button>
+<Button intent="destructive">Destructive</Button>
+<Button intent="destructive-ghost">Destructive Ghost</Button>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
       <Button intent="primary">Primary</Button>
@@ -54,6 +74,17 @@ export const AllIntents: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
       <Button size="sm">Small</Button>
@@ -64,6 +95,22 @@ export const AllSizes: Story = {
 };
 
 export const WithIcon: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button icon="plus" iconPosition="left">Add item</Button>
+<Button icon="arrow-right" iconPosition="right">Continue</Button>
+<Button intent="secondary" icon="download" iconPosition="left">Download</Button>
+<Button intent="destructive" icon="trash" iconPosition="left">Delete</Button>
+
+<Button size="sm" icon="plus">Small</Button>
+<Button size="md" icon="plus">Medium</Button>
+<Button size="lg" icon="plus">Large</Button>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -82,6 +129,20 @@ export const WithIcon: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button intent="primary" disabled>Primary</Button>
+<Button intent="secondary" disabled>Secondary</Button>
+<Button intent="tertiary" disabled>Tertiary</Button>
+<Button intent="ghost" disabled>Ghost</Button>
+<Button intent="destructive" disabled>Destructive</Button>
+<Button intent="destructive-ghost" disabled>Destructive Ghost</Button>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
       <Button intent="primary" disabled>Primary</Button>
@@ -95,6 +156,21 @@ export const Disabled: Story = {
 };
 
 export const AllVariantsGrid: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+{(["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const).map((intent) =>
+  (["sm", "md", "lg"] as const).map((size) => (
+    <Button key={intent + size} intent={intent} size={size}>
+      {intent} {size}
+    </Button>
+  )),
+)}
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       {(["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const).map((intent) => (

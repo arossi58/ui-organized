@@ -6,6 +6,12 @@ const meta: Meta<typeof Icon> = {
   component: Icon,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Icon renders a named glyph from the active icon library (set via IconProvider). Choose the glyph with `name`, its pixel `size`, and pass an optional `label` to expose it to assistive tech (otherwise it is treated as decorative).",
+      },
+    },
   },
   argTypes: {
     name: {
@@ -38,6 +44,28 @@ export const Default: Story = {
 };
 
 export const AllIcons: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const names = [
+  "chevron-down", "chevron-up", "chevron-left", "chevron-right",
+  "arrow-left", "arrow-right", "arrow-up", "arrow-down", "external-link",
+  "close", "check", "plus", "minus", "copy", "edit", "trash",
+  "download", "upload", "refresh", "sort-asc", "sort-desc", "filter",
+  "check-circle", "alert-circle", "alert-triangle", "info", "loader",
+  "search", "eye", "eye-off", "bookmark", "star", "heart", "tag",
+  "menu", "grid", "list", "user", "users", "lock", "unlock",
+  "mail", "phone", "settings", "home", "calendar", "clock",
+] as const;
+
+{names.map((name) => (
+  <Icon key={name} name={name} size={20} />
+))}
+`.trim(),
+      },
+    },
+  },
   render: () => {
     const icons = [
       "chevron-down", "chevron-up", "chevron-left", "chevron-right",
@@ -75,6 +103,17 @@ export const AllIcons: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+{[12, 16, 20, 24, 32, 40, 48].map((size) => (
+  <Icon key={size} name="star" size={size} />
+))}
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
       {[12, 16, 20, 24, 32, 40, 48].map((size) => (

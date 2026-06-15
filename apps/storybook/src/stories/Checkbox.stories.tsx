@@ -6,6 +6,12 @@ const meta: Meta<typeof Checkbox> = {
   component: Checkbox,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Checkbox is a labelled toggle for boolean input; use `label` for the caption, `checked` / `defaultChecked` for state, `indeterminate` for a partial state, and `disabled` / `required` for form behavior.",
+      },
+    },
   },
   argTypes: {
     label: { control: "text" },
@@ -40,6 +46,16 @@ export const Indeterminate: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Checkbox label="Disabled unchecked" disabled />
+<Checkbox label="Disabled checked" disabled defaultChecked />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <Checkbox label="Disabled unchecked" disabled />
@@ -49,6 +65,19 @@ export const Disabled: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Checkbox label="Unchecked" />
+<Checkbox label="Checked" defaultChecked />
+<Checkbox label="Indeterminate" indeterminate />
+<Checkbox label="Disabled unchecked" disabled />
+<Checkbox label="Disabled checked" disabled defaultChecked />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       <Checkbox label="Unchecked" />

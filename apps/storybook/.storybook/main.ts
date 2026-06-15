@@ -29,6 +29,19 @@ const config: StorybookConfig = {
         return source.startsWith("file://") ? fileURLToPath(source) : null;
       },
     });
+
+    // The Docs "Code" panel serialises each story's live React element with
+    // react-element-to-jsx-string, which prints the component's *runtime*
+    // function name. The production build minifies those names (`Button` → `o1t`),
+    // so args-only stories rendered as `<o1t …>` instead of `<Button …>`.
+    // `keepNames` makes esbuild's minifier preserve `fn.name`, so the snippets
+    // show the real component tags. (Dev is unminified, so this only affects
+    // `storybook build` / the deployed docs.)
+    config.esbuild = {
+      ...(config.esbuild || {}),
+      keepNames: true,
+    };
+
     return config;
   },
 };

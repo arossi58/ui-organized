@@ -33,6 +33,12 @@ const meta: Meta<typeof NavItem> = {
   component: NavItem,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Navigation primitives for an application sidebar. `NavItem` is a top-level entry with an optional `icon`, `selected` / `disabled` states, a `collapsed` (icon-only) mode, and nestable `NavSubItem` children that turn it into an expandable group. `Sidebar` is the full container that arranges a logo, the scrollable nav, and a footer, with an optional `collapsible` rail.",
+      },
+    },
   },
   argTypes: {
     icon: {
@@ -100,7 +106,21 @@ export const WithoutIcon: Story = {
  * padding on all four sides (rather than ballooning to fill the rail width).
  */
 export const CollapsedRail: Story = {
-  parameters: { noSurface: true },
+  parameters: {
+    noSurface: true,
+    docs: {
+      source: {
+        code: `
+<NavItem label="Home" icon="home" collapsed />
+<NavItem label="Dashboard" icon="grid" selected collapsed />
+<NavItem label="Messages" icon="mail" collapsed />
+<NavItem label="Calendar" icon="calendar" collapsed />
+<NavItem label="Settings" icon="settings" collapsed />
+<NavItem label="Archived" icon="bookmark" disabled collapsed />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <NavSurface collapsed>
       <NavItem label="Home" icon="home" collapsed />
@@ -118,7 +138,24 @@ export const CollapsedRail: Story = {
  * row keeps the exact same height, so the icons stay aligned across both rails.
  */
 export const ExpandedVsCollapsed: Story = {
-  parameters: { noSurface: true },
+  parameters: {
+    noSurface: true,
+    docs: {
+      source: {
+        code: `
+<NavItem label="Home" icon="home" />
+<NavItem label="Dashboard" icon="grid" selected />
+<NavItem label="Messages" icon="mail" />
+<NavItem label="Settings" icon="settings" />
+
+<NavItem label="Home" icon="home" collapsed />
+<NavItem label="Dashboard" icon="grid" selected collapsed />
+<NavItem label="Messages" icon="mail" collapsed />
+<NavItem label="Settings" icon="settings" collapsed />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div
       style={{
@@ -146,6 +183,21 @@ export const ExpandedVsCollapsed: Story = {
 /* ─── Expandable item with sub-pages ─────────────────────────────────────────── */
 
 export const Expandable: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavItem label="Reports" icon="grid" selected defaultExpanded>
+  <NavSubItem label="Overview" selected />
+  <NavSubItem label="Revenue" />
+  <NavSubItem label="Traffic" />
+  <NavSubItem label="Conversions" />
+  <NavSubItem label="Retention" />
+</NavItem>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <NavItem label="Reports" icon="grid" selected defaultExpanded>
       <NavSubItem label="Overview" selected />
@@ -158,6 +210,19 @@ export const Expandable: Story = {
 };
 
 export const ExpandableCollapsed: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavItem label="Reports" icon="grid">
+  <NavSubItem label="Overview" />
+  <NavSubItem label="Revenue" />
+  <NavSubItem label="Traffic" />
+</NavItem>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <NavItem label="Reports" icon="grid">
       <NavSubItem label="Overview" />
@@ -170,6 +235,17 @@ export const ExpandableCollapsed: Story = {
 /* ─── Sub-item states (standalone) ───────────────────────────────────────────── */
 
 export const SubItemStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavSubItem label="Default" />
+<NavSubItem label="Selected" selected />
+<NavSubItem label="Disabled" disabled />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <>
       <NavSubItem label="Default" />
@@ -182,6 +258,28 @@ export const SubItemStates: Story = {
 /* ─── Realistic sidebar nav ──────────────────────────────────────────────────── */
 
 export const SidebarNav: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<NavItem label="Home" icon="home" />
+<NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+  <NavSubItem label="Overview" selected />
+  <NavSubItem label="Activity" />
+  <NavSubItem label="Insights" />
+</NavItem>
+<NavItem label="Messages" icon="mail" />
+<NavItem label="Calendar" icon="calendar">
+  <NavSubItem label="Upcoming" />
+  <NavSubItem label="Past events" />
+</NavItem>
+<NavItem label="Team" icon="users" />
+<NavItem label="Settings" icon="settings" />
+<NavItem label="Archived" icon="bookmark" disabled />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <>
       <NavItem label="Home" icon="home" />
@@ -247,7 +345,35 @@ const SidebarItems = (
 
 /** The complete sidebar: logo slot, scrollable nav, and a footer slot. */
 export const FullSidebar: Story = {
-  parameters: { noSurface: true, layout: "fullscreen" },
+  parameters: {
+    noSurface: true,
+    layout: "fullscreen",
+    docs: {
+      source: {
+        code: `
+<Sidebar
+  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid" size={24} />}
+  footer={<NavItem label="Help & Support" icon="info" />}
+>
+  <NavItem label="Home" icon="home" />
+  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+    <NavSubItem label="Overview" selected />
+    <NavSubItem label="Activity" />
+    <NavSubItem label="Insights" />
+  </NavItem>
+  <NavItem label="Messages" icon="mail" />
+  <NavItem label="Calendar" icon="calendar">
+    <NavSubItem label="Upcoming" />
+    <NavSubItem label="Past events" />
+  </NavItem>
+  <NavItem label="Team" icon="users" />
+  <NavItem label="Settings" icon="settings" />
+</Sidebar>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <SidebarStage>
       <Sidebar
@@ -267,7 +393,36 @@ export const FullSidebar: Story = {
  * whole sidebar to an icon-only rail.
  */
 export const CollapsibleSidebar: Story = {
-  parameters: { noSurface: true, layout: "fullscreen" },
+  parameters: {
+    noSurface: true,
+    layout: "fullscreen",
+    docs: {
+      source: {
+        code: `
+<Sidebar
+  collapsible
+  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid" size={24} />}
+  footer={<NavItem label="Help & Support" icon="info" />}
+>
+  <NavItem label="Home" icon="home" />
+  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+    <NavSubItem label="Overview" selected />
+    <NavSubItem label="Activity" />
+    <NavSubItem label="Insights" />
+  </NavItem>
+  <NavItem label="Messages" icon="mail" />
+  <NavItem label="Calendar" icon="calendar">
+    <NavSubItem label="Upcoming" />
+    <NavSubItem label="Past events" />
+  </NavItem>
+  <NavItem label="Team" icon="users" />
+  <NavItem label="Settings" icon="settings" />
+</Sidebar>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <SidebarStage>
       <Sidebar
@@ -284,7 +439,37 @@ export const CollapsibleSidebar: Story = {
 
 /** Start collapsed — drive the collapsed state yourself via `defaultCollapsed`. */
 export const SidebarStartCollapsed: Story = {
-  parameters: { noSurface: true, layout: "fullscreen" },
+  parameters: {
+    noSurface: true,
+    layout: "fullscreen",
+    docs: {
+      source: {
+        code: `
+<Sidebar
+  collapsible
+  defaultCollapsed
+  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid" size={24} />}
+  footer={<NavItem label="Help & Support" icon="info" />}
+>
+  <NavItem label="Home" icon="home" />
+  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+    <NavSubItem label="Overview" selected />
+    <NavSubItem label="Activity" />
+    <NavSubItem label="Insights" />
+  </NavItem>
+  <NavItem label="Messages" icon="mail" />
+  <NavItem label="Calendar" icon="calendar">
+    <NavSubItem label="Upcoming" />
+    <NavSubItem label="Past events" />
+  </NavItem>
+  <NavItem label="Team" icon="users" />
+  <NavItem label="Settings" icon="settings" />
+</Sidebar>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <SidebarStage>
       <Sidebar

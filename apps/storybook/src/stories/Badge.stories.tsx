@@ -9,6 +9,12 @@ const meta: Meta<typeof Badge> = {
   component: Badge,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Badges label and categorize content. Use `variant` to convey status (success, info, info-secondary, caution, warning, error), `size` for density, and `emphasized` to toggle between a solid and subdued style.",
+      },
+    },
   },
   argTypes: {
     variant: {
@@ -37,6 +43,20 @@ export const Default: Story = {
 };
 
 export const Emphasized: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Badge variant="success" emphasized>success</Badge>
+<Badge variant="info" emphasized>info</Badge>
+<Badge variant="info-secondary" emphasized>info-secondary</Badge>
+<Badge variant="caution" emphasized>caution</Badge>
+<Badge variant="warning" emphasized>warning</Badge>
+<Badge variant="error" emphasized>error</Badge>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
       {VARIANTS.map((variant) => (
@@ -49,6 +69,20 @@ export const Emphasized: Story = {
 };
 
 export const Subdued: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Badge variant="success" emphasized={false}>success</Badge>
+<Badge variant="info" emphasized={false}>info</Badge>
+<Badge variant="info-secondary" emphasized={false}>info-secondary</Badge>
+<Badge variant="caution" emphasized={false}>caution</Badge>
+<Badge variant="warning" emphasized={false}>warning</Badge>
+<Badge variant="error" emphasized={false}>error</Badge>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
       {VARIANTS.map((variant) => (
@@ -61,6 +95,17 @@ export const Subdued: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Badge variant="success" size="sm">sm</Badge>
+<Badge variant="success" size="md">md</Badge>
+<Badge variant="success" size="lg">lg</Badge>
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
       {SIZES.map((size) => (
@@ -73,6 +118,28 @@ export const AllSizes: Story = {
 };
 
 export const AllVariantsGrid: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+{SIZES.map((size) => (
+  <React.Fragment key={size}>
+    {VARIANTS.map((variant) => (
+      <Badge key={variant} variant={variant} size={size} emphasized>
+        {variant}
+      </Badge>
+    ))}
+    {VARIANTS.map((variant) => (
+      <Badge key={variant} variant={variant} size={size} emphasized={false}>
+        {variant}
+      </Badge>
+    ))}
+  </React.Fragment>
+))}
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
       {SIZES.map((size) => (

@@ -100,6 +100,11 @@ function ThemedDocsContainer({
 }
 
 const preview: Preview = {
+  // Generate an Autodocs page for every component meta. Each page pulls its prop
+  // table from the component's `.types.ts` JSDoc and its intro from the
+  // `docs.description.component` set per meta.
+  // https://storybook.js.org/docs/writing-docs/autodocs
+  tags: ["autodocs"],
   decorators: [
     withThemeByDataAttribute({
       themes: {
@@ -137,6 +142,15 @@ const preview: Preview = {
       codePanel: true,
       // Re-theme docs pages live with the toolbar / site theme (see above).
       container: ThemedDocsContainer,
+      source: {
+        // Keep the preview-only decorators (theme wrapper, IconProvider, and
+        // per-story layout decorators like Navigation's NavSurface) out of the
+        // Code panel / Autodocs snippets — they're scaffolding, not usage.
+        // Multi-component "render" stories additionally pin a hand-curated
+        // `source.code` snippet so the panel shows real component usage rather
+        // than the demo layout wrappers.
+        excludeDecorators: true,
+      },
     },
   },
 };

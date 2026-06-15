@@ -14,6 +14,12 @@ const meta: Meta<typeof Select> = {
   component: Select,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "A dropdown field driven by an `options` array (each with `value`, `label`, and optional `disabled`); supports a `label`, `helperText`, and `error` message, plus `size` for density and the `required` / `disabled` booleans for state.",
+      },
+    },
   },
   argTypes: {
     size: {
@@ -33,6 +39,15 @@ export default meta;
 type Story = StoryObj<typeof Select>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select options={FRUIT_OPTIONS} label="Favorite fruit" placeholder="Select a fruit…" size="md" />
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -42,6 +57,20 @@ export const Default: Story = {
 };
 
 export const WithHelperText: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select
+  options={FRUIT_OPTIONS}
+  label="Favorite fruit"
+  placeholder="Select a fruit…"
+  helperText="We use this to personalize your experience."
+/>
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -51,6 +80,20 @@ export const WithHelperText: Story = {
 };
 
 export const WithError: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select
+  options={FRUIT_OPTIONS}
+  label="Favorite fruit"
+  placeholder="Select a fruit…"
+  error="Please select an option."
+/>
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -60,6 +103,21 @@ export const WithError: Story = {
 };
 
 export const Required: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select
+  options={FRUIT_OPTIONS}
+  label="Favorite fruit"
+  placeholder="Select a fruit…"
+  required
+  helperText="This field is required."
+/>
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -70,6 +128,15 @@ export const Required: Story = {
 };
 
 export const WithDefaultValue: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select options={FRUIT_OPTIONS} label="Favorite fruit" defaultValue="cherry" />
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -78,6 +145,20 @@ export const WithDefaultValue: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select
+  options={FRUIT_OPTIONS}
+  label="Favorite fruit"
+  placeholder="Select a fruit…"
+  disabled
+/>
+`.trim(),
+      },
+    },
+  },
   args: {
     options: FRUIT_OPTIONS,
     label: "Favorite fruit",
@@ -87,6 +168,17 @@ export const Disabled: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select options={FRUIT_OPTIONS} size="sm" label="Small" placeholder="Small select" />
+<Select options={FRUIT_OPTIONS} size="md" label="Medium" placeholder="Medium select" />
+<Select options={FRUIT_OPTIONS} size="lg" label="Large" placeholder="Large select" />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <Select options={FRUIT_OPTIONS} size="sm" label="Small" placeholder="Small select" />
@@ -97,6 +189,20 @@ export const AllSizes: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select options={FRUIT_OPTIONS} label="Default" placeholder="Default state" />
+<Select options={FRUIT_OPTIONS} label="Required" placeholder="Required state" required />
+<Select options={FRUIT_OPTIONS} label="With helper" placeholder="With helper" helperText="This is helper text." />
+<Select options={FRUIT_OPTIONS} label="With value" defaultValue="apple" />
+<Select options={FRUIT_OPTIONS} label="Error state" placeholder="Error state" error="This field is required." />
+<Select options={FRUIT_OPTIONS} label="Disabled" placeholder="Disabled state" disabled />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <Select options={FRUIT_OPTIONS} label="Default" placeholder="Default state" />

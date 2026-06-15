@@ -6,6 +6,12 @@ const meta: Meta<typeof Input> = {
   component: Input,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "A single-line text field with an optional `label`, `helperText`, and `error` message; use `size` for density and the `required` / `disabled` booleans to convey state.",
+      },
+    },
   },
   argTypes: {
     size: {
@@ -57,6 +63,17 @@ export const WithError: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Input size="sm" label="Small" placeholder="Small input" />
+<Input size="md" label="Medium" placeholder="Medium input" />
+<Input size="lg" label="Large" placeholder="Large input" />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <Input size="sm" label="Small" placeholder="Small input" />
@@ -67,6 +84,20 @@ export const AllSizes: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Input label="Default" placeholder="Placeholder text" />
+<Input label="With value" defaultValue="Entered data" />
+<Input label="Required" placeholder="Required field" required />
+<Input label="With helper" placeholder="Placeholder text" helperText="This is helper text." />
+<Input label="Error state" placeholder="Placeholder text" error="This field is required." />
+<Input label="Disabled" placeholder="Disabled state" disabled />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "400px" }}>
       <Input label="Default" placeholder="Placeholder text" />
@@ -80,6 +111,22 @@ export const AllStates: Story = {
 };
 
 export const AllVariantsGrid: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+{(["sm", "md", "lg"] as const).map((size) => (
+  <>
+    <Input size={size} label={"Size: " + size} placeholder="Default" />
+    <Input size={size} label={"Size: " + size + " — required"} placeholder="Required" required />
+    <Input size={size} label={"Size: " + size + " — error"} placeholder="Error" error="Error message." />
+    <Input size={size} label={"Size: " + size + " — disabled"} placeholder="Disabled" disabled />
+  </>
+))}
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "400px" }}>
       {(["sm", "md", "lg"] as const).map((size) => (

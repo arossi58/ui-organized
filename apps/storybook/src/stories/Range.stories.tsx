@@ -7,6 +7,12 @@ const meta: Meta<typeof Range> = {
   component: Range,
   parameters: {
     layout: "padded",
+    docs: {
+      description: {
+        component:
+          "Range is a slider for picking a numeric value; configure it with `min` / `max` / `step` (or `snapValues` for uneven stops), `value` / `defaultValue` and `onValueChange` for state, `size`, and display options like `rangeLabels`, `hideValue`, and `formatValue`.",
+      },
+    },
   },
   argTypes: {
     size: {
@@ -46,6 +52,17 @@ export const WithRangeLabels: Story = {
 };
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Range size="sm" label="Small" defaultValue={30} rangeLabels />
+<Range size="md" label="Medium" defaultValue={50} rangeLabels />
+<Range size="lg" label="Large" defaultValue={70} rangeLabels />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={wrap}>
       <Range size="sm" label="Small" defaultValue={30} rangeLabels />
@@ -56,6 +73,17 @@ export const AllSizes: Story = {
 };
 
 export const States: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Range label="Default" defaultValue={50} rangeLabels />
+<Range label="Disabled" defaultValue={50} rangeLabels disabled />
+<Range label="Error" defaultValue={50} rangeLabels error="Please pick a lower value." />
+`.trim(),
+      },
+    },
+  },
   render: () => (
     <div style={wrap}>
       <Range label="Default" defaultValue={50} rangeLabels />
@@ -79,6 +107,25 @@ export const SnapAtIntervals: Story = {
 
 /** `snapValues` snaps to a fixed, possibly uneven, set of allowed values. */
 export const SnapToValues: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const sizes = [8, 16, 24, 32, 48, 64];
+
+<Range
+  label="Font size"
+  snapValues={sizes}
+  defaultValue={16}
+  rangeLabels
+  startLabel="8px"
+  endLabel="64px"
+  formatValue={(v) => v + "px"}
+/>
+`.trim(),
+      },
+    },
+  },
   render: () => {
     const sizes = [8, 16, 24, 32, 48, 64];
     return (
@@ -98,6 +145,23 @@ export const SnapToValues: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+const [value, setValue] = useState(25);
+
+<Range
+  label="Opacity"
+  value={value}
+  onValueChange={setValue}
+  rangeLabels
+  formatValue={(v) => v + "%"}
+/>
+`.trim(),
+      },
+    },
+  },
   render: () => {
     const [value, setValue] = useState(25);
     return (
