@@ -33,9 +33,9 @@ export function Select({
       disabled={disabled}
     >
       {label && (
-        <Field.Label className="select-field__label">
+        <Field.Label className="field__label">
           {label}
-          {required && <span className="select-field__required" aria-hidden="true" />}
+          {required && <span className="field__required" aria-hidden="true" />}
         </Field.Label>
       )}
       <BaseSelect.Root
@@ -92,7 +92,7 @@ export function Select({
         </BaseSelect.Portal>
       </BaseSelect.Root>
       {helperText && !isInvalid && (
-        <Field.Description className="select-field__description">
+        <Field.Description className="field__description">
           {helperText}
         </Field.Description>
       )}

@@ -1,0 +1,83 @@
+/* ─── Sheet ───────────────────────────────────────────────────────────────────
+   An edge-anchored Dialog. Reuses `.dialog__backdrop` and the
+   `.dialog__title`/`.dialog__description`/`.dialog__footer`/`.dialog__close`
+   chrome (Dialog.css); only the popup positioning + slide animation is new. */
+
+.sheet__popup {
+  position: fixed;
+  z-index: var(--z-index-dialog);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+  padding: var(--spacing-space-06);
+  background-color: var(--color-surface-primary);
+  color: var(--color-text-text-primary);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.4),
+    0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  outline: none;
+  overflow-y: auto;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+/* ─── Edge anchoring ──────────────────────────────────────────────────────── */
+
+.sheet__popup--right {
+  inset: 0 0 0 auto;
+  height: 100vh;
+  border-left: 1px solid var(--color-border-secondary);
+}
+
+.sheet__popup--left {
+  inset: 0 auto 0 0;
+  height: 100vh;
+  border-right: 1px solid var(--color-border-secondary);
+}
+
+.sheet__popup--top {
+  inset: 0 0 auto 0;
+  width: 100vw;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.sheet__popup--bottom {
+  inset: auto 0 0 0;
+  width: 100vw;
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* ─── Sizes (width for left/right, height for top/bottom) ─────────────────── */
+
+.sheet__popup--right.sheet__popup--sm,
+.sheet__popup--left.sheet__popup--sm { width: 320px; max-width: 100vw; }
+.sheet__popup--right.sheet__popup--md,
+.sheet__popup--left.sheet__popup--md { width: 420px; max-width: 100vw; }
+.sheet__popup--right.sheet__popup--lg,
+.sheet__popup--left.sheet__popup--lg { width: 560px; max-width: 100vw; }
+
+.sheet__popup--top.sheet__popup--sm,
+.sheet__popup--bottom.sheet__popup--sm { height: 240px; max-height: 100vh; }
+.sheet__popup--top.sheet__popup--md,
+.sheet__popup--bottom.sheet__popup--md { height: 360px; max-height: 100vh; }
+.sheet__popup--top.sheet__popup--lg,
+.sheet__popup--bottom.sheet__popup--lg { height: 480px; max-height: 100vh; }
+
+/* ─── Slide animation (per side) ──────────────────────────────────────────── */
+
+.sheet__popup--right[data-starting-style],
+.sheet__popup--right[data-ending-style] { transform: translateX(100%); }
+
+.sheet__popup--left[data-starting-style],
+.sheet__popup--left[data-ending-style] { transform: translateX(-100%); }
+
+.sheet__popup--top[data-starting-style],
+.sheet__popup--top[data-ending-style] { transform: translateY(-100%); }
+
+.sheet__popup--bottom[data-starting-style],
+.sheet__popup--bottom[data-ending-style] { transform: translateY(100%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet__popup { transition: opacity 200ms ease; }
+}

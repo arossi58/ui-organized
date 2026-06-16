@@ -51,32 +51,72 @@
   align-items: center;
   flex: none;
   gap: var(--spacing-space-06);
+  /* Measurement frame + positioning context for the gooey indicator layer. */
+  position: relative;
+}
+
+/* Selected pill: a single brand-filled element behind the labels that slides +
+   resizes to the active tab (positioned/animated by useNavIndicator, in px
+   relative to .site-nav__links). z-index 0 keeps it under the text. Brand token,
+   so it re-themes with the nav. opacity:0 until the first measurement. */
+.site-nav__indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--border-radius-radius-full);
+  background: var(--color-interactive-primary-default);
+  opacity: 0;
 }
 
 .site-nav__link {
+  /* 0 = ink, 1 = on-brand contrast. Driven by useNavIndicator (GSAP) so the
+     label colour crossfades as the pill arrives/leaves, and stays theme-aware. */
+  --_label-mix: 0;
+  position: relative;
+  z-index: 1; /* above the indicator blobs */
   font-family: var(--font-body);
   font-size: 16px;
   font-weight: 400;
-  color: var(--color-text-text-primary);
+  /* Equal padding on every link, selected or not, so selection never changes a
+     tab's box (zero layout shift) and tab widths stay stable for measurement. */
+  padding: var(--spacing-space-01) var(--spacing-space-04);
+  color: color-mix(
+    in srgb,
+    var(--color-text-text-primary),
+    var(--color-interactive-contents) calc(var(--_label-mix) * 100%)
+  );
   text-decoration: none;
   white-space: nowrap;
   border-radius: var(--border-radius-radius-full);
-  transition: color 0.15s ease;
 }
-.site-nav__link:hover {
+
+/* Hover wash on non-selected tabs: a faint brand tint behind the label plus a
+   nudge of the text toward brand. Quiet, so it never competes with the loud
+   selected pill. Motion-gated below (SITE.md §8). */
+.site-nav__link:not(.site-nav__link--active):hover {
+  background: color-mix(
+    in srgb,
+    var(--color-interactive-primary-default) 12%,
+    transparent
+  );
   color: var(--color-interactive-primary-default);
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-nav__link {
+    transition:
+      color 0.18s ease,
+      background-color 0.18s ease;
+  }
+}
+
 .site-nav__link:focus-visible {
   outline: 2px solid var(--color-interactive-primary-default);
   outline-offset: 3px;
-}
-
-/* Active link — brand pill (mockup): brand fill with the DS's on-brand text. */
-.site-nav__link--active,
-.site-nav__link--active:hover {
-  background: var(--color-interactive-primary-default);
-  color: var(--color-interactive-contents);
-  padding: var(--spacing-space-01) var(--spacing-space-04);
 }
 
 /* Theme menu pinned to the right; mirrors the brand's left slack so the link

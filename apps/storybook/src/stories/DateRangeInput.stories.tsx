@@ -3,7 +3,7 @@ import { useState } from "react";
 import { DateRangeInput, type DateRangeValue } from "@ui-organized/react";
 
 const meta: Meta<typeof DateRangeInput> = {
-  title: "Components/DateRangeInput",
+  title: "Components/Forms/DateRangeInput",
   component: DateRangeInput,
   parameters: {
     layout: "padded",

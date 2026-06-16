@@ -1,0 +1,130 @@
+/* ─── Field ───────────────────────────────────────────────────────────────────
+   The single source of truth for form-field chrome (label, required marker,
+   control surface, description). Input, Select, Range, PasswordInput,
+   SearchInput, TextArea and the date fields all compose these classes;
+   InputAffix.css layers adornment padding on top of `.field__control`. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.field--inline {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-space-03);
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+.field__label {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* ─── Required indicator ──────────────────────────────────────────────────── */
+
+.field__required {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-status-error-message);
+  flex-shrink: 0;
+}
+
+/* ─── Control (input surface) ─────────────────────────────────────────────── */
+
+.field__control {
+  width: 100%;
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-primary);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.field__control::placeholder {
+  color: var(--color-text-text-placeholder);
+}
+
+.field__control:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.field__control:active:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-active);
+}
+
+/* Entry — a filled control keeps the active surface (Figma 348:1843). */
+.field__control[data-filled]:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.field__control:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.field__control[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.field__control:disabled,
+.field__control[data-disabled] {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── Description (helper text) ───────────────────────────────────────────── */
+
+.field__description {
+  /* Base UI renders the description as a <p>; clear the UA margin so the field's
+     gap (space-01 / 4px) is the only spacing below the control. */
+  margin: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-regular);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-tertiary);
+}
+
+/* Error message is rendered by the shared <FieldError> component. */
+
+/* ─── Fieldset ────────────────────────────────────────────────────────────── */
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+.fieldset__legend {
+  padding: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-semibold);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-primary);
+}

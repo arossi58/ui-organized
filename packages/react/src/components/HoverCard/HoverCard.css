@@ -1,0 +1,52 @@
+/* ─── Hover card positioner ───────────────────────────────────────────────── */
+
+.hover-card__positioner {
+  z-index: var(--z-index-popover);
+}
+
+/* ─── Popup (a richer surface than Popover) ───────────────────────────────── */
+
+.hover-card__popup {
+  max-width: 320px;
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-04);
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+}
+
+.hover-card__popup[data-starting-style],
+.hover-card__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ─── Arrow ───────────────────────────────────────────────────────────────── */
+
+.hover-card__arrow {
+  display: flex;
+}
+
+.hover-card__arrow::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-surface-primary);
+  transform: rotate(45deg);
+}
+
+.hover-card__arrow[data-side="top"] { bottom: -5px; }
+.hover-card__arrow[data-side="bottom"] { top: -5px; }
+.hover-card__arrow[data-side="left"] { right: -5px; }
+.hover-card__arrow[data-side="right"] { left: -5px; }

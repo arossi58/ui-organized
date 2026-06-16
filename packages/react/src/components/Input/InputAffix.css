@@ -1,6 +1,6 @@
 /* ─── Input affix (icon adornments inside an input field) ─────────────────────
    Layers an absolutely-positioned leading/trailing adornment onto the shared
-   `.input-field__control` surface (see Input.css). Used by SearchInput (leading
+   `.field__control` surface (see Input.css). Used by SearchInput (leading
    search icon + optional clear button) and PasswordInput (trailing show/hide
    toggle). The control keeps its own border, background, hover/active/focus ring
    and disabled styling; the adornments sit on top and the control is padded on
@@ -20,38 +20,38 @@
   align-items: center;
 }
 
-.input-field--sm .input-affix {
+.field--sm .input-affix {
   --affix-inset: var(--Button-Small-horizontal);
 }
 
-.input-field--lg .input-affix {
+.field--lg .input-affix {
   --affix-inset: var(--Button-Large-horizontal);
 }
 
 /* Reserve room so the control's text clears the adornment on the relevant side.
-   The per-size selectors match the specificity of Input.css's `.input-field--{sm,lg}
-   .input-field__control` `padding` shorthands (0,2,0) — without them, that
+   The per-size selectors match the specificity of Input.css's `.field--{sm,lg}
+   .field__control` `padding` shorthands (0,2,0) — without them, that
    shorthand would reset `padding-left`/`padding-right` and the text would slide
    under the icon at sm/lg (md uses the lower-specificity base rule). The reserved
    amount itself tracks the per-size `--affix-inset`, inherited from `.input-affix`. */
-.input-field__control--affix-start,
-.input-field--sm .input-field__control--affix-start,
-.input-field--lg .input-field__control--affix-start {
+.field__control--affix-start,
+.field--sm .field__control--affix-start,
+.field--lg .field__control--affix-start {
   padding-left: calc(var(--affix-inset) + var(--affix-size) + var(--affix-gap));
 }
 
-.input-field__control--affix-end,
-.input-field--sm .input-field__control--affix-end,
-.input-field--lg .input-field__control--affix-end {
+.field__control--affix-end,
+.field--sm .field__control--affix-end,
+.field--lg .field__control--affix-end {
   padding-right: calc(var(--affix-inset) + var(--affix-size) + var(--affix-gap));
 }
 
 /* Hide the native WebKit search affordances — the design system supplies its
    own leading icon and clear button. */
-.input-field__control[type="search"]::-webkit-search-decoration,
-.input-field__control[type="search"]::-webkit-search-cancel-button,
-.input-field__control[type="search"]::-webkit-search-results-button,
-.input-field__control[type="search"]::-webkit-search-results-decoration {
+.field__control[type="search"]::-webkit-search-decoration,
+.field__control[type="search"]::-webkit-search-cancel-button,
+.field__control[type="search"]::-webkit-search-results-button,
+.field__control[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none;
   appearance: none;
 }
@@ -59,12 +59,12 @@
 /* Hide the native WebKit date/time picker indicator and spin/clear buttons —
    the date components supply their own leading calendar button, which opens the
    picker via `showPicker()`. */
-.input-field__control[type="date"]::-webkit-calendar-picker-indicator,
-.input-field__control[type="datetime-local"]::-webkit-calendar-picker-indicator,
-.input-field__control[type="date"]::-webkit-inner-spin-button,
-.input-field__control[type="datetime-local"]::-webkit-inner-spin-button,
-.input-field__control[type="date"]::-webkit-clear-button,
-.input-field__control[type="datetime-local"]::-webkit-clear-button {
+.field__control[type="date"]::-webkit-calendar-picker-indicator,
+.field__control[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.field__control[type="date"]::-webkit-inner-spin-button,
+.field__control[type="datetime-local"]::-webkit-inner-spin-button,
+.field__control[type="date"]::-webkit-clear-button,
+.field__control[type="datetime-local"]::-webkit-clear-button {
   display: none;
   -webkit-appearance: none;
   appearance: none;
@@ -99,8 +99,8 @@ span.input-affix__adornment {
 }
 
 /* Dim adornments when the field is disabled, mirroring the control. */
-.input-affix:has(.input-field__control:disabled) .input-affix__adornment,
-.input-affix:has(.input-field__control[data-disabled]) .input-affix__adornment {
+.input-affix:has(.field__control:disabled) .input-affix__adornment,
+.input-affix:has(.field__control[data-disabled]) .input-affix__adornment {
   color: var(--color-interactive-inactive-inactive-02);
 }
 

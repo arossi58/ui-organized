@@ -129,10 +129,27 @@ const preview: Preview = {
       },
     },
     // Sidebar order: the docs pages first (Introduction, then Foundations),
-    // then the component stories; anything else falls in after.
+    // then the component stories grouped into categories (Forms, Actions,
+    // Navigation, Overlay, …); anything else falls in after.
     options: {
       storySort: {
-        order: ["Introduction", "Foundations", ["Color"], "Components", "*"],
+        order: [
+          "Introduction",
+          "Foundations",
+          ["Color"],
+          "Components",
+          [
+            "Forms",
+            "Actions",
+            "Navigation",
+            "Overlay",
+            "Disclosure",
+            "Feedback",
+            "Data Display",
+            "Layout",
+          ],
+          "*",
+        ],
       },
     },
     layout: "padded",

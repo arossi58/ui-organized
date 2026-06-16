@@ -1,0 +1,47 @@
+/* ─── Menubar ─────────────────────────────────────────────────────────────── */
+
+.menubar {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-interactive);
+}
+
+.menubar[data-orientation="vertical"] {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* ─── Trigger (apply to MenuTrigger placed inside a Menubar) ───────────────── */
+
+.menubar__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-checkbox);
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  cursor: pointer;
+  outline: none;
+  transition: background-color 100ms ease;
+}
+
+.menubar__trigger:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.menubar__trigger[data-popup-open] {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.menubar__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}

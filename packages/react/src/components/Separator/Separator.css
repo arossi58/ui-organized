@@ -1,0 +1,28 @@
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+
+.separator {
+  flex-shrink: 0;
+  border: none;
+  background-color: var(--color-border-secondary);
+}
+
+.separator--horizontal {
+  width: 100%;
+  height: 1px;
+}
+
+.separator--vertical {
+  width: 1px;
+  height: 100%;
+  align-self: stretch;
+}
+
+/* ─── Spacing (block margin when horizontal, inline when vertical) ─────────── */
+
+.separator--horizontal.separator--spacing-sm { margin-block: var(--spacing-space-02); }
+.separator--horizontal.separator--spacing-md { margin-block: var(--spacing-space-04); }
+.separator--horizontal.separator--spacing-lg { margin-block: var(--spacing-space-06); }
+
+.separator--vertical.separator--spacing-sm { margin-inline: var(--spacing-space-02); }
+.separator--vertical.separator--spacing-md { margin-inline: var(--spacing-space-04); }
+.separator--vertical.separator--spacing-lg { margin-inline: var(--spacing-space-06); }

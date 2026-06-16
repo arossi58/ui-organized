@@ -1,0 +1,121 @@
+/* ─── Accordion ───────────────────────────────────────────────────────────── */
+
+.accordion {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Variant: default (rows divided by a bottom rule) ────────────────────── */
+
+.accordion--default .accordion__item {
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+/* ─── Variant: bordered (single framed group) ─────────────────────────────── */
+
+.accordion--bordered {
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+}
+
+.accordion--bordered .accordion__item:not(:last-child) {
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+/* ─── Variant: separated (each item is its own card) ──────────────────────── */
+
+.accordion--separated {
+  gap: var(--spacing-space-02);
+}
+
+.accordion--separated .accordion__item {
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+}
+
+/* ─── Header / Trigger ────────────────────────────────────────────────────── */
+
+.accordion__header {
+  margin: 0;
+}
+
+.accordion__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-03);
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-weight: var(--type-weight-body-medium);
+  outline: none;
+  transition: background-color 150ms ease;
+}
+
+.accordion__trigger:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.accordion__trigger:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-interactive-focus);
+}
+
+.accordion__trigger[data-disabled] {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+}
+
+.accordion__title {
+  flex: 1;
+  min-width: 0;
+}
+
+.accordion__icon {
+  flex-shrink: 0;
+  color: var(--color-text-text-tertiary);
+  transition: transform 150ms ease;
+}
+
+.accordion__trigger[data-panel-open] .accordion__icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Panel (height animation via Base UI's --accordion-panel-height) ─────── */
+
+.accordion__panel {
+  overflow: hidden;
+  height: var(--accordion-panel-height);
+  transition: height 200ms ease;
+  color: var(--color-text-text-secondary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.accordion__panel[data-starting-style],
+.accordion__panel[data-ending-style] {
+  height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion__panel {
+    transition: none;
+  }
+}
+
+/* ─── Sizes ───────────────────────────────────────────────────────────────── */
+
+.accordion--sm .accordion__trigger { padding: var(--spacing-space-02) var(--spacing-space-03); font-size: var(--type-size-body-medium); }
+.accordion--md .accordion__trigger { padding: var(--spacing-space-03) var(--spacing-space-04); font-size: var(--type-size-body-large); }
+.accordion--lg .accordion__trigger { padding: var(--spacing-space-04) var(--spacing-space-05); font-size: var(--type-size-body-large); }
+
+.accordion--sm .accordion__content { padding: 0 var(--spacing-space-03) var(--spacing-space-03); }
+.accordion--md .accordion__content { padding: 0 var(--spacing-space-04) var(--spacing-space-04); }
+.accordion--lg .accordion__content { padding: 0 var(--spacing-space-05) var(--spacing-space-05); }

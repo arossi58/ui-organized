@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { BrandMark } from "./BrandMark";
 import { ThemeMenu } from "./ThemeMenu";
 import { LINKS } from "../../lib/links";
+import { useNavIndicator } from "../../hooks/useNavIndicator";
 import "./site-nav.css";
 
 interface SiteNavProps {
@@ -34,6 +35,18 @@ const NAV_LINKS: NavItem[] = [
 export function SiteNav({ variant = "overlay" }: SiteNavProps) {
   const { pathname } = useLocation();
 
+  // Index of the active tab: exact route or any sub-route (e.g. /tools matches
+  // /tools/color-palette); "/" is exact-match only. External `href` items (the
+  // Builder) have no `to`, so they can never be active. -1 ⇒ no pill shown.
+  const activeIndex = NAV_LINKS.findIndex(
+    (link) =>
+      link.to !== undefined &&
+      (pathname === link.to ||
+        (link.to !== "/" && pathname.startsWith(`${link.to}/`))),
+  );
+
+  const { containerRef, pillRef, setLinkRef } = useNavIndicator(activeIndex);
+
   return (
     <header className={`site-nav site-nav--${variant}`}>
       <div className="site-nav__pill">
@@ -41,18 +54,19 @@ export function SiteNav({ variant = "overlay" }: SiteNavProps) {
           <BrandMark glyphOnly />
         </Link>
 
-        <nav className="site-nav__links" aria-label="Primary">
-          {NAV_LINKS.map((link) => {
-            // Active on the exact route or any of its sub-routes (e.g. /tools
-            // highlights for /tools/color-palette). "/" stays exact-match only.
-            const active =
-              link.to !== undefined &&
-              (pathname === link.to ||
-                (link.to !== "/" && pathname.startsWith(`${link.to}/`)));
+        <nav className="site-nav__links" aria-label="Primary" ref={containerRef}>
+          {/* The selected pill: a single brand-filled element sitting behind the
+              labels that slides + resizes to the active tab. Driven imperatively
+              by useNavIndicator so it animates across route changes. */}
+          <span className="site-nav__indicator" aria-hidden="true" ref={pillRef} />
+
+          {NAV_LINKS.map((link, i) => {
+            const active = i === activeIndex;
             const className = `site-nav__link${active ? " site-nav__link--active" : ""}`;
             return link.to !== undefined ? (
               <Link
                 key={link.label}
+                ref={setLinkRef(i)}
                 className={className}
                 to={link.to}
                 aria-current={active ? "page" : undefined}
@@ -60,7 +74,12 @@ export function SiteNav({ variant = "overlay" }: SiteNavProps) {
                 {link.label}
               </Link>
             ) : (
-              <a key={link.label} className={className} href={link.href}>
+              <a
+                key={link.label}
+                ref={setLinkRef(i)}
+                className={className}
+                href={link.href}
+              >
                 {link.label}
               </a>
             );

@@ -9,7 +9,7 @@ const PLAN_OPTIONS = [
 ];
 
 const meta: Meta<typeof RadioGroup> = {
-  title: "Components/RadioGroup",
+  title: "Components/Forms/RadioGroup",
   component: RadioGroup,
   parameters: {
     layout: "padded",

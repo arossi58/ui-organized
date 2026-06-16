@@ -9,7 +9,7 @@ const BASIC_TABS = [
 ];
 
 const meta: Meta<typeof Tabs> = {
-  title: "Components/Tabs",
+  title: "Components/Navigation/Tabs",
   component: Tabs,
   parameters: {
     layout: "padded",

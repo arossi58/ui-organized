@@ -1,0 +1,62 @@
+/* ─── Scroll area ─────────────────────────────────────────────────────────── */
+
+.scroll-area {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ─── Viewport (the actual scroll container) ──────────────────────────────── */
+
+.scroll-area__viewport {
+  height: 100%;
+  width: 100%;
+  overflow: scroll;
+  overscroll-behavior: contain;
+  outline: none;
+  /* Hide the native scrollbar; the themed one below replaces it. */
+  scrollbar-width: none;
+}
+
+.scroll-area__viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────────── */
+
+.scroll-area__scrollbar {
+  display: flex;
+  touch-action: none;
+  user-select: none;
+  padding: 2px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.scroll-area__scrollbar[data-orientation="vertical"] {
+  width: 10px;
+}
+
+.scroll-area__scrollbar[data-orientation="horizontal"] {
+  flex-direction: column;
+  height: 10px;
+}
+
+.scroll-area:hover .scroll-area__scrollbar,
+.scroll-area__scrollbar[data-hovering],
+.scroll-area__scrollbar[data-scrolling] {
+  opacity: 1;
+}
+
+/* ─── Thumb ───────────────────────────────────────────────────────────────── */
+
+.scroll-area__thumb {
+  flex: 1;
+  border-radius: var(--border-radius-radius-full);
+  background-color: var(--color-border-primary);
+}
+
+/* ─── Corner (where the two scrollbars meet) ──────────────────────────────── */
+
+.scroll-area__corner {
+  background-color: transparent;
+}

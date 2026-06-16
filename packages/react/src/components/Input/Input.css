@@ -1,113 +1,13 @@
-/* ─── Input field root ────────────────────────────────────────────────────── */
+/* ─── Input sizing ────────────────────────────────────────────────────────────
+   Input — and the rest of the field family — compose the shared field chrome
+   defined once in Field.css (`.field`, `.field__label`, `.field__control`, …).
+   Only the size → control padding differs, so that is all that lives here.
+   `md` is the base padding set on `.field__control`. */
 
-.input-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-space-01);
-}
-
-/* ─── Label ───────────────────────────────────────────────────────────────── */
-
-.input-field__label {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
-}
-
-/* ─── Required indicator ──────────────────────────────────────────────────── */
-
-.input-field__required {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-status-error-message);
-  flex-shrink: 0;
-}
-
-/* ─── Control (input element) ─────────────────────────────────────────────── */
-
-.input-field__control {
-  width: 100%;
-  background-color: var(--color-interactive-ui-default);
-  border: 1px solid var(--color-border-data-entry);
-  border-radius: var(--radius-interactive);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
-  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
-  outline: none;
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease,
-    box-shadow 150ms ease;
-}
-
-.input-field__control::placeholder {
-  color: var(--color-text-text-placeholder);
-}
-
-.input-field__control:hover:not(:disabled):not([data-disabled]) {
-  background-color: var(--color-interactive-ui-hover);
-}
-
-.input-field__control:active:not(:disabled):not([data-disabled]) {
-  background-color: var(--color-interactive-ui-active);
-}
-
-/* Entry — a filled control keeps the active surface (Figma 348:1843). */
-.input-field__control[data-filled]:not(:disabled):not([data-disabled]) {
-  background-color: var(--color-interactive-ui-active);
-}
-
-.input-field__control:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
-}
-
-.input-field__control[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
-}
-
-.input-field__control:disabled,
-.input-field__control[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-/* ─── Description (helper text) ───────────────────────────────────────────── */
-
-.input-field__description {
-  /* Base UI renders the description as a <p>; clear the UA margin so the field's
-     gap (space-01 / 4px) is the only spacing below the control. */
-  margin: 0;
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
-}
-
-/* Error message is rendered by the shared <FieldError> component. */
-
-/* ─── Size: sm ────────────────────────────────────────────────────────────── */
-
-.input-field--sm .input-field__control {
+.field--sm .field__control {
   padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
 }
 
-/* ─── Size: md (default — already set on base) ────────────────────────────── */
-
-/* ─── Size: lg ────────────────────────────────────────────────────────────── */
-
-.input-field--lg .input-field__control {
+.field--lg .field__control {
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }

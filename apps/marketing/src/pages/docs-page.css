@@ -5,8 +5,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* Fill the remaining height of the persistent chrome column (the hoisted nav
+     sits above us now), rather than owning a full viewport. */
+  flex: 1 1 auto;
+  min-height: 0;
   /* Match the home hero: flat cream surface carrying the dot lattice. */
   background: var(--color-surface-primary);
   /* Contain the dot layer's stacking so the nav + embed stay on top. */

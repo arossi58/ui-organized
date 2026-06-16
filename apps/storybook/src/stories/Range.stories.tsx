@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Range } from "@ui-organized/react";
 
 const meta: Meta<typeof Range> = {
-  title: "Components/Range",
+  title: "Components/Forms/Range",
   component: Range,
   parameters: {
     layout: "padded",

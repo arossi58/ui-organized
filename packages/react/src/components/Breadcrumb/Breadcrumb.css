@@ -1,0 +1,67 @@
+/* ─── Breadcrumb ──────────────────────────────────────────────────────────── */
+
+.breadcrumb {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* ─── Link (interactive crumbs) ───────────────────────────────────────────── */
+
+.breadcrumb__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  color: var(--color-text-text-tertiary);
+  text-decoration: none;
+  border-radius: var(--radius-interactive);
+  transition: color 150ms ease;
+}
+
+.breadcrumb__link:hover {
+  color: var(--color-text-text-primary);
+  text-decoration: underline;
+}
+
+.breadcrumb__link:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Current page ────────────────────────────────────────────────────────── */
+
+.breadcrumb__current {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  color: var(--color-text-text-primary);
+  font-weight: var(--type-weight-body-semibold);
+}
+
+.breadcrumb__icon {
+  flex-shrink: 0;
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────── */
+
+.breadcrumb__separator {
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-text-text-tertiary);
+}

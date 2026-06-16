@@ -91,7 +91,7 @@ export function DateRangeInput({
         <input
           ref={isStart ? startRef : endRef}
           type="date"
-          className="input-field__control input-field__control--affix-start"
+          className="field__control field__control--affix-start"
           value={isStart ? current.start : current.end}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             update(
@@ -215,14 +215,14 @@ export function DateRangeInput({
       className={clsx(inputFieldStyles({ size }), "date-range", className)}
     >
       {label && (
-        <span id={labelId} className="input-field__label">
+        <span id={labelId} className="field__label">
           {label}
-          {required && <span className="input-field__required" aria-hidden="true" />}
+          {required && <span className="field__required" aria-hidden="true" />}
         </span>
       )}
       {row}
       {helperText && !isInvalid && (
-        <p id={helperId} className="input-field__description">
+        <p id={helperId} className="field__description">
           {helperText}
         </p>
       )}

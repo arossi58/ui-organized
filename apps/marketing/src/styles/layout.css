@@ -42,6 +42,17 @@ a {
   color: inherit;
 }
 
+/* Persistent app chrome (App.tsx → SiteChrome): the nav lives here once, above a
+   flex-fill route outlet, so the selected pill can morph across navigation.
+   Solid-variant pages (docs/tools) fill the column under the in-flow nav; the
+   overlay nav (home) is fixed and out of flow, so home just scrolls normally. */
+.site-chrome {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
 /* Page-width container */
 .wrap {
   max-width: var(--wrap-max);

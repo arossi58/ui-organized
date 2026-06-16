@@ -1,6 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar, NavItem, Icon } from "@ui-organized/react";
-import { SiteNav } from "../components/chrome/SiteNav";
 import { TOOLS, resolveTool } from "../lib/tools";
 import "../components/gradient/dot-grid.css";
 import "./tools-page.css";
@@ -21,7 +20,6 @@ export function ToolsPage() {
     <div className="tools-page">
       {/* Same flat-surface dot lattice the home hero + docs route sit on. */}
       <div className="tools-page__dots dot-grid" aria-hidden="true" />
-      <SiteNav variant="solid" />
 
       <main className="tools-page__stage" id="main">
         <div className="tools-shell">

@@ -42,7 +42,7 @@
 }
 
 /* Give the message field the taller surface from the design (~160px tall). */
-.contact-form__message .input-field__control {
+.contact-form__message .field__control {
   min-height: 120px;
 }
 

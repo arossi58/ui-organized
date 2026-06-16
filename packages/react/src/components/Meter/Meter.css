@@ -1,0 +1,64 @@
+/* ─── Meter ───────────────────────────────────────────────────────────────────
+   A meter shows a static measured value within a known range (disk usage, score)
+   — distinct from Progress, which tracks task completion. Mirrors the Progress
+   surface but never indeterminate. */
+
+.meter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  width: 100%;
+}
+
+/* ─── Header (label + value) ──────────────────────────────────────────────── */
+
+.meter__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.meter__label {
+  color: var(--color-text-text-secondary);
+}
+
+.meter__value {
+  color: var(--color-text-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Track ───────────────────────────────────────────────────────────────── */
+
+.meter__track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-interactive-ui-default);
+  border-radius: var(--border-radius-radius-full);
+}
+
+.meter--sm .meter__track { height: 4px; }
+.meter--md .meter__track { height: 8px; }
+.meter--lg .meter__track { height: 12px; }
+
+/* ─── Indicator (fill) ────────────────────────────────────────────────────── */
+/* Base UI sets `width: <percent>%` inline; we color it and animate changes. */
+
+.meter__indicator {
+  height: 100%;
+  background-color: var(--color-interactive-primary-default);
+  border-radius: inherit;
+  transition: width 200ms ease;
+}
+
+.meter--success .meter__indicator { background-color: var(--color-status-success); }
+.meter--warning .meter__indicator { background-color: var(--color-status-caution); }
+.meter--error   .meter__indicator { background-color: var(--color-status-error); }
+
+@media (prefers-reduced-motion: reduce) {
+  .meter__indicator { transition: none; }
+}

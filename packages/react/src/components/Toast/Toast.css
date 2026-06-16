@@ -1,0 +1,150 @@
+/* ─── Viewport ────────────────────────────────────────────────────────────── */
+
+.toast__viewport {
+  position: fixed;
+  bottom: var(--spacing-space-04);
+  right: var(--spacing-space-04);
+  z-index: var(--z-index-toast);
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--spacing-space-02);
+  width: 360px;
+  max-width: calc(100vw - var(--spacing-space-08));
+  outline: none;
+}
+
+/* ─── Root ────────────────────────────────────────────────────────────────── */
+
+.toast__root {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  padding: var(--spacing-space-03) var(--spacing-space-04);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-left-width: 3px;
+  border-radius: var(--radius-interactive);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
+  color: var(--color-text-text-primary);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.toast__root[data-starting-style],
+.toast__root[data-ending-style] {
+  opacity: 0;
+  transform: translateX(110%);
+}
+
+.toast__root[data-swiping] {
+  transition: none;
+  transform: translate(
+    var(--toast-swipe-movement-x, 0),
+    var(--toast-swipe-movement-y, 0)
+  );
+}
+
+/* ─── Status accents ──────────────────────────────────────────────────────── */
+
+.toast__root--info    { border-left-color: var(--color-status-info); }
+.toast__root--success { border-left-color: var(--color-status-success); }
+.toast__root--warning { border-left-color: var(--color-status-caution); }
+.toast__root--error   { border-left-color: var(--color-status-error); }
+
+.toast__root--info    .toast__icon { color: var(--color-status-info); }
+.toast__root--success .toast__icon { color: var(--color-status-success); }
+.toast__root--warning .toast__icon { color: var(--color-status-caution); }
+.toast__root--error   .toast__icon { color: var(--color-status-error); }
+
+/* ─── Parts ───────────────────────────────────────────────────────────────── */
+
+.toast__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 1px;
+}
+
+.toast__content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+}
+
+.toast__title {
+  margin: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-semibold);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-text-text-primary);
+}
+
+.toast__description {
+  margin: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-text-text-secondary);
+}
+
+.toast__action {
+  margin-top: var(--spacing-space-02);
+  align-self: flex-start;
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+  background: none;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-checkbox);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-medium);
+  color: var(--color-text-text-primary);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.toast__action:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.toast__close {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: -2px -4px 0 0;
+  border: none;
+  background: none;
+  border-radius: var(--radius-checkbox);
+  color: var(--color-text-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.toast__close:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+.toast__close:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast__root {
+    transition: opacity 200ms ease;
+  }
+  .toast__root[data-starting-style],
+  .toast__root[data-ending-style] {
+    transform: none;
+  }
+}

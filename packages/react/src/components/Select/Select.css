@@ -7,29 +7,8 @@
   position: relative;
 }
 
-/* ─── Label ───────────────────────────────────────────────────────────────── */
-
-.select-field__label {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
-}
-
-/* ─── Required indicator ──────────────────────────────────────────────────── */
-
-.select-field__required {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: var(--color-status-error-message);
-  flex-shrink: 0;
-}
+/* Label, required indicator and description use the shared `.field__*` chrome
+   (see Field.css). */
 
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
@@ -115,25 +94,13 @@
   transform: rotate(180deg);
 }
 
-/* ─── Description (helper text) ───────────────────────────────────────────── */
-
-.select-field__description {
-  /* Base UI renders the description as a <p>; clear the UA margin so the field's
-     gap (space-01 / 4px) is the only spacing below the trigger. */
-  margin: 0;
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
-  line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
-}
-
-/* Error message is rendered by the shared <FieldError> component. */
+/* Description (helper text) and the error message use the shared field chrome
+   (`.field__description` in Field.css and the <FieldError> component). */
 
 /* ─── Popup positioner ────────────────────────────────────────────────────── */
 
 .select-positioner {
-  z-index: 50;
+  z-index: var(--z-index-popover);
 }
 
 /* ─── Popup ───────────────────────────────────────────────────────────────── */

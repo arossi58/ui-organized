@@ -1,0 +1,86 @@
+/* ─── Number field ────────────────────────────────────────────────────────────
+   Composes the shared field chrome (Field.css): `.field` root layout, the
+   `.field__label`/`.field__description` text, and `.field__control` base styling
+   (including size padding via `.field--{size} .field__control`). Only the stepper
+   group around the input is new. */
+
+/* ─── Group (bordered shell around the input + steppers) ──────────────────── */
+
+.number-field__group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.number-field__group:focus-within {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Invalid / disabled mirror the field control states (data attrs on Field.Root). */
+.field[data-invalid] .number-field__group {
+  border-color: var(--color-status-error-message);
+}
+
+.field[data-invalid] .number-field__group:focus-within {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.field[data-disabled] .number-field__group {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  border-color: var(--color-border-secondary);
+  cursor: not-allowed;
+}
+
+/* ─── Input (strip the field-control border/bg — the group provides them) ─── */
+
+.number-field__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.number-field__input:focus-visible {
+  box-shadow: none;
+}
+
+/* ─── Steppers ────────────────────────────────────────────────────────────── */
+
+.number-field__stepper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-text-secondary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.number-field__stepper:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+.number-field__stepper:active {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.number-field__stepper:disabled,
+.number-field__stepper[data-disabled] {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+  pointer-events: none;
+}

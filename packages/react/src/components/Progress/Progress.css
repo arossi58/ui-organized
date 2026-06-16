@@ -1,0 +1,76 @@
+/* ─── Progress ────────────────────────────────────────────────────────────── */
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  width: 100%;
+}
+
+/* ─── Header (label + value) ──────────────────────────────────────────────── */
+
+.progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.progress__label {
+  color: var(--color-text-text-secondary);
+}
+
+.progress__value {
+  color: var(--color-text-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Track ───────────────────────────────────────────────────────────────── */
+
+.progress__track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-interactive-ui-default);
+  border-radius: var(--border-radius-radius-full);
+}
+
+.progress--sm .progress__track { height: 4px; }
+.progress--md .progress__track { height: 8px; }
+.progress--lg .progress__track { height: 12px; }
+
+/* ─── Indicator (fill) ────────────────────────────────────────────────────── */
+/* Base UI sets `width: <percent>%` inline; we animate that and color it. */
+
+.progress__indicator {
+  height: 100%;
+  background-color: var(--color-interactive-primary-default);
+  border-radius: inherit;
+  transition: width 200ms ease;
+}
+
+.progress--success .progress__indicator { background-color: var(--color-status-success); }
+.progress--warning .progress__indicator { background-color: var(--color-status-caution); }
+.progress--error   .progress__indicator { background-color: var(--color-status-error); }
+
+/* ─── Indeterminate ───────────────────────────────────────────────────────── */
+/* No value → Base UI omits the inline width; we drive a sliding segment. */
+
+.progress__indicator[data-indeterminate] {
+  width: 40%;
+  animation: progress-indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(360%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress__indicator[data-indeterminate] {
+    animation: none;
+  }
+}

@@ -95,7 +95,7 @@ export function DateFieldBase({
   const control = (
     <Field.Control
       render={<input ref={inputRef} type={type} />}
-      className="input-field__control input-field__control--affix-start"
+      className="field__control field__control--affix-start"
       required={required}
       disabled={disabled}
       value={value}
@@ -110,9 +110,9 @@ export function DateFieldBase({
   return (
     <Field.Root className={clsx(inputFieldStyles({ size }), className)} invalid={isInvalid}>
       {label && (
-        <Field.Label className="input-field__label">
+        <Field.Label className="field__label">
           {label}
-          {required && <span className="input-field__required" aria-hidden="true" />}
+          {required && <span className="field__required" aria-hidden="true" />}
         </Field.Label>
       )}
 
@@ -159,7 +159,7 @@ export function DateFieldBase({
               <div className="date-popover__footer">
                 <input
                   type="time"
-                  className="input-field__control date-popover__time"
+                  className="field__control date-popover__time"
                   value={timePart}
                   onChange={handleTimeChange}
                   aria-label="Time"
@@ -178,7 +178,7 @@ export function DateFieldBase({
       )}
 
       {helperText && !isInvalid && (
-        <Field.Description className="input-field__description">
+        <Field.Description className="field__description">
           {helperText}
         </Field.Description>
       )}

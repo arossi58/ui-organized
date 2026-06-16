@@ -29,7 +29,7 @@ function NavSurface({
 }
 
 const meta: Meta<typeof NavItem> = {
-  title: "Components/Navigation",
+  title: "Components/Navigation/Navigation",
   component: NavItem,
   parameters: {
     layout: "padded",

@@ -1,5 +1,5 @@
 /* ─── Date range ──────────────────────────────────────────────────────────────
-   Lays out the start/end pair on one row under the shared `.input-field` column
+   Lays out the start/end pair on one row under the shared `.field` column
    (label / row / helper). Each control reuses the Input field surface and the
    leading calendar button from InputAffix.css; this file only handles the
    two-up layout and the separator. */

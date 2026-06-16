@@ -1,0 +1,59 @@
+/* ─── Popover positioner ──────────────────────────────────────────────────── */
+
+.popover__positioner {
+  z-index: var(--z-index-popover);
+}
+
+/* ─── Popover popup (matches the Select / DatePopover surface) ────────────── */
+
+.popover__popup {
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-03);
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transition:
+    opacity 120ms ease,
+    transform 120ms ease;
+}
+
+.popover__popup[data-starting-style],
+.popover__popup[data-ending-style] {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+/* ─── Arrow ───────────────────────────────────────────────────────────────── */
+
+.popover__arrow {
+  display: flex;
+}
+
+.popover__arrow::before {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-color: var(--color-surface-primary);
+  transform: rotate(45deg);
+}
+
+.popover__arrow[data-side="top"] {
+  bottom: -5px;
+}
+.popover__arrow[data-side="bottom"] {
+  top: -5px;
+}
+.popover__arrow[data-side="left"] {
+  right: -5px;
+}
+.popover__arrow[data-side="right"] {
+  left: -5px;
+}

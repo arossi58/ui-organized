@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { DateTimeInput } from "@ui-organized/react";
 
 const meta: Meta<typeof DateTimeInput> = {
-  title: "Components/DateTimeInput",
+  title: "Components/Forms/DateTimeInput",
   component: DateTimeInput,
   parameters: {
     layout: "padded",

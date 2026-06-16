@@ -7,8 +7,10 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
+  /* Fill the remaining height of the persistent chrome column (the hoisted nav
+     sits above us now), rather than owning a full viewport. */
+  flex: 1 1 auto;
+  min-height: 0;
   background: var(--color-surface-primary);
   /* Contain the dot layer's stacking so the nav + shell stay on top. */
   isolation: isolate;

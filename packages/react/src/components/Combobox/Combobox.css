@@ -1,0 +1,178 @@
+/* ─── Combobox ──────────────────────────────────────────────────────────────
+   A searchable Select. Composes the shared field chrome (Field.css) for the
+   label/description and the `.field__control` base on the input; the control
+   shell, trigger and popup are new. */
+
+/* ─── Control (bordered shell: input + chevron trigger) ───────────────────── */
+
+.combobox-field__control {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.combobox-field__control:focus-within {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.field[data-invalid] .combobox-field__control {
+  border-color: var(--color-status-error-message);
+}
+
+.field[data-invalid] .combobox-field__control:focus-within {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.field[data-disabled] .combobox-field__control {
+  background-color: var(--color-interactive-inactive-inactive-01);
+  border-color: var(--color-border-secondary);
+  cursor: not-allowed;
+}
+
+/* ─── Input (strip field-control border/bg — the shell provides them) ─────── */
+
+.combobox-field__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+.combobox-field__input:focus-visible {
+  box-shadow: none;
+}
+
+/* ─── Chevron trigger ─────────────────────────────────────────────────────── */
+
+.combobox-field__trigger {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.combobox-field__trigger:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-text-text-primary);
+}
+
+.combobox-field__trigger .icon {
+  transition: transform 150ms ease;
+}
+
+.combobox-field__trigger[data-popup-open] .icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+.combobox-positioner {
+  z-index: var(--z-index-popover);
+}
+
+.combobox-popup {
+  width: var(--anchor-width);
+  max-height: 280px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transform-origin: top;
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+.combobox-popup[data-starting-style],
+.combobox-popup[data-ending-style] {
+  opacity: 0;
+  transform: scaleY(0.95);
+}
+
+/* ─── Empty state ─────────────────────────────────────────────────────────── */
+
+.combobox-popup__empty {
+  padding: var(--spacing-space-03);
+  color: var(--color-text-text-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+}
+
+/* ─── List + items ────────────────────────────────────────────────────────── */
+
+.combobox-popup__list {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.combobox-popup__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border-radius: var(--radius-checkbox);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  color: var(--color-text-text-primary);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition: background-color 100ms ease;
+}
+
+.combobox-popup__item[data-highlighted] {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.combobox-popup__item[data-selected] {
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.combobox-popup__item[data-disabled] {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+}
+
+.combobox-popup__item-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.combobox-popup__item-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-interactive-primary-default);
+  opacity: 0;
+}
+
+.combobox-popup__item[data-selected] .combobox-popup__item-indicator {
+  opacity: 1;
+}

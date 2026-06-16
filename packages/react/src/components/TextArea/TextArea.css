@@ -1,5 +1,5 @@
 /* ─── TextArea ────────────────────────────────────────────────────────────────
-   The TextArea reuses the Input field styling (.input-field*) for its label,
+   The TextArea reuses the Input field styling (.field*) for its label,
    control surface, hover/active/focus/disabled states, error and description
    (see Input.css, imported by TextArea.tsx). These rules add only the
    multi-line specifics from Figma 360:1121 — a comfortable min-height per size
@@ -10,7 +10,7 @@
   /* sm & md sit in a 120px frame in Figma → ~80px of control. */
   min-height: var(--dimension-dimension-02);
   resize: both;
-  /* The shared .input-field__control sets width: 100% so the field fills its
+  /* The shared .field__control sets width: 100% so the field fills its
      container. Cap horizontal resizing at that width so dragging the handle
      can narrow the field without overflowing the surrounding layout. */
   max-width: 100%;
@@ -29,7 +29,7 @@
 }
 
 /* Horizontal resizing only takes effect when the field opts out of the column
-   flex container's cross-axis stretch (.input-field is display: flex /
+   flex container's cross-axis stretch (.field is display: flex /
    flex-direction: column, so its default align-items: stretch pins the field to
    full width and overrides the dragged width). flex-start releases the
    cross-axis; the field still starts at full width via width: 100%. Vertical
@@ -40,6 +40,6 @@
 }
 
 /* lg gets a taller default canvas (Figma: 160px frame vs 120px). */
-.input-field--lg .textarea-field__control {
+.field--lg .textarea-field__control {
   min-height: var(--dimension-dimension-03);
 }

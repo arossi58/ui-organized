@@ -10,7 +10,7 @@ const FRUIT_OPTIONS = [
 ];
 
 const meta: Meta<typeof Select> = {
-  title: "Components/Select",
+  title: "Components/Forms/Select",
   component: Select,
   parameters: {
     layout: "padded",

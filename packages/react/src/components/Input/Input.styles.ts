@@ -1,11 +1,11 @@
 import { cva, type VariantProps } from "class-variance-authority";
 
-export const inputFieldStyles = cva("input-field", {
+export const inputFieldStyles = cva("field", {
   variants: {
     size: {
-      sm: "input-field--sm",
-      md: "input-field--md",
-      lg: "input-field--lg",
+      sm: "field--sm",
+      md: "field--md",
+      lg: "field--lg",
     },
   },
   defaultVariants: {

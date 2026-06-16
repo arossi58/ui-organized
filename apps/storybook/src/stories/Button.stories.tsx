@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Button } from "@ui-organized/react";
 
 const meta: Meta<typeof Button> = {
-  title: "Components/Button",
+  title: "Components/Actions/Button",
   component: Button,
   parameters: {
     layout: "padded",

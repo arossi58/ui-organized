@@ -27,18 +27,18 @@ export function TextArea({
       invalid={isInvalid}
     >
       {label && (
-        <Field.Label className="input-field__label">
+        <Field.Label className="field__label">
           {label}
-          {required && <span className="input-field__required" aria-hidden="true" />}
+          {required && <span className="field__required" aria-hidden="true" />}
         </Field.Label>
       )}
       <Field.Control
         render={<textarea {...textareaProps} data-resize={resize} />}
-        className="input-field__control textarea-field__control"
+        className="field__control textarea-field__control"
         required={required}
       />
       {helperText && !isInvalid && (
-        <Field.Description className="input-field__description">
+        <Field.Description className="field__description">
           {helperText}
         </Field.Description>
       )}

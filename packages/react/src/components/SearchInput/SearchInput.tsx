@@ -69,9 +69,9 @@ export function SearchInput({
       invalid={isInvalid}
     >
       {label && (
-        <Field.Label className="input-field__label">
+        <Field.Label className="field__label">
           {label}
-          {required && <span className="input-field__required" aria-hidden="true" />}
+          {required && <span className="field__required" aria-hidden="true" />}
         </Field.Label>
       )}
       <div className="input-affix">
@@ -84,9 +84,9 @@ export function SearchInput({
         <Field.Control
           render={<input ref={inputRef} type="search" />}
           className={clsx(
-            "input-field__control",
-            "input-field__control--affix-start",
-            showClear && "input-field__control--affix-end",
+            "field__control",
+            "field__control--affix-start",
+            showClear && "field__control--affix-end",
           )}
           required={required}
           disabled={disabled}
@@ -108,7 +108,7 @@ export function SearchInput({
         )}
       </div>
       {helperText && !isInvalid && (
-        <Field.Description className="input-field__description">
+        <Field.Description className="field__description">
           {helperText}
         </Field.Description>
       )}

@@ -1,0 +1,64 @@
+/* ─── Collapsible ─────────────────────────────────────────────────────────── */
+
+.collapsible {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* ─── Trigger ─────────────────────────────────────────────────────────────── */
+
+.collapsible__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-medium);
+  cursor: pointer;
+  outline: none;
+  border-radius: var(--radius-interactive);
+  transition: color 150ms ease;
+}
+
+.collapsible__trigger:hover {
+  color: var(--color-text-text-secondary);
+}
+
+.collapsible__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.collapsible__trigger[data-disabled] {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+}
+
+/* ─── Panel (height animation via Base UI's --collapsible-panel-height) ────── */
+
+.collapsible__panel {
+  overflow: hidden;
+  height: var(--collapsible-panel-height);
+  transition: height 200ms ease;
+  color: var(--color-text-text-secondary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.collapsible__panel[data-starting-style],
+.collapsible__panel[data-ending-style] {
+  height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collapsible__panel { transition: none; }
+}
+
+.collapsible__content {
+  padding-top: var(--spacing-space-03);
+}

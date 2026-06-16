@@ -5,7 +5,7 @@ const VARIANTS = ["success", "info", "info-secondary", "caution", "warning", "er
 const SIZES = ["sm", "md", "lg"] as const;
 
 const meta: Meta<typeof Badge> = {
-  title: "Components/Badge",
+  title: "Components/Data Display/Badge",
   component: Badge,
   parameters: {
     layout: "padded",

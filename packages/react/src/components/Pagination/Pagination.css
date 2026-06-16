@@ -1,0 +1,66 @@
+/* ─── Pagination ──────────────────────────────────────────────────────────── */
+
+.pagination__list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Page + nav controls ─────────────────────────────────────────────────── */
+
+.pagination__page,
+.pagination__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 var(--spacing-space-02);
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.pagination__page:hover:not(:disabled),
+.pagination__nav:hover:not(:disabled) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.pagination__page:focus-visible,
+.pagination__nav:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.pagination__page[aria-current="page"] {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+.pagination__nav:disabled {
+  color: var(--color-interactive-inactive-inactive-02);
+  cursor: not-allowed;
+}
+
+/* ─── Ellipsis ────────────────────────────────────────────────────────────── */
+
+.pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  color: var(--color-text-text-tertiary);
+}
