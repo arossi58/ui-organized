@@ -11,7 +11,7 @@
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-medium);
   line-height: var(--type-leading-body-medium);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   margin-bottom: var(--spacing-space-01);
 }
 
@@ -83,16 +83,16 @@
 /* ─── Disabled state ───────────────────────────────────────────────────────── */
 
 .radio-item--disabled .radio-item__control {
-  border-color: var(--color-interactive-inactive-inactive-02);
+  border-color: var(--color-interactive-inactive-02);
 }
 
 .radio-item--disabled .radio-item__control[data-checked] {
-  background-color: var(--color-interactive-inactive-inactive-02);
-  border-color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-02);
+  border-color: var(--color-interactive-inactive-02);
 }
 
 .radio-item--disabled .radio-item__label {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
 }
 
 /* ─── Error state ─────────────────────────────────────────────────────────── */
@@ -123,7 +123,7 @@
 
 /* Disabled indicator uses inactive-03 instead of ui-light */
 .radio-item--disabled .radio-item__control[data-checked] .radio-item__indicator {
-  background-color: var(--color-interactive-inactive-inactive-03);
+  background-color: var(--color-interactive-inactive-03);
 }
 
 /* ─── Radio label ─────────────────────────────────────────────────────────── */
@@ -133,7 +133,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   user-select: none;
 }
 

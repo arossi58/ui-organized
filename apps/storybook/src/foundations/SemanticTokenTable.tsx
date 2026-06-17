@@ -135,7 +135,7 @@ export function SemanticTokenTable() {
       <p className="sem-tokens__lede">
         Semantic tokens are the colour vocabulary every component speaks. A component never names a
         raw colour — it references a <strong>role</strong> (<code>--color-surface-primary</code>,{" "}
-        <code>--color-text-text-secondary</code>), and the active theme decides what that role
+        <code>--color-text-secondary</code>), and the active theme decides what that role
         resolves to.
       </p>
       <p className="sem-tokens__blurb sem-tokens__blurb--wide">

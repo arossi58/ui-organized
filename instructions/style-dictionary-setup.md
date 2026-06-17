@@ -52,9 +52,9 @@ Contains collections in an array. After your Figma restructure, the collections 
 Component
 └── modes
     ├── Desktop
-    │   ├── radius-interactive → references {border-radius.radius-04}
-    │   ├── radius-checkbox → references {border-radius.radius-02}
-    │   ├── radius-status → references {border-radius.radius-full}
+    │   ├── radius-interactive → references {border-radius.04}
+    │   ├── radius-checkbox → references {border-radius.02}
+    │   ├── radius-status → references {border-radius.full}
     │   └── Button (Small/Medium/Large with horizontal/vertical/square spacing)
     └── Mobile (same structure, different spacing values)
 ```
@@ -205,7 +205,7 @@ The rule: prepend the collection name to the path.
 | `{lima.1300}` | `{primitive.lima.1300}` |
 | `{cerulean.1300}` | `{primitive.cerulean.1300}` |
 | (all other primitive color refs) | `{primitive.[name].[step]}` |
-| `{border-radius.radius-04}` | `{border-radius.radius-04}` (own collection, no prefix change needed) |
+| `{border-radius.04}` | `{border-radius.04}` (own collection, no prefix change needed) |
 | `{spacing.space-02}` | `{spacing.space-02}` (own collection, no prefix change needed) |
 
 The transform script should detect references by the `{...}` pattern and prepend the correct collection prefix based on where the referenced token lives.
@@ -457,8 +457,8 @@ With `outputReferences: true`, your generated `variables.css` should look like t
   */
 
   /* Dimensions */
-  --semantic-dimension-dimension-01: 40px;
-  --semantic-dimension-dimension-02: 80px;
+  --semantic-dimension-01: 40px;
+  --semantic-dimension-02: 80px;
   /* ... through dimension-12 */
 
   /* Brand alias */
@@ -470,10 +470,10 @@ With `outputReferences: true`, your generated `variables.css` should look like t
    ============================================ */
 
 :root {
-  --border-radius-radius-01: 2px;
-  --border-radius-radius-02: 4px;
+  --border-radius-01: 2px;
+  --border-radius-02: 4px;
   /* ... through radius-12 */
-  --border-radius-radius-full: 99999px;
+  --border-radius-full: 99999px;
 }
 
 /* ============================================
@@ -494,9 +494,9 @@ With `outputReferences: true`, your generated `variables.css` should look like t
 
 :root {
   /* Component radius */
-  --component-radius-interactive: var(--border-radius-radius-04);
-  --component-radius-checkbox: var(--border-radius-radius-02);
-  --component-radius-status: var(--border-radius-radius-full);
+  --component-radius-interactive: var(--border-radius-04);
+  --component-radius-checkbox: var(--border-radius-02);
+  --component-radius-status: var(--border-radius-full);
 
   /* Button - Desktop (default) */
   --component-button-small-horizontal: var(--spacing-space-02);
@@ -605,8 +605,8 @@ Example `Button.css`:
 
 /* States */
 .btn:disabled {
-  background-color: var(--semantic-color-interactive-inactive-inactive-01);
-  color: var(--semantic-color-interactive-inactive-inactive-03);
+  background-color: var(--semantic-color-interactive-inactive-01);
+  color: var(--semantic-color-interactive-inactive-03);
   cursor: not-allowed;
 }
 .btn:focus-visible {
@@ -722,7 +722,7 @@ The full paths (`--semantic-color-border-subtle`) are verbose. Once your token a
 | `--semantic-color-interactive-primary-default` | `--color-interactive-primary-default` |
 | `--semantic-color-elevation-subtle` | `--color-elevation-subtle` |
 | `--spacing-space-02` | `--space-02` |
-| `--border-radius-radius-04` | `--radius-04` |
+| `--border-radius-04` | `--radius-04` |
 | `--component-button-small-horizontal` | `--button-small-horizontal` |
 | `--typography-font-size-body-large` | `--font-size-body-large` |
 | `--primitive-brand-900` | `--brand-900` |

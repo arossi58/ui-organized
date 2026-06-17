@@ -178,8 +178,8 @@ export function buildCss(result: TransformResult): CssBuildResult {
     const declarations: string[] = [];
 
     for (const [semanticKey, hex] of Object.entries(semanticValues)) {
-      // Semantic keys use dot notation: "color-surface.base" or "color-text.text-primary"
-      // Convert to CSS var: --color-surface-base, --color-text-text-primary
+      // Semantic keys use dot notation: "color-surface.base" or "color-text.primary"
+      // Convert to CSS var: --color-surface-base, --color-text-primary
       const parts = semanticKey.split(".");
       const prop = pathToCssVar(parts);
       declarations.push(`${prop}: ${hex};`);

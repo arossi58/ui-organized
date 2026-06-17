@@ -9,7 +9,7 @@
   vertical-align: middle;
   user-select: none;
   background-color: var(--color-interactive-ui-default);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-weight: var(--type-weight-body-semibold);
   line-height: 1;
@@ -39,6 +39,6 @@
 
 /* ─── Shapes ──────────────────────────────────────────────────────────────── */
 
-.avatar--circle  { border-radius: var(--border-radius-radius-full); }
-.avatar--rounded { border-radius: var(--border-radius-radius-04); }
+.avatar--circle  { border-radius: var(--border-radius-full); }
+.avatar--rounded { border-radius: var(--border-radius-04); }
 .avatar--square  { border-radius: 0; }

@@ -43,7 +43,7 @@
   display: block;
   width: var(--spacing-space-08);
   height: var(--spacing-space-015);
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
   margin-bottom: var(--spacing-space-04);
 }
 

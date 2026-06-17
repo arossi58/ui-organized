@@ -126,7 +126,7 @@ export const Dismissible: Story = {
         </Alert>
       </div>
     ) : (
-      <p style={{ color: "var(--color-text-text-tertiary)" }}>Alert was dismissed.</p>
+      <p style={{ color: "var(--color-text-tertiary)" }}>Alert was dismissed.</p>
     );
   },
 };
@@ -166,7 +166,7 @@ export const AllVariantsDismissible: Story = {
           </Alert>
         ))}
         {variants.every((v) => dismissed[v]) && (
-          <p style={{ color: "var(--color-text-text-tertiary)" }}>All alerts dismissed.</p>
+          <p style={{ color: "var(--color-text-tertiary)" }}>All alerts dismissed.</p>
         )}
       </div>
     );

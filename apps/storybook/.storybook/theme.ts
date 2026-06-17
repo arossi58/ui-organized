@@ -115,7 +115,7 @@ export function makeManagerTheme(mode: ThemeMode, brand: string) {
   const v = (key: string, fallback: string) => t[key] ?? fallback;
 
   const primary = v("--color-interactive-primary-default", "#d2502a");
-  const ink = v("--color-text-text-primary", mode === "dark" ? "#f7f7f7" : "#17150f");
+  const ink = v("--color-text-primary", mode === "dark" ? "#f7f7f7" : "#17150f");
 
   return create({
     base: mode,
@@ -138,10 +138,10 @@ export function makeManagerTheme(mode: ThemeMode, brand: string) {
     fontCode: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
 
     textColor: ink,
-    textInverseColor: v("--color-text-text-inverse", "#ffffff"),
-    textMutedColor: v("--color-text-text-secondary", "#6b6b6b"),
+    textInverseColor: v("--color-text-inverse", "#ffffff"),
+    textMutedColor: v("--color-text-secondary", "#6b6b6b"),
 
-    barTextColor: v("--color-text-text-secondary", "#6b6b6b"),
+    barTextColor: v("--color-text-secondary", "#6b6b6b"),
     barSelectedColor: primary,
     barHoverColor: v("--color-interactive-primary-hover", primary),
     barBg: v("--color-surface-primary", "#ffffff"),

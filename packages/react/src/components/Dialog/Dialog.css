@@ -30,8 +30,8 @@
   padding: var(--spacing-space-06);
   background-color: var(--color-surface-primary);
   border: 1px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-radius-05);
-  color: var(--color-text-text-primary);
+  border-radius: var(--border-radius-05);
+  color: var(--color-text-primary);
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.4),
     0 8px 10px -6px rgba(0, 0, 0, 0.3);
@@ -75,7 +75,7 @@
   border: none;
   background: none;
   border-radius: var(--radius-interactive);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -84,7 +84,7 @@
 
 .dialog__close:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .dialog__close:focus-visible {
@@ -101,7 +101,7 @@
   font-size: var(--type-size-heading-small);
   font-weight: var(--type-weight-heading-semibold);
   line-height: var(--type-leading-heading-small);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .dialog__description {
@@ -109,7 +109,7 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .dialog__footer {

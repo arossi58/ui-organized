@@ -80,7 +80,7 @@
   align-items: center;
   justify-content: center;
   width: var(--affix-size);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 .input-affix__adornment--start {
@@ -101,7 +101,7 @@ span.input-affix__adornment {
 /* Dim adornments when the field is disabled, mirroring the control. */
 .input-affix:has(.field__control:disabled) .input-affix__adornment,
 .input-affix:has(.field__control[data-disabled]) .input-affix__adornment {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
 }
 
 /* ─── Action button (clear / show-hide) ───────────────────────────────────── */
@@ -122,7 +122,7 @@ span.input-affix__adornment {
 }
 
 .input-affix__action:hover:not(:disabled) {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .input-affix__action:focus-visible {
@@ -132,5 +132,5 @@ span.input-affix__adornment {
 
 .input-affix__action:disabled {
   cursor: not-allowed;
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
 }

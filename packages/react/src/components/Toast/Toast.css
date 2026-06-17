@@ -26,7 +26,7 @@
   border-left-width: 3px;
   border-radius: var(--radius-interactive);
   box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   transition:
     opacity 200ms ease,
     transform 200ms ease;
@@ -81,7 +81,7 @@
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-semibold);
   line-height: var(--type-leading-body-medium);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .toast__description {
@@ -89,7 +89,7 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .toast__action {
@@ -102,7 +102,7 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-medium);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   cursor: pointer;
   transition: background-color 150ms ease;
 }
@@ -122,7 +122,7 @@
   border: none;
   background: none;
   border-radius: var(--radius-checkbox);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -131,7 +131,7 @@
 
 .toast__close:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .toast__close:focus-visible {

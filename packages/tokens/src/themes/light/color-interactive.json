@@ -129,15 +129,15 @@
       "$value": "{grey.100}"
     },
     "inactive": {
-      "inactive-01": {
+      "01": {
         "$type": "color",
         "$value": "{grey.1400}"
       },
-      "inactive-02": {
+      "02": {
         "$type": "color",
         "$value": "{grey.1000}"
       },
-      "inactive-03": {
+      "03": {
         "$type": "color",
         "$value": "{grey.800}"
       }

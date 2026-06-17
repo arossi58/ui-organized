@@ -38,7 +38,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-medium);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   background: transparent;
   border: none;
   border-bottom: 4px solid transparent;
@@ -55,27 +55,27 @@
 
 /* hover ─ underline + interactive text, only on non-selected, enabled tabs */
 .tabs__tab:hover:not([data-disabled]):not([data-active]) {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   border-bottom-color: var(--color-interactive-primary-hover);
 }
 
 /* selected ─ primary underline, emphasized text */
 .tabs__tab[data-active] {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   border-bottom-color: var(--color-interactive-primary-selected);
   font-weight: var(--type-weight-body-semibold);
 }
 
 /* focus ─ 2px focus ring */
 .tabs__tab:focus-visible {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
   border-radius: var(--radius-interactive);
 }
 
 /* inactive / disabled */
 .tabs__tab[data-disabled] {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   border-bottom-color: transparent;
   cursor: not-allowed;
 }

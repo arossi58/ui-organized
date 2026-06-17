@@ -24,7 +24,7 @@ type Story = StoryObj<typeof Separator>;
 
 export const Horizontal: Story = {
   render: (args) => (
-    <div style={{ maxWidth: 360, color: "var(--color-text-text-secondary)" }}>
+    <div style={{ maxWidth: 360, color: "var(--color-text-secondary)" }}>
       <p style={{ margin: 0 }}>Section one</p>
       <Separator {...args} />
       <p style={{ margin: 0 }}>Section two</p>
@@ -40,7 +40,7 @@ export const Vertical: Story = {
         display: "flex",
         alignItems: "center",
         height: 24,
-        color: "var(--color-text-text-secondary)",
+        color: "var(--color-text-secondary)",
       }}
     >
       <span>Home</span>

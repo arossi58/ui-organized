@@ -33,7 +33,7 @@
 }
 
 .field[data-disabled] .number-field__group {
-  background-color: var(--color-interactive-inactive-inactive-01);
+  background-color: var(--color-interactive-inactive-01);
   border-color: var(--color-border-secondary);
   cursor: not-allowed;
 }
@@ -62,7 +62,7 @@
   width: 40px;
   border: none;
   background: transparent;
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -71,7 +71,7 @@
 
 .number-field__stepper:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .number-field__stepper:active {
@@ -80,7 +80,7 @@
 
 .number-field__stepper:disabled,
 .number-field__stepper[data-disabled] {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
   pointer-events: none;
 }

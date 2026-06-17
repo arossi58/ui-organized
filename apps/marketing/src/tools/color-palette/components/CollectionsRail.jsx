@@ -54,7 +54,7 @@ const RailItem = ({ name, colors, active, canDelete, onClick, onRename, onDelete
           </span>
         )}
       </div>
-      <SwatchStrip colors={colors} height={20} radius="var(--border-radius-radius-01)" />
+      <SwatchStrip colors={colors} height={20} radius="var(--border-radius-01)" />
     </div>
   );
 };

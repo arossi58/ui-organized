@@ -28,14 +28,14 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-01);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   text-decoration: none;
   border-radius: var(--radius-interactive);
   transition: color 150ms ease;
 }
 
 .breadcrumb__link:hover {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   text-decoration: underline;
 }
 
@@ -50,7 +50,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-01);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-weight: var(--type-weight-body-semibold);
 }
 
@@ -63,5 +63,5 @@
 .breadcrumb__separator {
   display: inline-flex;
   align-items: center;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }

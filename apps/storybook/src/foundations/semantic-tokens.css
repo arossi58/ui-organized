@@ -4,7 +4,7 @@
    the light/dark switcher and the site's brand. Swatch colours themselves are
    resolved in JS (see SemanticTokenTable.tsx) so both modes are always shown. */
 .sem-tokens {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-family: "Roboto", system-ui, -apple-system, sans-serif;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .sem-tokens__blurb {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   max-width: 60ch;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -52,7 +52,7 @@
 }
 
 .sem-tokens__table th {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-weight: 600;
   white-space: nowrap;
   border-bottom: 2px solid var(--color-border-primary);
@@ -64,7 +64,7 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.8em;
   white-space: nowrap;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   background: var(--color-surface-secondary);
   padding: 0.12em 0.4em;
   border-radius: 4px;
@@ -77,7 +77,7 @@
 }
 
 .sem-tokens__role {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   min-width: 22ch;
 }
 

@@ -14,15 +14,15 @@
     },
     "overlay-primary": {
       "$type": "color",
-      "$value": "{grey.100}"
+      "$value": "rgba(252, 252, 252, 0.06)"
     },
     "overlay-secondary": {
       "$type": "color",
-      "$value": "{grey.100}"
+      "$value": "rgba(252, 252, 252, 0.1)"
     },
     "overlay-tertiary": {
       "$type": "color",
-      "$value": "{grey.100}"
+      "$value": "rgba(252, 252, 252, 0.14)"
     },
     "curtain": {
       "$type": "color",

@@ -1,17 +1,17 @@
 {
   "border-radius": {
-    "radius-01":   { "$type": "dimension", "$value": "2px" },
-    "radius-02":   { "$type": "dimension", "$value": "4px" },
-    "radius-03":   { "$type": "dimension", "$value": "6px" },
-    "radius-04":   { "$type": "dimension", "$value": "8px" },
-    "radius-05":   { "$type": "dimension", "$value": "12px" },
-    "radius-06":   { "$type": "dimension", "$value": "16px" },
-    "radius-07":   { "$type": "dimension", "$value": "20px" },
-    "radius-08":   { "$type": "dimension", "$value": "24px" },
-    "radius-09":   { "$type": "dimension", "$value": "28px" },
-    "radius-10":   { "$type": "dimension", "$value": "32px" },
-    "radius-11":   { "$type": "dimension", "$value": "40px" },
-    "radius-12":   { "$type": "dimension", "$value": "48px" },
-    "radius-full": { "$type": "dimension", "$value": "9999px" }
+    "01":   { "$type": "dimension", "$value": "2px" },
+    "02":   { "$type": "dimension", "$value": "4px" },
+    "03":   { "$type": "dimension", "$value": "6px" },
+    "04":   { "$type": "dimension", "$value": "8px" },
+    "05":   { "$type": "dimension", "$value": "12px" },
+    "06":   { "$type": "dimension", "$value": "16px" },
+    "07":   { "$type": "dimension", "$value": "20px" },
+    "08":   { "$type": "dimension", "$value": "24px" },
+    "09":   { "$type": "dimension", "$value": "28px" },
+    "10":   { "$type": "dimension", "$value": "32px" },
+    "11":   { "$type": "dimension", "$value": "40px" },
+    "12":   { "$type": "dimension", "$value": "48px" },
+    "full": { "$type": "dimension", "$value": "9999px" }
   }
 }

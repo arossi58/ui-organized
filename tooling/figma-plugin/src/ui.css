@@ -1,0 +1,133 @@
+/**
+ * Plugin-shell layout only. All colors/typography come from the design-system
+ * tokens (imported in ui.tsx as @ui-organized/tokens/variables.css), so this
+ * file just positions things and uses the DS variables for surfaces/text.
+ */
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+  font-family: var(--type-font-body, system-ui, -apple-system, sans-serif);
+  font-size: var(--type-size-body-small, 13px);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03, 12px);
+  padding: var(--spacing-space-04, 16px);
+}
+
+.app__brand {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02, 8px);
+  margin-bottom: var(--spacing-space-01, 4px);
+  color: var(--color-text-primary);
+}
+
+/* Square "UI" logomark — paints with currentColor, so it tracks the theme. */
+.app__brand-glyph {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  display: block;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-family: var(--type-font-heading, inherit);
+  font-size: var(--type-size-heading-small, 16px);
+  font-weight: var(--type-weight-heading-semibold, 600);
+}
+
+.app__header p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+  line-height: 1.4;
+}
+
+.app__tabs {
+  display: flex;
+  gap: var(--spacing-space-01, 4px);
+  border-bottom: 1px solid var(--color-border-secondary);
+  padding-bottom: var(--spacing-space-02, 8px);
+}
+
+.app__hint {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+  line-height: 1.4;
+}
+
+/* Read-only output for the exported theme.json. */
+.app__export-output {
+  width: 100%;
+  padding: var(--spacing-space-02, 8px);
+  border: 1px solid var(--color-border-data-entry, #555);
+  border-radius: var(--border-radius-04, 8px);
+  background: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.drop {
+  border: 1.5px dashed var(--color-border-secondary, #555);
+  border-radius: var(--border-radius-04, 8px);
+  padding: var(--spacing-space-05, 20px) var(--spacing-space-04, 16px);
+  text-align: center;
+  color: var(--color-text-secondary);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.drop--over {
+  border-color: var(--color-interactive-primary-default);
+  background: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+}
+
+.drop__browse {
+  color: var(--color-interactive-primary-default);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.app__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03, 12px);
+}
+
+.app__filename {
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app__warnings {
+  margin-top: var(--spacing-space-02, 8px);
+  font-size: var(--type-size-caption, 12px);
+}
+
+.app__warnings summary {
+  cursor: pointer;
+}
+
+.app__warnings ul {
+  margin: var(--spacing-space-01, 4px) 0 0;
+  padding-left: var(--spacing-space-04, 16px);
+  max-height: 120px;
+  overflow: auto;
+}

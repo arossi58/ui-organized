@@ -21,7 +21,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-regular);
@@ -55,31 +55,31 @@
 /* hover ─ filled primary, primary text (non-selected, enabled only) */
 .nav-item__trigger:hover:not(:disabled):not(.nav-item__trigger--selected) {
   background-color: var(--color-interactive-primary-hover);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 /* active / pressed */
 .nav-item__trigger:active:not(:disabled):not(.nav-item__trigger--selected) {
   background-color: var(--color-interactive-primary-active);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 /* focus ─ 2px ring */
 .nav-item__trigger:focus-visible {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 /* selected ─ filled primary, emphasized */
 .nav-item__trigger--selected {
   background-color: var(--color-interactive-primary-default);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
   font-weight: var(--type-weight-body-semibold);
 }
 
 /* disabled */
 .nav-item__trigger:disabled {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   background: transparent;
   cursor: not-allowed;
 }
@@ -134,7 +134,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-regular);
@@ -156,31 +156,31 @@
 /* hover ─ subtle overlay, primary text (non-selected, enabled only) */
 .nav-sub-item:hover:not(:disabled):not(.nav-sub-item--selected) {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 /* active / pressed */
 .nav-sub-item:active:not(:disabled):not(.nav-sub-item--selected) {
   background-color: var(--color-interactive-ui-active);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 /* focus ─ 2px ring */
 .nav-sub-item:focus-visible {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 /* selected ─ overlay fill, emphasized */
 .nav-sub-item--selected {
   background-color: var(--color-interactive-ui-selected);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-weight: var(--type-weight-body-semibold);
 }
 
 /* disabled */
 .nav-sub-item:disabled {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   background: transparent;
   cursor: not-allowed;
 }
@@ -226,7 +226,7 @@
 /* ─── Sidebar (container) ────────────────────────────────────────────────────── */
 
 .sidebar {
-  --sidebar-width: var(--dimension-dimension-06); /* 240px */
+  --sidebar-width: var(--dimension-06); /* 240px */
 
   /* Collapsed rail fits exactly one icon square plus the SAME horizontal padding
      as the expanded sidebar, so the padding never changes between states:
@@ -314,7 +314,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-regular);
@@ -329,11 +329,11 @@
 
 .sidebar__toggle:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .sidebar__toggle:focus-visible {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 

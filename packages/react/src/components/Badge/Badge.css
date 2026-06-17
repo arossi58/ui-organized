@@ -32,32 +32,32 @@
 
 .badge--success {
   background-color: var(--color-status-success);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .badge--info {
   background-color: var(--color-status-info);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .badge--info-secondary {
   background-color: var(--color-status-info-secondary);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .badge--caution {
   background-color: var(--color-status-caution);
-  color: var(--color-text-text-inverse);
+  color: var(--color-text-inverse);
 }
 
 .badge--warning {
   background-color: var(--color-status-warning);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .badge--error {
   background-color: var(--color-status-error);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 /* ─── Subdued (dark bg, colored text) ────────────────────────────────────── */

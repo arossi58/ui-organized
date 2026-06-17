@@ -104,7 +104,7 @@ const ExportModal = ({
       >
         <div style={{ padding: 24, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: 'var(--color-text-text-primary)' }}>Export Palette</h2>
+            <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: 'var(--color-text-primary)' }}>Export Palette</h2>
             <button
               onClick={() => setShowExportModal(false)}
               style={{
@@ -112,14 +112,14 @@ const ExportModal = ({
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
-                color: 'var(--color-text-text-primary)',
+                color: 'var(--color-text-primary)',
                 borderRadius: 8,
               }}
             >
               <X style={{ width: 20, height: 20 }} />
             </button>
           </div>
-          <p style={{ margin: 0, marginTop: 8, fontSize: 14, color: 'var(--color-text-text-tertiary)' }}>
+          <p style={{ margin: 0, marginTop: 8, fontSize: 14, color: 'var(--color-text-tertiary)' }}>
             Export your generated palette as code or design tokens
           </p>
         </div>
@@ -128,7 +128,7 @@ const ExportModal = ({
           {/* Color selection */}
           <div style={{ marginBottom: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Include Colors</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Include Colors</span>
               <button
                 onClick={() => setSelectedColorIds(allSelected ? [] : baseColors.map(c => c.id))}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--color-interactive-primary-default)', padding: 0 }}
@@ -154,7 +154,7 @@ const ExportModal = ({
                       transition: 'all 150ms ease',
                       border: `1px solid ${isSelected ? 'var(--color-interactive-primary-default)' : 'var(--color-border-primary)'}`,
                       background: isSelected ? 'var(--color-interactive-ui-selected)' : 'transparent',
-                      color: isSelected ? 'var(--color-text-text-primary)' : 'var(--color-text-text-placeholder)',
+                      color: isSelected ? 'var(--color-text-primary)' : 'var(--color-text-placeholder)',
                     }}
                   >
                     <div
@@ -192,15 +192,15 @@ const ExportModal = ({
                   style={{ width: 16, height: 16, flexShrink: 0 }}
                 />
                 <div>
-                  <div style={{ fontWeight: 600, color: 'var(--color-text-text-primary)' }}>{fmt.title}</div>
-                  <div style={{ fontSize: 14, color: 'var(--color-text-text-tertiary)' }}>{fmt.desc}</div>
+                  <div style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>{fmt.title}</div>
+                  <div style={{ fontSize: 14, color: 'var(--color-text-tertiary)' }}>{fmt.desc}</div>
                 </div>
               </label>
             ))}
           </div>
 
           <div style={{ background: 'var(--color-surface-secondary)', borderRadius: 8, padding: 16 }}>
-            <pre style={{ margin: 0, fontSize: 12, color: 'var(--color-text-text-primary)', fontFamily: 'monospace', overflowX: 'auto', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{generateExport(exportFormat, filteredColors, palettes, numStops, namingSystem, customIncrement)}</pre>
+            <pre style={{ margin: 0, fontSize: 12, color: 'var(--color-text-primary)', fontFamily: 'monospace', overflowX: 'auto', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>{generateExport(exportFormat, filteredColors, palettes, numStops, namingSystem, customIncrement)}</pre>
           </div>
         </div>
 

@@ -92,7 +92,7 @@ const names = [
             }}
           >
             <Icon name={name} size={20} />
-            <span style={{ fontSize: "11px", color: "var(--color-text-text-tertiary)", textAlign: "center", fontFamily: "monospace" }}>
+            <span style={{ fontSize: "11px", color: "var(--color-text-tertiary)", textAlign: "center", fontFamily: "monospace" }}>
               {name}
             </span>
           </div>
@@ -119,7 +119,7 @@ export const Sizes: Story = {
       {[12, 16, 20, 24, 32, 40, 48].map((size) => (
         <div key={size} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
           <Icon name="star" size={size} />
-          <span style={{ fontSize: "11px", color: "var(--color-text-text-tertiary)" }}>{size}px</span>
+          <span style={{ fontSize: "11px", color: "var(--color-text-tertiary)" }}>{size}px</span>
         </div>
       ))}
     </div>

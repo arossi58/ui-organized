@@ -24,6 +24,11 @@ const FAMILY_REF = /^([a-z]+)\.(\d+)$/;
  * buttons, and UI control surfaces resolve to a solid fill (white in dark, black
  * in light) instead of a subtle overlay. We re-apply the canonical alpha here.
  *
+ * The three `--color-surface-overlay-*` tokens are the source of the
+ * interactive-ui ramp (overlay-primary/secondary/tertiary == ui
+ * default/hover/active = 0.06/0.10/0.14); a token regen flattened them to a
+ * solid `{grey.100}`, so they're re-aliased to alpha here too.
+ *
  * Alpha is mode-independent — only the base color (light vs dark) flips, and
  * that already comes from the map — so a single table covers both modes.
  */
@@ -39,6 +44,9 @@ const TOKEN_ALPHA: Record<string, number> = {
   "--color-interactive-ghost-default": 0,
   "--color-interactive-ghost-hover": 0.1,
   "--color-interactive-ghost-active": 0.3,
+  "--color-surface-overlay-primary": 0.06,
+  "--color-surface-overlay-secondary": 0.1,
+  "--color-surface-overlay-tertiary": 0.14,
 };
 
 /** Apply an alpha to a `#rrggbb` hex, producing `rgba(...)`. Other forms pass through. */
@@ -113,6 +121,86 @@ export function resolveSemanticColors(
   for (const [cssVar, alpha] of Object.entries(TOKEN_ALPHA)) {
     const v = out[cssVar];
     if (v) out[cssVar] = withAlpha(v, alpha);
+  }
+
+  return out;
+}
+
+/**
+ * A resolved semantic token, keeping the link to its primitive where one exists.
+ *
+ * - `alias` — the token references a global/primitive step. `group` is the
+ *   primitive group it points at (`"brand"` and `"neutral"` for the swappable
+ *   families, otherwise the fixed core family name like `"crimson"`); `step` is
+ *   the ramp step; `hex` is the fully-resolved value (matches
+ *   `resolveSemanticColors`), used to materialise the primitive itself.
+ * - `raw` — a literal CSS value with no primitive (mode-specific `#hex`/`rgba()`
+ *   literals, plus the translucent overlay tokens whose alpha can't ride on an
+ *   opaque primitive alias).
+ */
+export type SemanticRef =
+  | { kind: "alias"; group: string; step: string; hex: string }
+  | { kind: "raw"; value: string };
+
+/** Map a raw token family to its primitive group (swappable roles vs fixed core). */
+function familyToGroup(family: string): string {
+  return family === "brand" ? "brand" : family === "grey" ? "neutral" : family;
+}
+
+/**
+ * Resolve the canonical semantic map for a mode into reference-preserving
+ * tokens. The same substitutions, brand-shade override and overlay-alpha rules
+ * as `resolveSemanticColors` apply — so every `alias.hex` and `raw.value` here
+ * is byte-identical to that function's output — but the primitive link is kept
+ * (as an `alias`) wherever the source map expresses one. Used by the theme
+ * export to emit a `primitive` layer plus aliasing semantic tokens (Figma
+ * variable aliases / DTCG references).
+ */
+export function resolveSemanticRefs(
+  mode: "light" | "dark",
+  opts: ResolveOptions,
+): Record<string, SemanticRef> {
+  const out: Record<string, SemanticRef> = {};
+  for (const [cssVar, ref] of Object.entries(semanticColorMap[mode])) {
+    const m = FAMILY_REF.exec(ref);
+    if (!m) {
+      out[cssVar] = { kind: "raw", value: ref }; // raw CSS literal (#hex / rgba())
+      continue;
+    }
+    const [, family, step] = m;
+    out[cssVar] = {
+      kind: "alias",
+      group: familyToGroup(family!),
+      step: step!,
+      hex: resolveRef(ref, opts),
+    };
+  }
+
+  // Optional primary-shade override — mirrors resolveSemanticColors, but the
+  // tokens stay brand aliases (re-anchored to the chosen step).
+  if (opts.brandShade) {
+    const s = opts.brandShade;
+    const setBrand = (cssVar: string, stp: string): void => {
+      const hex = opts.brandRamp[stp]?.hex;
+      if (hex) out[cssVar] = { kind: "alias", group: "brand", step: stp, hex };
+    };
+    setBrand("--color-interactive-primary-default", s);
+    setBrand("--color-interactive-primary-selected", s);
+    setBrand("--color-interactive-primary-hover", offsetStep(s, +2));
+    setBrand("--color-interactive-primary-active", offsetStep(s, -1));
+  }
+
+  // Bare brand token tracks the primary interactive color (same alias).
+  const primary = out["--color-interactive-primary-default"];
+  if (primary) out["--brand"] = primary;
+
+  // Translucent overlays: alpha can't ride on an opaque primitive alias, so
+  // emit the resolved color as a raw rgba() literal (matches resolveSemanticColors).
+  for (const [cssVar, alpha] of Object.entries(TOKEN_ALPHA)) {
+    const cur = out[cssVar];
+    if (!cur) continue;
+    const base = cur.kind === "alias" ? cur.hex : cur.value;
+    out[cssVar] = { kind: "raw", value: withAlpha(base, alpha) };
   }
 
   return out;

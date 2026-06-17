@@ -22,7 +22,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   font-variant-numeric: tabular-nums;
@@ -50,7 +50,7 @@
 }
 
 .pagination__nav:disabled {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
 }
 
@@ -62,5 +62,5 @@
   justify-content: center;
   min-width: 36px;
   height: 36px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }

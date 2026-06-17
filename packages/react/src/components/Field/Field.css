@@ -26,7 +26,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 /* ─── Required indicator ──────────────────────────────────────────────────── */
@@ -51,7 +51,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
   outline: none;
   transition:
@@ -61,7 +61,7 @@
 }
 
 .field__control::placeholder {
-  color: var(--color-text-text-placeholder);
+  color: var(--color-text-placeholder);
 }
 
 .field__control:hover:not(:disabled):not([data-disabled]) {
@@ -87,8 +87,8 @@
 
 .field__control:disabled,
 .field__control[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-01);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
   pointer-events: none;
 }
@@ -103,7 +103,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 /* Error message is rendered by the shared <FieldError> component. */
@@ -126,5 +126,5 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-semibold);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }

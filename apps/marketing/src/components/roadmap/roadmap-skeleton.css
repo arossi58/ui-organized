@@ -1,6 +1,6 @@
 .roadmap-skeleton-card {
   height: 92px;
-  border-radius: var(--border-radius-radius-05);
+  border-radius: var(--border-radius-05);
   border: 2px solid color-mix(in srgb, var(--site-ink) 12%, transparent);
   background: var(--site-paper);
 }

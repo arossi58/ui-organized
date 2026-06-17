@@ -21,7 +21,7 @@
   left: 0;
   will-change: transform;
   border-radius: 12px;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   user-select: none;
   -webkit-user-select: none;
 }
@@ -83,8 +83,8 @@
  * nests into the window (its square right edge stays flush with the body). */
 .physics-piece__sidebar {
   height: 100%;
-  border-top-left-radius: var(--border-radius-radius-08);
-  border-bottom-left-radius: var(--border-radius-radius-08);
+  border-top-left-radius: var(--border-radius-08);
+  border-bottom-left-radius: var(--border-radius-08);
   overflow: hidden;
 }
 
@@ -95,7 +95,7 @@
   font-size: var(--type-size-display-medium);
   font-weight: var(--type-weight-heading-semibold);
   line-height: var(--type-leading-display-medium);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   white-space: nowrap;
 }
 
@@ -112,8 +112,8 @@
   padding: var(--spacing-space-04);
   background: var(--color-surface-primary);
   border: 1px solid var(--color-border-primary);
-  border-radius: var(--border-radius-radius-05);
-  color: var(--color-text-text-primary);
+  border-radius: var(--border-radius-05);
+  color: var(--color-text-primary);
   text-align: center;
 }
 .physics-piece__stat-value {

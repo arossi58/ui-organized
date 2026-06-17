@@ -56,7 +56,7 @@
 
 .btn--secondary {
   background-color: var(--color-interactive-secondary-default);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   border-color: transparent;
 }
 
@@ -72,8 +72,8 @@
    inactive surface with muted text rather than the global opacity dim. */
 .btn--secondary:disabled,
 .btn--secondary[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-01);
+  color: var(--color-interactive-inactive-02);
   opacity: 1;
 }
 
@@ -89,21 +89,21 @@
 .btn--tertiary:hover:not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 .btn--tertiary:active:not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 /* Inactive state (Figma 23:1582): solid inactive surface, muted text, no outline. */
 .btn--tertiary:disabled,
 .btn--tertiary[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  border-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-01);
+  border-color: var(--color-interactive-inactive-01);
+  color: var(--color-interactive-inactive-02);
   opacity: 1;
 }
 
@@ -111,7 +111,7 @@
 
 .btn--ghost {
   background-color: var(--color-interactive-ghost-default);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   border-color: transparent;
 }
 
@@ -127,8 +127,8 @@
    inactive surface with muted text rather than the global opacity dim. */
 .btn--ghost:disabled,
 .btn--ghost[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-01);
+  color: var(--color-interactive-inactive-02);
   opacity: 1;
 }
 
@@ -159,12 +159,12 @@
 /* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
 .btn--destructive-ghost:hover:not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-destructive-hover);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 .btn--destructive-ghost:active:not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-destructive-active);
-  color: var(--color-text-text-light);
+  color: var(--color-text-light);
 }
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */

@@ -140,6 +140,8 @@ export interface BuilderState {
   setPreviewMode: (mode: "light" | "dark") => void;
   setLineHeightGuides: (on: boolean) => void;
   setActiveExample: (id: ExampleId) => void;
+  /** Reconstruct the full editor state from an exported theme.json (round-trip import). */
+  loadFromThemeJson: (theme: unknown) => void;
 }
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -250,9 +252,121 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   setLineHeightGuides: (on) => set(() => ({ lineHeightGuides: on })),
 
   setActiveExample: (id) => set(() => ({ activeExample: id })),
+
+  loadFromThemeJson: (theme) => set((state) => buildStateFromTheme(theme, state)),
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
+
+/** Parse a dimension value (`"16px"` or a number) to a number, with a fallback. */
+function pxToNum(value: unknown, fallback: number): number {
+  if (typeof value === "number") return Number.isFinite(value) ? value : fallback;
+  if (typeof value === "string") {
+    const n = parseFloat(value);
+    return Number.isFinite(n) ? n : fallback;
+  }
+  return fallback;
+}
+
+/**
+ * Reconstruct the full builder state from an exported `theme.json` (the reverse
+ * of `buildThemeTokens`). Parametric inputs (brand mode/family, type-scale
+ * base/ratio, line-height, radius/spacing base, icons) come from
+ * `$extensions["com.ui-organized.theme-builder"]`; fonts and weights come from
+ * the `type` token tree; resolved scales are regenerated with the same
+ * algorithms the editor uses. Anything missing falls back to the current state,
+ * so a hand-built Figma theme (no metadata) still imports best-effort.
+ */
+function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<BuilderState> {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const t = (theme ?? {}) as any;
+  const ext = t.$extensions?.["com.ui-organized.theme-builder"] ?? {};
+
+  // Brand — family preset or custom hex.
+  let brand: Partial<BuilderState> = {};
+  if (ext.brand?.mode === "custom" && typeof ext.brand.hex === "string") {
+    brand = { brandMode: "custom", brandHex: ext.brand.hex, brandRamp: generateColorRamp(ext.brand.hex) };
+  } else if (typeof ext.brand?.family === "string") {
+    const ramp = getCoreFamily(ext.brand.family);
+    brand = {
+      brandMode: "family",
+      brandFamily: ext.brand.family,
+      brandRamp: ramp,
+      brandHex: ramp["1400"]?.hex ?? state.brandHex,
+    };
+  }
+  const brandShade: string = ext.brand?.primaryShade ?? state.brandShade;
+
+  // Neutral preset.
+  const neutralFamily: string = ext.neutral?.family ?? state.neutralFamily;
+  const neutralRamp = getCoreFamily(neutralFamily);
+
+  // Type scale (regenerate steps from base/ratio).
+  const typeScaleBase: number = ext.typeScale?.base ?? state.typeScaleBase;
+  const typeScaleRatio: number = ext.typeScale?.ratio ?? state.typeScaleRatio;
+
+  // Fonts + weights from the token tree.
+  const weight = t.type?.weight ?? {};
+  const wv = (key: string, fb: number): number =>
+    typeof weight[key]?.$value === "number" ? weight[key].$value : fb;
+  const headingFamily: string = t.type?.font?.heading?.$value ?? state.headingFamily;
+  const bodyFamily: string = t.type?.font?.body?.$value ?? state.bodyFamily;
+  const headingWeights = {
+    default: wv("heading-regular", state.headingWeights.default ?? 400),
+    emphasis: wv("heading-medium", state.headingWeights.emphasis ?? 500),
+    strong: wv("heading-semibold", state.headingWeights.strong ?? 600),
+    heavy: wv("heading-bold", state.headingWeights.heavy ?? 700),
+  };
+  const bodyWeights = {
+    default: wv("body-regular", state.bodyWeights.default ?? 400),
+    emphasis: wv("body-medium", state.bodyWeights.emphasis ?? 500),
+    strong: wv("body-semibold", state.bodyWeights.strong ?? 600),
+    heavy: wv("body-bold", state.bodyWeights.heavy ?? 700),
+  };
+
+  // Line-height multipliers ($extensions only).
+  const headingLineHeight: number = ext.lineHeight?.heading ?? state.headingLineHeight;
+  const bodyLineHeight: number = ext.lineHeight?.body ?? state.bodyLineHeight;
+
+  // Radius / spacing base — prefer metadata, else recover the ×1 step from the tree.
+  const radiusBase: number = ext.radius?.base ?? pxToNum(t["border-radius"]?.["02"]?.$value, state.radiusBase);
+  const spacingBaseUnit: number = ext.spacing?.baseUnit ?? pxToNum(t.spacing?.["space-01"]?.$value, state.spacingBaseUnit);
+
+  // Icons (drop the export-only `package` field).
+  const ic = ext.icons ?? {};
+  const icons: IconsConfig = {
+    library: ic.library ?? state.icons.library,
+    style: ic.style ?? state.icons.style,
+    strokeAdjustment: typeof ic.strokeAdjustment === "boolean" ? ic.strokeAdjustment : state.icons.strokeAdjustment,
+    baseSize: ic.baseSize ?? state.icons.baseSize,
+    baseStroke: ic.baseStroke ?? state.icons.baseStroke,
+  };
+
+  const themeName: string = ext.themeName ?? state.themeName;
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+
+  return {
+    ...brand,
+    brandShade,
+    neutralFamily,
+    neutralRamp,
+    typeScaleBase,
+    typeScaleRatio,
+    typeScaleSteps: calculateTypeScale(typeScaleBase, typeScaleRatio),
+    headingFamily,
+    bodyFamily,
+    headingWeights,
+    bodyWeights,
+    headingLineHeight,
+    bodyLineHeight,
+    radiusBase,
+    borderRadius: generateRadiusScale(radiusBase),
+    spacingBaseUnit,
+    spacingScale: generateSpacingScale(spacingBaseUnit),
+    icons,
+    themeName,
+  };
+}
 
 /** Convert a hex color to an oklch() CSS string via @ui-organized/utils */
 export function hexToOklchString(hex: string): string {

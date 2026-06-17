@@ -15,7 +15,7 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-heading-semibold);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 12px;
@@ -29,7 +29,7 @@
   font-weight: var(--type-weight-body-regular);
   text-transform: none;
   letter-spacing: normal;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   opacity: 0.7;
 }
 
@@ -65,19 +65,19 @@
 .stepName {
   font-family: monospace;
   font-size: 11px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   white-space: nowrap;
 }
 
 .stepSize {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   opacity: 0.6;
 }
 
 .sample {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   line-height: 1.2;
   min-width: 0;
   overflow: hidden;
@@ -109,7 +109,7 @@
 .weightLabel {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   width: 72px;
   flex-shrink: 0;
 }
@@ -117,7 +117,7 @@
 .weightValue {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   opacity: 0.6;
   width: 32px;
   flex-shrink: 0;
@@ -125,6 +125,6 @@
 
 .weightSample {
   font-size: var(--type-size-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   line-height: 1.3;
 }

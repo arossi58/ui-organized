@@ -24,7 +24,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 .range__value {
@@ -32,7 +32,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 /* ─── Slider row (start label · control · end label) ──────────────────────── */
@@ -54,7 +54,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 /* ─── Control (interactive area) ──────────────────────────────────────────── */
@@ -76,7 +76,7 @@
   position: relative;
   flex: 1 1 auto;
   height: 4px;
-  border-radius: var(--border-radius-radius-01);
+  border-radius: var(--border-radius-01);
   background-color: var(--color-surface-overlay-tertiary);
 }
 
@@ -85,7 +85,7 @@
 .range__indicator {
   position: absolute;
   height: 100%;
-  border-radius: var(--border-radius-radius-01);
+  border-radius: var(--border-radius-01);
   background-color: var(--color-interactive-primary-selected);
 }
 
@@ -95,7 +95,7 @@
   box-sizing: border-box;
   width: 20px;
   height: 20px;
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
   background-color: var(--color-interactive-contents);
   border: 1px solid var(--color-border-data-entry);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
@@ -146,11 +146,11 @@
 
 .range[data-disabled] .range__track,
 .range[data-disabled] .range__indicator {
-  background-color: var(--color-interactive-inactive-inactive-01);
+  background-color: var(--color-interactive-inactive-01);
 }
 
 .range[data-disabled] .range__thumb {
-  background-color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-02);
   border-color: transparent;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
 }

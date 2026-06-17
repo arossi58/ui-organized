@@ -51,7 +51,7 @@
 
 .scroll-area__thumb {
   flex: 1;
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
   background-color: var(--color-border-primary);
 }
 

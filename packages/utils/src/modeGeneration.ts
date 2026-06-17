@@ -87,12 +87,12 @@ export function generateModes(
     "color-surface.strong":   "neutral.1400",
 
     // ── Text ──────────────────────────────────────────────────────────────
-    "color-text.text-primary":     "white.100",
-    "color-text.text-secondary":   "white.800",
-    "color-text.text-tertiary":    "white.1100",
-    "color-text.text-placeholder": "white.1100",
-    "color-text.text-inverse":     "black.1600",
-    "color-text.text-interactive": "white.100",
+    "color-text.primary":     "white.100",
+    "color-text.secondary":   "white.800",
+    "color-text.tertiary":    "white.1100",
+    "color-text.placeholder": "white.1100",
+    "color-text.inverse":     "black.1600",
+    "color-text.interactive": "white.100",
 
     // ── Borders ───────────────────────────────────────────────────────────
     "color-border.subtle":     "neutral.1500",
@@ -102,9 +102,9 @@ export function generateModes(
     "color-border.data-entry": "neutral.1300",
 
     // ── Icons ─────────────────────────────────────────────────────────────
-    "color-icon.icon-primary":   "white.100",
-    "color-icon.icon-secondary": "white.800",
-    "color-icon.icon-tertiary":  "white.1100",
+    "color-icon.primary":   "white.100",
+    "color-icon.secondary": "white.800",
+    "color-icon.tertiary":  "white.1100",
 
     // ── Interactive — primary (brand) ─────────────────────────────────────
     "color-interactive.primary.default":  `brand.${brandShade}`,
@@ -149,9 +149,9 @@ export function generateModes(
     "color-interactive.ui.selected": "neutral.1400",
 
     // ── Interactive — inactive / disabled ─────────────────────────────────
-    "color-interactive.inactive.inactive-01": "black.600",
-    "color-interactive.inactive.inactive-02": "black.400",
-    "color-interactive.inactive.inactive-03": "black.200",
+    "color-interactive.inactive.01": "black.600",
+    "color-interactive.inactive.02": "black.400",
+    "color-interactive.inactive.03": "black.200",
 
     // ── Status — success (lima) ───────────────────────────────────────────
     "color-status.success":         "lima.700",
@@ -199,12 +199,12 @@ export function generateModes(
     "color-surface.strong":   "neutral.500",
 
     // ── Text ──────────────────────────────────────────────────────────────
-    "color-text.text-primary":     "black.1600",
-    "color-text.text-secondary":   "black.900",
-    "color-text.text-tertiary":    "black.600",
-    "color-text.text-placeholder": "black.600",
-    "color-text.text-inverse":     "white.100",
-    "color-text.text-interactive": "black.1600",
+    "color-text.primary":     "black.1600",
+    "color-text.secondary":   "black.900",
+    "color-text.tertiary":    "black.600",
+    "color-text.placeholder": "black.600",
+    "color-text.inverse":     "white.100",
+    "color-text.interactive": "black.1600",
 
     // ── Borders ───────────────────────────────────────────────────────────
     "color-border.subtle":     "black.200",
@@ -214,9 +214,9 @@ export function generateModes(
     "color-border.data-entry": "black.600",
 
     // ── Icons ─────────────────────────────────────────────────────────────
-    "color-icon.icon-primary":   "black.1600",
-    "color-icon.icon-secondary": "black.900",
-    "color-icon.icon-tertiary":  "black.600",
+    "color-icon.primary":   "black.1600",
+    "color-icon.secondary": "black.900",
+    "color-icon.tertiary":  "black.600",
 
     // ── Interactive — primary (brand) ─────────────────────────────────────
     "color-interactive.primary.default":  `brand.${brandShade}`,
@@ -260,9 +260,9 @@ export function generateModes(
     "color-interactive.ui.selected": "neutral.200",
 
     // ── Interactive — inactive / disabled ─────────────────────────────────
-    "color-interactive.inactive.inactive-01": "black.300",
-    "color-interactive.inactive.inactive-02": "black.500",
-    "color-interactive.inactive.inactive-03": "black.700",
+    "color-interactive.inactive.01": "black.300",
+    "color-interactive.inactive.02": "black.500",
+    "color-interactive.inactive.03": "black.700",
 
     // ── Status — lighter steps for light surfaces ─────────────────────────
     "color-status.success":         "lima.600",

@@ -26,9 +26,9 @@
   --builder-border: var(--color-border-secondary);
 
   /* Text */
-  --builder-text-primary:   var(--color-text-text-primary);
-  --builder-text-secondary: var(--color-text-text-secondary);
-  --builder-text-tertiary:  var(--color-text-text-tertiary);
+  --builder-text-primary:   var(--color-text-primary);
+  --builder-text-secondary: var(--color-text-secondary);
+  --builder-text-tertiary:  var(--color-text-tertiary);
 
   /* Accent (fixed — reads on both modes) */
   --builder-accent:        #2490ff;
@@ -57,5 +57,5 @@
 }
 
 .theme-builder-tool ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-text-tertiary);
+  background: var(--color-text-tertiary);
 }

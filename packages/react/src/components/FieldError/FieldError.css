@@ -10,7 +10,7 @@
   align-items: center;
   gap: var(--spacing-space-01);
   padding: var(--spacing-space-01);
-  border-radius: var(--border-radius-radius-04);
+  border-radius: var(--border-radius-04);
   background-color: var(--color-status-error-bg);
   font-family: var(--type-font-body);
   font-size: var(--type-size-caption);

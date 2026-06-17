@@ -19,7 +19,7 @@ import {
   computeComponentTokenVars,
   type CSSVarMap,
 } from "./semanticMapping";
-import { resolveSemanticColors } from "@ui-organized/utils";
+import { resolveSemanticRefs, getCoreFamily, type SemanticRef, type ColorRamp } from "@ui-organized/utils";
 import type { BuilderState, IconLibrary } from "../state/themeState";
 
 // ─── DTCG token primitives ──────────────────────────────────────────────────────
@@ -38,18 +38,27 @@ const ICON_PACKAGES: Record<IconLibrary, string> = {
   heroicons: "@heroicons/react",
 };
 
-// ─── Color: flat `--color-*` map → nested DTCG group ────────────────────────────
+// ─── Color: reference-preserving semantic tokens + primitive layer ──────────────
+
+/** A semantic token's `$value`: a DTCG reference to its primitive, or a raw literal. */
+function refValue(ref: SemanticRef): string {
+  return ref.kind === "alias"
+    ? `{primitive.color.${ref.group}.${ref.step}}`
+    : ref.value;
+}
 
 /**
- * Turn a resolved `{ "--color-surface-base": "#hex" }` map into a nested group
+ * Turn a `{ "--color-surface-base": <SemanticRef> }` map into a nested group
  * keyed by category, e.g. `surface.base`. The bare `--brand` token maps to
- * `brand`. Mirrors the semantic taxonomy of the shipped color tokens.
+ * `brand`. Each leaf `$value` is a DTCG alias `{primitive.color.…}` when the
+ * token references a primitive, or a raw `#hex`/`rgba()` literal otherwise —
+ * mirroring the semantic taxonomy of the shipped color tokens.
  */
-function colorTokensFromMap(map: CSSVarMap): DtcgGroup {
+function colorTokensFromRefs(refs: Record<string, SemanticRef>): DtcgGroup {
   const group: DtcgGroup = {};
-  for (const [cssVar, value] of Object.entries(map)) {
+  for (const [cssVar, ref] of Object.entries(refs)) {
     const name = cssVar.replace(/^--/, "");
-    const token: DtcgToken = { $type: "color", $value: value };
+    const token: DtcgToken = { $type: "color", $value: refValue(ref) };
 
     if (!name.startsWith("color-")) {
       // Bare tokens like `brand` sit at the top of the mode group.
@@ -69,6 +78,44 @@ function colorTokensFromMap(map: CSSVarMap): DtcgGroup {
     bucket[leaf] = token;
   }
   return group;
+}
+
+/**
+ * The `primitive.color` layer — for every color family the theme *uses* (any
+ * semantic token aliases at least one of its steps), the **full** ramp is
+ * emitted, not just the referenced steps: if a swatch is in play, designers get
+ * all 24 shades to work with in Figma. Only families that go unused are dropped,
+ * so the export still ships a relevant subset of the 37-family library rather
+ * than everything.
+ *
+ * Groups: `brand`, `neutral` (the swappable roles, resolved from the chosen
+ * ramps) and the fixed functional families (`lima`, `cerulean`, `crimson`, …,
+ * resolved from their core ramp). Steps carry the resolved hex, which the
+ * semantic tokens reference as `{primitive.color.<group>.<step>}`.
+ */
+function buildPrimitiveColors(
+  modes: Record<string, SemanticRef>[],
+  rampFor: (group: string) => ColorRamp | undefined,
+): DtcgGroup {
+  const usedGroups = new Set<string>();
+  for (const refs of modes) {
+    for (const ref of Object.values(refs)) {
+      if (ref.kind === "alias") usedGroups.add(ref.group);
+    }
+  }
+
+  const color: DtcgGroup = {};
+  for (const group of [...usedGroups].sort()) {
+    const ramp = rampFor(group);
+    if (!ramp) continue;
+    const g: DtcgGroup = {};
+    for (const step of Object.keys(ramp).sort((a, b) => Number(a) - Number(b))) {
+      const hex = ramp[step]?.hex;
+      if (hex) g[step] = { $type: "color", $value: hex };
+    }
+    color[group] = g;
+  }
+  return { color };
 }
 
 // ─── Typography ─────────────────────────────────────────────────────────────────
@@ -156,6 +203,16 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
     brandShade: state.brandShade,
   };
 
+  // Reference-preserving semantic colors per mode — `alias` tokens keep their
+  // link to a primitive step; `raw` tokens are literals with no primitive.
+  const light = resolveSemanticRefs("light", colorOpts);
+  const dark = resolveSemanticRefs("dark", colorOpts);
+
+  // Full ramp per primitive group: brand/neutral track the chosen ramps; every
+  // other (functional) group resolves to its fixed core family.
+  const rampFor = (group: string): ColorRamp | undefined =>
+    group === "brand" ? state.brandRamp : group === "neutral" ? state.neutralRamp : getCoreFamily(group);
+
   return {
     $description: `${state.themeName || "My Theme"} — exported from the Design System Theme Builder`,
     $extensions: {
@@ -167,15 +224,25 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
             : { mode: "family", family: state.brandFamily, primaryShade: state.brandShade },
         neutral: { family: state.neutralFamily },
         typeScale: { base: state.typeScaleBase, ratio: state.typeScaleRatio },
+        // Parametric inputs the resolved token tree can't fully express — kept so
+        // the theme can be loaded *back* into the builder exactly (and survives a
+        // Figma round-trip via the plugin, which stashes this whole block).
+        lineHeight: { heading: state.headingLineHeight, body: state.bodyLineHeight },
+        radius: { base: state.radiusBase },
+        spacing: { baseUnit: state.spacingBaseUnit },
         // Icons are runtime React config (IconProvider), not a CSS/Figma variable
         // type — captured here and emitted as icons.ts for code consumers.
         icons: { ...state.icons, package: ICON_PACKAGES[state.icons.library] },
       },
     },
+    // Full ramps for every color family this theme uses — the alias targets
+    // below. Maps to a single-mode "Primitives" variable collection in Figma.
+    primitive: buildPrimitiveColors([light, dark], rampFor),
     color: {
-      // Two modes — map these to a "Color" variable collection's light/dark modes.
-      light: colorTokensFromMap(resolveSemanticColors("light", colorOpts)),
-      dark: colorTokensFromMap(resolveSemanticColors("dark", colorOpts)),
+      // Two modes — map these to a "Semantic" collection's Light/Dark modes;
+      // each token aliases a primitive (or carries a raw literal).
+      light: colorTokensFromRefs(light),
+      dark: colorTokensFromRefs(dark),
     },
     type: typographyTokens(state),
     spacing: dimensionTokensFromMap(computeSpacingVars(state.spacingScale), "spacing-"),
@@ -232,9 +299,11 @@ truth in three consumable shapes.
 
 ## Files
 
-- **theme.json** — DTCG design tokens (the canonical config). Colors are split
-  into \`color.light\` and \`color.dark\`; typography, spacing, radius and component
-  aliases are theme-independent. Icon settings live under
+- **theme.json** — DTCG design tokens (the canonical config). \`primitive.color\`
+  holds the full ramps of every color family this theme uses; \`color.light\` /
+  \`color.dark\` are the semantic tokens, each **referencing** a primitive
+  (\`{primitive.color.…}\`) or carrying a raw literal. Typography, spacing, radius
+  and component aliases are theme-independent. Icon settings live under
   \`$extensions["com.ui-organized.theme-builder"].icons\`.
 - **${cssFileName}** — derived web stylesheet (CSS custom properties for both
   modes). Use this if you just want to drop the theme into a web app.
@@ -270,9 +339,21 @@ import { IconProvider } from '@ui-organized/react'
 
 ## Use in Figma
 
-Import **theme.json** with the Tokens Studio for Figma plugin (or the Figma
-Variables REST API). Map \`color.light\` / \`color.dark\` to the two modes of a
-color variable collection. Icon settings are metadata only — Figma has no icon
-variable type — so apply them in code via \`icons.ts\`.
+Import **theme.json** with the **UI Organized - Theme Import** plugin. It creates
+(or updates) four variable collections:
+
+- **Primitives** — the used global colors from \`primitive.color\`.
+- **Semantic** — \`color.light\` / \`color.dark\` as the collection's Light/Dark
+  modes; each color is a Figma **alias** pointing at a Primitive, so re-skinning
+  the brand/neutral re-flows everything.
+- **Scale** — spacing, radius and component dimensions.
+- **Typography** — font families, weights, sizes and line-heights.
+- **Icons** — only when dynamic stroke scaling is on: each icon size with its
+  optically-corrected stroke weight (Figma can't compute strokes the way the
+  \`<Icon>\` component does at runtime, so the plugin materialises them).
+
+Re-running the import overwrites existing variables in place and adds new ones.
+Icon library/style settings are otherwise metadata — apply them in code via
+\`icons.ts\`.
 `;
 }

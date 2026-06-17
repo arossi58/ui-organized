@@ -25,7 +25,7 @@
   border: none;
   background: transparent;
   border-radius: var(--radius-checkbox);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);

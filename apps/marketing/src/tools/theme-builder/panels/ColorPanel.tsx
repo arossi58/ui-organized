@@ -24,6 +24,11 @@ const PRIMARY_MAX_CONTRAST = 12;
 const BRAND_SWATCH_STEP = "1400";
 const NEUTRAL_SWATCH_STEP = "1000";
 
+// Neutral-palette picker is hidden for launch — users get the default grey
+// neutral only. The selector needs more work before release; flip this to
+// re-enable choosing a tinted-grey family. (Keep the section code intact.)
+const SHOW_NEUTRAL_PALETTE = false;
+
 const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 interface FamilyOption {
@@ -309,22 +314,25 @@ export function ColorPanel() {
         />
       </section>
 
-      {/* ── Neutral Family ──────────────────────────────────────────────── */}
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Neutral Palette</h3>
-        <p className={styles.hint}>
-          Select a neutral family. This drives surfaces, borders, text, and UI
-          control colors.
-        </p>
-        <FamilyPicker
-          ariaLabel="Neutral family"
-          options={NEUTRAL_OPTIONS}
-          selectedName={neutralFamily}
-          triggerSwatch={getCoreFamily(neutralFamily)[NEUTRAL_SWATCH_STEP]?.hex ?? "#000000"}
-          triggerLabel={titleCase(neutralFamily)}
-          onSelect={setNeutralFamily}
-        />
-      </section>
+      {/* ── Neutral Family — hidden for launch (grey-only); flip
+           SHOW_NEUTRAL_PALETTE to re-enable. Needs more work first. ── */}
+      {SHOW_NEUTRAL_PALETTE && (
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>Neutral Palette</h3>
+          <p className={styles.hint}>
+            Select a neutral family. This drives surfaces, borders, text, and UI
+            control colors.
+          </p>
+          <FamilyPicker
+            ariaLabel="Neutral family"
+            options={NEUTRAL_OPTIONS}
+            selectedName={neutralFamily}
+            triggerSwatch={getCoreFamily(neutralFamily)[NEUTRAL_SWATCH_STEP]?.hex ?? "#000000"}
+            triggerLabel={titleCase(neutralFamily)}
+            onSelect={setNeutralFamily}
+          />
+        </section>
+      )}
     </div>
   );
 }

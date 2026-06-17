@@ -169,7 +169,7 @@ export const RichContent: Story = {
           label: "Profile",
           content: (
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <p style={{ margin: 0, color: "var(--color-text-text-secondary)" }}>
+              <p style={{ margin: 0, color: "var(--color-text-secondary)" }}>
                 Manage your personal information and account settings.
               </p>
             </div>
@@ -179,7 +179,7 @@ export const RichContent: Story = {
           value: "notifications",
           label: "Notifications",
           content: (
-            <p style={{ margin: 0, color: "var(--color-text-text-secondary)" }}>
+            <p style={{ margin: 0, color: "var(--color-text-secondary)" }}>
               Configure how and when you receive notifications.
             </p>
           ),
@@ -188,7 +188,7 @@ export const RichContent: Story = {
           value: "security",
           label: "Security",
           content: (
-            <p style={{ margin: 0, color: "var(--color-text-text-secondary)" }}>
+            <p style={{ margin: 0, color: "var(--color-text-secondary)" }}>
               Manage your password, two-factor authentication, and sessions.
             </p>
           ),

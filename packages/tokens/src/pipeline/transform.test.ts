@@ -47,14 +47,14 @@ describe("transformConfig — structure", () => {
     const radius = (result.radiusTokens as any)["border-radius"];
     expect(radius).toBeDefined();
     for (let i = 1; i <= 12; i++) {
-      const key = `radius-${String(i).padStart(2, "0")}`;
+      const key = String(i).padStart(2, "0");
       expect(radius[key]).toBeDefined();
     }
-    expect(radius["radius-full"]).toBeDefined();
+    expect(radius["full"]).toBeDefined();
   });
 
   it("radius-04 has $value '8px'", () => {
-    const r04 = (result.radiusTokens as any)["border-radius"]?.["radius-04"];
+    const r04 = (result.radiusTokens as any)["border-radius"]?.["04"];
     expect(r04.$value).toBe("8px");
   });
 

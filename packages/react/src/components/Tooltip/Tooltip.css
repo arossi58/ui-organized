@@ -12,8 +12,8 @@
   max-width: 240px;
   padding: var(--spacing-space-01) var(--spacing-space-02);
   background-color: var(--color-surface-overlay-primary);
-  color: var(--color-text-text-inverse);
-  border-radius: var(--border-radius-radius-03);
+  color: var(--color-text-inverse);
+  border-radius: var(--border-radius-03);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   line-height: var(--type-leading-body-small);

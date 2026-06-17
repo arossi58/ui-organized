@@ -110,7 +110,9 @@ export function transformConfig(config: ThemeConfig): TransformResult {
   // ── Radius tokens ────────────────────────────────────────────────────────
   const radiusEntries: TokenTree = {};
   for (const [key, value] of Object.entries(borderRadius)) {
-    radiusEntries[key] = dimensionToken(value as number);
+    // Config keys are `radius-01…` (schema-enforced); the DS token is keyed `01`
+    // so the emitted var is `--border-radius-01` (no doubled `radius-` segment).
+    radiusEntries[key.replace(/^radius-/, "")] = dimensionToken(value as number);
   }
   const radiusTokens: TokenTree = { "border-radius": radiusEntries };
 

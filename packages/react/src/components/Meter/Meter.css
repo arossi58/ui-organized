@@ -23,11 +23,11 @@
 }
 
 .meter__label {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .meter__value {
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -38,7 +38,7 @@
   width: 100%;
   overflow: hidden;
   background-color: var(--color-interactive-ui-default);
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
 }
 
 .meter--sm .meter__track { height: 4px; }

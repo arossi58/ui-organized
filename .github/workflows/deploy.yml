@@ -1,11 +1,13 @@
 name: Deploy site to GitHub Pages
 
 # Publishes the apps from one Pages deployment (a repo gets only one Pages
-# site): the marketing site at the root — https://<user>.github.io/<repo>/ —
-# the builder tool under /<repo>/builder/, and the white-labeled Storybook
-# under /<repo>/storybook/ (the nav's "Components" link). The marketing site
-# reads the roadmap.json that roadmap-sync.yml commits, so a push to main here
-# is the "static redeploy" that surfaces fresh board data.
+# site). The site is served from the custom domain uiorganized.com at the
+# root, so each app's base path is root-relative (NOT prefixed with the repo
+# name): the marketing site at the root — https://uiorganized.com/ — the
+# builder tool under /builder/, and the white-labeled Storybook under
+# /storybook/ (the nav's "Components" link). The marketing site reads the
+# roadmap.json that roadmap-sync.yml commits, so a push to main here is the
+# "static redeploy" that surfaces fresh board data.
 on:
   push:
     branches: [main]
@@ -51,16 +53,16 @@ jobs:
       # runs `tsc --noEmit`. The apps have pre-existing type errors that would
       # block the deploy; Vite's esbuild bundling does not typecheck.
 
-      # Marketing is the public site at the Pages root.
+      # Marketing is the public site at the custom-domain root (uiorganized.com).
       - name: Build marketing (site root)
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/
+          BASE_PATH: /
         run: pnpm --filter @ui-organized/marketing exec vite build
 
       # Builder is the design tool, served under /builder/.
       - name: Build builder (/builder/)
         env:
-          BASE_PATH: /${{ github.event.repository.name }}/builder/
+          BASE_PATH: /builder/
         run: pnpm --filter @ui-organized/builder exec vite build
 
       # Storybook is the white-labeled component explorer, served under

@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { useBuilderStore } from "../state/themeState";
 import { useExport } from "../hooks/useExport";
 import styles from "./ExportPanel.module.css";
 
 export function ExportPanel() {
-  const { themeName, setThemeName } = useBuilderStore();
+  const { themeName, setThemeName, loadFromThemeJson } = useBuilderStore();
   const { exportBundle } = useExport();
   const [status, setStatus] = useState<"idle" | "busy" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
+  const [importStatus, setImportStatus] = useState<"idle" | "success" | "error">("idle");
+  const [importError, setImportError] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   async function handleExport() {
     setStatus("busy");
@@ -19,6 +22,23 @@ export function ExportPanel() {
     } else {
       setStatus("error");
       setErrors(result.errors ?? []);
+    }
+  }
+
+  async function handleImport(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const theme = JSON.parse(await file.text());
+      loadFromThemeJson(theme);
+      setImportStatus("success");
+      setImportError("");
+      setTimeout(() => setImportStatus("idle"), 3000);
+    } catch (err) {
+      setImportStatus("error");
+      setImportError(err instanceof Error ? err.message : String(err));
+    } finally {
+      e.target.value = ""; // allow re-selecting the same file
     }
   }
 
@@ -73,6 +93,32 @@ export function ExportPanel() {
       )}
 
       <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Import Theme</h3>
+        <p className={styles.hint}>
+          Load a <code>theme.json</code> back into the builder — a previous export, or one
+          round-tripped from Figma via the <strong>UI Organized - Theme Import</strong> plugin.
+        </p>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json,.json"
+          hidden
+          onChange={handleImport}
+        />
+        <button className={styles.downloadBtn} type="button" onClick={() => fileRef.current?.click()}>
+          Load theme.json…
+        </button>
+        {importStatus === "success" && (
+          <div className={styles.successMsg}>✓ Theme loaded into the builder.</div>
+        )}
+        {importStatus === "error" && (
+          <div className={styles.errorBox}>
+            <strong>Couldn't load:</strong> {importError}
+          </div>
+        )}
+      </section>
+
+      <section className={styles.section}>
         <h3 className={styles.sectionTitle}>How it works</h3>
         <ol className={styles.steps}>
           <li>
@@ -93,9 +139,11 @@ import './styles/theme.css'`}</pre>
 </IconProvider>`}</pre>
           </li>
           <li>
-            <strong>Figma</strong> — import <code>theme.json</code> with the Tokens Studio
-            plugin (or the Variables API); map <code>color.light</code> / <code>color.dark</code>
-            to the two modes of a color collection.
+            <strong>Figma</strong> — import <code>theme.json</code> with the
+            <strong> UI Organized - Theme Import</strong> plugin. It builds Primitives,
+            Semantic (Light/Dark, aliased), Scale and Typography collections. Edit the
+            variables in Figma, export a fresh <code>theme.json</code> from the plugin, and
+            load it back here with <em>Import Theme</em> above.
           </li>
         </ol>
       </section>

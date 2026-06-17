@@ -32,7 +32,7 @@
   padding: var(--spacing-space-02) var(--spacing-space-04);
   background: var(--site-nav-surface);
   border: 1px solid var(--site-nav-border);
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 }
@@ -43,7 +43,7 @@
   align-items: center;
   flex: 1 0 0;
   text-decoration: none;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
 }
 
 .site-nav__links {
@@ -67,7 +67,7 @@
   height: 0;
   z-index: 0;
   pointer-events: none;
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
   background: var(--color-interactive-primary-default);
   opacity: 0;
 }
@@ -86,12 +86,12 @@
   padding: var(--spacing-space-01) var(--spacing-space-04);
   color: color-mix(
     in srgb,
-    var(--color-text-text-primary),
+    var(--color-text-primary),
     var(--color-interactive-contents) calc(var(--_label-mix) * 100%)
   );
   text-decoration: none;
   white-space: nowrap;
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
 }
 
 /* Hover wash on non-selected tabs: a faint brand tint behind the label plus a

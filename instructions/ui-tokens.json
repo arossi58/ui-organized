@@ -10,7 +10,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-04}"
+            "$value": "{border-radius.04}"
           },
           "radius-checkbox": {
             "$scopes": [
@@ -19,7 +19,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-02}"
+            "$value": "{border-radius.02}"
           },
           "Button": {
             "Small": {
@@ -99,7 +99,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-full}"
+            "$value": "{border-radius.full}"
           }
         },
         "Mobile": {
@@ -110,7 +110,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-04}"
+            "$value": "{border-radius.04}"
           },
           "radius-checkbox": {
             "$scopes": [
@@ -119,7 +119,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-02}"
+            "$value": "{border-radius.02}"
           },
           "Button": {
             "Small": {
@@ -199,7 +199,7 @@
             "$type": "float",
             "$libraryName": "",
             "$collectionName": "Semantic",
-            "$value": "{border-radius.radius-full}"
+            "$value": "{border-radius.full}"
           }
         }
       }

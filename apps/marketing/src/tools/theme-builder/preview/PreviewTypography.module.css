@@ -14,7 +14,7 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-heading-semibold);
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 12px;
@@ -71,13 +71,13 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-semibold);
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .colHeadWeight {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -92,20 +92,20 @@
 .stepName {
   font-family: monospace;
   font-size: 11px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   white-space: nowrap;
 }
 
 .stepSize {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   opacity: 0.6;
 }
 
 /* Sample cell */
 .cell {
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

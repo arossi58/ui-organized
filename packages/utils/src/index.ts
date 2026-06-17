@@ -31,7 +31,9 @@ export {
 
 export {
   resolveSemanticColors,
+  resolveSemanticRefs,
   type ResolveOptions,
+  type SemanticRef,
 } from "./semanticResolve.js";
 
 export {

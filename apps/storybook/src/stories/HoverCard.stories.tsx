@@ -31,7 +31,7 @@ export const Default: Story = {
       <HoverCardContent showArrow>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <strong>ui-organized</strong>
-          <span style={{ color: "var(--color-text-text-secondary)" }}>
+          <span style={{ color: "var(--color-text-secondary)" }}>
             An accessible React design system built on Base UI.
           </span>
         </div>

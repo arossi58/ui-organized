@@ -7,14 +7,14 @@
  * generates CSS overrides for mobile via a media query or data attribute.
  *
  * Spacing references: {spacing.space-04} = 16px at 4px base
- * Radius references:  {border-radius.radius-04} = 8px
+ * Radius references:  {border-radius.04} = 8px
  */
 
 export const componentTokensDesktop = {
   // ── Shared radius ─────────────────────────────────────────────────────────
-  "radius-interactive": { $value: "{border-radius.radius-04}", $type: "dimension" },
-  "radius-checkbox":    { $value: "{border-radius.radius-02}", $type: "dimension" },
-  "radius-status":      { $value: "{border-radius.radius-full}", $type: "dimension" },
+  "radius-interactive": { $value: "{border-radius.04}", $type: "dimension" },
+  "radius-checkbox":    { $value: "{border-radius.02}", $type: "dimension" },
+  "radius-status":      { $value: "{border-radius.full}", $type: "dimension" },
 
   // ── Button spacing ────────────────────────────────────────────────────────
   "Button": {
@@ -36,9 +36,9 @@ export const componentTokensDesktop = {
 
 export const componentTokensMobile = {
   // ── Shared radius (same as desktop) ──────────────────────────────────────
-  "radius-interactive": { $value: "{border-radius.radius-04}", $type: "dimension" },
-  "radius-checkbox":    { $value: "{border-radius.radius-02}", $type: "dimension" },
-  "radius-status":      { $value: "{border-radius.radius-full}", $type: "dimension" },
+  "radius-interactive": { $value: "{border-radius.04}", $type: "dimension" },
+  "radius-checkbox":    { $value: "{border-radius.02}", $type: "dimension" },
+  "radius-status":      { $value: "{border-radius.full}", $type: "dimension" },
 
   // ── Button spacing (mobile uses larger padding) ───────────────────────────
   "Button": {

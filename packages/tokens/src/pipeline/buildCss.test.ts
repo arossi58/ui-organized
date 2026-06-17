@@ -52,13 +52,13 @@ describe("buildCss — primitive custom properties", () => {
     expect(propertyNames).toContain("--crimson-1300");
   });
 
-  it("emits --border-radius-radius-04 with value 8px", () => {
-    expect(propertyNames).toContain("--border-radius-radius-04");
-    expect(css).toMatch(/--border-radius-radius-04:\s*8px/);
+  it("emits --border-radius-04 with value 8px", () => {
+    expect(propertyNames).toContain("--border-radius-04");
+    expect(css).toMatch(/--border-radius-04:\s*8px/);
   });
 
-  it("emits --border-radius-radius-full with large value", () => {
-    expect(css).toMatch(/--border-radius-radius-full:\s*99999px/);
+  it("emits --border-radius-full with large value", () => {
+    expect(css).toMatch(/--border-radius-full:\s*99999px/);
   });
 
   it("emits --spacing-space-01 equal to base unit", () => {
@@ -108,8 +108,8 @@ describe("buildCss — semantic custom properties", () => {
     expect(propertyNames).toContain("--color-surface-base");
   });
 
-  it("emits --color-text-text-primary", () => {
-    expect(propertyNames).toContain("--color-text-text-primary");
+  it("emits --color-text-primary", () => {
+    expect(propertyNames).toContain("--color-text-primary");
   });
 
   it("emits --color-interactive-primary-default", () => {
@@ -124,8 +124,8 @@ describe("buildCss — semantic custom properties", () => {
     expect(propertyNames).toContain("--color-border-subtle");
   });
 
-  it("emits --color-icon-icon-primary", () => {
-    expect(propertyNames).toContain("--color-icon-icon-primary");
+  it("emits --color-icon-primary", () => {
+    expect(propertyNames).toContain("--color-icon-primary");
   });
 });
 

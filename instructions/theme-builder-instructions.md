@@ -176,11 +176,11 @@ Note: Once dual font support is wired into the component library, you'll split `
 #### What the Preview Receives
 
 ```
---border-radius-radius-01: 2px
---border-radius-radius-02: 4px
+--border-radius-01: 2px
+--border-radius-02: 4px
 ...
---border-radius-radius-12: 24px
---border-radius-radius-full: 99999px
+--border-radius-12: 24px
+--border-radius-full: 99999px
 ```
 
 ---

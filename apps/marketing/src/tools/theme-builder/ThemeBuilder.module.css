@@ -47,7 +47,7 @@
   flex-direction: column;
   margin: 12px;
   border: 1px solid var(--builder-border);
-  border-radius: var(--border-radius-radius-06, 16px);
+  border-radius: var(--border-radius-06, 16px);
   background: var(--color-surface-primary);
   flex-shrink: 0;
   overflow: hidden;

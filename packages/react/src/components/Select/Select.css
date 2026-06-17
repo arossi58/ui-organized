@@ -25,7 +25,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
   cursor: pointer;
   text-align: left;
@@ -60,8 +60,8 @@
 
 .select-field__trigger:disabled,
 .select-field__trigger[data-disabled] {
-  background-color: var(--color-interactive-inactive-inactive-01);
-  color: var(--color-interactive-inactive-inactive-02);
+  background-color: var(--color-interactive-inactive-01);
+  color: var(--color-interactive-inactive-02);
   border-color: var(--color-border-secondary);
   cursor: not-allowed;
 }
@@ -69,7 +69,7 @@
 /* ─── Placeholder text ────────────────────────────────────────────────────── */
 
 .select-field__placeholder {
-  color: var(--color-text-text-placeholder);
+  color: var(--color-text-placeholder);
 }
 
 /* ─── Chevron icon ────────────────────────────────────────────────────────── */
@@ -79,11 +79,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
 }
 
 .select-field__trigger[data-disabled] .select-field__icon {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
 }
 
 .select-field__icon .icon {
@@ -151,7 +151,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   cursor: pointer;
   outline: none;
   box-shadow: inset 0 -1px 0 0 var(--color-border-secondary);
@@ -168,7 +168,7 @@
 }
 
 .select-popup__item[data-disabled] {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
 }
 
@@ -181,7 +181,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   opacity: 0;
 }
 

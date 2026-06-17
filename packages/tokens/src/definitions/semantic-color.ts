@@ -74,17 +74,17 @@ export const semanticColorTokens = {
     focus:         { $value: "{white.100}",   $type: "color" },
     "focus-inverse":{ $value: "{black.1600}", $type: "color" },
     inactive: {
-      "inactive-01": { $value: "{black.600}", $type: "color" },
-      "inactive-02": { $value: "{black.400}", $type: "color" },
-      "inactive-03": { $value: "{black.200}", $type: "color" },
+      "01": { $value: "{black.600}", $type: "color" },
+      "02": { $value: "{black.400}", $type: "color" },
+      "03": { $value: "{black.200}", $type: "color" },
     },
   },
 
   // ── Icons ─────────────────────────────────────────────────────────────────
   "color-icon": {
-    "icon-primary":   { $value: "{white.100}",  $type: "color" },
-    "icon-secondary": { $value: "{white.800}",  $type: "color" },
-    "icon-tertiary":  { $value: "{white.1100}", $type: "color" },
+    "primary":   { $value: "{white.100}",  $type: "color" },
+    "secondary": { $value: "{white.800}",  $type: "color" },
+    "tertiary":  { $value: "{white.1100}", $type: "color" },
   },
 
   // ── Status ────────────────────────────────────────────────────────────────
@@ -129,12 +129,12 @@ export const semanticColorTokens = {
 
   // ── Text ──────────────────────────────────────────────────────────────────
   "color-text": {
-    "text-primary":     { $value: "{white.100}",  $type: "color" },
-    "text-secondary":   { $value: "{white.800}",  $type: "color" },
-    "text-interactive": { $value: "{white.100}",  $type: "color" },
-    "text-tertiary":    { $value: "{white.1100}", $type: "color" },
-    "text-placeholder": { $value: "{white.1100}", $type: "color" },
-    "text-inverse":     { $value: "{black.1600}", $type: "color" },
+    "primary":     { $value: "{white.100}",  $type: "color" },
+    "secondary":   { $value: "{white.800}",  $type: "color" },
+    "interactive": { $value: "{white.100}",  $type: "color" },
+    "tertiary":    { $value: "{white.1100}", $type: "color" },
+    "placeholder": { $value: "{white.1100}", $type: "color" },
+    "inverse":     { $value: "{black.1600}", $type: "color" },
   },
 
   // ── Elevation ─────────────────────────────────────────────────────────────

@@ -15,7 +15,7 @@
   background: none;
   border: none;
   padding: 0;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-medium);
@@ -26,7 +26,7 @@
 }
 
 .collapsible__trigger:hover {
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
 }
 
 .collapsible__trigger:focus-visible {
@@ -34,7 +34,7 @@
 }
 
 .collapsible__trigger[data-disabled] {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
 }
 
@@ -44,7 +44,7 @@
   overflow: hidden;
   height: var(--collapsible-panel-height);
   transition: height 200ms ease;
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);

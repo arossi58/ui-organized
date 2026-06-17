@@ -4,8 +4,8 @@
   display: block;
   position: relative;
   overflow: hidden;
-  background-color: var(--color-interactive-inactive-inactive-01);
-  border-radius: var(--border-radius-radius-02);
+  background-color: var(--color-interactive-inactive-01);
+  border-radius: var(--border-radius-02);
 }
 
 .skeleton-group {
@@ -18,11 +18,11 @@
 
 .skeleton--text {
   height: var(--type-size-body-medium);
-  border-radius: var(--border-radius-radius-02);
+  border-radius: var(--border-radius-02);
 }
 
 .skeleton--circle {
-  border-radius: var(--border-radius-radius-full);
+  border-radius: var(--border-radius-full);
 }
 
 .skeleton--rect {
@@ -30,7 +30,7 @@
 }
 
 .skeleton--rounded {
-  border-radius: var(--border-radius-radius-04);
+  border-radius: var(--border-radius-04);
 }
 
 /* ─── Shimmer ─────────────────────────────────────────────────────────────── */

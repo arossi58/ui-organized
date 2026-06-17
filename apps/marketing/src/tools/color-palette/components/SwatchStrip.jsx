@@ -5,7 +5,7 @@ import React from 'react';
  * Each color is an equal-flex segment, so a collection's identity reads as one
  * continuous band. Used by the collections overview and the left rail.
  */
-const SwatchStrip = ({ colors, height = 44, radius = 'var(--border-radius-radius-02)' }) => {
+const SwatchStrip = ({ colors, height = 44, radius = 'var(--border-radius-02)' }) => {
   if (!colors || colors.length === 0) {
     return (
       <div

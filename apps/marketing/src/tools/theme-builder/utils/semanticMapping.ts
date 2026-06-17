@@ -94,7 +94,9 @@ export function computeRadiusVars(borderRadius: Record<string, number>): CSSVarM
   const vars: CSSVarMap = {};
   for (const [key, px] of Object.entries(borderRadius)) {
     const val = px >= 9999 ? "9999px" : `${px}px`;
-    vars[`--border-radius-${key}`] = val;
+    // State keys are `radius-01…`; the design-system var is `--border-radius-01`
+    // (the redundant `radius-` prefix was removed), so strip it when emitting.
+    vars[`--border-radius-${key.replace(/^radius-/, "")}`] = val;
   }
   return vars;
 }

@@ -64,7 +64,7 @@ Primary references:
    **one file**: `styles/site-tokens.css`, defined once on `:root` and consumed
    everywhere else by reference.
 2. **Spacing and radius use system tokens** (`--spacing-space-XX`,
-   `--border-radius-radius-XX`). No magic pixel paddings in section layouts.
+   `--border-radius-XX`). No magic pixel paddings in section layouts.
 3. One CSS file per component, BEM-style class names, co-located with the component
    (`AuroraBackdrop.tsx` + `aurora-backdrop.css`). CVA only for variant class selection.
 4. Shared layout primitives (`.wrap`, section padding rhythm, eyebrow text style,

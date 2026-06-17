@@ -13,11 +13,52 @@ describe("buildThemeTokens (DTCG)", () => {
     const t = buildThemeTokens(state()) as any;
     expect(t.color.light).toBeTruthy();
     expect(t.color.dark).toBeTruthy();
-    // Semantic surface token nested by category, resolved to a concrete value.
+    // Semantic surface token nested by category.
     expect(t.color.dark.surface.base.$type).toBe("color");
     expect(typeof t.color.dark.surface.base.$value).toBe("string");
-    // Light and dark resolve to different values for the base surface.
+    // Light and dark reference different primitives for the base surface.
     expect(t.color.light.surface.base.$value).not.toBe(t.color.dark.surface.base.$value);
+  });
+
+  it("emits the full 24-step ramp for every used primitive family", () => {
+    const t = buildThemeTokens(state()) as any;
+    expect(t.primitive.color).toBeTruthy();
+    // A used family ships all 24 shades, not just the referenced steps…
+    expect(Object.keys(t.primitive.color.neutral)).toHaveLength(24);
+    expect(Object.keys(t.primitive.color.brand)).toHaveLength(24);
+    // …including steps the semantic map never references (e.g. neutral 700).
+    expect(t.primitive.color.neutral["700"]).toBeTruthy();
+    // Primitives carry resolved hex values.
+    const swatch = Object.values(t.primitive.color.neutral)[0] as any;
+    expect(swatch.$type).toBe("color");
+    expect(swatch.$value).toMatch(/^#[0-9a-fA-F]{3,8}$/);
+    // A functional family in use (status colors → crimson) ships its full ramp too.
+    expect(Object.keys(t.primitive.color.crimson)).toHaveLength(24);
+  });
+
+  it("makes semantic colors reference primitives, with every alias resolvable", () => {
+    const t = buildThemeTokens(state()) as any;
+    // surface.base is a reference, not a baked hex.
+    expect(t.color.dark.surface.base.$value).toMatch(/^\{primitive\.color\..+\}$/);
+
+    // Walk every semantic leaf; each `{primitive.color.g.s}` alias must resolve.
+    const aliasRe = /^\{primitive\.color\.([^.]+)\.([^.}]+)\}$/;
+    const checkGroup = (group: any) => {
+      for (const v of Object.values(group) as any[]) {
+        if (v && typeof v.$value === "string") {
+          const m = aliasRe.exec(v.$value);
+          if (m) {
+            const [, g, s] = m;
+            expect(t.primitive.color[g], `missing primitive ${g}.${s}`).toBeTruthy();
+            expect(t.primitive.color[g][s], `missing primitive ${g}.${s}`).toBeTruthy();
+          }
+        } else if (v && typeof v === "object") {
+          checkGroup(v);
+        }
+      }
+    };
+    checkGroup(t.color.light);
+    checkGroup(t.color.dark);
   });
 
   it("captures typography, spacing and radius with correct $types", () => {
@@ -26,7 +67,7 @@ describe("buildThemeTokens (DTCG)", () => {
     expect(t.type.weight["body-bold"].$type).toBe("fontWeight");
     expect(t.type.size["body-large"]).toMatchObject({ $type: "dimension", $value: "16px" });
     expect(t.spacing["space-01"].$type).toBe("dimension");
-    expect(t["border-radius"]["radius-04"].$type).toBe("dimension");
+    expect(t["border-radius"]["04"].$type).toBe("dimension");
   });
 
   it("captures icon settings under $extensions (not the token tree)", () => {

@@ -84,7 +84,7 @@
      section's warm wash and re-themes with light/dark. */
   background: var(--color-surface-primary);
   border: 1px solid rgba(23, 21, 15, 0.08);
-  border-radius: var(--border-radius-radius-large, 24px);
+  border-radius: var(--border-radius-large, 24px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   outline: none;
@@ -182,7 +182,7 @@
 .ov-line {
   display: block;
   height: 13px;
-  border-radius: var(--border-radius-radius-full, 999px);
+  border-radius: var(--border-radius-full, 999px);
   background: currentColor;
   opacity: 1;
   will-change: transform, opacity;

@@ -7,7 +7,7 @@
   padding: var(--spacing-space-16) var(--spacing-space-05);
   background: var(--site-paper);
   border: 2px dashed color-mix(in srgb, var(--site-ink) 22%, transparent);
-  border-radius: var(--border-radius-radius-06);
+  border-radius: var(--border-radius-06);
 }
 
 .roadmap-empty__title {

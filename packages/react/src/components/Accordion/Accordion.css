@@ -52,7 +52,7 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   font-family: var(--type-font-body);
   font-weight: var(--type-weight-body-medium);
   outline: none;
@@ -68,7 +68,7 @@
 }
 
 .accordion__trigger[data-disabled] {
-  color: var(--color-interactive-inactive-inactive-02);
+  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
 }
 
@@ -79,7 +79,7 @@
 
 .accordion__icon {
   flex-shrink: 0;
-  color: var(--color-text-text-tertiary);
+  color: var(--color-text-tertiary);
   transition: transform 150ms ease;
 }
 
@@ -93,7 +93,7 @@
   overflow: hidden;
   height: var(--accordion-panel-height);
   transition: height 200ms ease;
-  color: var(--color-text-text-secondary);
+  color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);

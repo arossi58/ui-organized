@@ -27,7 +27,7 @@ export const Default: Story = {
         <p
           style={{
             margin: 0,
-            color: "var(--color-text-text-secondary)",
+            color: "var(--color-text-secondary)",
             fontSize: "var(--type-size-body-small)",
           }}
         >

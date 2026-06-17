@@ -54,7 +54,7 @@ export const Default: Story = {
         <strong>Card title</strong>
       </CardHeader>
       <CardBody>
-        <p style={{ margin: 0, color: "var(--color-text-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+        <p style={{ margin: 0, color: "var(--color-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
           This is the card body content. It can contain any content you need.
         </p>
       </CardBody>
@@ -110,7 +110,7 @@ export const AllVariants: Story = {
             <strong>{variant}</strong>
           </CardHeader>
           <CardBody>
-            <p style={{ margin: 0, color: "var(--color-text-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+            <p style={{ margin: 0, color: "var(--color-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
               Card with {variant} variant.
             </p>
           </CardBody>
@@ -154,7 +154,7 @@ export const AllPaddingSizes: Story = {
       {(["none", "sm", "md", "lg"] as const).map((padding) => (
         <Card key={padding} variant="outlined" padding={padding} style={{ width: "200px" }}>
           <CardBody>
-            <p style={{ margin: 0, color: "var(--color-text-text-secondary)", fontSize: "var(--type-size-body-small)" }}>
+            <p style={{ margin: 0, color: "var(--color-text-secondary)", fontSize: "var(--type-size-body-small)" }}>
               padding="{padding}"
             </p>
           </CardBody>
@@ -199,7 +199,7 @@ export const RichContent: Story = {
         </div>
       </CardHeader>
       <CardBody>
-        <p style={{ margin: "0 0 12px", color: "var(--color-text-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+        <p style={{ margin: "0 0 12px", color: "var(--color-text-secondary)", fontSize: "var(--type-size-body-medium)" }}>
           You are on the Pro plan. Your next billing date is January 1, 2026.
         </p>
       </CardBody>

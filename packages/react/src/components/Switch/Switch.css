@@ -66,6 +66,6 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-regular);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-text-primary);
+  color: var(--color-text-primary);
   user-select: none;
 }
