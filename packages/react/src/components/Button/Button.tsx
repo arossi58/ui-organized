@@ -25,9 +25,23 @@ export function Button({
     <Icon name={icon} size={ICON_SIZE[size]} />
   ) : null;
 
+  // An icon with no label collapses to a square (see `.btn--icon-only`) whose
+  // side matches the labelled-button height for the size, so icon buttons line
+  // up with text buttons instead of rendering short and wide.
+  const isIconOnly =
+    iconElement != null &&
+    (children === undefined ||
+      children === null ||
+      children === false ||
+      children === "");
+
   return (
     <BaseButton
-      className={clsx(buttonStyles({ intent, size }), className)}
+      className={clsx(
+        buttonStyles({ intent, size }),
+        isIconOnly && "btn--icon-only",
+        className,
+      )}
       {...props}
     >
       {iconPosition === "left" && iconElement}

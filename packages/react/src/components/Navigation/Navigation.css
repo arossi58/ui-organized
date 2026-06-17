@@ -241,6 +241,10 @@
   flex-direction: column;
   gap: var(--spacing-space-04);
   width: var(--sidebar-width);
+  /* Hold the rail's width when placed in a flex row: never shrink below it (which
+     would squeeze nav items narrower than their labels). Consumers that want a
+     full-width/stacked rail can still override `width`. */
+  flex-shrink: 0;
   height: 100%;
   padding: var(--spacing-space-04);
   background: var(--color-surface-primary);

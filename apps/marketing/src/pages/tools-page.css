@@ -3,6 +3,18 @@
    in a framed shell so the gallery reads as a page of the site. The sidebar
    itself (rail, items, selected state) is the DS Navigation component — this
    sheet only owns the page scaffold around it. Mirrors the docs route. */
+/* On the tools route, pin the persistent chrome to exactly the viewport height
+   (it's `min-height` elsewhere so scrolling pages like home/docs can grow). This
+   gives the embedded tools a definite height to resolve against, so they fill the
+   viewport and scroll *internally* instead of growing the page. */
+.site-chrome:has(.tools-page) {
+  height: 100vh;
+  height: 100dvh;
+  /* The tools route is a full-viewport app view: the page itself must never
+     scroll — only regions inside a tool (sidebars, content) scroll. */
+  overflow: hidden;
+}
+
 .tools-page {
   position: relative;
   display: flex;
@@ -12,8 +24,12 @@
   flex: 1 1 auto;
   min-height: 0;
   background: var(--color-surface-primary);
-  /* Contain the dot layer's stacking so the nav + shell stay on top. */
-  isolation: isolate;
+  /* Intentionally NOT `isolation: isolate`: isolating makes the whole tools area
+     a single stacking context below the nav (z 500), which traps full-screen tool
+     modals (icon browser, export dialogs) beneath the nav no matter their
+     z-index. The dot layer + stage already self-order via explicit z-index (0/1)
+     and the nav's own z-index keeps it above page content, so leaving this
+     un-isolated lets a dialog-level modal sit above the nav. */
   /* Re-tone the lattice to ink so it reads on cream (mirrors .docs-page). */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
 }
@@ -29,8 +45,11 @@
 /* Fills the space under the in-flow nav. Side + bottom padding form the
    "window" inset (the nav already supplies the top gap). */
 .tools-page__stage {
+  /* No z-index here: a positive z-index makes this a stacking context, which
+     would re-trap full-screen tool modals below the nav (z 500). The stage still
+     paints above the dot lattice via DOM order (the dots come first), so it
+     doesn't need an explicit z-index. */
   position: relative;
-  z-index: 1;
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
@@ -51,28 +70,6 @@
   overflow: hidden;
 }
 
-/* ── Sidebar brand (the DS Sidebar `logo` slot) ───────────────────────── */
-.tools-brand {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.tools-brand__eyebrow {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--site-ink-soft);
-}
-
-.tools-brand__name {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 22px;
-  color: var(--site-ink);
-}
-
 /* ── Tool panel ───────────────────────────────────────────────────────── */
 .tools-panel {
   display: flex;
@@ -84,6 +81,32 @@
   min-width: 0;
   padding: var(--spacing-space-12) var(--spacing-space-08);
   overflow: auto;
+}
+
+/* Embed variant: a live tool fills the panel edge-to-edge (no centering, no
+   large padding). The tool owns its own internal layout + scrolling. */
+.tools-panel--embed {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  text-align: left;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Suspense fallback while a tool's code-split bundle loads. */
+.tools-panel__loading {
+  display: grid;
+  place-items: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--spacing-space-12);
+  color: var(--color-text-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
 /* Tinted disc holding the tool icon, scaled up from the rail's 18px source. */

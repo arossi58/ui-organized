@@ -7,6 +7,9 @@ import { heroiconsOutlineSet, heroiconsSolidSet } from "../../icons/heroicons.js
 import type { IconProps } from "./Icon.types.js";
 import "./Icon.css";
 
+/** The icon libraries (lucide/tabler/heroicons) all render in a 24-unit viewBox. */
+const ICON_VIEWBOX = 24;
+
 /**
  * Foundational Icon component — the single interface for rendering icons.
  *
@@ -21,9 +24,16 @@ import "./Icon.css";
 export function Icon({ name, size = 24, label, className }: IconProps) {
   const { library, style, strokeAdjustment, baseSize, baseStroke } = useIconConfig();
 
-  // Resolve the correct component set
+  // Resolve the component. A directly-supplied component (e.g. a lucide-react
+  // icon) is used as-is — this keeps tree-shaking and needs no canonical name.
+  // Otherwise resolve the canonical name against the active library's set.
   let IconComponent: React.ComponentType<Record<string, unknown>> | undefined;
-  if (library === "lucide") {
+  if (typeof name !== "string") {
+    // A directly-supplied component. Note: library icons (e.g. lucide-react) are
+    // `forwardRef` objects, not plain functions — so test for "not a string"
+    // rather than "is a function".
+    IconComponent = name;
+  } else if (library === "lucide") {
     IconComponent = lucideIconSet[name];
   } else if (library === "tabler") {
     IconComponent = (style === "solid" ? tablerSolidSet[name] : undefined) ?? tablerIconSet[name];
@@ -35,13 +45,21 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
 
   // Resolve the effective stroke for outline icons.
   // baseStroke is always applied so users see their chosen weight immediately.
-  // When strokeAdjustment is on, the stroke is also scaled by size.
-  const effectiveStroke =
-    style === "outline"
-      ? shouldAdjustStroke(strokeAdjustment, style)
-        ? adjustStrokeWidth(size, baseStroke, baseSize)
-        : baseStroke
-      : undefined;
+  // When strokeAdjustment is on, the stroke follows the optical-compensation
+  // curve. `adjustStrokeWidth` returns the desired *visual* (screen-pixel)
+  // stroke, but lucide/tabler/heroicons all render in a 24-unit viewBox and
+  // scale strokeWidth with the rendered size — so we convert back into viewBox
+  // units (× 24 / size). Without this the size scaling is applied twice and
+  // larger icons end up thicker instead of thinner. (Matches the icon-scaler
+  // tool, which does the same screen-pixel → native-units conversion.)
+  let effectiveStroke: number | undefined;
+  if (style === "outline") {
+    if (shouldAdjustStroke(strokeAdjustment, style) && size > 0) {
+      effectiveStroke = (adjustStrokeWidth(size, baseStroke, baseSize) * ICON_VIEWBOX) / size;
+    } else {
+      effectiveStroke = baseStroke;
+    }
+  }
 
   // Build SVG props per library
   const svgProps: Record<string, unknown> = {};

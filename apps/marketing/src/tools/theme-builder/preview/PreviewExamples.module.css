@@ -1,0 +1,666 @@
+/* Examples share the themed preview surface. Colors/radius use DS tokens so they
+   track the theme; layout spacing uses fixed px for predictable mockups. */
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--color-text-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.wordmarkDot {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-interactive, 6px);
+  background: var(--color-interactive-primary-default);
+}
+
+.pageTitle {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+  margin: 0;
+}
+
+.pageSubtitle {
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+  margin: 4px 0 0;
+}
+
+/* ── Dashboard app shell ─────────────────────────────────────────────────── */
+
+.appShell {
+  display: flex;
+  min-height: 580px;
+  height: 100%;
+  background: var(--color-surface-base);
+}
+
+.sidebarWrap {
+  display: flex;
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-primary);
+}
+
+.sidebarUser {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebarUserText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sidebarUserName {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-text-primary);
+}
+
+.sidebarUserMail {
+  font-size: 11px;
+  color: var(--color-text-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.appMain {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.appBar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.appBarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statLabel {
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+}
+
+.statValue {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+}
+
+.statFooter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.statFooter > :last-child {
+  flex: 1;
+}
+
+.dashGrid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.cardHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardHeaderPlain {
+  font-size: var(--type-size-body-medium);
+}
+
+/* Lightweight table */
+.table {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 64px 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 1px solid var(--color-border-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+.orderId {
+  font-family: monospace;
+  color: var(--color-text-text-tertiary);
+}
+
+.orderCustomer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-text-primary);
+  min-width: 0;
+}
+
+.orderAmount {
+  font-weight: 600;
+  color: var(--color-text-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.activityCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.goalsBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.goal {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.goalLabel {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+}
+
+.teamRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.avatarStack {
+  display: flex;
+}
+
+.avatarStack > * {
+  margin-left: -8px;
+  box-shadow: 0 0 0 2px var(--color-surface-primary);
+  border-radius: 50%;
+}
+
+.avatarStack > :first-child {
+  margin-left: 0;
+}
+
+/* ── Page shell (form / shop / marketing) ────────────────────────────────── */
+
+.page {
+  min-height: 100%;
+  background: var(--color-surface-base);
+}
+
+.pageInner {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 28px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.pageHead {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Form ────────────────────────────────────────────────────────────────── */
+
+.formCard,
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.prefBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.prefRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.prefText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prefTitle {
+  font-size: var(--type-size-body-medium);
+  font-weight: 600;
+  color: var(--color-text-text-primary);
+}
+
+.prefDesc {
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+}
+
+/* ── E-commerce ──────────────────────────────────────────────────────────── */
+
+.shopBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 24px;
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-primary);
+}
+
+.shopSearch {
+  flex: 1;
+  max-width: 360px;
+}
+
+.shopBarActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.shopLayout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+  padding: 24px;
+  align-items: start;
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: 24px;
+}
+
+.filterTitle {
+  font-size: var(--type-size-body-small);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-text-tertiary);
+  margin: 0 0 2px;
+}
+
+.filterApply {
+  margin-top: 4px;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.productImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  width: 100%;
+}
+
+.productTag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.productBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+
+.productMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.productName {
+  font-size: var(--type-size-body-medium);
+  font-weight: 600;
+  color: var(--color-text-text-primary);
+}
+
+.productRating {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+}
+
+.productBuy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.productPrice {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+}
+
+/* ── Marketing ───────────────────────────────────────────────────────────── */
+
+.siteNav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 32px;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.siteLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.siteLink {
+  font-size: var(--type-size-body-medium);
+  color: var(--color-text-text-secondary);
+  text-decoration: none;
+}
+
+.siteLink:hover {
+  color: var(--color-text-text-primary);
+}
+
+.siteNavActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 56px 32px 32px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.heroTitle {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  line-height: var(--type-leading-display-medium);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+  margin: 0;
+}
+
+.heroText {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-text-text-secondary);
+  margin: 0;
+  max-width: 540px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.heroVisual {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-radius-08, 16px);
+  background: var(--color-surface-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.heroVisualBar {
+  height: 28px;
+  border-radius: var(--radius-interactive, 6px);
+  background: var(--color-interactive-ui-default);
+}
+
+.heroVisualRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.heroVisualCard {
+  height: 96px;
+  border-radius: var(--radius-interactive, 6px);
+  background: var(--color-interactive-ui-default);
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 24px 32px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.featureCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-interactive, 8px);
+  background: var(--color-interactive-ui-default);
+  color: var(--color-interactive-primary-default);
+  margin-bottom: 4px;
+}
+
+.featureTitle {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-semibold);
+  color: var(--color-text-text-primary);
+  margin: 0;
+}
+
+.featureText {
+  font-size: var(--type-size-body-medium);
+  color: var(--color-text-text-secondary);
+  margin: 0;
+}
+
+.pricing {
+  padding: 32px;
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.sectionHeading {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.tierCard {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative;
+}
+
+.tierFeatured {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: -1px;
+}
+
+.tierBadge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.tierName {
+  font-size: var(--type-size-body-medium);
+  font-weight: 600;
+  color: var(--color-text-text-secondary);
+}
+
+.tierPrice {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-bold);
+  color: var(--color-text-text-primary);
+  line-height: 1.1;
+}
+
+.tierPer {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-regular);
+  color: var(--color-text-text-tertiary);
+  margin-left: 4px;
+}
+
+.tierBlurb {
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-secondary);
+  margin: 0 0 8px;
+}
+
+.tierFeatures {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tierFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--type-size-body-medium);
+  color: var(--color-text-text-secondary);
+}
+
+.tierFeatures li :global(svg) {
+  color: var(--color-interactive-primary-default);
+  flex-shrink: 0;
+}
+
+.tierButton {
+  margin-top: auto;
+}
+
+.siteFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px 32px;
+  border-top: 1px solid var(--color-border-secondary);
+  margin-top: 16px;
+}
+
+.footerNote {
+  font-size: var(--type-size-body-small);
+  color: var(--color-text-text-tertiary);
+}

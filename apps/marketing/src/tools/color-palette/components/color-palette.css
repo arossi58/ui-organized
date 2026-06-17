@@ -1,0 +1,77 @@
+/* Co-located styles for the Color Palette tool.
+ * These cover the cases that inline styles can't express: :hover reveals and
+ * responsive (narrow vs. wide) layout that the source did with Tailwind `md:`.
+ *
+ * Breakpoint: the source's Tailwind `md` is 768px. "Narrow" (< 768px) shows the
+ * hamburger menu + overlay sidebar; "wide" (>= 768px) shows the permanent sidebar
+ * and hides the hamburger. */
+
+/* --- Hover-reveal actions ------------------------------------------------- */
+/* Replaces Tailwind `opacity-0 group-hover:opacity-100 transition-opacity`. */
+.cp-hover-actions {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+.cp-hover-group:hover .cp-hover-actions {
+  opacity: 1;
+}
+
+/* --- Responsive sidebar --------------------------------------------------- */
+/* Mobile overlay backdrop + drawer: shown only on narrow viewports. */
+.cp-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+  transition: opacity 300ms ease;
+}
+
+.cp-sidebar-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 50;
+  width: 18rem; /* w-72 */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  transition: transform 300ms ease-in-out;
+  transform: translateX(-100%);
+}
+.cp-sidebar-drawer[data-open='true'] {
+  transform: translateX(0);
+}
+
+/* Permanent (wide) sidebar. */
+.cp-sidebar-permanent {
+  display: none;
+  width: 16rem; /* w-64 */
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+/* Wide: hide the overlay drawer/backdrop + hamburger; show permanent sidebar. */
+@media (min-width: 768px) {
+  .cp-sidebar-backdrop,
+  .cp-sidebar-drawer,
+  .cp-menu-button {
+    display: none !important;
+  }
+  .cp-sidebar-permanent {
+    display: flex;
+  }
+}
+
+/* Extra-wide: a bit roomier, matching the source's xl:w-80. */
+@media (min-width: 1280px) {
+  .cp-sidebar-permanent {
+    width: 20rem; /* xl:w-80 */
+  }
+}
+
+/* The hamburger menu button only matters in narrow view. */
+.cp-menu-button {
+  display: flex;
+}

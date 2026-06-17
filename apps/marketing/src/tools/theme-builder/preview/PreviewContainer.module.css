@@ -1,0 +1,22 @@
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Themed content area ─────────────────────────────────────────────────── */
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--color-surface-base);
+  color: var(--color-text-text-primary);
+  font-family: var(--type-font-body);
+  padding: 32px;
+}
+
+/* Examples render edge-to-edge app/page shells — they manage their own spacing. */
+.contentFlush {
+  padding: 0;
+}

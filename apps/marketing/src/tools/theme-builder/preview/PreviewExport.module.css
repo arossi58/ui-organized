@@ -1,0 +1,61 @@
+.root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--builder-bg);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  border-bottom: 1px solid var(--builder-border);
+  background: var(--builder-surface);
+  flex-shrink: 0;
+}
+
+.filename {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--builder-text-primary);
+}
+
+.meta {
+  font-size: 11px;
+  color: var(--builder-text-tertiary);
+  margin-right: auto;
+}
+
+.copyBtn {
+  padding: 4px 12px;
+  border: 1px solid var(--builder-border);
+  border-radius: 6px;
+  background: var(--builder-surface-input);
+  color: var(--builder-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.copyBtn:hover {
+  background: var(--builder-surface-hover);
+  color: var(--builder-text-primary);
+}
+
+.code {
+  flex: 1;
+  margin: 0;
+  padding: 16px 20px;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--builder-text-secondary);
+  white-space: pre;
+  tab-size: 2;
+}

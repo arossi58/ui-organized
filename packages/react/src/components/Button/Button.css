@@ -184,3 +184,29 @@
 .btn--lg {
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }
+
+/* ─── Icon-only ───────────────────────────────────────────────────────────── */
+
+/* A button with an icon and no label is a square. Its side equals the labelled
+   button's height for the size — line-height (the text line box) + the vertical
+   padding on both sides + the 1px border on both sides — so an icon button sits
+   flush with text buttons in a row. Horizontal padding is dropped and the icon
+   centres in the square. Sizes are border-box (global reset), so width/height
+   are the full outer box. */
+.btn--icon-only.btn--sm {
+  width: calc(var(--type-leading-body-large) + 2 * var(--Button-Small-vertical) + 2px);
+  height: calc(var(--type-leading-body-large) + 2 * var(--Button-Small-vertical) + 2px);
+  padding: 0;
+}
+
+.btn--icon-only.btn--md {
+  width: calc(var(--type-leading-body-large) + 2 * var(--Button-Medium-vertical) + 2px);
+  height: calc(var(--type-leading-body-large) + 2 * var(--Button-Medium-vertical) + 2px);
+  padding: 0;
+}
+
+.btn--icon-only.btn--lg {
+  width: calc(var(--type-leading-body-large) + 2 * var(--Button-Large-vertical) + 2px);
+  height: calc(var(--type-leading-body-large) + 2 * var(--Button-Large-vertical) + 2px);
+  padding: 0;
+}

@@ -32,8 +32,11 @@ export interface NavItemProps
   extends Omit<React.ComponentPropsWithRef<"button">, "children"> {
   /** Text label for the page. */
   label: React.ReactNode;
-  /** Optional leading icon, rendered via the Icon component. */
-  icon?: CanonicalIconName;
+  /**
+   * Optional leading icon, rendered via the Icon component — either a canonical
+   * name or a library icon component supplied directly (e.g. from lucide-react).
+   */
+  icon?: CanonicalIconName | React.ComponentType<Record<string, unknown>>;
   /** Marks this page as the current page — renders the filled, emphasized appearance. */
   selected?: boolean;
   /**

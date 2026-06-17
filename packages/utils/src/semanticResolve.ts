@@ -16,6 +16,42 @@ import type { ColorRamp } from "./colorGeneration.js";
 
 const FAMILY_REF = /^([a-z]+)\.(\d+)$/;
 
+/**
+ * Translucent overlay tokens. In the shipped theme these are alpha colors
+ * (e.g. `--color-interactive-ui-default` is `rgba(252,252,252,0.06)` in dark,
+ * `#0202020f` in light), but the generated `semanticColorMap` captured only the
+ * base color — the alpha was dropped. Without it, inputs, ghost/secondary
+ * buttons, and UI control surfaces resolve to a solid fill (white in dark, black
+ * in light) instead of a subtle overlay. We re-apply the canonical alpha here.
+ *
+ * Alpha is mode-independent — only the base color (light vs dark) flips, and
+ * that already comes from the map — so a single table covers both modes.
+ */
+const TOKEN_ALPHA: Record<string, number> = {
+  "--color-interactive-ui-default": 0.06,
+  "--color-interactive-ui-hover": 0.1,
+  "--color-interactive-ui-active": 0.14,
+  "--color-interactive-ui-selected": 0.14,
+  "--color-interactive-secondary-default": 0.1,
+  "--color-interactive-secondary-hover": 0.2,
+  "--color-interactive-secondary-selected": 0.2,
+  "--color-interactive-secondary-active": 0.3,
+  "--color-interactive-ghost-default": 0,
+  "--color-interactive-ghost-hover": 0.1,
+  "--color-interactive-ghost-active": 0.3,
+};
+
+/** Apply an alpha to a `#rrggbb` hex, producing `rgba(...)`. Other forms pass through. */
+function withAlpha(value: string, alpha: number): string {
+  const m = /^#([0-9a-fA-F]{6})$/.exec(value);
+  if (!m) return value;
+  const hex = m[1]!;
+  const r = parseInt(hex.slice(0, 2), 16);
+  const g = parseInt(hex.slice(2, 4), 16);
+  const b = parseInt(hex.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
 function offsetStep(step: string, delta: number): string {
   const i = CORE_STEPS.indexOf(step);
   if (i < 0) return step;
@@ -72,6 +108,12 @@ export function resolveSemanticColors(
 
   // Bare brand token — the brand primary color (tracks the chosen primary shade).
   out["--brand"] = out["--color-interactive-primary-default"]!;
+
+  // Re-apply the alpha the generated map dropped for translucent overlay tokens.
+  for (const [cssVar, alpha] of Object.entries(TOKEN_ALPHA)) {
+    const v = out[cssVar];
+    if (v) out[cssVar] = withAlpha(v, alpha);
+  }
 
   return out;
 }

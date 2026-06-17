@@ -1,0 +1,61 @@
+/* Theme Builder tool — scoped chrome.
+   In the standalone app these lived at :root / body; embedded in the marketing
+   site they must be confined to the tool so they don't leak into the page.
+   Every rule is scoped under `.theme-builder-tool` (the tool's root element). */
+
+.theme-builder-tool,
+.theme-builder-tool *,
+.theme-builder-tool *::before,
+.theme-builder-tool *::after {
+  box-sizing: border-box;
+}
+
+/* ── Builder chrome tokens ──────────────────────────────────────────────────
+   The chrome (header + sidebar) maps onto DS semantic tokens so it follows the
+   site's light/dark mode — the tool no longer forces its own data-theme. The
+   live preview is independent: it re-themes itself per the preview mode switch.
+   The accent stays a fixed blue (legible in both modes). ───────────────────── */
+.theme-builder-tool {
+  /* Surfaces */
+  --builder-bg:             var(--color-surface-base);
+  --builder-surface:        var(--color-surface-primary);
+  --builder-surface-input:  var(--color-surface-secondary);
+  --builder-surface-hover:  var(--color-interactive-ui-hover);
+
+  /* Borders */
+  --builder-border: var(--color-border-secondary);
+
+  /* Text */
+  --builder-text-primary:   var(--color-text-text-primary);
+  --builder-text-secondary: var(--color-text-text-secondary);
+  --builder-text-tertiary:  var(--color-text-text-tertiary);
+
+  /* Accent (fixed — reads on both modes) */
+  --builder-accent:        #2490ff;
+  --builder-accent-subtle: rgba(36, 144, 255, 0.12);
+}
+
+/* The top tab bar uses the DS Tabs component for its styled tab list; the body
+   below is our own layout, so the (empty) DS tab panels are hidden. */
+.theme-builder-tool .tabs__panels {
+  display: none;
+}
+
+/* Scrollbar styling (scoped to the tool) */
+.theme-builder-tool ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.theme-builder-tool ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.theme-builder-tool ::-webkit-scrollbar-thumb {
+  background: var(--color-border-primary);
+  border-radius: 3px;
+}
+
+.theme-builder-tool ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-text-tertiary);
+}

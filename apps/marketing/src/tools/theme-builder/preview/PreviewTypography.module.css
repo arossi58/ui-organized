@@ -1,0 +1,123 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sectionTitle {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-heading-semibold);
+  color: var(--color-text-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* ── Weight-column grid ──────────────────────────────────────────────────── */
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.headRow,
+.row {
+  display: grid;
+  grid-template-columns: 120px repeat(4, minmax(0, 1fr));
+  gap: 20px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.headRow {
+  align-items: end;
+  background: var(--color-interactive-ui-default);
+}
+
+.row {
+  align-items: baseline;
+}
+
+/* Column headers (weight roles) */
+.metaHead {
+  min-width: 0;
+}
+
+.colHead {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.colHeadLabel {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-semibold);
+  color: var(--color-text-text-secondary);
+}
+
+.colHeadWeight {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--color-text-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Row meta (step name + size) */
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stepName {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--color-text-text-tertiary);
+  white-space: nowrap;
+}
+
+.stepSize {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--color-text-text-tertiary);
+  opacity: 0.6;
+}
+
+/* Sample cell */
+.cell {
+  color: var(--color-text-text-primary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+/* Line-height guides: mark the top and bottom of each line's box. Inset
+   shadows draw the lines inside the box (height = line-height) without
+   shifting layout. */
+.cellGuide {
+  box-shadow:
+    inset 0 1px 0 var(--color-interactive-primary-default),
+    inset 0 -1px 0 var(--color-interactive-primary-default);
+}

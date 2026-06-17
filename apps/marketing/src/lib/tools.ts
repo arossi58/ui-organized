@@ -7,7 +7,8 @@
  * the sidebar, the router fallback, and (eventually) the embeds all read from.
  */
 
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { ComponentType } from "react";
+import { Paintbrush, Scaling, HardHat, Braces } from "lucide-react";
 
 export interface ToolDef {
   /** URL slug — the `:toolId` route param. */
@@ -19,17 +20,18 @@ export interface ToolDef {
   /** Longer blurb for the placeholder panel. */
   description: string;
   /**
-   * Design-system icon (sidebar item + panel art). The canonical set is generic
-   * — there's no palette/sliders glyph yet — so these are the closest fits;
-   * swap to dedicated icons when the set grows.
+   * Sidebar + panel-art icon. An icon component imported straight from the
+   * library (e.g. lucide-react) — passed through to the DS `Icon`, which renders
+   * it as-is. No canonical-name registration needed, and only the icons we
+   * import here ship in the bundle.
    */
-  icon: CanonicalIconName;
+  icon: ComponentType<Record<string, unknown>>;
   /**
-   * "soon" — on the near-term roadmap; "planned" — further out (a "Planned"
-   * badge in the sidebar). None are embedded yet, so every panel reads as
-   * coming soon until its tool lands.
+   * "live" — the tool is embedded and interactive in the panel; "soon" — on the
+   * near-term roadmap; "planned" — further out (a "Planned" badge). Non-live
+   * tools render a placeholder panel describing what's coming.
    */
-  status: "soon" | "planned";
+  status: "live" | "soon" | "planned";
 }
 
 export const TOOLS: ToolDef[] = [
@@ -39,8 +41,8 @@ export const TOOLS: ToolDef[] = [
     tagline: "Build accessible, on-brand color scales.",
     description:
       "Generate full tonal scales from a seed color, check contrast against the design-system semantic roles, and export the result straight to tokens.",
-    icon: "grid",
-    status: "soon",
+    icon: Paintbrush,
+    status: "live",
   },
   {
     id: "icon-scaler",
@@ -48,8 +50,8 @@ export const TOOLS: ToolDef[] = [
     tagline: "Resize and align icons to the grid.",
     description:
       "Normalize icons to a consistent optical size and pixel grid, tune stroke weight across sizes, and export clean, snap-aligned SVGs.",
-    icon: "search",
-    status: "soon",
+    icon: Scaling,
+    status: "live",
   },
   {
     id: "theme-builder",
@@ -57,8 +59,8 @@ export const TOOLS: ToolDef[] = [
     tagline: "Compose brand themes from the token set.",
     description:
       "Pick a brand accent, preview light and dark in real time, and produce a theme that re-skins every component through the design-system tokens.",
-    icon: "settings",
-    status: "soon",
+    icon: HardHat,
+    status: "live",
   },
   {
     id: "token-manager",
@@ -66,7 +68,7 @@ export const TOOLS: ToolDef[] = [
     tagline: "Browse, edit, and sync design tokens.",
     description:
       "A central home for the token set — inspect every semantic value, edit in place, and keep code and Figma in sync from one source of truth.",
-    icon: "tag",
+    icon: Braces,
     status: "planned",
   },
 ];
