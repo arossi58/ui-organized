@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { DEFAULT_PALETTE } from './constants/defaultPalette';
-import { loadPresetDefinition } from './constants/presets';
+import { loadPresetDefinition, PRESET_REGISTRY } from './constants/presets';
 import { usePaletteGeneration } from './hooks/usePaletteGeneration';
 import { rgbToOklch, hexToRgb, oklchToRgbGamutMapped, rgbToHex, rgbToHsl } from './utils/colorConversions';
 import { getColorNameFromHSL, getStopNames, formatColorValue as _formatColorValue } from './utils/naming';
@@ -8,6 +8,12 @@ import Sidebar from './components/Sidebar';
 import ControlsPanel from './components/ControlsPanel';
 import PaletteDisplay from './components/PaletteDisplay';
 import ExportModal from './components/ExportModal';
+import CollectionsOverview from './components/CollectionsOverview';
+import CollectionsRail from './components/CollectionsRail';
+
+// The default palette IS the UI Organized design-system color set, so the
+// first collection is named accordingly.
+const UI_ORGANIZED_NAME = 'UI Organized';
 
 const STORAGE_KEY = 'ui-organized:color-palette';
 
@@ -27,7 +33,10 @@ const makeNewPalette = () => ({
   nextId: 2,
 });
 
-const ColorPaletteGenerator = () => {
+const ColorPaletteGenerator = ({ collectionsView = false }) => {
+  // 'overview' = the full-screen collections landing; 'editor' = the workspace.
+  // Only meaningful when collectionsView is on (the spacious marketing layout).
+  const [view, setView] = useState(collectionsView ? 'overview' : 'editor');
   const [baseColors, setBaseColors] = useState(DEFAULT_PALETTE);
   const [selectedColorId, setSelectedColorId] = useState(1);
   const [numStops, setNumStops] = useState(16);
@@ -51,7 +60,7 @@ const ColorPaletteGenerator = () => {
   // Collections: each is a container for a full palette (its base colors plus
   // all generation settings). The working state above holds the *active*
   // collection's live palette; inactive collections keep a stored snapshot.
-  const [collections, setCollections] = useState(() => [{ id: 1, name: 'Collection 1', palette: null }]);
+  const [collections, setCollections] = useState(() => [{ id: 1, name: UI_ORGANIZED_NAME, palette: null }]);
   const [activeCollectionId, setActiveCollectionId] = useState(1);
   const [collectionNextId, setCollectionNextId] = useState(2);
 
@@ -117,12 +126,12 @@ const ColorPaletteGenerator = () => {
     setActiveCollectionId(id);
   };
 
-  const createCollection = (name, palette) => {
+  const createCollection = (name, palette, presetId) => {
     const snap = snapshotPalette();
     const id = collectionNextId;
     const newPalette = palette || makeNewPalette();
     const trimmedName = typeof name === 'string' ? name.trim() : '';
-    const newCollection = { id, name: trimmedName || `Collection ${id}`, palette: newPalette };
+    const newCollection = { id, name: trimmedName || `Collection ${id}`, palette: newPalette, presetId };
     setCollections(prev =>
       prev.map(c => (c.id === activeCollectionId ? { ...c, palette: snap } : c)).concat(newCollection)
     );
@@ -183,11 +192,17 @@ const ColorPaletteGenerator = () => {
   };
 
   // Load a design-system preset into its own new collection (non-destructive).
-  // The hex data module is fetched on demand (code-split) the first time.
+  // The hex data module is fetched on demand (code-split) the first time. If the
+  // preset already has a collection, switch to it instead of duplicating.
   const loadPreset = async (presetId) => {
+    const existing = collections.find(c => c.presetId === presetId);
+    if (existing) {
+      switchCollection(existing.id);
+      return;
+    }
     const def = await loadPresetDefinition(presetId);
     if (!def || !Array.isArray(def.colors) || def.colors.length === 0) return;
-    createCollection(def.label, buildPaletteFromPreset(def));
+    createCollection(def.label, buildPaletteFromPreset(def), presetId);
   };
 
   // Persistence: load saved state on mount, then save on every change.
@@ -213,6 +228,7 @@ const ColorPaletteGenerator = () => {
                 id: c.id,
                 name: typeof c.name === 'string' ? c.name : 'Collection',
                 palette: c.palette,
+                presetId: typeof c.presetId === 'string' ? c.presetId : undefined,
               }));
             if (cols.length > 0) {
               const activeId = cols.find(c => c.id === s.activeCollectionId) ? s.activeCollectionId : cols[0].id;
@@ -239,7 +255,7 @@ const ColorPaletteGenerator = () => {
               preservePerceptualBrightness: typeof s.preservePerceptualBrightness === 'boolean' ? s.preservePerceptualBrightness : false,
               nextId: typeof s.nextId === 'number' ? s.nextId : 42,
             };
-            setCollections([{ id: 1, name: 'Collection 1', palette }]);
+            setCollections([{ id: 1, name: UI_ORGANIZED_NAME, palette }]);
             setActiveCollectionId(1);
             setCollectionNextId(2);
             applyPalette(palette);
@@ -403,13 +419,55 @@ const ColorPaletteGenerator = () => {
 
   const selectedColor = baseColors.find(c => c.id === selectedColorId);
 
+  // ── Collections-view navigation (marketing layout only) ──────────────────
+  // Presets that don't yet have a collection — shown as openable rows in the
+  // overview alongside the existing collections.
+  const loadedPresetIds = new Set(collections.map(c => c.presetId).filter(Boolean));
+  const availablePresets = PRESET_REGISTRY.filter(p => !loadedPresetIds.has(p.id));
+
+  const openCollection = (id) => { switchCollection(id); setView('editor'); };
+  const openPreset = async (id) => { await loadPreset(id); setView('editor'); };
+  const newCollection = () => { createCollection(); setView('editor'); };
+  const showOverview = () => setView('overview');
+
   // Helper wrappers that bind current state
   const formatColorValue = (hex) => _formatColorValue(hex, displayFormat);
   const getStopNamesForCurrentSettings = (n) => getStopNames(n, namingSystem, customIncrement);
 
+  // Full-screen collections landing (marketing layout, before entering the editor).
+  if (collectionsView && view === 'overview') {
+    return (
+      <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-base)' }}>
+        <CollectionsOverview
+          collections={collections}
+          activeCollectionId={activeCollectionId}
+          liveBaseColors={baseColors}
+          availablePresets={availablePresets}
+          onOpenCollection={openCollection}
+          onOpenPreset={openPreset}
+          onNewCollection={newCollection}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-base)' }}>
+      {collectionsView && (
+        <CollectionsRail
+          collections={collections}
+          activeCollectionId={activeCollectionId}
+          liveBaseColors={baseColors}
+          onSwitch={switchCollection}
+          onShowOverview={showOverview}
+          onNewCollection={newCollection}
+          onRename={renameCollection}
+          onDelete={deleteCollection}
+        />
+      )}
       <Sidebar
+        showCollectionsBar={!collectionsView}
+        onShowOverview={collectionsView ? showOverview : undefined}
         baseColors={baseColors}
         selectedColorId={selectedColorId}
         setSelectedColorId={setSelectedColorId}

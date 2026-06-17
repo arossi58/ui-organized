@@ -366,15 +366,15 @@ const ControlsPanel = ({
       <div
         style={{ display: 'flex', flexDirection: 'column', flex: 1, overflowY: 'auto', overflowX: 'hidden', gap: 16, padding: '12px 16px' }}
       >
-        {/* Header — hamburger (narrow only) + settings gear. */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', width: '100%' }}>
-          {/* Menu only matters in compact view; on wide widths the sidebar is permanent. */}
-          <IconButton className="cp-menu-button" icon="menu" onClick={() => setSidebarOpen(true)} title="Show colors" />
+        {/* Color section — heading with the settings gear inline on the right
+            (the hamburger sits to its left on narrow viewports only). */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, width: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+            <IconButton className="cp-menu-button" icon="menu" onClick={() => setSidebarOpen(true)} title="Show colors" />
+            <h2 style={SECTION_HEADING}>Color</h2>
+          </div>
           <IconButton icon="settings" onClick={() => setShowSettings(true)} title="Settings" />
         </div>
-
-        {/* Color section */}
-        <h2 style={SECTION_HEADING}>Color</h2>
 
         {selectedColor && (
           <>

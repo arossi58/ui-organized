@@ -5,12 +5,13 @@ import styles from "./ExportPanel.module.css";
 
 export function ExportPanel() {
   const { themeName, setThemeName } = useBuilderStore();
-  const { exportConfig } = useExport();
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const { exportBundle } = useExport();
+  const [status, setStatus] = useState<"idle" | "busy" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
 
-  function handleExport() {
-    const result = exportConfig();
+  async function handleExport() {
+    setStatus("busy");
+    const result = await exportBundle();
     if (result.ok) {
       setStatus("success");
       setErrors([]);
@@ -26,10 +27,13 @@ export function ExportPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Export Theme</h3>
         <p className={styles.hint}>
-          Download a ready-to-use <code>theme.css</code> — CSS custom properties for
-          light and dark modes, resolved from your chosen brand and neutral families.
-          Drop it into your project and import it; no build step required.
+          Download a complete theme bundle — one config in three shapes:
         </p>
+        <ul className={styles.steps}>
+          <li><code>theme.json</code> — DTCG design tokens (code + Figma).</li>
+          <li><code>theme.css</code> — ready-to-use CSS custom properties (web).</li>
+          <li><code>icons.ts</code> — <code>IconProvider</code> config (library, size, stroke).</li>
+        </ul>
       </section>
 
       <section className={styles.section}>
@@ -48,8 +52,9 @@ export function ExportPanel() {
         className={styles.downloadBtn}
         onClick={handleExport}
         type="button"
+        disabled={status === "busy"}
       >
-        Download theme.css
+        {status === "busy" ? "Packaging…" : "Download theme bundle (.zip)"}
       </button>
 
       {status === "success" && (
@@ -60,7 +65,7 @@ export function ExportPanel() {
 
       {status === "error" && (
         <div className={styles.errorBox}>
-          <strong>Validation failed:</strong>
+          <strong>Export failed:</strong>
           <ul className={styles.errorList}>
             {errors.map((e, i) => <li key={i}>{e}</li>)}
           </ul>
@@ -70,19 +75,27 @@ export function ExportPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>How it works</h3>
         <ol className={styles.steps}>
-          <li>Click <strong>Download theme.css</strong> to export your theme.</li>
           <li>
-            Drop <code>theme.css</code> into your project (e.g. <code>src/styles/</code>).
-          </li>
-          <li>
-            Import it once at your app entry, after the component styles:
+            <strong>Web</strong> — drop <code>theme.css</code> into your project and import
+            it once at your app entry, after the component styles:
             <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles.css'
 import './styles/theme.css'`}</pre>
+            The theme defaults to dark on <code>:root</code>; toggle with
+            <code>data-theme="light"</code> / <code>"dark"</code> on <code>&lt;html&gt;</code>.
           </li>
           <li>
-            The theme defaults to dark on <code>:root</code>. Toggle modes by setting
-            <code>data-theme="light"</code> or <code>data-theme="dark"</code> on
-            <code>&lt;html&gt;</code>.
+            <strong>Icons</strong> — wrap your app with the exported config so every
+            icon inherits the library, reference size and stroke scaling:
+            <pre className={styles.codeBlock}>{`import { iconConfig } from './icons'
+
+<IconProvider {...iconConfig}>
+  <App />
+</IconProvider>`}</pre>
+          </li>
+          <li>
+            <strong>Figma</strong> — import <code>theme.json</code> with the Tokens Studio
+            plugin (or the Variables API); map <code>color.light</code> / <code>color.dark</code>
+            to the two modes of a color collection.
           </li>
         </ol>
       </section>

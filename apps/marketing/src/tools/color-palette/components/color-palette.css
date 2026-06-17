@@ -75,3 +75,201 @@
 .cp-menu-button {
   display: flex;
 }
+
+/* --- Collections rail (wide / marketing view only) ------------------------ */
+/* The leftmost column listing collections. Like the permanent sidebar, it is
+   shown only on wide viewports; on narrow, collection nav lives in the overview
+   (reached via the drawer's "Collections" back button). */
+.cp-collections-rail {
+  display: none;
+  width: 15rem;
+  flex-direction: column;
+  flex-shrink: 0;
+  min-height: 0;
+}
+@media (min-width: 768px) {
+  .cp-collections-rail {
+    display: flex;
+  }
+}
+
+.cp-rail-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--color-border-primary);
+  flex-shrink: 0;
+}
+.cp-rail-title {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--color-text-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-rail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.cp-rail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+.cp-rail-item:hover {
+  background: var(--color-interactive-ui-hover);
+}
+/* Selected state mirrors the selected swatch card: brand-orange border +
+   semibold name, no background highlight. */
+.cp-rail-item[data-active] {
+  border-color: var(--color-interactive-primary-default);
+}
+.cp-rail-item[data-active] .cp-rail-item__name {
+  font-weight: 600;
+}
+.cp-rail-item__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+.cp-rail-item__name {
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+  color: var(--color-text-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+.cp-rail-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+.cp-rail-item__input {
+  flex: 1;
+  min-width: 0;
+  background: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  color: var(--color-text-text-primary);
+  font: inherit;
+  font-size: 14px;
+  padding: 2px 6px;
+  outline: none;
+}
+
+/* --- Collections overview (landing) --------------------------------------- */
+.cp-overview {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--color-surface-base);
+}
+.cp-overview__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.cp-overview__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.cp-overview__header-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cp-overview__title {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--color-text-text-primary);
+}
+.cp-overview__subtitle {
+  margin: 0;
+  font-family: Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text-text-secondary);
+  max-width: 60ch;
+}
+.cp-overview__rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cp-overview-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-radius-04);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 150ms ease;
+}
+.cp-overview-row:hover {
+  border-color: var(--color-interactive-primary-default);
+}
+.cp-overview-row:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+.cp-overview-row__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cp-overview-row__title {
+  font-family: Roboto, sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--color-text-text-primary);
+}
+.cp-overview-row__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  color: var(--color-text-text-secondary);
+}

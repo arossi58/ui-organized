@@ -13,7 +13,7 @@ export default function ColorPaletteTool() {
   return (
     <div style={{ display: 'flex', flex: '1 1 auto', minHeight: 0, height: '100%', width: '100%' }}>
       <IconProvider library="lucide" style="outline" strokeAdjustment>
-        <ColorPaletteGenerator />
+        <ColorPaletteGenerator collectionsView />
       </IconProvider>
     </div>
   );

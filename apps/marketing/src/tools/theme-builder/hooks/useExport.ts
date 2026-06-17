@@ -1,3 +1,4 @@
+import JSZip from "jszip";
 import { useBuilderStore } from "../state/themeState";
 import { resolveSemanticColors } from "@ui-organized/utils";
 import {
@@ -7,6 +8,7 @@ import {
   computeComponentTokenVars,
   type CSSVarMap,
 } from "../utils/semanticMapping";
+import { buildThemeJson, buildIconsModule, buildReadme } from "../utils/buildConfig";
 
 // ─── CSS emit helpers ──────────────────────────────────────────────────────────
 
@@ -76,21 +78,47 @@ export function useExport() {
     ].join("\n\n") + "\n";
   }
 
+  const slug = (): string =>
+    (state.themeName || "theme").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "");
+
+  function download(blob: Blob, filename: string): void {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   function exportConfig(): ExportResult {
     try {
-      const css = buildCss();
-      const blob = new Blob([css], { type: "text/css" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${(state.themeName || "theme").toLowerCase().replace(/\s+/g, "-")}.css`;
-      a.click();
-      URL.revokeObjectURL(url);
+      download(new Blob([buildCss()], { type: "text/css" }), `${slug()}.css`);
       return { ok: true };
     } catch (err) {
       return { ok: false, errors: [String(err)] };
     }
   }
 
-  return { exportConfig, buildCss };
+  /**
+   * Export the full theme config as a zip: the canonical DTCG `theme.json`
+   * (code + Figma), the derived `theme.css` (web), the `icons.ts` IconProvider
+   * snippet, and a README tying them together.
+   */
+  async function exportBundle(): Promise<ExportResult> {
+    try {
+      const cssName = `${slug()}.css`;
+      const zip = new JSZip();
+      zip.file("theme.json", buildThemeJson(state));
+      zip.file(cssName, buildCss());
+      zip.file("icons.ts", buildIconsModule(state));
+      zip.file("README.md", buildReadme(state, cssName));
+      const blob = await zip.generateAsync({ type: "blob" });
+      download(blob, `${slug()}-theme.zip`);
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, errors: [String(err)] };
+    }
+  }
+
+  return { exportConfig, exportBundle, buildCss };
 }

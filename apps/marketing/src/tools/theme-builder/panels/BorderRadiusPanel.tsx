@@ -7,24 +7,21 @@ export function BorderRadiusPanel() {
 
   return (
     <div className={styles.panel}>
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Base Unit</h3>
-        <p className={styles.hint}>
-          All radius values are derived from this single unit. At 4px the scale
-          matches the canonical system values exactly — see the live preview for
-          the full scale.
-        </p>
-
-        <Range
-          size="sm"
-          value={radiusBase}
-          min={1}
-          max={16}
-          step={1}
-          formatValue={(v) => `${v}px`}
-          onValueChange={setRadiusBase}
-        />
-      </section>
+      <Range
+        label="Radius"
+        size="sm"
+        value={radiusBase}
+        min={1}
+        max={16}
+        step={1}
+        formatValue={(v) => `${v}px`}
+        onValueChange={setRadiusBase}
+      />
+      <p className={styles.hint}>
+        All radius values are derived from this single unit. At 4px the scale
+        matches the canonical system values exactly — see the live preview for
+        the full scale.
+      </p>
     </div>
   );
 }

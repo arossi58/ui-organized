@@ -7,24 +7,21 @@ export function SpacingPanel() {
 
   return (
     <div className={styles.panel}>
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Base Unit</h3>
-        <p className={styles.hint}>
-          All spacing values are derived from this single unit. At 4px the scale
-          matches the canonical system values exactly — see the live preview for
-          the full scale.
-        </p>
-
-        <Range
-          size="sm"
-          value={spacingBaseUnit}
-          min={1}
-          max={16}
-          step={1}
-          formatValue={(v) => `${v}px`}
-          onValueChange={setSpacingBase}
-        />
-      </section>
+      <Range
+        label="Spacing"
+        size="sm"
+        value={spacingBaseUnit}
+        min={1}
+        max={16}
+        step={1}
+        formatValue={(v) => `${v}px`}
+        onValueChange={setSpacingBase}
+      />
+      <p className={styles.hint}>
+        All spacing values are derived from this single unit. At 4px the scale
+        matches the canonical system values exactly — see the live preview for
+        the full scale.
+      </p>
     </div>
   );
 }

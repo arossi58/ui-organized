@@ -358,19 +358,25 @@ const Sidebar = ({
   renameCollection,
   deleteCollection,
   loadPreset,
+  // When the collections rail/overview owns collection nav, the in-sidebar
+  // dropdown is redundant and hidden; onShowOverview surfaces a back button.
+  showCollectionsBar = true,
+  onShowOverview,
 }) => {
   // Shared sidebar body (collection picker + swatches header + card list).
   const body = (
-    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, gap: 10, padding: 10 }}>
-      <CollectionsBar
-        collections={collections}
-        activeCollectionId={activeCollectionId}
-        switchCollection={switchCollection}
-        createCollection={createCollection}
-        renameCollection={renameCollection}
-        deleteCollection={deleteCollection}
-        loadPreset={loadPreset}
-      />
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, gap: 10, padding: '12px 16px' }}>
+      {showCollectionsBar && (
+        <CollectionsBar
+          collections={collections}
+          activeCollectionId={activeCollectionId}
+          switchCollection={switchCollection}
+          createCollection={createCollection}
+          renameCollection={renameCollection}
+          deleteCollection={deleteCollection}
+          loadPreset={loadPreset}
+        />
+      )}
 
       {/* Swatches header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', flexShrink: 0 }}>
@@ -425,7 +431,21 @@ const Sidebar = ({
         data-open={sidebarOpen ? 'true' : 'false'}
         style={{ background: 'var(--color-surface-primary)', borderRight: '1px solid var(--color-border-primary)' }}
       >
-        <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0, padding: 10, paddingBottom: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, padding: 10, paddingBottom: 0 }}>
+          {onShowOverview ? (
+            <button
+              type="button"
+              onClick={() => { setSidebarOpen(false); onShowOverview(); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px',
+                background: 'transparent', border: 'none', cursor: 'pointer',
+                color: 'var(--color-text-text-secondary)', font: 'inherit', fontSize: 14,
+              }}
+            >
+              <Icon name="arrow-left" size={18} />
+              Collections
+            </button>
+          ) : <span />}
           <HeaderIconButton icon="close" title="Close" onClick={() => setSidebarOpen(false)} />
         </div>
         {body}

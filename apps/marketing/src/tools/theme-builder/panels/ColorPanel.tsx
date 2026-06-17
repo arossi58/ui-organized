@@ -14,6 +14,12 @@ import styles from "./ColorPanel.module.css";
 // White (#fcfcfc) is the primary text/icon color on brand buttons in the DS.
 const PRIMARY_TEXT_HEX = "#fcfcfc";
 
+// A usable primary color must read with white text (≥4.5:1) AND not be so dark
+// it's effectively black. As a shade darkens its contrast with white climbs
+// toward 21, so we cap it — shades above this ratio are near-black and hidden.
+// 12 keeps a healthy band (3–7 shades/family) and never drops the default 1400.
+const PRIMARY_MAX_CONTRAST = 12;
+
 // Ramp step used as the swatch preview in the family pickers.
 const BRAND_SWATCH_STEP = "1400";
 const NEUTRAL_SWATCH_STEP = "1000";
@@ -168,10 +174,13 @@ function PrimaryShadeSelector({
   selectedShade: string;
   onSelect: (shade: string) => void;
 }) {
-  // Only shades that clear 4.5:1 against white button text are offered.
+  // Offer only shades that clear 4.5:1 against white button text (not too light)
+  // and stay under the near-black cap (not too dark).
   const validSteps = CORE_STEPS.filter((s) => {
     const hex = ramp[s]?.hex;
-    return hex ? wcagContrast(hex, PRIMARY_TEXT_HEX) >= 4.5 : false;
+    if (!hex) return false;
+    const contrast = wcagContrast(hex, PRIMARY_TEXT_HEX);
+    return contrast >= 4.5 && contrast <= PRIMARY_MAX_CONTRAST;
   });
 
   const selectedHex = ramp[selectedShade]?.hex ?? "#000000";
@@ -290,7 +299,8 @@ export function ColorPanel() {
         <h3 className={styles.sectionTitle}>Primary Color</h3>
         <p className={styles.hint}>
           Choose which shade of the brand ramp is the primary interactive color.
-          Only shades that meet 4.5:1 contrast against white text are shown.
+          Only shades that read clearly with white text — neither too light nor
+          too dark (near-black) — are shown.
         </p>
         <PrimaryShadeSelector
           ramp={brandRamp}
