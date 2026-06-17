@@ -39,8 +39,10 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   const [view, setView] = useState(collectionsView ? 'overview' : 'editor');
   const [baseColors, setBaseColors] = useState(DEFAULT_PALETTE);
   const [selectedColorId, setSelectedColorId] = useState(1);
-  const [numStops, setNumStops] = useState(16);
-  const [mainStopIndex, setMainStopIndex] = useState(8);
+  // The UI Organized palette mirrors the design system's 24-step ramps
+  // (100 -> 2400), with 1200 (index 11) as the primary weight.
+  const [numStops, setNumStops] = useState(24);
+  const [mainStopIndex, setMainStopIndex] = useState(11);
   const [colorMode, setColorMode] = useState('oklch');
   const [easingType, setEasingType] = useState('linear');
   const [namingSystem, setNamingSystem] = useState('custom');
@@ -50,7 +52,7 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   const [displayFormat, setDisplayFormat] = useState('hex');
   const [contrastMethod, setContrastMethod] = useState('wcag');
   const [copiedIndex, setCopiedIndex] = useState(null);
-  const [nextId, setNextId] = useState(42);
+  const [nextId, setNextId] = useState(DEFAULT_PALETTE.length + 1);
   const [hueOffset] = useState(30);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
