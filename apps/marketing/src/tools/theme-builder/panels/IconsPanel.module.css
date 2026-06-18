@@ -124,7 +124,7 @@
 
 .styleBtnActive {
   background: var(--builder-accent);
-  color: #fff;
+  color: var(--builder-accent-contents);
 }
 
 .styleBtn:disabled {

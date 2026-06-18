@@ -4,6 +4,7 @@ import { Field } from "@base-ui-components/react/field";
 import { Popover } from "@base-ui-components/react/popover";
 import { clsx } from "clsx";
 import { inputFieldStyles } from "../Input/Input.styles.js";
+import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
@@ -46,6 +47,7 @@ export function DateFieldBase({
   onChange,
   min,
   max,
+  portalContainer,
   ...inputProps
 }: DateFieldBaseProps) {
   const isInvalid = !!error;
@@ -146,7 +148,11 @@ export function DateFieldBase({
             </Popover.Trigger>
             {control}
           </div>
-          <DatePopover anchorRef={fieldRef} initialFocus={activeDayRef}>
+          <DatePopover
+            anchorRef={fieldRef}
+            initialFocus={activeDayRef}
+            container={portalContainer}
+          >
             <Calendar
               mode="single"
               value={parseISODate(datePart)}
@@ -164,13 +170,15 @@ export function DateFieldBase({
                   onChange={handleTimeChange}
                   aria-label="Time"
                 />
-                <button
+                <Button
                   type="button"
+                  intent="primary"
+                  size="md"
                   className="date-popover__done"
                   onClick={() => setOpen(false)}
                 >
                   Done
-                </button>
+                </Button>
               </div>
             )}
           </DatePopover>

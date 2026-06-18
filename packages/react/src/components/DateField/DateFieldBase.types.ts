@@ -14,6 +14,13 @@ export interface DateFieldProps
   error?: string | boolean;
   /** Size variant. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
+  /**
+   * DOM element to portal the calendar popover into. Defaults to `document.body`.
+   * Set this to a themed container when theme variables are scoped to a subtree
+   * (rather than `<html>`) so the popover inherits them instead of falling back
+   * to the document defaults.
+   */
+  portalContainer?: HTMLElement | null;
 }
 
 /** Internal props for the shared base — adds the native input type and the

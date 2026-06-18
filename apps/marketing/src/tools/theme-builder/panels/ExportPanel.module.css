@@ -59,17 +59,17 @@
   gap: 8px;
   padding: 12px 20px;
   background: var(--builder-accent);
-  color: #fff;
+  color: var(--builder-accent-contents);
   border: none;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s;
+  transition: background 0.15s, opacity 0.15s;
 }
 
 .downloadBtn:hover {
-  opacity: 0.9;
+  background: var(--builder-accent-hover);
 }
 
 .downloadBtn:active {

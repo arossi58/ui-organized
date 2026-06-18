@@ -1,24 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import { Input } from "@ui-organized/react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { Button, Input } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import {
   BRAND_FAMILY_NAMES,
   NEUTRAL_FAMILY_NAMES,
-  CORE_STEPS,
   getCoreFamily,
+  type ColorRamp,
 } from "@ui-organized/utils";
+import {
+  PRIMARY_TEXT_HEX,
+  wcagContrast,
+  contrastLevel,
+  getAccessibleShades,
+} from "../utils/accessibleShades";
 import styles from "./ColorPanel.module.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-// White (#fcfcfc) is the primary text/icon color on brand buttons in the DS.
-const PRIMARY_TEXT_HEX = "#fcfcfc";
-
-// A usable primary color must read with white text (≥4.5:1) AND not be so dark
-// it's effectively black. As a shade darkens its contrast with white climbs
-// toward 21, so we cap it — shades above this ratio are near-black and hidden.
-// 12 keeps a healthy band (3–7 shades/family) and never drops the default 1400.
-const PRIMARY_MAX_CONTRAST = 12;
 
 // Ramp step used as the swatch preview in the family pickers.
 const BRAND_SWATCH_STEP = "1400";
@@ -47,32 +44,6 @@ function buildOptions(names: readonly string[], step: string): FamilyOption[] {
 
 const BRAND_OPTIONS = buildOptions(BRAND_FAMILY_NAMES, BRAND_SWATCH_STEP);
 const NEUTRAL_OPTIONS = buildOptions(NEUTRAL_FAMILY_NAMES, NEUTRAL_SWATCH_STEP);
-
-// ─── WCAG contrast utilities ──────────────────────────────────────────────────
-
-function hexToLinear(c: number): number {
-  const s = c / 255;
-  return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-}
-
-function relativeLuminance(hex: string): number {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return 0.2126 * hexToLinear(r) + 0.7152 * hexToLinear(g) + 0.0722 * hexToLinear(b);
-}
-
-function wcagContrast(hex1: string, hex2: string): number {
-  const l1 = relativeLuminance(hex1);
-  const l2 = relativeLuminance(hex2);
-  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
-
-function contrastLevel(ratio: number): "AAA" | "AA" | "fail" {
-  if (ratio >= 7)   return "AAA";
-  if (ratio >= 4.5) return "AA";
-  return "fail";
-}
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
@@ -175,18 +146,14 @@ function PrimaryShadeSelector({
   selectedShade,
   onSelect,
 }: {
-  ramp: Record<string, { hex: string }>;
+  ramp: ColorRamp;
   selectedShade: string;
   onSelect: (shade: string) => void;
 }) {
   // Offer only shades that clear 4.5:1 against white button text (not too light)
-  // and stay under the near-black cap (not too dark).
-  const validSteps = CORE_STEPS.filter((s) => {
-    const hex = ramp[s]?.hex;
-    if (!hex) return false;
-    const contrast = wcagContrast(hex, PRIMARY_TEXT_HEX);
-    return contrast >= 4.5 && contrast <= PRIMARY_MAX_CONTRAST;
-  });
+  // and stay under the near-black cap (not too dark). Same rule the store uses to
+  // auto-select an accessible shade when the brand changes.
+  const validSteps = getAccessibleShades(ramp);
 
   const selectedHex = ramp[selectedShade]?.hex ?? "#000000";
   const contrastRatio = wcagContrast(selectedHex, PRIMARY_TEXT_HEX);
@@ -241,12 +208,34 @@ export function ColorPanel() {
     brandMode, brandFamily, brandHex, brandRamp, brandShade,
     neutralFamily,
     setBrandFamily, setBrandColor, setBrandShade, setNeutralFamily,
+    loadFromThemeJson,
   } = useBuilderStore();
+
+  const [importStatus, setImportStatus] = useState<"idle" | "success" | "error">("idle");
+  const [importError, setImportError] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
 
   function handleHexInput(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value;
     if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) {
       setBrandColor(val);
+    }
+  }
+
+  async function handleImport(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const theme = JSON.parse(await file.text());
+      loadFromThemeJson(theme);
+      setImportStatus("success");
+      setImportError("");
+      setTimeout(() => setImportStatus("idle"), 3000);
+    } catch (err) {
+      setImportStatus("error");
+      setImportError(err instanceof Error ? err.message : String(err));
+    } finally {
+      e.target.value = ""; // allow re-selecting the same file
     }
   }
 
@@ -333,6 +322,35 @@ export function ColorPanel() {
           />
         </section>
       )}
+
+      {/* ── Import Theme ────────────────────────────────────────────────── */}
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Import Theme</h3>
+        <p className={styles.hint}>
+          Load a <code>theme.json</code> back into the builder — a previous export, or one
+          round-tripped from Figma via the <strong>UI Organized - Theme Import</strong> plugin.
+        </p>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="application/json,.json"
+          hidden
+          onChange={handleImport}
+        />
+        <div>
+          <Button intent="secondary" size="sm" onClick={() => fileRef.current?.click()}>
+            Load theme.json…
+          </Button>
+        </div>
+        {importStatus === "success" && (
+          <p className={styles.importSuccess}>✓ Theme loaded into the builder.</p>
+        )}
+        {importStatus === "error" && (
+          <p className={styles.importError}>
+            <strong>Couldn't load:</strong> {importError}
+          </p>
+        )}
+      </section>
     </div>
   );
 }

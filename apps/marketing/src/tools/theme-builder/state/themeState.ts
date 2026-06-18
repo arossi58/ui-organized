@@ -7,6 +7,7 @@ import {
   generateSpacingScale,
   type ColorRamp,
 } from "@ui-organized/utils";
+import { pickAccessibleShade } from "../utils/accessibleShades";
 
 export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
 
@@ -181,28 +182,36 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   // UI state
   activePanel: "color",
   themeName: "My Theme",
-  previewMode: "dark" as "light" | "dark",
+  previewMode: "light" as "light" | "dark", // matches the site's default theme (light)
   lineHeightGuides: false,
   activeExample: "dashboard" as ExampleId,
 
   // Actions
   setBrandFamily: (name: string) =>
-    set(() => {
+    set((state) => {
       const ramp = getCoreFamily(name);
       return {
         brandMode: "family",
         brandFamily: name,
         brandRamp: ramp,
         brandHex: ramp["1400"]?.hex ?? DEFAULT_BRAND_HEX,
+        // Keep the chosen primary accessible for the new ramp (snap if it isn't).
+        brandShade: pickAccessibleShade(ramp, state.brandShade),
       };
     }),
 
   setBrandColor: (hex: string) =>
-    set(() => ({
-      brandMode: "custom",
-      brandHex: hex,
-      brandRamp: generateColorRamp(hex),
-    })),
+    set((state) => {
+      const ramp = generateColorRamp(hex);
+      return {
+        brandMode: "custom",
+        brandHex: hex,
+        brandRamp: ramp,
+        // A custom hue may push the current shade out of the accessible band —
+        // snap to the nearest shade that still reads with white button text.
+        brandShade: pickAccessibleShade(ramp, state.brandShade),
+      };
+    }),
 
   setBrandShade: (shade: string) => set(() => ({ brandShade: shade })),
 
@@ -295,7 +304,9 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
       brandHex: ramp["1400"]?.hex ?? state.brandHex,
     };
   }
-  const brandShade: string = ext.brand?.primaryShade ?? state.brandShade;
+  // Clamp the imported primary to the accessible band for the resolved ramp.
+  const brandRamp = brand.brandRamp ?? state.brandRamp;
+  const brandShade: string = pickAccessibleShade(brandRamp, ext.brand?.primaryShade ?? state.brandShade);
 
   // Neutral preset.
   const neutralFamily: string = ext.neutral?.family ?? state.neutralFamily;

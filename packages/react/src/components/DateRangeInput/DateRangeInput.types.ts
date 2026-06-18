@@ -51,4 +51,11 @@ export interface DateRangeInputProps {
   className?: string;
   /** Id applied to the group root. */
   id?: string;
+  /**
+   * DOM element to portal the calendar popover into. Defaults to `document.body`.
+   * Set this to a themed container when theme variables are scoped to a subtree
+   * (rather than `<html>`) so the popover inherits them instead of falling back
+   * to the document defaults.
+   */
+  portalContainer?: HTMLElement | null;
 }

@@ -10,6 +10,8 @@ import {
   NumberField,
   TextArea,
   DateInput,
+  DateTimeInput,
+  DateRangeInput,
   Select,
   Combobox,
   Checkbox,
@@ -153,7 +155,21 @@ export function PreviewKitchenSink() {
           <div className={styles.group}>
             <PasswordInput label="Password" placeholder="••••••••" />
             <NumberField label="Quantity" defaultValue={3} min={0} max={99} />
-            <DateInput label="Start date" defaultValue="2026-06-16" />
+            <DateInput
+              label="Start date"
+              defaultValue="2026-06-16"
+              portalContainer={portalContainer}
+            />
+            <DateTimeInput
+              label="Starts at"
+              defaultValue="2026-06-16T09:00"
+              portalContainer={portalContainer}
+            />
+            <DateRangeInput
+              label="Date range"
+              defaultValue={{ start: "2026-06-16", end: "2026-06-20" }}
+              portalContainer={portalContainer}
+            />
             <TextArea label="Notes" placeholder="Add a note…" resize="vertical" />
           </div>
         </div>

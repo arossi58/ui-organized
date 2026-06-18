@@ -14,7 +14,8 @@
    The chrome (header + sidebar) maps onto DS semantic tokens so it follows the
    site's light/dark mode — the tool no longer forces its own data-theme. The
    live preview is independent: it re-themes itself per the preview mode switch.
-   The accent stays a fixed blue (legible in both modes). ───────────────────── */
+   The accent maps to the DS brand (interactive-primary), so the controls match
+   whatever brand the site theme menu has selected, in both modes. ───────────── */
 .theme-builder-tool {
   /* Surfaces */
   --builder-bg:             var(--color-surface-base);
@@ -30,9 +31,11 @@
   --builder-text-secondary: var(--color-text-secondary);
   --builder-text-tertiary:  var(--color-text-tertiary);
 
-  /* Accent (fixed — reads on both modes) */
-  --builder-accent:        #2490ff;
-  --builder-accent-subtle: rgba(36, 144, 255, 0.12);
+  /* Accent — follows the site brand (DS interactive-primary), themed per mode */
+  --builder-accent:          var(--color-interactive-primary-default);
+  --builder-accent-hover:    var(--color-interactive-primary-hover);
+  --builder-accent-contents: var(--color-interactive-contents);
+  --builder-accent-subtle:   color-mix(in oklab, var(--color-interactive-primary-default) 12%, transparent);
 }
 
 /* The top tab bar uses the DS Tabs component for its styled tab list; the body

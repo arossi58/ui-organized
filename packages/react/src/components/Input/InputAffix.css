@@ -29,20 +29,23 @@
 }
 
 /* Reserve room so the control's text clears the adornment on the relevant side.
-   The per-size selectors match the specificity of Input.css's `.field--{sm,lg}
-   .field__control` `padding` shorthands (0,2,0) — without them, that
-   shorthand would reset `padding-left`/`padding-right` and the text would slide
-   under the icon at sm/lg (md uses the lower-specificity base rule). The reserved
-   amount itself tracks the per-size `--affix-inset`, inherited from `.input-affix`. */
-.field__control--affix-start,
-.field--sm .field__control--affix-start,
-.field--lg .field__control--affix-start {
+   These rules must out-specify the `padding` shorthands on `.field__control`
+   (Field.css, 0,1,0) and `.field--{sm,lg} .field__control` (Input.css, 0,2,0) —
+   a shorthand would otherwise reset `padding-left`/`padding-right` and slide the
+   text under the icon. Source order can't be relied on (Field.css is bundled
+   after InputAffix.css), so the affix selectors carry their own `.input-affix`
+   ancestor to win on specificity instead: base is 0,2,0 (beats md's 0,1,0) and
+   the per-size selectors are 0,3,0 (beat sm/lg's 0,2,0). The reserved amount
+   tracks the per-size `--affix-inset`, inherited from `.input-affix`. */
+.input-affix .field__control--affix-start,
+.field--sm .input-affix .field__control--affix-start,
+.field--lg .input-affix .field__control--affix-start {
   padding-left: calc(var(--affix-inset) + var(--affix-size) + var(--affix-gap));
 }
 
-.field__control--affix-end,
-.field--sm .field__control--affix-end,
-.field--lg .field__control--affix-end {
+.input-affix .field__control--affix-end,
+.field--sm .input-affix .field__control--affix-end,
+.field--lg .input-affix .field__control--affix-end {
   padding-right: calc(var(--affix-inset) + var(--affix-size) + var(--affix-gap));
 }
 

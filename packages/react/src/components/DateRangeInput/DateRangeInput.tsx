@@ -45,6 +45,7 @@ export function DateRangeInput({
   separator = "–",
   className,
   id,
+  portalContainer,
 }: DateRangeInputProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
@@ -181,7 +182,11 @@ export function DateRangeInput({
             }),
           )}
         </div>
-        <DatePopover anchorRef={rowRef} initialFocus={activeDayRef}>
+        <DatePopover
+          anchorRef={rowRef}
+          initialFocus={activeDayRef}
+          container={portalContainer}
+        >
           <Calendar
             mode="range"
             numMonths={2}

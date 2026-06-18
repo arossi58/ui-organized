@@ -51,26 +51,9 @@
   appearance: none;
 }
 
+/* The Done action is the design-system <Button>; this only keeps it from
+   shrinking next to the flexible time field. All visual styling comes from
+   Button.css. */
 .date-popover__done {
   flex-shrink: 0;
-  padding: var(--Button-Small-vertical) var(--Button-Medium-horizontal);
-  border: none;
-  border-radius: var(--radius-interactive);
-  background-color: var(--color-interactive-primary-default);
-  color: var(--color-interactive-contents);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-medium, 600);
-  line-height: var(--type-leading-body-small);
-  cursor: pointer;
-  transition: background-color 120ms ease;
-}
-
-.date-popover__done:hover {
-  background-color: var(--color-interactive-primary-hover);
-}
-
-.date-popover__done:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }

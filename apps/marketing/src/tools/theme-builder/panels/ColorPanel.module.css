@@ -269,3 +269,21 @@
   background: rgba(230, 48, 48, 0.15);
   color: #fc8181;
 }
+
+/* ── Import status messages ──────────────────────────────────────────────── */
+
+.importSuccess,
+.importError {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.importSuccess {
+  color: #48bb78;
+}
+
+.importError {
+  color: #f55252;
+  word-break: break-word;
+}
