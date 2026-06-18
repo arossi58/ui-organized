@@ -1,4 +1,4 @@
-import { Avatar as BaseAvatar } from "@base-ui-components/react/avatar";
+import { Avatar as ArkAvatar } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { avatarStyles } from "./Avatar.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -37,20 +37,20 @@ export function Avatar({
     (name ? initials(name) : <Icon name="user" size={ICON_SIZE[size]} />);
 
   return (
-    <BaseAvatar.Root
+    <ArkAvatar.Root
       className={clsx(avatarStyles({ size, shape }), className)}
       {...props}
     >
       {src && (
-        <BaseAvatar.Image
+        <ArkAvatar.Image
           src={src}
           alt={alt ?? name}
           className="avatar__image"
         />
       )}
-      <BaseAvatar.Fallback className="avatar__fallback">
+      <ArkAvatar.Fallback className="avatar__fallback">
         {derived}
-      </BaseAvatar.Fallback>
-    </BaseAvatar.Root>
+      </ArkAvatar.Fallback>
+    </ArkAvatar.Root>
   );
 }
