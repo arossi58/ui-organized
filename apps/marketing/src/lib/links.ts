@@ -10,9 +10,16 @@
  */
 const base = import.meta.env.BASE_URL;
 
+/** The public source repository — the canonical home for issues, PRs, source. */
+const repo = "https://github.com/arossi58/ui-organized";
+
 export const LINKS = {
   builder: `${base}builder/`,
   storybook: `${base}storybook/`,
-  github: "https://github.com",
+  github: repo,
+  /** The Figma plugin that imports a theme.json into Figma Variables. */
+  githubFigmaPlugin: `${repo}/tree/main/tooling/figma-plugin`,
   npm: "https://www.npmjs.com",
+  /** The published React component library on npm. */
+  npmReact: "https://www.npmjs.com/package/@ui-organized/react",
 } as const;
