@@ -1,4 +1,4 @@
-import { Checkbox as BaseCheckbox } from "@base-ui-components/react/checkbox";
+import { Checkbox as ArkCheckbox } from "@ark-ui/react";
 import { clsx } from "clsx";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "./Checkbox.css";
@@ -15,20 +15,24 @@ export function Checkbox({
   id,
   className,
 }: CheckboxProps) {
+  // Ark's Checkbox.Root *is* the <label>. Base UI took a separate `indeterminate`
+  // prop; Ark folds it into the checked value ("indeterminate"). Adapt the
+  // details-object callback back to the facade's (checked: boolean) signature.
   return (
-    <label className={clsx("checkbox", disabled && "checkbox--disabled", className)}>
-      <BaseCheckbox.Root
-        checked={checked}
-        defaultChecked={defaultChecked}
-        onCheckedChange={onCheckedChange}
-        indeterminate={indeterminate}
-        disabled={disabled}
-        required={required}
-        name={name}
-        id={id}
-        className="checkbox__control"
-      >
-        <BaseCheckbox.Indicator className="checkbox__indicator">
+    <ArkCheckbox.Root
+      className={clsx("checkbox", disabled && "checkbox--disabled", className)}
+      checked={indeterminate ? "indeterminate" : checked}
+      defaultChecked={defaultChecked}
+      onCheckedChange={
+        onCheckedChange ? (details) => onCheckedChange(details.checked === true) : undefined
+      }
+      disabled={disabled}
+      required={required}
+      name={name}
+      id={id}
+    >
+      <ArkCheckbox.Control className="checkbox__control">
+        <ArkCheckbox.Indicator className="checkbox__indicator">
           <span
             className={
               indeterminate
@@ -36,9 +40,10 @@ export function Checkbox({
                 : "checkbox__indicator--check"
             }
           />
-        </BaseCheckbox.Indicator>
-      </BaseCheckbox.Root>
-      {label && <span className="checkbox__label">{label}</span>}
-    </label>
+        </ArkCheckbox.Indicator>
+      </ArkCheckbox.Control>
+      {label && <ArkCheckbox.Label className="checkbox__label">{label}</ArkCheckbox.Label>}
+      <ArkCheckbox.HiddenInput />
+    </ArkCheckbox.Root>
   );
 }
