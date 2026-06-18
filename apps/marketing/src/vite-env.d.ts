@@ -7,6 +7,12 @@ interface ImportMetaEnv {
    * honeypot + submit-timing checks alone.
    */
   readonly VITE_TURNSTILE_SITE_KEY?: string;
+  /**
+   * Google Analytics 4 Measurement ID (e.g. "G-XXXXXXXXXX"). When set, gtag.js
+   * loads and page views are tracked across route changes. Leave unset to
+   * disable analytics entirely (the script is never loaded). See lib/analytics.
+   */
+  readonly VITE_GA_MEASUREMENT_ID?: string;
 }
 
 interface ImportMeta {
@@ -32,4 +38,6 @@ interface TurnstileApi {
 
 interface Window {
   turnstile?: TurnstileApi;
+  /** gtag.js command queue. Populated by lib/analytics before the script loads. */
+  dataLayer?: unknown[];
 }

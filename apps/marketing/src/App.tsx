@@ -6,6 +6,12 @@ import { ToolsPage } from "./pages/ToolsPage";
 import { SiteNav } from "./components/chrome/SiteNav";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
+import { initAnalytics } from "./lib/analytics";
+import { usePageTracking } from "./hooks/usePageTracking";
+
+// Load gtag.js and configure GA4 once, before first render. No-op unless
+// VITE_GA_MEASUREMENT_ID is set, so dev/preview stay silent. See lib/analytics.
+initAnalytics();
 
 // Vite injects the deploy base (e.g. "/<repo>/" on GitHub Pages) as BASE_URL.
 // React Router uses the same value so links resolve under that prefix.
@@ -21,6 +27,9 @@ const basename = import.meta.env.BASE_URL;
 function SiteChrome() {
   const { pathname } = useLocation();
   const variant = pathname === "/" ? "overlay" : "solid";
+
+  // Emit a GA4 page view on each route change (no-op when analytics is off).
+  usePageTracking();
 
   return (
     <div className="site-chrome">

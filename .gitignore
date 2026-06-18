@@ -3,3 +3,10 @@ node_modules
 dist
 packages/tokens/output
 instructions
+tokens-update
+
+# Local env files (secrets, Measurement IDs, site keys) — never commit
+.env
+.env.local
+.env.*.local
+
