@@ -1,34 +1,45 @@
 import type * as React from "react";
-import { Popover as BasePopover } from "@base-ui-components/react/popover";
 
-/** Restrict Base UI's `className` (string | fn) to a plain string for styled parts. */
-type StringClassName = { className?: string };
+export type PopoverSide = "top" | "right" | "bottom" | "left";
+export type PopoverAlign = "start" | "center" | "end";
 
-export type PopoverProps = React.ComponentProps<typeof BasePopover.Root>;
-export type PopoverTriggerProps = React.ComponentProps<typeof BasePopover.Trigger>;
-export type PopoverCloseProps = React.ComponentProps<typeof BasePopover.Close>;
-export type PopoverArrowProps = Omit<
-  React.ComponentProps<typeof BasePopover.Arrow>,
-  "className"
-> &
-  StringClassName;
+export interface PopoverProps {
+  /** Controlled open state. */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Callback fired when the open state changes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Trap focus and block outside interaction while open. */
+  modal?: boolean;
+  children?: React.ReactNode;
+}
 
-type PositionerProps = React.ComponentProps<typeof BasePopover.Positioner>;
-type PortalProps = React.ComponentProps<typeof BasePopover.Portal>;
+export interface PopoverTriggerProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {
+  /** Project the trigger onto a custom element instead of rendering a button. */
+  render?: React.ReactElement;
+}
 
-export interface PopoverContentProps
-  extends Omit<React.ComponentProps<typeof BasePopover.Popup>, "className">,
-    StringClassName {
+export interface PopoverCloseProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {
+  /** Project the close control onto a custom element. */
+  render?: React.ReactElement;
+}
+
+export type PopoverArrowProps = React.ComponentPropsWithoutRef<"div">;
+
+export interface PopoverContentProps extends React.ComponentPropsWithoutRef<"div"> {
   /** Side of the trigger to position against. Defaults to 'bottom'. */
-  side?: PositionerProps["side"];
+  side?: PopoverSide;
   /** Alignment along the chosen side. Defaults to 'center'. */
-  align?: PositionerProps["align"];
+  align?: PopoverAlign;
   /** Gap between trigger and popup, in px. Defaults to 8. */
-  sideOffset?: PositionerProps["sideOffset"];
+  sideOffset?: number;
   /** Offset along the alignment axis, in px. */
-  alignOffset?: PositionerProps["alignOffset"];
+  alignOffset?: number;
   /** Render a pointer arrow toward the trigger. Defaults to false. */
   showArrow?: boolean;
   /** Portal container. Defaults to document.body. */
-  container?: PortalProps["container"];
+  container?: React.RefObject<HTMLElement | null>;
 }
