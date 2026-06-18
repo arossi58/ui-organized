@@ -30,10 +30,21 @@ test.describe("visual regression", () => {
         return c.contains("sb-show-main") && !c.contains("sb-show-preparing");
       });
       await page.evaluate(() => document.fonts.ready);
-      // Some stories intentionally render nothing (e.g. FieldError with an empty
-      // message) → a zero-size root with no visual to regress. Skip those.
-      const box = await root.boundingBox();
-      test.skip(!box || box.width === 0 || box.height === 0, "renders no visible content");
+      // Wait for the root to actually lay out before judging emptiness — under
+      // parallel load boundingBox can momentarily read 0 height, which would
+      // otherwise spuriously skip a real story. Stories that intentionally render
+      // nothing (e.g. FieldError with an empty message) never gain size, so they
+      // time out here and are legitimately skipped.
+      const laidOut = await page
+        .waitForFunction(() => {
+          const el = document.querySelector("#storybook-root");
+          if (!el) return false;
+          const r = el.getBoundingClientRect();
+          return r.width > 0 && r.height > 0;
+        }, undefined, { timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
+      test.skip(!laidOut, "renders no visible content");
       await expect(root).toHaveScreenshot(`${story.id}.png`);
     });
   }
