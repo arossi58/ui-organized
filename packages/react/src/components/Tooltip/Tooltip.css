@@ -9,6 +9,10 @@
 }
 
 .tooltip__popup {
+  /* Zag positions/rotates the arrow automatically and reads these vars for its
+     size and fill (replaces Base UI's per-side ::before offsets). */
+  --arrow-size: 8px;
+  --arrow-background: var(--color-surface-overlay-primary);
   max-width: 240px;
   padding: var(--spacing-space-01) var(--spacing-space-02);
   background-color: var(--color-surface-overlay-primary);
@@ -25,24 +29,9 @@
     transform 100ms ease;
 }
 
-.tooltip__popup[data-starting-style],
-.tooltip__popup[data-ending-style] {
+/* Enter/exit: Base UI used data-starting-style/data-ending-style; Zag drives the
+   open↔closed transition with data-state. */
+.tooltip__popup[data-state="closed"] {
   opacity: 0;
   transform: scale(0.9);
 }
-
-/* ─── Arrow ───────────────────────────────────────────────────────────────── */
-
-.tooltip__arrow::before {
-  content: "";
-  display: block;
-  width: 8px;
-  height: 8px;
-  background-color: var(--color-surface-overlay-primary);
-  transform: rotate(45deg);
-}
-
-.tooltip__arrow[data-side="top"]    { bottom: -4px; }
-.tooltip__arrow[data-side="bottom"] { top: -4px; }
-.tooltip__arrow[data-side="left"]   { right: -4px; }
-.tooltip__arrow[data-side="right"]  { left: -4px; }
