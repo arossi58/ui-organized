@@ -1,4 +1,4 @@
-import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
+import { Dialog as ArkDialog, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { sheetStyles } from "./Sheet.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -16,26 +16,49 @@ import "../Dialog/Dialog.css";
 import "./Sheet.css";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */
-export function Sheet(props: SheetProps) {
-  return <BaseDialog.Root {...props} />;
+export function Sheet({ open, defaultOpen, onOpenChange, modal, children }: SheetProps) {
+  return (
+    <ArkDialog.Root
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
+      modal={modal}
+    >
+      {children}
+    </ArkDialog.Root>
+  );
 }
 
-/** Element that opens the sheet. Use `render` to project a custom button. */
-export function SheetTrigger(props: SheetTriggerProps) {
-  return <BaseDialog.Trigger {...props} />;
+/** Element that opens the sheet. Pass `render` to project a custom element. */
+export function SheetTrigger({ render, children, ...props }: SheetTriggerProps) {
+  if (render) {
+    return (
+      <ArkDialog.Trigger asChild {...props}>
+        {render}
+      </ArkDialog.Trigger>
+    );
+  }
+  return <ArkDialog.Trigger {...props}>{children}</ArkDialog.Trigger>;
 }
 
-/** Closes the sheet when activated. */
-export function SheetClose(props: SheetCloseProps) {
-  return <BaseDialog.Close {...props} />;
+/** Closes the sheet when activated. Pass `render` to project a custom element. */
+export function SheetClose({ render, children, ...props }: SheetCloseProps) {
+  if (render) {
+    return (
+      <ArkDialog.CloseTrigger asChild {...props}>
+        {render}
+      </ArkDialog.CloseTrigger>
+    );
+  }
+  return <ArkDialog.CloseTrigger {...props}>{children}</ArkDialog.CloseTrigger>;
 }
 
 export function SheetTitle({ className, ...props }: SheetTitleProps) {
-  return <BaseDialog.Title className={clsx("dialog__title", className)} {...props} />;
+  return <ArkDialog.Title className={clsx("dialog__title", className)} {...props} />;
 }
 
 export function SheetDescription({ className, ...props }: SheetDescriptionProps) {
-  return <BaseDialog.Description className={clsx("dialog__description", className)} {...props} />;
+  return <ArkDialog.Description className={clsx("dialog__description", className)} {...props} />;
 }
 
 /** Right-aligned action row, typically holding the sheet's buttons. */
@@ -43,7 +66,8 @@ export function SheetFooter({ className, ...props }: SheetFooterProps) {
   return <div className={clsx("dialog__footer", className)} {...props} />;
 }
 
-/** Portalled backdrop + edge-anchored panel holding the sheet body. */
+/** Portalled backdrop + edge-anchored panel holding the sheet body. The panel
+ *  self-positions at the edge, so the positioner is just the Ark wrapper. */
 export function SheetContent({
   side,
   size,
@@ -51,19 +75,24 @@ export function SheetContent({
   container,
   className,
   children,
-  ...popupProps
+  ...contentProps
 }: SheetContentProps) {
   return (
-    <BaseDialog.Portal container={container}>
-      <BaseDialog.Backdrop className="dialog__backdrop" />
-      <BaseDialog.Popup className={clsx(sheetStyles({ side, size }), className)} {...popupProps}>
-        {showClose && (
-          <BaseDialog.Close className="dialog__close" aria-label="Close">
-            <Icon name="close" size={20} />
-          </BaseDialog.Close>
-        )}
-        {children}
-      </BaseDialog.Popup>
-    </BaseDialog.Portal>
+    <Portal container={container}>
+      <ArkDialog.Backdrop className="dialog__backdrop" />
+      <ArkDialog.Positioner className="dialog__positioner sheet__positioner">
+        <ArkDialog.Content
+          className={clsx(sheetStyles({ side, size }), className)}
+          {...contentProps}
+        >
+          {showClose && (
+            <ArkDialog.CloseTrigger className="dialog__close" aria-label="Close">
+              <Icon name="close" size={20} />
+            </ArkDialog.CloseTrigger>
+          )}
+          {children}
+        </ArkDialog.Content>
+      </ArkDialog.Positioner>
+    </Portal>
   );
 }

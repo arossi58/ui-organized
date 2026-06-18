@@ -8,19 +8,27 @@
   transition: opacity 150ms ease;
 }
 
-.dialog__backdrop[data-starting-style],
-.dialog__backdrop[data-ending-style] {
+.dialog__backdrop[data-state="closed"] {
   opacity: 0;
 }
 
-/* ─── Popup (centered) ────────────────────────────────────────────────────── */
+/* ─── Positioner (centers the popup; Base UI's popup self-centered) ───────── */
+
+.dialog__positioner {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-dialog);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Popup (centered by the positioner) ──────────────────────────────────── */
 
 .dialog__popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: var(--z-index-dialog);
+  /* Positioning context for the absolutely-placed close button (the popup no
+     longer self-positions — the positioner centers it). */
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--spacing-space-04);
@@ -41,10 +49,9 @@
     transform 150ms ease;
 }
 
-.dialog__popup[data-starting-style],
-.dialog__popup[data-ending-style] {
+.dialog__popup[data-state="closed"] {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(0.96);
+  transform: scale(0.96);
 }
 
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */
