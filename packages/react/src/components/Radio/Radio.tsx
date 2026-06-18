@@ -1,5 +1,4 @@
-import { RadioGroup as BaseRadioGroup } from "@base-ui-components/react/radio-group";
-import { Radio as BaseRadio } from "@base-ui-components/react/radio";
+import { RadioGroup as ArkRadioGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { radioGroupStyles } from "./Radio.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -20,36 +19,42 @@ export function RadioGroup({
   return (
     <div className={clsx(radioGroupStyles({ orientation }), className)}>
       {label && <div className="radio-group__label">{label}</div>}
-      <BaseRadioGroup
+      <ArkRadioGroup.Root
         value={value}
         defaultValue={defaultValue}
         onValueChange={
           onValueChange
-            ? (v: unknown) => { if (typeof v === "string") onValueChange(v); }
+            ? (details) => {
+                if (details.value != null) onValueChange(details.value);
+              }
             : undefined
         }
         disabled={disabled}
         name={name}
+        orientation={orientation}
         className="radio-group__items"
       >
         {options.map((opt) => (
           <div key={opt.value} className="radio-item-wrap">
-            <label
+            {/* Ark's RadioGroup.Item *is* the <label>; the dot is a plain child
+                of ItemControl, shown via [data-state="checked"] in CSS. */}
+            <ArkRadioGroup.Item
+              value={opt.value}
+              disabled={opt.disabled}
               className={clsx(
                 "radio-item",
                 opt.disabled && "radio-item--disabled",
                 opt.error && "radio-item--error",
               )}
             >
-              <BaseRadio.Root
-                value={opt.value}
-                disabled={opt.disabled}
-                className="radio-item__control"
-              >
-                <BaseRadio.Indicator className="radio-item__indicator" />
-              </BaseRadio.Root>
-              <span className="radio-item__label">{opt.label}</span>
-            </label>
+              <ArkRadioGroup.ItemControl className="radio-item__control">
+                <span className="radio-item__indicator" />
+              </ArkRadioGroup.ItemControl>
+              <ArkRadioGroup.ItemText className="radio-item__label">
+                {opt.label}
+              </ArkRadioGroup.ItemText>
+              <ArkRadioGroup.ItemHiddenInput />
+            </ArkRadioGroup.Item>
             {opt.error && (
               <div className="radio-item__error-message">
                 <Icon name="alert-circle" size={16} />
@@ -58,7 +63,7 @@ export function RadioGroup({
             )}
           </div>
         ))}
-      </BaseRadioGroup>
+      </ArkRadioGroup.Root>
     </div>
   );
 }

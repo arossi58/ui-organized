@@ -68,13 +68,14 @@
 }
 
 /* Checked — filled with primary color */
-.radio-item__control[data-checked] {
+.radio-item__control[data-state="checked"] {
   background-color: var(--color-interactive-primary-selected);
   border-color: var(--color-interactive-primary-selected);
 }
 
-/* Focus ring — double outline (inner dark, outer light) */
-.radio-item__control:focus-visible {
+/* Focus ring — double outline (inner dark, outer light). Focus lives on Ark's
+   visually-hidden input, so key off data-focus-visible not :focus-visible. */
+.radio-item__control[data-focus-visible] {
   box-shadow:
     0 0 0 1px var(--color-interactive-focus-inverse),
     0 0 0 2px var(--color-interactive-focus);
@@ -86,7 +87,7 @@
   border-color: var(--color-interactive-inactive-02);
 }
 
-.radio-item--disabled .radio-item__control[data-checked] {
+.radio-item--disabled .radio-item__control[data-state="checked"] {
   background-color: var(--color-interactive-inactive-02);
   border-color: var(--color-interactive-inactive-02);
 }
@@ -101,7 +102,7 @@
   border-color: var(--color-status-error-message);
 }
 
-.radio-item--error .radio-item__control[data-checked] {
+.radio-item--error .radio-item__control[data-state="checked"] {
   background-color: var(--color-status-error-message);
   border-color: var(--color-status-error-message);
 }
@@ -117,12 +118,12 @@
   transition: transform 150ms ease;
 }
 
-.radio-item__control[data-checked] .radio-item__indicator {
+.radio-item__control[data-state="checked"] .radio-item__indicator {
   transform: scale(1);
 }
 
 /* Disabled indicator uses inactive-03 instead of ui-light */
-.radio-item--disabled .radio-item__control[data-checked] .radio-item__indicator {
+.radio-item--disabled .radio-item__control[data-state="checked"] .radio-item__indicator {
   background-color: var(--color-interactive-inactive-03);
 }
 
