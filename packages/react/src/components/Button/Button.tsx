@@ -1,4 +1,3 @@
-import { Button as BaseButton } from "@base-ui-components/react/button";
 import { clsx } from "clsx";
 import { buttonStyles } from "./Button.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -17,6 +16,7 @@ export function Button({
   size = "md",
   icon,
   iconPosition = "left",
+  type = "button",
   className,
   children,
   ...props
@@ -35,8 +35,12 @@ export function Button({
       children === false ||
       children === "");
 
+  // Ark UI has no Button primitive; Base UI's rendered a native <button
+  // type="button">, so the facade owns that element directly (default the type
+  // to "button" to preserve the no-implicit-submit behavior).
   return (
-    <BaseButton
+    <button
+      type={type}
       className={clsx(
         buttonStyles({ intent, size }),
         isIconOnly && "btn--icon-only",
@@ -47,6 +51,6 @@ export function Button({
       {iconPosition === "left" && iconElement}
       {children}
       {iconPosition === "right" && iconElement}
-    </BaseButton>
+    </button>
   );
 }

@@ -29,8 +29,7 @@
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-.btn:disabled,
-.btn[data-disabled] {
+.btn:disabled {
   cursor: not-allowed;
   opacity: 0.4;
   pointer-events: none;
@@ -44,11 +43,11 @@
   border-color: transparent;
 }
 
-.btn--primary:hover:not(:disabled):not([data-disabled]) {
+.btn--primary:hover:not(:disabled) {
   background-color: var(--color-interactive-primary-hover);
 }
 
-.btn--primary:active:not(:disabled):not([data-disabled]) {
+.btn--primary:active:not(:disabled) {
   background-color: var(--color-interactive-primary-active);
 }
 
@@ -60,18 +59,17 @@
   border-color: transparent;
 }
 
-.btn--secondary:hover:not(:disabled):not([data-disabled]) {
+.btn--secondary:hover:not(:disabled) {
   background-color: var(--color-interactive-secondary-hover);
 }
 
-.btn--secondary:active:not(:disabled):not([data-disabled]) {
+.btn--secondary:active:not(:disabled) {
   background-color: var(--color-interactive-secondary-active);
 }
 
 /* Inactive state (Figma 23:1580): the translucent fill is replaced by a solid
    inactive surface with muted text rather than the global opacity dim. */
-.btn--secondary:disabled,
-.btn--secondary[data-disabled] {
+.btn--secondary:disabled {
   background-color: var(--color-interactive-inactive-01);
   color: var(--color-interactive-inactive-02);
   opacity: 1;
@@ -86,21 +84,20 @@
 }
 
 /* On interaction the outline fills solid with light text (Figma 23:313 / 23:477). */
-.btn--tertiary:hover:not(:disabled):not([data-disabled]) {
+.btn--tertiary:hover:not(:disabled) {
   background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
   color: var(--color-text-light);
 }
 
-.btn--tertiary:active:not(:disabled):not([data-disabled]) {
+.btn--tertiary:active:not(:disabled) {
   background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
   color: var(--color-text-light);
 }
 
 /* Inactive state (Figma 23:1582): solid inactive surface, muted text, no outline. */
-.btn--tertiary:disabled,
-.btn--tertiary[data-disabled] {
+.btn--tertiary:disabled {
   background-color: var(--color-interactive-inactive-01);
   border-color: var(--color-interactive-inactive-01);
   color: var(--color-interactive-inactive-02);
@@ -115,18 +112,17 @@
   border-color: transparent;
 }
 
-.btn--ghost:hover:not(:disabled):not([data-disabled]) {
+.btn--ghost:hover:not(:disabled) {
   background-color: var(--color-interactive-ghost-hover);
 }
 
-.btn--ghost:active:not(:disabled):not([data-disabled]) {
+.btn--ghost:active:not(:disabled) {
   background-color: var(--color-interactive-ghost-active);
 }
 
 /* Inactive state (Figma 23:1584): the transparent fill is replaced by a solid
    inactive surface with muted text rather than the global opacity dim. */
-.btn--ghost:disabled,
-.btn--ghost[data-disabled] {
+.btn--ghost:disabled {
   background-color: var(--color-interactive-inactive-01);
   color: var(--color-interactive-inactive-02);
   opacity: 1;
@@ -140,11 +136,11 @@
   border-color: transparent;
 }
 
-.btn--destructive:hover:not(:disabled):not([data-disabled]) {
+.btn--destructive:hover:not(:disabled) {
   background-color: var(--color-interactive-destructive-hover);
 }
 
-.btn--destructive:active:not(:disabled):not([data-disabled]) {
+.btn--destructive:active:not(:disabled) {
   background-color: var(--color-interactive-destructive-active);
 }
 
@@ -157,12 +153,12 @@
 }
 
 /* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
-.btn--destructive-ghost:hover:not(:disabled):not([data-disabled]) {
+.btn--destructive-ghost:hover:not(:disabled) {
   background-color: var(--color-interactive-destructive-hover);
   color: var(--color-text-light);
 }
 
-.btn--destructive-ghost:active:not(:disabled):not([data-disabled]) {
+.btn--destructive-ghost:active:not(:disabled) {
   background-color: var(--color-interactive-destructive-active);
   color: var(--color-text-light);
 }
