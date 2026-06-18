@@ -30,7 +30,7 @@
 }
 
 /* Pressed (on) state. */
-.toggle[data-pressed] {
+.toggle[data-state="on"] {
   background-color: var(--color-interactive-ui-selected);
   border-color: var(--color-border-primary);
   color: var(--color-text-primary);
@@ -91,7 +91,7 @@
 }
 
 /* Pressed toggles sit above their neighbours so the active border is unbroken. */
-.toggle-group .toggle[data-pressed] {
+.toggle-group .toggle[data-state="on"] {
   position: relative;
   z-index: 1;
 }
