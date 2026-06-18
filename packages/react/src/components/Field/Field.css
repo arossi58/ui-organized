@@ -72,8 +72,11 @@
   background-color: var(--color-interactive-ui-active);
 }
 
-/* Entry — a filled control keeps the active surface (Figma 348:1843). */
-.field__control[data-filled]:not(:disabled):not([data-disabled]) {
+/* Entry — a filled control keeps the active surface (Figma 348:1843). Ark's Field
+   doesn't track a filled state (Base UI's data-filled), so key off the input
+   showing content instead. (Inputs without a placeholder match when empty too;
+   the design's fields always carry a placeholder.) */
+.field__control:not(:placeholder-shown):not(:disabled):not([data-disabled]) {
   background-color: var(--color-interactive-ui-active);
 }
 

@@ -1,16 +1,26 @@
 import type * as React from "react";
-import { Field as BaseField } from "@base-ui-components/react/field";
-import { Fieldset as BaseFieldset } from "@base-ui-components/react/fieldset";
 
-/** Field root props plus a layout variant. Forwards all Base UI Field.Root props. */
-export interface FieldProps extends React.ComponentProps<typeof BaseField.Root> {
+/**
+ * Field root props plus a layout variant. Hand-authored facade types (was
+ * `ComponentProps<typeof BaseField.*>`); the field state props map onto Ark UI's
+ * Field.Root.
+ */
+export interface FieldProps extends React.ComponentPropsWithoutRef<"div"> {
+  /** Marks the field invalid (drives error display + `data-invalid`). */
+  invalid?: boolean;
+  /** Disables the field's control. */
+  disabled?: boolean;
+  /** Marks the field's control required. */
+  required?: boolean;
+  /** Marks the field's control read-only. */
+  readOnly?: boolean;
   /** Arrangement of label and control. Defaults to 'stacked'. */
   layout?: "stacked" | "inline";
 }
 
-export type FieldLabelProps = React.ComponentProps<typeof BaseField.Label>;
-export type FieldDescriptionProps = React.ComponentProps<typeof BaseField.Description>;
-export type FieldControlProps = React.ComponentProps<typeof BaseField.Control>;
-export type FieldErrorMessageProps = React.ComponentProps<typeof BaseField.Error>;
-export type FieldsetProps = React.ComponentProps<typeof BaseFieldset.Root>;
-export type FieldsetLegendProps = React.ComponentProps<typeof BaseFieldset.Legend>;
+export type FieldLabelProps = React.ComponentPropsWithoutRef<"label">;
+export type FieldDescriptionProps = React.ComponentPropsWithoutRef<"span">;
+export type FieldControlProps = React.ComponentPropsWithoutRef<"input">;
+export type FieldErrorMessageProps = React.ComponentPropsWithoutRef<"span">;
+export type FieldsetProps = React.ComponentPropsWithoutRef<"fieldset">;
+export type FieldsetLegendProps = React.ComponentPropsWithoutRef<"legend">;
