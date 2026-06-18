@@ -15,9 +15,28 @@ import {
 } from "lucide-react";
 import { TOOLS } from "../../lib/tools";
 import { LINKS } from "../../lib/links";
+import { trackEvent } from "../../lib/analytics";
 
 /** The three overview pillars; the open one is detailed below the card row. */
 export type OverviewId = "design" | "tools" | "code";
+
+/**
+ * Maps the outbound destinations surfaced in this panel to GA4 conversion
+ * events. These are the real "leaving the site to try it" clicks — npm install,
+ * the Figma plugin, the source repo — that page views can't infer. Keyed by the
+ * exact LINKS value so every place a destination appears reports the same event.
+ */
+const OUTBOUND_EVENTS: Record<string, string> = {
+  [LINKS.npmReact]: "view_npm_package",
+  [LINKS.githubFigmaPlugin]: "view_figma_plugin",
+  [LINKS.github]: "view_github",
+};
+
+/** Fire the mapped conversion event for an outbound href, if any. */
+function trackOutbound(href: string): void {
+  const name = OUTBOUND_EVENTS[href];
+  if (name) trackEvent(name, { location: "overview" });
+}
 
 type LucideIcon = ComponentType<Record<string, unknown>>;
 
@@ -155,7 +174,12 @@ const PolymorphicButton = Button as unknown as React.FC<
 
 function Cta({ link }: { link: DetailLink }) {
   const render = link.external ? (
-    <a href={link.href} target="_blank" rel="noreferrer" />
+    <a
+      href={link.href}
+      target="_blank"
+      rel="noreferrer"
+      onClick={() => trackOutbound(link.href)}
+    />
   ) : (
     <Link to={link.href} />
   );
@@ -214,6 +238,7 @@ function Item({ item }: { item: DetailItem }) {
           href={item.href}
           target="_blank"
           rel="noreferrer"
+          onClick={() => trackOutbound(item.href!)}
         >
           <ItemBody item={item} />
         </a>

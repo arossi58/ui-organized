@@ -9,4 +9,6 @@ tokens-update
 .env
 .env.local
 .env.*.local
-
+RELEASING.md
+.gitignore
+.gitattributes

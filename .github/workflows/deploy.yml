@@ -60,6 +60,12 @@ jobs:
           # GA4 Measurement ID. Set as a repo secret (Settings → Secrets and
           # variables → Actions). Unset → analytics is silently disabled.
           VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
+          # Contact form. Both are public (they ship in the client bundle), so
+          # they live as repo *variables*, not secrets. The endpoint is the
+          # deployed contact Worker URL (apps/marketing/worker). Unset → the form
+          # falls back to a no-op stub; the Turnstile widget is hidden if unset.
+          VITE_CONTACT_ENDPOINT: ${{ vars.VITE_CONTACT_ENDPOINT }}
+          VITE_TURNSTILE_SITE_KEY: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
         run: pnpm --filter @ui-organized/marketing exec vite build
 
       # Builder is the design tool, served under /builder/.

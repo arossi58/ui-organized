@@ -68,3 +68,17 @@ export function trackPageView(path: string): void {
     page_title: document.title,
   });
 }
+
+/**
+ * Record a custom event (e.g. "view_npm_package", "tool_select"). `params`
+ * become GA4 event parameters — note that custom params only surface in reports
+ * once registered as custom dimensions (Admin → Custom definitions). No-op when
+ * analytics is off.
+ */
+export function trackEvent(
+  name: string,
+  params?: Record<string, unknown>,
+): void {
+  if (!analyticsEnabled || typeof window === "undefined") return;
+  gtag("event", name, params ?? {});
+}

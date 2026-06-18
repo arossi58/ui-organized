@@ -8,6 +8,7 @@ import {
   TURNSTILE_SITE_KEY,
   type ContactInquiryType,
 } from "../../lib/contact";
+import { trackEvent } from "../../lib/analytics";
 import "./contact-section.css";
 
 interface InquiryOption {
@@ -50,6 +51,16 @@ export function ContactSection() {
 
   const honeypotRef = useRef<HTMLInputElement>(null);
   const mountedAtRef = useRef<number>(Date.now());
+  // Tracks whether we've already logged the "started filling the form" event,
+  // so contact_start fires at most once per mount (on first field interaction).
+  const startedRef = useRef(false);
+
+  /** Fire contact_start the first time the visitor edits any field. */
+  function markStarted() {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    trackEvent("contact_start", { inquiry_type: inquiryType });
+  }
 
   const handleCaptchaVerify = useCallback((token: string) => setCaptchaToken(token), []);
   const handleCaptchaExpire = useCallback(() => setCaptchaToken(null), []);
@@ -59,6 +70,7 @@ export function ContactSection() {
     if (!name.trim()) next.name = "Please enter your name.";
     if (!email.trim()) next.email = "Please enter your email.";
     else if (!isValidEmail(email)) next.email = "Please enter a valid email address.";
+    if (!message.trim()) next.message = "Please enter a message.";
     return next;
   }
 
@@ -100,6 +112,9 @@ export function ContactSection() {
     try {
       await submitContactForm({ inquiryType, name, email, message, captchaToken });
       setStatus("success");
+      // Conversion: only a genuine submission (not the honeypot/timing feigned
+      // success above, which returns early) reaches here.
+      trackEvent("contact_submit", { inquiry_type: inquiryType });
       resetForm();
     } catch {
       setStatus("error");
@@ -119,7 +134,12 @@ export function ContactSection() {
           </p>
         </header>
 
-        <form className="contact-form" onSubmit={handleSubmit} noValidate>
+        <form
+          className="contact-form"
+          onSubmit={handleSubmit}
+          onChange={markStarted}
+          noValidate
+        >
           {status === "success" && (
             <Alert variant="success" title="Thanks for reaching out">
               Your message is on its way — we&rsquo;ll be in touch soon.
@@ -192,12 +212,14 @@ export function ContactSection() {
           />
           <TextArea
             label="Message"
+            required
             name="message"
             placeholder="Your input"
             resize="vertical"
             className="contact-form__message"
             value={message}
             onChange={(e) => setMessage(e.currentTarget.value)}
+            error={errors.message}
           />
 
           <Turnstile onVerify={handleCaptchaVerify} onExpire={handleCaptchaExpire} />

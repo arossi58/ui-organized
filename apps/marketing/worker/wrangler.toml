@@ -1,0 +1,23 @@
+# Cloudflare Worker for the contact form. Deployed independently of the static
+# marketing site (it is NOT a pnpm workspace member). See README.md for setup.
+name = "ui-organized-contact"
+main = "src/index.ts"
+compatibility_date = "2024-11-01"
+
+# Non-secret configuration. Edit these to match your account/project.
+# Secrets (RESEND_API_KEY, GITHUB_TOKEN, TURNSTILE_SECRET_KEY) are NOT here —
+# set them with `wrangler secret put <NAME>` (see README.md).
+[vars]
+CONTACT_TO = "arossi5861@gmail.com"
+CONTACT_FROM = "UI Organized <contact@uiorganized.com>"
+PROJECT_OWNER = "arossi58"
+PROJECT_NUMBER = "2"
+IDEAS_STATUS_NAME = "Ideas"
+# Origins allowed to call this Worker (CORS). Apex + www + local Vite dev.
+ALLOWED_ORIGINS = "https://uiorganized.com,https://www.uiorganized.com,http://localhost:5173"
+
+# Optional: serve from a custom subdomain instead of *.workers.dev. Requires the
+# zone to be on Cloudflare. Then set VITE_CONTACT_ENDPOINT to the same URL.
+# routes = [
+#   { pattern = "contact.uiorganized.com", custom_domain = true }
+# ]

@@ -1,0 +1,7 @@
+# Copy to `.dev.vars` for local `wrangler dev`. `.dev.vars` is gitignored.
+# In production these are set with `wrangler secret put <NAME>` instead.
+
+RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxx
+GITHUB_TOKEN=github_pat_xxxxxxxxxxxxxxxxxxxxxxxx
+# Optional — when set, Turnstile tokens are verified server-side.
+TURNSTILE_SECRET_KEY=0x4xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

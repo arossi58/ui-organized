@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Switch } from "@ui-organized/react";
 import { useTheme } from "../../theme/ThemeProvider";
+import { trackEvent } from "../../lib/analytics";
 import "./theme-menu.css";
 
 /**
@@ -17,6 +18,20 @@ export function ThemeMenu() {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // theme_change is logged here (the user-driven controls) rather than in the
+  // provider, whose effect also runs on the initial localStorage hydration —
+  // we only want deliberate light/dark and brand switches.
+  function handleModeChange(checked: boolean) {
+    const next = checked ? "dark" : "light";
+    setMode(next);
+    trackEvent("theme_change", { change: "mode", mode: next });
+  }
+
+  function handleBrandChange(name: string) {
+    if (name !== brand) trackEvent("theme_change", { change: "brand", brand: name });
+    setBrand(name);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -60,7 +75,7 @@ export function ThemeMenu() {
             <Switch
               label="Dark Mode"
               checked={mode === "dark"}
-              onCheckedChange={(checked) => setMode(checked ? "dark" : "light")}
+              onCheckedChange={handleModeChange}
             />
           </div>
 
@@ -74,7 +89,7 @@ export function ThemeMenu() {
                   role="radio"
                   aria-checked={selected}
                   className="theme-menu__item"
-                  onClick={() => setBrand(option.name)}
+                  onClick={() => handleBrandChange(option.name)}
                 >
                   <span
                     className="theme-menu__swatch"

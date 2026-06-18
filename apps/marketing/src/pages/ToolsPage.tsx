@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar, NavItem, Icon } from "@ui-organized/react";
 import { TOOLS, resolveTool } from "../lib/tools";
 import { TOOL_COMPONENTS } from "../lib/toolComponents";
+import { trackEvent } from "../lib/analytics";
 import "../components/gradient/dot-grid.css";
 import "./tools-page.css";
 
@@ -34,7 +35,17 @@ export function ToolsPage() {
                 label={tool.name}
                 icon={tool.icon}
                 selected={tool.id === active.id}
-                onClick={() => navigate(`/tools/${tool.id}`)}
+                onClick={() => {
+                  // Only count a deliberate switch to a different tool; the route
+                  // change itself still fires a page_view via usePageTracking.
+                  if (tool.id !== active.id) {
+                    trackEvent("tool_select", {
+                      tool_id: tool.id,
+                      tool_status: tool.status,
+                    });
+                  }
+                  navigate(`/tools/${tool.id}`);
+                }}
               />
             ))}
           </Sidebar>

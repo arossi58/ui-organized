@@ -1,5 +1,6 @@
 import { Badge, Card, CardBody } from "@ui-organized/react";
 import { TYPE_META, type RoadmapItem } from "../../lib/roadmap";
+import { trackEvent } from "../../lib/analytics";
 import "./roadmap-card.css";
 
 interface RoadmapCardProps {
@@ -33,7 +34,13 @@ export function RoadmapCard({ item }: RoadmapCardProps) {
   if (isDraft) return card;
 
   return (
-    <a className="roadmap-card__link" href={item.url ?? undefined} target="_blank" rel="noreferrer">
+    <a
+      className="roadmap-card__link"
+      href={item.url ?? undefined}
+      target="_blank"
+      rel="noreferrer"
+      onClick={() => trackEvent("roadmap_card_click", { item_type: item.type })}
+    >
       {card}
     </a>
   );

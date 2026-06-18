@@ -1,0 +1,17 @@
+{
+  "name": "ui-organized-contact-worker",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Cloudflare Worker backing the marketing contact form (email + GitHub Ideas).",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241106.0",
+    "typescript": "^5.4.0",
+    "wrangler": "^3.84.0"
+  }
+}
