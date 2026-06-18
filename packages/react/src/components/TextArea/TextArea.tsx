@@ -1,4 +1,4 @@
-import { Field } from "@base-ui-components/react/field";
+import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { textAreaFieldStyles } from "./TextArea.styles.js";
 import { FieldError } from "../FieldError/index.js";
@@ -32,20 +32,21 @@ export function TextArea({
           {required && <span className="field__required" aria-hidden="true" />}
         </Field.Label>
       )}
-      <Field.Control
-        render={<textarea {...textareaProps} data-resize={resize} />}
+      <Field.Textarea
         className="field__control textarea-field__control"
         required={required}
+        data-resize={resize}
+        {...textareaProps}
       />
       {helperText && !isInvalid && (
-        <Field.Description className="field__description">
+        <Field.HelperText className="field__description">
           {helperText}
-        </Field.Description>
+        </Field.HelperText>
       )}
       {isInvalid && errorMessage && (
-        <Field.Error match={true} render={<FieldError />}>
-          {errorMessage}
-        </Field.Error>
+        <Field.ErrorText asChild>
+          <FieldError>{errorMessage}</FieldError>
+        </Field.ErrorText>
       )}
     </Field.Root>
   );

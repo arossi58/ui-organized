@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Field } from "@base-ui-components/react/field";
+import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { passwordInputFieldStyles } from "./PasswordInput.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -37,8 +37,8 @@ export function PasswordInput({
         </Field.Label>
       )}
       <div className="input-affix">
-        <Field.Control
-          render={<input type={visible ? "text" : "password"} />}
+        <Field.Input
+          type={visible ? "text" : "password"}
           className={clsx(
             "field__control",
             showToggle && "field__control--affix-end",
@@ -61,14 +61,14 @@ export function PasswordInput({
         )}
       </div>
       {helperText && !isInvalid && (
-        <Field.Description className="field__description">
+        <Field.HelperText className="field__description">
           {helperText}
-        </Field.Description>
+        </Field.HelperText>
       )}
       {isInvalid && errorMessage && (
-        <Field.Error match={true} render={<FieldError />}>
-          {errorMessage}
-        </Field.Error>
+        <Field.ErrorText asChild>
+          <FieldError>{errorMessage}</FieldError>
+        </Field.ErrorText>
       )}
     </Field.Root>
   );

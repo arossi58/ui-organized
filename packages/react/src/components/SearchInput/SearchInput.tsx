@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import { Field } from "@base-ui-components/react/field";
+import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { searchInputFieldStyles } from "./SearchInput.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -81,8 +81,9 @@ export function SearchInput({
         >
           <Icon name="search" size={20} />
         </span>
-        <Field.Control
-          render={<input ref={inputRef} type="search" />}
+        <Field.Input
+          ref={inputRef}
+          type="search"
           className={clsx(
             "field__control",
             "field__control--affix-start",
@@ -108,14 +109,14 @@ export function SearchInput({
         )}
       </div>
       {helperText && !isInvalid && (
-        <Field.Description className="field__description">
+        <Field.HelperText className="field__description">
           {helperText}
-        </Field.Description>
+        </Field.HelperText>
       )}
       {isInvalid && errorMessage && (
-        <Field.Error match={true} render={<FieldError />}>
-          {errorMessage}
-        </Field.Error>
+        <Field.ErrorText asChild>
+          <FieldError>{errorMessage}</FieldError>
+        </Field.ErrorText>
       )}
     </Field.Root>
   );
