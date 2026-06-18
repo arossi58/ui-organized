@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/tokens",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Design tokens for the ui-organized design system: typed exports plus generated CSS custom properties, built with Style Dictionary.",
   "keywords": [
     "design-system",
