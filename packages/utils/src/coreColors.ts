@@ -1,8 +1,9 @@
 /**
  * Core color library — the full set of authored color families, each a 24-step
- * ramp (100 lightest → 2400 darkest). GENERATED from
- * packages/tokens/src/primitive/core-color.json — keep in sync (re-run the
- * tokens-update generator if the core palette changes).
+ * ramp (100 lightest → 2400 darkest). The CORE_HEX literal and the
+ * NEUTRAL/BRAND family lists below are GENERATED from tokens-update/core-color.css
+ * by scripts/generate-core-palette.mjs — don't edit those by hand; edit the
+ * source CSS and re-run `pnpm generate:palette`.
  *
  * Families split into two roles:
  *   - NEUTRAL_FAMILY_NAMES  — low-chroma tinted greys (surfaces, borders, text)

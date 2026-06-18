@@ -1,9 +1,9 @@
 // The default "UI Organized" collection IS the design system's global color
-// tokens. GENERATED to mirror packages/tokens/src/primitive/core-color.json
-// (the single source of truth) — every family is the canonical 24-step ramp
+// tokens. GENERATED from tokens-update/core-color.css by
+// scripts/generate-core-palette.mjs — every family is the canonical 24-step ramp
 // (100 lightest -> 2400 darkest). The base `color` is the 1200 weight, the
-// design system's primary stop (mainStopIndex 11). Keep in sync with the
-// tokens; re-run the tokens generator if the core palette changes.
+// design system's primary stop (mainStopIndex 11). Do not edit by hand; edit the
+// source CSS and re-run `pnpm generate:palette`.
 export const DEFAULT_PALETTE = [
   { id: 1, name: 'Grey', color: '#bababa', customStops: ['#fcfcfc','#f6f6f6','#efefef','#e9e9e9','#e3e3e3','#dddddd','#d7d7d7','#d1d1d1','#cccccc','#c6c6c6','#c0c0c0','#bababa','#a8a8a8','#969696','#858585','#747474','#646464','#545454','#444444','#353535','#272727','#191919','#0d0d0d','#030303'] },
   { id: 2, name: 'Dove', color: '#8f7687', customStops: ['#fffafd','#f7ecf3','#efdee9','#e7d1e0','#dfc3d6','#d3b8ca','#c7acbf','#bca1b3','#b096a8','#a58b9d','#9a8192','#8f7687','#836a7b','#765e6f','#6a5363','#5e4857','#533d4c','#483241','#3d2836','#321e2c','#261521','#1a0d17','#0f060d','#060205'] },
