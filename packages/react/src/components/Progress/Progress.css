@@ -59,7 +59,7 @@
 /* ─── Indeterminate ───────────────────────────────────────────────────────── */
 /* No value → Base UI omits the inline width; we drive a sliding segment. */
 
-.progress__indicator[data-indeterminate] {
+.progress__indicator[data-state="indeterminate"] {
   width: 40%;
   animation: progress-indeterminate 1.2s ease-in-out infinite;
 }
@@ -70,7 +70,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .progress__indicator[data-indeterminate] {
+  .progress__indicator[data-state="indeterminate"] {
     animation: none;
   }
 }

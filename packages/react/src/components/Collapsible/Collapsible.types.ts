@@ -1,23 +1,31 @@
 import type * as React from "react";
-import { Collapsible as BaseCollapsible } from "@base-ui-components/react/collapsible";
 
-/** Restrict Base UI's `className` (string | fn) to a plain string for styled parts. */
-type StringClassName = { className?: string };
+/**
+ * Root of a single disclosure section. Controlled via `open` + `onOpenChange`,
+ * or uncontrolled via `defaultOpen`.
+ */
+export interface CollapsibleProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "onChange" | "dir"> {
+  /** Whether the panel is open (controlled). */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Fired with the next open state whenever it changes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Disable the trigger and prevent toggling. */
+  disabled?: boolean;
+}
 
-export type CollapsibleProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Root>,
-  "className"
-> &
-  StringClassName;
+/** Toggle button. Pass `render` to project a custom element (mapped to `asChild`). */
+export interface CollapsibleTriggerProps
+  extends React.ComponentPropsWithoutRef<"button"> {
+  /** Project the trigger onto a custom element instead of the default `<button>`. */
+  render?: React.ReactElement;
+}
 
-export type CollapsibleTriggerProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Trigger>,
-  "className"
-> &
-  StringClassName;
-
-export type CollapsibleContentProps = Omit<
-  React.ComponentProps<typeof BaseCollapsible.Panel>,
-  "className"
-> &
-  StringClassName;
+/** Revealed region. Its height animates between `0` and its measured size. */
+export interface CollapsibleContentProps
+  extends React.ComponentPropsWithoutRef<"div"> {
+  /** Project the panel onto a custom element instead of the default `<div>`. */
+  render?: React.ReactElement;
+}

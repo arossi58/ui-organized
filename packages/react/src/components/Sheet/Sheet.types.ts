@@ -1,30 +1,35 @@
 import type * as React from "react";
-import { Dialog as BaseDialog } from "@base-ui-components/react/dialog";
 import type { SheetVariants } from "./Sheet.styles.js";
 
-/** Restrict Base UI's `className` (string | fn) to a plain string for styled parts. */
-type StringClassName = { className?: string };
+export interface SheetProps {
+  /** Controlled open state. */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Callback fired when the open state changes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Trap focus and block outside interaction while open. Defaults to true. */
+  modal?: boolean;
+  children?: React.ReactNode;
+}
 
-export type SheetProps = React.ComponentProps<typeof BaseDialog.Root>;
-export type SheetTriggerProps = React.ComponentProps<typeof BaseDialog.Trigger>;
-export type SheetCloseProps = React.ComponentProps<typeof BaseDialog.Close>;
-export type SheetTitleProps = Omit<
-  React.ComponentProps<typeof BaseDialog.Title>,
-  "className"
-> &
-  StringClassName;
-export type SheetDescriptionProps = Omit<
-  React.ComponentProps<typeof BaseDialog.Description>,
-  "className"
-> &
-  StringClassName;
+export interface SheetTriggerProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {
+  /** Project the trigger onto a custom element. */
+  render?: React.ReactElement;
+}
+
+export interface SheetCloseProps
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {
+  /** Project the close control onto a custom element. */
+  render?: React.ReactElement;
+}
+
+export type SheetTitleProps = React.ComponentPropsWithoutRef<"h2">;
+export type SheetDescriptionProps = React.ComponentPropsWithoutRef<"p">;
 export type SheetFooterProps = React.HTMLAttributes<HTMLDivElement>;
 
-type PortalProps = React.ComponentProps<typeof BaseDialog.Portal>;
-
-export interface SheetContentProps
-  extends Omit<React.ComponentProps<typeof BaseDialog.Popup>, "className">,
-    StringClassName {
+export interface SheetContentProps extends React.ComponentPropsWithoutRef<"div"> {
   /** Edge the panel slides in from. Defaults to 'right'. */
   side?: SheetVariants["side"];
   /** Panel extent (width for left/right, height for top/bottom). Defaults to 'md'. */
@@ -32,5 +37,5 @@ export interface SheetContentProps
   /** Render a close (×) button in the top-right corner. Defaults to true. */
   showClose?: boolean;
   /** Portal container. Defaults to document.body. */
-  container?: PortalProps["container"];
+  container?: React.RefObject<HTMLElement | null>;
 }

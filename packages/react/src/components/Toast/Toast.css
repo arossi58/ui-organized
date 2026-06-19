@@ -1,15 +1,12 @@
 /* ─── Viewport ────────────────────────────────────────────────────────────── */
 
+/* Ark positions the toaster (placement: bottom-end) and stacks the toasts with
+   inline transforms; we just set the offset + z-index and size each toast. */
 .toast__viewport {
-  position: fixed;
+  --gap: var(--spacing-space-02);
   bottom: var(--spacing-space-04);
   right: var(--spacing-space-04);
   z-index: var(--z-index-toast);
-  display: flex;
-  flex-direction: column-reverse;
-  gap: var(--spacing-space-02);
-  width: 360px;
-  max-width: calc(100vw - var(--spacing-space-08));
   outline: none;
 }
 
@@ -19,7 +16,8 @@
   display: flex;
   align-items: flex-start;
   gap: var(--spacing-space-02);
-  width: 100%;
+  width: 360px;
+  max-width: calc(100vw - var(--spacing-space-08));
   padding: var(--spacing-space-03) var(--spacing-space-04);
   background-color: var(--color-surface-secondary);
   border: 1px solid var(--color-border-secondary);
@@ -32,18 +30,10 @@
     transform 200ms ease;
 }
 
-.toast__root[data-starting-style],
-.toast__root[data-ending-style] {
+/* Ark drives the stack position + swipe via inline transform; we only fade
+   (Zag's data-state replaces Base UI's data-starting/ending-style). */
+.toast__root[data-state="closed"] {
   opacity: 0;
-  transform: translateX(110%);
-}
-
-.toast__root[data-swiping] {
-  transition: none;
-  transform: translate(
-    var(--toast-swipe-movement-x, 0),
-    var(--toast-swipe-movement-y, 0)
-  );
 }
 
 /* ─── Status accents ──────────────────────────────────────────────────────── */
@@ -143,8 +133,7 @@
   .toast__root {
     transition: opacity 200ms ease;
   }
-  .toast__root[data-starting-style],
-  .toast__root[data-ending-style] {
+  .toast__root[data-state="closed"] {
     transform: none;
   }
 }

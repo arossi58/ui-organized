@@ -1,11 +1,21 @@
 import * as React from "react";
-import { Tooltip as BaseTooltip } from "@base-ui-components/react/tooltip";
+import { Tooltip as ArkTooltip, Portal } from "@ark-ui/react";
 import type { TooltipProps, TooltipProviderProps } from "./Tooltip.types.js";
 import "./Tooltip.css";
 
+/**
+ * Ark UI has no app-level "shared delays" provider (delays are per-tooltip Root
+ * props), so the facade preserves that contract with a small React context that
+ * supplies default open/close delays to descendant tooltips.
+ */
+const TooltipDelayContext = React.createContext<{ delay?: number; closeDelay?: number }>(
+  {},
+);
+
 /** Shares hover/close delays across the tooltips it wraps. Optional, app-level. */
-export function TooltipProvider(props: TooltipProviderProps) {
-  return <BaseTooltip.Provider {...props} />;
+export function TooltipProvider({ children, delay, closeDelay }: TooltipProviderProps) {
+  const value = React.useMemo(() => ({ delay, closeDelay }), [delay, closeDelay]);
+  return <TooltipDelayContext.Provider value={value}>{children}</TooltipDelayContext.Provider>;
 }
 
 /**
@@ -27,43 +37,41 @@ export function Tooltip({
   onOpenChange,
   container,
 }: TooltipProps) {
+  const shared = React.useContext(TooltipDelayContext);
   if (disabled) return <>{children}</>;
 
+  // Base UI took separate side/align/sideOffset props; Ark/Zag takes a single
+  // `positioning` config where placement combines side+align and gutter is the gap.
+  const placement = align === "center" ? side : (`${side}-${align}` as const);
+
   const trigger = React.isValidElement(children) ? (
-    <BaseTooltip.Trigger render={children as React.ReactElement<Record<string, unknown>>} />
+    <ArkTooltip.Trigger asChild>{children}</ArkTooltip.Trigger>
   ) : (
-    <BaseTooltip.Trigger className="tooltip__trigger">{children}</BaseTooltip.Trigger>
+    <ArkTooltip.Trigger className="tooltip__trigger">{children}</ArkTooltip.Trigger>
   );
 
-  const root = (
-    <BaseTooltip.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+  return (
+    <ArkTooltip.Root
+      open={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
+      openDelay={delay ?? shared.delay}
+      closeDelay={closeDelay ?? shared.closeDelay}
+      positioning={{ placement, gutter: sideOffset }}
+    >
       {trigger}
-      <BaseTooltip.Portal container={container}>
-        <BaseTooltip.Positioner
-          className="tooltip__positioner"
-          side={side}
-          align={align}
-          sideOffset={sideOffset}
-        >
-          <BaseTooltip.Popup className="tooltip__popup">
+      <Portal container={container}>
+        <ArkTooltip.Positioner className="tooltip__positioner">
+          <ArkTooltip.Content className="tooltip__popup">
             {content}
-            {showArrow && <BaseTooltip.Arrow className="tooltip__arrow" />}
-          </BaseTooltip.Popup>
-        </BaseTooltip.Positioner>
-      </BaseTooltip.Portal>
-    </BaseTooltip.Root>
+            {showArrow && (
+              <ArkTooltip.Arrow className="tooltip__arrow">
+                <ArkTooltip.ArrowTip className="tooltip__arrow-tip" />
+              </ArkTooltip.Arrow>
+            )}
+          </ArkTooltip.Content>
+        </ArkTooltip.Positioner>
+      </Portal>
+    </ArkTooltip.Root>
   );
-
-  // `delay`/`closeDelay` are configured on the provider in Base UI. Wrap in a
-  // local provider when given so a standalone tooltip can tune its own timing
-  // (and override any app-level TooltipProvider for this tooltip).
-  if (delay != null || closeDelay != null) {
-    return (
-      <BaseTooltip.Provider delay={delay} closeDelay={closeDelay}>
-        {root}
-      </BaseTooltip.Provider>
-    );
-  }
-
-  return root;
 }

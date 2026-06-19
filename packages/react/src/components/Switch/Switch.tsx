@@ -1,4 +1,4 @@
-import { Switch as BaseSwitch } from "@base-ui-components/react/switch";
+import { Switch as ArkSwitch } from "@ark-ui/react";
 import { clsx } from "clsx";
 import type { SwitchProps } from "./Switch.types.js";
 import "./Switch.css";
@@ -14,21 +14,28 @@ export function Switch({
   id,
   className,
 }: SwitchProps) {
+  // Ark's Switch.Root *is* the <label>, so the wrapper element and the
+  // interactive root are one and the same (Base UI nested a separate <label>).
+  // onCheckedChange receives a details object in Ark; adapt to the facade's
+  // (checked: boolean) signature so the public API is unchanged.
   return (
-    <label className={clsx("switch", className)}>
-      <BaseSwitch.Root
-        checked={checked}
-        defaultChecked={defaultChecked}
-        onCheckedChange={onCheckedChange}
-        disabled={disabled}
-        required={required}
-        name={name}
-        id={id}
-        className="switch__track"
-      >
-        <BaseSwitch.Thumb className="switch__thumb" />
-      </BaseSwitch.Root>
-      {label && <span className="switch__label">{label}</span>}
-    </label>
+    <ArkSwitch.Root
+      className={clsx("switch", className)}
+      checked={checked}
+      defaultChecked={defaultChecked}
+      onCheckedChange={
+        onCheckedChange ? (details) => onCheckedChange(details.checked) : undefined
+      }
+      disabled={disabled}
+      required={required}
+      name={name}
+      id={id}
+    >
+      <ArkSwitch.Control className="switch__track">
+        <ArkSwitch.Thumb className="switch__thumb" />
+      </ArkSwitch.Control>
+      {label && <ArkSwitch.Label className="switch__label">{label}</ArkSwitch.Label>}
+      <ArkSwitch.HiddenInput />
+    </ArkSwitch.Root>
   );
 }

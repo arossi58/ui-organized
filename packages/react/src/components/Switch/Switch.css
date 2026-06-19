@@ -25,19 +25,21 @@
   transition: background-color 200ms ease;
 }
 
-.switch__track:focus-visible {
+/* Focus moves to Ark's visually-hidden input, not the track <span>, so the
+   keyboard-focus ring is keyed off Zag's data-focus-visible instead of :focus-visible. */
+.switch__track[data-focus-visible] {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-.switch__track[data-checked] {
+.switch__track[data-state="checked"] {
   background-color: var(--color-interactive-primary-default);
 }
 
-.switch__track:hover:not([data-disabled])[data-checked] {
+.switch__track:hover:not([data-disabled])[data-state="checked"] {
   background-color: var(--color-interactive-primary-hover);
 }
 
-.switch__track:hover:not([data-disabled]):not([data-checked]) {
+.switch__track:hover:not([data-disabled]):not([data-state="checked"]) {
   background-color: var(--color-interactive-secondary-hover);
 }
 
@@ -55,7 +57,7 @@
   transition: left 200ms ease;
 }
 
-.switch__track[data-checked] .switch__thumb {
+.switch__track[data-state="checked"] .switch__thumb {
   left: 23px;
 }
 

@@ -1,13 +1,13 @@
 {
   "name": "@ui-organized/react",
   "version": "0.1.1",
-  "description": "React component library for the ui-organized design system, built on Base UI.",
+  "description": "React component library for the ui-organized design system, built on Ark UI.",
   "keywords": [
     "design-system",
     "react",
     "components",
     "ui",
-    "base-ui",
+    "ark-ui",
     "accessible"
   ],
   "license": "Apache-2.0",
@@ -51,11 +51,11 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": ">=18",
-    "react-dom": ">=18",
-    "lucide-react": ">=0.400.0",
+    "@heroicons/react": ">=2.0.0",
     "@tabler/icons-react": ">=3.0.0",
-    "@heroicons/react": ">=2.0.0"
+    "lucide-react": ">=0.400.0",
+    "react": ">=18",
+    "react-dom": ">=18"
   },
   "peerDependenciesMeta": {
     "lucide-react": {
@@ -69,7 +69,7 @@
     }
   },
   "dependencies": {
-    "@base-ui-components/react": "^1.0.0-rc.0",
+    "@ark-ui/react": "^5.37.2",
     "@ui-organized/schema": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
@@ -77,11 +77,11 @@
     "clsx": "^2.1.0"
   },
   "devDependencies": {
-    "@ui-organized/tsconfig": "workspace:*",
     "@heroicons/react": "^2.0.0",
     "@tabler/icons-react": "^3.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
     "lucide-react": "^0.400.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

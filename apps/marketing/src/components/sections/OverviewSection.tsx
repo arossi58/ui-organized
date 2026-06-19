@@ -2,9 +2,7 @@ import { useState, type ComponentType } from "react";
 import { Reveal } from "../Reveal";
 import { OverviewCard } from "./OverviewCard";
 import { OverviewDetail, type OverviewId } from "./OverviewDetail";
-import { DesignArt } from "./overview/DesignArt";
-import { PluginsArt } from "./overview/PluginsArt";
-import { CodeArt } from "./overview/CodeArt";
+import { DesignScene, ToolsScene, CodeScene } from "./overview/scenes";
 import "./overview-section.css";
 
 interface OverviewCardDef {
@@ -19,19 +17,19 @@ const CARDS: OverviewCardDef[] = [
     id: "design",
     title: "Design",
     body: "An ever-growing Figma design library.",
-    Art: DesignArt,
+    Art: DesignScene,
   },
   {
     id: "tools",
     title: "Tools",
     body: "Generators and utilities to make design easier.",
-    Art: PluginsArt,
+    Art: ToolsScene,
   },
   {
     id: "code",
     title: "Code",
     body: "Build with out-of-the-box components.",
-    Art: CodeArt,
+    Art: CodeScene,
   },
 ];
 

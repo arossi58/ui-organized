@@ -29,6 +29,15 @@
   height: 100%;
 }
 
+/* Base UI unmounted the inactive layer; Ark keeps both image and fallback
+   mounted and toggles the `hidden` attribute — but `.avatar__fallback`'s
+   `display: flex` would override [hidden]'s display:none, leaving the fallback
+   visible beside a loaded image. Honor `hidden` explicitly. */
+.avatar__image[hidden],
+.avatar__fallback[hidden] {
+  display: none;
+}
+
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */
 
 .avatar--xs { width: 24px; height: 24px; font-size: var(--type-size-caption); }

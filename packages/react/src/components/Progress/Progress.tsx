@@ -1,4 +1,4 @@
-import { Progress as BaseProgress } from "@base-ui-components/react/progress";
+import { Progress as ArkProgress } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { progressStyles } from "./Progress.styles.js";
 import type { ProgressProps } from "./Progress.types.js";
@@ -16,7 +16,7 @@ export function Progress({
   const showHeader = label != null || showValue;
 
   return (
-    <BaseProgress.Root
+    <ArkProgress.Root
       value={value}
       max={max}
       className={clsx(progressStyles({ variant, size }), className)}
@@ -24,14 +24,14 @@ export function Progress({
       {showHeader && (
         <div className="progress__header">
           {label != null && (
-            <BaseProgress.Label className="progress__label">{label}</BaseProgress.Label>
+            <ArkProgress.Label className="progress__label">{label}</ArkProgress.Label>
           )}
-          {showValue && <BaseProgress.Value className="progress__value" />}
+          {showValue && <ArkProgress.ValueText className="progress__value" />}
         </div>
       )}
-      <BaseProgress.Track className="progress__track">
-        <BaseProgress.Indicator className="progress__indicator" />
-      </BaseProgress.Track>
-    </BaseProgress.Root>
+      <ArkProgress.Track className="progress__track">
+        <ArkProgress.Range className="progress__indicator" />
+      </ArkProgress.Track>
+    </ArkProgress.Root>
   );
 }

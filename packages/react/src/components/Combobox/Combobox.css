@@ -3,6 +3,12 @@
    label/description and the `.field__control` base on the input; the control
    shell, trigger and popup are new. */
 
+/* Ark's Combobox.Root renders a wrapper element; make it transparent to layout
+   so the label, control and helper stay direct flex children of the field. */
+.combobox-field__root {
+  display: contents;
+}
+
 /* ─── Control (bordered shell: input + chevron trigger) ───────────────────── */
 
 .combobox-field__control {
@@ -76,7 +82,7 @@
   transition: transform 150ms ease;
 }
 
-.combobox-field__trigger[data-popup-open] .icon {
+.combobox-field__trigger[data-state="open"] .icon {
   transform: rotate(180deg);
 }
 
@@ -87,7 +93,7 @@
 }
 
 .combobox-popup {
-  width: var(--anchor-width);
+  width: var(--reference-width);
   max-height: 280px;
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -105,8 +111,7 @@
     transform 100ms ease;
 }
 
-.combobox-popup[data-starting-style],
-.combobox-popup[data-ending-style] {
+.combobox-popup[data-state="closed"] {
   opacity: 0;
   transform: scaleY(0.95);
 }
@@ -148,7 +153,7 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-.combobox-popup__item[data-selected] {
+.combobox-popup__item[data-state="checked"] {
   background-color: var(--color-interactive-ui-selected);
 }
 
@@ -173,6 +178,6 @@
   opacity: 0;
 }
 
-.combobox-popup__item[data-selected] .combobox-popup__item-indicator {
+.combobox-popup__item[data-state="checked"] .combobox-popup__item-indicator {
   opacity: 1;
 }

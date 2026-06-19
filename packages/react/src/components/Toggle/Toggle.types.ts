@@ -1,23 +1,35 @@
 import type * as React from "react";
 import type { CanonicalIconName } from "@ui-organized/utils";
-import { Toggle as BaseToggle } from "@base-ui-components/react/toggle";
-import { ToggleGroup as BaseToggleGroup } from "@base-ui-components/react/toggle-group";
 import type { ToggleVariants } from "./Toggle.styles.js";
 
-/** Restrict Base UI's `className` (string | fn) to a plain string for styled parts. */
-type StringClassName = { className?: string };
-
 export interface ToggleProps
-  extends Omit<React.ComponentProps<typeof BaseToggle>, "className">,
-    StringClassName {
+  extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {
+  /** Controlled pressed state (standalone usage). */
+  pressed?: boolean;
+  /** Initial pressed state for uncontrolled standalone usage. */
+  defaultPressed?: boolean;
+  /** Fired when the pressed state changes (standalone usage). */
+  onPressedChange?: (pressed: boolean) => void;
+  /** Identifies this toggle within a `<ToggleGroup>`; turns it into a group item. */
+  value?: string;
   /** Size variant. Defaults to 'md'. */
   size?: ToggleVariants["size"];
   /** Optional leading icon. */
   icon?: CanonicalIconName;
 }
 
-export type ToggleGroupProps = Omit<
-  React.ComponentProps<typeof BaseToggleGroup>,
-  "className"
-> &
-  StringClassName;
+export interface ToggleGroupProps
+  extends Omit<React.ComponentPropsWithoutRef<"div">, "defaultValue"> {
+  /** Controlled list of pressed values. */
+  value?: string[];
+  /** Initial pressed values for uncontrolled usage. */
+  defaultValue?: string[];
+  /** Fired when the set of pressed values changes. */
+  onValueChange?: (value: string[]) => void;
+  /** Allow more than one toggle pressed at once. Defaults to single-select. */
+  multiple?: boolean;
+  /** Disable the whole group. */
+  disabled?: boolean;
+  /** Layout orientation. Defaults to 'horizontal'. */
+  orientation?: "horizontal" | "vertical";
+}

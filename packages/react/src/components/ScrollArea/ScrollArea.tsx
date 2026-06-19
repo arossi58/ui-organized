@@ -1,4 +1,4 @@
-import { ScrollArea as BaseScrollArea } from "@base-ui-components/react/scroll-area";
+import { ScrollArea as ArkScrollArea } from "@ark-ui/react";
 import { clsx } from "clsx";
 import type { ScrollAreaProps } from "./ScrollArea.types.js";
 import "./ScrollArea.css";
@@ -12,21 +12,21 @@ export function ScrollArea({ children, orientation = "vertical", className, styl
   const showHorizontal = orientation === "horizontal" || orientation === "both";
 
   return (
-    <BaseScrollArea.Root className={clsx("scroll-area", className)} style={style}>
-      <BaseScrollArea.Viewport className="scroll-area__viewport">
-        <BaseScrollArea.Content className="scroll-area__content">{children}</BaseScrollArea.Content>
-      </BaseScrollArea.Viewport>
+    <ArkScrollArea.Root className={clsx("scroll-area", className)} style={style}>
+      <ArkScrollArea.Viewport className="scroll-area__viewport">
+        <ArkScrollArea.Content className="scroll-area__content">{children}</ArkScrollArea.Content>
+      </ArkScrollArea.Viewport>
       {showVertical && (
-        <BaseScrollArea.Scrollbar orientation="vertical" className="scroll-area__scrollbar">
-          <BaseScrollArea.Thumb className="scroll-area__thumb" />
-        </BaseScrollArea.Scrollbar>
+        <ArkScrollArea.Scrollbar orientation="vertical" className="scroll-area__scrollbar">
+          <ArkScrollArea.Thumb className="scroll-area__thumb" />
+        </ArkScrollArea.Scrollbar>
       )}
       {showHorizontal && (
-        <BaseScrollArea.Scrollbar orientation="horizontal" className="scroll-area__scrollbar">
-          <BaseScrollArea.Thumb className="scroll-area__thumb" />
-        </BaseScrollArea.Scrollbar>
+        <ArkScrollArea.Scrollbar orientation="horizontal" className="scroll-area__scrollbar">
+          <ArkScrollArea.Thumb className="scroll-area__thumb" />
+        </ArkScrollArea.Scrollbar>
       )}
-      {orientation === "both" && <BaseScrollArea.Corner className="scroll-area__corner" />}
-    </BaseScrollArea.Root>
+      {orientation === "both" && <ArkScrollArea.Corner className="scroll-area__corner" />}
+    </ArkScrollArea.Root>
   );
 }

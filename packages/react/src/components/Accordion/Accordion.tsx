@@ -1,4 +1,4 @@
-import { Accordion as BaseAccordion } from "@base-ui-components/react/accordion";
+import { Accordion as ArkAccordion } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { accordionStyles } from "./Accordion.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -17,36 +17,39 @@ export function Accordion({
   className,
 }: AccordionProps) {
   return (
-    <BaseAccordion.Root
+    <ArkAccordion.Root
       multiple={multiple}
-      value={value}
-      defaultValue={defaultValue}
-      onValueChange={
-        onValueChange
-          ? (v) => onValueChange(v as (string | number)[])
-          : undefined
-      }
+      // In single mode, keep Base UI's behaviour of being able to close the open
+      // item by clicking it again (Zag implies collapsible when `multiple`).
+      collapsible={!multiple}
+      // Zag accordion values are strings; coerce at the boundary so numeric
+      // item values keep working.
+      value={value?.map(String)}
+      defaultValue={defaultValue?.map(String)}
+      onValueChange={onValueChange ? (details) => onValueChange(details.value) : undefined}
       disabled={disabled}
       className={clsx(accordionStyles({ variant, size }), className)}
     >
       {items.map((item) => (
-        <BaseAccordion.Item
+        <ArkAccordion.Item
           key={item.value}
-          value={item.value}
+          value={String(item.value)}
           disabled={item.disabled}
           className="accordion__item"
         >
-          <BaseAccordion.Header className="accordion__header">
-            <BaseAccordion.Trigger className="accordion__trigger">
+          {/* Ark has no Header part — wrap the trigger in a heading ourselves so
+              the trigger stays inside a heading for assistive tech. */}
+          <h3 className="accordion__header">
+            <ArkAccordion.ItemTrigger className="accordion__trigger">
               <span className="accordion__title">{item.title}</span>
               <Icon name="chevron-down" size={20} className="accordion__icon" />
-            </BaseAccordion.Trigger>
-          </BaseAccordion.Header>
-          <BaseAccordion.Panel className="accordion__panel">
+            </ArkAccordion.ItemTrigger>
+          </h3>
+          <ArkAccordion.ItemContent className="accordion__panel">
             <div className="accordion__content">{item.content}</div>
-          </BaseAccordion.Panel>
-        </BaseAccordion.Item>
+          </ArkAccordion.ItemContent>
+        </ArkAccordion.Item>
       ))}
-    </BaseAccordion.Root>
+    </ArkAccordion.Root>
   );
 }

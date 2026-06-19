@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Slider } from "@base-ui-components/react/slider";
-import { Field } from "@base-ui-components/react/field";
+import { Slider, Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { rangeStyles } from "./Range.styles.js";
 import { FieldError } from "../FieldError/index.js";
@@ -126,9 +125,9 @@ export function Range({
 
       <Slider.Root
         className="range__slider"
-        value={sliderValue}
-        onValueChange={handleChange}
-        onValueCommitted={handleCommitted}
+        value={[sliderValue]}
+        onValueChange={(details) => handleChange(details.value)}
+        onValueChangeEnd={(details) => handleCommitted(details.value)}
         min={snapPoints ? 0 : min}
         max={snapPoints ? snapPoints.length - 1 : max}
         step={snapPoints ? 1 : step}
@@ -144,8 +143,10 @@ export function Range({
           )}
           <Slider.Control className="range__control">
             <Slider.Track className="range__track">
-              <Slider.Indicator className="range__indicator" />
-              <Slider.Thumb className="range__thumb" />
+              <Slider.Range className="range__indicator" />
+              <Slider.Thumb index={0} className="range__thumb">
+                <Slider.HiddenInput />
+              </Slider.Thumb>
             </Slider.Track>
           </Slider.Control>
           {rangeLabels && (
@@ -157,9 +158,9 @@ export function Range({
       </Slider.Root>
 
       {isInvalid && errorMessage && (
-        <Field.Error match={true} render={<FieldError />}>
-          {errorMessage}
-        </Field.Error>
+        <Field.ErrorText asChild>
+          <FieldError>{errorMessage}</FieldError>
+        </Field.ErrorText>
       )}
     </Field.Root>
   );

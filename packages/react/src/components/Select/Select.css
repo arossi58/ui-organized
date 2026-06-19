@@ -10,6 +10,12 @@
 /* Label, required indicator and description use the shared `.field__*` chrome
    (see Field.css). */
 
+/* Ark's Select.Root renders a wrapper element; make it transparent to layout so
+   the label, trigger and helper stay direct flex children of the field. */
+.select-field__control {
+  display: contents;
+}
+
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
 .select-field__trigger {
@@ -41,7 +47,7 @@
   border-color: var(--color-border-primary);
 }
 
-.select-field__trigger[data-popup-open] {
+.select-field__trigger[data-state="open"] {
   background-color: var(--color-interactive-ui-active);
   border-color: var(--color-border-primary);
 }
@@ -67,8 +73,10 @@
 }
 
 /* ─── Placeholder text ────────────────────────────────────────────────────── */
+/* Ark renders the placeholder inside the ValueText; Zag flags the empty trigger
+   with [data-placeholder-shown]. The chevron keeps its own colour below. */
 
-.select-field__placeholder {
+.select-field__trigger[data-placeholder-shown] .select-field__value {
   color: var(--color-text-placeholder);
 }
 
@@ -90,7 +98,7 @@
   transition: transform 150ms ease;
 }
 
-.select-field__trigger[data-popup-open] .select-field__icon .icon {
+.select-field__trigger[data-state="open"] .select-field__icon .icon {
   transform: rotate(180deg);
 }
 
@@ -110,7 +118,7 @@
   border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-interactive);
   padding: var(--spacing-space-01) 0;
-  width: var(--anchor-width);
+  width: var(--reference-width);
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -2px rgba(0, 0, 0, 0.2);
@@ -122,8 +130,7 @@
     transform 100ms ease;
 }
 
-.select-popup[data-ending-style],
-.select-popup[data-starting-style] {
+.select-popup[data-state="closed"] {
   opacity: 0;
   transform: scaleY(0.95);
 }
@@ -163,7 +170,7 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-.select-popup__item[data-selected] {
+.select-popup__item[data-state="checked"] {
   background-color: var(--color-interactive-ui-selected);
 }
 
@@ -185,7 +192,7 @@
   opacity: 0;
 }
 
-.select-popup__item[data-selected] .select-popup__item-indicator {
+.select-popup__item[data-state="checked"] .select-popup__item-indicator {
   opacity: 1;
 }
 

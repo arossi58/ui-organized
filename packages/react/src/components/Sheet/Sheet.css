@@ -3,6 +3,12 @@
    `.dialog__title`/`.dialog__description`/`.dialog__footer`/`.dialog__close`
    chrome (Dialog.css); only the popup positioning + slide animation is new. */
 
+/* The panel self-positions at the edge, so the Ark positioner is boxless and
+   never overlays the viewport (the backdrop owns outside-click). */
+.sheet__positioner {
+  display: contents;
+}
+
 .sheet__popup {
   position: fixed;
   z-index: var(--z-index-dialog);
@@ -66,17 +72,10 @@
 
 /* ─── Slide animation (per side) ──────────────────────────────────────────── */
 
-.sheet__popup--right[data-starting-style],
-.sheet__popup--right[data-ending-style] { transform: translateX(100%); }
-
-.sheet__popup--left[data-starting-style],
-.sheet__popup--left[data-ending-style] { transform: translateX(-100%); }
-
-.sheet__popup--top[data-starting-style],
-.sheet__popup--top[data-ending-style] { transform: translateY(-100%); }
-
-.sheet__popup--bottom[data-starting-style],
-.sheet__popup--bottom[data-ending-style] { transform: translateY(100%); }
+.sheet__popup--right[data-state="closed"] { transform: translateX(100%); }
+.sheet__popup--left[data-state="closed"] { transform: translateX(-100%); }
+.sheet__popup--top[data-state="closed"] { transform: translateY(-100%); }
+.sheet__popup--bottom[data-state="closed"] { transform: translateY(100%); }
 
 @media (prefers-reduced-motion: reduce) {
   .sheet__popup { transition: opacity 200ms ease; }

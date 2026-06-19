@@ -1,9 +1,14 @@
-import { Meter as BaseMeter } from "@base-ui-components/react/meter";
 import { clsx } from "clsx";
 import { meterStyles } from "./Meter.styles.js";
 import type { MeterProps } from "./Meter.types.js";
 import "./Meter.css";
 
+// Ark UI has no Meter primitive; Base UI's Meter.Root was a thin role="meter"
+// wrapper that emitted the ARIA value attributes, formatted the value, and set
+// the fill width. None of that needs a headless machine, so the facade owns the
+// accessible markup directly (this also removes the only place a meter touched
+// Base UI). Distinct from Progress: a meter shows a static measurement, never
+// indeterminate.
 export function Meter({
   value,
   min = 0,
@@ -16,24 +21,28 @@ export function Meter({
   className,
 }: MeterProps) {
   const showHeader = label != null || showValue;
+  const clamped = Math.min(Math.max(value, min), max);
+  const percent = max > min ? ((clamped - min) / (max - min)) * 100 : 0;
+  const formatted = new Intl.NumberFormat(undefined, format).format(value);
 
   return (
-    <BaseMeter.Root
-      value={value}
-      min={min}
-      max={max}
-      format={format}
+    <div
+      role="meter"
+      aria-valuenow={value}
+      aria-valuemin={min}
+      aria-valuemax={max}
+      aria-valuetext={formatted}
       className={clsx(meterStyles({ variant, size }), className)}
     >
       {showHeader && (
         <div className="meter__header">
-          {label != null && <BaseMeter.Label className="meter__label">{label}</BaseMeter.Label>}
-          {showValue && <BaseMeter.Value className="meter__value" />}
+          {label != null && <span className="meter__label">{label}</span>}
+          {showValue && <span className="meter__value">{formatted}</span>}
         </div>
       )}
-      <BaseMeter.Track className="meter__track">
-        <BaseMeter.Indicator className="meter__indicator" />
-      </BaseMeter.Track>
-    </BaseMeter.Root>
+      <div className="meter__track">
+        <div className="meter__indicator" style={{ width: `${percent}%` }} />
+      </div>
+    </div>
   );
 }

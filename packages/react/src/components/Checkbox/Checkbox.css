@@ -31,12 +31,13 @@
     box-shadow 150ms ease;
 }
 
-.checkbox__control:focus-visible {
+/* Focus lives on Ark's visually-hidden input, not the control <span>. */
+.checkbox__control[data-focus-visible] {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-.checkbox__control[data-checked],
-.checkbox__control[data-indeterminate] {
+.checkbox__control[data-state="checked"],
+.checkbox__control[data-state="indeterminate"] {
   background-color: var(--color-interactive-primary-default);
   border-color: var(--color-interactive-primary-default);
 }
@@ -45,8 +46,8 @@
   border-color: var(--color-border-data-entry);
 }
 
-.checkbox__control[data-checked]:hover:not([data-disabled]),
-.checkbox__control[data-indeterminate]:hover:not([data-disabled]) {
+.checkbox__control[data-state="checked"]:hover:not([data-disabled]),
+.checkbox__control[data-state="indeterminate"]:hover:not([data-disabled]) {
   background-color: var(--color-interactive-primary-hover);
   border-color: var(--color-interactive-primary-hover);
 }
@@ -67,8 +68,8 @@
     transform 100ms ease;
 }
 
-.checkbox__control[data-checked] .checkbox__indicator,
-.checkbox__control[data-indeterminate] .checkbox__indicator {
+.checkbox__control[data-state="checked"] .checkbox__indicator,
+.checkbox__control[data-state="indeterminate"] .checkbox__indicator {
   opacity: 1;
   transform: scale(1);
 }

@@ -1,4 +1,4 @@
-import { Tabs as BaseTabs } from "@base-ui-components/react/tabs";
+import { Tabs as ArkTabs } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { tabsStyles } from "./Tabs.styles.js";
 import type { TabsProps } from "./Tabs.types.js";
@@ -13,37 +13,42 @@ export function Tabs({
   size = "default",
   className,
 }: TabsProps) {
+  // Zag tabs are keyed by string; coerce at the boundary so numeric tab values
+  // keep working.
+  const resolvedDefault =
+    defaultValue != null
+      ? String(defaultValue)
+      : tabs[0] != null
+        ? String(tabs[0].value)
+        : undefined;
+
   return (
-    <BaseTabs.Root
-      value={value}
-      defaultValue={defaultValue ?? tabs[0]?.value}
-      onValueChange={onValueChange}
+    <ArkTabs.Root
+      value={value != null ? String(value) : undefined}
+      defaultValue={resolvedDefault}
+      onValueChange={onValueChange ? (details) => onValueChange(details.value) : undefined}
       orientation={orientation}
       className={clsx(tabsStyles({ orientation, size }), className)}
     >
-      <BaseTabs.List className="tabs__list">
+      <ArkTabs.List className="tabs__list">
         {tabs.map((tab) => (
-          <BaseTabs.Tab
+          <ArkTabs.Trigger
             key={tab.value}
-            value={tab.value}
+            value={String(tab.value)}
             disabled={tab.disabled}
             className="tabs__tab"
           >
             {tab.label}
-          </BaseTabs.Tab>
+          </ArkTabs.Trigger>
         ))}
-      </BaseTabs.List>
+      </ArkTabs.List>
       <div className="tabs__panels">
         {tabs.map((tab) => (
-          <BaseTabs.Panel
-            key={tab.value}
-            value={tab.value}
-            className="tabs__panel"
-          >
+          <ArkTabs.Content key={tab.value} value={String(tab.value)} className="tabs__panel">
             {tab.content}
-          </BaseTabs.Panel>
+          </ArkTabs.Content>
         ))}
       </div>
-    </BaseTabs.Root>
+    </ArkTabs.Root>
   );
 }

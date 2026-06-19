@@ -22,8 +22,7 @@
     transform 100ms ease;
 }
 
-.context-menu__popup[data-starting-style],
-.context-menu__popup[data-ending-style] {
+.context-menu__popup[data-state="closed"] {
   opacity: 0;
   transform: scale(0.95);
 }

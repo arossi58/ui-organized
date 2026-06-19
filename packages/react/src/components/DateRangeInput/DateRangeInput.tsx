@@ -1,12 +1,12 @@
 import { useId, useRef, useState, type ChangeEvent, type ReactNode } from "react";
-import { Popover } from "@base-ui-components/react/popover";
+import { Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { inputFieldStyles } from "../Input/Input.styles.js";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate } from "../Calendar/dateUtils.js";
-import { DatePopover } from "../DateField/DatePopover.js";
+import { DatePopover, datePopoverPositioning } from "../DateField/DatePopover.js";
 import { openDatePicker } from "../DateField/openDatePicker.js";
 import { useCoarsePointer } from "../DateField/useCoarsePointer.js";
 import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types.js";
@@ -93,6 +93,9 @@ export function DateRangeInput({
           ref={isStart ? startRef : endRef}
           type="date"
           className="field__control field__control--affix-start"
+          // Native date inputs are never `:placeholder-shown`; flag empty so the
+          // mm/dd/yyyy chrome renders in the placeholder colour.
+          data-empty={(isStart ? current.start : current.end) ? undefined : true}
           value={isStart ? current.start : current.end}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             update(
@@ -156,21 +159,24 @@ export function DateRangeInput({
     );
   } else {
     const startTrigger = (
-      <Popover.Trigger
-        render={
-          <button
-            type="button"
-            className="input-affix__adornment input-affix__adornment--start input-affix__action"
-            disabled={disabled}
-            aria-label={`${startLabel} — choose date`}
-          />
-        }
-      >
-        <Icon name="calendar" size={20} />
-      </Popover.Trigger>
+      <ArkPopover.Trigger asChild>
+        <button
+          type="button"
+          className="input-affix__adornment input-affix__adornment--start input-affix__action"
+          disabled={disabled}
+          aria-label={`${startLabel} — choose date`}
+        >
+          <Icon name="calendar" size={20} />
+        </button>
+      </ArkPopover.Trigger>
     );
     row = (
-      <Popover.Root open={open} onOpenChange={setOpen}>
+      <ArkPopover.Root
+        open={open}
+        onOpenChange={(details) => setOpen(details.open)}
+        positioning={datePopoverPositioning(rowRef)}
+        initialFocusEl={() => activeDayRef.current}
+      >
         <div className="date-range__row" ref={rowRef}>
           {renderField("start", startTrigger)}
           {sep}
@@ -182,11 +188,7 @@ export function DateRangeInput({
             }),
           )}
         </div>
-        <DatePopover
-          anchorRef={rowRef}
-          initialFocus={activeDayRef}
-          container={portalContainer}
-        >
+        <DatePopover container={portalContainer}>
           <Calendar
             mode="range"
             numMonths={2}
@@ -206,7 +208,7 @@ export function DateRangeInput({
             activeDayRef={activeDayRef}
           />
         </DatePopover>
-      </Popover.Root>
+      </ArkPopover.Root>
     );
   }
 

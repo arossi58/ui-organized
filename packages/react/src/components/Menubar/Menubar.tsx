@@ -1,4 +1,3 @@
-import { Menubar as BaseMenubar } from "@base-ui-components/react/menubar";
 import { clsx } from "clsx";
 import type { MenubarProps } from "./Menubar.types.js";
 import "./Menubar.css";
@@ -16,7 +15,19 @@ import "./Menubar.css";
  *   </Menu>
  * </Menubar>
  * ```
+ *
+ * Ark UI has no Menubar primitive (and the menus inside are independent Ark
+ * menus), so this is a `role="menubar"` container — arrow-key movement *between*
+ * top-level menus is not coordinated; each menu opens/navigates on its own.
  */
-export function Menubar({ className, ...props }: MenubarProps) {
-  return <BaseMenubar className={clsx("menubar", className)} {...props} />;
+export function Menubar({ orientation = "horizontal", className, ...props }: MenubarProps) {
+  return (
+    <div
+      role="menubar"
+      aria-orientation={orientation}
+      data-orientation={orientation}
+      className={clsx("menubar", className)}
+      {...props}
+    />
+  );
 }

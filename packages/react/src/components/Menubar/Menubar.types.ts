@@ -1,11 +1,6 @@
 import type * as React from "react";
-import { Menubar as BaseMenubar } from "@base-ui-components/react/menubar";
 
-/** Restrict Base UI's `className` (string | fn) to a plain string for styled parts. */
-type StringClassName = { className?: string };
-
-export type MenubarProps = Omit<
-  React.ComponentProps<typeof BaseMenubar>,
-  "className"
-> &
-  StringClassName;
+export interface MenubarProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Layout orientation. Defaults to 'horizontal'. */
+  orientation?: "horizontal" | "vertical";
+}
