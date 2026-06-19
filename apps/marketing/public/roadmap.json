@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:39:07.382Z",
+  "syncedAt": "2026-06-19T01:40:36.272Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -54,6 +54,13 @@
           "title": "Angular Support",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/8",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfE4",
+          "title": "Example Pages",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/10",
           "labels": []
         }
       ]
