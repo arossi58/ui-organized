@@ -38,7 +38,8 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-.menubar__trigger[data-popup-open] {
+/* Each menu's Ark trigger emits data-state="open" when its menu is open. */
+.menubar__trigger[data-state="open"] {
   background-color: var(--color-interactive-ui-active);
 }
 
