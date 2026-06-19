@@ -101,6 +101,12 @@
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
   outline: none;
   cursor: grab;
+  /* Zag positions the thumb absolutely and only centres it horizontally
+     (`transform: translateX(-50%)`, inline — so we can't add a translateY).
+     Centre it on the 4px track vertically: drop to the track's mid-line, then
+     pull up by half the thumb height. */
+  top: 50%;
+  margin-top: -10px;
 }
 
 .range__thumb[data-dragging] {
