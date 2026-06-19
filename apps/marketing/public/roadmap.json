@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:41:16.256Z",
+  "syncedAt": "2026-06-19T01:45:06.481Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -72,14 +72,14 @@
         {
           "id": "PVTI_lAHOAd2RT84BaZqpzgwNewM",
           "title": "Figma Library Cleanup",
-          "type": "development",
+          "type": "design",
           "url": "https://github.com/arossi58/ui-organized/issues/9",
           "labels": []
         },
         {
           "id": "PVTI_lAHOAd2RT84BaZqpzgwNfho",
           "title": "Additional Components",
-          "type": "development",
+          "type": "design",
           "url": "https://github.com/arossi58/ui-organized/issues/11",
           "labels": []
         }
