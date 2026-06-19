@@ -5,6 +5,21 @@ packages/tokens/output
 instructions
 tokens-update
 
+# Build output / test artifacts
+storybook-static/
+coverage/
+
+# Caches
+.vite/
+.eslintcache
+
+# Logs
+*.log
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+
 # Local env files (secrets, Measurement IDs, site keys) — never commit
 .env
 .env.local

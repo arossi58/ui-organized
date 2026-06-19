@@ -32,7 +32,7 @@ export const Default: Story = {
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <strong>ui-organized</strong>
           <span style={{ color: "var(--color-text-secondary)" }}>
-            An accessible React design system built on Base UI.
+            An accessible React design system built on Ark UI.
           </span>
         </div>
       </HoverCardContent>

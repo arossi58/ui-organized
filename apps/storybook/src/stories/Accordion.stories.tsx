@@ -7,7 +7,7 @@ const ITEMS: AccordionItem[] = [
     value: "what",
     title: "What is this design system?",
     content:
-      "A React component library built on Base UI primitives, themed with design tokens.",
+      "A React component library built on Ark UI primitives, themed with design tokens.",
   },
   {
     value: "how",

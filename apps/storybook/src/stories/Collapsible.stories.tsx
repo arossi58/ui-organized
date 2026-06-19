@@ -24,7 +24,7 @@ export const Default: Story = {
       <CollapsibleTrigger>Show details</CollapsibleTrigger>
       <CollapsibleContent>
         <p style={{ margin: 0 }}>
-          This content is revealed when the trigger is activated. Its height animates via Base UI's
+          This content is revealed when the trigger is activated. Its height animates via Ark UI's
           panel measurement, so it works with dynamic content.
         </p>
       </CollapsibleContent>

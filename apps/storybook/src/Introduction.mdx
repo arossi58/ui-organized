@@ -25,7 +25,7 @@ theme config
    │   (@ui-organized/schema — Zod-validated shape)
    ▼
 design tokens  ──►  generation utils  ──►  React components
-(@ui-organized/tokens)   (@ui-organized/utils)        (@ui-organized/react, on Base UI)
+(@ui-organized/tokens)   (@ui-organized/utils)        (@ui-organized/react, on Ark UI)
    │                                          ▲
    └──►  Figma plugin  ·  theme builder  ·  Vite plugin (@ui-organized/react-vite)
 ```
@@ -34,7 +34,7 @@ design tokens  ──►  generation utils  ──►  React components
 
 | Package | Role |
 | --- | --- |
-| `@ui-organized/react` | React component library, built on Base UI |
+| `@ui-organized/react` | React component library, built on Ark UI |
 | `@ui-organized/tokens` | Design tokens — typed exports + generated CSS variables |
 | `@ui-organized/schema` | Zod schema / types for the theme config |
 | `@ui-organized/utils` | Colour, type-scale, spacing & semantic-token utilities |
@@ -52,7 +52,7 @@ design tokens  ──►  generation utils  ──►  React components
 - **Design ↔ code parity.** The Figma plugin emits the *same* config the code consumes, so there's no hand-translation drift between the two.
 - **Accessible by construction.** Brand steps are contrast-checked against on-brand text, and light/dark are first-class — each token carries its own assignment per mode.
 - **Framework-agnostic foundation.** Tokens ship as plain CSS variables and typed exports; the React library is one consumer, not the boundary.
-- **Built on Base UI.** Behaviour, focus management, and accessibility come from a robust headless layer; the design system owns only the look.
+- **Built on Ark UI.** Behaviour, focus management, and accessibility come from a robust headless layer; the design system owns only the look.
 
 ## Resources
 
