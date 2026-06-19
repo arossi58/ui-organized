@@ -93,6 +93,9 @@ export function DateRangeInput({
           ref={isStart ? startRef : endRef}
           type="date"
           className="field__control field__control--affix-start"
+          // Native date inputs are never `:placeholder-shown`; flag empty so the
+          // mm/dd/yyyy chrome renders in the placeholder colour.
+          data-empty={(isStart ? current.start : current.end) ? undefined : true}
           value={isStart ? current.start : current.end}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             update(

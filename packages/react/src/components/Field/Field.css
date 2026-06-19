@@ -77,9 +77,16 @@
    (the placeholder is the lighter `--color-text-placeholder`). Ark's Field
    doesn't track a filled state (Base UI's data-filled), so key off the input
    showing content instead. (Inputs without a placeholder match when empty too;
-   the design's fields always carry a placeholder.) */
-.field__control:not(:placeholder-shown):not(:disabled):not([data-disabled]) {
+   the design's fields always carry a placeholder.)
+   `[data-empty]` is set by the date/time fields — native date/time inputs are
+   never `:placeholder-shown`, so they'd always read as filled; the components
+   flag the empty state explicitly so the mm/dd/yyyy chrome stays placeholder-grey. */
+.field__control:not(:placeholder-shown):not([data-empty]):not(:disabled):not([data-disabled]) {
   color: var(--color-text-primary);
+}
+
+.field__control[data-empty]:not(:disabled):not([data-disabled]) {
+  color: var(--color-text-placeholder);
 }
 
 .field__control:focus-visible {

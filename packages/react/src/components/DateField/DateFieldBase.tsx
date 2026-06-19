@@ -98,6 +98,9 @@ export function DateFieldBase({
       ref={inputRef}
       type={type}
       className="field__control field__control--affix-start"
+      // Native date/time inputs are never `:placeholder-shown`; flag the empty
+      // state so the mm/dd/yyyy chrome renders in the placeholder colour.
+      data-empty={internalValue ? undefined : true}
       required={required}
       disabled={disabled}
       value={value}
@@ -165,6 +168,7 @@ export function DateFieldBase({
                 <input
                   type="time"
                   className="field__control date-popover__time"
+                  data-empty={timePart ? undefined : true}
                   value={timePart}
                   onChange={handleTimeChange}
                   aria-label="Time"
