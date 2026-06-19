@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:34:20.178Z",
+  "syncedAt": "2026-06-19T01:35:37.873Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -19,6 +19,13 @@
           "title": "Data Visualization",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/3",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeNg",
+          "title": "Table Library",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/4",
           "labels": []
         }
       ]
