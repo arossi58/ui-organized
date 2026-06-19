@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:35:37.873Z",
+  "syncedAt": "2026-06-19T01:36:43.203Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -26,6 +26,13 @@
           "title": "Table Library",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/4",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeYE",
+          "title": "Class manager and MCP Plugin",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/5",
           "labels": []
         }
       ]
