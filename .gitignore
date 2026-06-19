@@ -13,3 +13,4 @@ RELEASING.md
 .gitignore
 .gitattributes
 CHANGELOG.md
+.changeset
