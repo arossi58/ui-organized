@@ -51,7 +51,7 @@
     color 150ms ease;
 }
 
-.toolbar__button:hover:not(:disabled):not([data-disabled]) {
+.toolbar__button:hover:not(:disabled) {
   background-color: var(--color-interactive-ui-hover);
 }
 
@@ -59,14 +59,13 @@
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-/* Pressed state for toggle buttons placed in the toolbar. */
-.toolbar__button[data-pressed] {
+/* Pressed state for Toggle buttons placed in the toolbar (Ark emits data-state). */
+.toolbar__button[data-state="on"] {
   background-color: var(--color-interactive-ui-selected);
   border-color: var(--color-border-primary);
 }
 
-.toolbar__button:disabled,
-.toolbar__button[data-disabled] {
+.toolbar__button:disabled {
   color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
   pointer-events: none;
