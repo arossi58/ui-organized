@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:36:43.203Z",
+  "syncedAt": "2026-06-19T01:37:19.051Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -33,6 +33,13 @@
           "title": "Class manager and MCP Plugin",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/5",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNec0",
+          "title": "Vue Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/6",
           "labels": []
         }
       ]
