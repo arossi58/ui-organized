@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:37:44.472Z",
+  "syncedAt": "2026-06-19T01:38:01.107Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -47,6 +47,13 @@
           "title": "Svelte Support",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/7",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNekM",
+          "title": "Angular Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/8",
           "labels": []
         }
       ]
