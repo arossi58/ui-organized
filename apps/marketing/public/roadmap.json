@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:38:01.107Z",
+  "syncedAt": "2026-06-19T01:39:07.382Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -61,7 +61,15 @@
     {
       "id": "in-progress",
       "title": "In progress",
-      "items": []
+      "items": [
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNewM",
+          "title": "Figma Library Cleanup",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/9",
+          "labels": []
+        }
+      ]
     },
     {
       "id": "done",
