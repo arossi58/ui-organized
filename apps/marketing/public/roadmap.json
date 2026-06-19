@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:37:19.051Z",
+  "syncedAt": "2026-06-19T01:37:44.472Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -40,6 +40,13 @@
           "title": "Vue Support",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/6",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
+          "title": "Svelte Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/7",
           "labels": []
         }
       ]
