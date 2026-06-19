@@ -19,6 +19,8 @@ export const LINKS = {
   github: repo,
   /** The Figma plugin that imports a theme.json into Figma Variables. */
   githubFigmaPlugin: `${repo}/tree/main/tooling/figma-plugin`,
+  /** The Figma community profile hosting the published plugins. */
+  figmaProfile: "https://www.figma.com/@andrewrossi",
   npm: "https://www.npmjs.com",
   /** The published React component library on npm. */
   npmReact: "https://www.npmjs.com/package/@ui-organized/react",

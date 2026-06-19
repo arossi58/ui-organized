@@ -51,7 +51,7 @@
 .roadmap-card__title {
   margin: 0;
   font-family: var(--type-font-heading);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
   font-size: var(--type-size-heading-small);
   line-height: var(--type-leading-heading-small);
   color: var(--color-text-primary);

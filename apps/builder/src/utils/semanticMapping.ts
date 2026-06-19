@@ -51,15 +51,15 @@ export function computeTypographyVars(
   vars["--type-font-heading"] = `'${headingFamily}', sans-serif`;
   vars["--type-font-body"]    = `'${bodyFamily}', sans-serif`;
 
-  vars["--type-weight-heading-regular"]  = String(headingWeights.default  ?? 400);
-  vars["--type-weight-heading-medium"]   = String(headingWeights.emphasis ?? 500);
-  vars["--type-weight-heading-semibold"] = String(headingWeights.strong   ?? 600);
-  vars["--type-weight-heading-bold"]     = String(headingWeights.heavy    ?? 700);
+  vars["--type-weight-heading-default"]  = String(headingWeights.default  ?? 400);
+  vars["--type-weight-heading-emphasis"]   = String(headingWeights.emphasis ?? 500);
+  vars["--type-weight-heading-strong"] = String(headingWeights.strong   ?? 600);
+  vars["--type-weight-heading-heavy"]     = String(headingWeights.heavy    ?? 700);
 
-  vars["--type-weight-body-regular"]  = String(bodyWeights.default  ?? 400);
-  vars["--type-weight-body-medium"]   = String(bodyWeights.emphasis ?? 500);
-  vars["--type-weight-body-semibold"] = String(bodyWeights.strong   ?? 600);
-  vars["--type-weight-body-bold"]     = String(bodyWeights.heavy    ?? 700);
+  vars["--type-weight-body-default"]  = String(bodyWeights.default  ?? 400);
+  vars["--type-weight-body-emphasis"]   = String(bodyWeights.emphasis ?? 500);
+  vars["--type-weight-body-strong"] = String(bodyWeights.strong   ?? 600);
+  vars["--type-weight-body-heavy"]     = String(bodyWeights.heavy    ?? 700);
 
   for (const [stepName, px] of Object.entries(typeScaleSteps)) {
     vars[`--type-size-${stepName}`] = `${px}px`;

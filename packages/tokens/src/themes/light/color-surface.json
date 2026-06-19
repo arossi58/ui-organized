@@ -2,7 +2,7 @@
   "color-surface": {
     "base": {
       "$type": "color",
-      "$value": "{grey.500}"
+      "$value": "{grey.400}"
     },
     "primary": {
       "$type": "color",

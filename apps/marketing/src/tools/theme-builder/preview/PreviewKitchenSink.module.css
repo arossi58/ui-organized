@@ -14,7 +14,7 @@
 .sectionTitle {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-small);
-  font-weight: var(--type-weight-heading-semibold);
+  font-weight: var(--type-weight-heading-strong);
   color: var(--color-text-primary);
   margin: 0;
   padding-bottom: 8px;
@@ -36,7 +36,7 @@
 .label {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;

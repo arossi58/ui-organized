@@ -16,4 +16,12 @@ export interface ButtonProps extends React.ComponentPropsWithRef<"button"> {
    * @default 'left'
    */
   iconPosition?: "left" | "right";
+  /**
+   * Render the button as a supplied element (e.g. an `<a>` or router `Link`)
+   * instead of a native `<button>`. The element is cloned with the button's
+   * classes and props merged in, so CTAs can be real, crawlable links while
+   * staying the library `Button`. Restores the polymorphism Base UI's `render`
+   * prop provided before the Ark UI migration (Ark has no Button primitive).
+   */
+  render?: React.ReactElement;
 }

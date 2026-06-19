@@ -1,3 +1,4 @@
+import { cloneElement, isValidElement, type ReactElement } from "react";
 import { clsx } from "clsx";
 import { buttonStyles } from "./Button.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -19,6 +20,7 @@ export function Button({
   type = "button",
   className,
   children,
+  render,
   ...props
 }: ButtonProps) {
   const iconElement = icon ? (
@@ -35,22 +37,39 @@ export function Button({
       children === false ||
       children === "");
 
-  // Ark UI has no Button primitive; Base UI's rendered a native <button
-  // type="button">, so the facade owns that element directly (default the type
-  // to "button" to preserve the no-implicit-submit behavior).
-  return (
-    <button
-      type={type}
-      className={clsx(
-        buttonStyles({ intent, size }),
-        isIconOnly && "btn--icon-only",
-        className,
-      )}
-      {...props}
-    >
+  const buttonClass = clsx(
+    buttonStyles({ intent, size }),
+    isIconOnly && "btn--icon-only",
+    className,
+  );
+
+  const content = (
+    <>
       {iconPosition === "left" && iconElement}
       {children}
       {iconPosition === "right" && iconElement}
+    </>
+  );
+
+  // Polymorphic rendering: clone the supplied element (e.g. an <a> or router
+  // Link) as the button instead of a native <button>, merging in the button's
+  // classes and props. Lets CTAs be real, crawlable links while staying the
+  // library Button — Ark UI has no Button primitive, so this restores what Base
+  // UI's `render` prop did before the migration. `type` stays button-only.
+  if (isValidElement(render)) {
+    const element = render as ReactElement<{ className?: string }>;
+    return cloneElement(
+      element,
+      { className: clsx(buttonClass, element.props.className), ...props },
+      content,
+    );
+  }
+
+  // Default: own a native <button>; default type to "button" to preserve the
+  // no-implicit-submit behavior.
+  return (
+    <button type={type} className={buttonClass} {...props}>
+      {content}
     </button>
   );
 }

@@ -65,12 +65,13 @@
   pointer-events: auto;
 }
 
-/* The three stacked checkboxes — spaced as in the mockup (Figma container-vert,
- * 16px gaps). Each Checkbox keeps its own size. */
-.physics-piece__stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-space-04);
+/* Header tab bar: in the mockup the Tabs piece is just the trigger row (a nav
+ * strip), so the content panels are dropped and the list fills the slot. */
+.physics-piece__tabs {
+  height: 100%;
+}
+.physics-piece__tabs .tabs__panels {
+  display: none;
 }
 
 /* ---- dashboard chrome pieces (sidebar / heading / badge / stat) ---------- */
@@ -93,7 +94,7 @@
   margin: 0;
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
-  font-weight: var(--type-weight-heading-semibold);
+  font-weight: var(--type-weight-heading-strong);
   line-height: var(--type-leading-display-medium);
   color: var(--color-text-primary);
   white-space: nowrap;
@@ -119,7 +120,7 @@
 .physics-piece__stat-value {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
-  font-weight: var(--type-weight-heading-semibold);
+  font-weight: var(--type-weight-heading-strong);
   line-height: var(--type-leading-display-medium);
 }
 .physics-piece__stat-label {

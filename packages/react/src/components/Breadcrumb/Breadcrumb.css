@@ -51,7 +51,7 @@
   align-items: center;
   gap: var(--spacing-space-01);
   color: var(--color-text-primary);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
 }
 
 .breadcrumb__icon {

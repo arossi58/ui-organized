@@ -11,7 +11,7 @@
   background-color: var(--color-interactive-ui-default);
   color: var(--color-text-secondary);
   font-family: var(--type-font-body);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
   line-height: 1;
 }
 

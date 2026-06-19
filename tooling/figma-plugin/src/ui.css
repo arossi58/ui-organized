@@ -43,7 +43,7 @@ body {
   margin: 0;
   font-family: var(--type-font-heading, inherit);
   font-size: var(--type-size-heading-small, 16px);
-  font-weight: var(--type-weight-heading-semibold, 600);
+  font-weight: var(--type-weight-heading-strong, 600);
 }
 
 .app__header p {

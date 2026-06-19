@@ -22,7 +22,7 @@
 .range__label {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-small);
   color: var(--color-text-tertiary);
 }
@@ -30,7 +30,7 @@
 .range__value {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-large);
   color: var(--color-text-primary);
 }
@@ -52,7 +52,7 @@
   flex-shrink: 0;
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-small);
   color: var(--color-text-tertiary);
 }

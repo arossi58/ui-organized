@@ -102,7 +102,7 @@
   padding: var(--spacing-space-02) var(--spacing-space-03);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
   color: var(--color-text-tertiary);
 }
 

@@ -62,7 +62,7 @@
   --site-shadow-piece-frozen: 0 3px 10px rgba(0, 0, 0, 0.22);
   --site-shadow-piece-static: 0 2px 0 rgba(23, 21, 15, 0.08);
   --site-shadow-piece-arranging: 0 16px 32px rgba(0, 0, 0, 0.45);
-  --site-shadow-frame: 0 28px 80px rgba(0, 0, 0, 0.5);
+  --site-shadow-frame: 0 18px 50px rgba(0, 0, 0, 0.22);
 
   /* Fonts — the whole site uses the design system's typography (Roboto) via the
      DS `--type-font-*` tokens, so the marketing pages and the @ui-organized/react

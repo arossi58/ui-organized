@@ -1,20 +1,40 @@
+import { useState } from "react";
 import {
   Alert,
+  Avatar,
   Badge,
   Button,
   Checkbox,
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
   Input,
+  Meter,
   NavItem,
   NavSubItem,
+  Pagination,
   RadioGroup,
   Range,
+  SearchInput,
   Select,
   Sidebar,
   Switch,
+  Tabs,
   TextArea,
 } from "@ui-organized/react";
 import type { PieceDef, PieceKind } from "../../lib/pieceManifest";
 import "./pieces.css";
+
+/** Pagination is the one piece that needs its own state to stay interactive once
+ * the layout goes live (the rest are uncontrolled or display-only). */
+function PaginationPiece() {
+  const [page, setPage] = useState(2);
+  return <Pagination page={page} count={8} siblingCount={1} onPageChange={setPage} />;
+}
 
 /**
  * Every hero piece is a real `@ui-organized/react` component (SITE.md §5/§10): the site is
@@ -50,17 +70,28 @@ function RealComponent({
     case "range":
       return <Range label={label} defaultValue={50} />;
     case "checks":
-      return (
-        <div className="physics-piece__stack">
-          <Checkbox label={label} />
-          <Checkbox label={label} />
-          <Checkbox label={label} />
-        </div>
-      );
+      return <Checkbox label={label} defaultChecked />;
     case "btn-primary":
       return <Button intent="primary">{label}</Button>;
     case "btn-secondary":
       return <Button intent="secondary">{label}</Button>;
+    case "dialog":
+      return (
+        <Dialog>
+          <DialogTrigger render={<Button intent="secondary">{label}</Button>} />
+          <DialogContent>
+            <DialogTitle>Build with UI Organized</DialogTitle>
+            <DialogDescription>
+              An open-source design system, Figma library, and tools — free
+              forever. Drop in components and ship.
+            </DialogDescription>
+            <DialogFooter>
+              <DialogClose render={<Button intent="ghost">Close</Button>} />
+              <DialogClose render={<Button intent="primary">Get started</Button>} />
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      );
     case "banner":
       return <Alert variant="info">{label}</Alert>;
     case "radios":
@@ -77,14 +108,28 @@ function RealComponent({
       return <Switch label={label} />;
     case "textarea":
       return (
-        <TextArea
-          label={label}
-          placeholder="Your input"
-          helperText="Characters 0/500"
-          resize="none"
-          rows={4}
+        <TextArea label={label} placeholder="Your input" resize="none" rows={2} />
+      );
+    case "meter":
+      return <Meter value={72} label={label} showValue size="sm" />;
+    case "pagination":
+      return <PaginationPiece />;
+    case "tabs":
+      return (
+        <Tabs
+          className="physics-piece__tabs"
+          size="small"
+          tabs={[
+            { value: "overview", label: "Overview", content: "" },
+            { value: "activity", label: "Activity", content: "" },
+            { value: "settings", label: "Settings", content: "" },
+          ]}
         />
       );
+    case "search":
+      return <SearchInput aria-label="Search" placeholder="Search…" clearable />;
+    case "avatar":
+      return <Avatar name={label} size="md" />;
     case "sidebar":
       return (
         <Sidebar className="physics-piece__sidebar" navLabel="Pages" collapsible>

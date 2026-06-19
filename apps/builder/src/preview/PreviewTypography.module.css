@@ -14,7 +14,7 @@
 .sectionTitle {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-heading-semibold);
+  font-weight: var(--type-weight-heading-strong);
   color: var(--color-text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -26,7 +26,7 @@
 
 .familyName {
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   text-transform: none;
   letter-spacing: normal;
   color: var(--color-text-tertiary);

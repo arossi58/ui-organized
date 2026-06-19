@@ -69,7 +69,7 @@
   margin: 0;
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
   line-height: var(--type-leading-body-medium);
   color: var(--color-text-primary);
 }
@@ -91,7 +91,7 @@
   border-radius: var(--radius-checkbox);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   color: var(--color-text-primary);
   cursor: pointer;
   transition: background-color 150ms ease;

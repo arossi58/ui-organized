@@ -21,7 +21,7 @@
 .pageTitle {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-medium);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
   margin: 0;
 }
@@ -118,7 +118,7 @@
 .statValue {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-small);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
 }
 
@@ -413,7 +413,7 @@
 .productPrice {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
 }
 
@@ -464,7 +464,7 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
   line-height: var(--type-leading-display-medium);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
   margin: 0;
 }
@@ -544,7 +544,7 @@
 .featureTitle {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-small);
-  font-weight: var(--type-weight-heading-semibold);
+  font-weight: var(--type-weight-heading-strong);
   color: var(--color-text-primary);
   margin: 0;
 }
@@ -565,7 +565,7 @@
 .sectionHeading {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-large);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
   text-align: center;
   margin: 0 0 24px;
@@ -605,7 +605,7 @@
 .tierPrice {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
-  font-weight: var(--type-weight-heading-bold);
+  font-weight: var(--type-weight-heading-heavy);
   color: var(--color-text-primary);
   line-height: 1.1;
 }
@@ -613,7 +613,7 @@
 .tierPer {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   color: var(--color-text-tertiary);
   margin-left: 4px;
 }

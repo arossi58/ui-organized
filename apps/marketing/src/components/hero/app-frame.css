@@ -19,8 +19,8 @@
   box-shadow: var(--site-shadow-frame);
   overflow: hidden;
   /* Cap the window height (feedback): the engine sizes the frame to FRAME_H×S
-     (≤640px), so this is the ceiling if the render scale is ever raised. */
-  max-height: 696px;
+     (≤700px at native scale), so this is the ceiling if the render scale is ever raised. */
+  max-height: 740px;
 }
 
 /* The mockup canvas, drawn at full Figma scale (1200×640) and shrunk to the

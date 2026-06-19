@@ -24,7 +24,7 @@
   color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;
@@ -74,7 +74,7 @@
 .nav-item__trigger--selected {
   background-color: var(--color-interactive-primary-default);
   color: var(--color-text-light);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
 }
 
 /* disabled */
@@ -137,7 +137,7 @@
   color: var(--color-text-tertiary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;
@@ -175,7 +175,7 @@
 .nav-sub-item--selected {
   background-color: var(--color-interactive-ui-selected);
   color: var(--color-text-primary);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
 }
 
 /* disabled */
@@ -317,7 +317,7 @@
   color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;

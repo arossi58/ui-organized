@@ -11,7 +11,7 @@
   color: var(--color-text-primary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-large);
   cursor: pointer;
   outline: none;

@@ -19,7 +19,7 @@
 // this doubles as the mockup's max size (1200px wide × 640px tall). Pieces use
 // these units directly, and AppFrame renders its shell at the same scale.
 export const FRAME_W = 1200;
-export const FRAME_H = 640;
+export const FRAME_H = 700;
 
 export type PieceShape = "rect" | "circle";
 
@@ -30,16 +30,23 @@ export type PieceKind =
   | "checks"
   | "btn-primary"
   | "btn-secondary"
+  | "dialog"
   | "banner"
   | "radios"
   | "toggle"
   | "textarea"
+  | "meter"
+  | "pagination"
+  | "tabs"
+  | "search"
   // Dashboard chrome that now falls/assembles as pieces too (the window and the
   // content-panel backing stay as static containers — see AppFrame).
   | "sidebar"
   | "heading"
   | "badge"
-  | "stat";
+  | "stat"
+  // The account avatar, pinned to the far right of the header.
+  | "avatar";
 
 export interface PieceDef {
   id: string;
@@ -63,25 +70,34 @@ export interface PieceDef {
 // panel sit the header (heading + badge) and the stat-card row — all now pieces.
 export const PIECES: PieceDef[] = [
   // ---- dashboard chrome (was static shell; now physics pieces) -------------
-  // The full-height nav rail, the header heading + status badge, and the four
-  // stat cards. Only the window and the content-panel backing stay static.
-  { id: "sidebar", kind: "sidebar", w: 240, h: 640, shape: "rect", cx: 120, cy: 320 },
-  { id: "heading", kind: "heading", w: 160, h: 40, shape: "rect", cx: 344, cy: 44, label: "Welcome!" },
-  { id: "badge", kind: "badge", w: 72, h: 28, shape: "rect", cx: 1140, cy: 44, label: "Active" },
+  // The full-height nav rail and the four stat cards. Only the window and the
+  // content-panel backing stay static.
+  { id: "sidebar", kind: "sidebar", w: 240, h: 700, shape: "rect", cx: 120, cy: 350 },
   { id: "stat-1", kind: "stat", w: 210, h: 96, shape: "rect", cx: 369, cy: 150, value: "105", label: "Components" },
   { id: "stat-2", kind: "stat", w: 210, h: 96, shape: "rect", cx: 603, cy: 150, value: "5", label: "Figma Plugins" },
   { id: "stat-3", kind: "stat", w: 210, h: 96, shape: "rect", cx: 837, cy: 150, value: "$0", label: "Open Source 4-ever" },
   { id: "stat-4", kind: "stat", w: 210, h: 96, shape: "rect", cx: 1071, cy: 150, value: "Fully", label: "Customizable" },
-  // ---- left content column ------------------------------------------------
-  { id: "input", kind: "input", w: 424, h: 58, shape: "rect", cx: 492, cy: 271, label: "Input" },
-  { id: "select", kind: "select", w: 424, h: 58, shape: "rect", cx: 492, cy: 339, label: "Select" },
-  { id: "range", kind: "range", w: 424, h: 58, shape: "rect", cx: 492, cy: 407, label: "Slider" },
-  { id: "checks", kind: "checks", w: 97, h: 104, shape: "rect", cx: 328, cy: 498, label: "Checkbox" },
-  { id: "btn-primary", kind: "btn-primary", w: 80, h: 40, shape: "rect", cx: 320, cy: 580, label: "Button" },
-  { id: "btn-secondary", kind: "btn-secondary", w: 80, h: 40, shape: "rect", cx: 416, cy: 580, label: "Button" },
-  // ---- right content column -----------------------------------------------
-  { id: "banner", kind: "banner", w: 424, h: 40, shape: "rect", cx: 948, cy: 262, label: "Message" },
-  { id: "radios", kind: "radios", w: 67, h: 70, shape: "rect", cx: 769, cy: 337, label: "Radio" },
-  { id: "toggle", kind: "toggle", w: 93, h: 24, shape: "rect", cx: 782, cy: 404, label: "Toggle" },
-  { id: "textarea", kind: "textarea", w: 424, h: 160, shape: "rect", cx: 948, cy: 520, label: "Text Area" },
+  // ---- header band --------------------------------------------------------
+  // Greeting on the left; the account cluster (status badge + avatar) pinned to
+  // the far right, the avatar last and the badge 16px to its left.
+  { id: "heading", kind: "heading", w: 160, h: 40, shape: "rect", cx: 344, cy: 46, label: "Welcome!" },
+  { id: "badge", kind: "badge", w: 72, h: 28, shape: "rect", cx: 1084, cy: 46, label: "Active" },
+  { id: "avatar", kind: "avatar", w: 40, h: 40, shape: "circle", cx: 1156, cy: 46, label: "Avery Doe" },
+  // ---- left content column (tabs + form controls) -------------------------
+  { id: "tabs", kind: "tabs", w: 424, h: 36, shape: "rect", cx: 492, cy: 258 },
+  { id: "input", kind: "input", w: 424, h: 54, shape: "rect", cx: 492, cy: 312, label: "Input" },
+  { id: "select", kind: "select", w: 424, h: 54, shape: "rect", cx: 492, cy: 374, label: "Select" },
+  { id: "range", kind: "range", w: 424, h: 54, shape: "rect", cx: 492, cy: 436, label: "Slider" },
+  { id: "checks", kind: "checks", w: 140, h: 34, shape: "rect", cx: 352, cy: 492, label: "Checkbox" },
+  { id: "btn-primary", kind: "btn-primary", w: 80, h: 40, shape: "rect", cx: 320, cy: 550, label: "Button" },
+  { id: "btn-secondary", kind: "btn-secondary", w: 80, h: 40, shape: "rect", cx: 416, cy: 550, label: "Button" },
+  { id: "dialog", kind: "dialog", w: 92, h: 40, shape: "rect", cx: 520, cy: 550, label: "Open" },
+  { id: "pagination", kind: "pagination", w: 424, h: 32, shape: "rect", cx: 492, cy: 606 },
+  // ---- right content column (search + feedback/data) ----------------------
+  { id: "search", kind: "search", w: 424, h: 40, shape: "rect", cx: 948, cy: 260 },
+  { id: "banner", kind: "banner", w: 424, h: 40, shape: "rect", cx: 948, cy: 312, label: "Message" },
+  { id: "radios", kind: "radios", w: 67, h: 70, shape: "rect", cx: 769, cy: 386, label: "Radio" },
+  { id: "toggle", kind: "toggle", w: 93, h: 24, shape: "rect", cx: 782, cy: 446, label: "Toggle" },
+  { id: "meter", kind: "meter", w: 424, h: 40, shape: "rect", cx: 948, cy: 498, label: "Storage used" },
+  { id: "textarea", kind: "textarea", w: 424, h: 88, shape: "rect", cx: 948, cy: 596, label: "Text Area" },
 ];

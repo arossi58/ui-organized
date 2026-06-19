@@ -54,7 +54,7 @@
   text-align: left;
   color: var(--color-text-primary);
   font-family: var(--type-font-body);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   outline: none;
   transition: background-color 150ms ease;
 }

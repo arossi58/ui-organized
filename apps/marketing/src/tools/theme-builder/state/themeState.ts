@@ -323,16 +323,16 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   const headingFamily: string = t.type?.font?.heading?.$value ?? state.headingFamily;
   const bodyFamily: string = t.type?.font?.body?.$value ?? state.bodyFamily;
   const headingWeights = {
-    default: wv("heading-regular", state.headingWeights.default ?? 400),
-    emphasis: wv("heading-medium", state.headingWeights.emphasis ?? 500),
-    strong: wv("heading-semibold", state.headingWeights.strong ?? 600),
-    heavy: wv("heading-bold", state.headingWeights.heavy ?? 700),
+    default: wv("heading-default", state.headingWeights.default ?? 400),
+    emphasis: wv("heading-emphasis", state.headingWeights.emphasis ?? 500),
+    strong: wv("heading-strong", state.headingWeights.strong ?? 600),
+    heavy: wv("heading-heavy", state.headingWeights.heavy ?? 700),
   };
   const bodyWeights = {
-    default: wv("body-regular", state.bodyWeights.default ?? 400),
-    emphasis: wv("body-medium", state.bodyWeights.emphasis ?? 500),
-    strong: wv("body-semibold", state.bodyWeights.strong ?? 600),
-    heavy: wv("body-bold", state.bodyWeights.heavy ?? 700),
+    default: wv("body-default", state.bodyWeights.default ?? 400),
+    emphasis: wv("body-emphasis", state.bodyWeights.emphasis ?? 500),
+    strong: wv("body-strong", state.bodyWeights.strong ?? 600),
+    heavy: wv("body-heavy", state.bodyWeights.heavy ?? 700),
   };
 
   // Line-height multipliers ($extensions only).

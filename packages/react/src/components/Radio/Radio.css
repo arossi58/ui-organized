@@ -9,7 +9,7 @@
 .radio-group__label {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   line-height: var(--type-leading-body-medium);
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-space-01);
@@ -132,7 +132,7 @@
 .radio-item__label {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-regular);
+  font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-large);
   color: var(--color-text-primary);
   user-select: none;
@@ -154,7 +154,7 @@
 .radio-item__error-text {
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   line-height: var(--type-leading-body-small);
   color: var(--color-status-error-message);
 }

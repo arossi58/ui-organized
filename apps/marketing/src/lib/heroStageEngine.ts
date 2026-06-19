@@ -48,7 +48,21 @@ const LEFT_COL_LEFT0 = 280; // expanded left / right control-column left edges
 const RIGHT_COL_LEFT0 = 736;
 const STAT_CX0 = [369, 603, 837, 1071]; // expanded stat-card centers (→ index)
 /** Controls whose width tracks the column (block controls); the rest keep size. */
-const FLUID_KINDS = new Set(["input", "select", "range", "banner", "textarea"]);
+const FLUID_KINDS = new Set([
+  "input",
+  "select",
+  "range",
+  "banner",
+  "textarea",
+  "meter",
+  "pagination",
+  "tabs",
+  "search",
+]);
+/** Header account cluster pinned to the right: the avatar sits flush to the body
+ * right edge and the badge sits this gap to its left. */
+const AVATAR_W = 40;
+const HEADER_GAP = 16;
 
 export interface HeroStageRefs {
   stage: HTMLElement;
@@ -151,6 +165,9 @@ export function createHeroStageEngine(
   function measure() {
     W = refs.sticky.clientWidth;
     H = refs.sticky.clientHeight;
+    // Cap at 1 so the mockup never scales *past* its native 1:1 size — on large
+    // screens the components stay their default size rather than zooming up
+    // (feedback); smaller screens stay width/height-limited below 1.
     S = Math.min(1, (W * 0.92) / FRAME_W, (H * 0.58) / FRAME_H);
     frameRect.w = FRAME_W * S;
     frameRect.h = FRAME_H * S;
@@ -196,7 +213,8 @@ export function createHeroStageEngine(
     const bL = bodyLeft();
     const bR = FRAME_W - BODY_PAD; // 1176, fixed right edge
     if (kind === "sidebar") return { cx: p.homeCx, w };
-    if (kind === "badge") return { cx: bR - w / 2, w }; // pinned to the right
+    if (kind === "avatar") return { cx: bR - w / 2, w }; // flush to the right edge
+    if (kind === "badge") return { cx: bR - AVATAR_W - HEADER_GAP - w / 2, w }; // 16px left of the avatar
     if (kind === "heading") return { cx: bL + w / 2, w }; // pinned to body-left
     if (kind === "stat") {
       const i = STAT_CX0.indexOf(p.def.cx);

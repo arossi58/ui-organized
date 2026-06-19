@@ -34,17 +34,17 @@ const WEIGHT_LABELS: Record<string, string> = {
 
 // Maps store weight key → CSS var suffix
 const HEADING_WEIGHT_VARS: Record<string, string> = {
-  default:  "var(--type-weight-heading-regular)",
-  emphasis: "var(--type-weight-heading-medium)",
-  strong:   "var(--type-weight-heading-semibold)",
-  heavy:    "var(--type-weight-heading-bold)",
+  default:  "var(--type-weight-heading-default)",
+  emphasis: "var(--type-weight-heading-emphasis)",
+  strong:   "var(--type-weight-heading-strong)",
+  heavy:    "var(--type-weight-heading-heavy)",
 };
 
 const BODY_WEIGHT_VARS: Record<string, string> = {
-  default:  "var(--type-weight-body-regular)",
-  emphasis: "var(--type-weight-body-medium)",
-  strong:   "var(--type-weight-body-semibold)",
-  heavy:    "var(--type-weight-body-bold)",
+  default:  "var(--type-weight-body-default)",
+  emphasis: "var(--type-weight-body-emphasis)",
+  strong:   "var(--type-weight-body-strong)",
+  heavy:    "var(--type-weight-body-heavy)",
 };
 
 export function PreviewTypography() {
@@ -72,7 +72,7 @@ export function PreviewTypography() {
                     fontSize: `var(--type-size-${step})`,
                     lineHeight: `var(--type-leading-${step})`,
                     fontFamily: "var(--type-font-heading)",
-                    fontWeight: "var(--type-weight-heading-semibold)",
+                    fontWeight: "var(--type-weight-heading-strong)",
                   } as LooseStyle}
                 >
                   {SAMPLE[step]}
@@ -102,7 +102,7 @@ export function PreviewTypography() {
                     fontSize: `var(--type-size-${step})`,
                     lineHeight: `var(--type-leading-${step})`,
                     fontFamily: "var(--type-font-heading)",
-                    fontWeight: "var(--type-weight-heading-semibold)",
+                    fontWeight: "var(--type-weight-heading-strong)",
                   } as LooseStyle}
                 >
                   {SAMPLE[step]}
@@ -132,7 +132,7 @@ export function PreviewTypography() {
                     fontSize: `var(--type-size-${step})`,
                     lineHeight: `var(--type-leading-${step})`,
                     fontFamily: "var(--type-font-body)",
-                    fontWeight: "var(--type-weight-body-regular)",
+                    fontWeight: "var(--type-weight-body-default)",
                   } as LooseStyle}
                 >
                   {SAMPLE[step]}

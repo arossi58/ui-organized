@@ -1,6 +1,6 @@
-import type { ComponentType, ReactElement } from "react";
+import type { ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { Badge, Button, Icon, type ButtonProps } from "@ui-organized/react";
+import { Badge, Button, Icon } from "@ui-organized/react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -9,7 +9,6 @@ import {
   Github,
   Package,
   Palette,
-  Puzzle,
   RefreshCw,
 } from "lucide-react";
 import { TOOLS } from "../../lib/tools";
@@ -28,6 +27,7 @@ export type OverviewId = "design" | "tools" | "code";
 const OUTBOUND_EVENTS: Record<string, string> = {
   [LINKS.npmReact]: "view_npm_package",
   [LINKS.githubFigmaPlugin]: "view_figma_plugin",
+  [LINKS.figmaProfile]: "view_figma_plugin",
   [LINKS.github]: "view_github",
 };
 
@@ -69,23 +69,17 @@ interface DetailContent {
   links: DetailLink[];
 }
 
-/** The tools gallery, read straight from the registry, plus the Figma plugin. */
-const TOOL_ITEMS: DetailItem[] = [
-  ...TOOLS.map((tool) => ({
+/** The available tools, read straight from the registry. Planned tools are left
+ * out of this homepage highlight (they still appear in the full /tools gallery). */
+const TOOL_ITEMS: DetailItem[] = TOOLS.filter((tool) => tool.status !== "planned").map(
+  (tool) => ({
     icon: tool.icon,
     title: tool.name,
     desc: tool.tagline,
     href: `/tools/${tool.id}`,
-    badge: tool.status === "planned" ? "Planned" : tool.status === "soon" ? "Soon" : undefined,
-  })),
-  {
-    icon: Puzzle,
-    title: "Figma plugin",
-    desc: "Import a theme.json straight into Figma as variables, modes, and styles.",
-    href: LINKS.githubFigmaPlugin,
-    external: true,
-  },
-];
+    badge: tool.status === "soon" ? "Soon" : undefined,
+  }),
+);
 
 const DETAILS: Record<OverviewId, DetailContent> = {
   design: {
@@ -121,7 +115,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
     items: TOOL_ITEMS,
     links: [
       { label: "Open the tools", href: "/tools", primary: true },
-      { label: "Figma plugin on GitHub", href: LINKS.githubFigmaPlugin, external: true },
+      { label: "Figma Plugins", href: LINKS.figmaProfile, external: true },
     ],
   },
   code: {
@@ -158,13 +152,9 @@ const DETAILS: Record<OverviewId, DetailContent> = {
 
 /**
  * The library `Button` rendered polymorphically as a router `Link` (in-site) or
- * a real `<a>` (external) — the wrapper's prop type doesn't surface base-ui's
- * `render`/`nativeButton`, so we widen it here (mirrors chrome/ButtonLink).
+ * a real `<a>` (external) via its `render` prop, which clones the button's
+ * styling onto the supplied element.
  */
-const PolymorphicButton = Button as unknown as React.FC<
-  ButtonProps & { render?: ReactElement; nativeButton?: boolean }
->;
-
 function Cta({ link }: { link: DetailLink }) {
   const render = link.external ? (
     <a
@@ -177,13 +167,9 @@ function Cta({ link }: { link: DetailLink }) {
     <Link to={link.href} />
   );
   return (
-    <PolymorphicButton
-      nativeButton={false}
-      render={render}
-      intent={link.primary ? "primary" : "secondary"}
-    >
+    <Button render={render} intent={link.primary ? "primary" : "secondary"}>
       {link.label}
-    </PolymorphicButton>
+    </Button>
   );
 }
 

@@ -64,7 +64,7 @@ describe("buildThemeTokens (DTCG)", () => {
   it("captures typography, spacing and radius with correct $types", () => {
     const t = buildThemeTokens(state()) as any;
     expect(t.type.font.heading.$type).toBe("fontFamily");
-    expect(t.type.weight["body-bold"].$type).toBe("fontWeight");
+    expect(t.type.weight["body-heavy"].$type).toBe("fontWeight");
     expect(t.type.size["body-large"]).toMatchObject({ $type: "dimension", $value: "16px" });
     expect(t.spacing["space-01"].$type).toBe("dimension");
     expect(t["border-radius"]["04"].$type).toBe("dimension");

@@ -6,7 +6,7 @@
   justify-content: center;
   border-radius: var(--radius-status);
   font-family: var(--type-font-body);
-  font-weight: var(--type-weight-body-semibold);
+  font-weight: var(--type-weight-body-strong);
   white-space: nowrap;
   padding: var(--spacing-space-01) var(--spacing-space-02);
 }

@@ -152,7 +152,7 @@ export const semanticColorMap: { dark: SemanticRefMap; light: SemanticRefMap } =
     "--color-status-error-message": "crimson.1600",
     "--color-status-error-bg": "crimson.500",
     "--color-status-error-content": "crimson.2100",
-    "--color-surface-base": "grey.500",
+    "--color-surface-base": "grey.400",
     "--color-surface-primary": "grey.100",
     "--color-surface-secondary": "grey.300",
     "--color-surface-overlay-primary": "#020202",

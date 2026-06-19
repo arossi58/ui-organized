@@ -14,7 +14,7 @@
   background-color: var(--color-status-error-bg);
   font-family: var(--type-font-body);
   font-size: var(--type-size-caption);
-  font-weight: var(--type-weight-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
   line-height: 1.2;
   color: var(--color-status-error-content);
 }

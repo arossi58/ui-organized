@@ -32,17 +32,17 @@ const WEIGHTS = [
 ] as const;
 
 const HEADING_WEIGHT_VARS: Record<string, string> = {
-  default:  "var(--type-weight-heading-regular)",
-  emphasis: "var(--type-weight-heading-medium)",
-  strong:   "var(--type-weight-heading-semibold)",
-  heavy:    "var(--type-weight-heading-bold)",
+  default:  "var(--type-weight-heading-default)",
+  emphasis: "var(--type-weight-heading-emphasis)",
+  strong:   "var(--type-weight-heading-strong)",
+  heavy:    "var(--type-weight-heading-heavy)",
 };
 
 const BODY_WEIGHT_VARS: Record<string, string> = {
-  default:  "var(--type-weight-body-regular)",
-  emphasis: "var(--type-weight-body-medium)",
-  strong:   "var(--type-weight-body-semibold)",
-  heavy:    "var(--type-weight-body-bold)",
+  default:  "var(--type-weight-body-default)",
+  emphasis: "var(--type-weight-body-emphasis)",
+  strong:   "var(--type-weight-body-strong)",
+  heavy:    "var(--type-weight-body-heavy)",
 };
 
 function WeightGrid({

@@ -34,6 +34,80 @@ const ALIAS_RE = /^\{primitive\.color\.([^.]+)\.([^.}]+)\}$/;
 /** Figma's placeholder name for a brand-new collection's only mode. */
 const DEFAULT_MODE_RE = /^Mode( 1)?$/;
 
+/**
+ * Infer Figma variable scopes from the collection + variable name the importer
+ * already assigns. Scopes restrict where a variable surfaces in the UI: a radius
+ * float only offers itself in corner-radius fields, a text colour only in text
+ * fills, and so on. Without this, every variable defaults to ["ALL_SCOPES"] and
+ * clutters every picker.
+ *
+ * Every branch returns scopes valid for `type` — Figma's setter throws if a
+ * COLOR scope lands on a FLOAT (or vice-versa) — and anything unrecognised falls
+ * back to ["ALL_SCOPES"], i.e. the previous behaviour.
+ */
+function scopesFor(
+  collection: string,
+  name: string,
+  type: VariableResolvedDataType,
+): VariableScope[] {
+  const group = name.split("/")[0];
+
+  if (type === "COLOR") {
+    // The raw palette stays broadly usable as any colour, but drops out of
+    // float/text-content fields.
+    if (collection === PRIMITIVES) return ["ALL_FILLS", "STROKE_COLOR", "EFFECT_COLOR"];
+    // Semantic colours, scoped by role (the first path segment).
+    switch (group) {
+      case "surface":
+        return ["FRAME_FILL", "SHAPE_FILL"];
+      case "text":
+        return ["TEXT_FILL"];
+      case "border":
+        return ["STROKE_COLOR"];
+      case "icon":
+        return ["SHAPE_FILL", "TEXT_FILL"];
+      case "interactive":
+      case "status":
+        // Buttons (fills), links (text) and focus rings (strokes) all draw here.
+        // ALL_FILLS already covers text fills — Figma rejects it alongside other
+        // fill scopes, so we don't add TEXT_FILL.
+        return ["ALL_FILLS", "STROKE_COLOR"];
+      default:
+        return ["ALL_FILLS", "STROKE_COLOR"];
+    }
+  }
+
+  if (type === "STRING") {
+    if (group === "font") return ["FONT_FAMILY"];
+    return ["ALL_SCOPES"];
+  }
+
+  if (type === "FLOAT") {
+    // Scale collection — spacing / radius / component dimensions.
+    if (group === "radius") return ["CORNER_RADIUS"];
+    if (group === "spacing") return ["GAP", "WIDTH_HEIGHT"];
+    if (group === "component") {
+      const n = name.toLowerCase();
+      if (n.includes("radius")) return ["CORNER_RADIUS"];
+      if (n.includes("height") || n.includes("width") || n.includes("size")) return ["WIDTH_HEIGHT"];
+      if (n.includes("horizontal") || n.includes("vertical") || n.includes("gap") || n.includes("padding"))
+        return ["GAP"];
+      return ["GAP", "WIDTH_HEIGHT", "CORNER_RADIUS"];
+    }
+    // Typography numeric tokens (weight / size / leading).
+    if (group === "weight") return ["FONT_WEIGHT"];
+    if (group === "size") return ["FONT_SIZE"];
+    if (group === "leading") return ["LINE_HEIGHT"];
+    // Icons collection — `<size>px/size` and `<size>px/stroke`.
+    if (collection === ICONS) {
+      if (name.endsWith("/stroke")) return ["STROKE_FLOAT"];
+      if (name.endsWith("/size")) return ["WIDTH_HEIGHT"];
+    }
+  }
+
+  return ["ALL_SCOPES"];
+}
+
 export interface CollectionReport {
   name: string;
   created: number;
@@ -112,10 +186,12 @@ export async function importTheme(theme: ThemeDoc): Promise<ImportReport> {
         );
         return null;
       }
+      existing.scopes = scopesFor(c.name, name, type);
       report.get(c.name)!.updated++;
       return existing;
     }
     const v = figma.variables.createVariable(name, c, type);
+    v.scopes = scopesFor(c.name, name, type);
     m.set(name, v);
     report.get(c.name)!.created++;
     return v;
@@ -214,10 +290,39 @@ export async function importTheme(theme: ThemeDoc): Promise<ImportReport> {
   // ─── 4. Typography ──────────────────────────────────────────────────────────
   const typoCol = ensureCollection(TYPOGRAPHY);
   const typoMode = ensureMode(typoCol, "Value");
+
+  // A FONT_FAMILY-scoped string variable makes Figma validate the family on
+  // setValueForMode, which requires the font's styles to be loaded first. Fetch
+  // the file's available fonts once, then load (or, if the family isn't
+  // installed, relax the scope) before assigning each font value.
+  const availableFonts = await figma.listAvailableFontsAsync();
+  const setFontFamily = async (v: Variable, family: string, path: string) => {
+    try {
+      await Promise.all(
+        availableFonts
+          .filter((f) => f.fontName.family === family)
+          .map((f) => figma.loadFontAsync(f.fontName)),
+      );
+      v.setValueForMode(typoMode, family);
+      return;
+    } catch {
+      // Font isn't available in this file — fall through and relax the scope.
+    }
+    try {
+      v.scopes = ["ALL_SCOPES"];
+      v.setValueForMode(typoMode, family);
+      warnings.push(
+        `Font "${family}" isn't available in this file; imported ${path} without a font-family scope.`,
+      );
+    } catch {
+      warnings.push(`Couldn't set font "${family}" for ${path}.`);
+    }
+  };
+
   for (const { path, token } of flattenTokens(theme.type)) {
     if (token.$type === "fontFamily") {
       const v = ensureVariable(typoCol, path, "STRING");
-      if (v) v.setValueForMode(typoMode, String(token.$value));
+      if (v) await setFontFamily(v, String(token.$value), path);
       continue;
     }
     // fontWeight + dimensions (size/leading) are all numeric floats in Figma.
