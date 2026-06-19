@@ -20,8 +20,7 @@
     transform 100ms ease;
 }
 
-.date-popover[data-starting-style],
-.date-popover[data-ending-style] {
+.date-popover[data-state="closed"] {
   opacity: 0;
   transform: scaleY(0.97);
 }

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type * as React from "react";
-import { Field } from "@base-ui-components/react/field";
-import { Popover } from "@base-ui-components/react/popover";
+import { Field, Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { inputFieldStyles } from "../Input/Input.styles.js";
 import { Button } from "../Button/index.js";
@@ -12,7 +11,7 @@ import { parseISODate, toISODate, todayYMD, type YMD } from "../Calendar/dateUti
 import { openDatePicker } from "./openDatePicker.js";
 import { setNativeInputValue } from "./setNativeInputValue.js";
 import { useCoarsePointer } from "./useCoarsePointer.js";
-import { DatePopover } from "./DatePopover.js";
+import { DatePopover, datePopoverPositioning } from "./DatePopover.js";
 import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // Shares the Input field surface/state styling; InputAffix.css supplies the
 // leading calendar button and hides the native picker chrome.
@@ -95,8 +94,9 @@ export function DateFieldBase({
   };
 
   const control = (
-    <Field.Control
-      render={<input ref={inputRef} type={type} />}
+    <Field.Input
+      ref={inputRef}
+      type={type}
       className="field__control field__control--affix-start"
       required={required}
       disabled={disabled}
@@ -132,27 +132,26 @@ export function DateFieldBase({
           {control}
         </div>
       ) : (
-        <Popover.Root open={open} onOpenChange={setOpen}>
+        <ArkPopover.Root
+          open={open}
+          onOpenChange={(details) => setOpen(details.open)}
+          positioning={datePopoverPositioning(fieldRef)}
+          initialFocusEl={() => activeDayRef.current}
+        >
           <div className="input-affix" ref={fieldRef}>
-            <Popover.Trigger
-              render={
-                <button
-                  type="button"
-                  className="input-affix__adornment input-affix__adornment--start input-affix__action"
-                  disabled={disabled}
-                  aria-label={pickerLabel}
-                />
-              }
-            >
-              <Icon name="calendar" size={20} />
-            </Popover.Trigger>
+            <ArkPopover.Trigger asChild>
+              <button
+                type="button"
+                className="input-affix__adornment input-affix__adornment--start input-affix__action"
+                disabled={disabled}
+                aria-label={pickerLabel}
+              >
+                <Icon name="calendar" size={20} />
+              </button>
+            </ArkPopover.Trigger>
             {control}
           </div>
-          <DatePopover
-            anchorRef={fieldRef}
-            initialFocus={activeDayRef}
-            container={portalContainer}
-          >
+          <DatePopover container={portalContainer}>
             <Calendar
               mode="single"
               value={parseISODate(datePart)}
@@ -182,18 +181,18 @@ export function DateFieldBase({
               </div>
             )}
           </DatePopover>
-        </Popover.Root>
+        </ArkPopover.Root>
       )}
 
       {helperText && !isInvalid && (
-        <Field.Description className="field__description">
+        <Field.HelperText className="field__description">
           {helperText}
-        </Field.Description>
+        </Field.HelperText>
       )}
       {isInvalid && errorMessage && (
-        <Field.Error match={true} render={<FieldError />}>
-          {errorMessage}
-        </Field.Error>
+        <Field.ErrorText asChild>
+          <FieldError>{errorMessage}</FieldError>
+        </Field.ErrorText>
       )}
     </Field.Root>
   );
