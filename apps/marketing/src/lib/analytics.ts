@@ -31,10 +31,15 @@ let initialized = false;
  * Push a raw gtag command onto the dataLayer. Mirrors the standard inline
  * snippet's `gtag(...)` shim, but typed and centralised.
  */
-function gtag(...args: unknown[]): void {
+const gtag: (...args: unknown[]) => void = function () {
   window.dataLayer = window.dataLayer ?? [];
-  window.dataLayer.push(args);
-}
+  // gtag.js only treats a dataLayer entry as a command when it is the original
+  // `arguments` object — a plain array is silently ignored, so `config` and
+  // `page_view` would never register and no hits reach GA. Push `arguments`
+  // directly, matching Google's canonical snippet.
+  // eslint-disable-next-line prefer-rest-params
+  window.dataLayer.push(arguments);
+};
 
 /**
  * Load gtag.js and configure the GA4 property. Idempotent and a no-op when no

@@ -55,3 +55,36 @@
     gap: var(--spacing-space-04);
   }
 }
+
+/* Desktop (3-column board): keep the whole section within one screen. The
+   header + board fit the viewport and any overflow is absorbed by per-column
+   scrolling (see roadmap-board/column css), so the section never grows taller
+   than the viewport. `min-height: 0` on each link of the chain is what lets the
+   inner scroll areas shrink instead of forcing the section to expand. */
+@media (min-width: 861px) {
+  .roadmap-section {
+    display: flex;
+    flex-direction: column;
+    /* Fill exactly one screen (never more) so the board has a definite height
+       to bound its columns — with the section's own padding eating the excess,
+       the board lands near its original ~520px height, but now anything taller
+       scrolls inside the columns instead of growing the page. */
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .roadmap-section > .wrap {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .roadmap-section__board {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+}

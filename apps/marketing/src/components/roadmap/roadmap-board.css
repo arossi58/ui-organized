@@ -20,6 +20,19 @@
   align-items: stretch;
 }
 
+/* Desktop: the board fills the viewport-capped section (instead of its own
+   min-height) and lets the columns own the overflow. min-height:0 on the flex
+   chain is required for the inner column lists to scroll. */
+@media (min-width: 861px) {
+  .roadmap-board {
+    flex: 1;
+    min-height: 0;
+  }
+  .roadmap-board__columns {
+    min-height: 0;
+  }
+}
+
 /* Full-height hairline divider between columns (the mockup's vertical rules). */
 .roadmap-board__columns > * + * {
   border-left: 1.5px solid

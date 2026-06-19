@@ -11,7 +11,6 @@ import {
   Palette,
   Puzzle,
   RefreshCw,
-  Sparkles,
 } from "lucide-react";
 import { TOOLS } from "../../lib/tools";
 import { LINKS } from "../../lib/links";
@@ -68,8 +67,6 @@ interface DetailContent {
   lead: string;
   items: DetailItem[];
   links: DetailLink[];
-  /** Forward-looking line on how this pillar keeps growing. */
-  expanding: string;
 }
 
 /** The tools gallery, read straight from the registry, plus the Figma plugin. */
@@ -116,7 +113,6 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       { label: "Get the Figma plugin", href: LINKS.githubFigmaPlugin, external: true, primary: true },
       { label: "Build a theme", href: "/tools/theme-builder" },
     ],
-    expanding: "The library keeps growing — new components land in Figma as they ship in code.",
   },
   tools: {
     title: "Tools",
@@ -127,7 +123,6 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       { label: "Open the tools", href: "/tools", primary: true },
       { label: "Figma plugin on GitHub", href: LINKS.githubFigmaPlugin, external: true },
     ],
-    expanding: "More generators are in the works, with new ones added as the system grows.",
   },
   code: {
     title: "Code",
@@ -158,8 +153,6 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       { label: "Browse components", href: "/docs", primary: true },
       { label: "View on GitHub", href: LINKS.github, external: true },
     ],
-    expanding:
-      "Components ship for React today, but the tokens are framework-agnostic — adapters for more frameworks and a steadily growing component set are coming.",
   },
 };
 
@@ -255,7 +248,6 @@ function DetailBody({ content }: { content: DetailContent }) {
   return (
     <div className="ov-detail__inner">
       <div className="ov-detail__intro">
-        <p className="ov-detail__eyebrow">{content.title}</p>
         <h3 className="ov-detail__heading">{content.heading}</h3>
         <p className="ov-detail__lead">{content.lead}</p>
         <div className="ov-detail__ctas">
@@ -270,17 +262,6 @@ function DetailBody({ content }: { content: DetailContent }) {
           <Item key={item.title} item={item} />
         ))}
       </ul>
-
-      <p className="ov-detail__expanding">
-        <Icon name={Sparkles} size={16} className="ov-detail__expand-icon" />
-        <span>
-          {content.expanding}{" "}
-          <a className="ov-detail__expanding-link" href="#roadmap">
-            See what&rsquo;s next
-          </a>
-          .
-        </span>
-      </p>
     </div>
   );
 }

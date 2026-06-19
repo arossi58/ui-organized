@@ -32,6 +32,27 @@
   gap: var(--spacing-space-04);
 }
 
+/* Desktop: the section is capped to the viewport, so each column's card list
+   becomes the scroll area — the title stays pinned on top and the Done column's
+   overflow link stays pinned at the foot, while the cards scroll between them. */
+@media (min-width: 861px) {
+  .roadmap-column {
+    /* Grid item: allow it to shrink below content height so the list scrolls. */
+    min-height: 0;
+  }
+  .roadmap-column__list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* Reserve a stable scrollbar gutter so all three columns stay aligned
+       whether or not they overflow. */
+    scrollbar-gutter: stable;
+    scrollbar-width: thin;
+    /* A little breathing room between the cards and the scrollbar/divider. */
+    padding-right: var(--spacing-space-02);
+  }
+}
+
 .roadmap-column__overflow {
   align-self: flex-start;
 }
