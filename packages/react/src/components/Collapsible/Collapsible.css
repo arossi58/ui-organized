@@ -38,25 +38,40 @@
   cursor: not-allowed;
 }
 
-/* ─── Panel (height animation via Base UI's --collapsible-panel-height) ────── */
+/* ─── Panel (height animation via Ark/Zag's --height + keyframes) ──────────────
+   Zag drives the open/close animation off the CSS animation: it reads the
+   computed `animation-name` and waits for `animationend` before unmounting, so
+   the panel must use keyframes (not a transition). `--height` is the measured
+   panel height Zag sets inline on the content. */
 
 .collapsible__panel {
   overflow: hidden;
-  height: var(--collapsible-panel-height);
-  transition: height 200ms ease;
   color: var(--color-text-secondary);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);
 }
 
-.collapsible__panel[data-starting-style],
-.collapsible__panel[data-ending-style] {
-  height: 0;
+.collapsible__panel[data-state="open"] {
+  animation: collapsible-down 200ms ease;
+}
+
+.collapsible__panel[data-state="closed"] {
+  animation: collapsible-up 200ms ease;
+}
+
+@keyframes collapsible-down {
+  from { height: 0; }
+  to { height: var(--height); }
+}
+
+@keyframes collapsible-up {
+  from { height: var(--height); }
+  to { height: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .collapsible__panel { transition: none; }
+  .collapsible__panel { animation: none; }
 }
 
 .collapsible__content {
