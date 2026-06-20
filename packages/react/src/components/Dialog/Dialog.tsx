@@ -52,12 +52,12 @@ export function DialogClose({ render, children, ...props }: DialogCloseProps) {
 }
 
 export function DialogTitle({ className, ...props }: DialogTitleProps) {
-  return <ArkDialog.Title className={clsx("dialog__title", className)} {...props} />;
+  return <ArkDialog.Title className={clsx("dialog__title", "text-strong-heading-small", className)} {...props} />;
 }
 
 export function DialogDescription({ className, ...props }: DialogDescriptionProps) {
   return (
-    <ArkDialog.Description className={clsx("dialog__description", className)} {...props} />
+    <ArkDialog.Description className={clsx("dialog__description", "text-default-body-medium", className)} {...props} />
   );
 }
 

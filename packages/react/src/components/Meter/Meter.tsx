@@ -35,7 +35,7 @@ export function Meter({
       className={clsx(meterStyles({ variant, size }), className)}
     >
       {showHeader && (
-        <div className="meter__header">
+        <div className="meter__header text-default-body-small">
           {label != null && <span className="meter__label">{label}</span>}
           {showValue && <span className="meter__value">{formatted}</span>}
         </div>

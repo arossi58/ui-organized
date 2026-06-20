@@ -44,12 +44,12 @@ export function AlertDialogTrigger({ render, children, ...props }: AlertDialogTr
 }
 
 export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps) {
-  return <ArkDialog.Title className={clsx("dialog__title", className)} {...props} />;
+  return <ArkDialog.Title className={clsx("dialog__title", "text-strong-heading-small", className)} {...props} />;
 }
 
 export function AlertDialogDescription({ className, ...props }: AlertDialogDescriptionProps) {
   return (
-    <ArkDialog.Description className={clsx("dialog__description", className)} {...props} />
+    <ArkDialog.Description className={clsx("dialog__description", "text-default-body-medium", className)} {...props} />
   );
 }
 

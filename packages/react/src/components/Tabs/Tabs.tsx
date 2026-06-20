@@ -36,7 +36,7 @@ export function Tabs({
             key={tab.value}
             value={String(tab.value)}
             disabled={tab.disabled}
-            className="tabs__tab"
+            className="tabs__tab text-emphasis-body-large"
           >
             {tab.label}
           </ArkTabs.Trigger>

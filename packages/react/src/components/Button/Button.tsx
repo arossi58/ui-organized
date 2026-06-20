@@ -38,6 +38,7 @@ export function Button({
       children === "");
 
   const buttonClass = clsx(
+    "text-default-body-large",
     buttonStyles({ intent, size }),
     isIconOnly && "btn--icon-only",
     className,

@@ -1,3 +1,8 @@
+// Global typography utilities (`.text-{weight}-{step}`) — the single source of
+// truth for text styles. Imported first so component CSS can override on source
+// order where needed. See ./typography.css.
+import "./typography.css";
+
 export { Icon } from "./components/Icon/index.js";
 export type { IconProps } from "./components/Icon/index.js";
 

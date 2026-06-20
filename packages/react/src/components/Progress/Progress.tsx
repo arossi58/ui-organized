@@ -22,7 +22,7 @@ export function Progress({
       className={clsx(progressStyles({ variant, size }), className)}
     >
       {showHeader && (
-        <div className="progress__header">
+        <div className="progress__header text-default-body-small">
           {label != null && (
             <ArkProgress.Label className="progress__label">{label}</ArkProgress.Label>
           )}

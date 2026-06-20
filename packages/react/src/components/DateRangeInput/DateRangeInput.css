@@ -20,12 +20,9 @@
 .date-range__separator {
   flex-shrink: 0;
   color: var(--color-text-tertiary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  line-height: var(--type-leading-body-large);
   user-select: none;
 }
 
 .date-range[data-disabled] .date-range__separator {
-  color: var(--color-interactive-inactive-02);
+  opacity: 0.4;
 }

@@ -72,7 +72,7 @@ export function Select({
             {required && <span className="field__required" aria-hidden="true" />}
           </ArkSelect.Label>
         )}
-        <ArkSelect.Trigger className="select-field__trigger">
+        <ArkSelect.Trigger className="select-field__trigger text-default-body-large">
           <ArkSelect.ValueText className="select-field__value" placeholder={placeholder} />
           <ArkSelect.Indicator className="select-field__icon">
             <Icon name="chevron-down" size={16} />
@@ -83,7 +83,7 @@ export function Select({
             <ArkSelect.Content className="select-popup">
               <ArkSelect.List className="select-popup__list">
                 {options.map((opt) => (
-                  <ArkSelect.Item key={opt.value} item={opt} className="select-popup__item">
+                  <ArkSelect.Item key={opt.value} item={opt} className="select-popup__item text-default-body-large">
                     <ArkSelect.ItemText>{opt.label}</ArkSelect.ItemText>
                     <ArkSelect.ItemIndicator className="select-popup__item-indicator">
                       <Icon name="check" size={20} />

@@ -83,7 +83,7 @@ export function PopoverContent({
   return (
     <Portal container={container}>
       <ArkPopover.Positioner className="popover__positioner">
-        <ArkPopover.Content className={clsx("popover__popup", className)} {...contentProps}>
+        <ArkPopover.Content className={clsx("popover__popup", "text-default-body-medium", className)} {...contentProps}>
           {showArrow && <PopoverArrow />}
           {children}
         </ArkPopover.Content>

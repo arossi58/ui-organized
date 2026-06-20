@@ -19,8 +19,8 @@ export function Alert({ variant = "info", title, children, onDismiss, className 
         <Icon name={VARIANT_ICONS[variant]} size={18} />
       </span>
       <div className="alert__body">
-        {title && <div className="alert__title">{title}</div>}
-        <div className="alert__message">{children}</div>
+        {title && <div className="alert__title text-strong-body-medium">{title}</div>}
+        <div className="alert__message text-default-body-medium">{children}</div>
       </div>
       {onDismiss && (
         <button

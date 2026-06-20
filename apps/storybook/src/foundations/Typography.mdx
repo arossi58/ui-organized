@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+import { TypeStyleTable } from "./TypeStyleTable";
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+The design system ships a single source of truth for text: 40 global
+`.text-{weight}-{step}` utility classes that mirror the Figma type-style panel.
+Each class bundles font family, size, weight and line-height from `--type-*`
+tokens, so components apply one class instead of re-declaring those properties.
+
+Weights are **default · emphasis · strong · heavy**; steps run from
+`display-xlarge` down to `caption`. Display and heading steps use the heading
+font; body and caption steps use the body font.
+
+<TypeStyleTable />

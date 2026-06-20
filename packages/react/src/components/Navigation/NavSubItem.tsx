@@ -23,6 +23,7 @@ export function NavSubItem({
     <button
       type="button"
       className={clsx(
+        "text-default-body-medium",
         navSubItemStyles({ selected }),
         isCollapsed && "nav-sub-item--collapsed",
         className,

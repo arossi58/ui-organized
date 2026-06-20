@@ -57,7 +57,7 @@ export function Sidebar({
             {collapsible && (
               <button
                 type="button"
-                className="sidebar__toggle"
+                className="sidebar__toggle text-default-body-medium"
                 onClick={toggle}
                 aria-expanded={!isCollapsed}
                 aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}

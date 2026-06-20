@@ -119,8 +119,8 @@ export function Range({
       disabled={disabled}
     >
       <div className="range__header">
-        {label && <Field.Label className="range__label">{label}</Field.Label>}
-        {!hideValue && <span className="range__value">{displayValue}</span>}
+        {label && <Field.Label className="range__label text-default-body-small">{label}</Field.Label>}
+        {!hideValue && <span className="range__value text-default-body-large">{displayValue}</span>}
       </div>
 
       <Slider.Root
@@ -137,7 +137,7 @@ export function Range({
       >
         <div className="range__row">
           {rangeLabels && (
-            <span className="range__range-label range__range-label--start">
+            <span className="range__range-label range__range-label--start text-default-body-small">
               {startLabel ?? resolvedMin}
             </span>
           )}
@@ -150,7 +150,7 @@ export function Range({
             </Slider.Track>
           </Slider.Control>
           {rangeLabels && (
-            <span className="range__range-label range__range-label--end">
+            <span className="range__range-label range__range-label--end text-default-body-small">
               {endLabel ?? resolvedMax}
             </span>
           )}

@@ -42,7 +42,7 @@ export function Checkbox({
           />
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>
-      {label && <ArkCheckbox.Label className="checkbox__label">{label}</ArkCheckbox.Label>}
+      {label && <ArkCheckbox.Label className="checkbox__label text-default-body-large">{label}</ArkCheckbox.Label>}
       <ArkCheckbox.HiddenInput />
     </ArkCheckbox.Root>
   );

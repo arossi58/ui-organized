@@ -33,9 +33,15 @@
 }
 
 .field[data-disabled] .number-field__group {
-  background-color: var(--color-interactive-inactive-01);
-  border-color: var(--color-border-secondary);
   cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* The group provides the disabled dim; the inner input and steppers must not
+   stack their own opacity on top of it (which would render them at 0.16). */
+.field[data-disabled] .number-field__input,
+.field[data-disabled] .number-field__stepper {
+  opacity: 1;
 }
 
 /* ─── Input (strip the field-control border/bg — the group provides them) ─── */
@@ -78,9 +84,10 @@
   background-color: var(--color-interactive-ui-active);
 }
 
+/* A single stepper disabled on its own (e.g. at min/max) while the field is
+   enabled — dim just that button. */
 .number-field__stepper:disabled,
 .number-field__stepper[data-disabled] {
-  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
-  pointer-events: none;
+  opacity: 0.4;
 }

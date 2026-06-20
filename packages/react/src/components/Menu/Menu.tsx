@@ -117,7 +117,7 @@ export function MenuGroup({ className, ...props }: MenuGroupProps) {
 }
 
 export function MenuGroupLabel({ className, ...props }: MenuGroupLabelProps) {
-  return <ArkMenu.ItemGroupLabel className={clsx("menu__group-label", className)} {...props} />;
+  return <ArkMenu.ItemGroupLabel className={clsx("menu__group-label", "text-strong-body-small", className)} {...props} />;
 }
 
 export function MenuRadioGroup({ value, onValueChange, children }: MenuRadioGroupProps) {

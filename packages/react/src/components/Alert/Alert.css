@@ -51,19 +51,8 @@
   gap: var(--spacing-space-01);
 }
 
-.alert__title {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-strong);
-  line-height: var(--type-leading-body-medium);
-}
-
-.alert__message {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-medium);
-}
+/* Title and message text styles come from the .text-* typography utilities
+   applied in Alert.tsx (strong/default body-medium). */
 
 /* ─── Variant icon ────────────────────────────────────────────────────────── */
 

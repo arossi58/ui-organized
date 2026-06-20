@@ -67,9 +67,10 @@
   box-shadow: inset 0 0 0 2px var(--color-interactive-focus);
 }
 
-.accordion__trigger:disabled {
-  color: var(--color-interactive-inactive-02);
+.accordion__trigger:disabled,
+.accordion__trigger[data-disabled] {
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 .accordion__title {
@@ -95,9 +96,6 @@
 .accordion__panel {
   overflow: hidden;
   color: var(--color-text-secondary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
 }
 
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */

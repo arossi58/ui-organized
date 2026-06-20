@@ -55,7 +55,7 @@ export function NavItem({
     >
       <button
         type="button"
-        className={navItemStyles({ selected, expandable: showSubList })}
+        className={clsx("text-default-body-medium", navItemStyles({ selected, expandable: showSubList }))}
         disabled={disabled}
         aria-current={selected ? "page" : undefined}
         aria-expanded={showSubList ? isExpanded : undefined}

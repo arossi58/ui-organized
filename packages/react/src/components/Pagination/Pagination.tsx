@@ -70,7 +70,7 @@ export function Pagination({
           <li>
             <button
               type="button"
-              className="pagination__nav"
+              className="pagination__nav text-default-body-medium"
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
               aria-label="Previous page"
@@ -88,7 +88,7 @@ export function Pagination({
             ) : (
               <button
                 type="button"
-                className="pagination__page"
+                className="pagination__page text-default-body-medium"
                 onClick={() => onPageChange(item)}
                 aria-current={item === page ? "page" : undefined}
                 aria-label={`Go to page ${item}`}
@@ -102,7 +102,7 @@ export function Pagination({
           <li>
             <button
               type="button"
-              className="pagination__nav"
+              className="pagination__nav text-default-body-medium"
               onClick={() => onPageChange(page + 1)}
               disabled={page >= count}
               aria-label="Next page"

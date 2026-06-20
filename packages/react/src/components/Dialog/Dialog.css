@@ -104,18 +104,11 @@
 .dialog__title {
   margin: 0;
   padding-right: var(--spacing-space-07);
-  font-family: var(--type-font-heading);
-  font-size: var(--type-size-heading-small);
-  font-weight: var(--type-weight-heading-strong);
-  line-height: var(--type-leading-heading-small);
   color: var(--color-text-primary);
 }
 
 .dialog__description {
   margin: 0;
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
   color: var(--color-text-secondary);
 }
 

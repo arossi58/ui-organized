@@ -62,7 +62,7 @@ export function Tooltip({
       {trigger}
       <Portal container={container}>
         <ArkTooltip.Positioner className="tooltip__positioner">
-          <ArkTooltip.Content className="tooltip__popup">
+          <ArkTooltip.Content className="tooltip__popup text-default-body-small">
             {content}
             {showArrow && (
               <ArkTooltip.Arrow className="tooltip__arrow">

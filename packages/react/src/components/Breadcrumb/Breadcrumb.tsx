@@ -6,7 +6,7 @@ import "./Breadcrumb.css";
 /** A trail of links showing the current page's location in a hierarchy. */
 export function Breadcrumb({ items, separator, className, ...props }: BreadcrumbProps) {
   return (
-    <nav aria-label="Breadcrumb" className={clsx("breadcrumb", className)} {...props}>
+    <nav aria-label="Breadcrumb" className={clsx("breadcrumb", "text-default-body-medium", className)} {...props}>
       <ol className="breadcrumb__list">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;

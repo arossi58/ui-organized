@@ -98,10 +98,6 @@
 /* ─── Label text ──────────────────────────────────────────────────────────── */
 
 .checkbox__label {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-large);
   color: var(--color-text-primary);
   user-select: none;
 }

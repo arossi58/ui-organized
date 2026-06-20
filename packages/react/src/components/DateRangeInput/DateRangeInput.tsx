@@ -131,7 +131,7 @@ export function DateRangeInput({
   );
 
   const sep = (
-    <span className="date-range__separator" aria-hidden="true">
+    <span className="date-range__separator text-default-body-large" aria-hidden="true">
       {separator}
     </span>
   );

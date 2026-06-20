@@ -54,11 +54,11 @@ export function SheetClose({ render, children, ...props }: SheetCloseProps) {
 }
 
 export function SheetTitle({ className, ...props }: SheetTitleProps) {
-  return <ArkDialog.Title className={clsx("dialog__title", className)} {...props} />;
+  return <ArkDialog.Title className={clsx("dialog__title", "text-strong-heading-small", className)} {...props} />;
 }
 
 export function SheetDescription({ className, ...props }: SheetDescriptionProps) {
-  return <ArkDialog.Description className={clsx("dialog__description", className)} {...props} />;
+  return <ArkDialog.Description className={clsx("dialog__description", "text-default-body-medium", className)} {...props} />;
 }
 
 /** Right-aligned action row, typically holding the sheet's buttons. */

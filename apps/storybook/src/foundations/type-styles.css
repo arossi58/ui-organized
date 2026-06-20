@@ -1,0 +1,36 @@
+.type-styles {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  /* `sb-unstyled` drops the docs default text colour; use the design system's
+     own text token so previews match the DS and adapt to light/dark themes
+     (otherwise they inherit the docs black and vanish in a dark docs theme). */
+  color: var(--color-text-primary);
+}
+
+.type-styles__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.type-styles__heading {
+  margin: 0 0 4px;
+  text-transform: capitalize;
+}
+
+.type-styles__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+/* The class name label. Theme-agnostic chrome — inherits the docs text colour. */
+.type-styles__name {
+  font-family: var(--type-font-mono, ui-monospace, monospace);
+  font-size: 12px;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}

@@ -97,10 +97,10 @@ export function Combobox({
         <Portal container={portalContainer ? { current: portalContainer } : undefined}>
           <ArkCombobox.Positioner className="combobox-positioner">
             <ArkCombobox.Content className="combobox-popup">
-              <ArkCombobox.Empty className="combobox-popup__empty">{emptyMessage}</ArkCombobox.Empty>
+              <ArkCombobox.Empty className="combobox-popup__empty text-default-body-medium">{emptyMessage}</ArkCombobox.Empty>
               <ArkCombobox.List className="combobox-popup__list">
                 {collection.items.map((item) => (
-                  <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item">
+                  <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item text-default-body-large">
                     <span className="combobox-popup__item-label">{item.label}</span>
                     <ArkCombobox.ItemIndicator className="combobox-popup__item-indicator">
                       <Icon name="check" size={18} />

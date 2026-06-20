@@ -34,10 +34,6 @@
   justify-content: center;
   gap: var(--spacing-space-01);
   padding: var(--spacing-space-02) var(--spacing-space-04);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-emphasis);
-  line-height: var(--type-leading-body-large);
   color: var(--color-text-secondary);
   background: transparent;
   border: none;
@@ -75,9 +71,8 @@
 
 /* inactive / disabled */
 .tabs__tab[data-disabled] {
-  color: var(--color-interactive-inactive-02);
-  border-bottom-color: transparent;
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* ─── Small size ──────────────────────────────────────────────────────────── */

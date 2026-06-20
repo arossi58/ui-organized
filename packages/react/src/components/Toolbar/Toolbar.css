@@ -40,9 +40,6 @@
   border-radius: var(--radius-checkbox);
   background: transparent;
   color: var(--color-text-primary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
   text-decoration: none;
   cursor: pointer;
   outline: none;
@@ -65,10 +62,10 @@
   border-color: var(--color-border-primary);
 }
 
-.toolbar__button:disabled {
-  color: var(--color-interactive-inactive-02);
+.toolbar__button:disabled,
+.toolbar__button[data-disabled] {
   cursor: not-allowed;
-  pointer-events: none;
+  opacity: 0.4;
 }
 
 /* ─── Input ───────────────────────────────────────────────────────────────── */
@@ -80,8 +77,6 @@
   border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-checkbox);
   color: var(--color-text-primary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
   outline: none;
   transition: box-shadow 150ms ease;
 }

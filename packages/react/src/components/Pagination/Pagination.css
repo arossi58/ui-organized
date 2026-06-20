@@ -23,8 +23,6 @@
   border-radius: var(--radius-interactive);
   background: transparent;
   color: var(--color-text-primary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition:
@@ -50,8 +48,8 @@
 }
 
 .pagination__nav:disabled {
-  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* ─── Ellipsis ────────────────────────────────────────────────────────────── */

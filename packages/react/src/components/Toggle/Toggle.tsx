@@ -20,7 +20,7 @@ export function Toggle({
   ...props
 }: ToggleProps) {
   const resolvedSize = size ?? "md";
-  const cls = clsx(toggleStyles({ size: resolvedSize }), className);
+  const cls = clsx("text-default-body-large", toggleStyles({ size: resolvedSize }), className);
   const content = (
     <>
       {icon && <Icon name={icon} size={ICON_SIZE[resolvedSize]} />}

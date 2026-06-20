@@ -15,7 +15,7 @@ export function FieldError({ children, className, ...props }: FieldErrorProps) {
   if (children == null || children === "") return null;
 
   return (
-    <span className={clsx("field-error", className)} {...props}>
+    <span className={clsx("field-error", "text-emphasis-caption", className)} {...props}>
       <Icon name="alert-circle" size={12} className="field-error__icon" />
       {children}
     </span>

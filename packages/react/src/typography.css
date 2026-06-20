@@ -1,0 +1,261 @@
+/* ─── Typography utilities ────────────────────────────────────────
+   40 self-contained type styles: `.text-{weight}-{step}`, the single source of
+   truth for text in the design system (mirrors the Figma type-style panel).
+
+   weight ∈ default | emphasis | strong | heavy   (packages/utils weightFallback WEIGHT_ROLES)
+   step   ∈ display-xlarge … caption                (packages/utils typeScale TYPE_SCALE_STEP_NAMES)
+
+   FAMILY RULE:
+     display-* / heading-*  →  --type-font-heading  +  --type-weight-heading-{weight}
+     body-*    / caption     →  --type-font-body     +  --type-weight-body-{weight}
+   Every class also sets --type-size-{step} and --type-leading-{step}.
+
+   Values are token-only — never inline px here, and do not change token values. ── */
+
+/* ─── default ──────────────────────────────────────────────────────────── */
+.text-default-display-xlarge {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-xlarge);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-display-xlarge);
+}
+.text-default-display-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-large);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-display-large);
+}
+.text-default-display-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-display-medium);
+}
+.text-default-heading-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-heading-large);
+}
+.text-default-heading-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-heading-medium);
+}
+.text-default-heading-small {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-default);
+  line-height: var(--type-leading-heading-small);
+}
+.text-default-body-large {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+}
+.text-default-body-medium {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+}
+.text-default-body-small {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+}
+.text-default-caption {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-caption);
+}
+
+/* ─── emphasis ──────────────────────────────────────────────────────────── */
+.text-emphasis-display-xlarge {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-xlarge);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-display-xlarge);
+}
+.text-emphasis-display-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-large);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-display-large);
+}
+.text-emphasis-display-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-display-medium);
+}
+.text-emphasis-heading-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-heading-large);
+}
+.text-emphasis-heading-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-heading-medium);
+}
+.text-emphasis-heading-small {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-heading-small);
+}
+.text-emphasis-body-large {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-large);
+}
+.text-emphasis-body-medium {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-medium);
+}
+.text-emphasis-body-small {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-small);
+}
+.text-emphasis-caption {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-caption);
+}
+
+/* ─── strong ──────────────────────────────────────────────────────────── */
+.text-strong-display-xlarge {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-xlarge);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-display-xlarge);
+}
+.text-strong-display-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-large);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-display-large);
+}
+.text-strong-display-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-display-medium);
+}
+.text-strong-heading-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-heading-large);
+}
+.text-strong-heading-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-heading-medium);
+}
+.text-strong-heading-small {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-heading-small);
+}
+.text-strong-body-large {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-large);
+}
+.text-strong-body-medium {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-medium);
+}
+.text-strong-body-small {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-small);
+}
+.text-strong-caption {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-caption);
+}
+
+/* ─── heavy ──────────────────────────────────────────────────────────── */
+.text-heavy-display-xlarge {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-xlarge);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-display-xlarge);
+}
+.text-heavy-display-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-large);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-display-large);
+}
+.text-heavy-display-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-display-medium);
+}
+.text-heavy-heading-large {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-heading-large);
+}
+.text-heavy-heading-medium {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-heading-medium);
+}
+.text-heavy-heading-small {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-heavy);
+  line-height: var(--type-leading-heading-small);
+}
+.text-heavy-body-large {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-heavy);
+  line-height: var(--type-leading-body-large);
+}
+.text-heavy-body-medium {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-heavy);
+  line-height: var(--type-leading-body-medium);
+}
+.text-heavy-body-small {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-heavy);
+  line-height: var(--type-leading-body-small);
+}
+.text-heavy-caption {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  line-height: var(--type-leading-caption);
+}

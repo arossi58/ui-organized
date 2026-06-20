@@ -45,7 +45,7 @@ export function Accordion({
               <Icon name="chevron-down" size={20} className="accordion__icon" />
             </ArkAccordion.ItemTrigger>
           </h3>
-          <ArkAccordion.ItemContent className="accordion__panel">
+          <ArkAccordion.ItemContent className="accordion__panel text-default-body-medium">
             <div className="accordion__content">{item.content}</div>
           </ArkAccordion.ItemContent>
         </ArkAccordion.Item>

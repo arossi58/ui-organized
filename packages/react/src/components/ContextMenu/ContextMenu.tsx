@@ -116,7 +116,7 @@ export function ContextMenuGroup({ className, ...props }: ContextMenuGroupProps)
 
 export function ContextMenuGroupLabel({ className, ...props }: ContextMenuGroupLabelProps) {
   return (
-    <ArkMenu.ItemGroupLabel className={clsx("context-menu__group-label", className)} {...props} />
+    <ArkMenu.ItemGroupLabel className={clsx("context-menu__group-label", "text-strong-body-small", className)} {...props} />
   );
 }
 

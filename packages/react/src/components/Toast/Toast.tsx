@@ -47,13 +47,13 @@ export function ToastProvider({ children }: ToastProviderProps) {
                 <Icon name={STATUS_ICON[status]} size={18} />
               </span>
               <div className="toast__content">
-                <Toast.Title className="toast__title">{toast.title}</Toast.Title>
-                <Toast.Description className="toast__description">
+                <Toast.Title className="toast__title text-strong-body-medium">{toast.title}</Toast.Title>
+                <Toast.Description className="toast__description text-default-body-small">
                   {toast.description}
                 </Toast.Description>
               </div>
               {toast.action && (
-                <Toast.ActionTrigger className="toast__action">
+                <Toast.ActionTrigger className="toast__action text-emphasis-body-small">
                   {toast.action.label}
                 </Toast.ActionTrigger>
               )}

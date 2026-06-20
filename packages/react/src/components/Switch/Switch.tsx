@@ -34,7 +34,7 @@ export function Switch({
       <ArkSwitch.Control className="switch__track">
         <ArkSwitch.Thumb className="switch__thumb" />
       </ArkSwitch.Control>
-      {label && <ArkSwitch.Label className="switch__label">{label}</ArkSwitch.Label>}
+      {label && <ArkSwitch.Label className="switch__label text-default-body-large">{label}</ArkSwitch.Label>}
       <ArkSwitch.HiddenInput />
     </ArkSwitch.Root>
   );

@@ -268,7 +268,7 @@ export function Calendar({
         <div className="calendar__labels">
           {months.map((m, i) => (
             <div key={`${m.year}-${m.month}`} className="calendar__label">
-              <span className="calendar__month-name">{monthName(m.year, m.month)}</span>
+              <span className="calendar__month-name text-emphasis-body-large">{monthName(m.year, m.month)}</span>
               <span className="calendar__year">
                 <select
                   className="calendar__year-select"

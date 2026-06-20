@@ -33,7 +33,7 @@ export function ToolbarGroup({ className, ...props }: ToolbarGroupProps) {
 
 export function ToolbarButton({ icon, type = "button", className, children, ...props }: ToolbarButtonProps) {
   return (
-    <button type={type} className={clsx("toolbar__button", className)} {...props}>
+    <button type={type} className={clsx("toolbar__button", "text-default-body-medium", className)} {...props}>
       {icon && <Icon name={icon} size={16} />}
       {children}
     </button>
@@ -41,11 +41,11 @@ export function ToolbarButton({ icon, type = "button", className, children, ...p
 }
 
 export function ToolbarLink({ className, ...props }: ToolbarLinkProps) {
-  return <a className={clsx("toolbar__button", "toolbar__link", className)} {...props} />;
+  return <a className={clsx("toolbar__button", "toolbar__link", "text-default-body-medium", className)} {...props} />;
 }
 
 export function ToolbarInput({ className, ...props }: ToolbarInputProps) {
-  return <input className={clsx("toolbar__input", className)} {...props} />;
+  return <input className={clsx("toolbar__input", "text-default-body-medium", className)} {...props} />;
 }
 
 export function ToolbarSeparator({ className, ...props }: ToolbarSeparatorProps) {

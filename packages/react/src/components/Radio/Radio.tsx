@@ -50,7 +50,7 @@ export function RadioGroup({
               <ArkRadioGroup.ItemControl className="radio-item__control">
                 <span className="radio-item__indicator" />
               </ArkRadioGroup.ItemControl>
-              <ArkRadioGroup.ItemText className="radio-item__label">
+              <ArkRadioGroup.ItemText className="radio-item__label text-default-body-large">
                 {opt.label}
               </ArkRadioGroup.ItemText>
               <ArkRadioGroup.ItemHiddenInput />
@@ -58,7 +58,7 @@ export function RadioGroup({
             {opt.error && (
               <div className="radio-item__error-message">
                 <Icon name="alert-circle" size={16} />
-                <span className="radio-item__error-text">{opt.error}</span>
+                <span className="radio-item__error-text text-emphasis-body-small">{opt.error}</span>
               </div>
             )}
           </div>

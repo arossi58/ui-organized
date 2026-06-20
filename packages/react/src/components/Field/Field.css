@@ -99,10 +99,8 @@
 
 .field__control:disabled,
 .field__control[data-disabled] {
-  background-color: var(--color-interactive-inactive-01);
-  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
-  pointer-events: none;
+  opacity: 0.4;
 }
 
 /* ─── Description (helper text) ───────────────────────────────────────────── */

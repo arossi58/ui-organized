@@ -17,9 +17,6 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-space-02);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
 }
 
 .meter__label {

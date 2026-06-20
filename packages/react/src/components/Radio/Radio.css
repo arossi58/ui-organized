@@ -7,10 +7,6 @@
 }
 
 .radio-group__label {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-emphasis);
-  line-height: var(--type-leading-body-medium);
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-space-01);
 }
@@ -46,6 +42,7 @@
 
 .radio-item--disabled {
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* ─── Radio control (the circle) ──────────────────────────────────────────── */
@@ -81,21 +78,6 @@
     0 0 0 2px var(--color-interactive-focus);
 }
 
-/* ─── Disabled state ───────────────────────────────────────────────────────── */
-
-.radio-item--disabled .radio-item__control {
-  border-color: var(--color-interactive-inactive-02);
-}
-
-.radio-item--disabled .radio-item__control[data-state="checked"] {
-  background-color: var(--color-interactive-inactive-02);
-  border-color: var(--color-interactive-inactive-02);
-}
-
-.radio-item--disabled .radio-item__label {
-  color: var(--color-interactive-inactive-02);
-}
-
 /* ─── Error state ─────────────────────────────────────────────────────────── */
 
 .radio-item--error .radio-item__control {
@@ -122,18 +104,9 @@
   transform: scale(1);
 }
 
-/* Disabled indicator uses inactive-03 instead of ui-light */
-.radio-item--disabled .radio-item__control[data-state="checked"] .radio-item__indicator {
-  background-color: var(--color-interactive-inactive-03);
-}
-
 /* ─── Radio label ─────────────────────────────────────────────────────────── */
 
 .radio-item__label {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-large);
   color: var(--color-text-primary);
   user-select: none;
 }
@@ -152,9 +125,5 @@
 }
 
 .radio-item__error-text {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-emphasis);
-  line-height: var(--type-leading-body-small);
   color: var(--color-status-error-message);
 }

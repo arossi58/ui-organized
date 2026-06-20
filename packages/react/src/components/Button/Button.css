@@ -7,10 +7,6 @@
   gap: var(--spacing-space-01);
   border: 1px solid transparent;
   border-radius: var(--radius-interactive);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-large);
   cursor: pointer;
   text-decoration: none;
   white-space: nowrap;
@@ -29,10 +25,10 @@
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-.btn:disabled {
+.btn:disabled,
+.btn[data-disabled] {
   cursor: not-allowed;
   opacity: 0.4;
-  pointer-events: none;
 }
 
 /* ─── Intent: primary ─────────────────────────────────────────────────────── */
@@ -67,14 +63,6 @@
   background-color: var(--color-interactive-secondary-active);
 }
 
-/* Inactive state (Figma 23:1580): the translucent fill is replaced by a solid
-   inactive surface with muted text rather than the global opacity dim. */
-.btn--secondary:disabled {
-  background-color: var(--color-interactive-inactive-01);
-  color: var(--color-interactive-inactive-02);
-  opacity: 1;
-}
-
 /* ─── Intent: tertiary ────────────────────────────────────────────────────── */
 
 .btn--tertiary {
@@ -96,14 +84,6 @@
   color: var(--color-text-light);
 }
 
-/* Inactive state (Figma 23:1582): solid inactive surface, muted text, no outline. */
-.btn--tertiary:disabled {
-  background-color: var(--color-interactive-inactive-01);
-  border-color: var(--color-interactive-inactive-01);
-  color: var(--color-interactive-inactive-02);
-  opacity: 1;
-}
-
 /* ─── Intent: ghost ───────────────────────────────────────────────────────── */
 
 .btn--ghost {
@@ -118,14 +98,6 @@
 
 .btn--ghost:active:not(:disabled) {
   background-color: var(--color-interactive-ghost-active);
-}
-
-/* Inactive state (Figma 23:1584): the transparent fill is replaced by a solid
-   inactive surface with muted text rather than the global opacity dim. */
-.btn--ghost:disabled {
-  background-color: var(--color-interactive-inactive-01);
-  color: var(--color-interactive-inactive-02);
-  opacity: 1;
 }
 
 /* ─── Intent: destructive ─────────────────────────────────────────────────── */

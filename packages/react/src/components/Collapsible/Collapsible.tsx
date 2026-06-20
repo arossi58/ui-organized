@@ -22,12 +22,12 @@ export function Collapsible({ className, onOpenChange, ...props }: CollapsiblePr
 export function CollapsibleTrigger({ className, render, ...props }: CollapsibleTriggerProps) {
   if (render) {
     return (
-      <ArkCollapsible.Trigger asChild className={clsx("collapsible__trigger", className)} {...props}>
+      <ArkCollapsible.Trigger asChild className={clsx("collapsible__trigger", "text-emphasis-body-large", className)} {...props}>
         {render}
       </ArkCollapsible.Trigger>
     );
   }
-  return <ArkCollapsible.Trigger className={clsx("collapsible__trigger", className)} {...props} />;
+  return <ArkCollapsible.Trigger className={clsx("collapsible__trigger", "text-emphasis-body-large", className)} {...props} />;
 }
 
 /** The region revealed when open. Height is animated by Ark via `--height`. */

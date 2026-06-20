@@ -1,10 +1,6 @@
-/* ─── Breadcrumb ──────────────────────────────────────────────────────────── */
-
-.breadcrumb {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
-}
+/* ─── Breadcrumb ──────────────────────────────────────────────────────────────
+   The root carries the .text-default-body-medium utility (applied in
+   Breadcrumb.tsx); the current page bumps weight to strong below. */
 
 .breadcrumb__list {
   display: flex;

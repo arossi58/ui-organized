@@ -22,10 +22,6 @@
   border-radius: var(--radius-interactive);
   background: transparent;
   color: var(--color-text-secondary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -79,9 +75,8 @@
 
 /* disabled */
 .nav-item__trigger:disabled {
-  color: var(--color-interactive-inactive-02);
-  background: transparent;
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* ─── Sub-page list ─────────────────────────────────────────────────────────── */
@@ -135,10 +130,6 @@
   border-radius: var(--radius-interactive);
   background: transparent;
   color: var(--color-text-tertiary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -180,9 +171,8 @@
 
 /* disabled */
 .nav-sub-item:disabled {
-  color: var(--color-interactive-inactive-02);
-  background: transparent;
   cursor: not-allowed;
+  opacity: 0.4;
 }
 
 /* ─── Collapsed (icon-only rail) ────────────────────────────────────────────── */
@@ -315,10 +305,6 @@
   border-radius: var(--radius-interactive);
   background: transparent;
   color: var(--color-text-secondary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-medium);
   text-align: left;
   cursor: pointer;
   outline: none;

@@ -50,9 +50,8 @@
 }
 
 .context-menu__item[data-disabled] {
-  color: var(--color-interactive-inactive-02);
   cursor: not-allowed;
-  pointer-events: none;
+  opacity: 0.4;
 }
 
 .context-menu__item--destructive {
@@ -100,9 +99,6 @@
 
 .context-menu__group-label {
   padding: var(--spacing-space-02) var(--spacing-space-03);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-strong);
   color: var(--color-text-tertiary);
 }
 

@@ -89,7 +89,7 @@ export function HoverCardContent({
   return (
     <Portal container={container}>
       <ArkHoverCard.Positioner className="hover-card__positioner">
-        <ArkHoverCard.Content className={clsx("hover-card__popup", className)} {...contentProps}>
+        <ArkHoverCard.Content className={clsx("hover-card__popup", "text-default-body-medium", className)} {...contentProps}>
           {showArrow && <HoverCardArrow />}
           {children}
         </ArkHoverCard.Content>
