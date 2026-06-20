@@ -12,7 +12,6 @@
  */
 
 import {
-  LINE_HEIGHT_MULTIPLIERS,
   resolveSemanticColors,
   type ColorRamp,
 } from "@ui-organized/utils";
@@ -69,9 +68,10 @@ export function computeTypographyVars(
 
   for (const [stepName, px] of Object.entries(typeScaleSteps)) {
     vars[`--type-size-${stepName}`] = `${px}px`;
-    const baseMultiplier = LINE_HEIGHT_MULTIPLIERS[stepName] ?? 1.5;
-    const scale = isHeadingStep(stepName) ? headingLineHeight : bodyLineHeight;
-    const lh = Math.round(px * baseMultiplier * scale * 100) / 100;
+    // Line height is an absolute multiplier of the font size (e.g. 1.5×),
+    // applied uniformly — heading steps use the heading value, body the body one.
+    const lineHeight = isHeadingStep(stepName) ? headingLineHeight : bodyLineHeight;
+    const lh = Math.round(px * lineHeight * 100) / 100;
     vars[`--type-leading-${stepName}`] = `${lh}px`;
   }
 

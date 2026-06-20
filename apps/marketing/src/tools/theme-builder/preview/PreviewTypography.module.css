@@ -103,6 +103,15 @@
   opacity: 0.6;
 }
 
+/* Resolved line height: the multiplier and computed leading in px. */
+.stepLeading {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Sample cell */
 .cell {
   color: var(--color-text-primary);

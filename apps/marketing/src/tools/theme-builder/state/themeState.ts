@@ -9,7 +9,8 @@ import {
 } from "@ui-organized/utils";
 import { pickAccessibleShade } from "../utils/accessibleShades";
 
-export const DEFAULT_LINE_HEIGHT_SCALE = 1.0;
+/** Default line height as an absolute multiplier of the font size (1.5×). */
+export const DEFAULT_LINE_HEIGHT = 1.5;
 
 // ─── Default values ───────────────────────────────────────────────────────────
 
@@ -165,8 +166,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   typeScaleBase: DEFAULT_TYPE_BASE,
   typeScaleRatio: DEFAULT_TYPE_RATIO,
   typeScaleSteps: calculateTypeScale(DEFAULT_TYPE_BASE, DEFAULT_TYPE_RATIO),
-  headingLineHeight: DEFAULT_LINE_HEIGHT_SCALE,
-  bodyLineHeight: DEFAULT_LINE_HEIGHT_SCALE,
+  headingLineHeight: DEFAULT_LINE_HEIGHT,
+  bodyLineHeight: DEFAULT_LINE_HEIGHT,
 
   // Border radius
   radiusBase: DEFAULT_RADIUS_BASE,

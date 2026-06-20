@@ -53,9 +53,10 @@ function scopesFor(
   const group = name.split("/")[0];
 
   if (type === "COLOR") {
-    // The raw palette stays broadly usable as any colour, but drops out of
-    // float/text-content fields.
-    if (collection === PRIMITIVES) return ["ALL_FILLS", "STROKE_COLOR", "EFFECT_COLOR"];
+    // Primitives are the raw palette and only exist to be aliased by the
+    // semantic tokens. Empty scopes hide them from every picker so designers
+    // reach for the semantic colours instead.
+    if (collection === PRIMITIVES) return [];
     // Semantic colours, scoped by role (the first path segment).
     switch (group) {
       case "surface":
@@ -65,7 +66,8 @@ function scopesFor(
       case "border":
         return ["STROKE_COLOR"];
       case "icon":
-        return ["SHAPE_FILL", "TEXT_FILL"];
+        // Icons render with either a fill (solid) or a stroke (line icons).
+        return ["ALL_FILLS", "STROKE_COLOR"];
       case "interactive":
       case "status":
         // Buttons (fills), links (text) and focus rings (strokes) all draw here.

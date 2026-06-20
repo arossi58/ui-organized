@@ -51,6 +51,7 @@ function WeightGrid({
   weightVars,
   weights,
   sizes,
+  lineHeight,
   guides,
 }: {
   steps: readonly string[];
@@ -58,6 +59,7 @@ function WeightGrid({
   weightVars: Record<string, string>;
   weights: Record<string, number>;
   sizes: Record<string, number>;
+  lineHeight: number;
   guides: boolean;
 }) {
   return (
@@ -77,6 +79,9 @@ function WeightGrid({
           <div className={styles.meta}>
             <span className={styles.stepName}>{step}</span>
             <span className={styles.stepSize}>{sizes[step] ?? 0}px</span>
+            <span className={styles.stepLeading}>
+              {`${+lineHeight.toFixed(2)}× · ${Math.round((sizes[step] ?? 0) * lineHeight * 100) / 100}px`}
+            </span>
           </div>
           {WEIGHTS.map((w) => (
             <span
@@ -99,7 +104,14 @@ function WeightGrid({
 }
 
 export function PreviewTypography() {
-  const { headingWeights, bodyWeights, typeScaleSteps, lineHeightGuides } = useBuilderStore();
+  const {
+    headingWeights,
+    bodyWeights,
+    typeScaleSteps,
+    headingLineHeight,
+    bodyLineHeight,
+    lineHeightGuides,
+  } = useBuilderStore();
 
   return (
     <div className={styles.root}>
@@ -111,6 +123,7 @@ export function PreviewTypography() {
           weightVars={HEADING_WEIGHT_VARS}
           weights={headingWeights}
           sizes={typeScaleSteps}
+          lineHeight={headingLineHeight}
           guides={lineHeightGuides}
         />
       </section>
@@ -123,6 +136,7 @@ export function PreviewTypography() {
           weightVars={BODY_WEIGHT_VARS}
           weights={bodyWeights}
           sizes={typeScaleSteps}
+          lineHeight={bodyLineHeight}
           guides={lineHeightGuides}
         />
       </section>
