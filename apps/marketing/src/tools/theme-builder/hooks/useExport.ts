@@ -6,6 +6,7 @@ import {
   computeSpacingVars,
   computeRadiusVars,
   computeComponentTokenVars,
+  computeControlHeightVars,
   type CSSVarMap,
 } from "../utils/semanticMapping";
 import { buildThemeJson, buildIconsModule, buildReadme } from "../utils/buildConfig";
@@ -63,6 +64,7 @@ export function useExport() {
       ...computeSpacingVars(state.spacingScale),
       ...computeRadiusVars(state.borderRadius),
       ...computeComponentTokenVars(state.borderRadius, state.spacingScale),
+      ...computeControlHeightVars(state.typeScaleSteps, state.bodyLineHeight, state.spacingScale),
     };
 
     const header =

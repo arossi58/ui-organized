@@ -17,6 +17,7 @@ import {
   computeSpacingVars,
   computeRadiusVars,
   computeComponentTokenVars,
+  computeControlHeightVars,
   type CSSVarMap,
 } from "./semanticMapping";
 import { resolveSemanticRefs, getCoreFamily, type SemanticRef, type ColorRamp } from "@ui-organized/utils";
@@ -177,21 +178,31 @@ function dimensionTokensFromMap(map: CSSVarMap, stripPrefix: string): DtcgGroup 
   return group;
 }
 
-/** Component-level aliases (`--radius-*`, `--Button-*`) → `radius.*` / `button.*`. */
+/**
+ * Component-level aliases → `radius.*` / `button.*` / `control-height.*`.
+ * `control-height` keeps the word "height" so the Figma importer scopes the
+ * variable to WIDTH_HEIGHT.
+ */
 function componentTokens(state: BuilderState): DtcgGroup {
-  const vars = computeComponentTokenVars(state.borderRadius, state.spacingScale);
+  const vars = {
+    ...computeComponentTokenVars(state.borderRadius, state.spacingScale),
+    ...computeControlHeightVars(state.typeScaleSteps, state.bodyLineHeight, state.spacingScale),
+  };
   const radius: DtcgGroup = {};
   const button: DtcgGroup = {};
+  const controlHeight: DtcgGroup = {};
   for (const [cssVar, value] of Object.entries(vars)) {
     const name = cssVar.replace(/^--/, "");
     const token: DtcgToken = { $type: "dimension", $value: value };
-    if (name.startsWith("radius-")) {
+    if (name.startsWith("control-height-")) {
+      controlHeight[name.slice("control-height-".length)] = token;
+    } else if (name.startsWith("radius-")) {
       radius[name.slice("radius-".length)] = token;
     } else if (name.startsWith("Button-")) {
       button[name.slice("Button-".length).toLowerCase()] = token;
     }
   }
-  return { radius, button };
+  return { radius, button, "control-height": controlHeight };
 }
 
 // ─── Theme JSON (DTCG document) ─────────────────────────────────────────────────
@@ -346,7 +357,8 @@ Import **theme.json** with the **UI Organized - Theme Import** plugin. It create
 - **Semantic** — \`color.light\` / \`color.dark\` as the collection's Light/Dark
   modes; each color is a Figma **alias** pointing at a Primitive, so re-skinning
   the brand/neutral re-flows everything.
-- **Scale** — spacing, radius and component dimensions.
+- **Scale** — spacing, radius and component dimensions, including the shared
+  \`control-height\` (sm/md/lg) that keeps buttons, inputs and selects aligned.
 - **Typography** — font families, weights, sizes and line-heights.
 - **Icons** — only when dynamic stroke scaling is on: each icon size with its
   optically-corrected stroke weight (Figma can't compute strokes the way the

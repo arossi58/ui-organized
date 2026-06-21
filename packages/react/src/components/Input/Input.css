@@ -6,6 +6,8 @@
 
 .field--sm .field__control {
   padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
 }
 
 .field--lg .field__control {

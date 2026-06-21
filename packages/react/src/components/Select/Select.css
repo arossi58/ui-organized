@@ -19,11 +19,13 @@
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
 .select-field__trigger {
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--spacing-space-02);
   width: 100%;
+  height: var(--control-height-md);
   background-color: var(--color-interactive-ui-default);
   border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-interactive);
@@ -186,11 +188,15 @@
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */
 
 .select-field--sm .select-field__trigger {
+  height: var(--control-height-sm);
   padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
 }
 
 /* ─── Size: lg ────────────────────────────────────────────────────────────── */
 
 .select-field--lg .select-field__trigger {
+  height: var(--control-height-lg);
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }

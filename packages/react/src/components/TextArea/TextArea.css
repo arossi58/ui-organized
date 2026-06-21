@@ -7,6 +7,8 @@
 
 .textarea-field__control {
   display: block;
+  /* Multi-line: opts out of the shared single-line control height in Field.css
+     (the `:not(.textarea-field__control)` exclusion) and grows from min-height. */
   /* sm & md sit in a 120px frame in Figma → ~80px of control. */
   min-height: var(--dimension-02);
   resize: both;

@@ -3,6 +3,7 @@ import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { searchInputFieldStyles } from "./SearchInput.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { SearchInputProps } from "./SearchInput.types.js";
 // Shares the Input field surface/state styling; InputAffix.css layers on the
@@ -79,7 +80,7 @@ export function SearchInput({
           className="input-affix__adornment input-affix__adornment--start"
           aria-hidden="true"
         >
-          <Icon name="search" size={20} />
+          <Icon name="search" size={CONTROL_ICON_SIZE[size ?? "md"]} />
         </span>
         <Field.Input
           ref={inputRef}
@@ -104,7 +105,7 @@ export function SearchInput({
             aria-label="Clear search"
             tabIndex={-1}
           >
-            <Icon name="close" size={20} />
+            <Icon name="close" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </button>
         )}
       </div>

@@ -191,7 +191,7 @@
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
-  background: var(--color-surface-base);
+  background: var(--color-surface-secondary);
 }
 .cp-overview__inner {
   max-width: 1100px;

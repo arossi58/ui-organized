@@ -60,6 +60,24 @@
     box-shadow 150ms ease;
 }
 
+/* Single-line field controls take the shared control height per size, so they
+   line up with buttons/selects. Textareas (multi-line) and the inner inputs of
+   grouped controls (number field, combobox) opt out — those set the height on
+   their own wrapper. The `:not()` exclusions out-specify the `.field--{size}
+   .field__control` padding rules so the height never leaks onto an exception. */
+.field__control:not(.textarea-field__control):not(.number-field__input):not(.combobox-field__input) {
+  box-sizing: border-box;
+  height: var(--control-height-md);
+}
+
+.field--sm .field__control:not(.textarea-field__control):not(.number-field__input):not(.combobox-field__input) {
+  height: var(--control-height-sm);
+}
+
+.field--lg .field__control:not(.textarea-field__control):not(.number-field__input):not(.combobox-field__input) {
+  height: var(--control-height-lg);
+}
+
 .field__control::placeholder {
   color: var(--color-text-placeholder);
 }

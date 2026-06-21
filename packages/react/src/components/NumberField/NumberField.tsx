@@ -3,6 +3,7 @@ import { NumberInput, Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { numberFieldStyles } from "./NumberField.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { NumberFieldProps } from "./NumberField.types.js";
 import "./NumberField.css";
@@ -65,14 +66,14 @@ export function NumberField({
       >
         <NumberInput.Control className="number-field__group">
           <NumberInput.DecrementTrigger className="number-field__stepper" aria-label="Decrease">
-            <Icon name="minus" size={16} />
+            <Icon name="minus" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </NumberInput.DecrementTrigger>
           <NumberInput.Input
             className="field__control number-field__input"
             placeholder={placeholder}
           />
           <NumberInput.IncrementTrigger className="number-field__stepper" aria-label="Increase">
-            <Icon name="plus" size={16} />
+            <Icon name="plus" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </NumberInput.IncrementTrigger>
         </NumberInput.Control>
       </NumberInput.Root>

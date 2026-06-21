@@ -3,6 +3,7 @@ import { Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { inputFieldStyles } from "../Input/Input.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate } from "../Calendar/dateUtils.js";
@@ -126,7 +127,7 @@ export function DateRangeInput({
       disabled={disabled}
       aria-label={extra.ariaLabel}
     >
-      <Icon name="calendar" size={20} />
+      <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
     </button>
   );
 
@@ -166,7 +167,7 @@ export function DateRangeInput({
           disabled={disabled}
           aria-label={`${startLabel} — choose date`}
         >
-          <Icon name="calendar" size={20} />
+          <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
         </button>
       </ArkPopover.Trigger>
     );

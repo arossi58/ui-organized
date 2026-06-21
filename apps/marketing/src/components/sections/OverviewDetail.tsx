@@ -58,6 +58,8 @@ interface DetailLink {
   href: string;
   external?: boolean;
   primary?: boolean;
+  /** Not-yet-live destinations render as a disabled button with a "Soon" badge. */
+  comingSoon?: boolean;
 }
 
 interface DetailContent {
@@ -104,7 +106,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       },
     ],
     links: [
-      { label: "Get the Figma plugin", href: LINKS.githubFigmaPlugin, external: true, primary: true },
+      { label: "Get the Figma library", href: LINKS.githubFigmaPlugin, external: true, primary: true, comingSoon: true },
       { label: "Build a theme", href: "/tools/theme-builder" },
     ],
   },
@@ -156,6 +158,18 @@ const DETAILS: Record<OverviewId, DetailContent> = {
  * styling onto the supplied element.
  */
 function Cta({ link }: { link: DetailLink }) {
+  // Not-yet-live destination: a disabled, non-navigating button that keeps the
+  // label but signals status with a "Soon" badge (matching the item rows).
+  if (link.comingSoon) {
+    return (
+      <Button intent={link.primary ? "primary" : "secondary"} disabled>
+        {link.label}
+        <Badge variant="info" size="sm" emphasized={false}>
+          Soon
+        </Badge>
+      </Button>
+    );
+  }
   const render = link.external ? (
     <a
       href={link.href}

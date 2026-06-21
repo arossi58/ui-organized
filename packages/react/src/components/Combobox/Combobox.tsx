@@ -9,6 +9,7 @@ import {
 import { clsx } from "clsx";
 import { comboboxFieldStyles } from "./Combobox.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { ComboboxProps } from "./Combobox.types.js";
 import "./Combobox.css";
@@ -91,7 +92,7 @@ export function Combobox({
             placeholder={placeholder}
           />
           <ArkCombobox.Trigger className="combobox-field__trigger" aria-label="Toggle options">
-            <Icon name="chevron-down" size={16} />
+            <Icon name="chevron-down" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </ArkCombobox.Trigger>
         </ArkCombobox.Control>
         <Portal container={portalContainer ? { current: portalContainer } : undefined}>
@@ -103,7 +104,7 @@ export function Combobox({
                   <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item text-default-body-large">
                     <span className="combobox-popup__item-label">{item.label}</span>
                     <ArkCombobox.ItemIndicator className="combobox-popup__item-indicator">
-                      <Icon name="check" size={18} />
+                      <Icon name="check" size={CONTROL_ICON_SIZE[size ?? "md"]} />
                     </ArkCombobox.ItemIndicator>
                   </ArkCombobox.Item>
                 ))}

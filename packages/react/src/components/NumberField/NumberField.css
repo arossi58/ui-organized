@@ -7,9 +7,11 @@
 /* ─── Group (bordered shell around the input + steppers) ──────────────────── */
 
 .number-field__group {
+  box-sizing: border-box;
   display: flex;
   align-items: stretch;
   width: 100%;
+  height: var(--control-height-md);
   background-color: var(--color-interactive-ui-default);
   border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-interactive);
@@ -17,6 +19,14 @@
   transition:
     border-color 150ms ease,
     box-shadow 150ms ease;
+}
+
+.field--sm .number-field__group {
+  height: var(--control-height-sm);
+}
+
+.field--lg .number-field__group {
+  height: var(--control-height-lg);
 }
 
 .number-field__group:focus-within {

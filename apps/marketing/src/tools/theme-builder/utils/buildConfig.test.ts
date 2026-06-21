@@ -68,6 +68,9 @@ describe("buildThemeTokens (DTCG)", () => {
     expect(t.type.size["body-large"]).toMatchObject({ $type: "dimension", $value: "16px" });
     expect(t.spacing["space-01"].$type).toBe("dimension");
     expect(t["border-radius"]["04"].$type).toBe("dimension");
+    // Derived control height: body-large leading (16×1.5=24) + 2×space-01 (4).
+    // The 1px border is excluded (drawn inside), matching a Figma frame.
+    expect(t.component["control-height"].md).toMatchObject({ $type: "dimension", $value: "32px" });
   });
 
   it("captures icon settings under $extensions (not the token tree)", () => {

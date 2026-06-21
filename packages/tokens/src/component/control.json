@@ -1,0 +1,7 @@
+{
+  "control-height": {
+    "sm": { "$type": "dimension", "$value": "calc(var(--type-leading-body-large) + 2 * var(--Button-Small-vertical))" },
+    "md": { "$type": "dimension", "$value": "calc(var(--type-leading-body-large) + 2 * var(--Button-Medium-vertical))" },
+    "lg": { "$type": "dimension", "$value": "calc(var(--type-leading-body-large) + 2 * var(--Button-Large-vertical))" }
+  }
+}

@@ -139,6 +139,33 @@ export function computeComponentTokenVars(
   return vars;
 }
 
+// ─── Control height vars ──────────────────────────────────────────────────────
+
+/**
+ * Shared interactive-control height per size (`--control-height-{sm,md,lg}`) —
+ * applied to buttons, inputs, selects, etc. so every control of a size variant
+ * is the same height regardless of content. Mirrors the design system's
+ * `control.json` token: body-large line height + 2× the size's vertical padding.
+ * The 1px border is NOT added — it draws inside the box (border-box), matching a
+ * Figma auto-layout frame where the stroke overlays the frame without enlarging
+ * it. Emitted as a resolved px (Figma sizing variables are numbers).
+ */
+export function computeControlHeightVars(
+  typeScaleSteps: Record<string, number>,
+  bodyLineHeight: number,
+  spacingScale: Record<string, number>,
+): CSSVarMap {
+  const leading = Math.round((typeScaleSteps["body-large"] ?? 16) * bodyLineHeight * 100) / 100;
+  const sp = (key: string): number => spacingScale[key] ?? 0;
+  const h = (verticalKey: string): string =>
+    `${Math.round((leading + 2 * sp(verticalKey)) * 100) / 100}px`;
+  return {
+    "--control-height-sm": h("space-005"),
+    "--control-height-md": h("space-01"),
+    "--control-height-lg": h("space-02"),
+  };
+}
+
 // ─── Combined ─────────────────────────────────────────────────────────────────
 
 export function computeAllPreviewVars(params: {
@@ -175,5 +202,6 @@ export function computeAllPreviewVars(params: {
     ...computeSpacingVars(params.spacingScale),
     ...computeRadiusVars(params.borderRadius),
     ...computeComponentTokenVars(params.borderRadius, params.spacingScale),
+    ...computeControlHeightVars(params.typeScaleSteps, params.bodyLineHeight, params.spacingScale),
   };
 }

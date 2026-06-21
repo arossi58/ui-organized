@@ -3,6 +3,7 @@ import { Field, Select as ArkSelect, Portal, createListCollection } from "@ark-u
 import { clsx } from "clsx";
 import { selectFieldStyles } from "./Select.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { SelectProps } from "./Select.types.js";
 import "./Select.css";
@@ -25,6 +26,7 @@ export function Select({
 }: SelectProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
+  const iconSize = CONTROL_ICON_SIZE[size ?? "md"];
 
   // Ark drives the dropdown off a collection rather than children; build it from
   // the `options` array (label → display text, value → form value).
@@ -75,7 +77,7 @@ export function Select({
         <ArkSelect.Trigger className="select-field__trigger text-default-body-large">
           <ArkSelect.ValueText className="select-field__value" placeholder={placeholder} />
           <ArkSelect.Indicator className="select-field__icon">
-            <Icon name="chevron-down" size={16} />
+            <Icon name="chevron-down" size={iconSize} />
           </ArkSelect.Indicator>
         </ArkSelect.Trigger>
         <Portal container={portalContainer ? { current: portalContainer } : undefined}>
@@ -86,7 +88,7 @@ export function Select({
                   <ArkSelect.Item key={opt.value} item={opt} className="select-popup__item text-default-body-large">
                     <ArkSelect.ItemText>{opt.label}</ArkSelect.ItemText>
                     <ArkSelect.ItemIndicator className="select-popup__item-indicator">
-                      <Icon name="check" size={20} />
+                      <Icon name="check" size={iconSize} />
                     </ArkSelect.ItemIndicator>
                   </ArkSelect.Item>
                 ))}

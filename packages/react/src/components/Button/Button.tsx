@@ -2,15 +2,9 @@ import { cloneElement, isValidElement, type ReactElement } from "react";
 import { clsx } from "clsx";
 import { buttonStyles } from "./Button.styles.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS } from "../controlSize.js";
 import type { ButtonProps } from "./Button.types.js";
 import "./Button.css";
-
-// Icon size per button size
-const ICON_SIZE: Record<NonNullable<ButtonProps["size"]>, number> = {
-  sm: 14,
-  md: 16,
-  lg: 18,
-};
 
 export function Button({
   intent,
@@ -24,7 +18,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const iconElement = icon ? (
-    <Icon name={icon} size={ICON_SIZE[size]} />
+    <Icon name={icon} size={CONTROL_ICON_SIZE[size]} />
   ) : null;
 
   // An icon with no label collapses to a square (see `.btn--icon-only`) whose
@@ -38,7 +32,7 @@ export function Button({
       children === "");
 
   const buttonClass = clsx(
-    "text-default-body-large",
+    CONTROL_TEXT_CLASS[size],
     buttonStyles({ intent, size }),
     isIconOnly && "btn--icon-only",
     className,

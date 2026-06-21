@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import { inputFieldStyles } from "../Input/Input.styles.js";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
+import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate, todayYMD, type YMD } from "../Calendar/dateUtils.js";
@@ -130,7 +131,7 @@ export function DateFieldBase({
             disabled={disabled}
             aria-label={pickerLabel}
           >
-            <Icon name="calendar" size={20} />
+            <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </button>
           {control}
         </div>
@@ -149,7 +150,7 @@ export function DateFieldBase({
                 disabled={disabled}
                 aria-label={pickerLabel}
               >
-                <Icon name="calendar" size={20} />
+                <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
               </button>
             </ArkPopover.Trigger>
             {control}
