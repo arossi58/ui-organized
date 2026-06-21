@@ -7,24 +7,67 @@ import {
   generateSpacingScale,
   type ColorRamp,
 } from "@ui-organized/utils";
+import {
+  typeSizeTokens,
+  typeLeadingTokens,
+  typeFontTokens,
+  typeWeightTokens,
+} from "@ui-organized/tokens";
 import { pickAccessibleShade } from "../utils/accessibleShades";
 
-/** Default line height as an absolute multiplier of the font size (1.5×). */
+/**
+ * Starting line-height multiplier for the slider once the user switches the
+ * line height off the design-system default and into a uniform custom value.
+ * The default state itself uses the per-step canonical leadings (see
+ * `typeLeadingTokens`), which a single multiplier can't reproduce.
+ */
 export const DEFAULT_LINE_HEIGHT = 1.5;
 
 // ─── Default values ───────────────────────────────────────────────────────────
+// Typography defaults are sourced from `@ui-organized/tokens` (the canonical
+// DTCG token JSON the design system ships), so the builder opens 1:1 with the
+// shipped type scale and auto-syncs when those tokens change. The parametric
+// base/ratio/line-height controls only take effect once the user edits them,
+// flipping that aspect from "system" to "custom".
 
 const DEFAULT_BRAND_FAMILY = "mars";
 const DEFAULT_BRAND_HEX    = "#bc4900"; // mars.1400
 const DEFAULT_NEUTRAL      = "grey";
-const DEFAULT_HEADING_FAMILY = "Roboto";
-const DEFAULT_BODY_FAMILY = "Roboto";
+const DEFAULT_HEADING_FAMILY = typeFontTokens.heading;
+const DEFAULT_BODY_FAMILY = typeFontTokens.body;
+/** Base/ratio the size slider jumps to when the user first customizes the scale. */
 const DEFAULT_TYPE_BASE = 16;
 const DEFAULT_TYPE_RATIO = 1.25;
 const DEFAULT_SPACING_BASE = 4;
 const DEFAULT_RADIUS_BASE = 4;
 
-const DEFAULT_WEIGHTS = { default: 400, emphasis: 500, strong: 600, heavy: 700 };
+const DEFAULT_HEADING_WEIGHTS = { ...typeWeightTokens.heading };
+const DEFAULT_BODY_WEIGHTS = { ...typeWeightTokens.body };
+
+/** Display + heading steps follow the heading line height; body + caption the body one. */
+function isHeadingStep(stepName: string): boolean {
+  return stepName.startsWith("display") || stepName.startsWith("heading");
+}
+
+/**
+ * Resolve per-step line-heights (px) for the current mode.
+ * - "system": the canonical per-step leadings shipped by the design system.
+ * - "custom": each size scaled by its role's uniform multiplier.
+ */
+export function resolveLeadings(
+  sizes: Record<string, number>,
+  mode: "system" | "custom",
+  headingMultiplier: number,
+  bodyMultiplier: number,
+): Record<string, number> {
+  if (mode === "system") return { ...typeLeadingTokens };
+  const out: Record<string, number> = {};
+  for (const [step, px] of Object.entries(sizes)) {
+    const mult = isHeadingStep(step) ? headingMultiplier : bodyMultiplier;
+    out[step] = Math.round(px * mult * 100) / 100;
+  }
+  return out;
+}
 
 // ─── Radius scale ─────────────────────────────────────────────────────────────
 
@@ -99,10 +142,16 @@ export interface BuilderState {
   typeScaleBase: number;
   typeScaleRatio: number;
   typeScaleSteps: Record<string, number>;
-  /** Line-height multiplier for display + heading steps. */
+  /** "system" = canonical design-system sizes; "custom" = generated from base/ratio. */
+  typeScaleMode: "system" | "custom";
+  /** Line-height multiplier for display + heading steps (used in custom mode). */
   headingLineHeight: number;
-  /** Line-height multiplier for body + caption steps. */
+  /** Line-height multiplier for body + caption steps (used in custom mode). */
   bodyLineHeight: number;
+  /** "system" = canonical per-step leadings; "custom" = uniform multipliers. */
+  lineHeightMode: "system" | "custom";
+  /** Resolved per-step line-heights (px) — the single source the preview/export read. */
+  leadingSteps: Record<string, number>;
 
   // Border radius
   radiusBase: number;
@@ -134,6 +183,10 @@ export interface BuilderState {
   setTypeScale: (base: number, ratio: number) => void;
   setHeadingLineHeight: (scale: number) => void;
   setBodyLineHeight: (scale: number) => void;
+  /** Restore the canonical design-system sizes (mode → "system"). */
+  resetTypeScale: () => void;
+  /** Restore the canonical design-system line-heights (mode → "system"). */
+  resetLineHeight: () => void;
   setRadiusBase: (base: number) => void;
   setSpacingBase: (base: number) => void;
   setIcons: (config: Partial<IconsConfig>) => void;
@@ -158,16 +211,19 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   neutralFamily: DEFAULT_NEUTRAL,
   neutralRamp: getCoreFamily(DEFAULT_NEUTRAL),
 
-  // Typography
+  // Typography — defaults mirror the shipped design-system tokens 1:1.
   headingFamily: DEFAULT_HEADING_FAMILY,
-  headingWeights: { ...DEFAULT_WEIGHTS },
+  headingWeights: { ...DEFAULT_HEADING_WEIGHTS },
   bodyFamily: DEFAULT_BODY_FAMILY,
-  bodyWeights: { ...DEFAULT_WEIGHTS },
+  bodyWeights: { ...DEFAULT_BODY_WEIGHTS },
   typeScaleBase: DEFAULT_TYPE_BASE,
   typeScaleRatio: DEFAULT_TYPE_RATIO,
-  typeScaleSteps: calculateTypeScale(DEFAULT_TYPE_BASE, DEFAULT_TYPE_RATIO),
+  typeScaleSteps: { ...typeSizeTokens },
+  typeScaleMode: "system",
   headingLineHeight: DEFAULT_LINE_HEIGHT,
   bodyLineHeight: DEFAULT_LINE_HEIGHT,
+  lineHeightMode: "system",
+  leadingSteps: { ...typeLeadingTokens },
 
   // Border radius
   radiusBase: DEFAULT_RADIUS_BASE,
@@ -229,14 +285,52 @@ export const useBuilderStore = create<BuilderState>((set) => ({
     set(() => ({ bodyFamily: family, bodyWeights: weights })),
 
   setTypeScale: (base, ratio) =>
-    set(() => ({
-      typeScaleBase: base,
-      typeScaleRatio: ratio,
-      typeScaleSteps: calculateTypeScale(base, ratio),
+    set((state) => {
+      const sizes = calculateTypeScale(base, ratio);
+      return {
+        typeScaleBase: base,
+        typeScaleRatio: ratio,
+        typeScaleMode: "custom",
+        typeScaleSteps: sizes,
+        // System leadings are fixed px (independent of size); custom leadings
+        // track the new sizes via the active multipliers.
+        leadingSteps: resolveLeadings(sizes, state.lineHeightMode, state.headingLineHeight, state.bodyLineHeight),
+      };
+    }),
+
+  setHeadingLineHeight: (scale) =>
+    set((state) => ({
+      headingLineHeight: scale,
+      lineHeightMode: "custom",
+      leadingSteps: resolveLeadings(state.typeScaleSteps, "custom", scale, state.bodyLineHeight),
     })),
 
-  setHeadingLineHeight: (scale) => set(() => ({ headingLineHeight: scale })),
-  setBodyLineHeight: (scale) => set(() => ({ bodyLineHeight: scale })),
+  setBodyLineHeight: (scale) =>
+    set((state) => ({
+      bodyLineHeight: scale,
+      lineHeightMode: "custom",
+      leadingSteps: resolveLeadings(state.typeScaleSteps, "custom", state.headingLineHeight, scale),
+    })),
+
+  resetTypeScale: () =>
+    set((state) => {
+      const sizes = { ...typeSizeTokens };
+      return {
+        typeScaleMode: "system",
+        typeScaleBase: DEFAULT_TYPE_BASE,
+        typeScaleRatio: DEFAULT_TYPE_RATIO,
+        typeScaleSteps: sizes,
+        leadingSteps: resolveLeadings(sizes, state.lineHeightMode, state.headingLineHeight, state.bodyLineHeight),
+      };
+    }),
+
+  resetLineHeight: () =>
+    set((state) => ({
+      lineHeightMode: "system",
+      headingLineHeight: DEFAULT_LINE_HEIGHT,
+      bodyLineHeight: DEFAULT_LINE_HEIGHT,
+      leadingSteps: resolveLeadings(state.typeScaleSteps, "system", DEFAULT_LINE_HEIGHT, DEFAULT_LINE_HEIGHT),
+    })),
 
   setRadiusBase: (base) =>
     set(() => ({
@@ -279,6 +373,29 @@ function pxToNum(value: unknown, fallback: number): number {
 }
 
 /**
+ * Read a DTCG dimension tree (`{ step: { $value: "20px" } }`) into `{ step: px }`,
+ * keyed by the canonical step set. Missing steps fall back to `fallback[step]`.
+ */
+function readPxTree(
+  tree: unknown,
+  fallback: Record<string, number>,
+): Record<string, number> {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const t = (tree ?? {}) as any;
+  const out: Record<string, number> = {};
+  for (const step of Object.keys(fallback)) {
+    out[step] = pxToNum(t[step]?.$value, fallback[step]);
+  }
+  /* eslint-enable @typescript-eslint/no-explicit-any */
+  return out;
+}
+
+/** Deep value-equality over the canonical step keys of `b`. */
+function stepsEqual(a: Record<string, number>, b: Record<string, number>): boolean {
+  return Object.keys(b).every((k) => a[k] === b[k]);
+}
+
+/**
  * Reconstruct the full builder state from an exported `theme.json` (the reverse
  * of `buildThemeTokens`). Parametric inputs (brand mode/family, type-scale
  * base/ratio, line-height, radius/spacing base, icons) come from
@@ -313,9 +430,19 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   const neutralFamily: string = ext.neutral?.family ?? state.neutralFamily;
   const neutralRamp = getCoreFamily(neutralFamily);
 
-  // Type scale (regenerate steps from base/ratio).
+  // Type scale. Prefer the resolved `type.size` tree (authoritative, and present
+  // even for hand-built Figma themes); fall back to the canonical tokens. The
+  // base/ratio are slider positions for custom mode. Mode comes from metadata,
+  // else is inferred from whether the sizes still match the design system.
   const typeScaleBase: number = ext.typeScale?.base ?? state.typeScaleBase;
   const typeScaleRatio: number = ext.typeScale?.ratio ?? state.typeScaleRatio;
+  const typeScaleSteps = readPxTree(t.type?.size, typeSizeTokens);
+  const typeScaleMode: "system" | "custom" =
+    ext.typeScale?.mode === "custom" || ext.typeScale?.mode === "system"
+      ? ext.typeScale.mode
+      : stepsEqual(typeScaleSteps, typeSizeTokens)
+        ? "system"
+        : "custom";
 
   // Fonts + weights from the token tree.
   const weight = t.type?.weight ?? {};
@@ -336,9 +463,18 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
     heavy: wv("body-heavy", state.bodyWeights.heavy ?? 700),
   };
 
-  // Line-height multipliers ($extensions only).
+  // Line-heights. Read the resolved `type.leading` tree (authoritative), with
+  // the multipliers kept as slider positions for custom mode. Mode from metadata,
+  // else inferred from whether the leadings still match the design system.
   const headingLineHeight: number = ext.lineHeight?.heading ?? state.headingLineHeight;
   const bodyLineHeight: number = ext.lineHeight?.body ?? state.bodyLineHeight;
+  const leadingSteps = readPxTree(t.type?.leading, typeLeadingTokens);
+  const lineHeightMode: "system" | "custom" =
+    ext.lineHeight?.mode === "custom" || ext.lineHeight?.mode === "system"
+      ? ext.lineHeight.mode
+      : stepsEqual(leadingSteps, typeLeadingTokens)
+        ? "system"
+        : "custom";
 
   // Radius / spacing base — prefer metadata, else recover the ×1 step from the tree.
   const radiusBase: number = ext.radius?.base ?? pxToNum(t["border-radius"]?.["02"]?.$value, state.radiusBase);
@@ -364,13 +500,16 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
     neutralRamp,
     typeScaleBase,
     typeScaleRatio,
-    typeScaleSteps: calculateTypeScale(typeScaleBase, typeScaleRatio),
+    typeScaleSteps,
+    typeScaleMode,
     headingFamily,
     bodyFamily,
     headingWeights,
     bodyWeights,
     headingLineHeight,
     bodyLineHeight,
+    lineHeightMode,
+    leadingSteps,
     radiusBase,
     borderRadius: generateRadiusScale(radiusBase),
     spacingBaseUnit,

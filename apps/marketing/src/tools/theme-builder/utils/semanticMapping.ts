@@ -37,19 +37,13 @@ export function computeColorVars(
 
 // ─── Typography vars ──────────────────────────────────────────────────────────
 
-/** Display + heading steps take the heading line height; body + caption the body one. */
-function isHeadingStep(stepName: string): boolean {
-  return stepName.startsWith("display") || stepName.startsWith("heading");
-}
-
 export function computeTypographyVars(
   headingFamily: string,
   bodyFamily: string,
   headingWeights: Record<string, number>,
   bodyWeights: Record<string, number>,
   typeScaleSteps: Record<string, number>,
-  headingLineHeight: number,
-  bodyLineHeight: number,
+  leadingSteps: Record<string, number>,
 ): CSSVarMap {
   const vars: CSSVarMap = {};
 
@@ -68,11 +62,9 @@ export function computeTypographyVars(
 
   for (const [stepName, px] of Object.entries(typeScaleSteps)) {
     vars[`--type-size-${stepName}`] = `${px}px`;
-    // Line height is an absolute multiplier of the font size (e.g. 1.5×),
-    // applied uniformly — heading steps use the heading value, body the body one.
-    const lineHeight = isHeadingStep(stepName) ? headingLineHeight : bodyLineHeight;
-    const lh = Math.round(px * lineHeight * 100) / 100;
-    vars[`--type-leading-${stepName}`] = `${lh}px`;
+    // Leadings are resolved per-step upstream (canonical design-system values in
+    // "system" mode, or size × uniform multiplier in "custom" mode).
+    vars[`--type-leading-${stepName}`] = `${leadingSteps[stepName] ?? px}px`;
   }
 
   return vars;
@@ -151,11 +143,10 @@ export function computeComponentTokenVars(
  * it. Emitted as a resolved px (Figma sizing variables are numbers).
  */
 export function computeControlHeightVars(
-  typeScaleSteps: Record<string, number>,
-  bodyLineHeight: number,
+  leadingSteps: Record<string, number>,
   spacingScale: Record<string, number>,
 ): CSSVarMap {
-  const leading = Math.round((typeScaleSteps["body-large"] ?? 16) * bodyLineHeight * 100) / 100;
+  const leading = leadingSteps["body-large"] ?? 24;
   const sp = (key: string): number => spacingScale[key] ?? 0;
   const h = (verticalKey: string): string =>
     `${Math.round((leading + 2 * sp(verticalKey)) * 100) / 100}px`;
@@ -177,8 +168,7 @@ export function computeAllPreviewVars(params: {
   headingWeights: Record<string, number>;
   bodyWeights: Record<string, number>;
   typeScaleSteps: Record<string, number>;
-  headingLineHeight: number;
-  bodyLineHeight: number;
+  leadingSteps: Record<string, number>;
   spacingScale: Record<string, number>;
   borderRadius: Record<string, number>;
   mode: "light" | "dark";
@@ -196,12 +186,11 @@ export function computeAllPreviewVars(params: {
       params.headingWeights,
       params.bodyWeights,
       params.typeScaleSteps,
-      params.headingLineHeight,
-      params.bodyLineHeight,
+      params.leadingSteps,
     ),
     ...computeSpacingVars(params.spacingScale),
     ...computeRadiusVars(params.borderRadius),
     ...computeComponentTokenVars(params.borderRadius, params.spacingScale),
-    ...computeControlHeightVars(params.typeScaleSteps, params.bodyLineHeight, params.spacingScale),
+    ...computeControlHeightVars(params.leadingSteps, params.spacingScale),
   };
 }

@@ -129,8 +129,7 @@ function typographyTokens(state: BuilderState): DtcgGroup {
     state.headingWeights,
     state.bodyWeights,
     state.typeScaleSteps,
-    state.headingLineHeight,
-    state.bodyLineHeight,
+    state.leadingSteps,
   );
 
   const size: DtcgGroup = {};
@@ -186,7 +185,7 @@ function dimensionTokensFromMap(map: CSSVarMap, stripPrefix: string): DtcgGroup 
 function componentTokens(state: BuilderState): DtcgGroup {
   const vars = {
     ...computeComponentTokenVars(state.borderRadius, state.spacingScale),
-    ...computeControlHeightVars(state.typeScaleSteps, state.bodyLineHeight, state.spacingScale),
+    ...computeControlHeightVars(state.leadingSteps, state.spacingScale),
   };
   const radius: DtcgGroup = {};
   const button: DtcgGroup = {};
@@ -234,11 +233,13 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
             ? { mode: "custom", hex: state.brandHex, primaryShade: state.brandShade }
             : { mode: "family", family: state.brandFamily, primaryShade: state.brandShade },
         neutral: { family: state.neutralFamily },
-        typeScale: { base: state.typeScaleBase, ratio: state.typeScaleRatio },
+        typeScale: { base: state.typeScaleBase, ratio: state.typeScaleRatio, mode: state.typeScaleMode },
         // Parametric inputs the resolved token tree can't fully express — kept so
         // the theme can be loaded *back* into the builder exactly (and survives a
-        // Figma round-trip via the plugin, which stashes this whole block).
-        lineHeight: { heading: state.headingLineHeight, body: state.bodyLineHeight },
+        // Figma round-trip via the plugin, which stashes this whole block). `mode`
+        // records whether the scale/leadings are the design-system defaults
+        // ("system") or user-customized ("custom").
+        lineHeight: { heading: state.headingLineHeight, body: state.bodyLineHeight, mode: state.lineHeightMode },
         radius: { base: state.radiusBase },
         spacing: { baseUnit: state.spacingBaseUnit },
         // Icons are runtime React config (IconProvider), not a CSS/Figma variable

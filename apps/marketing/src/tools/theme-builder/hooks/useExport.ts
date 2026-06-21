@@ -58,13 +58,12 @@ export function useExport() {
         state.headingWeights,
         state.bodyWeights,
         state.typeScaleSteps,
-        state.headingLineHeight,
-        state.bodyLineHeight,
+        state.leadingSteps,
       ),
       ...computeSpacingVars(state.spacingScale),
       ...computeRadiusVars(state.borderRadius),
       ...computeComponentTokenVars(state.borderRadius, state.spacingScale),
-      ...computeControlHeightVars(state.typeScaleSteps, state.bodyLineHeight, state.spacingScale),
+      ...computeControlHeightVars(state.leadingSteps, state.spacingScale),
     };
 
     const header =

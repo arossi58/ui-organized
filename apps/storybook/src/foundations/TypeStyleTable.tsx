@@ -1,11 +1,14 @@
 import { TYPE_SCALE_STEP_NAMES } from "@ui-organized/utils";
+import { typeSizeTokens, typeLeadingTokens } from "@ui-organized/tokens";
 import "./type-styles.css";
 
 /**
  * Every global type style — the 40 `.text-{weight}-{step}` utilities — rendered
  * as living documentation, grouped by weight like the Figma type-style panel.
- * Each row previews the style with "UI Organized" and shows its class name.
- * The classes resolve `--type-*` tokens, so the previews track the active theme.
+ * Each row previews the style with "UI Organized" and shows its class name plus
+ * the canonical size/line-height. The previews resolve `--type-*` tokens and the
+ * metrics read the same `@ui-organized/tokens` source the CSS is generated from,
+ * so this table stays 1:1 with the shipped design system (and the Theme Builder).
  */
 
 // The four semantic weight roles the type styles expose. (Not WEIGHT_ROLES from
@@ -16,10 +19,17 @@ const PREVIEW = "UI Organized";
 
 function TypeRow({ weight, step }: { weight: string; step: string }) {
   const cls = `text-${weight}-${step}`;
+  const size = typeSizeTokens[step];
+  const leading = typeLeadingTokens[step];
   return (
     <div className="type-styles__row">
       <span className={cls}>{PREVIEW}</span>
-      <code className="type-styles__name">{cls}</code>
+      <span className="type-styles__meta">
+        <span className="type-styles__metrics" title="font-size / line-height">
+          {size}<span className="type-styles__metricsDiv">/</span>{leading}px
+        </span>
+        <code className="type-styles__name">{cls}</code>
+      </span>
     </div>
   );
 }

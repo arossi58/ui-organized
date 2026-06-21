@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { typeSizeTokens, typeLeadingTokens } from "@ui-organized/tokens";
 import { useBuilderStore } from "../state/themeState";
 import { buildThemeTokens, buildThemeJson, buildIconsModule } from "./buildConfig";
 
@@ -68,9 +69,26 @@ describe("buildThemeTokens (DTCG)", () => {
     expect(t.type.size["body-large"]).toMatchObject({ $type: "dimension", $value: "16px" });
     expect(t.spacing["space-01"].$type).toBe("dimension");
     expect(t["border-radius"]["04"].$type).toBe("dimension");
-    // Derived control height: body-large leading (16×1.5=24) + 2×space-01 (4).
+    // Derived control height: body-large leading (24px) + 2×space-01 (4).
     // The 1px border is excluded (drawn inside), matching a Figma frame.
     expect(t.component["control-height"].md).toMatchObject({ $type: "dimension", $value: "32px" });
+  });
+
+  it("emits the canonical design-system type scale by default (1:1 with @ui-organized/tokens)", () => {
+    const t = buildThemeTokens(state()) as any;
+    // Every size + leading in the default export equals the shipped token JSON,
+    // so the builder opens identical to the design system (and auto-syncs when
+    // the tokens change). This is the regression guard for the body-medium
+    // 21px→20px fix and the display-xlarge 48px→64px size fix.
+    for (const [step, px] of Object.entries(typeSizeTokens)) {
+      expect(t.type.size[step].$value, `size ${step}`).toBe(`${px}px`);
+    }
+    for (const [step, px] of Object.entries(typeLeadingTokens)) {
+      expect(t.type.leading[step].$value, `leading ${step}`).toBe(`${px}px`);
+    }
+    // The two values the user reported / we discovered, spelled out explicitly.
+    expect(t.type.leading["body-medium"].$value).toBe("20px");
+    expect(t.type.size["display-xlarge"].$value).toBe("64px");
   });
 
   it("captures icon settings under $extensions (not the token tree)", () => {

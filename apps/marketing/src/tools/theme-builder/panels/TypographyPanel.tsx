@@ -107,10 +107,11 @@ export function TypographyPanel() {
   const {
     headingFamily, headingWeights,
     bodyFamily, bodyWeights,
-    typeScaleBase, typeScaleRatio,
-    headingLineHeight, bodyLineHeight, lineHeightGuides,
+    typeScaleBase, typeScaleRatio, typeScaleMode,
+    headingLineHeight, bodyLineHeight, lineHeightMode, lineHeightGuides,
     setHeadingFont, setBodyFont, setTypeScale,
     setHeadingLineHeight, setBodyLineHeight, setLineHeightGuides,
+    resetTypeScale, resetLineHeight,
   } = useBuilderStore();
 
   const { fonts, loading } = useGoogleFonts();
@@ -163,7 +164,16 @@ export function TypographyPanel() {
 
       {/* ── Type Scale ───────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Type Scale</h3>
+        <div className={styles.sectionHead}>
+          <h3 className={styles.sectionTitle}>Type Scale</h3>
+          {typeScaleMode === "system" ? (
+            <span className={styles.systemBadge}>Design system default</span>
+          ) : (
+            <button type="button" className={styles.resetBtn} onClick={resetTypeScale}>
+              Reset to design system
+            </button>
+          )}
+        </div>
 
         <div className={styles.scaleControls}>
           <div className={styles.baseField}>
@@ -211,6 +221,17 @@ export function TypographyPanel() {
             />
           </div>
         )}
+
+        <div className={styles.sectionHead}>
+          <span className={styles.weightRoleLabel}>Line height</span>
+          {lineHeightMode === "system" ? (
+            <span className={styles.systemBadge}>Per-step design system default</span>
+          ) : (
+            <button type="button" className={styles.resetBtn} onClick={resetLineHeight}>
+              Reset to design system
+            </button>
+          )}
+        </div>
 
         <Range
           label="Heading line height"
