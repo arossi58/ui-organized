@@ -7,9 +7,14 @@ export const selectFieldStyles = cva("select-field", {
       md: "select-field--md",
       lg: "select-field--lg",
     },
+    variant: {
+      default: "",
+      ghost: "select-field--ghost",
+    },
   },
   defaultVariants: {
     size: "md",
+    variant: "default",
   },
 });
 

@@ -83,7 +83,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-tertiary);
+  color: var(--color-icon-secondary);
 }
 
 .select-field__icon .icon {
@@ -184,6 +184,45 @@
   opacity: 1;
 }
 
+
+/* ─── Variant: ghost ──────────────────────────────────────────────────────── */
+/* A borderless, label-less trigger that mirrors the ghost Button's colour
+   states (--color-interactive-ghost-*). Size, layout, focus, invalid and
+   disabled treatments are inherited from the base trigger above. */
+
+.select-field--ghost .select-field__trigger {
+  background-color: var(--color-interactive-ghost-default);
+  border-color: transparent;
+  color: var(--color-text-primary);
+}
+
+.select-field--ghost .select-field__trigger:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ghost-hover);
+  border-color: transparent;
+}
+
+.select-field--ghost .select-field__trigger[data-state="open"] {
+  background-color: var(--color-interactive-ghost-active);
+  border-color: transparent;
+}
+
+/* Ghost selects hug their contents (value + chevron) instead of filling the
+   container — suited to inline / toolbar use. The base trigger is width:100%. */
+.select-field--ghost {
+  width: fit-content;
+}
+
+.select-field--ghost .select-field__trigger {
+  width: fit-content;
+}
+
+/* Because the trigger is now content-width, anchor the popup to grow to fit the
+   options (max-content) but never read narrower than the trigger itself. */
+.select-popup--ghost {
+  width: max-content;
+  min-width: var(--reference-width);
+  max-width: 90vw;
+}
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */
 

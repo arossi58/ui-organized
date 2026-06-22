@@ -26,6 +26,13 @@ export interface SelectProps {
   error?: string | boolean;
   /** Size variant. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
+  /**
+   * Visual variant. Defaults to 'default'. `'ghost'` renders a borderless,
+   * label-less trigger that mirrors the ghost Button's colour states (same
+   * sizes and functionality otherwise). When `label` is set on a ghost select
+   * it is applied as the trigger's `aria-label` rather than shown.
+   */
+  variant?: "default" | "ghost";
   /** Whether the select should ignore user interaction. */
   disabled?: boolean;
   /** Name attribute for form submission. */

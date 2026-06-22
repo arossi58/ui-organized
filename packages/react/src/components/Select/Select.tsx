@@ -18,6 +18,7 @@ export function Select({
   helperText,
   error,
   size,
+  variant,
   disabled,
   name,
   required,
@@ -27,6 +28,9 @@ export function Select({
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const iconSize = CONTROL_ICON_SIZE[size ?? "md"];
+  // The ghost variant is label-less; keep the field accessible by applying any
+  // provided label as the trigger's aria-label instead of rendering it.
+  const isGhost = variant === "ghost";
 
   // Ark drives the dropdown off a collection rather than children; build it from
   // the `options` array (label → display text, value → form value).
@@ -43,7 +47,7 @@ export function Select({
 
   return (
     <Field.Root
-      className={clsx(selectFieldStyles({ size }), className)}
+      className={clsx(selectFieldStyles({ size, variant }), className)}
       invalid={isInvalid}
       disabled={disabled}
     >
@@ -68,13 +72,16 @@ export function Select({
         required={required}
         positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed" }}
       >
-        {label && (
+        {label && !isGhost && (
           <ArkSelect.Label className="field__label">
             {label}
             {required && <span className="field__required" aria-hidden="true" />}
           </ArkSelect.Label>
         )}
-        <ArkSelect.Trigger className="select-field__trigger text-default-body-large">
+        <ArkSelect.Trigger
+          className="select-field__trigger text-default-body-large"
+          aria-label={isGhost ? label : undefined}
+        >
           <ArkSelect.ValueText className="select-field__value" placeholder={placeholder} />
           <ArkSelect.Indicator className="select-field__icon">
             <Icon name="chevron-down" size={iconSize} />
@@ -82,7 +89,7 @@ export function Select({
         </ArkSelect.Trigger>
         <Portal container={portalContainer ? { current: portalContainer } : undefined}>
           <ArkSelect.Positioner className="select-positioner">
-            <ArkSelect.Content className="select-popup">
+            <ArkSelect.Content className={clsx("select-popup", isGhost && "select-popup--ghost")}>
               <ArkSelect.List className="select-popup__list">
                 {options.map((opt) => (
                   <ArkSelect.Item key={opt.value} item={opt} className="select-popup__item text-default-body-large">
