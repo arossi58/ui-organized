@@ -3,6 +3,7 @@ import { Button, Input, Range, Select, Switch, Icon } from '@ui-organized/react'
 import { DEFAULT_PALETTE } from '../constants/defaultPalette';
 import { hexToRgb, rgbToHsl, rgbToOklch, hslToRgb, oklchToRgb } from '../utils/colorConversions';
 import { getColorNameFromHSL } from '../utils/naming';
+import SpectrumPicker from './SpectrumPicker';
 import './color-palette.css';
 
 // --- helpers -------------------------------------------------------------
@@ -179,6 +180,9 @@ const ControlsPanel = ({
   updateBaseColor,
   updateBaseColorName,
   resetColorStops,
+  onUndoColor,
+  canUndoColor,
+  onColorEditStart,
   displayFormat,
   setDisplayFormat,
   numStops,
@@ -209,6 +213,10 @@ const ControlsPanel = ({
   const [showSettings, setShowSettings] = useState(false);
   // Element the Select popups portal into, so they inherit this pane's light theme.
   const [paneEl, setPaneEl] = useState(null);
+  // The Settings overlay sits above the pane at z-index 20. Its own Selects must
+  // portal into the overlay (not the pane root) or their popups render *behind*
+  // it — the overlay's stacking context would otherwise occlude them.
+  const [settingsEl, setSettingsEl] = useState(null);
 
   const canResetStops =
     selectedColor && !selectedColor.customStops && !!DEFAULT_PALETTE.find((c) => c.id === selectedColor.id);
@@ -378,16 +386,15 @@ const ControlsPanel = ({
 
         {selectedColor && (
           <>
-            {/* Color preview */}
-            <div
-              style={{
-                width: '100%',
-                height: 114,
-                flexShrink: 0,
-                borderRadius: 'var(--radius-interactive)',
-                border: '1px solid var(--color-border-primary)',
-                background: selectedColor.color,
-              }}
+            {/* Interactive spectrum preview — shows where the colour sits on the
+                spectrum for the active format, drag to change, undo the last edit. */}
+            <SpectrumPicker
+              color={selectedColor.color}
+              format={displayFormat}
+              onChange={(hex) => updateBaseColor(selectedColorId, hex)}
+              onEditStart={onColorEditStart}
+              onUndo={onUndoColor}
+              canUndo={canUndoColor}
             />
 
             {/* Color Name (DS Input + reset-to-generated-name button) */}
@@ -515,6 +522,7 @@ const ControlsPanel = ({
       {/* Settings overlay (opened from the gear in the header) */}
       {showSettings && (
         <div
+          ref={setSettingsEl}
           style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', background: 'var(--color-surface-primary)', gap: 16, padding: 8, zIndex: 20 }}
         >
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
@@ -523,21 +531,21 @@ const ControlsPanel = ({
           </div>
 
           <Select
-            label="Display Format"
+            label="Color Value Format"
             size="lg"
             options={DISPLAY_FORMAT_OPTIONS}
             value={displayFormat}
             onValueChange={setDisplayFormat}
-            portalContainer={paneEl}
+            portalContainer={settingsEl}
           />
 
           <Select
-            label="Color Mode"
+            label="Shade Generator Mode"
             size="lg"
             options={COLOR_MODE_OPTIONS}
             value={colorMode}
             onValueChange={setColorMode}
-            portalContainer={paneEl}
+            portalContainer={settingsEl}
           />
 
           <Select
@@ -546,7 +554,7 @@ const ControlsPanel = ({
             options={EASING_OPTIONS}
             value={easingType}
             onValueChange={setEasingType}
-            portalContainer={paneEl}
+            portalContainer={settingsEl}
           />
 
           <Select
@@ -555,7 +563,7 @@ const ControlsPanel = ({
             options={CONTRAST_OPTIONS}
             value={contrastMethod}
             onValueChange={setContrastMethod}
-            portalContainer={paneEl}
+            portalContainer={settingsEl}
           />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>

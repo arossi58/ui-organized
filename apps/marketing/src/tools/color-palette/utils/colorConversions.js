@@ -162,6 +162,29 @@ export const oklchToRgbGamutMapped = (l, c, h) => {
   return { r, g, b: b_ };
 };
 
+// Whether an OKLCH triple is reproducible in the sRGB gamut (i.e. displayable
+// on typical hardware) without clamping. Mirrors the linear-RGB math in
+// oklchToRgb but tests the *unclamped* channels against the 0–1 range.
+export const isOklchInGamut = (l, c, h) => {
+  const hRad = h * Math.PI / 180;
+  const a = c * Math.cos(hRad);
+  const b = c * Math.sin(hRad);
+
+  const l_ = l + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = l - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = l - 0.0894841775 * a - 1.2914855480 * b;
+
+  const l3 = l_ * l_ * l_;
+  const m3 = m_ * m_ * m_;
+  const s3 = s_ * s_ * s_;
+
+  const lr = +4.0767416621 * l3 - 3.3077115913 * m3 + 0.2309699292 * s3;
+  const lg = -1.2684380046 * l3 + 2.6097574011 * m3 - 0.3413193965 * s3;
+  const lb = -0.0041960863 * l3 - 0.7034186147 * m3 + 1.7076147010 * s3;
+
+  return isInGamut(linearToRgb(lr), linearToRgb(lg), linearToRgb(lb));
+};
+
 // RGB to HSL conversion
 export const rgbToHsl = (r, g, b) => {
   const max = Math.max(r, g, b);

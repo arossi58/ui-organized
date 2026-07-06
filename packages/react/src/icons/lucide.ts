@@ -17,8 +17,8 @@ import {
   ChevronLeft, ChevronRight, ChevronUp, Clock, Copy,
   Download, ExternalLink, Eye, EyeOff, Filter,
   Grid2X2, Heart, Home, Info, List, Loader2, Lock, LockOpen,
-  Mail, Menu, Minus, Pencil, Phone, Plus, RefreshCw,
-  Search, Settings, Star, Tag, Trash2, Upload, User, Users, X,
+  Mail, Menu, Minus, Pencil, Phone, Plus, RefreshCw, Redo2,
+  Search, Settings, Star, Tag, Trash2, Undo2, Upload, User, Users, X,
   ArrowUpAZ,
 } from "lucide-react";
 import type { CanonicalIconName } from "@ui-organized/utils";
@@ -44,6 +44,8 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "download":       Download,
   "upload":         Upload,
   "refresh":        RefreshCw,
+  "undo":           Undo2,
+  "redo":           Redo2,
   "sort-asc":       ArrowUpAZ,
   "sort-desc":      ArrowDownAZ,
   "filter":         Filter,

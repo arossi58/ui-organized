@@ -16,7 +16,7 @@ import {
   IconDownload, IconExternalLink, IconEye, IconEyeOff, IconFilter,
   IconHeart, IconHome, IconInfoCircle, IconLayoutGrid, IconList, IconLoader2,
   IconLock, IconLockOpen, IconMail, IconMenu2, IconMinus,
-  IconPencil, IconPhone, IconPlus, IconRefresh,
+  IconPencil, IconPhone, IconPlus, IconRefresh, IconArrowBackUp, IconArrowForwardUp,
   IconSearch, IconSettings, IconSortAscending, IconSortDescending,
   IconStar, IconTag, IconTrash, IconUpload, IconUser, IconUsers, IconX,
   // Filled variants
@@ -51,6 +51,8 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "download":       IconDownload,
   "upload":         IconUpload,
   "refresh":        IconRefresh,
+  "undo":           IconArrowBackUp,
+  "redo":           IconArrowForwardUp,
   "sort-asc":       IconSortAscending,
   "sort-desc":      IconSortDescending,
   "filter":         IconFilter,

@@ -19,10 +19,29 @@ export function Toggle({
   ...props
 }: ToggleProps) {
   const resolvedSize = size ?? "md";
-  const cls = clsx(CONTROL_TEXT_CLASS[resolvedSize], toggleStyles({ size: resolvedSize }), className);
+  const iconElement = icon ? (
+    <Icon name={icon} size={CONTROL_ICON_SIZE[resolvedSize]} />
+  ) : null;
+
+  // An icon with no label collapses to a square (see `.toggle--icon-only`) whose
+  // side matches the labelled height for the size, mirroring the Button so icon
+  // toggles line up with text toggles instead of rendering short and wide.
+  const isIconOnly =
+    iconElement != null &&
+    (children === undefined ||
+      children === null ||
+      children === false ||
+      children === "");
+
+  const cls = clsx(
+    CONTROL_TEXT_CLASS[resolvedSize],
+    toggleStyles({ size: resolvedSize }),
+    isIconOnly && "toggle--icon-only",
+    className,
+  );
   const content = (
     <>
-      {icon && <Icon name={icon} size={CONTROL_ICON_SIZE[resolvedSize]} />}
+      {iconElement}
       {children}
     </>
   );

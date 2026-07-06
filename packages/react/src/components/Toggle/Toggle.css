@@ -1,11 +1,15 @@
 /* ─── Toggle ──────────────────────────────────────────────────────────────── */
+/* A toggle always carries the wrapper treatment — a subtle surface, border and
+   rounding — and fills with the primary colour when pressed (Figma Toggle /
+   ToggleButton, nodes 2114:12579 / 2114:10546). */
 
 .toggle {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-space-01);
-  border: 1px solid var(--color-border-data-entry);
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
   background-color: var(--color-interactive-ui-default);
   color: var(--color-text-primary);
@@ -18,18 +22,18 @@
 }
 
 .toggle:hover:not(:disabled):not([data-disabled]) {
-  background-color: var(--color-interactive-ui-hover);
+  background-color: var(--color-interactive-primary-hover);
+  color: var(--color-interactive-contents);
 }
 
 .toggle:focus-visible {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-/* Pressed (on) state. */
+/* Pressed (on) state — filled with the active primary colour. */
 .toggle[data-state="on"] {
-  background-color: var(--color-interactive-ui-selected);
-  border-color: var(--color-border-primary);
-  color: var(--color-text-primary);
+  background-color: var(--color-interactive-primary-active);
+  color: var(--color-interactive-contents);
 }
 
 .toggle:disabled,
@@ -39,54 +43,66 @@
 }
 
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */
+/* Explicit height matches the shared control height so toggles line up with
+   buttons and other controls at the same size. */
 
-.toggle--sm { padding: var(--Button-Small-vertical) var(--Button-Small-horizontal); }
-.toggle--md { padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal); }
-.toggle--lg { padding: var(--Button-Large-vertical) var(--Button-Large-horizontal); }
+.toggle--sm {
+  height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+}
+
+.toggle--md {
+  height: var(--control-height-md);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+}
+
+.toggle--lg {
+  height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+/* ─── Icon-only ───────────────────────────────────────────────────────────── */
+/* A toggle with an icon and no label is a square: width equals the control
+   height for the size (height comes from `.toggle--{size}`), padding is dropped
+   and the icon centres — matching the Button icon-only treatment. */
+
+.toggle--icon-only.toggle--sm {
+  width: var(--control-height-sm);
+  padding: 0;
+}
+
+.toggle--icon-only.toggle--md {
+  width: var(--control-height-md);
+  padding: 0;
+}
+
+.toggle--icon-only.toggle--lg {
+  width: var(--control-height-lg);
+  padding: 0;
+}
 
 /* ─── Toggle group ────────────────────────────────────────────────────────── */
-/* Joins child toggles into a single segmented control. */
+/* Joins child toggles into a single segmented control. The container owns the
+   surface, border and rounding; it clips the children so their fills reach the
+   rounded corners (Figma Toggle, node 2114:12579). */
 
 .toggle-group {
   display: inline-flex;
+  gap: var(--spacing-space-005);
+  overflow: hidden;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+  background-color: var(--color-interactive-ui-default);
 }
 
 .toggle-group[data-orientation="vertical"] {
   flex-direction: column;
 }
 
+/* Inside a group the container provides the border and rounding, so the buttons
+   drop their own and let the container shape them. The base surface is left
+   intact (it matches the container) so the pressed/hover fills still win. */
 .toggle-group .toggle {
+  border: none;
   border-radius: 0;
-  margin-left: -1px;
-}
-
-.toggle-group[data-orientation="vertical"] .toggle {
-  margin-left: 0;
-  margin-top: -1px;
-}
-
-.toggle-group .toggle:first-of-type {
-  border-top-left-radius: var(--radius-interactive);
-  border-bottom-left-radius: var(--radius-interactive);
-  margin-left: 0;
-}
-
-.toggle-group .toggle:last-of-type {
-  border-top-right-radius: var(--radius-interactive);
-  border-bottom-right-radius: var(--radius-interactive);
-}
-
-.toggle-group[data-orientation="vertical"] .toggle:first-of-type {
-  border-radius: var(--radius-interactive) var(--radius-interactive) 0 0;
-  margin-top: 0;
-}
-
-.toggle-group[data-orientation="vertical"] .toggle:last-of-type {
-  border-radius: 0 0 var(--radius-interactive) var(--radius-interactive);
-}
-
-/* Pressed toggles sit above their neighbours so the active border is unbroken. */
-.toggle-group .toggle[data-state="on"] {
-  position: relative;
-  z-index: 1;
 }

@@ -26,9 +26,25 @@ type Story = StoryObj<typeof Toggle>;
 export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
-    <Toggle {...args}>
-      <span>Bookmark</span>
-    </Toggle>
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 24 }}>
+      <Toggle {...args}>
+        <span>Bookmark</span>
+      </Toggle>
+
+      {/* Multi-select group with labels. */}
+      <ToggleGroup defaultValue={["bold"]} multiple>
+        <Toggle value="bold">Bold</Toggle>
+        <Toggle value="italic">Italic</Toggle>
+        <Toggle value="underline">Underline</Toggle>
+      </ToggleGroup>
+
+      {/* Multi-select icon-only group. */}
+      <ToggleGroup defaultValue={["star"]} multiple>
+        <Toggle value="star" icon="star" aria-label="Star" />
+        <Toggle value="heart" icon="heart" aria-label="Heart" />
+        <Toggle value="bookmark" icon="bookmark" aria-label="Bookmark" />
+      </ToggleGroup>
+    </div>
   ),
   args: { icon: "bookmark", defaultPressed: false, size: "md" },
 };

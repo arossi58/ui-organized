@@ -59,6 +59,14 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   const [exportFormat, setExportFormat] = useState('css');
   const [preservePerceptualBrightness, setPreservePerceptualBrightness] = useState(false);
 
+  // Per-color undo history for the spectrum picker / sliders / value field. Each
+  // entry snapshots a base color's { color, customStops } before a change.
+  // Rapid edits within one gesture coalesce into a single undo step (see
+  // recordColorHistory). History is scoped to the active collection and cleared
+  // whenever a different palette is loaded.
+  const [colorHistory, setColorHistory] = useState({});
+  const colorEditRef = useRef({ id: null, t: 0 });
+
   // Collections: each is a container for a full palette (its base colors plus
   // all generation settings). The working state above holds the *active*
   // collection's live palette; inactive collections keep a stored snapshot.
@@ -99,6 +107,9 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   // Load a stored palette into the working state.
   const applyPalette = (p) => {
     if (!p || typeof p !== 'object') return;
+    // Undo history is per-collection; drop it when swapping palettes.
+    setColorHistory({});
+    colorEditRef.current = { id: null, t: 0 };
     setBaseColors(Array.isArray(p.baseColors) && p.baseColors.length > 0 ? p.baseColors : DEFAULT_PALETTE);
     setSelectedColorId(
       typeof p.selectedColorId === 'number'
@@ -332,9 +343,42 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
     }
   };
 
+  // Snapshot a color's pre-change state for undo. Successive edits to the same
+  // color within a short window (a drag, a burst of slider nudges) collapse into
+  // one history entry so a single Undo reverts the whole gesture.
+  const recordColorHistory = (id) => {
+    const cur = baseColors.find(c => c.id === id);
+    if (!cur) return;
+    const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+    const last = colorEditRef.current;
+    const coalesce = last.id === id && now - last.t < 900;
+    colorEditRef.current = { id, t: now };
+    if (coalesce) return;
+    const snap = { color: cur.color, customStops: cur.customStops };
+    setColorHistory(prev => {
+      const stack = prev[id] ?? [];
+      const capped = stack.length >= 50 ? stack.slice(stack.length - 49) : stack;
+      return { ...prev, [id]: [...capped, snap] };
+    });
+  };
+
+  const undoColorChange = (id) => {
+    const stack = colorHistory[id];
+    if (!stack || stack.length === 0) return;
+    const snap = stack[stack.length - 1];
+    setBaseColors(prev => prev.map(c =>
+      c.id === id ? { ...c, color: snap.color, customStops: snap.customStops } : c
+    ));
+    setColorHistory(prev => ({ ...prev, [id]: (prev[id] ?? []).slice(0, -1) }));
+    colorEditRef.current = { id: null, t: 0 };
+  };
+
+  const canUndoColor = (id) => !!(colorHistory[id] && colorHistory[id].length);
+
   const updateBaseColor = (id, color) => {
     const rgb = hexToRgb(color);
     if (rgb) {
+      recordColorHistory(id);
       setBaseColors(baseColors.map(c =>
         c.id === id ? { ...c, color, customStops: undefined } : c
       ));
@@ -495,6 +539,9 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
           updateBaseColor={updateBaseColor}
           updateBaseColorName={updateBaseColorName}
           resetColorStops={resetColorStops}
+          onUndoColor={() => undoColorChange(selectedColorId)}
+          canUndoColor={canUndoColor(selectedColorId)}
+          onColorEditStart={() => { colorEditRef.current = { id: null, t: 0 }; }}
           displayFormat={displayFormat}
           setDisplayFormat={setDisplayFormat}
           numStops={numStops}
