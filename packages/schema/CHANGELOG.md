@@ -1,5 +1,11 @@
 # @ui-organized/schema
 
+## 2.1.0
+
+### Minor Changes
+
+- c7949c8: Code and design parity for additional components
+
 ## 2.0.0
 
 ### Major Changes

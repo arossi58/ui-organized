@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/react-vite",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Vite plugin for the ui-organized design system: validates a theme config, runs the token pipeline, and injects CSS variables at build time and during dev with HMR.",
   "keywords": [
     "design-system",

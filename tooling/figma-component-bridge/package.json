@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/figma-component-bridge",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Figma plugin that turns @ui-organized/react components into Figma components — props, variants, states, layout, and token-bound Variables — via an intermediate Spec JSON contract. Phase 0: hand-authored Button slice.",
   "scripts": {
