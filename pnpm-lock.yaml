@@ -749,6 +749,9 @@ importers:
       '@ui-organized/code-connect':
         specifier: workspace:*
         version: link:../code-connect
+      '@ui-organized/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
     devDependencies:
       '@types/node':
         specifier: ^20.0.0

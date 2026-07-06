@@ -3,17 +3,26 @@
  * labels, dense ~32px rows, a right-panel border treatment, hover states — so this
  * replicates Figma's layout grammar rather than inventing a generic form. Scoped
  * under .fcp- so it can't leak into Storybook's chrome.
+ *
+ * Colours come from the design system's own tokens (`--color-*`, injected into the
+ * manager realm by manager.tsx) so the panel re-themes with the DS and flips with
+ * light/dark via `data-theme` on `.fcp-root`. Each `var()` keeps the original dark
+ * hex as a fallback, so the panel still renders if the tokens ever fail to load.
  */
 
 .fcp-root {
-  --fcp-row-h: 32px;
   --fcp-label: 11px;
-  --fcp-fg: var(--fcp-fg-c, #e6e6e6);
-  --fcp-muted: #8a8a8a;
-  --fcp-border: #333;
+  --fcp-row-h: 32px;
+  --fcp-fg: var(--color-text-primary, #e6e6e6);
+  --fcp-muted: var(--color-text-secondary, #8a8a8a);
+  --fcp-border: var(--color-border-secondary, #333);
+  --fcp-surface: var(--color-surface-secondary, #2a2a2a);
+  --fcp-field-border: var(--color-border-data-entry, #3a3a3a);
+  --fcp-hover: var(--color-interactive-ghost-hover, rgba(255, 255, 255, 0.04));
   --fcp-bg: transparent;
-  --fcp-accent: #4c7dff;
-  --fcp-warn: #e0a03a;
+  --fcp-accent: var(--color-interactive-primary-default, #4c7dff);
+  --fcp-on-accent: var(--color-interactive-contents, #fff);
+  --fcp-warn: var(--color-status-warning, #e0a03a);
   font-size: var(--fcp-label);
   color: var(--fcp-fg);
   padding: 4px 0 12px;
@@ -44,7 +53,7 @@
   padding: 3px 12px;
   gap: 8px;
 }
-.fcp-row:hover { background: rgba(255, 255, 255, 0.03); }
+.fcp-row:hover { background: var(--fcp-hover); }
 
 .fcp-row-label {
   display: flex;
@@ -62,8 +71,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: 2px;
-  background: #2a2a2a;
-  border: 1px solid #3a3a3a;
+  background: var(--fcp-surface);
+  border: 1px solid var(--fcp-field-border);
   border-radius: 5px;
   padding: 2px;
   width: 100%;
@@ -79,8 +88,8 @@
   cursor: pointer;
   white-space: nowrap;
 }
-.fcp-pill:hover { background: rgba(255, 255, 255, 0.06); }
-.fcp-pill[data-active="true"] { background: var(--fcp-accent); color: #fff; }
+.fcp-pill:hover { background: var(--fcp-hover); }
+.fcp-pill[data-active="true"] { background: var(--fcp-accent); color: var(--fcp-on-accent); }
 
 /* Boolean toggle */
 .fcp-switch {
@@ -88,7 +97,7 @@
   width: 28px;
   height: 16px;
   border-radius: 8px;
-  background: #4a4a4a;
+  background: var(--color-interactive-inactive-02, #4a4a4a);
   border: none;
   cursor: pointer;
   transition: background 0.12s;
@@ -102,7 +111,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-icon-light, #fff);
   transition: transform 0.12s;
 }
 .fcp-switch[data-on="true"]::after { transform: translateX(12px); }
@@ -110,8 +119,8 @@
 /* Text + number fields */
 .fcp-input {
   width: 100%;
-  background: #2a2a2a;
-  border: 1px solid #3a3a3a;
+  background: var(--fcp-surface);
+  border: 1px solid var(--fcp-field-border);
   border-radius: 4px;
   color: var(--fcp-fg);
   font-size: 11px;
@@ -121,7 +130,7 @@
 .fcp-stepper { display: flex; align-items: center; gap: 2px; width: 100%; }
 .fcp-stepper button {
   width: 20px; height: 22px;
-  background: #2a2a2a; border: 1px solid #3a3a3a; border-radius: 4px;
+  background: var(--fcp-surface); border: 1px solid var(--fcp-field-border); border-radius: 4px;
   color: var(--fcp-fg); cursor: pointer; font-size: 11px;
 }
 
@@ -132,12 +141,33 @@
   padding: 6px 8px;
   border-radius: 5px;
   font-size: 11px;
+  border: 1px solid transparent;
 }
-.fcp-badge[data-tone="exact"] { color: #6fbf8f; background: #1f2f26; border: 1px solid #2f5a42; }
-.fcp-badge[data-tone="fuzzy"] { color: var(--fcp-warn); background: #322a1a; border: 1px solid #5a4a24; }
-.fcp-badge[data-tone="none"] { color: #9a9a9a; background: #262626; border: 1px solid #3a3a3a; }
-.fcp-badge[data-tone="stale"] { color: var(--fcp-warn); background: #3a3220; border: 1px solid #5a4a24; }
-.fcp-badge[data-tone="deprecated"] { color: #ff9b9b; background: #3a2323; border: 1px solid #5a3333; }
+.fcp-badge[data-tone="exact"] {
+  color: var(--color-status-success-content, #6fbf8f);
+  background: var(--color-status-success-bg, #1f2f26);
+  border-color: var(--color-status-success, #2f5a42);
+}
+.fcp-badge[data-tone="fuzzy"] {
+  color: var(--color-status-warning-content, #e0a03a);
+  background: var(--color-status-warning-bg, #322a1a);
+  border-color: var(--color-status-warning, #5a4a24);
+}
+.fcp-badge[data-tone="none"] {
+  color: var(--color-text-tertiary, #9a9a9a);
+  background: var(--fcp-surface, #262626);
+  border-color: var(--fcp-border, #3a3a3a);
+}
+.fcp-badge[data-tone="stale"] {
+  color: var(--color-status-warning-content, #e0a03a);
+  background: var(--color-status-warning-bg, #3a3220);
+  border-color: var(--color-status-warning, #5a4a24);
+}
+.fcp-badge[data-tone="deprecated"] {
+  color: var(--color-status-error-content, #ff9b9b);
+  background: var(--color-status-error-bg, #3a2323);
+  border-color: var(--color-status-error, #5a3333);
+}
 
 .fcp-drift {
   color: var(--fcp-warn);
@@ -147,16 +177,16 @@
 .fcp-empty { padding: 16px 12px; color: var(--fcp-muted); }
 .fcp-size {
   display: flex; align-items: baseline; gap: 5px; padding: 6px 12px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--fcp-border);
 }
-.fcp-size-dim { font-size: 15px; font-weight: 600; font-family: ui-monospace, monospace; color: #e6e6e6; }
+.fcp-size-dim { font-size: 15px; font-weight: 600; font-family: ui-monospace, monospace; color: var(--fcp-fg); }
 .fcp-size-x { color: var(--fcp-muted); font-size: 12px; }
 .fcp-size-unit { color: var(--fcp-muted); font-size: 10px; margin-left: 2px; }
 .fcp-code {
   margin: 8px 12px;
   padding: 8px;
-  background: #111;
-  border: 1px solid #2a2a2a;
+  background: var(--fcp-surface);
+  border: 1px solid var(--fcp-border);
   border-radius: 4px;
   font-family: ui-monospace, monospace;
   font-size: 10.5px;
@@ -181,8 +211,8 @@
   display: flex; align-items: center; gap: 3px; width: 100%;
   min-height: 22px; padding-right: 8px;
 }
-.fcp-tree-row:hover { background: rgba(255, 255, 255, 0.04); }
-.fcp-tree-row[data-active="true"] { background: rgba(76, 125, 255, 0.18); }
+.fcp-tree-row:hover { background: var(--fcp-hover); }
+.fcp-tree-row[data-active="true"] { background: color-mix(in srgb, var(--fcp-accent) 18%, transparent); }
 .fcp-tree-main {
   display: flex; align-items: center; gap: 5px; flex: 1 1 auto; min-width: 0;
   background: none; border: none; cursor: pointer; color: var(--fcp-fg);
@@ -190,15 +220,15 @@
 }
 .fcp-caret {
   flex: 0 0 auto; width: 20px; height: 20px; background: none; border: none;
-  color: #b8b8b8; cursor: pointer; font-size: 15px; line-height: 1; padding: 0;
+  color: var(--fcp-muted); cursor: pointer; font-size: 15px; line-height: 1; padding: 0;
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.12s;
 }
-.fcp-caret:hover { color: #fff; }
+.fcp-caret:hover { color: var(--fcp-fg); }
 .fcp-caret[data-collapsed="true"] { transform: rotate(-90deg); }
 .fcp-caret-spacer { flex: 0 0 auto; width: 20px; }
 .fcp-toolbar-actions { display: flex; align-items: center; gap: 10px; }
-.fcp-link[data-active="true"] { color: #fff; background: var(--fcp-accent); padding: 1px 6px; border-radius: 3px; }
+.fcp-link[data-active="true"] { color: var(--fcp-on-accent); background: var(--fcp-accent); padding: 1px 6px; border-radius: 3px; }
 .fcp-tree-tag { color: #c98aff; font-family: ui-monospace, monospace; }
 .fcp-tree-cls {
   color: var(--fcp-muted); font-family: ui-monospace, monospace;
@@ -207,39 +237,39 @@
 .fcp-tree-badges { display: flex; gap: 4px; margin-left: auto; flex: 0 0 auto; }
 .fcp-chip {
   min-width: 15px; height: 15px; padding: 0 4px; border-radius: 7px;
-  background: #333; color: #bbb; font-size: 9px; line-height: 15px; text-align: center;
+  background: var(--fcp-surface); color: var(--fcp-muted); font-size: 9px; line-height: 15px; text-align: center;
 }
 
 /* Detail rows */
 .fcp-mono { font-family: ui-monospace, monospace; font-size: 11px; }
 .fcp-var {
-  font-family: ui-monospace, monospace; font-size: 11px; color: #7fc7ff;
+  font-family: ui-monospace, monospace; font-size: 11px; color: var(--color-status-info, #7fc7ff);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .fcp-swatch {
   width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--fcp-border);
 }
 
 /* Property value rows + source flags */
 .fcp-prop-value { justify-content: flex-start; gap: 6px; min-width: 0; }
 .fcp-prop-value .fcp-mono { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.fcp-inherited { color: #6a6a6a; font-size: 10px; flex: 0 0 auto; }
+.fcp-inherited { color: var(--color-text-tertiary, #6a6a6a); font-size: 10px; flex: 0 0 auto; }
 .fcp-hardcoded { color: var(--fcp-warn); font-size: 10px; flex: 0 0 auto; white-space: nowrap; }
-.fcp-row[data-flagged="true"] { background: rgba(224, 160, 58, 0.07); }
-.fcp-chip-warn { background: #4a3a1c; color: var(--fcp-warn); }
+.fcp-row[data-flagged="true"] { background: color-mix(in srgb, var(--fcp-warn) 8%, transparent); }
+.fcp-chip-warn { background: var(--color-status-warning-bg, #4a3a1c); color: var(--fcp-warn); }
 
-.fcp-default { color: #6a6a6a; font-size: 10px; font-family: ui-monospace, monospace; flex: 0 0 auto; }
+.fcp-default { color: var(--color-text-tertiary, #6a6a6a); font-size: 10px; font-family: ui-monospace, monospace; flex: 0 0 auto; }
 .fcp-color-field { display: flex; align-items: center; gap: 5px; width: 100%; }
 .fcp-color-swatch {
-  flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 1px solid #3a3a3a;
+  flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 1px solid var(--fcp-field-border);
   border-radius: 4px; background: none; cursor: pointer;
 }
 .fcp-range-field { display: flex; align-items: center; gap: 6px; width: 100%; }
 .fcp-range-field input[type="range"] { flex: 1 1 auto; min-width: 0; accent-color: var(--fcp-accent); }
 .fcp-range-val { flex: 0 0 auto; min-width: 22px; text-align: right; font-family: ui-monospace, monospace; }
 .fcp-json { font-family: ui-monospace, monospace; font-size: 10.5px; resize: vertical; line-height: 1.35; }
-.fcp-json-err { border-color: #b45 !important; }
+.fcp-json-err { border-color: var(--color-status-error, #b45) !important; }
 /* Variant matrix — live preview thumbnails */
 .fcp-variants { padding-bottom: 6px; }
 .fcp-variant-strip {
@@ -247,12 +277,12 @@
 }
 .fcp-variant { margin: 0; width: 96px; }
 .fcp-variant-frame-wrap {
-  width: 96px; height: 64px; overflow: hidden; border: 1px solid #333;
-  border-radius: 5px; background: #fff;
+  width: 96px; height: 64px; overflow: hidden; border: 1px solid var(--fcp-border);
+  border-radius: 5px; background: var(--color-surface-primary, #fff);
 }
 .fcp-variant-frame {
   width: 200%; height: 200%; border: none; transform: scale(0.5);
-  transform-origin: top left; background: #fff; pointer-events: none;
+  transform-origin: top left; background: var(--color-surface-primary, #fff); pointer-events: none;
 }
 .fcp-variant figcaption {
   font-size: 10px; color: var(--fcp-muted); margin-top: 3px;
@@ -263,5 +293,5 @@
 .fcp-portal-divider {
   display: flex; align-items: center; gap: 6px; padding: 4px 12px; margin-top: 4px;
   color: #c98aff; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em;
-  border-top: 1px dashed #3a3a3a;
+  border-top: 1px dashed var(--fcp-border);
 }

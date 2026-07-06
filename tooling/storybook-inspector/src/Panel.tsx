@@ -6,6 +6,7 @@
  */
 import { useEffect, useState } from "react";
 import { useArgTypes } from "storybook/manager-api";
+import { useTheme } from "storybook/theming";
 import { useManifestEntry } from "./hooks/useManifestEntry.js";
 import { useLiveArgs } from "./hooks/useLiveArgs.js";
 import { usePreviewInspection } from "./hooks/usePreviewInspection.js";
@@ -161,8 +162,15 @@ export function Panel() {
 
   const current = nodes[selected] ?? nodes[0];
 
+  // Drive the injected DS tokens (see manager.tsx) light/dark. The manager theme
+  // is built with `base: mode` from the visitor's site theme, so `theme.base` is
+  // the same mode the chrome uses — keeping the panel consistent with it rather
+  // than tracking the preview canvas toolbar (which only re-themes the story).
+  const theme = useTheme() as { base?: string };
+  const mode = theme?.base === "dark" ? "dark" : "light";
+
   return (
-    <div className="fcp-root">
+    <div className="fcp-root" data-theme={mode}>
       <div className="fcp-toolbar">
         <span className="fcp-toolbar-title">Inspect</span>
         <span className="fcp-toolbar-actions">

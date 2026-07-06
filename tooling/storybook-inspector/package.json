@@ -16,7 +16,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ui-organized/code-connect": "workspace:*"
+    "@ui-organized/code-connect": "workspace:*",
+    "@ui-organized/tokens": "workspace:*"
   },
   "peerDependencies": {
     "react": "^18.0.0",
