@@ -4,7 +4,7 @@
    themselves are the authored hexes. */
 .core-colors {
   color: var(--color-text-primary);
-  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 .core-colors__lede {

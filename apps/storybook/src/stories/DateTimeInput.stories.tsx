@@ -4,6 +4,7 @@ import { DateTimeInput } from "@ui-organized/react";
 const meta: Meta<typeof DateTimeInput> = {
   title: "Components/Forms/DateTimeInput",
   component: DateTimeInput,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -31,7 +32,8 @@ const meta: Meta<typeof DateTimeInput> = {
 export default meta;
 type Story = StoryObj<typeof DateTimeInput>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Date and time",
     size: "md",

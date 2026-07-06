@@ -33,11 +33,12 @@
   display: flex;
   align-items: center;
   gap: var(--spacing-space-02);
-  padding: var(--spacing-space-02) var(--spacing-space-03);
-  border-radius: var(--radius-checkbox);
+  min-height: var(--control-height-md);
+  padding: var(--spacing-space-01) var(--spacing-space-03);
+  border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
   color: var(--color-text-primary);
   cursor: pointer;
   outline: none;
@@ -45,8 +46,15 @@
   transition: background-color 100ms ease;
 }
 
+/* Ark highlights the active descendant (hover + keyboard) with data-highlighted;
+   maps to the Figma menu-item hover state. */
 .menu__item[data-highlighted] {
   background-color: var(--color-interactive-ui-hover);
+}
+
+/* Figma menu-item pressed/active state. */
+.menu__item:active:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-active);
 }
 
 .menu__item[data-disabled] {
@@ -64,7 +72,7 @@
 
 .menu__item-icon {
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
+  color: var(--color-icon-primary);
 }
 
 .menu__item--destructive .menu__item-icon {
@@ -76,23 +84,34 @@
   min-width: 0;
 }
 
-/* ─── Checkbox / Radio indicator ──────────────────────────────────────────── */
+/* ─── Checkbox / Radio control ────────────────────────────────────────────────
+   Checkbox / radio items reuse the design-system Checkbox and Radio control
+   markup (.checkbox__control / .radio-item__control). Ark puts the checked
+   state as data-state on the menu item, so bridge it to the control here. */
 
-.menu__item-indicator {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  color: var(--color-interactive-primary-default);
+.menu__control {
+  /* The control is a plain child (not a focusable input) inside the row, so it
+     never gets its own hover/focus attrs — align it like the item icon. */
+  margin: 0;
 }
 
-.menu__radio-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--border-radius-full);
-  background-color: currentColor;
+.menu__item--check[data-state="checked"] .checkbox__control {
+  background-color: var(--color-interactive-primary-default);
+  border-color: var(--color-interactive-primary-default);
+}
+
+.menu__item--check[data-state="checked"] .checkbox__indicator {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.menu__item--check[data-state="checked"] .radio-item__control {
+  background-color: var(--color-interactive-primary-selected);
+  border-color: var(--color-interactive-primary-selected);
+}
+
+.menu__item--check[data-state="checked"] .radio-item__indicator {
+  transform: scale(1);
 }
 
 /* ─── Group label / Separator ─────────────────────────────────────────────── */

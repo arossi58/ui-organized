@@ -13,6 +13,7 @@ import {
 const meta: Meta<typeof AlertDialog> = {
   title: "Components/Overlay/AlertDialog",
   component: AlertDialog,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -27,7 +28,8 @@ const meta: Meta<typeof AlertDialog> = {
 export default meta;
 type Story = StoryObj<typeof AlertDialog>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <AlertDialog>
       <AlertDialogTrigger className="btn btn--destructive btn--md">Delete account</AlertDialogTrigger>

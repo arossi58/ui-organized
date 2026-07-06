@@ -4,6 +4,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from "@ui-organized/rea
 const meta: Meta<typeof HoverCard> = {
   title: "Components/Overlay/HoverCard",
   component: HoverCard,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof HoverCard> = {
 export default meta;
 type Story = StoryObj<typeof HoverCard>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <HoverCard>
       <HoverCardTrigger

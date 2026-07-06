@@ -4,6 +4,7 @@ import { FieldError, Input } from "@ui-organized/react";
 const meta: Meta<typeof FieldError> = {
   title: "Components/Forms/FieldError",
   component: FieldError,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -22,7 +23,8 @@ export default meta;
 type Story = StoryObj<typeof FieldError>;
 
 /** The error pill on its own, matching Figma 580:7201. */
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     children: "Error message",
   },

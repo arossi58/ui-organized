@@ -122,12 +122,20 @@ const preview: Preview = {
   ],
   parameters: {
     backgrounds: { disabled: true },
+    // The Figma-style Inspector panel is now the single place to drive a
+    // component's props and see every variant, so the stock addon panels are
+    // hidden (Storybook hides a panel when `parameters[paramKey].disable` is set).
+    // Controls keeps its `matchers` so argTypes still infer color/date controls
+    // for the Inspector to read — only its panel tab is hidden.
     controls: {
+      disable: true,
       matchers: {
         color: /(background|color)$/i,
         date: /date$/i,
       },
     },
+    actions: { disable: true },
+    interactions: { disable: true },
     // Sidebar order: the docs pages first (Introduction, then Foundations),
     // then the component stories grouped into categories (Forms, Actions,
     // Navigation, Overlay, …); anything else falls in after.

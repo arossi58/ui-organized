@@ -1,16 +1,2 @@
-export {
-  Toolbar,
-  ToolbarGroup,
-  ToolbarButton,
-  ToolbarLink,
-  ToolbarInput,
-  ToolbarSeparator,
-} from "./Toolbar.js";
-export type {
-  ToolbarProps,
-  ToolbarGroupProps,
-  ToolbarButtonProps,
-  ToolbarLinkProps,
-  ToolbarInputProps,
-  ToolbarSeparatorProps,
-} from "./Toolbar.types.js";
+export { Toolbar, ToolbarGroup } from "./Toolbar.js";
+export type { ToolbarProps, ToolbarGroupProps } from "./Toolbar.types.js";

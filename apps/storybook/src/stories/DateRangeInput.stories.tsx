@@ -5,6 +5,7 @@ import { DateRangeInput, type DateRangeValue } from "@ui-organized/react";
 const meta: Meta<typeof DateRangeInput> = {
   title: "Components/Forms/DateRangeInput",
   component: DateRangeInput,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -32,7 +33,8 @@ const meta: Meta<typeof DateRangeInput> = {
 export default meta;
 type Story = StoryObj<typeof DateRangeInput>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Date range",
     size: "md",

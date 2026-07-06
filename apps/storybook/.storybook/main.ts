@@ -5,10 +5,18 @@ import type { StorybookConfig } from "@storybook/react-vite";
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(ts|tsx)"],
 
+  // Addon panels render in registration order, so this array's order sets the
+  // side-panel tab order: Inspector → Code (addon-docs) → Accessibility (addon-a11y).
   addons: [
+    // Registered FIRST so its panel tab renders left-most and is the default
+    // landing tab. Its preset also serves the shared Code Connect manifest at
+    // /inspector-manifest — the manager UI runs outside the preview iframe and
+    // fetches the data over that path, in both `storybook dev` and a built/deployed
+    // static Storybook. See tooling/storybook-inspector (INSPECTOR.md §7).
+    "@ui-organized/storybook-inspector",
+    getAbsolutePath("@storybook/addon-docs"),
     getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("@storybook/addon-themes"),
-    getAbsolutePath("@storybook/addon-docs")
+    getAbsolutePath("@storybook/addon-themes")
   ],
 
   framework: {

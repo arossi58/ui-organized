@@ -7,6 +7,7 @@ const SIZES = ["sm", "md", "lg"] as const;
 const meta: Meta<typeof Badge> = {
   title: "Components/Data Display/Badge",
   component: Badge,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -33,7 +34,8 @@ const meta: Meta<typeof Badge> = {
 export default meta;
 type Story = StoryObj<typeof Badge>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     children: "Status",
     variant: "success",

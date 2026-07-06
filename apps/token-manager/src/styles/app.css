@@ -1,0 +1,507 @@
+/* Token Manager chrome — dense pro-tool layout on the design-system token CSS
+   custom properties. Interactive controls are @ui-organized/react components;
+   the data table is an app-local styled <table>. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+:root {
+  --type-font-heading: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --type-font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* App chrome spacing scale (denser than default component spacing). */
+  --tm-gap-1: 4px;
+  --tm-gap-2: 8px;
+  --tm-gap-3: 12px;
+  --tm-gap-4: 16px;
+  --tm-radius: 8px;
+}
+
+body {
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+  font-family: var(--type-font-body);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* ── App shell: sidebar | (topbar / page) ─────────────────────────────────── */
+.tm-app {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.tm-main {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  min-height: 0;
+}
+
+.tm-loading {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  color: var(--color-text-secondary);
+}
+
+/* ── Nav sidebar brand ────────────────────────────────────────────────────── */
+.tm-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-2);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: -0.01em;
+}
+.tm-brand__mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--color-interactive-primary-default, #3355ff), #8b5cf6);
+  flex: none;
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────────── */
+.tm-topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-3);
+  padding: var(--tm-gap-2) var(--tm-gap-4);
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-primary);
+  min-height: 48px;
+}
+.tm-topbar__title {
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+.tm-topbar__spacer {
+  flex: 1;
+}
+.tm-topbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-1);
+}
+.tm-topbar__label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Page surface ─────────────────────────────────────────────────────────── */
+.tm-page {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrolling single-column pages (themes / generators / export / sync). */
+.tm-page-scroll {
+  overflow: auto;
+  padding: var(--tm-gap-4);
+}
+.tm-page-inner {
+  max-width: 1040px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-gap-4);
+}
+.tm-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--tm-gap-3);
+  flex-wrap: wrap;
+}
+.tm-page-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+.tm-page-sub {
+  color: var(--color-text-secondary);
+  font-size: 0.82rem;
+  margin: 2px 0 0;
+}
+
+.tm-card {
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--tm-radius);
+  background: var(--color-surface-primary);
+  padding: var(--tm-gap-4);
+}
+.tm-card__title {
+  font-size: 0.74rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--tm-gap-3);
+}
+
+/* ── Tokens page: sets | table | inspector ────────────────────────────────── */
+.tm-tokens {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+}
+.tm-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.tm-pane--sets {
+  width: 224px;
+  flex: none;
+  border-right: 1px solid var(--color-border-secondary);
+}
+.tm-pane--main {
+  flex: 1;
+  min-width: 0;
+}
+.tm-pane--inspector {
+  width: 328px;
+  flex: none;
+  border-left: 1px solid var(--color-border-secondary);
+  overflow: auto;
+}
+.tm-pane--hidden {
+  display: none;
+}
+
+.tm-pane__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tm-gap-2);
+  padding: var(--tm-gap-2) var(--tm-gap-3);
+  border-bottom: 1px solid var(--color-border-secondary);
+  min-height: 40px;
+}
+.tm-pane__heading {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+.tm-pane__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--tm-gap-2);
+}
+
+/* token-editor toolbar above the table */
+.tm-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-2);
+  padding: var(--tm-gap-2) var(--tm-gap-3);
+  border-bottom: 1px solid var(--color-border-secondary);
+  flex-wrap: wrap;
+}
+.tm-toolbar__search {
+  flex: 1;
+  min-width: 140px;
+  max-width: 320px;
+}
+.tm-toolbar__spacer {
+  flex: 1;
+}
+
+/* ── Sets list ────────────────────────────────────────────────────────────── */
+.tm-set {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-1);
+  padding: 5px var(--tm-gap-2);
+  border-radius: 6px;
+  border: 1px solid transparent;
+}
+.tm-set--active {
+  background: var(--color-surface-secondary);
+  border-color: var(--color-border-secondary);
+}
+.tm-set--dragover {
+  border-color: var(--color-interactive-primary-default, #3355ff);
+}
+.tm-set__handle {
+  cursor: grab;
+  color: var(--color-text-tertiary);
+  display: inline-flex;
+}
+.tm-set__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.82rem;
+  padding: 0;
+}
+.tm-set__status {
+  width: 96px;
+  flex: none;
+}
+
+/* ── Data table ───────────────────────────────────────────────────────────── */
+.tm-table-wrap {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.tm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+.tm-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-surface-primary);
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-tertiary);
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--color-border-primary);
+  white-space: nowrap;
+  user-select: none;
+}
+.tm-table th.tm-th--sortable {
+  cursor: pointer;
+}
+.tm-table th.tm-th--sortable:hover {
+  color: var(--color-text-secondary);
+}
+.tm-th__sort {
+  margin-left: 4px;
+  opacity: 0.7;
+}
+.tm-table tbody td {
+  padding: 3px 10px;
+  border-bottom: 1px solid var(--color-border-secondary);
+  vertical-align: middle;
+}
+.tm-table tbody tr {
+  cursor: pointer;
+}
+.tm-table tbody tr:hover td {
+  background: var(--color-surface-secondary);
+}
+.tm-table tbody tr.tm-tr--selected td {
+  background: var(--color-surface-secondary);
+  box-shadow: inset 2px 0 0 var(--color-interactive-primary-default, #3355ff);
+}
+.tm-td--name {
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.tm-td--name .tm-td__group {
+  color: var(--color-text-tertiary);
+}
+.tm-td--value {
+  width: 38%;
+}
+.tm-td--resolved {
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tm-td--actions {
+  width: 1%;
+  text-align: right;
+  white-space: nowrap;
+}
+.tm-typecell {
+  display: inline-block;
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-tertiary);
+}
+.tm-resolved {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-2);
+  min-width: 0;
+}
+.tm-resolved__val {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tm-chain {
+  font-size: 0.7rem;
+  color: var(--color-text-tertiary);
+}
+
+.tm-empty {
+  padding: var(--tm-gap-4);
+  color: var(--color-text-tertiary);
+  font-size: 0.85rem;
+}
+
+/* ── Editors / swatches ───────────────────────────────────────────────────── */
+.tm-editor {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-1);
+}
+.tm-editor__color {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-2);
+}
+.tm-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border-primary);
+  flex: none;
+}
+
+/* ── Inspector ────────────────────────────────────────────────────────────── */
+.tm-inspector__field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: var(--tm-gap-3);
+}
+.tm-inspector__key {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-tertiary);
+}
+.tm-inspector__value {
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  word-break: break-word;
+}
+.tm-section {
+  padding: var(--tm-gap-4);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+/* ── JSON view ────────────────────────────────────────────────────────────── */
+.tm-json {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+.tm-json__editor {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.tm-json__editor .cm-editor {
+  height: 100%;
+  font-size: 0.8rem;
+}
+.tm-json__error {
+  padding: var(--tm-gap-2) var(--tm-gap-3);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* ── Matrix table (themes × sets) ─────────────────────────────────────────── */
+.tm-matrix th.tm-matrix__rowhead,
+.tm-matrix td.tm-matrix__rowhead {
+  position: sticky;
+  left: 0;
+  background: var(--color-surface-primary);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-text-primary);
+  z-index: 2;
+}
+
+/* ── Code / preview block (export) ────────────────────────────────────────── */
+.tm-code {
+  background: var(--color-surface-base);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--tm-radius);
+  padding: var(--tm-gap-3);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  white-space: pre;
+  overflow: auto;
+  max-height: 60vh;
+  color: var(--color-text-secondary);
+}
+
+/* ── Utilities ────────────────────────────────────────────────────────────── */
+.tm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tm-gap-3);
+}
+.tm-row-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--tm-gap-2);
+  flex-wrap: wrap;
+}
+.tm-muted {
+  color: var(--color-text-tertiary);
+  font-size: 0.82rem;
+}
+.tm-grid-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--tm-gap-3);
+}
+.tm-mode-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 2px 2px 10px;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 999px;
+  font-size: 0.8rem;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .tm-pane--inspector {
+    display: none;
+  }
+}
+@media (max-width: 820px) {
+  .tm-pane--sets {
+    display: none;
+  }
+}

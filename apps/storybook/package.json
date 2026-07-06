@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ui-organized/react": "workspace:*",
+    "@ui-organized/storybook-inspector": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
     "lucide-react": "^0.400.0",
@@ -25,6 +26,7 @@
     "@storybook/addon-themes": "^10.4.4",
     "@storybook/react": "^10.4.4",
     "@storybook/react-vite": "^10.4.4",
+    "@ui-organized/storybook-inspector": "workspace:*",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "http-server": "^14.1.1",

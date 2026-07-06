@@ -1,0 +1,26 @@
+# Code Connect MCP server + Cloudflare Tunnel (Connect.md §9).
+# Run from the repo root:
+#   docker compose -f tooling/code-connect/deploy/docker-compose.yml up -d
+services:
+  code-connect-mcp:
+    build:
+      # Build context is the monorepo root (two levels up from this file).
+      context: ../../..
+      dockerfile: tooling/code-connect/deploy/Dockerfile
+    environment:
+      # Require bearer auth in production — supply via a .env file next to this one.
+      CODE_CONNECT_HTTP_TOKEN: ${CODE_CONNECT_HTTP_TOKEN:?set CODE_CONNECT_HTTP_TOKEN}
+    restart: unless-stopped
+    expose:
+      - "3333"
+
+  # Exposes the server at your subdomain (e.g. mcp.uiorganized.com) with no inbound
+  # ports. Provide a tunnel token from the Cloudflare Zero Trust dashboard.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?set CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - code-connect-mcp
+    restart: unless-stopped

@@ -5,6 +5,7 @@ import { SearchInput } from "@ui-organized/react";
 const meta: Meta<typeof SearchInput> = {
   title: "Components/Forms/SearchInput",
   component: SearchInput,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -32,7 +33,8 @@ const meta: Meta<typeof SearchInput> = {
 export default meta;
 type Story = StoryObj<typeof SearchInput>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Search",
     placeholder: "Search…",

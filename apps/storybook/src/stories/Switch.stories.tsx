@@ -4,6 +4,7 @@ import { Switch } from "@ui-organized/react";
 const meta: Meta<typeof Switch> = {
   title: "Components/Forms/Switch",
   component: Switch,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -24,7 +25,8 @@ const meta: Meta<typeof Switch> = {
 export default meta;
 type Story = StoryObj<typeof Switch>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Enable notifications",
   },

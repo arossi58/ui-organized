@@ -1,0 +1,28 @@
+# Template GitHub Actions workflow for repos that use the Token Manager as their
+# store. Copy to `.github/workflows/tokens-export.yml` in your tokens repo.
+#
+# On any change under `tokens/**`, it resolves the project document and writes
+# CSS custom properties, then uploads them as a build artifact. Swap the upload
+# for a commit/publish step to feed your component library release.
+name: Export tokens
+
+on:
+  push:
+    paths: ["tokens/**"]
+  pull_request:
+    paths: ["tokens/**"]
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Export CSS custom properties
+        run: npx --yes @ui-organized/export . tokens/output/variables.css
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tokens-css
+          path: tokens/output/variables.css

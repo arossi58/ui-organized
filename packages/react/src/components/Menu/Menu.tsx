@@ -15,6 +15,9 @@ import type {
   MenuRadioItemProps,
 } from "./Menu.types.js";
 import "./Menu.css";
+// Reuse the design-system Checkbox / Radio control visuals inside menu items.
+import "../Checkbox/Checkbox.css";
+import "../Radio/Radio.css";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkMenu.Root>["positioning"]>;
 const SetPositioningContext = React.createContext<((p: Positioning) => void) | null>(null);
@@ -148,10 +151,10 @@ export function MenuCheckboxItem({
       className={clsx("menu__item", "menu__item--check", className)}
       {...props}
     >
-      <span className="menu__item-indicator">
-        <ArkMenu.ItemIndicator>
-          <Icon name="check" size={16} />
-        </ArkMenu.ItemIndicator>
+      {/* Design-system Checkbox control; checked state driven by the item's
+          data-state (see Menu.css), not by the CheckboxItem indicator. */}
+      <span className="checkbox__control menu__control">
+        <span className="checkbox__indicator checkbox__indicator--check" />
       </span>
       <span className="menu__item-label">{children}</span>
     </ArkMenu.CheckboxItem>
@@ -161,10 +164,10 @@ export function MenuCheckboxItem({
 export function MenuRadioItem({ className, children, ...props }: MenuRadioItemProps) {
   return (
     <ArkMenu.RadioItem className={clsx("menu__item", "menu__item--check", className)} {...props}>
-      <span className="menu__item-indicator">
-        <ArkMenu.ItemIndicator>
-          <span className="menu__radio-dot" />
-        </ArkMenu.ItemIndicator>
+      {/* Design-system Radio control; checked state driven by the item's
+          data-state (see Menu.css), not by the RadioItem indicator. */}
+      <span className="radio-item__control menu__control">
+        <span className="radio-item__indicator" />
       </span>
       <span className="menu__item-label">{children}</span>
     </ArkMenu.RadioItem>

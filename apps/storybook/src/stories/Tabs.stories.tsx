@@ -11,6 +11,7 @@ const BASIC_TABS = [
 const meta: Meta<typeof Tabs> = {
   title: "Components/Navigation/Tabs",
   component: Tabs,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -35,7 +36,8 @@ const meta: Meta<typeof Tabs> = {
 export default meta;
 type Story = StoryObj<typeof Tabs>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   parameters: {
     docs: {
       source: {

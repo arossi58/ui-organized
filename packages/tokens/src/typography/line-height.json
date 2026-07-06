@@ -1,16 +1,16 @@
 {
   "type": {
     "leading": {
-      "caption":        { "$type": "dimension", "$value": "14px" },
-      "body-small":     { "$type": "dimension", "$value": "16px" },
-      "body-medium":    { "$type": "dimension", "$value": "20px" },
+      "caption":        { "$type": "dimension", "$value": "15px" },
+      "body-small":     { "$type": "dimension", "$value": "18px" },
+      "body-medium":    { "$type": "dimension", "$value": "21px" },
       "body-large":     { "$type": "dimension", "$value": "24px" },
-      "heading-small":  { "$type": "dimension", "$value": "28px" },
-      "heading-medium": { "$type": "dimension", "$value": "32px" },
-      "heading-large":  { "$type": "dimension", "$value": "40px" },
-      "display-medium": { "$type": "dimension", "$value": "48px" },
-      "display-large":  { "$type": "dimension", "$value": "56px" },
-      "display-xlarge": { "$type": "dimension", "$value": "72px" }
+      "heading-small":  { "$type": "dimension", "$value": "32px" },
+      "heading-medium": { "$type": "dimension", "$value": "38.4px" },
+      "heading-large":  { "$type": "dimension", "$value": "51.2px" },
+      "display-medium": { "$type": "dimension", "$value": "64px" },
+      "display-large":  { "$type": "dimension", "$value": "76.8px" },
+      "display-xlarge": { "$type": "dimension", "$value": "102.4px" }
     }
   }
 }

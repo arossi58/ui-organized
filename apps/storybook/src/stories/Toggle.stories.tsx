@@ -4,6 +4,7 @@ import { Toggle, ToggleGroup } from "@ui-organized/react";
 const meta: Meta<typeof Toggle> = {
   title: "Components/Actions/Toggle",
   component: Toggle,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -22,7 +23,8 @@ const meta: Meta<typeof Toggle> = {
 export default meta;
 type Story = StoryObj<typeof Toggle>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => (
     <Toggle {...args}>
       <span>Bookmark</span>

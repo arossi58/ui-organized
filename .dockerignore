@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/.turbo
+.git
+.github
+**/*.log
+Instructions
+apps/*/dist
+packages/*/dist

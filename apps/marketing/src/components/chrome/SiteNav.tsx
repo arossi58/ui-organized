@@ -23,6 +23,7 @@ const NAV_LINKS: NavItem[] = [
   { label: "Home", to: "/" },
   { label: "Docs", to: "/docs" },
   { label: "Tools", to: "/tools" },
+  { label: "About", to: "/about" },
 ];
 
 /**

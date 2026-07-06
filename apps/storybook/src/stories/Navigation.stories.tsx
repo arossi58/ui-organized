@@ -31,6 +31,7 @@ function NavSurface({
 const meta: Meta<typeof NavItem> = {
   title: "Components/Navigation/Navigation",
   component: NavItem,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -67,7 +68,8 @@ type Story = StoryObj<typeof NavItem>;
 
 /* ─── Single main page item ──────────────────────────────────────────────────── */
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Dashboard",
     icon: "home",

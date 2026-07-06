@@ -11,6 +11,7 @@ import {
 const meta: Meta<typeof Menubar> = {
   title: "Components/Navigation/Menubar",
   component: Menubar,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -25,7 +26,8 @@ const meta: Meta<typeof Menubar> = {
 export default meta;
 type Story = StoryObj<typeof Menubar>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Menubar>
       <Menu>

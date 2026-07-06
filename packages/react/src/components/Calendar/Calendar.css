@@ -39,80 +39,10 @@
   color: var(--color-text-primary);
 }
 
-/* ─── Year dropdown ───────────────────────────────────────────────────────── */
-
-.calendar__year {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.calendar__year-select {
-  appearance: none;
-  -webkit-appearance: none;
-  margin: 0;
-  border: none;
-  background: transparent;
-  font-family: inherit;
-  font-size: var(--type-size-body-large);
-  font-weight: var(--type-weight-body-emphasis, 600);
-  line-height: var(--type-leading-body-large);
-  color: var(--color-text-primary);
-  padding: 2px 20px 2px var(--spacing-space-01);
-  border-radius: var(--radius-interactive);
-  cursor: pointer;
-  transition: background-color 120ms ease;
-}
-
-.calendar__year-select:hover {
-  background-color: var(--color-interactive-ui-hover);
-}
-
-.calendar__year-select:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
-}
-
-.calendar__year-chevron {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--color-text-tertiary);
-  pointer-events: none;
-}
-
+/* Month pagination (DS ghost Button) and the year picker (DS ghost Select) keep
+   their own component styling; the calendar only owns their layout here. */
 .calendar__nav {
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  border: none;
-  background: transparent;
-  border-radius: var(--radius-interactive);
-  color: var(--color-text-tertiary);
-  cursor: pointer;
-  transition:
-    background-color 120ms ease,
-    color 120ms ease;
-}
-
-.calendar__nav:hover:not(:disabled) {
-  background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
-}
-
-.calendar__nav:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
-}
-
-.calendar__nav:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
 }
 
 /* ─── Months row ──────────────────────────────────────────────────────────── */
@@ -138,8 +68,6 @@
   align-items: center;
   justify-content: center;
   height: 32px;
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-default);
   color: var(--color-text-tertiary);
 }
 
@@ -170,8 +98,6 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  font-size: var(--type-size-body-large);
-  line-height: 1;
   color: var(--color-text-primary);
   transition:
     background-color 120ms ease,

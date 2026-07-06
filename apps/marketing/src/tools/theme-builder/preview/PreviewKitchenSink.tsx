@@ -30,7 +30,7 @@ import {
   CardFooter,
   Accordion,
   Tabs,
-  Separator,
+  Divider,
   Breadcrumb,
   Pagination,
   Dialog,
@@ -347,7 +347,7 @@ export function PreviewKitchenSink() {
           </Card>
         </div>
 
-        <Separator />
+        <Divider spacing="md" />
 
         <Accordion items={ACCORDION_ITEMS} variant="bordered" defaultValue={["1"]} />
       </section>

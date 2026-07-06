@@ -1,13 +1,16 @@
 /* ─── Toolbar ─────────────────────────────────────────────────────────────── */
 
+/* A pure layout container: the controls inside are the library's own Button,
+   Input, and Divider components, so the toolbar only owns the surface (fill,
+   border, radius) and the gap/padding between its children. */
 .toolbar {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-01);
   padding: var(--spacing-space-01);
   background-color: var(--color-surface-primary);
-  border: 1px solid var(--color-border-secondary);
-  border-radius: var(--radius-interactive);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
 }
 
 .toolbar[data-orientation="vertical"] {
@@ -26,76 +29,4 @@
 .toolbar[data-orientation="vertical"] .toolbar__group {
   flex-direction: column;
   align-items: stretch;
-}
-
-/* ─── Button / Link ───────────────────────────────────────────────────────── */
-
-.toolbar__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-space-01);
-  padding: var(--spacing-space-02) var(--spacing-space-03);
-  border: 1px solid transparent;
-  border-radius: var(--radius-checkbox);
-  background: transparent;
-  color: var(--color-text-primary);
-  text-decoration: none;
-  cursor: pointer;
-  outline: none;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
-}
-
-.toolbar__button:hover:not(:disabled) {
-  background-color: var(--color-interactive-ui-hover);
-}
-
-.toolbar__button:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
-}
-
-/* Pressed state for Toggle buttons placed in the toolbar (Ark emits data-state). */
-.toolbar__button[data-state="on"] {
-  background-color: var(--color-interactive-ui-selected);
-  border-color: var(--color-border-primary);
-}
-
-.toolbar__button:disabled,
-.toolbar__button[data-disabled] {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-/* ─── Input ───────────────────────────────────────────────────────────────── */
-
-.toolbar__input {
-  min-width: 0;
-  padding: var(--spacing-space-02) var(--spacing-space-03);
-  background-color: var(--color-interactive-ui-default);
-  border: 1px solid var(--color-border-data-entry);
-  border-radius: var(--radius-checkbox);
-  color: var(--color-text-primary);
-  outline: none;
-  transition: box-shadow 150ms ease;
-}
-
-.toolbar__input:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
-}
-
-/* ─── Separator ───────────────────────────────────────────────────────────── */
-
-.toolbar__separator {
-  width: 1px;
-  align-self: stretch;
-  margin: 0 var(--spacing-space-01);
-  background-color: var(--color-border-secondary);
-}
-
-.toolbar[data-orientation="vertical"] .toolbar__separator {
-  width: auto;
-  height: 1px;
-  margin: var(--spacing-space-01) 0;
 }

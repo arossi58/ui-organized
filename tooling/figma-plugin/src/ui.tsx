@@ -20,9 +20,28 @@ import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
 import "./ui.css";
 
-import { useEffect, useRef, useState, type ChangeEvent, type DragEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ChangeEvent,
+  type CSSProperties,
+  type DragEvent,
+  type ReactNode,
+} from "react";
 import { createRoot } from "react-dom/client";
 import { Alert, Button, IconProvider, TextArea } from "@ui-organized/react";
+import type {
+  ChangeStatus,
+  CollectionSummary,
+  ImportPlan,
+  InventoryRow,
+  NameFormat,
+  PlanCell,
+  PlanRow,
+} from "./plan";
+
+type Mode = "import" | "export" | "insert";
 
 interface CollectionReport {
   name: string;
@@ -33,6 +52,235 @@ interface ImportReport {
   collections: CollectionReport[];
   warnings: string[];
   variableCount: number;
+}
+
+/** Fixed order for the leading collections; anything else sorts after, alphabetical. */
+const COLLECTION_ORDER = ["Primitives", "Semantic", "Scale", "Typography", "Icons"];
+
+/** Group rows by collection (known collections first) and sort names numerically. */
+function groupByCollection<T extends { collection: string; name: string }>(
+  rows: T[],
+): Array<{ collection: string; rows: T[] }> {
+  const map = new Map<string, T[]>();
+  for (const r of rows) {
+    const list = map.get(r.collection);
+    if (list) list.push(r);
+    else map.set(r.collection, [r]);
+  }
+  const rank = (c: string) => {
+    const i = COLLECTION_ORDER.indexOf(c);
+    return i < 0 ? COLLECTION_ORDER.length : i;
+  };
+  return [...map.keys()]
+    .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b))
+    .map((collection) => ({
+      collection,
+      rows: map
+        .get(collection)!
+        .slice()
+        .sort((x, y) => x.name.localeCompare(y.name, undefined, { numeric: true })),
+    }));
+}
+
+const STATUS_LABEL: Record<ChangeStatus, string> = { add: "New", update: "Changed", unchanged: "Same" };
+
+/**
+ * A token reference (e.g. a semantic colour aliasing a primitive): shows the
+ * token name, and reveals the raw resolved value in a tooltip when clicked.
+ */
+function TokenValue({ name, color }: { name: string; color?: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="cell__value token">
+      {color && <span className="swatch" style={{ "--swatch-color": color } as CSSProperties} />}
+      <button
+        type="button"
+        className="token__name"
+        aria-expanded={open}
+        onClick={() => setOpen((o) => !o)}
+        onBlur={() => setOpen(false)}
+      >
+        {name}
+      </button>
+      {open && color && (
+        <span className="token__tip" role="tooltip">
+          {color}
+        </span>
+      )}
+    </span>
+  );
+}
+
+/** A swatch (when the cell is a color) plus its display text, or a token reference. */
+function CellValue({ cell }: { cell?: PlanCell }) {
+  if (!cell) return <span className="cell__val cell__val--empty">—</span>;
+  if (cell.token) return <TokenValue name={cell.token} color={cell.color} />;
+  return (
+    <span className="cell__value">
+      {cell.color && <span className="swatch" style={{ "--swatch-color": cell.color } as CSSProperties} />}
+      <span className="cell__val">{cell.display}</span>
+    </span>
+  );
+}
+
+/** Stable left-to-right order for theme (mode) columns. */
+const MODE_ORDER = ["Light", "Dark", "Value"];
+
+/** The theme columns present in a set of rows, in canonical order. */
+function modeColumns(present: Set<string>): string[] {
+  return MODE_ORDER.filter((m) => present.has(m));
+}
+
+/** Grid template: a name column, then one equal-width column per theme. */
+function gridTemplate(modes: string[]): string {
+  return `minmax(150px, 1.4fr) ${modes.map(() => "minmax(130px, 1fr)").join(" ")}`;
+}
+
+/** Case-insensitive substring match on a variable name. */
+function matchesQuery(name: string, query: string): boolean {
+  const q = query.trim().toLowerCase();
+  return q === "" || name.toLowerCase().includes(q);
+}
+
+/** One theme cell of a preview row: before → after for updates, else the value. */
+function PlanModeCell({ row, mode }: { row: PlanRow; mode: string }) {
+  const after = row.after.find((c) => c.mode === mode);
+  const before = row.before.find((c) => c.mode === mode);
+  if (!after && !before) return <div className="mcell mcell--empty" aria-hidden />;
+  if (row.status === "update" && before) {
+    return (
+      <div className="mcell mcell--change">
+        <CellValue cell={before} />
+        <span className="arrow">→</span>
+        <CellValue cell={after} />
+      </div>
+    );
+  }
+  return (
+    <div className="mcell">
+      <CellValue cell={after ?? before} />
+    </div>
+  );
+}
+
+/** Coloured count chips summarising a plan. */
+function PlanSummary({ counts }: { counts: ImportPlan["counts"] }) {
+  return (
+    <div className="summary">
+      <span className="chip chip--add">{counts.add} new</span>
+      <span className="chip chip--update">{counts.update} changed</span>
+      <span className="chip chip--unchanged">{counts.unchanged} unchanged</span>
+    </div>
+  );
+}
+
+/** A collection section: sticky title, a header row, then one row per variable. */
+function TableGroup({
+  collection,
+  count,
+  modes,
+  children,
+}: {
+  collection: string;
+  count: number;
+  modes: string[];
+  children: ReactNode;
+}) {
+  const cols = gridTemplate(modes);
+  return (
+    <section className="tgroup">
+      <div className="tgroup__head">
+        {collection} <span className="table__count">{count}</span>
+      </div>
+      <div className="trow trow--head" style={{ gridTemplateColumns: cols }}>
+        <div className="thead">Variable</div>
+        {modes.map((m) => (
+          <div className="thead" key={m}>
+            {m}
+          </div>
+        ))}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/** Import preview: every affected variable, grouped by collection, themes in columns. */
+function PreviewTable({
+  rows,
+  hideUnchanged,
+  query,
+}: {
+  rows: PlanRow[];
+  hideUnchanged: boolean;
+  query: string;
+}) {
+  const visible = rows.filter(
+    (r) => (!hideUnchanged || r.status !== "unchanged") && matchesQuery(r.name, query),
+  );
+  const groups = groupByCollection(visible);
+  if (groups.length === 0) return <p className="table__empty">No variables match.</p>;
+  return (
+    <div className="table">
+      {groups.map(({ collection, rows: group }) => {
+        const modes = modeColumns(new Set(group.flatMap((r) => r.after.map((c) => c.mode))));
+        const cols = gridTemplate(modes);
+        return (
+          <TableGroup collection={collection} count={group.length} modes={modes} key={collection}>
+            {group.map((row) => (
+              <div className={`trow trow--${row.status}`} style={{ gridTemplateColumns: cols }} key={row.name}>
+                <div className="trow__name">
+                  <span className={`badge badge--${row.status}`}>{STATUS_LABEL[row.status]}</span>
+                  <span className="trow__label" title={row.name}>
+                    {row.name}
+                  </span>
+                </div>
+                {modes.map((m) => (
+                  <PlanModeCell key={m} row={row} mode={m} />
+                ))}
+              </div>
+            ))}
+          </TableGroup>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Export listing: every exported variable and its resolved value(s), themes in columns. */
+function InventoryTable({ rows, query }: { rows: InventoryRow[]; query: string }) {
+  const visible = rows.filter((r) => matchesQuery(r.name, query));
+  const groups = groupByCollection(visible);
+  if (groups.length === 0) return <p className="table__empty">No variables match.</p>;
+  return (
+    <div className="table">
+      {groups.map(({ collection, rows: group }) => {
+        const modes = modeColumns(new Set(group.flatMap((r) => r.cells.map((c) => c.mode))));
+        const cols = gridTemplate(modes);
+        return (
+          <TableGroup collection={collection} count={group.length} modes={modes} key={collection}>
+            {group.map((row) => (
+              <div className="trow" style={{ gridTemplateColumns: cols }} key={row.name}>
+                <div className="trow__name">
+                  <span className="trow__label" title={row.name}>
+                    {row.name}
+                  </span>
+                </div>
+                {modes.map((m) => {
+                  const cell = row.cells.find((c) => c.mode === m);
+                  return (
+                    <div className="mcell" key={m}>
+                      {cell ? <CellValue cell={cell} /> : <span className="cell__val--empty">—</span>}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </TableGroup>
+        );
+      })}
+    </div>
+  );
 }
 
 /**
@@ -55,34 +303,63 @@ function BrandMark() {
 }
 
 function App() {
-  const [mode, setMode] = useState<"import" | "export">("import");
+  const [mode, setMode] = useState<Mode>("import");
   const [json, setJson] = useState("");
   const [filename, setFilename] = useState("");
   const [busy, setBusy] = useState(false);
   const [over, setOver] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [plan, setPlan] = useState<ImportPlan | null>(null);
+  const [applied, setApplied] = useState(false);
+  const [hideUnchanged, setHideUnchanged] = useState(false);
+  const [query, setQuery] = useState("");
   const [report, setReport] = useState<ImportReport | null>(null);
   const [exportJson, setExportJson] = useState("");
   const [exportWarnings, setExportWarnings] = useState<string[]>([]);
+  const [inventory, setInventory] = useState<InventoryRow[]>([]);
   const [copied, setCopied] = useState(false);
+  const [collections, setCollections] = useState<CollectionSummary[]>([]);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [includeScopes, setIncludeScopes] = useState(true);
+  const [nameFormat, setNameFormat] = useState<NameFormat>("figma");
+  const [inserted, setInserted] = useState<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const exportRef = useRef<HTMLTextAreaElement>(null);
+  // The parsed theme captured at preview time — Apply reuses it, so the diff the
+  // user saw and what gets written can't drift apart from a later text edit.
+  const pendingTheme = useRef<unknown>(null);
 
   // Results streamed back from the sandbox (code.ts).
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
       const msg = e.data?.pluginMessage;
       if (!msg) return;
-      setBusy(false);
-      if (msg.type === "done") {
+      if (msg.type === "planned") {
+        setBusy(false);
+        setPlan(msg.plan as ImportPlan);
+        setApplied(false);
+        setError(null);
+      } else if (msg.type === "done") {
+        setBusy(false);
         setReport(msg.report as ImportReport);
+        setApplied(true);
         setError(null);
       } else if (msg.type === "exported") {
+        setBusy(false);
         setExportJson(msg.json as string);
         setExportWarnings((msg.warnings as string[]) ?? []);
+        setInventory((msg.inventory as InventoryRow[]) ?? []);
+        setError(null);
+      } else if (msg.type === "collections") {
+        // Collections start unchecked — the user opts in to what they insert.
+        setCollections((msg.collections as CollectionSummary[]) ?? []);
+      } else if (msg.type === "inserted") {
+        setBusy(false);
+        setInserted(msg.inserted as number);
         setError(null);
       } else if (msg.type === "error") {
+        setBusy(false);
         setError(msg.message as string);
+        setPlan(null);
         setReport(null);
       }
     };
@@ -90,42 +367,100 @@ function App() {
     return () => window.removeEventListener("message", onMessage);
   }, []);
 
+  // The import preview takes over the whole window; the export listing just needs extra room.
+  const previewActive = mode === "import" && plan !== null;
+  const wide = previewActive || (mode === "export" && inventory.length > 0);
+  useEffect(() => {
+    parent.postMessage(
+      { pluginMessage: { type: "resize", width: wide ? 780 : 380, height: wide ? 760 : 600 } },
+      "*",
+    );
+  }, [wide]);
+
+  const backToEdit = () => setPlan(null);
+
+  // Pull the collection list whenever the Insert tab is opened.
+  useEffect(() => {
+    if (mode === "insert") parent.postMessage({ pluginMessage: { type: "list-collections" } }, "*");
+  }, [mode]);
+
+  // Any edit to the source invalidates a computed preview.
+  const resetPreview = () => {
+    setPlan(null);
+    setReport(null);
+    setApplied(false);
+    pendingTheme.current = null;
+  };
+
   const loadFile = async (file: File) => {
     setJson(await file.text());
     setFilename(file.name);
     setError(null);
+    resetPreview();
   };
 
-  const onImport = () => {
+  /** Parse the textarea/file contents, or surface a JSON error. */
+  const parseJson = (): unknown | undefined => {
     const raw = json.trim();
     if (!raw) {
       setError("Paste or choose a theme.json first.");
-      setReport(null);
-      return;
+      return undefined;
     }
-    let theme: unknown;
     try {
-      theme = JSON.parse(raw);
+      return JSON.parse(raw);
     } catch (err) {
       setError(`Invalid JSON: ${(err as Error).message}`);
-      setReport(null);
-      return;
+      return undefined;
     }
-    setError(null);
-    setReport(null);
-    setBusy(true);
-    parent.postMessage({ pluginMessage: { type: "import", theme } }, "*");
   };
 
-  const switchMode = (m: "import" | "export") => {
+  const onPreview = () => {
+    setError(null);
+    resetPreview();
+    const theme = parseJson();
+    if (theme === undefined) return;
+    pendingTheme.current = theme;
+    setBusy(true);
+    parent.postMessage({ pluginMessage: { type: "preview", theme } }, "*");
+  };
+
+  const onApply = () => {
+    if (pendingTheme.current == null) return;
+    setError(null);
+    setBusy(true);
+    parent.postMessage({ pluginMessage: { type: "import", theme: pendingTheme.current } }, "*");
+  };
+
+  const switchMode = (m: Mode) => {
     setMode(m);
     setError(null);
+    setQuery("");
+    setInserted(null);
+  };
+
+  const toggleCollection = (id: string) => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const onInsert = () => {
+    setError(null);
+    setInserted(null);
+    setBusy(true);
+    parent.postMessage(
+      { pluginMessage: { type: "insert", collectionIds: [...selected], includeScopes, format: nameFormat } },
+      "*",
+    );
   };
 
   const onExport = () => {
     setError(null);
-    setExportJson("");
-    setExportWarnings([]);
+    // Keep any existing results on screen until the fresh ones arrive, so a
+    // re-export doesn't flash back to the empty intro state.
     setBusy(true);
     parent.postMessage({ pluginMessage: { type: "export" } }, "*");
   };
@@ -143,23 +478,105 @@ function App() {
     try {
       await navigator.clipboard.writeText(exportJson);
     } catch {
-      // Clipboard API can be blocked in the iframe — fall back to a selection copy.
-      const el = exportRef.current;
-      if (el) {
-        el.removeAttribute("disabled");
-        el.select();
-        document.execCommand("copy");
-        el.setSelectionRange(0, 0);
-        el.blur();
-      }
+      // Clipboard API can be blocked in the iframe — fall back to a throwaway
+      // off-screen textarea and execCommand("copy").
+      const el = document.createElement("textarea");
+      el.value = exportJson;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
     }
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   };
 
+  // ── Full-window import preview: takes over the entire plugin while reviewing. ──
+  if (previewActive && plan) {
+    const pending = plan.counts.add + plan.counts.update;
+    return (
+      <IconProvider library="lucide" style="outline" strokeAdjustment={false}>
+        <div className="preview-screen">
+          <header className="preview-screen__head">
+            <div className="preview-screen__bar">
+              <Button intent="ghost" size="sm" onClick={backToEdit} disabled={busy}>
+                ‹ Back
+              </Button>
+              <strong className="preview-screen__title">Review changes</strong>
+              <span className="preview-screen__spacer" />
+              {applied ? (
+                <span className="chip chip--add">Applied</span>
+              ) : (
+                <Button intent="primary" size="sm" onClick={onApply} disabled={busy}>
+                  {busy ? "Applying…" : `Apply import (${pending})`}
+                </Button>
+              )}
+            </div>
+            <div className="preview-screen__controls">
+              <PlanSummary counts={plan.counts} />
+              <input
+                className="search"
+                type="search"
+                placeholder="Search variables…"
+                value={query}
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+              />
+              {plan.counts.unchanged > 0 && (
+                <label className="preview__toggle">
+                  <input
+                    type="checkbox"
+                    checked={hideUnchanged}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setHideUnchanged(e.target.checked)}
+                  />
+                  Hide unchanged
+                </label>
+              )}
+            </div>
+          </header>
+
+          <div className="preview-screen__body">
+            {!applied && (
+              <p className="app__hint">
+                Nothing has been written yet — review the changes, then <strong>Apply import</strong>.
+              </p>
+            )}
+            {applied && report && (
+              <Alert
+                variant={report.warnings.length > 0 ? "warning" : "success"}
+                title={report.warnings.length > 0 ? "Imported with warnings" : "Import complete"}
+              >
+                Imported {report.variableCount} variable{report.variableCount === 1 ? "" : "s"}.
+              </Alert>
+            )}
+            {plan.warnings.length > 0 && (
+              <Alert
+                variant="warning"
+                title={`${plan.warnings.length} warning${plan.warnings.length === 1 ? "" : "s"}`}
+              >
+                <ul className="app__warnings">
+                  {plan.warnings.map((w, i) => (
+                    <li key={i}>{w}</li>
+                  ))}
+                </ul>
+              </Alert>
+            )}
+            {error && (
+              <Alert variant="error" title="Something went wrong">
+                {error}
+              </Alert>
+            )}
+            <PreviewTable rows={plan.rows} hideUnchanged={hideUnchanged} query={query} />
+          </div>
+        </div>
+      </IconProvider>
+    );
+  }
+
   return (
     <IconProvider library="lucide" style="outline" strokeAdjustment={false}>
-      <div className="app">
+      <div className={mode === "export" && exportJson ? "app app--fill" : "app"}>
         <header className="app__header">
           <div className="app__brand">
             <BrandMark />
@@ -167,25 +584,52 @@ function App() {
           </div>
           <p>
             Import a <code>theme.json</code> into Figma Variables, or export your edited
-            variables back to a <code>theme.json</code>.
+            variables back to a <code>theme.json</code>. Build one with the{" "}
+            <a
+              href="https://uiorganized.com/tools/theme-builder"
+              className="app__link"
+              onClick={(e) => {
+                e.preventDefault();
+                parent.postMessage(
+                  { pluginMessage: { type: "open-url", url: "https://uiorganized.com/tools/theme-builder" } },
+                  "*",
+                );
+              }}
+            >
+              Theme Builder
+            </a>
+            .
           </p>
         </header>
 
         <div className="app__tabs" role="tablist">
-          <Button
-            intent={mode === "import" ? "primary" : "ghost"}
-            size="sm"
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "import"}
+            className="app__tab"
             onClick={() => switchMode("import")}
           >
             Import
-          </Button>
-          <Button
-            intent={mode === "export" ? "primary" : "ghost"}
-            size="sm"
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "export"}
+            className="app__tab"
             onClick={() => switchMode("export")}
           >
             Export
-          </Button>
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === "insert"}
+            className="app__tab"
+            onClick={() => switchMode("insert")}
+          >
+            Insert
+          </button>
         </div>
 
         {mode === "import" ? (
@@ -226,17 +670,22 @@ function App() {
               value={json}
               resize="vertical"
               rows={6}
-              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setJson(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLTextAreaElement>) => {
+                setJson(e.target.value);
+                resetPreview();
+              }}
             />
 
-            <div className="app__actions">
-              <Button intent="primary" onClick={onImport} disabled={busy}>
-                {busy ? "Importing…" : "Import"}
-              </Button>
-              {filename && <span className="app__filename">{filename}</span>}
-            </div>
+            {json.trim() && (
+              <div className="app__actions">
+                <Button intent="primary" onClick={onPreview} disabled={busy}>
+                  {busy ? "Checking…" : "Preview changes"}
+                </Button>
+                {filename && <span className="app__filename">{filename}</span>}
+              </div>
+            )}
 
-            {report && (
+            {applied && report && (
               <Alert
                 variant={report.warnings.length > 0 ? "warning" : "success"}
                 title={report.warnings.length > 0 ? "Imported with warnings" : "Import complete"}
@@ -259,36 +708,52 @@ function App() {
               </Alert>
             )}
           </>
-        ) : (
+        ) : mode === "export" ? (
           <>
-            <p className="app__hint">
-              Read the current Primitives / Semantic / Scale / Typography variables back into a{" "}
-              <code>theme.json</code> — load it into the theme builder or use it in code.
-            </p>
-            <div className="app__actions">
-              <Button intent="primary" onClick={onExport} disabled={busy}>
-                {busy ? "Exporting…" : "Export from Figma"}
-              </Button>
-            </div>
-
-            {exportJson && (
+            {!exportJson && (
               <>
-                <textarea
-                  ref={exportRef}
-                  className="app__export-output"
-                  readOnly
-                  value={exportJson}
-                  rows={10}
-                  spellCheck={false}
-                />
+                <p className="app__hint">
+                  Read the current Primitives / Semantic / Scale / Typography variables back into a{" "}
+                  <code>theme.json</code> — load it into the theme builder or use it in code.
+                </p>
                 <div className="app__actions">
-                  <Button intent="secondary" size="sm" onClick={copyExport}>
-                    {copied ? "Copied" : "Copy"}
-                  </Button>
-                  <Button intent="secondary" size="sm" onClick={downloadExport}>
-                    Download theme.json
+                  <Button intent="primary" onClick={onExport} disabled={busy}>
+                    {busy ? "Loading…" : "Load variables"}
                   </Button>
                 </div>
+              </>
+            )}
+
+            {exportJson && (
+              <div className="export-result">
+                <div className="preview__head">
+                  <div className="preview__head-left">
+                    <span className="chip">
+                      {inventory.length} variable{inventory.length === 1 ? "" : "s"}
+                    </span>
+                    {inventory.length > 0 && (
+                      <input
+                        className="search"
+                        type="search"
+                        placeholder="Search variables…"
+                        value={query}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.target.value)}
+                      />
+                    )}
+                  </div>
+                  <div className="app__actions">
+                    <Button intent="ghost" size="sm" onClick={onExport} disabled={busy}>
+                      {busy ? "Reloading…" : "Reload"}
+                    </Button>
+                    <Button intent="secondary" size="sm" onClick={copyExport}>
+                      {copied ? "Copied" : "Copy JSON"}
+                    </Button>
+                    <Button intent="secondary" size="sm" onClick={downloadExport}>
+                      Download theme.json
+                    </Button>
+                  </div>
+                </div>
+
                 {exportWarnings.length > 0 && (
                   <Alert
                     variant="warning"
@@ -299,6 +764,76 @@ function App() {
                         <li key={i}>{w}</li>
                       ))}
                     </ul>
+                  </Alert>
+                )}
+
+                {inventory.length > 0 && (
+                  <div className="table-scroll">
+                    <InventoryTable rows={inventory} query={query} />
+                  </div>
+                )}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            <p className="app__hint">
+              Insert tables of your variables as native Figma frames — one per collection, styled with
+              your own variables. Columns: Name, one per mode, then Scopes.
+            </p>
+
+            {collections.length === 0 ? (
+              <p className="app__hint">Loading collections…</p>
+            ) : (
+              <>
+                <div className="insert__list">
+                  {collections.map((c) => (
+                    <label className="insert__item" key={c.id}>
+                      <input
+                        type="checkbox"
+                        checked={selected.has(c.id)}
+                        onChange={() => toggleCollection(c.id)}
+                      />
+                      <span className="insert__name">{c.name}</span>
+                      <span className="insert__meta">
+                        {c.variableCount} variable{c.variableCount === 1 ? "" : "s"}
+                        {c.modes.length > 0 && ` · ${c.modes.map((m) => m.name).join(", ")}`}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+
+                <label className="insert__field">
+                  <span>Name format</span>
+                  <select
+                    className="insert__select"
+                    value={nameFormat}
+                    onChange={(e: ChangeEvent<HTMLSelectElement>) => setNameFormat(e.target.value as NameFormat)}
+                  >
+                    <option value="figma">Figma default (border/primary)</option>
+                    <option value="css">CSS (--border-primary)</option>
+                    <option value="scss">SCSS ($border-primary)</option>
+                  </select>
+                </label>
+
+                <label className="preview__toggle">
+                  <input
+                    type="checkbox"
+                    checked={includeScopes}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setIncludeScopes(e.target.checked)}
+                  />
+                  Include scopes column
+                </label>
+
+                <div className="app__actions">
+                  <Button intent="primary" onClick={onInsert} disabled={busy || selected.size === 0}>
+                    {busy ? "Inserting…" : `Insert ${selected.size} table${selected.size === 1 ? "" : "s"}`}
+                  </Button>
+                </div>
+
+                {inserted != null && (
+                  <Alert variant="success" title="Inserted">
+                    Added {inserted} table{inserted === 1 ? "" : "s"} to your canvas.
                   </Alert>
                 )}
               </>

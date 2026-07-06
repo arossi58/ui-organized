@@ -16,6 +16,7 @@ import {
 const meta: Meta<typeof Menu> = {
   title: "Components/Overlay/Menu",
   component: Menu,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -30,21 +31,38 @@ const meta: Meta<typeof Menu> = {
 export default meta;
 type Story = StoryObj<typeof Menu>;
 
-export const Default: Story = {
-  render: () => (
-    <Menu>
-      <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
-      <MenuContent>
-        <MenuItem icon="user">Profile</MenuItem>
-        <MenuItem icon="settings">Settings</MenuItem>
-        <MenuItem icon="copy">Duplicate</MenuItem>
-        <MenuSeparator />
-        <MenuItem icon="trash" destructive>
-          Delete
-        </MenuItem>
-      </MenuContent>
-    </Menu>
-  ),
+export const Inspect: Story = {
+  tags: ["dev"],
+  render: function InspectExample() {
+    const [showGrid, setShowGrid] = useState(true);
+    const [density, setDensity] = useState("comfortable");
+    return (
+      <Menu>
+        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuContent>
+          <MenuItem icon="user">Profile</MenuItem>
+          <MenuItem icon="settings">Settings</MenuItem>
+          <MenuItem icon="copy">Duplicate</MenuItem>
+          <MenuSeparator />
+          <MenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
+            Show grid
+          </MenuCheckboxItem>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuGroupLabel>Density</MenuGroupLabel>
+            <MenuRadioGroup value={density} onValueChange={(v) => setDensity(String(v))}>
+              <MenuRadioItem value="comfortable">Comfortable</MenuRadioItem>
+              <MenuRadioItem value="compact">Compact</MenuRadioItem>
+            </MenuRadioGroup>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuItem icon="trash" destructive>
+            Delete
+          </MenuItem>
+        </MenuContent>
+      </Menu>
+    );
+  },
 };
 
 export const GroupsAndSelection: Story = {

@@ -227,6 +227,23 @@ function oklchToString(l: number, c: number, h: number): string {
 // ─── Public API ───────────────────────────────────────────────────────────────
 
 /**
+ * Convert an {@link OklchColor} to a 6-digit sRGB hex string (gamut-clamped).
+ * Pure and deterministic. Alpha is not represented — callers that need alpha
+ * compose it on top of this base hex.
+ */
+export function oklchColorToHex(color: OklchColor): string {
+  return oklchToHex(color.l, color.c, color.h);
+}
+
+/**
+ * Format an {@link OklchColor} as a CSS `oklch()` string with the system's
+ * canonical precision (L/C to 3 dp, H to 1 dp). Alpha is not included.
+ */
+export function formatOklchColor(color: OklchColor): string {
+  return oklchToString(color.l, color.c, color.h);
+}
+
+/**
  * Parse any supported color input to OKLCH.
  * Supports: "#rrggbb", "#rgb", "oklch(...)"
  */

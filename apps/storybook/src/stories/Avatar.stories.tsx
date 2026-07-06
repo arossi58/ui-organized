@@ -7,6 +7,7 @@ const PHOTO =
 const meta: Meta<typeof Avatar> = {
   title: "Components/Data Display/Avatar",
   component: Avatar,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -25,7 +26,8 @@ const meta: Meta<typeof Avatar> = {
 export default meta;
 type Story = StoryObj<typeof Avatar>;
 
-export const WithImage: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: { src: PHOTO, name: "Ada Lovelace", size: "md", shape: "circle" },
 };
 

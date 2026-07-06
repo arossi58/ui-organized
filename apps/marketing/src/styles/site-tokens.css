@@ -64,15 +64,15 @@
   --site-shadow-piece-arranging: 0 16px 32px rgba(0, 0, 0, 0.45);
   --site-shadow-frame: 0 18px 50px rgba(0, 0, 0, 0.22);
 
-  /* Fonts — the whole site uses the design system's typography (Roboto) via the
+  /* Fonts — the whole site uses the design system's typography (Inter) via the
      DS `--type-font-*` tokens, so the marketing pages and the @ui-organized/react
-     components share one type family. Roboto is loaded in index.html; the
-     fallbacks guard against the bare DS token (`Roboto`, no fallback of its own)
+     components share one type family. Inter is loaded in index.html; the
+     fallbacks guard against the bare DS token (`Inter`, no fallback of its own)
      not loading. The mono role keeps its uppercase/letterspaced label styling
-     but in Roboto too, for a uniformly Roboto site. */
-  --font-display: var(--type-font-heading, "Roboto"), system-ui, sans-serif;
-  --font-body: var(--type-font-body, "Roboto"), system-ui, sans-serif;
-  --font-mono: var(--type-font-body, "Roboto"), system-ui, sans-serif;
+     but in Inter too, for a uniformly Inter site. */
+  --font-display: var(--type-font-heading, "Inter"), system-ui, sans-serif;
+  --font-body: var(--type-font-body, "Inter"), system-ui, sans-serif;
+  --font-mono: var(--type-font-body, "Inter"), system-ui, sans-serif;
   /* Brand display serif for big headings (the hero title), per the mockup. */
   --font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
 }

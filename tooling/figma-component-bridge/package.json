@@ -1,0 +1,35 @@
+{
+  "name": "@ui-organized/figma-component-bridge",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Figma plugin that turns @ui-organized/react components into Figma components — props, variants, states, layout, and token-bound Variables — via an intermediate Spec JSON contract. Phase 0: hand-authored Button slice.",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "generate:token-map": "tsx scripts/generate-token-map.ts",
+    "generate:manifest": "tsx scripts/generate-component-manifest.ts",
+    "generate:spec": "tsx scripts/generate-spec.ts",
+    "check:normalizer": "tsx scripts/check-normalizer.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@ui-organized/react": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
+    "lucide-react": "^0.400.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.0",
+    "@fontsource/roboto": "^5.2.10",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "esbuild": "^0.24.0",
+    "playwright": "^1.61.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0"
+  }
+}

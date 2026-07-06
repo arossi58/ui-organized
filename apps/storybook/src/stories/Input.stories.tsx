@@ -4,6 +4,7 @@ import { Input } from "@ui-organized/react";
 const meta: Meta<typeof Input> = {
   title: "Components/Forms/Input",
   component: Input,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -30,7 +31,8 @@ const meta: Meta<typeof Input> = {
 export default meta;
 type Story = StoryObj<typeof Input>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Email address",
     placeholder: "you@example.com",

@@ -78,8 +78,8 @@ export type {
   NavSubItemVariants,
 } from "./components/Navigation/index.js";
 
-export { Separator } from "./components/Separator/index.js";
-export type { SeparatorProps, SeparatorVariants } from "./components/Separator/index.js";
+export { Divider } from "./components/Divider/index.js";
+export type { DividerProps, DividerVariants } from "./components/Divider/index.js";
 
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps, SkeletonVariants } from "./components/Skeleton/index.js";
@@ -239,18 +239,10 @@ export type { MenubarProps } from "./components/Menubar/index.js";
 export {
   Toolbar,
   ToolbarGroup,
-  ToolbarButton,
-  ToolbarLink,
-  ToolbarInput,
-  ToolbarSeparator,
 } from "./components/Toolbar/index.js";
 export type {
   ToolbarProps,
   ToolbarGroupProps,
-  ToolbarButtonProps,
-  ToolbarLinkProps,
-  ToolbarInputProps,
-  ToolbarSeparatorProps,
 } from "./components/Toolbar/index.js";
 
 export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from "./components/HoverCard/index.js";

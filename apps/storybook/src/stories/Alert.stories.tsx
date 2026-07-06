@@ -5,6 +5,7 @@ import { useState } from "react";
 const meta: Meta<typeof Alert> = {
   title: "Components/Feedback/Alert",
   component: Alert,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -27,7 +28,8 @@ const meta: Meta<typeof Alert> = {
 export default meta;
 type Story = StoryObj<typeof Alert>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     variant: "info",
     title: "Heads up",

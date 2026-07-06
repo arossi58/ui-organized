@@ -4,6 +4,9 @@ import { Button } from "@ui-organized/react";
 const meta: Meta<typeof Button> = {
   title: "Components/Actions/Button",
   component: Button,
+  // Hide every story in this file from the sidebar (they still render on the
+  // Docs page); only `Inspect` re-adds the `dev` tag to appear in the sidebar.
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -38,7 +41,8 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     children: "Button",
     intent: "primary",

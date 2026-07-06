@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type * as React from "react";
-import { Icon } from "../Icon/index.js";
+import { Button } from "../Button/index.js";
+import { Select } from "../Select/index.js";
 import {
   addDays,
   addMonths,
@@ -77,6 +78,10 @@ export function Calendar({
   const [viewMonth, setViewMonth] = useState<YMD>(() => startOfMonth(initialAnchor));
   const [focused, setFocused] = useState<YMD>(() => initialAnchor);
   const [hover, setHover] = useState<YMD | null>(null);
+  // Portal the year Select's popup into the calendar's own subtree so option
+  // clicks aren't seen as an outside-interaction that dismisses the enclosing
+  // date popover (and so the popup inherits any theme scoped to that subtree).
+  const [rootEl, setRootEl] = useState<HTMLDivElement | null>(null);
 
   // Roving focus: only move DOM focus when navigation came from the keyboard,
   // never on hover/render, so opening the popup doesn't yank focus around.
@@ -183,7 +188,7 @@ export function Calendar({
       <div className="calendar__month" key={`${monthAnchor.year}-${monthAnchor.month}`}>
         <div className="calendar__weekdays" aria-hidden="true">
           {weekdays.map((w, i) => (
-            <span key={i} className="calendar__weekday">
+            <span key={i} className="calendar__weekday text-default-body-small">
               {w}
             </span>
           ))}
@@ -244,7 +249,7 @@ export function Calendar({
                 }}
                 onFocus={() => setFocused(d)}
               >
-                <span className="calendar__day-label">{d.day}</span>
+                <span className="calendar__day-label text-default-body-large">{d.day}</span>
               </button>
             );
           })}
@@ -254,48 +259,42 @@ export function Calendar({
   }
 
   return (
-    <div className="calendar" onMouseLeave={() => setHover(null)}>
+    <div className="calendar" ref={setRootEl} onMouseLeave={() => setHover(null)}>
       <div className="calendar__header">
-        <button
-          type="button"
+        <Button
+          intent="ghost"
+          size="sm"
+          icon="chevron-left"
           className="calendar__nav"
           onClick={() => setViewMonth(addMonths(viewMonth, -1))}
           disabled={prevDisabled}
           aria-label="Previous month"
-        >
-          <Icon name="chevron-left" size={18} />
-        </button>
+        />
         <div className="calendar__labels">
           {months.map((m, i) => (
             <div key={`${m.year}-${m.month}`} className="calendar__label">
               <span className="calendar__month-name text-emphasis-body-large">{monthName(m.year, m.month)}</span>
-              <span className="calendar__year">
-                <select
-                  className="calendar__year-select"
-                  value={m.year}
-                  onChange={(e) => handleYearChange(i, Number(e.target.value))}
-                  aria-label={`Year, ${monthName(m.year, m.month)}`}
-                >
-                  {years.map((y) => (
-                    <option key={y} value={y}>
-                      {y}
-                    </option>
-                  ))}
-                </select>
-                <Icon name="chevron-down" size={14} className="calendar__year-chevron" />
-              </span>
+              <Select
+                variant="ghost"
+                size="sm"
+                label={`Year, ${monthName(m.year, m.month)}`}
+                options={years.map((y) => ({ value: String(y), label: String(y) }))}
+                value={String(m.year)}
+                onValueChange={(v) => handleYearChange(i, Number(v))}
+                portalContainer={rootEl}
+              />
             </div>
           ))}
         </div>
-        <button
-          type="button"
+        <Button
+          intent="ghost"
+          size="sm"
+          icon="chevron-right"
           className="calendar__nav"
           onClick={() => setViewMonth(addMonths(viewMonth, 1))}
           disabled={nextDisabled}
           aria-label="Next month"
-        >
-          <Icon name="chevron-right" size={18} />
-        </button>
+        />
       </div>
       <div className="calendar__months">
         {months.map((m) => renderMonth(m))}

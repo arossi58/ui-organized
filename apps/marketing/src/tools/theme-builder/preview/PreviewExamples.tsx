@@ -16,7 +16,7 @@ import {
   Meter,
   Progress,
   Range,
-  Separator,
+  Divider,
   Breadcrumb,
   SearchInput,
   Icon,
@@ -151,7 +151,7 @@ function DashboardExample() {
                 <div className={styles.goalLabel}><span>Support SLA</span><span>38%</span></div>
                 <Progress value={38} variant="warning" />
               </div>
-              <Separator spacing="sm" />
+              <Divider spacing="sm" />
               <div className={styles.teamRow}>
                 <span className={styles.goalLabel}>Team online</span>
                 <div className={styles.avatarStack}>
@@ -210,7 +210,7 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
               </div>
               <Switch defaultChecked aria-label="Product updates" />
             </div>
-            <Separator spacing="sm" />
+            <Divider spacing="sm" />
             <div className={styles.prefRow}>
               <div className={styles.prefText}>
                 <span className={styles.prefTitle}>Weekly digest</span>
@@ -218,7 +218,7 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
               </div>
               <Switch defaultChecked aria-label="Weekly digest" />
             </div>
-            <Separator spacing="sm" />
+            <Divider spacing="sm" />
             <div className={styles.prefRow}>
               <div className={styles.prefText}>
                 <span className={styles.prefTitle}>Marketing emails</span>
@@ -263,10 +263,10 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
           <Checkbox label="Lifestyle" />
           <Checkbox label="Trail" />
           <Checkbox label="Sandals" />
-          <Separator spacing="md" />
+          <Divider spacing="md" />
           <h3 className={styles.filterTitle}>Price</h3>
           <Range label="Max price" defaultValue={150} min={0} max={300} formatValue={(v) => `$${v}`} />
-          <Separator spacing="md" />
+          <Divider spacing="md" />
           <Button intent="primary" className={styles.filterApply}>Apply filters</Button>
         </aside>
 

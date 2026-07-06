@@ -15,6 +15,7 @@
  */
 
 import { rgbaToCss } from "./color";
+import type { InventoryRow, PlanCell } from "./plan";
 
 const PRIMITIVES = "Primitives";
 const SEMANTIC = "Semantic";
@@ -28,6 +29,8 @@ export interface ExportResult {
   /** Pretty-printed theme.json. */
   json: string;
   warnings: string[];
+  /** Every variable read, with its resolved value(s) — drives the export table. */
+  inventory: InventoryRow[];
 }
 
 interface DtcgToken {
@@ -55,6 +58,7 @@ function setPath(root: Record<string, unknown>, parts: string[], token: DtcgToke
 
 export async function exportTheme(): Promise<ExportResult> {
   const warnings: string[] = [];
+  const inventory: InventoryRow[] = [];
 
   const collections = await figma.variables.getLocalVariableCollectionsAsync();
   const byName = new Map(collections.map((c) => [c.name, c]));
@@ -77,7 +81,14 @@ export async function exportTheme(): Promise<ExportResult> {
     primRef.set(v.id, `${group}.${step}`);
     const val = primMode ? v.valuesByMode[primMode] : undefined;
     if (val !== undefined && isRgba(val)) {
-      (primColor[group] ??= {})[step] = { $type: "color", $value: rgbaToCss(val) };
+      const css = rgbaToCss(val);
+      (primColor[group] ??= {})[step] = { $type: "color", $value: css };
+      inventory.push({
+        collection: PRIMITIVES,
+        name: v.name,
+        kind: "color",
+        cells: [{ mode: "Value", display: css, color: css }],
+      });
     }
   }
   // Stable order: groups alphabetical, steps numeric (matches the builder).
@@ -100,20 +111,37 @@ export async function exportTheme(): Promise<ExportResult> {
   ];
   for (const v of inCollection(semCol?.id)) {
     const parts = v.name.split("/");
+    const cells: PlanCell[] = [];
     for (const [key, mid] of semModes) {
       if (!mid) continue;
       const val = v.valuesByMode[mid];
       if (val === undefined) continue;
       let $value: string | undefined;
+      let swatch: string | undefined;
+      let tokenName: string | undefined;
       if (isAlias(val)) {
         const ref = primRef.get(val.id);
-        if (ref) $value = `{primitive.color.${ref}}`;
-        else warnings.push(`${v.name} (${key}) aliases a non-primitive variable; skipped.`);
+        if (ref) {
+          $value = `{primitive.color.${ref}}`;
+          const [group, step] = ref.split(".");
+          swatch = primColor[group!]?.[step!]?.$value as string | undefined;
+          tokenName = `${group}/${step}`;
+        } else warnings.push(`${v.name} (${key}) aliases a non-primitive variable; skipped.`);
       } else if (isRgba(val)) {
         $value = rgbaToCss(val);
+        swatch = $value;
       }
-      if ($value !== undefined) setPath(colorModes[key], parts, { $type: "color", $value });
+      if ($value !== undefined) {
+        setPath(colorModes[key], parts, { $type: "color", $value });
+        cells.push({
+          mode: key === "light" ? "Light" : "Dark",
+          display: tokenName ?? swatch ?? $value,
+          color: swatch,
+          token: tokenName,
+        });
+      }
     }
+    if (cells.length > 0) inventory.push({ collection: SEMANTIC, name: v.name, kind: "color", cells });
   }
 
   // ─── Scale → spacing / border-radius / component ────────────────────────────
@@ -125,9 +153,12 @@ export async function exportTheme(): Promise<ExportResult> {
     const val = scaleMode ? v.valuesByMode[scaleMode] : undefined;
     if (typeof val !== "number") continue;
     const token: DtcgToken = { $type: "dimension", $value: `${val}px` };
+    let matched = true;
     if (v.name.startsWith("spacing/")) spacing[v.name.slice("spacing/".length)] = token;
     else if (v.name.startsWith("radius/")) borderRadius[v.name.slice("radius/".length)] = token;
     else if (v.name.startsWith("component/")) setPath(component, v.name.slice("component/".length).split("/"), token);
+    else matched = false;
+    if (matched) inventory.push({ collection: SCALE, name: v.name, kind: "number", cells: [{ mode: "Value", display: `${val}px` }] });
   }
 
   // ─── Typography → type.{font,weight,size,leading} ───────────────────────────
@@ -143,7 +174,15 @@ export async function exportTheme(): Promise<ExportResult> {
     else if (kind === "weight" && typeof val === "number") token = { $type: "fontWeight", $value: val };
     else if ((kind === "size" || kind === "leading") && typeof val === "number")
       token = { $type: "dimension", $value: `${val}px` };
-    if (token) setPath(type, parts, token);
+    if (token) {
+      setPath(type, parts, token);
+      inventory.push({
+        collection: TYPOGRAPHY,
+        name: v.name,
+        kind: kind === "font" ? "string" : "number",
+        cells: [{ mode: "Value", display: String(token.$value) }],
+      });
+    }
   }
 
   // ─── Metadata ($extensions) — stashed on import, else best-effort ───────────
@@ -180,5 +219,5 @@ export async function exportTheme(): Promise<ExportResult> {
     component,
   };
 
-  return { json: JSON.stringify(theme, null, 2) + "\n", warnings };
+  return { json: JSON.stringify(theme, null, 2) + "\n", warnings, inventory };
 }

@@ -1,0 +1,5054 @@
+{
+  "component": "Button",
+  "source": {
+    "file": "apps/storybook (components-actions-button--default)",
+    "hash": "sha256:694ccf31758c71c5"
+  },
+  "propertyDefinitions": {
+    "intent": {
+      "type": "VARIANT",
+      "values": [
+        "primary",
+        "secondary",
+        "tertiary",
+        "ghost",
+        "destructive",
+        "destructive-ghost"
+      ],
+      "default": "primary"
+    },
+    "size": {
+      "type": "VARIANT",
+      "values": [
+        "sm",
+        "md",
+        "lg"
+      ],
+      "default": "md"
+    },
+    "icon": {
+      "type": "INSTANCE_SWAP",
+      "default": null
+    },
+    "iconPosition": {
+      "type": "VARIANT",
+      "values": [
+        "left",
+        "right"
+      ],
+      "default": "left"
+    }
+  },
+  "states": [
+    "default",
+    "hover",
+    "active",
+    "focus",
+    "disabled"
+  ],
+  "variants": [
+    {
+      "props": {
+        "state": "default",
+        "intent": "primary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "primary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "primary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "primary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "secondary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "secondary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "secondary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "secondary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "tertiary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "tertiary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "tertiary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "tertiary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive-ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive-ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive-ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "default",
+        "intent": "destructive-ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "primary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "primary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "primary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "primary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "secondary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "secondary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "secondary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "secondary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "tertiary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "tertiary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "tertiary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "tertiary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive-ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive-ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive-ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "hover",
+        "intent": "destructive-ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "primary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "primary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "primary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "primary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "secondary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "secondary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "secondary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "secondary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "tertiary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "tertiary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "tertiary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "tertiary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive-ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive-ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive-ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "active",
+        "intent": "destructive-ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "primary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "primary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "primary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "primary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "secondary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "secondary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "secondary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "secondary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "tertiary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "tertiary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "tertiary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "tertiary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive-ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive-ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive-ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "focus",
+        "intent": "destructive-ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "primary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "primary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "primary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "primary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-primary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "secondary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "secondary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "secondary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "secondary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-secondary-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "tertiary",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "tertiary",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "tertiary",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-tertiary-default}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "tertiary",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}",
+          "stroke": "{--color-interactive-tertiary-default}",
+          "strokeWidth": 1
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-text-primary}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "opacity": 0.977277,
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-contents}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "fill": "{--color-interactive-destructive-default}",
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive-ghost",
+        "icon": "none"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive-ghost",
+        "icon": "left"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive-ghost",
+        "icon": "right"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            4,
+            12,
+            4,
+            12
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          },
+          {
+            "name": "label",
+            "type": "TEXT",
+            "text": "Button",
+            "typography": {
+              "size": "{--type-size-body-large}",
+              "color": "{--color-interactive-destructive-default-ghost}"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "props": {
+        "state": "disabled",
+        "intent": "destructive-ghost",
+        "icon": "icon-only"
+      },
+      "tree": {
+        "name": "root",
+        "type": "FRAME",
+        "layout": {
+          "mode": "HORIZONTAL",
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "gap": 4,
+          "align": "CENTER",
+          "justify": "CENTER"
+        },
+        "box": {
+          "radius": "{--radius-interactive}"
+        },
+        "children": [
+          {
+            "name": "icon",
+            "type": "VECTOR",
+            "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.1\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-plus\" data-cap-id=\"2\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></svg>",
+            "width": 20,
+            "height": 20,
+            "iconName": "plus"
+          }
+        ]
+      }
+    }
+  ],
+  "unresolved": [],
+  "fallbacks": {
+    "--color-interactive-primary-default": "#bc4900",
+    "--radius-interactive": "8px",
+    "--type-size-body-large": "16px",
+    "--color-interactive-contents": "#fcfcfc",
+    "--color-interactive-secondary-default": "#00000026",
+    "--color-text-primary": "#030303",
+    "--color-interactive-tertiary-default": "#a74100",
+    "--color-interactive-destructive-default": "#bc0011",
+    "--color-interactive-destructive-default-ghost": "#bc0011"
+  }
+}

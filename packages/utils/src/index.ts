@@ -1,6 +1,8 @@
 export {
   generateColorRamp,
   parseToOklch,
+  oklchColorToHex,
+  formatOklchColor,
   type ColorSwatch,
   type ColorRamp,
   type OklchColor,

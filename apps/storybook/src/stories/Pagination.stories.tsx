@@ -5,6 +5,7 @@ import { Pagination } from "@ui-organized/react";
 const meta: Meta<typeof Pagination> = {
   title: "Components/Navigation/Pagination",
   component: Pagination,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -24,7 +25,8 @@ function PaginationDemo({ count }: { count: number }) {
   return <Pagination page={page} count={count} onPageChange={setPage} />;
 }
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => <PaginationDemo count={10} />,
 };
 

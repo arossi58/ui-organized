@@ -4,6 +4,7 @@ import { Icon } from "@ui-organized/react";
 const meta: Meta<typeof Icon> = {
   title: "Foundation/Icon",
   component: Icon,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -36,7 +37,8 @@ const meta: Meta<typeof Icon> = {
 export default meta;
 type Story = StoryObj<typeof Icon>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     name: "check-circle",
     size: 24,

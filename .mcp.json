@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "code-connect": {
+      "command": "pnpm",
+      "args": ["--filter", "@ui-organized/code-connect", "mcp"]
+    }
+  }
+}

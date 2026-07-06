@@ -23,6 +23,24 @@ body {
   padding: var(--spacing-space-04, 16px);
 }
 
+/* Export results: fill the window so the variable table gets the leftover height. */
+.app--fill {
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.app--fill .export-result {
+  flex: 1;
+  min-height: 0;
+}
+
+.app--fill .table-scroll {
+  flex: 1;
+  min-height: 0;
+  max-height: none;
+}
+
 .app__brand {
   display: flex;
   align-items: center;
@@ -49,36 +67,122 @@ body {
 .app__header p {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: var(--type-size-caption, 12px);
-  line-height: 1.4;
+  font-size: var(--type-size-body-medium, 14px);
+  line-height: 1.5;
+}
+
+.app__link {
+  color: var(--color-interactive-primary-default);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .app__tabs {
   display: flex;
-  gap: var(--spacing-space-01, 4px);
-  border-bottom: 1px solid var(--color-border-secondary);
-  padding-bottom: var(--spacing-space-02, 8px);
+  gap: var(--spacing-space-04, 16px);
+  border-bottom: 1px solid var(--color-border-primary, var(--color-border-secondary));
+}
+
+/* Underline tabs (matching the design system's Tabs), not filled buttons. */
+.app__tab {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: var(--spacing-space-02, 8px) var(--spacing-space-01, 4px);
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+.app__tab:hover[aria-selected="false"] {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-interactive-primary-hover);
+}
+
+.app__tab[aria-selected="true"] {
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-interactive-primary-selected, var(--color-interactive-primary-default));
+  font-weight: var(--type-weight-body-strong, 600);
+}
+
+.app__tab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus, var(--color-interactive-primary-default));
+  border-radius: var(--border-radius-02, 4px);
 }
 
 .app__hint {
   margin: 0;
   color: var(--color-text-secondary);
-  font-size: var(--type-size-caption, 12px);
-  line-height: 1.4;
+  font-size: var(--type-size-body-medium, 14px);
+  line-height: 1.5;
 }
 
-/* Read-only output for the exported theme.json. */
-.app__export-output {
-  width: 100%;
-  padding: var(--spacing-space-02, 8px);
+/* ── Insert tab ───────────────────────────────────────────────────────────── */
+
+.insert__list {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-04, 8px);
+  overflow: hidden;
+}
+
+.insert__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02, 8px);
+  padding: var(--spacing-space-02, 8px) var(--spacing-space-03, 12px);
+  border-top: 1px solid var(--color-border-secondary);
+  cursor: pointer;
+}
+
+.insert__item:first-child {
+  border-top: none;
+}
+
+.insert__item:hover {
+  background: var(--color-surface-secondary);
+}
+
+.insert__name {
+  font-weight: var(--type-weight-body-strong, 600);
+}
+
+.insert__meta {
+  margin-left: auto;
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+  text-align: right;
+}
+
+.insert__field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-03, 12px);
+}
+
+.insert__select {
+  flex: 1;
+  max-width: 240px;
+  padding: 6px var(--spacing-space-02, 8px);
   border: 1px solid var(--color-border-data-entry, #555);
   border-radius: var(--border-radius-04, 8px);
-  background: var(--color-surface-secondary);
+  background: var(--color-surface-base);
   color: var(--color-text-primary);
-  font-family: ui-monospace, "SF Mono", Menlo, monospace;
-  font-size: 11px;
-  line-height: 1.45;
-  resize: vertical;
+  font: inherit;
+  font-size: var(--type-size-caption, 12px);
+}
+
+.insert__select:focus {
+  outline: none;
+  border-color: var(--color-interactive-primary-default);
 }
 
 .drop {
@@ -130,4 +234,351 @@ body {
   padding-left: var(--spacing-space-04, 16px);
   max-height: 120px;
   overflow: auto;
+}
+
+/* ── Import preview / export inventory tables ─────────────────────────────── */
+
+.preview__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-02, 8px);
+}
+
+/* Left cluster of the export head: count chip + search share a row. */
+.preview__head-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-03, 12px);
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+/* The export results as one cohesive block. */
+.export-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03, 12px);
+}
+
+/* Bound + border the export table so it scrolls on its own and its sticky
+   collection headers stick within the panel rather than the whole page. */
+.table-scroll {
+  max-height: 55vh;
+  overflow: auto;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-04, 8px);
+  padding: 0 var(--spacing-space-03, 12px);
+}
+
+.preview__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01, 4px);
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+  cursor: pointer;
+  user-select: none;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-01, 6px);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-space-02, 8px);
+  border-radius: 999px;
+  font-size: var(--type-size-caption, 12px);
+  font-weight: var(--type-weight-body-strong, 600);
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+}
+
+.chip--add {
+  background: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.chip--update {
+  background: var(--color-status-caution-bg);
+  color: var(--color-status-caution-content);
+}
+
+.chip--unchanged {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+}
+
+/* ── Full-window import preview ───────────────────────────────────────────── */
+
+.preview-screen {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.preview-screen__head {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02, 8px);
+  padding: var(--spacing-space-03, 12px) var(--spacing-space-04, 16px);
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-base);
+}
+
+.preview-screen__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02, 8px);
+}
+
+.preview-screen__title {
+  font-family: var(--type-font-heading, inherit);
+  font-size: var(--type-size-heading-small, 16px);
+}
+
+.preview-screen__spacer {
+  flex: 1;
+}
+
+.preview-screen__controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-03, 12px);
+}
+
+.preview-screen__body {
+  flex: 1;
+  overflow: auto;
+  padding: var(--spacing-space-04, 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03, 12px);
+}
+
+.search {
+  flex: 1 1 160px;
+  min-width: 140px;
+  max-width: 320px;
+  padding: 6px var(--spacing-space-02, 8px);
+  border: 1px solid var(--color-border-data-entry, #555);
+  border-radius: var(--border-radius-04, 8px);
+  background: var(--color-surface-base);
+  color: var(--color-text-primary);
+  font-size: var(--type-size-caption, 12px);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--color-interactive-primary-default);
+}
+
+/* ── Column-aligned variable table (preview + inventory) ──────────────────── */
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04, 16px);
+}
+
+.table__empty {
+  margin: var(--spacing-space-03, 12px) 0;
+  color: var(--color-text-secondary);
+  font-size: var(--type-size-caption, 12px);
+}
+
+.table__count {
+  color: var(--color-text-secondary);
+  font-weight: var(--type-weight-body, 400);
+}
+
+.tgroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.tgroup__head {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-surface-base);
+  font-weight: var(--type-weight-heading-strong, 600);
+  padding: var(--spacing-space-02, 8px) 0 var(--spacing-space-01, 4px);
+}
+
+/* Rows and the header share a grid template (set inline) so every theme
+   column — and the swatches within it — line up vertically. */
+.trow {
+  display: grid;
+  align-items: center;
+  gap: var(--spacing-space-03, 12px);
+  padding: var(--spacing-space-02, 8px);
+  border-top: 1px solid var(--color-border-secondary);
+  border-left: 2px solid transparent;
+  font-size: var(--type-size-caption, 12px);
+}
+
+.trow--head {
+  border-top: none;
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.thead {
+  font-weight: var(--type-weight-body-strong, 600);
+}
+
+/* Status accent down the left edge. */
+.trow--add {
+  border-left-color: var(--color-status-success);
+}
+
+.trow--update {
+  border-left-color: var(--color-status-caution);
+}
+
+.trow:not(.trow--head):hover {
+  background: var(--color-surface-secondary);
+}
+
+.trow__name {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02, 8px);
+  min-width: 0;
+}
+
+.trow__label {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  flex: none;
+  padding: 1px var(--spacing-space-01, 6px);
+  border-radius: var(--border-radius-02, 4px);
+  font-size: 10px;
+  font-weight: var(--type-weight-body-strong, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge--add {
+  background: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.badge--update {
+  background: var(--color-status-caution-bg);
+  color: var(--color-status-caution-content);
+}
+
+.badge--unchanged {
+  background: var(--color-surface-secondary);
+  color: var(--color-text-secondary);
+}
+
+/* A theme cell: three tracks keep the first swatch aligned across every row of
+   the column and reveal `before → after` only for changed values. */
+.mcell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.mcell--empty {
+  color: var(--color-text-secondary);
+}
+
+.cell__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cell__val {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell__val--empty {
+  color: var(--color-text-secondary);
+}
+
+/* A token reference chip: the name is a button that toggles the raw-value tip. */
+.token {
+  position: relative;
+}
+
+.token__name {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-interactive-primary-default);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.token__tip {
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 0;
+  z-index: 3;
+  padding: 2px var(--spacing-space-02, 8px);
+  border-radius: var(--border-radius-02, 4px);
+  /* Swap the primary text/surface pair so the tip always contrasts with the
+     page in both the light and dark Figma themes. */
+  background: var(--color-text-primary);
+  color: var(--color-surface-base);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+.swatch {
+  --swatch-color: transparent;
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border-radius: 3px;
+  border: 1px solid var(--color-border-secondary);
+  /* The colour sits ON TOP of the checkerboard (as the first background layer),
+     so opaque colours hide the checker entirely and only real alpha reveals it. */
+  background-color: #fff;
+  background-image: linear-gradient(var(--swatch-color), var(--swatch-color)),
+    linear-gradient(45deg, #8884 25%, transparent 25%),
+    linear-gradient(-45deg, #8884 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #8884 75%),
+    linear-gradient(-45deg, transparent 75%, #8884 75%);
+  background-size: 100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px;
+  background-position: 0 0, 0 0, 0 4px, 4px -4px, -4px 0;
+}
+
+.arrow {
+  color: var(--color-text-secondary);
 }

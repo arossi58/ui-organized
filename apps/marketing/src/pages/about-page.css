@@ -1,0 +1,75 @@
+/* About route: the marketing nav stays in flow at the top, then a centred prose
+   column sits on the same flat cream surface + dot lattice as the rest of the
+   site. Mirrors the docs/tools routes' backdrop treatment. */
+.about-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* Fill the remaining height of the persistent chrome column (the hoisted nav
+     sits above us), rather than owning a full viewport. */
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--color-surface-primary);
+  /* Contain the dot layer's stacking so the nav + content stay on top. */
+  isolation: isolate;
+  /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+/* Dot lattice as the page backdrop, behind the nav + prose column. */
+.about-page__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Fills the space under the in-flow nav; centres the prose column. */
+.about-page__stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--spacing-space-08) var(--section-px) var(--spacing-space-09);
+}
+
+/* Centred reading column: constrained measure, generous line height. */
+.about-page__prose {
+  width: 100%;
+  max-width: 640px;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.about-page__prose > p + p {
+  margin-top: var(--spacing-space-05);
+}
+
+.about-page__eyebrow {
+  margin: 0 0 var(--spacing-space-02);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-interactive-primary-default);
+}
+
+.about-page__title {
+  margin: 0 0 var(--spacing-space-05);
+  font-family: var(--font-heading, var(--font-body));
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.1;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.about-page__lede {
+  margin: 0 0 var(--spacing-space-06);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--color-text-secondary, var(--color-text-primary));
+}

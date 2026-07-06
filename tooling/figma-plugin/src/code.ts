@@ -6,11 +6,18 @@
  */
 
 import { importTheme } from "./importTheme";
+import { planImport } from "./planImport";
 import { exportTheme, META_KEY } from "./exportTheme";
+import { insertTables, listCollections } from "./insertTables";
+import type { NameFormat } from "./plan";
 import type { ThemeDoc } from "./types";
 
 figma.showUI(__html__, { width: 380, height: 600, title: "Theme Import / Export" });
 
+interface PreviewMessage {
+  type: "preview";
+  theme: unknown;
+}
 interface ImportMessage {
   type: "import";
   theme: unknown;
@@ -18,14 +25,65 @@ interface ImportMessage {
 interface ExportMessage {
   type: "export";
 }
+interface ListCollectionsMessage {
+  type: "list-collections";
+}
+interface InsertMessage {
+  type: "insert";
+  collectionIds: string[];
+  includeScopes: boolean;
+  format: NameFormat;
+}
+interface ResizeMessage {
+  type: "resize";
+  width: number;
+  height: number;
+}
+interface OpenUrlMessage {
+  type: "open-url";
+  url: string;
+}
 interface CancelMessage {
   type: "cancel";
 }
-type UIMessage = ImportMessage | ExportMessage | CancelMessage;
+type UIMessage =
+  | PreviewMessage
+  | ImportMessage
+  | ExportMessage
+  | ListCollectionsMessage
+  | InsertMessage
+  | ResizeMessage
+  | OpenUrlMessage
+  | CancelMessage;
 
 figma.ui.onmessage = async (msg: UIMessage) => {
   if (msg.type === "cancel") {
     figma.closePlugin();
+    return;
+  }
+
+  if (msg.type === "open-url") {
+    figma.openExternal(msg.url);
+    return;
+  }
+
+  if (msg.type === "resize") {
+    // Clamp so the window can't be driven off-screen; the UI asks for a wider
+    // layout when a preview / inventory table is on screen.
+    const width = Math.max(320, Math.min(900, Math.round(msg.width)));
+    const height = Math.max(400, Math.min(900, Math.round(msg.height)));
+    figma.ui.resize(width, height);
+    return;
+  }
+
+  if (msg.type === "preview") {
+    try {
+      const theme = validate(msg.theme);
+      const plan = await planImport(theme);
+      figma.ui.postMessage({ type: "planned", plan });
+    } catch (err) {
+      figma.ui.postMessage({ type: "error", message: err instanceof Error ? err.message : String(err) });
+    }
     return;
   }
 
@@ -52,8 +110,38 @@ figma.ui.onmessage = async (msg: UIMessage) => {
   if (msg.type === "export") {
     try {
       const result = await exportTheme();
-      figma.ui.postMessage({ type: "exported", json: result.json, warnings: result.warnings });
+      figma.ui.postMessage({
+        type: "exported",
+        json: result.json,
+        warnings: result.warnings,
+        inventory: result.inventory,
+      });
       figma.notify("Exported theme.json from variables.");
+    } catch (err) {
+      figma.ui.postMessage({ type: "error", message: err instanceof Error ? err.message : String(err) });
+    }
+    return;
+  }
+
+  if (msg.type === "list-collections") {
+    try {
+      const collections = await listCollections();
+      figma.ui.postMessage({ type: "collections", collections });
+    } catch (err) {
+      figma.ui.postMessage({ type: "error", message: err instanceof Error ? err.message : String(err) });
+    }
+    return;
+  }
+
+  if (msg.type === "insert") {
+    try {
+      const result = await insertTables({
+        collectionIds: msg.collectionIds,
+        includeScopes: msg.includeScopes,
+        format: msg.format,
+      });
+      figma.ui.postMessage({ type: "inserted", inserted: result.inserted, warnings: result.warnings });
+      figma.notify(`Inserted ${result.inserted} table${result.inserted === 1 ? "" : "s"}.`);
     } catch (err) {
       figma.ui.postMessage({ type: "error", message: err instanceof Error ? err.message : String(err) });
     }

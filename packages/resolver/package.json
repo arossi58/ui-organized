@@ -1,0 +1,60 @@
+{
+  "name": "@ui-organized/resolver",
+  "version": "0.1.0",
+  "description": "Deterministic DTCG token resolver — references, math, composites, and color modifiers. The single resolution oracle shared by the editor, the Figma plugin, and the MCP server.",
+  "keywords": [
+    "design-tokens",
+    "dtcg",
+    "resolver",
+    "references",
+    "design-system"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/resolver#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/resolver"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
+    "test": "vitest run",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ui-organized/schema": "workspace:*",
+    "@ui-organized/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@ui-organized/tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

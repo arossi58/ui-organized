@@ -4,6 +4,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@ui-organiz
 const meta: Meta<typeof Collapsible> = {
   title: "Components/Disclosure/Collapsible",
   component: Collapsible,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof Collapsible> = {
 export default meta;
 type Story = StoryObj<typeof Collapsible>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Collapsible style={{ maxWidth: 360 }}>
       <CollapsibleTrigger>Show details</CollapsibleTrigger>

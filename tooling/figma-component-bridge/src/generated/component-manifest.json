@@ -1,0 +1,1449 @@
+{
+  "source": "@ui-organized/react",
+  "componentCount": 47,
+  "components": [
+    {
+      "component": "Accordion",
+      "file": "packages/react/src/components/Accordion/Accordion.types.ts",
+      "propsInterface": "AccordionProps",
+      "hash": "sha256:0268627020ed9f44",
+      "properties": [
+        {
+          "name": "multiple",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "bordered",
+            "separated"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Alert",
+      "file": "packages/react/src/components/Alert/Alert.types.ts",
+      "propsInterface": "AlertProps",
+      "hash": "sha256:3b3e981e5df6b72b",
+      "properties": [
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "info",
+          "kind": "VARIANT",
+          "values": [
+            "info",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "title",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "children",
+          "optional": false,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "AlertDialog",
+      "file": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "propsInterface": "AlertDialogProps",
+      "hash": "sha256:842f991ca8409fb2",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Avatar",
+      "file": "packages/react/src/components/Avatar/Avatar.types.ts",
+      "propsInterface": "AvatarProps",
+      "hash": "sha256:6488bb794ce95a88",
+      "properties": [
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "xs",
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ]
+        },
+        {
+          "name": "shape",
+          "optional": true,
+          "default": "circle",
+          "kind": "VARIANT",
+          "values": [
+            "circle",
+            "rounded",
+            "square"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Badge",
+      "file": "packages/react/src/components/Badge/Badge.types.ts",
+      "propsInterface": "BadgeProps",
+      "hash": "sha256:5e56914c4ca780de",
+      "properties": [
+        {
+          "name": "variant",
+          "optional": true,
+          "default": null,
+          "kind": "VARIANT",
+          "values": [
+            "success",
+            "info",
+            "info-secondary",
+            "caution",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "emphasized",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Breadcrumb",
+      "file": "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts",
+      "propsInterface": "BreadcrumbProps",
+      "hash": "sha256:456dbdb4ee7c8ee3",
+      "properties": []
+    },
+    {
+      "component": "Button",
+      "file": "packages/react/src/components/Button/Button.types.ts",
+      "propsInterface": "ButtonProps",
+      "hash": "sha256:694ccf31758c71c5",
+      "properties": [
+        {
+          "name": "intent",
+          "optional": true,
+          "default": "primary",
+          "kind": "VARIANT",
+          "values": [
+            "primary",
+            "secondary",
+            "tertiary",
+            "ghost",
+            "destructive",
+            "destructive-ghost"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "icon",
+          "optional": true,
+          "default": null,
+          "kind": "INSTANCE_SWAP"
+        },
+        {
+          "name": "iconPosition",
+          "optional": true,
+          "default": "left",
+          "kind": "VARIANT",
+          "values": [
+            "left",
+            "right"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Calendar",
+      "file": "packages/react/src/components/Calendar/Calendar.tsx",
+      "propsInterface": "CalendarProps",
+      "hash": "sha256:6995ec58b7e98212",
+      "properties": [
+        {
+          "name": "mode",
+          "optional": false,
+          "default": null,
+          "kind": "VARIANT",
+          "values": [
+            "single",
+            "range"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Card",
+      "file": "packages/react/src/components/Card/Card.types.ts",
+      "propsInterface": "CardProps",
+      "hash": "sha256:6739ccc2503adae7",
+      "properties": [
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "outlined",
+            "elevated"
+          ]
+        },
+        {
+          "name": "padding",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "none",
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Checkbox",
+      "file": "packages/react/src/components/Checkbox/Checkbox.types.ts",
+      "propsInterface": "CheckboxProps",
+      "hash": "sha256:8f1df6019f74d732",
+      "properties": [
+        {
+          "name": "checked",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultChecked",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "indeterminate",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Collapsible",
+      "file": "packages/react/src/components/Collapsible/Collapsible.types.ts",
+      "propsInterface": "CollapsibleProps",
+      "hash": "sha256:47390d237249310a",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Combobox",
+      "file": "packages/react/src/components/Combobox/Combobox.types.ts",
+      "propsInterface": "ComboboxProps",
+      "hash": "sha256:278527cf459fd115",
+      "properties": [
+        {
+          "name": "placeholder",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "ContextMenu",
+      "file": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "propsInterface": "ContextMenuProps",
+      "hash": "sha256:0502430342db1c15",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "DateField",
+      "file": "packages/react/src/components/DateField/DateFieldBase.types.ts",
+      "propsInterface": "DateFieldProps",
+      "hash": "sha256:b614169b3080ea7a",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "DateInput",
+      "file": "packages/react/src/components/DateInput/DateInput.types.ts",
+      "propsInterface": "DateInputProps",
+      "hash": "sha256:edb26e1f558f593f",
+      "properties": []
+    },
+    {
+      "component": "DateRangeInput",
+      "file": "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts",
+      "propsInterface": "DateRangeInputProps",
+      "hash": "sha256:76906830c8e2b95d",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "DateTimeInput",
+      "file": "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts",
+      "propsInterface": "DateTimeInputProps",
+      "hash": "sha256:50d5a1f882a07ebd",
+      "properties": []
+    },
+    {
+      "component": "Dialog",
+      "file": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "propsInterface": "DialogProps",
+      "hash": "sha256:524acae50665cd30",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "modal",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Divider",
+      "file": "packages/react/src/components/Divider/Divider.types.ts",
+      "propsInterface": "DividerProps",
+      "hash": "sha256:10a311a907061d07",
+      "properties": [
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "horizontal",
+          "kind": "VARIANT",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "spacing",
+          "optional": true,
+          "default": "none",
+          "kind": "VARIANT",
+          "values": [
+            "none",
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Field",
+      "file": "packages/react/src/components/Field/Field.types.ts",
+      "propsInterface": "FieldProps",
+      "hash": "sha256:5499bd19ea29e083",
+      "properties": [
+        {
+          "name": "invalid",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "readOnly",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "layout",
+          "optional": true,
+          "default": "stacked",
+          "kind": "VARIANT",
+          "values": [
+            "stacked",
+            "inline"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "FieldError",
+      "file": "packages/react/src/components/FieldError/FieldError.types.ts",
+      "propsInterface": "FieldErrorProps",
+      "hash": "sha256:d821109f23b66207",
+      "properties": [
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "HoverCard",
+      "file": "packages/react/src/components/HoverCard/HoverCard.types.ts",
+      "propsInterface": "HoverCardProps",
+      "hash": "sha256:9f11160007097ee2",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Icon",
+      "file": "packages/react/src/components/Icon/Icon.types.ts",
+      "propsInterface": "IconProps",
+      "hash": "sha256:02a068b51615fe67",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Input",
+      "file": "packages/react/src/components/Input/Input.types.ts",
+      "propsInterface": "InputProps",
+      "hash": "sha256:fb0696d75be761c7",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Menu",
+      "file": "packages/react/src/components/Menu/Menu.types.ts",
+      "propsInterface": "MenuProps",
+      "hash": "sha256:d0bfe35c83213382",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Menubar",
+      "file": "packages/react/src/components/Menubar/Menubar.types.ts",
+      "propsInterface": "MenubarProps",
+      "hash": "sha256:1eb5c5ca47656430",
+      "properties": [
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "horizontal",
+          "kind": "VARIANT",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Meter",
+      "file": "packages/react/src/components/Meter/Meter.types.ts",
+      "propsInterface": "MeterProps",
+      "hash": "sha256:ef8d2424bb1167f6",
+      "properties": [
+        {
+          "name": "showValue",
+          "optional": true,
+          "default": false,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Navigation",
+      "file": "packages/react/src/components/Navigation/NavContext.tsx",
+      "propsInterface": "NavProviderProps",
+      "hash": "sha256:0d0b4e1c2ee07df2",
+      "properties": [
+        {
+          "name": "collapsed",
+          "optional": true,
+          "default": false,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": false,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "NumberField",
+      "file": "packages/react/src/components/NumberField/NumberField.types.ts",
+      "propsInterface": "NumberFieldProps",
+      "hash": "sha256:b17d3334a437bf5a",
+      "properties": [
+        {
+          "name": "placeholder",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "readOnly",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Pagination",
+      "file": "packages/react/src/components/Pagination/Pagination.types.ts",
+      "propsInterface": "PaginationProps",
+      "hash": "sha256:2c773e15675eeb9e",
+      "properties": [
+        {
+          "name": "showPrevNext",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "PasswordInput",
+      "file": "packages/react/src/components/PasswordInput/PasswordInput.types.ts",
+      "propsInterface": "PasswordInputProps",
+      "hash": "sha256:a71396c333a40e3c",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "showToggle",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Popover",
+      "file": "packages/react/src/components/Popover/Popover.types.ts",
+      "propsInterface": "PopoverProps",
+      "hash": "sha256:ccd307c5d492885e",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "modal",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Progress",
+      "file": "packages/react/src/components/Progress/Progress.types.ts",
+      "propsInterface": "ProgressProps",
+      "hash": "sha256:54bd8758c1812c8e",
+      "properties": [
+        {
+          "name": "showValue",
+          "optional": true,
+          "default": false,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "success",
+            "warning",
+            "error"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Radio",
+      "file": "packages/react/src/components/Radio/Radio.types.ts",
+      "propsInterface": "RadioGroupProps",
+      "hash": "sha256:468484e619b1286c",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "vertical",
+          "kind": "VARIANT",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Range",
+      "file": "packages/react/src/components/Range/Range.types.ts",
+      "propsInterface": "RangeProps",
+      "hash": "sha256:f85aa63059ae2ad9",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "rangeLabels",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "hideValue",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "ScrollArea",
+      "file": "packages/react/src/components/ScrollArea/ScrollArea.types.ts",
+      "propsInterface": "ScrollAreaProps",
+      "hash": "sha256:f8f8e5108f45eaf4",
+      "properties": [
+        {
+          "name": "children",
+          "optional": false,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "vertical",
+          "kind": "VARIANT",
+          "values": [
+            "vertical",
+            "horizontal",
+            "both"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "SearchInput",
+      "file": "packages/react/src/components/SearchInput/SearchInput.types.ts",
+      "propsInterface": "SearchInputProps",
+      "hash": "sha256:f640ee754a5ba248",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "clearable",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Select",
+      "file": "packages/react/src/components/Select/Select.types.ts",
+      "propsInterface": "SelectProps",
+      "hash": "sha256:db217325ecdd8b48",
+      "properties": [
+        {
+          "name": "placeholder",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "ghost"
+          ]
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Sheet",
+      "file": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "propsInterface": "SheetProps",
+      "hash": "sha256:5ab483e064ac1466",
+      "properties": [
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "modal",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Skeleton",
+      "file": "packages/react/src/components/Skeleton/Skeleton.types.ts",
+      "propsInterface": "SkeletonProps",
+      "hash": "sha256:dfad4b0ec2b55bb3",
+      "properties": [
+        {
+          "name": "variant",
+          "optional": true,
+          "default": "text",
+          "kind": "VARIANT",
+          "values": [
+            "text",
+            "circle",
+            "rect",
+            "rounded"
+          ]
+        },
+        {
+          "name": "animated",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Switch",
+      "file": "packages/react/src/components/Switch/Switch.types.ts",
+      "propsInterface": "SwitchProps",
+      "hash": "sha256:63e8779c327a57c8",
+      "properties": [
+        {
+          "name": "checked",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultChecked",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "required",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "component": "Tabs",
+      "file": "packages/react/src/components/Tabs/Tabs.types.ts",
+      "propsInterface": "TabsProps",
+      "hash": "sha256:775ef1183166b36b",
+      "properties": [
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "horizontal",
+          "kind": "VARIANT",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "default",
+          "kind": "VARIANT",
+          "values": [
+            "default",
+            "small"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "TextArea",
+      "file": "packages/react/src/components/TextArea/TextArea.types.ts",
+      "propsInterface": "TextAreaProps",
+      "hash": "sha256:ca5e61c0be439edb",
+      "properties": [
+        {
+          "name": "label",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "helperText",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "size",
+          "optional": true,
+          "default": "md",
+          "kind": "VARIANT",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ]
+        },
+        {
+          "name": "resize",
+          "optional": true,
+          "default": "both",
+          "kind": "VARIANT",
+          "values": [
+            "none",
+            "vertical",
+            "horizontal",
+            "both"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Toast",
+      "file": "packages/react/src/components/Toast/Toast.types.ts",
+      "propsInterface": "ToastProviderProps",
+      "hash": "sha256:ff70ec333a487696",
+      "properties": [
+        {
+          "name": "children",
+          "optional": true,
+          "default": null,
+          "kind": "TEXT"
+        }
+      ]
+    },
+    {
+      "component": "Toggle",
+      "file": "packages/react/src/components/Toggle/Toggle.types.ts",
+      "propsInterface": "ToggleProps",
+      "hash": "sha256:9a2e2df7db6c185a",
+      "properties": [
+        {
+          "name": "pressed",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultPressed",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "icon",
+          "optional": true,
+          "default": null,
+          "kind": "INSTANCE_SWAP"
+        }
+      ]
+    },
+    {
+      "component": "Toolbar",
+      "file": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "propsInterface": "ToolbarProps",
+      "hash": "sha256:7c694c6c4cb63b20",
+      "properties": [
+        {
+          "name": "orientation",
+          "optional": true,
+          "default": "horizontal",
+          "kind": "VARIANT",
+          "values": [
+            "horizontal",
+            "vertical"
+          ]
+        }
+      ]
+    },
+    {
+      "component": "Tooltip",
+      "file": "packages/react/src/components/Tooltip/Tooltip.types.ts",
+      "propsInterface": "TooltipProps",
+      "hash": "sha256:138606ade548bfd6",
+      "properties": [
+        {
+          "name": "children",
+          "optional": false,
+          "default": null,
+          "kind": "TEXT"
+        },
+        {
+          "name": "showArrow",
+          "optional": true,
+          "default": true,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "disabled",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "open",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        },
+        {
+          "name": "defaultOpen",
+          "optional": true,
+          "default": null,
+          "kind": "BOOLEAN"
+        }
+      ]
+    }
+  ]
+}

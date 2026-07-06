@@ -25,7 +25,7 @@
    system, so the pill flips with light/dark mode. */
 .site-nav__pill {
   width: 100%;
-  max-width: 1040px;
+  max-width: 640px;
   display: flex;
   align-items: center;
   gap: var(--spacing-space-05);

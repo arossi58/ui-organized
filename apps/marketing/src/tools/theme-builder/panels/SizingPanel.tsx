@@ -1,4 +1,4 @@
-import { Separator } from "@ui-organized/react";
+import { Divider } from "@ui-organized/react";
 import { BorderRadiusPanel } from "./BorderRadiusPanel";
 import { SpacingPanel } from "./SpacingPanel";
 import styles from "./SizingPanel.module.css";
@@ -12,7 +12,7 @@ export function SizingPanel() {
   return (
     <div className={styles.panel}>
       <BorderRadiusPanel />
-      <Separator spacing="none" />
+      <Divider spacing="none" />
       <SpacingPanel />
     </div>
   );

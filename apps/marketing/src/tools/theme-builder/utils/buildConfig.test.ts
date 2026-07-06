@@ -78,16 +78,16 @@ describe("buildThemeTokens (DTCG)", () => {
     const t = buildThemeTokens(state()) as any;
     // Every size + leading in the default export equals the shipped token JSON,
     // so the builder opens identical to the design system (and auto-syncs when
-    // the tokens change). This is the regression guard for the body-medium
-    // 21px→20px fix and the display-xlarge 48px→64px size fix.
+    // the tokens change). Guards that the default export tracks the canonical
+    // scale (body-medium 21px leading = 1.5× body, display-xlarge 64px size).
     for (const [step, px] of Object.entries(typeSizeTokens)) {
       expect(t.type.size[step].$value, `size ${step}`).toBe(`${px}px`);
     }
     for (const [step, px] of Object.entries(typeLeadingTokens)) {
       expect(t.type.leading[step].$value, `leading ${step}`).toBe(`${px}px`);
     }
-    // The two values the user reported / we discovered, spelled out explicitly.
-    expect(t.type.leading["body-medium"].$value).toBe("20px");
+    // Spelled out explicitly as an anchor against silent drift.
+    expect(t.type.leading["body-medium"].$value).toBe("21px");
     expect(t.type.size["display-xlarge"].$value).toBe("64px");
   });
 

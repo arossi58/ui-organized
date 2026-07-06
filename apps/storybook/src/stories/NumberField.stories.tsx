@@ -4,6 +4,7 @@ import { NumberField } from "@ui-organized/react";
 const meta: Meta<typeof NumberField> = {
   title: "Components/Forms/NumberField",
   component: NumberField,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -22,7 +23,8 @@ const meta: Meta<typeof NumberField> = {
 export default meta;
 type Story = StoryObj<typeof NumberField>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => (
     <div style={{ width: 240 }}>
       <NumberField {...args} />

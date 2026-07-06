@@ -5,6 +5,7 @@ import { TextArea } from "@ui-organized/react";
 const meta: Meta<typeof TextArea> = {
   title: "Components/Forms/TextArea",
   component: TextArea,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -35,7 +36,8 @@ const meta: Meta<typeof TextArea> = {
 export default meta;
 type Story = StoryObj<typeof TextArea>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Label",
     placeholder: "Your input",

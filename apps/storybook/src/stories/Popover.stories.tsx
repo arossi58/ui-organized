@@ -4,6 +4,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@ui-organized/react";
 const meta: Meta<typeof Popover> = {
   title: "Components/Overlay/Popover",
   component: Popover,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Popover>
       <PopoverTrigger className="btn btn--secondary btn--md">Open popover</PopoverTrigger>

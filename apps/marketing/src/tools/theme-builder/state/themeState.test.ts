@@ -28,8 +28,8 @@ describe("typography defaults (1:1 with the design system)", () => {
     expect(s().bodyWeights).toEqual(typeWeightTokens.body);
   });
 
-  it("uses 20px (not 21px) body-medium leading by default — the reported bug", () => {
-    expect(s().leadingSteps["body-medium"]).toBe(20);
+  it("uses the canonical 21px body-medium leading by default (1.5× body)", () => {
+    expect(s().leadingSteps["body-medium"]).toBe(21);
   });
 });
 

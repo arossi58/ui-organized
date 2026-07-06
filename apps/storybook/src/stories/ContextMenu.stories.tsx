@@ -12,6 +12,7 @@ import {
 const meta: Meta<typeof ContextMenu> = {
   title: "Components/Overlay/ContextMenu",
   component: ContextMenu,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -26,7 +27,8 @@ const meta: Meta<typeof ContextMenu> = {
 export default meta;
 type Story = StoryObj<typeof ContextMenu>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <ContextMenu>
       <ContextMenuTrigger

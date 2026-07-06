@@ -5,7 +5,7 @@
    resolved in JS (see SemanticTokenTable.tsx) so both modes are always shown. */
 .sem-tokens {
   color: var(--color-text-primary);
-  font-family: "Roboto", system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
 .sem-tokens__lede {

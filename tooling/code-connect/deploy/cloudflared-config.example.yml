@@ -1,0 +1,13 @@
+# Example Cloudflare Tunnel ingress (Connect.md §9) — if you run cloudflared with a
+# named tunnel + credentials file instead of the token-based service in
+# docker-compose.yml. Maps the public subdomain to the container's HTTP endpoint.
+#
+#   cloudflared tunnel --config cloudflared-config.yml run code-connect
+tunnel: code-connect
+credentials-file: /etc/cloudflared/code-connect.json
+
+ingress:
+  - hostname: mcp.uiorganized.com
+    service: http://code-connect-mcp:3333
+  # Everything else 404s.
+  - service: http_status:404

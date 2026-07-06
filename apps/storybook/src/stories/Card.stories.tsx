@@ -4,6 +4,7 @@ import { Card, CardHeader, CardBody, CardFooter, Button, Badge } from "@ui-organ
 const meta: Meta<typeof Card> = {
   title: "Components/Layout/Card",
   component: Card,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -28,7 +29,8 @@ const meta: Meta<typeof Card> = {
 export default meta;
 type Story = StoryObj<typeof Card>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   parameters: {
     docs: {
       source: {

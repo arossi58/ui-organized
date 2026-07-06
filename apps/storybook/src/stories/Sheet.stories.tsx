@@ -12,6 +12,7 @@ import {
 const meta: Meta<typeof Sheet> = {
   title: "Components/Overlay/Sheet",
   component: Sheet,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -26,7 +27,8 @@ const meta: Meta<typeof Sheet> = {
 export default meta;
 type Story = StoryObj<typeof Sheet>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Sheet>
       <SheetTrigger className="btn btn--primary btn--md">Open sheet</SheetTrigger>

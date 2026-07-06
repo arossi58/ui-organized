@@ -4,6 +4,7 @@ import { Tooltip, TooltipProvider } from "@ui-organized/react";
 const meta: Meta<typeof Tooltip> = {
   title: "Components/Overlay/Tooltip",
   component: Tooltip,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof Tooltip> = {
 export default meta;
 type Story = StoryObj<typeof Tooltip>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Tooltip content="Copy to clipboard">
       <button className="btn btn--secondary btn--md">Hover me</button>

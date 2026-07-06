@@ -25,6 +25,7 @@ const ITEMS: AccordionItem[] = [
 const meta: Meta<typeof Accordion> = {
   title: "Components/Disclosure/Accordion",
   component: Accordion,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -44,7 +45,8 @@ const meta: Meta<typeof Accordion> = {
 export default meta;
 type Story = StoryObj<typeof Accordion>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => (
     <div style={{ width: 480 }}>
       <Accordion {...args} />

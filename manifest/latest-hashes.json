@@ -1,0 +1,2600 @@
+{
+  "generatedAt": "2026-07-03T01:53:18.943Z",
+  "hashes": {
+    "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
+    "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialog": "sha256:45d508fd30c96523",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogCancel": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogConfirm": "sha256:c729478012630d4f",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": "sha256:ede4a86e2912e80b",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogDescription": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
+    "packages/react/src/components/Badge/Badge.types.ts::Badge": "sha256:edb55552178c147b",
+    "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
+    "packages/react/src/components/Button/Button.types.ts::Button": "sha256:6d519848f6e30dac",
+    "packages/react/src/components/Card/Card.types.ts::Card": "sha256:85ae00f080301a0f",
+    "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:ef2e1d3a01365ae7",
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:1d817c06c1c9a01d",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": "sha256:a689780b8ecb2542",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuContent": "sha256:3a6de950be38dd59",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroup": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroupLabel": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuItem": "sha256:a65b7948801ee2b1",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioGroup": "sha256:52b319fda5c54103",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioItem": "sha256:b868f7539ba601cd",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
+    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": "sha256:c5b2bf0497293634",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogDescription": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Field/Field.types.ts::Field": "sha256:1381062600517458",
+    "packages/react/src/components/Field/Field.types.ts::FieldControl": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Field/Field.types.ts::FieldDescription": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/FieldError/FieldError.types.ts::FieldError": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Field/Field.types.ts::FieldErrorMessage": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Field/Field.types.ts::FieldLabel": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Field/Field.types.ts::Fieldset": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardArrow": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:ce807107512e1d31",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:90f0ac6deaa84765",
+    "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
+    "packages/react/src/components/Input/Input.types.ts::Input": "sha256:7a065a645590a677",
+    "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
+    "packages/react/src/components/Menubar/Menubar.types.ts::Menubar": "sha256:cb8cd33347e618f0",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuCheckboxItem": "sha256:dc0af9c05089e992",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:1f4c6873dde0f0bc",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuGroup": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuGroupLabel": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuItem": "sha256:a65b7948801ee2b1",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuRadioGroup": "sha256:52b319fda5c54103",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuRadioItem": "sha256:b868f7539ba601cd",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Meter/Meter.types.ts::Meter": "sha256:b6ba916fba5d5478",
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": "sha256:73f77a5acd96b251",
+    "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": "sha256:c3f9c36951922c79",
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": "sha256:b6749d0feda0a0f7",
+    "packages/react/src/components/NumberField/NumberField.types.ts::NumberField": "sha256:b91cfb22028b086d",
+    "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": "sha256:3db469cd143dd0c1",
+    "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": "sha256:c14424eb19ef5d89",
+    "packages/react/src/components/Popover/Popover.types.ts::Popover": "sha256:a93ae00228c7bad7",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverArrow": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:11cf6d752c8ab96f",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Progress/Progress.types.ts::Progress": "sha256:1828fc99db4d4a55",
+    "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": "sha256:93806ae6d8e62cb8",
+    "packages/react/src/components/Range/Range.types.ts::Range": "sha256:56341b313d548653",
+    "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": "sha256:206685e02d9d0872",
+    "packages/react/src/components/SearchInput/SearchInput.types.ts::SearchInput": "sha256:102ee6860f02c5fa",
+    "packages/react/src/components/Select/Select.types.ts::Select": "sha256:1b786275d6126657",
+    "packages/react/src/components/Separator/Separator.types.ts::Separator": "sha256:c5de96eadc107432",
+    "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:547d87a13141e747",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetDescription": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetFooter": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": "sha256:0341f1edb917c622",
+    "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
+    "packages/react/src/components/Switch/Switch.types.ts::Switch": "sha256:81671ca52c9acd68",
+    "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
+    "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
+    "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:acde0a4546711e5e",
+    "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarButton": "sha256:a8b5bafd14c6d42c",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarInput": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarLink": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarSeparator": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:ffa66e1e441b93b2",
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084"
+  },
+  "props": {
+    "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "(string | number)[]",
+        "required": false,
+        "description": "Initial open item values for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the entire accordion is disabled."
+      },
+      {
+        "name": "items",
+        "type": "AccordionItem[]",
+        "required": true,
+        "description": "Item definitions including titles and panel content."
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Whether multiple panels can be open at once."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: (string | number)[]) => void",
+        "required": false,
+        "description": "Callback fired when the set of open items changes."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Sizing of triggers and panels."
+      },
+      {
+        "name": "value",
+        "type": "(string | number)[]",
+        "required": false,
+        "description": "Controlled list of open item values."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"bordered\" | \"separated\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual variant."
+      }
+    ],
+    "packages/react/src/components/Alert/Alert.types.ts::Alert": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The alert message content."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "onDismiss",
+        "type": "() => void",
+        "required": false,
+        "description": "Callback fired when the dismiss button is clicked."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false,
+        "description": "Optional title text rendered above the message."
+      },
+      {
+        "name": "variant",
+        "type": "\"info\" | \"success\" | \"warning\" | \"error\"",
+        "required": false,
+        "defaultValue": "info",
+        "description": "Semantic variant driving icon and color."
+      }
+    ],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialog": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogCancel": [],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogConfirm": [
+      {
+        "name": "intent",
+        "type": "\"primary\" | \"destructive\"",
+        "required": false,
+        "defaultValue": "primary",
+        "description": "Button intent."
+      }
+    ],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": [
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "showClose",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Render a close (×) button."
+      },
+      {
+        "name": "size",
+        "type": "DialogVariants[\"size\"]",
+        "required": false,
+        "defaultValue": "sm",
+        "description": "Width preset."
+      }
+    ],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogDescription": [],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": [],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": [],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": [],
+    "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": [
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "description": "Alt text for the image."
+      },
+      {
+        "name": "fallback",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Custom fallback content."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Person's name — used to derive initials and as the image alt fallback."
+      },
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"rounded\" | \"square\"",
+        "required": false,
+        "defaultValue": "circle",
+        "description": "Shape."
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size."
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "description": "Image source URL."
+      }
+    ],
+    "packages/react/src/components/Badge/Badge.types.ts::Badge": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "emphasized",
+        "type": "boolean",
+        "required": false,
+        "description": "When true (default), renders a solid filled badge with primary text."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "variant",
+        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+        "required": false,
+        "description": "Status color variant."
+      }
+    ],
+    "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": [
+      {
+        "name": "items",
+        "type": "BreadcrumbItem[]",
+        "required": true,
+        "description": "The crumb trail, ordered from root to current page."
+      },
+      {
+        "name": "separator",
+        "type": "React.ReactNode",
+        "required": false,
+        "defaultValue": "a",
+        "description": "Custom separator between crumbs."
+      }
+    ],
+    "packages/react/src/components/Button/Button.types.ts::Button": [
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Optional icon to render inside the button."
+      },
+      {
+        "name": "iconPosition",
+        "type": "\"left\" | \"right\"",
+        "required": false,
+        "defaultValue": "left",
+        "description": "Whether the icon appears before or after the button label."
+      },
+      {
+        "name": "intent",
+        "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"",
+        "required": false,
+        "defaultValue": "primary",
+        "description": "Visual style intent."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Card/Card.types.ts::Card": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "padding",
+        "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Padding size."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"outlined\" | \"elevated\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual style variant."
+      }
+    ],
+    "packages/react/src/components/Card/Card.types.ts::CardBody": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/Card/Card.types.ts::CardFooter": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/Card/Card.types.ts::CardHeader": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the checkbox is currently checked (controlled)."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial checked state for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the checkbox should ignore user interaction."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID for the input element."
+      },
+      {
+        "name": "indeterminate",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the checkbox is in an indeterminate state."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Label text rendered beside the checkbox."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Callback fired when checked state changes."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the checkbox is required for form submission."
+      }
+    ],
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": [
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the trigger and prevent toggling."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Fired with the next open state whenever it changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the panel is open (controlled)."
+      }
+    ],
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": [],
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": [],
+    "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial selected value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the field should ignore user interaction."
+      },
+      {
+        "name": "emptyMessage",
+        "type": "string",
+        "required": false,
+        "description": "Message shown when no option matches the query."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the control."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called with the selected option's value (empty string when cleared)."
+      },
+      {
+        "name": "options",
+        "type": "ComboboxOption[]",
+        "required": true,
+        "description": "Selectable options."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder shown in the search input when nothing is selected."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the dropdown into."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether a value is required for form submission."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuContent": [
+      {
+        "name": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Offset along the alignment axis, in px."
+      },
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "defaultValue": "4",
+        "description": "Gap from the cursor, in px."
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroup": [],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroupLabel": [],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuItem": [
+      {
+        "name": "destructive",
+        "type": "boolean",
+        "required": false,
+        "description": "Render with destructive (danger) styling."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Leading icon."
+      },
+      {
+        "name": "onSelect",
+        "type": "() => void",
+        "required": false,
+        "description": "Fired when the item is selected (click or keyboard)."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "defaultValue": "a",
+        "description": "Stable id for the item; defaults to a generated id."
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioItem": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true
+      }
+    ],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": [],
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": [],
+    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": [],
+    "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Additional class applied to the group root."
+      },
+      {
+        "name": "defaultValue",
+        "type": "DateRangeValue",
+        "required": false,
+        "description": "Uncontrolled initial value."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables both controls."
+      },
+      {
+        "name": "endLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "End",
+        "description": "Accessible label for the end control."
+      },
+      {
+        "name": "endName",
+        "type": "string",
+        "required": false,
+        "description": "`name` for the end control (form submission)."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the controls."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "Id applied to the group root."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the pair of controls."
+      },
+      {
+        "name": "max",
+        "type": "string",
+        "required": false,
+        "description": "Latest selectable date for both controls (ISO `YYYY-MM-DD`)."
+      },
+      {
+        "name": "min",
+        "type": "string",
+        "required": false,
+        "description": "Earliest selectable date for both controls (ISO `YYYY-MM-DD`)."
+      },
+      {
+        "name": "onChange",
+        "type": "(value: DateRangeValue) => void",
+        "required": false,
+        "description": "Called with the full range whenever either end changes."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the calendar popover into."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks both controls required and shows the required indicator."
+      },
+      {
+        "name": "separator",
+        "type": "React.ReactNode",
+        "required": false,
+        "defaultValue": "an",
+        "description": "Content rendered between the two controls."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "startLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Start",
+        "description": "Accessible label for the start control."
+      },
+      {
+        "name": "startName",
+        "type": "string",
+        "required": false,
+        "description": "`name` for the start control (form submission)."
+      },
+      {
+        "name": "value",
+        "type": "DateRangeValue",
+        "required": false,
+        "description": "Controlled value."
+      }
+    ],
+    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Trap focus and block outside interaction while open."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": [
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "showClose",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Render a close (×) button in the top-right corner."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Width preset."
+      }
+    ],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogDescription": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": [],
+    "packages/react/src/components/Field/Field.types.ts::Field": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the field's control."
+      },
+      {
+        "name": "invalid",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field invalid (drives error display + `data-invalid`)."
+      },
+      {
+        "name": "layout",
+        "type": "\"stacked\" | \"inline\"",
+        "required": false,
+        "defaultValue": "stacked",
+        "description": "Arrangement of label and control."
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field's control read-only."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field's control required."
+      }
+    ],
+    "packages/react/src/components/Field/Field.types.ts::FieldControl": [],
+    "packages/react/src/components/Field/Field.types.ts::FieldDescription": [],
+    "packages/react/src/components/FieldError/FieldError.types.ts::FieldError": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The error message to display."
+      }
+    ],
+    "packages/react/src/components/Field/Field.types.ts::FieldErrorMessage": [],
+    "packages/react/src/components/Field/Field.types.ts::FieldLabel": [],
+    "packages/react/src/components/Field/Field.types.ts::Fieldset": [],
+    "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": [],
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "Delay before closing on leave, in ms."
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "name": "openDelay",
+        "type": "number",
+        "required": false,
+        "description": "Delay before opening on hover, in ms."
+      }
+    ],
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardArrow": [],
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": [
+      {
+        "name": "align",
+        "type": "HoverCardAlign",
+        "required": false,
+        "defaultValue": "center",
+        "description": "Alignment along the chosen side."
+      },
+      {
+        "name": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Offset along the alignment axis, in px."
+      },
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Render a pointer arrow toward the trigger."
+      },
+      {
+        "name": "side",
+        "type": "HoverCardSide",
+        "required": false,
+        "defaultValue": "bottom",
+        "description": "Side of the trigger to position against."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "defaultValue": "8",
+        "description": "Gap between trigger and card, in px."
+      }
+    ],
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": [],
+    "packages/react/src/components/Icon/Icon.types.ts::Icon": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Additional CSS class applied to the outer wrapper span."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label for meaningful (non-decorative) icons."
+      },
+      {
+        "name": "name",
+        "type": "CanonicalIconName | IconComponent",
+        "required": true,
+        "description": "Either a canonical icon name from the design system's set, or a library icon component supplied directly (e.g."
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "defaultValue": "24",
+        "description": "Icon size in pixels."
+      }
+    ],
+    "packages/react/src/context/IconContext.tsx::IconProvider": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true
+      }
+    ],
+    "packages/react/src/components/Input/Input.types.ts::Input": [
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::Menu": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/Menubar/Menubar.types.ts::Menubar": [
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Layout orientation."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuCheckboxItem": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled checked state."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Fired when the checked state changes."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "defaultValue": "a",
+        "description": "Stable id for the item; defaults to a generated id."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": [
+      {
+        "name": "align",
+        "type": "MenuAlign",
+        "required": false,
+        "defaultValue": "start",
+        "description": "Alignment along the chosen side."
+      },
+      {
+        "name": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Offset along the alignment axis, in px."
+      },
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "side",
+        "type": "MenuSide",
+        "required": false,
+        "defaultValue": "bottom",
+        "description": "Side of the trigger to position against."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "defaultValue": "4",
+        "description": "Gap between trigger and popup, in px."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuGroup": [],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuGroupLabel": [],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuItem": [
+      {
+        "name": "destructive",
+        "type": "boolean",
+        "required": false,
+        "description": "Render with destructive (danger) styling."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the item."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Leading icon."
+      },
+      {
+        "name": "onSelect",
+        "type": "() => void",
+        "required": false,
+        "description": "Fired when the item is selected (click or keyboard)."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "defaultValue": "a",
+        "description": "Stable id for the item; defaults to a generated id."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuRadioGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Fired when the selected value changes."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuRadioItem": [
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "description": "Value this item selects within its radio group."
+      }
+    ],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": [],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": [],
+    "packages/react/src/components/Meter/Meter.types.ts::Meter": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "format",
+        "type": "Intl.NumberFormatOptions",
+        "required": false,
+        "description": "Options to format the displayed value (e.g."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Optional label rendered above the track."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "defaultValue": "100",
+        "description": "Maximum value."
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Minimum value."
+      },
+      {
+        "name": "showValue",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Whether to show the formatted value beside the label."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Track thickness."
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": true,
+        "description": "The current value."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"success\" | \"warning\" | \"error\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Color variant."
+      }
+    ],
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Sub-pages shown beneath the item when expanded."
+      },
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Render as an icon-only rail (label hidden, sub-list suppressed)."
+      },
+      {
+        "name": "defaultExpanded",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Initial expanded state for uncontrolled usage."
+      },
+      {
+        "name": "expanded",
+        "type": "boolean",
+        "required": false,
+        "description": "Expanded state for controlled usage."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName | React.ComponentType<Record<string, unknown>>",
+        "required": false,
+        "description": "Optional leading icon, rendered via the Icon component — either a canonical name or a library icon component supplied directly (e.g."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Text label for the page."
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(expanded: boolean) => void",
+        "required": false,
+        "description": "Called with the next expanded state whenever the caret is toggled."
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks this page as the current page — renders the filled, emphasized appearance."
+      }
+    ],
+    "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": true
+      },
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Collapse all descendant nav items to an icon-only rail."
+      }
+    ],
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": [
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Render as an icon-only rail (label hidden)."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Optional leading icon, rendered via the Icon component."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Text label for the sub-page."
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks this sub-page as the current page."
+      }
+    ],
+    "packages/react/src/components/NumberField/NumberField.types.ts::NumberField": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "number",
+        "required": false,
+        "description": "Initial value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the field should ignore user interaction."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "format",
+        "type": "Intl.NumberFormatOptions",
+        "required": false,
+        "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "Explicit id for the input (label association)."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the control."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "Maximum allowed value."
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "description": "Minimum allowed value."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: number | null) => void",
+        "required": false,
+        "description": "Called when the value changes."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder shown when empty."
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the value can be edited."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether a value is required for form submission."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Increment/decrement step."
+      },
+      {
+        "name": "value",
+        "type": "number | null",
+        "required": false,
+        "description": "Controlled numeric value."
+      }
+    ],
+    "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": [
+      {
+        "name": "boundaryCount",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Pages always shown at the start and end."
+      },
+      {
+        "name": "count",
+        "type": "number",
+        "required": true,
+        "description": "Total number of pages."
+      },
+      {
+        "name": "onPageChange",
+        "type": "(page: number) => void",
+        "required": true,
+        "description": "Called with the next page when a control is activated."
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": true,
+        "description": "The current page (1-based)."
+      },
+      {
+        "name": "showPrevNext",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Render the previous/next arrow controls."
+      },
+      {
+        "name": "siblingCount",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Pages shown on each side of the current page."
+      }
+    ],
+    "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": [
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "showToggle",
+        "type": "boolean",
+        "required": false,
+        "description": "Show the show/hide visibility toggle."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Popover/Popover.types.ts::Popover": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "description": "Trap focus and block outside interaction while open."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverArrow": [],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": [],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": [
+      {
+        "name": "align",
+        "type": "PopoverAlign",
+        "required": false,
+        "defaultValue": "center",
+        "description": "Alignment along the chosen side."
+      },
+      {
+        "name": "alignOffset",
+        "type": "number",
+        "required": false,
+        "description": "Offset along the alignment axis, in px."
+      },
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Render a pointer arrow toward the trigger."
+      },
+      {
+        "name": "side",
+        "type": "PopoverSide",
+        "required": false,
+        "defaultValue": "bottom",
+        "description": "Side of the trigger to position against."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "defaultValue": "8",
+        "description": "Gap between trigger and popup, in px."
+      }
+    ],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": [],
+    "packages/react/src/components/Progress/Progress.types.ts::Progress": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Optional label rendered above the track."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "defaultValue": "100",
+        "description": "Maximum value."
+      },
+      {
+        "name": "showValue",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Whether to show the formatted value beside the label."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Track thickness."
+      },
+      {
+        "name": "value",
+        "type": "number | null",
+        "required": false,
+        "defaultValue": "null",
+        "description": "Current value."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"success\" | \"warning\" | \"error\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Color variant."
+      }
+    ],
+    "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial selected value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the entire group should ignore user interaction."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Group label rendered above the options."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback fired when selection changes."
+      },
+      {
+        "name": "options",
+        "type": "RadioOption[]",
+        "required": true,
+        "description": "The selectable radio options."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "vertical",
+        "description": "Layout direction of the radio items."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
+      }
+    ],
+    "packages/react/src/components/Range/Range.types.ts::Range": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "number",
+        "required": false,
+        "description": "Initial value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the slider should ignore user interaction."
+      },
+      {
+        "name": "endLabel",
+        "type": "React.ReactNode",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Custom content for the end (max) label."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "formatValue",
+        "type": "(value: number) => string",
+        "required": false,
+        "description": "Format the value shown in the header readout."
+      },
+      {
+        "name": "hideValue",
+        "type": "boolean",
+        "required": false,
+        "description": "Hide the numeric value readout in the header."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID for the slider root."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the track, beside the value readout."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "defaultValue": "100",
+        "description": "Maximum value."
+      },
+      {
+        "name": "min",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Minimum value."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: number) => void",
+        "required": false,
+        "description": "Fired continuously while the value changes (e.g."
+      },
+      {
+        "name": "onValueCommitted",
+        "type": "(value: number) => void",
+        "required": false,
+        "description": "Fired once when the user stops interacting and commits the value."
+      },
+      {
+        "name": "rangeLabels",
+        "type": "boolean",
+        "required": false,
+        "description": "Show the start/end value labels at each end of the track."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "snapValues",
+        "type": "number[]",
+        "required": false,
+        "description": "A fixed set of allowed values the thumb snaps to (\"snap to certain values\")."
+      },
+      {
+        "name": "startLabel",
+        "type": "React.ReactNode",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Custom content for the start (min) label."
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "The interval the slider snaps to between `min` and `max`."
+      },
+      {
+        "name": "value",
+        "type": "number",
+        "required": false,
+        "description": "Controlled value."
+      }
+    ],
+    "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Scrollable content."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "orientation",
+        "type": "\"vertical\" | \"horizontal\" | \"both\"",
+        "required": false,
+        "defaultValue": "vertical",
+        "description": "Which scrollbars to render."
+      },
+      {
+        "name": "style",
+        "type": "React.CSSProperties",
+        "required": false,
+        "description": "Inline styles applied to the Root — typically a `height`/`maxHeight`."
+      }
+    ],
+    "packages/react/src/components/SearchInput/SearchInput.types.ts::SearchInput": [
+      {
+        "name": "clearable",
+        "type": "boolean",
+        "required": false,
+        "description": "Show the clear (×) button while the field has a value."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "onClear",
+        "type": "() => void",
+        "required": false,
+        "description": "Called after the field is cleared via the clear button."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Select/Select.types.ts::Select": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial selected value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the select should ignore user interaction."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the trigger."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the trigger."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback fired when the selected value changes."
+      },
+      {
+        "name": "options",
+        "type": "SelectOption[]",
+        "required": true,
+        "description": "Selectable options."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "description": "Placeholder text shown when nothing is selected."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the dropdown popup into."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether a value is required for form submission."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"ghost\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual variant."
+      }
+    ],
+    "packages/react/src/components/Separator/Separator.types.ts::Separator": [
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Orientation of the rule."
+      },
+      {
+        "name": "spacing",
+        "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
+      }
+    ],
+    "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Trap focus and block outside interaction while open."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": [
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "showClose",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Render a close (×) button in the top-right corner."
+      },
+      {
+        "name": "side",
+        "type": "SheetVariants[\"side\"]",
+        "required": false,
+        "defaultValue": "right",
+        "description": "Edge the panel slides in from."
+      },
+      {
+        "name": "size",
+        "type": "SheetVariants[\"size\"]",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Panel extent (width for left/right, height for top/bottom)."
+      }
+    ],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetDescription": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetFooter": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": [],
+    "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Nav items (`NavItem`) — the scrollable middle region."
+      },
+      {
+        "name": "collapsed",
+        "type": "boolean",
+        "required": false,
+        "description": "Collapsed state for controlled usage."
+      },
+      {
+        "name": "collapsible",
+        "type": "boolean",
+        "required": false,
+        "description": "Allow collapsing to an icon-only rail."
+      },
+      {
+        "name": "defaultCollapsed",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Initial collapsed state for uncontrolled usage."
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Footer region pinned to the bottom, above the auto collapse toggle."
+      },
+      {
+        "name": "logo",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Logo / wordmark pinned to the top of the sidebar."
+      },
+      {
+        "name": "logoCollapsed",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Optional compact logo shown when collapsed (e.g."
+      },
+      {
+        "name": "navLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Primary",
+        "description": "Accessible label for the inner nav landmark."
+      },
+      {
+        "name": "onCollapsedChange",
+        "type": "(collapsed: boolean) => void",
+        "required": false,
+        "description": "Called with the next collapsed state whenever the toggle is used."
+      }
+    ],
+    "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": [
+      {
+        "name": "animated",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Whether to run the shimmer animation."
+      },
+      {
+        "name": "height",
+        "type": "number | string",
+        "required": false,
+        "description": "Explicit height — a number is treated as pixels."
+      },
+      {
+        "name": "lines",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Number of text lines to render (only meaningful for the 'text' variant)."
+      },
+      {
+        "name": "variant",
+        "type": "\"text\" | \"circle\" | \"rect\" | \"rounded\"",
+        "required": false,
+        "defaultValue": "text",
+        "description": "Shape of the placeholder."
+      },
+      {
+        "name": "width",
+        "type": "number | string",
+        "required": false,
+        "description": "Explicit width — a number is treated as pixels."
+      }
+    ],
+    "packages/react/src/components/Switch/Switch.types.ts::Switch": [
+      {
+        "name": "checked",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the switch is currently on (controlled)."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultChecked",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial state for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the switch should ignore user interaction."
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "required": false,
+        "description": "ID for the switch element."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Label text rendered beside the switch."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onCheckedChange",
+        "type": "(checked: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the switch state changes."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the switch is required for form submission."
+      }
+    ],
+    "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string | number",
+        "required": false,
+        "defaultValue": "first",
+        "description": "Initial active tab value for uncontrolled usage."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string | number) => void",
+        "required": false,
+        "description": "Callback fired when the active tab changes."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Whether tabs render horizontally or vertically."
+      },
+      {
+        "name": "size",
+        "type": "\"default\" | \"small\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Tab sizing."
+      },
+      {
+        "name": "tabs",
+        "type": "TabItem[]",
+        "required": true,
+        "description": "Tab definitions including labels and panel content."
+      },
+      {
+        "name": "value",
+        "type": "string | number",
+        "required": false,
+        "description": "Controlled active tab value."
+      }
+    ],
+    "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": [
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "resize",
+        "type": "\"none\" | \"vertical\" | \"horizontal\" | \"both\"",
+        "required": false,
+        "defaultValue": "both",
+        "description": "Native resize affordance."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": [
+      {
+        "name": "defaultPressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial pressed state for uncontrolled standalone usage."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Optional leading icon."
+      },
+      {
+        "name": "onPressedChange",
+        "type": "(pressed: boolean) => void",
+        "required": false,
+        "description": "Fired when the pressed state changes (standalone usage)."
+      },
+      {
+        "name": "pressed",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled pressed state (standalone usage)."
+      },
+      {
+        "name": "size",
+        "type": "ToggleVariants[\"size\"]",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Identifies this toggle within a `<ToggleGroup>`; turns it into a group item."
+      }
+    ],
+    "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": [
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial pressed values for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the whole group."
+      },
+      {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "single-select",
+        "description": "Allow more than one toggle pressed at once."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Fired when the set of pressed values changes."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Layout orientation."
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled list of pressed values."
+      }
+    ],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": [
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Layout orientation."
+      }
+    ],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarButton": [
+      {
+        "name": "icon",
+        "type": "CanonicalIconName",
+        "required": false,
+        "description": "Optional leading icon."
+      }
+    ],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": [],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarInput": [],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarLink": [],
+    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarSeparator": [],
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": [
+      {
+        "name": "align",
+        "type": "TooltipAlign",
+        "required": false,
+        "defaultValue": "center",
+        "description": "Alignment along the chosen side."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The trigger."
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "Delay before closing, in ms."
+      },
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "content",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "Content shown in the tooltip bubble."
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "description": "Delay before opening, in ms."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "When true, renders the trigger without a tooltip."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Render a pointer arrow."
+      },
+      {
+        "name": "side",
+        "type": "TooltipSide",
+        "required": false,
+        "defaultValue": "top",
+        "description": "Side of the trigger to position against."
+      },
+      {
+        "name": "sideOffset",
+        "type": "number",
+        "required": false,
+        "defaultValue": "6",
+        "description": "Gap between the trigger and bubble, in px."
+      }
+    ],
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": true
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "description": "Default delay before closing, in ms, for descendant tooltips."
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "description": "Default delay before opening, in ms, for descendant tooltips."
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { ToastProvider, useToastManager } from "@ui-organized/react";
 
 const meta: Meta = {
+  tags: ["!dev"],
   title: "Components/Feedback/Toast",
   parameters: {
     layout: "centered",
@@ -24,7 +25,8 @@ const meta: Meta = {
 export default meta;
 type Story = StoryObj;
 
-export const Statuses: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: function StatusExample() {
     const toast = useToastManager();
     return (

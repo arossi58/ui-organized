@@ -3,6 +3,7 @@ import { Agentation } from "agentation";
 import { HomePage } from "./pages/HomePage";
 import { DocsPage } from "./pages/DocsPage";
 import { ToolsPage } from "./pages/ToolsPage";
+import { AboutPage } from "./pages/AboutPage";
 import { SiteNav } from "./components/chrome/SiteNav";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
@@ -41,6 +42,7 @@ function SiteChrome() {
             selects a specific one (both render the same page). */}
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/tools/:toolId" element={<ToolsPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </div>
   );

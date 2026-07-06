@@ -12,6 +12,7 @@ import {
 const meta: Meta<typeof Dialog> = {
   title: "Components/Overlay/Dialog",
   component: Dialog,
+  tags: ["!dev"],
   parameters: {
     layout: "centered",
     docs: {
@@ -26,7 +27,8 @@ const meta: Meta<typeof Dialog> = {
 export default meta;
 type Story = StoryObj<typeof Dialog>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Dialog>
       <DialogTrigger className="btn btn--primary btn--md">Delete project</DialogTrigger>

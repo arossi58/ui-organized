@@ -1,0 +1,3820 @@
+{
+  "manifestVersion": 1,
+  "generatedAt": "2026-07-03T01:53:18.943Z",
+  "components": [
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Accordion",
+      "codeName": "Accordion",
+      "codePath": "packages/react/src/components/Accordion/Accordion.types.ts",
+      "framework": "react",
+      "importStatement": "import { Accordion } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "(string | number)[]",
+          "required": false,
+          "description": "Initial open item values for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire accordion is disabled."
+        },
+        {
+          "name": "items",
+          "type": "AccordionItem[]",
+          "required": true,
+          "description": "Item definitions including titles and panel content."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether multiple panels can be open at once."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: (string | number)[]) => void",
+          "required": false,
+          "description": "Callback fired when the set of open items changes."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Sizing of triggers and panels."
+        },
+        {
+          "name": "value",
+          "type": "(string | number)[]",
+          "required": false,
+          "description": "Controlled list of open item values."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"bordered\" | \"separated\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual variant."
+        }
+      ],
+      "usageSnippet": "<Accordion items={/* AccordionItem[] */} />",
+      "propSignatureHash": "sha256:582b648bb447e7b5",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Alert",
+      "codeName": "Alert",
+      "codePath": "packages/react/src/components/Alert/Alert.types.ts",
+      "framework": "react",
+      "importStatement": "import { Alert } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "The alert message content."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "onDismiss",
+          "type": "() => void",
+          "required": false,
+          "description": "Callback fired when the dismiss button is clicked."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "description": "Optional title text rendered above the message."
+        },
+        {
+          "name": "variant",
+          "type": "\"info\" | \"success\" | \"warning\" | \"error\"",
+          "required": false,
+          "defaultValue": "info",
+          "description": "Semantic variant driving icon and color."
+        }
+      ],
+      "usageSnippet": "<Alert>…</Alert>",
+      "propSignatureHash": "sha256:1fc8f05b3ef24ee4",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialog",
+      "codeName": "AlertDialog",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialog } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<AlertDialog>…</AlertDialog>",
+      "propSignatureHash": "sha256:45d508fd30c96523",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogCancel",
+      "codeName": "AlertDialogCancel",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogCancel } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<AlertDialogCancel />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogConfirm",
+      "codeName": "AlertDialogConfirm",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogConfirm } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "intent",
+          "type": "\"primary\" | \"destructive\"",
+          "required": false,
+          "defaultValue": "primary",
+          "description": "Button intent."
+        }
+      ],
+      "usageSnippet": "<AlertDialogConfirm />",
+      "propSignatureHash": "sha256:c729478012630d4f",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogContent",
+      "codeName": "AlertDialogContent",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render a close (×) button."
+        },
+        {
+          "name": "size",
+          "type": "DialogVariants[\"size\"]",
+          "required": false,
+          "defaultValue": "sm",
+          "description": "Width preset."
+        }
+      ],
+      "usageSnippet": "<AlertDialogContent />",
+      "propSignatureHash": "sha256:ede4a86e2912e80b",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogDescription",
+      "codeName": "AlertDialogDescription",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<AlertDialogDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogFooter",
+      "codeName": "AlertDialogFooter",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogFooter } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<AlertDialogFooter />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogTitle",
+      "codeName": "AlertDialogTitle",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<AlertDialogTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AlertDialogTrigger",
+      "codeName": "AlertDialogTrigger",
+      "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { AlertDialogTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<AlertDialogTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Avatar",
+      "codeName": "Avatar",
+      "codePath": "packages/react/src/components/Avatar/Avatar.types.ts",
+      "framework": "react",
+      "importStatement": "import { Avatar } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false,
+          "description": "Alt text for the image."
+        },
+        {
+          "name": "fallback",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Custom fallback content."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Person's name — used to derive initials and as the image alt fallback."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"rounded\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle",
+          "description": "Shape."
+        },
+        {
+          "name": "size",
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false,
+          "description": "Image source URL."
+        }
+      ],
+      "usageSnippet": "<Avatar />",
+      "propSignatureHash": "sha256:db15fd262669d931",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Badge",
+      "codeName": "Badge",
+      "codePath": "packages/react/src/components/Badge/Badge.types.ts",
+      "framework": "react",
+      "importStatement": "import { Badge } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "emphasized",
+          "type": "boolean",
+          "required": false,
+          "description": "When true (default), renders a solid filled badge with primary text."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "variant",
+          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+          "required": false,
+          "description": "Status color variant."
+        }
+      ],
+      "usageSnippet": "<Badge>…</Badge>",
+      "propSignatureHash": "sha256:edb55552178c147b",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Breadcrumb",
+      "codeName": "Breadcrumb",
+      "codePath": "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts",
+      "framework": "react",
+      "importStatement": "import { Breadcrumb } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "items",
+          "type": "BreadcrumbItem[]",
+          "required": true,
+          "description": "The crumb trail, ordered from root to current page."
+        },
+        {
+          "name": "separator",
+          "type": "React.ReactNode",
+          "required": false,
+          "defaultValue": "a",
+          "description": "Custom separator between crumbs."
+        }
+      ],
+      "usageSnippet": "<Breadcrumb items={/* BreadcrumbItem[] */} />",
+      "propSignatureHash": "sha256:9ec3fcb8186f9831",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Button",
+      "codeName": "Button",
+      "codePath": "packages/react/src/components/Button/Button.types.ts",
+      "framework": "react",
+      "importStatement": "import { Button } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Optional icon to render inside the button."
+        },
+        {
+          "name": "iconPosition",
+          "type": "\"left\" | \"right\"",
+          "required": false,
+          "defaultValue": "left",
+          "description": "Whether the icon appears before or after the button label."
+        },
+        {
+          "name": "intent",
+          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"",
+          "required": false,
+          "defaultValue": "primary",
+          "description": "Visual style intent."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
+      "usageSnippet": "<Button />",
+      "propSignatureHash": "sha256:6d519848f6e30dac",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Card",
+      "codeName": "Card",
+      "codePath": "packages/react/src/components/Card/Card.types.ts",
+      "framework": "react",
+      "importStatement": "import { Card } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "padding",
+          "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Padding size."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"outlined\" | \"elevated\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual style variant."
+        }
+      ],
+      "usageSnippet": "<Card>…</Card>",
+      "propSignatureHash": "sha256:85ae00f080301a0f",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CardBody",
+      "codeName": "CardBody",
+      "codePath": "packages/react/src/components/Card/Card.types.ts",
+      "framework": "react",
+      "importStatement": "import { CardBody } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<CardBody>…</CardBody>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CardFooter",
+      "codeName": "CardFooter",
+      "codePath": "packages/react/src/components/Card/Card.types.ts",
+      "framework": "react",
+      "importStatement": "import { CardFooter } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<CardFooter>…</CardFooter>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CardHeader",
+      "codeName": "CardHeader",
+      "codePath": "packages/react/src/components/Card/Card.types.ts",
+      "framework": "react",
+      "importStatement": "import { CardHeader } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<CardHeader>…</CardHeader>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Checkbox",
+      "codeName": "Checkbox",
+      "codePath": "packages/react/src/components/Checkbox/Checkbox.types.ts",
+      "framework": "react",
+      "importStatement": "import { Checkbox } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the checkbox is currently checked (controlled)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultChecked",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial checked state for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the checkbox should ignore user interaction."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "ID for the input element."
+        },
+        {
+          "name": "indeterminate",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the checkbox is in an indeterminate state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Label text rendered beside the checkbox."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "required": false,
+          "description": "Callback fired when checked state changes."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the checkbox is required for form submission."
+        }
+      ],
+      "usageSnippet": "<Checkbox />",
+      "propSignatureHash": "sha256:ef2e1d3a01365ae7",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Collapsible",
+      "codeName": "Collapsible",
+      "codePath": "packages/react/src/components/Collapsible/Collapsible.types.ts",
+      "framework": "react",
+      "importStatement": "import { Collapsible } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable the trigger and prevent toggling."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Fired with the next open state whenever it changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the panel is open (controlled)."
+        }
+      ],
+      "usageSnippet": "<Collapsible />",
+      "propSignatureHash": "sha256:0ef3e7cc9393ef49",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CollapsibleContent",
+      "codeName": "CollapsibleContent",
+      "codePath": "packages/react/src/components/Collapsible/Collapsible.types.ts",
+      "framework": "react",
+      "importStatement": "import { CollapsibleContent } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<CollapsibleContent />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CollapsibleTrigger",
+      "codeName": "CollapsibleTrigger",
+      "codePath": "packages/react/src/components/Collapsible/Collapsible.types.ts",
+      "framework": "react",
+      "importStatement": "import { CollapsibleTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<CollapsibleTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Combobox",
+      "codeName": "Combobox",
+      "codePath": "packages/react/src/components/Combobox/Combobox.types.ts",
+      "framework": "react",
+      "importStatement": "import { Combobox } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field should ignore user interaction."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "description": "Message shown when no option matches the query."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the control."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with the selected option's value (empty string when cleared)."
+        },
+        {
+          "name": "options",
+          "type": "ComboboxOption[]",
+          "required": true,
+          "description": "Selectable options."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder shown in the search input when nothing is selected."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the dropdown into."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether a value is required for form submission."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled selected value."
+        }
+      ],
+      "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
+      "propSignatureHash": "sha256:1d817c06c1c9a01d",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenu",
+      "codeName": "ContextMenu",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenu } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<ContextMenu>…</ContextMenu>",
+      "propSignatureHash": "sha256:45d508fd30c96523",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuCheckboxItem",
+      "codeName": "ContextMenuCheckboxItem",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuCheckboxItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<ContextMenuCheckboxItem />",
+      "propSignatureHash": "sha256:a689780b8ecb2542",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuContent",
+      "codeName": "ContextMenuContent",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false,
+          "description": "Offset along the alignment axis, in px."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "Gap from the cursor, in px."
+        }
+      ],
+      "usageSnippet": "<ContextMenuContent />",
+      "propSignatureHash": "sha256:3a6de950be38dd59",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuGroup",
+      "codeName": "ContextMenuGroup",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuGroup } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ContextMenuGroup />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuGroupLabel",
+      "codeName": "ContextMenuGroupLabel",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuGroupLabel } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ContextMenuGroupLabel />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuItem",
+      "codeName": "ContextMenuItem",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "destructive",
+          "type": "boolean",
+          "required": false,
+          "description": "Render with destructive (danger) styling."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Leading icon."
+        },
+        {
+          "name": "onSelect",
+          "type": "() => void",
+          "required": false,
+          "description": "Fired when the item is selected (click or keyboard)."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "defaultValue": "a",
+          "description": "Stable id for the item; defaults to a generated id."
+        }
+      ],
+      "usageSnippet": "<ContextMenuItem />",
+      "propSignatureHash": "sha256:a65b7948801ee2b1",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuRadioGroup",
+      "codeName": "ContextMenuRadioGroup",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuRadioGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<ContextMenuRadioGroup>…</ContextMenuRadioGroup>",
+      "propSignatureHash": "sha256:52b319fda5c54103",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuRadioItem",
+      "codeName": "ContextMenuRadioItem",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuRadioItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<ContextMenuRadioItem value={/* string */} />",
+      "propSignatureHash": "sha256:b868f7539ba601cd",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuSeparator",
+      "codeName": "ContextMenuSeparator",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuSeparator } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ContextMenuSeparator />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ContextMenuTrigger",
+      "codeName": "ContextMenuTrigger",
+      "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { ContextMenuTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ContextMenuTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DateInput",
+      "codeName": "DateInput",
+      "codePath": "packages/react/src/components/DateInput/DateInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { DateInput } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DateInput />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DateRangeInput",
+      "codeName": "DateRangeInput",
+      "codePath": "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { DateRangeInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Additional class applied to the group root."
+        },
+        {
+          "name": "defaultValue",
+          "type": "DateRangeValue",
+          "required": false,
+          "description": "Uncontrolled initial value."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables both controls."
+        },
+        {
+          "name": "endLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "End",
+          "description": "Accessible label for the end control."
+        },
+        {
+          "name": "endName",
+          "type": "string",
+          "required": false,
+          "description": "`name` for the end control (form submission)."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the controls."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Id applied to the group root."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the pair of controls."
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "required": false,
+          "description": "Latest selectable date for both controls (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false,
+          "description": "Earliest selectable date for both controls (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: DateRangeValue) => void",
+          "required": false,
+          "description": "Called with the full range whenever either end changes."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the calendar popover into."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks both controls required and shows the required indicator."
+        },
+        {
+          "name": "separator",
+          "type": "React.ReactNode",
+          "required": false,
+          "defaultValue": "an",
+          "description": "Content rendered between the two controls."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "startLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Start",
+          "description": "Accessible label for the start control."
+        },
+        {
+          "name": "startName",
+          "type": "string",
+          "required": false,
+          "description": "`name` for the start control (form submission)."
+        },
+        {
+          "name": "value",
+          "type": "DateRangeValue",
+          "required": false,
+          "description": "Controlled value."
+        }
+      ],
+      "usageSnippet": "<DateRangeInput />",
+      "propSignatureHash": "sha256:bad361f95577ae6e",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DateTimeInput",
+      "codeName": "DateTimeInput",
+      "codePath": "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { DateTimeInput } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DateTimeInput />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Dialog",
+      "codeName": "Dialog",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { Dialog } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<Dialog>…</Dialog>",
+      "propSignatureHash": "sha256:8e605567ead9a6fd",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogClose",
+      "codeName": "DialogClose",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogClose } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DialogClose />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogContent",
+      "codeName": "DialogContent",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Render a close (×) button in the top-right corner."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Width preset."
+        }
+      ],
+      "usageSnippet": "<DialogContent />",
+      "propSignatureHash": "sha256:c5b2bf0497293634",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogDescription",
+      "codeName": "DialogDescription",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DialogDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogFooter",
+      "codeName": "DialogFooter",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogFooter } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DialogFooter />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogTitle",
+      "codeName": "DialogTitle",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DialogTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DialogTrigger",
+      "codeName": "DialogTrigger",
+      "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
+      "framework": "react",
+      "importStatement": "import { DialogTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DialogTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Field",
+      "codeName": "Field",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { Field } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the field's control."
+        },
+        {
+          "name": "invalid",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field invalid (drives error display + `data-invalid`)."
+        },
+        {
+          "name": "layout",
+          "type": "\"stacked\" | \"inline\"",
+          "required": false,
+          "defaultValue": "stacked",
+          "description": "Arrangement of label and control."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field's control read-only."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field's control required."
+        }
+      ],
+      "usageSnippet": "<Field />",
+      "propSignatureHash": "sha256:1381062600517458",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldControl",
+      "codeName": "FieldControl",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldControl } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<FieldControl />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldDescription",
+      "codeName": "FieldDescription",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<FieldDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldErrorMessage",
+      "codeName": "FieldErrorMessage",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldErrorMessage } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<FieldErrorMessage />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldLabel",
+      "codeName": "FieldLabel",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldLabel } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<FieldLabel />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Fieldset",
+      "codeName": "Fieldset",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { Fieldset } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<Fieldset />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldsetLegend",
+      "codeName": "FieldsetLegend",
+      "codePath": "packages/react/src/components/Field/Field.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldsetLegend } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<FieldsetLegend />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FieldError",
+      "codeName": "FieldError",
+      "codePath": "packages/react/src/components/FieldError/FieldError.types.ts",
+      "framework": "react",
+      "importStatement": "import { FieldError } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The error message to display."
+        }
+      ],
+      "usageSnippet": "<FieldError>…</FieldError>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "HoverCard",
+      "codeName": "HoverCard",
+      "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
+      "framework": "react",
+      "importStatement": "import { HoverCard } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "Delay before closing on leave, in ms."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "required": false,
+          "description": "Delay before opening on hover, in ms."
+        }
+      ],
+      "usageSnippet": "<HoverCard>…</HoverCard>",
+      "propSignatureHash": "sha256:79017ced95806657",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "HoverCardArrow",
+      "codeName": "HoverCardArrow",
+      "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
+      "framework": "react",
+      "importStatement": "import { HoverCardArrow } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<HoverCardArrow />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "HoverCardContent",
+      "codeName": "HoverCardContent",
+      "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
+      "framework": "react",
+      "importStatement": "import { HoverCardContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "align",
+          "type": "HoverCardAlign",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Alignment along the chosen side."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false,
+          "description": "Offset along the alignment axis, in px."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render a pointer arrow toward the trigger."
+        },
+        {
+          "name": "side",
+          "type": "HoverCardSide",
+          "required": false,
+          "defaultValue": "bottom",
+          "description": "Side of the trigger to position against."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "Gap between trigger and card, in px."
+        }
+      ],
+      "usageSnippet": "<HoverCardContent />",
+      "propSignatureHash": "sha256:ce807107512e1d31",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "HoverCardTrigger",
+      "codeName": "HoverCardTrigger",
+      "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
+      "framework": "react",
+      "importStatement": "import { HoverCardTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<HoverCardTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Icon",
+      "codeName": "Icon",
+      "codePath": "packages/react/src/components/Icon/Icon.types.ts",
+      "framework": "react",
+      "importStatement": "import { Icon } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Additional CSS class applied to the outer wrapper span."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label for meaningful (non-decorative) icons."
+        },
+        {
+          "name": "name",
+          "type": "CanonicalIconName | IconComponent",
+          "required": true,
+          "description": "Either a canonical icon name from the design system's set, or a library icon component supplied directly (e.g."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "defaultValue": "24",
+          "description": "Icon size in pixels."
+        }
+      ],
+      "usageSnippet": "<Icon name={/* CanonicalIconName | IconComponent */} />",
+      "propSignatureHash": "sha256:90f0ac6deaa84765",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Input",
+      "codeName": "Input",
+      "codePath": "packages/react/src/components/Input/Input.types.ts",
+      "framework": "react",
+      "importStatement": "import { Input } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
+      "usageSnippet": "<Input />",
+      "propSignatureHash": "sha256:7a065a645590a677",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Menu",
+      "codeName": "Menu",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { Menu } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<Menu>…</Menu>",
+      "propSignatureHash": "sha256:45d508fd30c96523",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuCheckboxItem",
+      "codeName": "MenuCheckboxItem",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuCheckboxItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled checked state."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "required": false,
+          "description": "Fired when the checked state changes."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "defaultValue": "a",
+          "description": "Stable id for the item; defaults to a generated id."
+        }
+      ],
+      "usageSnippet": "<MenuCheckboxItem />",
+      "propSignatureHash": "sha256:dc0af9c05089e992",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuContent",
+      "codeName": "MenuContent",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "align",
+          "type": "MenuAlign",
+          "required": false,
+          "defaultValue": "start",
+          "description": "Alignment along the chosen side."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false,
+          "description": "Offset along the alignment axis, in px."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "side",
+          "type": "MenuSide",
+          "required": false,
+          "defaultValue": "bottom",
+          "description": "Side of the trigger to position against."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "Gap between trigger and popup, in px."
+        }
+      ],
+      "usageSnippet": "<MenuContent />",
+      "propSignatureHash": "sha256:1f4c6873dde0f0bc",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuGroup",
+      "codeName": "MenuGroup",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuGroup } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<MenuGroup />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuGroupLabel",
+      "codeName": "MenuGroupLabel",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuGroupLabel } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<MenuGroupLabel />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuItem",
+      "codeName": "MenuItem",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "destructive",
+          "type": "boolean",
+          "required": false,
+          "description": "Render with destructive (danger) styling."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable the item."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Leading icon."
+        },
+        {
+          "name": "onSelect",
+          "type": "() => void",
+          "required": false,
+          "description": "Fired when the item is selected (click or keyboard)."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "defaultValue": "a",
+          "description": "Stable id for the item; defaults to a generated id."
+        }
+      ],
+      "usageSnippet": "<MenuItem />",
+      "propSignatureHash": "sha256:a65b7948801ee2b1",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuRadioGroup",
+      "codeName": "MenuRadioGroup",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuRadioGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Fired when the selected value changes."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled selected value."
+        }
+      ],
+      "usageSnippet": "<MenuRadioGroup>…</MenuRadioGroup>",
+      "propSignatureHash": "sha256:52b319fda5c54103",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuRadioItem",
+      "codeName": "MenuRadioItem",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuRadioItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Value this item selects within its radio group."
+        }
+      ],
+      "usageSnippet": "<MenuRadioItem value={/* string */} />",
+      "propSignatureHash": "sha256:b868f7539ba601cd",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuSeparator",
+      "codeName": "MenuSeparator",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuSeparator } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<MenuSeparator />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "MenuTrigger",
+      "codeName": "MenuTrigger",
+      "codePath": "packages/react/src/components/Menu/Menu.types.ts",
+      "framework": "react",
+      "importStatement": "import { MenuTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<MenuTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Menubar",
+      "codeName": "Menubar",
+      "codePath": "packages/react/src/components/Menubar/Menubar.types.ts",
+      "framework": "react",
+      "importStatement": "import { Menubar } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Layout orientation."
+        }
+      ],
+      "usageSnippet": "<Menubar />",
+      "propSignatureHash": "sha256:cb8cd33347e618f0",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Meter",
+      "codeName": "Meter",
+      "codePath": "packages/react/src/components/Meter/Meter.types.ts",
+      "framework": "react",
+      "importStatement": "import { Meter } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "format",
+          "type": "Intl.NumberFormatOptions",
+          "required": false,
+          "description": "Options to format the displayed value (e.g."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Optional label rendered above the track."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "100",
+          "description": "Maximum value."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Minimum value."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Whether to show the formatted value beside the label."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Track thickness."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": true,
+          "description": "The current value."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"success\" | \"warning\" | \"error\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Color variant."
+        }
+      ],
+      "usageSnippet": "<Meter value={/* number */} />",
+      "propSignatureHash": "sha256:b6ba916fba5d5478",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavProvider",
+      "codeName": "NavProvider",
+      "codePath": "packages/react/src/components/Navigation/NavContext.tsx",
+      "framework": "react",
+      "importStatement": "import { NavProvider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Collapse all descendant nav items to an icon-only rail."
+        }
+      ],
+      "usageSnippet": "<NavProvider>…</NavProvider>",
+      "propSignatureHash": "sha256:c3f9c36951922c79",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavItem",
+      "codeName": "NavItem",
+      "codePath": "packages/react/src/components/Navigation/Navigation.types.ts",
+      "framework": "react",
+      "importStatement": "import { NavItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Sub-pages shown beneath the item when expanded."
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Render as an icon-only rail (label hidden, sub-list suppressed)."
+        },
+        {
+          "name": "defaultExpanded",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Initial expanded state for uncontrolled usage."
+        },
+        {
+          "name": "expanded",
+          "type": "boolean",
+          "required": false,
+          "description": "Expanded state for controlled usage."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName | React.ComponentType<Record<string, unknown>>",
+          "required": false,
+          "description": "Optional leading icon, rendered via the Icon component — either a canonical name or a library icon component supplied directly (e.g."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "Text label for the page."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(expanded: boolean) => void",
+          "required": false,
+          "description": "Called with the next expanded state whenever the caret is toggled."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks this page as the current page — renders the filled, emphasized appearance."
+        }
+      ],
+      "usageSnippet": "<NavItem label={/* React.ReactNode */}>…</NavItem>",
+      "propSignatureHash": "sha256:73f77a5acd96b251",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavSubItem",
+      "codeName": "NavSubItem",
+      "codePath": "packages/react/src/components/Navigation/Navigation.types.ts",
+      "framework": "react",
+      "importStatement": "import { NavSubItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Render as an icon-only rail (label hidden)."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Optional leading icon, rendered via the Icon component."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "Text label for the sub-page."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks this sub-page as the current page."
+        }
+      ],
+      "usageSnippet": "<NavSubItem label={/* React.ReactNode */} />",
+      "propSignatureHash": "sha256:b6749d0feda0a0f7",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Sidebar",
+      "codeName": "Sidebar",
+      "codePath": "packages/react/src/components/Navigation/Navigation.types.ts",
+      "framework": "react",
+      "importStatement": "import { Sidebar } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Nav items (`NavItem`) — the scrollable middle region."
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean",
+          "required": false,
+          "description": "Collapsed state for controlled usage."
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean",
+          "required": false,
+          "description": "Allow collapsing to an icon-only rail."
+        },
+        {
+          "name": "defaultCollapsed",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Initial collapsed state for uncontrolled usage."
+        },
+        {
+          "name": "footer",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Footer region pinned to the bottom, above the auto collapse toggle."
+        },
+        {
+          "name": "logo",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Logo / wordmark pinned to the top of the sidebar."
+        },
+        {
+          "name": "logoCollapsed",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Optional compact logo shown when collapsed (e.g."
+        },
+        {
+          "name": "navLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Primary",
+          "description": "Accessible label for the inner nav landmark."
+        },
+        {
+          "name": "onCollapsedChange",
+          "type": "(collapsed: boolean) => void",
+          "required": false,
+          "description": "Called with the next collapsed state whenever the toggle is used."
+        }
+      ],
+      "usageSnippet": "<Sidebar>…</Sidebar>",
+      "propSignatureHash": "sha256:0341f1edb917c622",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NumberField",
+      "codeName": "NumberField",
+      "codePath": "packages/react/src/components/NumberField/NumberField.types.ts",
+      "framework": "react",
+      "importStatement": "import { NumberField } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the field should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "format",
+          "type": "Intl.NumberFormatOptions",
+          "required": false,
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "Explicit id for the input (label association)."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the control."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "Maximum allowed value."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "description": "Minimum allowed value."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number | null) => void",
+          "required": false,
+          "description": "Called when the value changes."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder shown when empty."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the value can be edited."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether a value is required for form submission."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Increment/decrement step."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "required": false,
+          "description": "Controlled numeric value."
+        }
+      ],
+      "usageSnippet": "<NumberField />",
+      "propSignatureHash": "sha256:b91cfb22028b086d",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Pagination",
+      "codeName": "Pagination",
+      "codePath": "packages/react/src/components/Pagination/Pagination.types.ts",
+      "framework": "react",
+      "importStatement": "import { Pagination } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "boundaryCount",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Pages always shown at the start and end."
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "required": true,
+          "description": "Total number of pages."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "required": true,
+          "description": "Called with the next page when a control is activated."
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "required": true,
+          "description": "The current page (1-based)."
+        },
+        {
+          "name": "showPrevNext",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Render the previous/next arrow controls."
+        },
+        {
+          "name": "siblingCount",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Pages shown on each side of the current page."
+        }
+      ],
+      "usageSnippet": "<Pagination count={/* number */} page={/* number */} />",
+      "propSignatureHash": "sha256:3db469cd143dd0c1",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PasswordInput",
+      "codeName": "PasswordInput",
+      "codePath": "packages/react/src/components/PasswordInput/PasswordInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { PasswordInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "showToggle",
+          "type": "boolean",
+          "required": false,
+          "description": "Show the show/hide visibility toggle."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
+      "usageSnippet": "<PasswordInput />",
+      "propSignatureHash": "sha256:c14424eb19ef5d89",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Popover",
+      "codeName": "Popover",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { Popover } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<Popover>…</Popover>",
+      "propSignatureHash": "sha256:a93ae00228c7bad7",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverArrow",
+      "codeName": "PopoverArrow",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverArrow } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverArrow />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverClose",
+      "codeName": "PopoverClose",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverClose } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverClose />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverContent",
+      "codeName": "PopoverContent",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "align",
+          "type": "PopoverAlign",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Alignment along the chosen side."
+        },
+        {
+          "name": "alignOffset",
+          "type": "number",
+          "required": false,
+          "description": "Offset along the alignment axis, in px."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Render a pointer arrow toward the trigger."
+        },
+        {
+          "name": "side",
+          "type": "PopoverSide",
+          "required": false,
+          "defaultValue": "bottom",
+          "description": "Side of the trigger to position against."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "Gap between trigger and popup, in px."
+        }
+      ],
+      "usageSnippet": "<PopoverContent />",
+      "propSignatureHash": "sha256:11cf6d752c8ab96f",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverTrigger",
+      "codeName": "PopoverTrigger",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Progress",
+      "codeName": "Progress",
+      "codePath": "packages/react/src/components/Progress/Progress.types.ts",
+      "framework": "react",
+      "importStatement": "import { Progress } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Optional label rendered above the track."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "100",
+          "description": "Maximum value."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Whether to show the formatted value beside the label."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Track thickness."
+        },
+        {
+          "name": "value",
+          "type": "number | null",
+          "required": false,
+          "defaultValue": "null",
+          "description": "Current value."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"success\" | \"warning\" | \"error\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Color variant."
+        }
+      ],
+      "usageSnippet": "<Progress />",
+      "propSignatureHash": "sha256:1828fc99db4d4a55",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "RadioGroup",
+      "codeName": "RadioGroup",
+      "codePath": "packages/react/src/components/Radio/Radio.types.ts",
+      "framework": "react",
+      "importStatement": "import { RadioGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire group should ignore user interaction."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Group label rendered above the options."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Callback fired when selection changes."
+        },
+        {
+          "name": "options",
+          "type": "RadioOption[]",
+          "required": true,
+          "description": "The selectable radio options."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "vertical",
+          "description": "Layout direction of the radio items."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled selected value."
+        }
+      ],
+      "usageSnippet": "<RadioGroup options={/* RadioOption[] */} />",
+      "propSignatureHash": "sha256:93806ae6d8e62cb8",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Range",
+      "codeName": "Range",
+      "codePath": "packages/react/src/components/Range/Range.types.ts",
+      "framework": "react",
+      "importStatement": "import { Range } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the slider should ignore user interaction."
+        },
+        {
+          "name": "endLabel",
+          "type": "React.ReactNode",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Custom content for the end (max) label."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "formatValue",
+          "type": "(value: number) => string",
+          "required": false,
+          "description": "Format the value shown in the header readout."
+        },
+        {
+          "name": "hideValue",
+          "type": "boolean",
+          "required": false,
+          "description": "Hide the numeric value readout in the header."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "ID for the slider root."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the track, beside the value readout."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "defaultValue": "100",
+          "description": "Maximum value."
+        },
+        {
+          "name": "min",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Minimum value."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Fired continuously while the value changes (e.g."
+        },
+        {
+          "name": "onValueCommitted",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Fired once when the user stops interacting and commits the value."
+        },
+        {
+          "name": "rangeLabels",
+          "type": "boolean",
+          "required": false,
+          "description": "Show the start/end value labels at each end of the track."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "snapValues",
+          "type": "number[]",
+          "required": false,
+          "description": "A fixed set of allowed values the thumb snaps to (\"snap to certain values\")."
+        },
+        {
+          "name": "startLabel",
+          "type": "React.ReactNode",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Custom content for the start (min) label."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The interval the slider snaps to between `min` and `max`."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "description": "Controlled value."
+        }
+      ],
+      "usageSnippet": "<Range />",
+      "propSignatureHash": "sha256:56341b313d548653",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ScrollArea",
+      "codeName": "ScrollArea",
+      "codePath": "packages/react/src/components/ScrollArea/ScrollArea.types.ts",
+      "framework": "react",
+      "importStatement": "import { ScrollArea } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "Scrollable content."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "orientation",
+          "type": "\"vertical\" | \"horizontal\" | \"both\"",
+          "required": false,
+          "defaultValue": "vertical",
+          "description": "Which scrollbars to render."
+        },
+        {
+          "name": "style",
+          "type": "React.CSSProperties",
+          "required": false,
+          "description": "Inline styles applied to the Root — typically a `height`/`maxHeight`."
+        }
+      ],
+      "usageSnippet": "<ScrollArea>…</ScrollArea>",
+      "propSignatureHash": "sha256:206685e02d9d0872",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SearchInput",
+      "codeName": "SearchInput",
+      "codePath": "packages/react/src/components/SearchInput/SearchInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { SearchInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "clearable",
+          "type": "boolean",
+          "required": false,
+          "description": "Show the clear (×) button while the field has a value."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "onClear",
+          "type": "() => void",
+          "required": false,
+          "description": "Called after the field is cleared via the clear button."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
+      "usageSnippet": "<SearchInput />",
+      "propSignatureHash": "sha256:102ee6860f02c5fa",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Select",
+      "codeName": "Select",
+      "codePath": "packages/react/src/components/Select/Select.types.ts",
+      "framework": "react",
+      "importStatement": "import { Select } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the select should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the trigger."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the trigger."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Callback fired when the selected value changes."
+        },
+        {
+          "name": "options",
+          "type": "SelectOption[]",
+          "required": true,
+          "description": "Selectable options."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder text shown when nothing is selected."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the dropdown popup into."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether a value is required for form submission."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled selected value."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"ghost\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual variant."
+        }
+      ],
+      "usageSnippet": "<Select options={/* SelectOption[] */} />",
+      "propSignatureHash": "sha256:1b786275d6126657",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Separator",
+      "codeName": "Separator",
+      "codePath": "packages/react/src/components/Separator/Separator.types.ts",
+      "framework": "react",
+      "importStatement": "import { Separator } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Orientation of the rule."
+        },
+        {
+          "name": "spacing",
+          "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
+        }
+      ],
+      "usageSnippet": "<Separator />",
+      "propSignatureHash": "sha256:c5de96eadc107432",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Sheet",
+      "codeName": "Sheet",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { Sheet } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<Sheet>…</Sheet>",
+      "propSignatureHash": "sha256:8e605567ead9a6fd",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetClose",
+      "codeName": "SheetClose",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetClose } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<SheetClose />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetContent",
+      "codeName": "SheetContent",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Render a close (×) button in the top-right corner."
+        },
+        {
+          "name": "side",
+          "type": "SheetVariants[\"side\"]",
+          "required": false,
+          "defaultValue": "right",
+          "description": "Edge the panel slides in from."
+        },
+        {
+          "name": "size",
+          "type": "SheetVariants[\"size\"]",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Panel extent (width for left/right, height for top/bottom)."
+        }
+      ],
+      "usageSnippet": "<SheetContent />",
+      "propSignatureHash": "sha256:547d87a13141e747",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetDescription",
+      "codeName": "SheetDescription",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<SheetDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetFooter",
+      "codeName": "SheetFooter",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetFooter } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<SheetFooter />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetTitle",
+      "codeName": "SheetTitle",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<SheetTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SheetTrigger",
+      "codeName": "SheetTrigger",
+      "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { SheetTrigger } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<SheetTrigger />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Skeleton",
+      "codeName": "Skeleton",
+      "codePath": "packages/react/src/components/Skeleton/Skeleton.types.ts",
+      "framework": "react",
+      "importStatement": "import { Skeleton } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "animated",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether to run the shimmer animation."
+        },
+        {
+          "name": "height",
+          "type": "number | string",
+          "required": false,
+          "description": "Explicit height — a number is treated as pixels."
+        },
+        {
+          "name": "lines",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Number of text lines to render (only meaningful for the 'text' variant)."
+        },
+        {
+          "name": "variant",
+          "type": "\"text\" | \"circle\" | \"rect\" | \"rounded\"",
+          "required": false,
+          "defaultValue": "text",
+          "description": "Shape of the placeholder."
+        },
+        {
+          "name": "width",
+          "type": "number | string",
+          "required": false,
+          "description": "Explicit width — a number is treated as pixels."
+        }
+      ],
+      "usageSnippet": "<Skeleton />",
+      "propSignatureHash": "sha256:fb1f7adb5e58b02b",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Switch",
+      "codeName": "Switch",
+      "codePath": "packages/react/src/components/Switch/Switch.types.ts",
+      "framework": "react",
+      "importStatement": "import { Switch } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "checked",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the switch is currently on (controlled)."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultChecked",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial state for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the switch should ignore user interaction."
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "required": false,
+          "description": "ID for the switch element."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Label text rendered beside the switch."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onCheckedChange",
+          "type": "(checked: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the switch state changes."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the switch is required for form submission."
+        }
+      ],
+      "usageSnippet": "<Switch />",
+      "propSignatureHash": "sha256:81671ca52c9acd68",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Tabs",
+      "codeName": "Tabs",
+      "codePath": "packages/react/src/components/Tabs/Tabs.types.ts",
+      "framework": "react",
+      "importStatement": "import { Tabs } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | number",
+          "required": false,
+          "defaultValue": "first",
+          "description": "Initial active tab value for uncontrolled usage."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | number) => void",
+          "required": false,
+          "description": "Callback fired when the active tab changes."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Whether tabs render horizontally or vertically."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"small\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Tab sizing."
+        },
+        {
+          "name": "tabs",
+          "type": "TabItem[]",
+          "required": true,
+          "description": "Tab definitions including labels and panel content."
+        },
+        {
+          "name": "value",
+          "type": "string | number",
+          "required": false,
+          "description": "Controlled active tab value."
+        }
+      ],
+      "usageSnippet": "<Tabs tabs={/* TabItem[] */} />",
+      "propSignatureHash": "sha256:657142a2c38c3bdb",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TextArea",
+      "codeName": "TextArea",
+      "codePath": "packages/react/src/components/TextArea/TextArea.types.ts",
+      "framework": "react",
+      "importStatement": "import { TextArea } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "resize",
+          "type": "\"none\" | \"vertical\" | \"horizontal\" | \"both\"",
+          "required": false,
+          "defaultValue": "both",
+          "description": "Native resize affordance."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
+      "usageSnippet": "<TextArea />",
+      "propSignatureHash": "sha256:44fdc445b5e5ca23",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToastProvider",
+      "codeName": "ToastProvider",
+      "codePath": "packages/react/src/components/Toast/Toast.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToastProvider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<ToastProvider>…</ToastProvider>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Toggle",
+      "codeName": "Toggle",
+      "codePath": "packages/react/src/components/Toggle/Toggle.types.ts",
+      "framework": "react",
+      "importStatement": "import { Toggle } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "defaultPressed",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial pressed state for uncontrolled standalone usage."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Optional leading icon."
+        },
+        {
+          "name": "onPressedChange",
+          "type": "(pressed: boolean) => void",
+          "required": false,
+          "description": "Fired when the pressed state changes (standalone usage)."
+        },
+        {
+          "name": "pressed",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled pressed state (standalone usage)."
+        },
+        {
+          "name": "size",
+          "type": "ToggleVariants[\"size\"]",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Identifies this toggle within a `<ToggleGroup>`; turns it into a group item."
+        }
+      ],
+      "usageSnippet": "<Toggle />",
+      "propSignatureHash": "sha256:acde0a4546711e5e",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToggleGroup",
+      "codeName": "ToggleGroup",
+      "codePath": "packages/react/src/components/Toggle/Toggle.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToggleGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial pressed values for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable the whole group."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "single-select",
+          "description": "Allow more than one toggle pressed at once."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Fired when the set of pressed values changes."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Layout orientation."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled list of pressed values."
+        }
+      ],
+      "usageSnippet": "<ToggleGroup />",
+      "propSignatureHash": "sha256:4800110f711f816e",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Toolbar",
+      "codeName": "Toolbar",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { Toolbar } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Layout orientation."
+        }
+      ],
+      "usageSnippet": "<Toolbar />",
+      "propSignatureHash": "sha256:cb8cd33347e618f0",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToolbarButton",
+      "codeName": "ToolbarButton",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToolbarButton } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "icon",
+          "type": "CanonicalIconName",
+          "required": false,
+          "description": "Optional leading icon."
+        }
+      ],
+      "usageSnippet": "<ToolbarButton />",
+      "propSignatureHash": "sha256:a8b5bafd14c6d42c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToolbarGroup",
+      "codeName": "ToolbarGroup",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToolbarGroup } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ToolbarGroup />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToolbarInput",
+      "codeName": "ToolbarInput",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToolbarInput } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ToolbarInput />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToolbarLink",
+      "codeName": "ToolbarLink",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToolbarLink } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ToolbarLink />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ToolbarSeparator",
+      "codeName": "ToolbarSeparator",
+      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { ToolbarSeparator } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<ToolbarSeparator />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Tooltip",
+      "codeName": "Tooltip",
+      "codePath": "packages/react/src/components/Tooltip/Tooltip.types.ts",
+      "framework": "react",
+      "importStatement": "import { Tooltip } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "align",
+          "type": "TooltipAlign",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Alignment along the chosen side."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "The trigger."
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "Delay before closing, in ms."
+        },
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "content",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "Content shown in the tooltip bubble."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "description": "Delay before opening, in ms."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "When true, renders the trigger without a tooltip."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "showArrow",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Render a pointer arrow."
+        },
+        {
+          "name": "side",
+          "type": "TooltipSide",
+          "required": false,
+          "defaultValue": "top",
+          "description": "Side of the trigger to position against."
+        },
+        {
+          "name": "sideOffset",
+          "type": "number",
+          "required": false,
+          "defaultValue": "6",
+          "description": "Gap between the trigger and bubble, in px."
+        }
+      ],
+      "usageSnippet": "<Tooltip content={/* React.ReactNode */}>…</Tooltip>",
+      "propSignatureHash": "sha256:ffa66e1e441b93b2",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TooltipProvider",
+      "codeName": "TooltipProvider",
+      "codePath": "packages/react/src/components/Tooltip/Tooltip.types.ts",
+      "framework": "react",
+      "importStatement": "import { TooltipProvider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": true
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "description": "Default delay before closing, in ms, for descendant tooltips."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "description": "Default delay before opening, in ms, for descendant tooltips."
+        }
+      ],
+      "usageSnippet": "<TooltipProvider>…</TooltipProvider>",
+      "propSignatureHash": "sha256:7040e5e67adbe084",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "IconProvider",
+      "codeName": "IconProvider",
+      "codePath": "packages/react/src/context/IconContext.tsx",
+      "framework": "react",
+      "importStatement": "import { IconProvider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<IconProvider>…</IconProvider>",
+      "propSignatureHash": "sha256:5b45ed467f82e267",
+      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    }
+  ]
+}

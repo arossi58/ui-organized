@@ -4,6 +4,7 @@ import { Skeleton } from "@ui-organized/react";
 const meta: Meta<typeof Skeleton> = {
   title: "Components/Feedback/Skeleton",
   component: Skeleton,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -22,7 +23,8 @@ const meta: Meta<typeof Skeleton> = {
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
 
-export const Text: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => <Skeleton {...args} width={280} />,
   args: { variant: "text", animated: true },
 };

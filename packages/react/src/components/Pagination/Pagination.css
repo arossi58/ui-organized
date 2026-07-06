@@ -9,15 +9,16 @@
   padding: 0;
 }
 
-/* ─── Page + nav controls ─────────────────────────────────────────────────── */
+/* ─── Page controls ───────────────────────────────────────────────────────── */
 
-.pagination__page,
-.pagination__nav {
+/* Sized to the shared control height so numbered pages sit flush with the
+   ghost prev/next/ellipsis buttons in the row. */
+.pagination__page {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  height: 36px;
+  min-width: var(--control-height-md);
+  height: var(--control-height-md);
   padding: 0 var(--spacing-space-02);
   border: 1px solid transparent;
   border-radius: var(--radius-interactive);
@@ -31,13 +32,11 @@
     color 150ms ease;
 }
 
-.pagination__page:hover:not(:disabled),
-.pagination__nav:hover:not(:disabled) {
+.pagination__page:hover:not(:disabled) {
   background-color: var(--color-interactive-ui-hover);
 }
 
-.pagination__page:focus-visible,
-.pagination__nav:focus-visible {
+.pagination__page:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
@@ -47,18 +46,38 @@
   color: var(--color-interactive-contents);
 }
 
-.pagination__nav:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-/* ─── Ellipsis ────────────────────────────────────────────────────────────── */
+/* ─── Ellipsis (jump menu trigger) ────────────────────────────────────────── */
 
 .pagination__ellipsis {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 36px;
-  height: 36px;
+  min-width: var(--control-height-md);
+  height: var(--control-height-md);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  background: var(--color-interactive-ghost-default);
   color: var(--color-text-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.pagination__ellipsis:hover,
+.pagination__ellipsis[data-state="open"] {
+  background-color: var(--color-interactive-ghost-hover);
+  color: var(--color-text-primary);
+}
+
+.pagination__ellipsis:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Constrain long hidden-page ranges to a scrollable menu. */
+.pagination__ellipsis-menu {
+  max-height: 16rem;
+  overflow-y: auto;
 }

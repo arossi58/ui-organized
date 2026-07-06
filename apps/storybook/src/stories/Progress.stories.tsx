@@ -4,6 +4,7 @@ import { Progress } from "@ui-organized/react";
 const meta: Meta<typeof Progress> = {
   title: "Components/Feedback/Progress",
   component: Progress,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -23,7 +24,8 @@ const meta: Meta<typeof Progress> = {
 export default meta;
 type Story = StoryObj<typeof Progress>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => (
     <div style={{ width: 320 }}>
       <Progress {...args} />

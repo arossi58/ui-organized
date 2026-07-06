@@ -14,6 +14,7 @@ const FRUITS = [
 const meta: Meta<typeof Combobox> = {
   title: "Components/Forms/Combobox",
   component: Combobox,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -32,7 +33,8 @@ const meta: Meta<typeof Combobox> = {
 export default meta;
 type Story = StoryObj<typeof Combobox>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: (args) => (
     <div style={{ width: 280 }}>
       <Combobox {...args} />

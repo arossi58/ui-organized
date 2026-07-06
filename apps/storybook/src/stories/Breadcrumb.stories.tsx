@@ -4,6 +4,7 @@ import { Breadcrumb } from "@ui-organized/react";
 const meta: Meta<typeof Breadcrumb> = {
   title: "Components/Navigation/Breadcrumb",
   component: Breadcrumb,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof Breadcrumb> = {
 export default meta;
 type Story = StoryObj<typeof Breadcrumb>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <Breadcrumb
       items={[

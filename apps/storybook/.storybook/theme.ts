@@ -100,7 +100,7 @@ function brandLogo(ink: string): string {
   const svg =
     `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="144" viewBox="0 0 560 144">` +
     `<g fill="${ink}">${paths}</g>` +
-    `<text x="170" y="95" fill="${ink}" font-family="Roboto, system-ui, -apple-system, sans-serif" ` +
+    `<text x="170" y="95" fill="${ink}" font-family="Inter, system-ui, -apple-system, sans-serif" ` +
     `font-size="60" font-weight="700" letter-spacing="-1">UI Organized</text>` +
     `</svg>`;
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
@@ -134,7 +134,7 @@ export function makeManagerTheme(mode: ThemeMode, brand: string) {
     appBorderColor: v("--color-border-secondary", "#e0e0e0"),
     appBorderRadius: 8,
 
-    fontBase: '"Roboto", system-ui, -apple-system, "Segoe UI", sans-serif',
+    fontBase: '"Inter", system-ui, -apple-system, "Segoe UI", sans-serif',
     fontCode: 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace',
 
     textColor: ink,

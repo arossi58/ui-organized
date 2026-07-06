@@ -1,0 +1,28 @@
+{
+  "name": "@ui-organized/figma-code-connect-plugin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Figma plugin for UI Organized Code Connect (Connect.md §4). Maps a selected Figma component to a real @ui-organized/react component: writes only a pointer (component key) onto the node's pluginData and opens a manifest PR via the GitHub API. Phase 4 — mapping creation.",
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@ui-organized/code-connect": "workspace:*",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@figma/plugin-typings": "^1.100.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

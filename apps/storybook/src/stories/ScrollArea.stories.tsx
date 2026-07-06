@@ -4,6 +4,7 @@ import { ScrollArea } from "@ui-organized/react";
 const meta: Meta<typeof ScrollArea> = {
   title: "Components/Layout/ScrollArea",
   component: ScrollArea,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -18,7 +19,8 @@ const meta: Meta<typeof ScrollArea> = {
 export default meta;
 type Story = StoryObj<typeof ScrollArea>;
 
-export const Vertical: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   render: () => (
     <ScrollArea
       style={{ height: 200, width: 280, border: "1px solid var(--color-border-secondary)", borderRadius: 8 }}

@@ -11,6 +11,7 @@ const PLAN_OPTIONS = [
 const meta: Meta<typeof RadioGroup> = {
   title: "Components/Forms/RadioGroup",
   component: RadioGroup,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -33,7 +34,8 @@ const meta: Meta<typeof RadioGroup> = {
 export default meta;
 type Story = StoryObj<typeof RadioGroup>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   parameters: {
     docs: {
       source: {

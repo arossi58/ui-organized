@@ -5,6 +5,7 @@ import { Range } from "@ui-organized/react";
 const meta: Meta<typeof Range> = {
   title: "Components/Forms/Range",
   component: Range,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -35,7 +36,8 @@ type Story = StoryObj<typeof Range>;
 
 const wrap = { display: "flex", flexDirection: "column" as const, gap: "24px", maxWidth: "320px" };
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Volume",
     defaultValue: 40,

@@ -5,6 +5,7 @@ import { PasswordInput } from "@ui-organized/react";
 const meta: Meta<typeof PasswordInput> = {
   title: "Components/Forms/PasswordInput",
   component: PasswordInput,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -32,7 +33,8 @@ const meta: Meta<typeof PasswordInput> = {
 export default meta;
 type Story = StoryObj<typeof PasswordInput>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Password",
     placeholder: "Enter your password",

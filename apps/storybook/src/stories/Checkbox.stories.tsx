@@ -4,6 +4,7 @@ import { Checkbox } from "@ui-organized/react";
 const meta: Meta<typeof Checkbox> = {
   title: "Components/Forms/Checkbox",
   component: Checkbox,
+  tags: ["!dev"],
   parameters: {
     layout: "padded",
     docs: {
@@ -25,7 +26,8 @@ const meta: Meta<typeof Checkbox> = {
 export default meta;
 type Story = StoryObj<typeof Checkbox>;
 
-export const Default: Story = {
+export const Inspect: Story = {
+  tags: ["dev"],
   args: {
     label: "Accept terms and conditions",
   },
