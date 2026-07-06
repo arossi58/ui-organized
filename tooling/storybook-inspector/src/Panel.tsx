@@ -4,9 +4,9 @@
  * layout for the selected element — and keeps the manifest-driven live args in a
  * collapsed section below (still real `useArgs` writes).
  */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { useArgTypes } from "storybook/manager-api";
-import { useTheme } from "storybook/theming";
+import { readSiteTheme, resolveBrandVars } from "./site-theme.js";
 import { useManifestEntry } from "./hooks/useManifestEntry.js";
 import { useLiveArgs } from "./hooks/useLiveArgs.js";
 import { usePreviewInspection } from "./hooks/usePreviewInspection.js";
@@ -162,15 +162,19 @@ export function Panel() {
 
   const current = nodes[selected] ?? nodes[0];
 
-  // Drive the injected DS tokens (see manager.tsx) light/dark. The manager theme
-  // is built with `base: mode` from the visitor's site theme, so `theme.base` is
-  // the same mode the chrome uses — keeping the panel consistent with it rather
-  // than tracking the preview canvas toolbar (which only re-themes the story).
-  const theme = useTheme() as { base?: string };
-  const mode = theme?.base === "dark" ? "dark" : "light";
+  // Read the visitor's site theme (shared via localStorage) once. `data-theme`
+  // drives the injected DS tokens (see manager.tsx) light/dark — the same mode
+  // the Storybook chrome is built with, so the panel stays consistent with it.
+  // The resolved brand hexes are set inline so the accent follows the site's
+  // brand picker, overriding the default-brand values baked into variables.css.
+  const site = useMemo(readSiteTheme, []);
+  const brandVars = useMemo(
+    () => resolveBrandVars(site.mode, site.brand) as CSSProperties,
+    [site],
+  );
 
   return (
-    <div className="fcp-root" data-theme={mode}>
+    <div className="fcp-root" data-theme={site.mode} style={brandVars}>
       <div className="fcp-toolbar">
         <span className="fcp-toolbar-title">Inspect</span>
         <span className="fcp-toolbar-actions">

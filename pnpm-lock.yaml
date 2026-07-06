@@ -752,6 +752,9 @@ importers:
       '@ui-organized/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
+      '@ui-organized/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
     devDependencies:
       '@types/node':
         specifier: ^20.0.0

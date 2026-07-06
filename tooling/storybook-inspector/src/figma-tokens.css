@@ -243,7 +243,8 @@
 /* Detail rows */
 .fcp-mono { font-family: ui-monospace, monospace; font-size: 11px; }
 .fcp-var {
-  font-family: ui-monospace, monospace; font-size: 11px; color: var(--color-status-info, #7fc7ff);
+  /* `-content` is the on-surface text ramp: bright in dark mode, dark in light. */
+  font-family: ui-monospace, monospace; font-size: 11px; color: var(--color-status-info-content, #7fc7ff);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .fcp-swatch {
