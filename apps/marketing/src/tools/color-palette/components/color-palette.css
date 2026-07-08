@@ -212,6 +212,12 @@
   flex-direction: column;
   gap: 8px;
 }
+.cp-overview__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
 .cp-overview__title {
   margin: 0;
   font-family: Roboto, sans-serif;

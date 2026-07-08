@@ -32,27 +32,18 @@ export interface ToolDef {
    * tools render a placeholder panel describing what's coming.
    */
   status: "live" | "soon" | "planned";
+  /**
+   * Self-contained mini-apps embedded in the panel, grouped under a "Standalone
+   * apps" heading in the sidebar (below the core token/theme tools).
+   */
+  standalone?: boolean;
+  /** Kept in the registry but not surfaced in the sidebar yet. */
+  hidden?: boolean;
 }
 
+// Order is the sidebar order (and the first entry is the `/tools` default):
+// core token/theme tools first, then the standalone apps.
 export const TOOLS: ToolDef[] = [
-  {
-    id: "color-palette",
-    name: "Color Palette Generator",
-    tagline: "Build accessible, on-brand color scales.",
-    description:
-      "Generate full tonal scales from a seed color, check contrast against the design-system semantic roles, and export the result straight to tokens.",
-    icon: Paintbrush,
-    status: "live",
-  },
-  {
-    id: "icon-scaler",
-    name: "Icon Scaler",
-    tagline: "Resize and align icons to the grid.",
-    description:
-      "Normalize icons to a consistent optical size and pixel grid, tune stroke weight across sizes, and export clean, snap-aligned SVGs.",
-    icon: Scaling,
-    status: "live",
-  },
   {
     id: "theme-builder",
     name: "Theme Builder",
@@ -70,6 +61,27 @@ export const TOOLS: ToolDef[] = [
       "A central home for the token set — inspect every semantic value, edit in place, and keep code and Figma in sync from one source of truth.",
     icon: Braces,
     status: "planned",
+    hidden: true,
+  },
+  {
+    id: "color-palette",
+    name: "Color Palette Generator",
+    tagline: "Build accessible, on-brand color scales.",
+    description:
+      "Generate full tonal scales from a seed color, check contrast against the design-system semantic roles, and export the result straight to tokens.",
+    icon: Paintbrush,
+    status: "live",
+    standalone: true,
+  },
+  {
+    id: "icon-scaler",
+    name: "Icon Scaler",
+    tagline: "Resize and align icons to the grid.",
+    description:
+      "Normalize icons to a consistent optical size and pixel grid, tune stroke weight across sizes, and export clean, snap-aligned SVGs.",
+    icon: Scaling,
+    status: "live",
+    standalone: true,
   },
 ];
 

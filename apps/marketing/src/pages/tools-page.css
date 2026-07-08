@@ -70,6 +70,25 @@
   overflow: hidden;
 }
 
+/* Sidebar group heading + divider — separates the core token/theme tools from
+   the embedded standalone apps. On the collapsed rail only the divider shows
+   (the label is dropped by ToolsNavSection). */
+.tools-nav-section {
+  margin-top: var(--spacing-space-01);
+  padding-top: var(--spacing-space-03);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.tools-nav-section__label {
+  display: block;
+  padding-inline: var(--spacing-space-02);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
 /* ── Tool panel ───────────────────────────────────────────────────────── */
 .tools-panel {
   display: flex;

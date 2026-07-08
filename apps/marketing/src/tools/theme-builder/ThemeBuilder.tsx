@@ -82,7 +82,7 @@ export default function ThemeBuilder() {
       {/* ── Top bar: one DS tab set across the top · preview mode ──────────── */}
       <header className={styles.topBar}>
         <Tabs
-          className={styles.tabs}
+          className={`${styles.tabs} tb-section-tabs`}
           tabs={TAB_ITEMS}
           value={activePanel}
           onValueChange={(v) => setActivePanel(v as ActivePanel)}

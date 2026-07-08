@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Icon } from '@ui-organized/react';
 import { loadPresetDefinition } from '../constants/presets';
+import { LINKS } from '../../../lib/links';
 import SwatchStrip from './SwatchStrip';
 
 // Shared row chrome — a full-width clickable card whose body is a swatch band.
@@ -76,15 +77,31 @@ const CollectionsOverview = ({
               design-system preset, or one of your own.
             </p>
           </div>
-          <Button
-            intent="primary"
-            size="lg"
-            icon="plus"
-            onClick={onNewCollection}
-            style={{ flexShrink: 0 }}
-          >
-            New Collection
-          </Button>
+          <div className="cp-overview__header-actions">
+            <Button
+              intent="secondary"
+              size="lg"
+              icon="external-link"
+              iconPosition="right"
+              render={
+                <a
+                  href={LINKS.figmaColorPalettePlugin}
+                  target="_blank"
+                  rel="noreferrer"
+                />
+              }
+            >
+              Figma plugin
+            </Button>
+            <Button
+              intent="primary"
+              size="lg"
+              icon="plus"
+              onClick={onNewCollection}
+            >
+              New Collection
+            </Button>
+          </div>
         </header>
 
         <div className="cp-overview__rows">

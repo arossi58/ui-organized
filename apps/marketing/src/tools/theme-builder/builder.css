@@ -44,6 +44,48 @@
   display: none;
 }
 
+/* Restyle the section tab bar (top bar only — scoped to `.tb-section-tabs` so
+   the DS Tabs shown inside the live preview keep their default look) as a
+   segmented control, matching the Light/Dark preview switch beside it. */
+.theme-builder-tool .tb-section-tabs .tabs__list {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--builder-surface-input);
+  border: 1px solid var(--builder-border);
+  border-radius: 8px;
+}
+
+.theme-builder-tool .tb-section-tabs .tabs__tab {
+  padding: 5px 12px;
+  border: none;
+  margin-bottom: 0;
+  border-radius: 6px;
+  color: var(--builder-text-secondary);
+  font-size: var(--type-size-body-medium, 14px);
+  font-weight: 500;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+}
+
+.theme-builder-tool
+  .tb-section-tabs
+  .tabs__tab:hover:not([data-disabled]):not([data-selected]) {
+  background: transparent;
+  color: var(--builder-text-primary);
+}
+
+.theme-builder-tool .tb-section-tabs .tabs__tab[data-selected] {
+  background: var(--builder-surface-hover);
+  color: var(--builder-text-primary);
+  font-weight: 600;
+}
+
+.theme-builder-tool .tb-section-tabs .tabs__tab:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
 /* Scrollbar styling (scoped to the tool) */
 .theme-builder-tool ::-webkit-scrollbar {
   width: 6px;
