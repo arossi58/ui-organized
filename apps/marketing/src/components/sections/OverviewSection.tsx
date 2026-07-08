@@ -9,7 +9,7 @@ interface OverviewCardDef {
   id: OverviewId;
   title: string;
   body: string;
-  Art: ComponentType<{ active: boolean }>;
+  Art: ComponentType<{ selected: boolean }>;
 }
 
 const CARDS: OverviewCardDef[] = [

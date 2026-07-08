@@ -3,8 +3,8 @@ import { useState, type ComponentType } from "react";
 interface OverviewCardProps {
   title: string;
   body: string;
-  /** Decorative SVG/DOM art; receives the card's hover/focus/open state. */
-  Art: ComponentType<{ active: boolean }>;
+  /** Decorative SVG art; receives the card's selected (panel-open) state. */
+  Art: ComponentType<{ selected: boolean }>;
   /** Whether this card's detail panel is currently open. */
   open: boolean;
   /** The detail panel this card toggles — its `aria-controls` target. */
@@ -14,12 +14,11 @@ interface OverviewCardProps {
 }
 
 /**
- * One overview card: a tall paper panel whose top half holds a monochrome
+ * One overview card: a tall paper panel whose top half holds an SVG UI
  * animation and whose foot holds the title + blurb. The whole card is a
  * disclosure button that toggles a shared detail panel below the row (per the
- * design brief). The art comes alive — colour and motion — while the card is
- * hovered/focused, and stays lit while its panel is open, so the expanded card
- * reads as selected.
+ * design brief). Selecting the card (opening its panel) plays its art once; the
+ * card still lifts on hover/focus so it reads as interactive.
  */
 export function OverviewCard({ title, body, Art, open, panelId, onToggle }: OverviewCardProps) {
   const [hover, setHover] = useState(false);
@@ -38,7 +37,7 @@ export function OverviewCard({ title, body, Art, open, panelId, onToggle }: Over
       onClick={onToggle}
     >
       <div className="ov-card__stage">
-        <Art active={active} />
+        <Art selected={open} />
       </div>
       <div className="ov-card__foot">
         <h3 className="ov-card__title">{title}</h3>

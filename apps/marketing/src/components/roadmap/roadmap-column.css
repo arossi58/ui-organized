@@ -50,6 +50,13 @@
     scrollbar-width: thin;
     /* A little breathing room between the cards and the scrollbar/divider. */
     padding-right: var(--spacing-space-02);
+    /* `overflow-y: auto` makes `overflow-x` compute to `auto` too, so the list
+       clips on every edge — including the top, where the first card's hover lift
+       + shadow would otherwise be cut off. Pad the scroll box to give the lift
+       room and cancel it with equal negative margins so the resting layout is
+       unchanged. */
+    padding-block: var(--spacing-space-04);
+    margin-block: calc(-1 * var(--spacing-space-04));
   }
 }
 

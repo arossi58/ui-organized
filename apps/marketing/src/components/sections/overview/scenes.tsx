@@ -1,23 +1,20 @@
-import { OverviewScene } from "./OverviewScene";
-import { DesignArt } from "./DesignArt";
-import { PluginsArt } from "./PluginsArt";
-import { CodeArt } from "./CodeArt";
+import { OverviewVideoScene } from "./OverviewVideoScene";
 
 /**
- * Per-card scene arts — the Unicorn Studio WebGL animations that replace the
- * GSAP/SVG illustrations on the overview cards. Defined at module scope (stable
- * component identity) so a card re-render never remounts — and so re-initialises
- * — its WebGL context. Each binds a scene export to the matching SVG art, which
- * stays on as the load/no-WebGL fallback.
+ * Per-card scene arts — the WebM UI animations that replace the earlier
+ * WebGL/GSAP illustrations on the overview cards. Each binds a card to its clip
+ * under public/card-animations/. They receive the card's `selected`
+ * (detail-panel open) state and play once on selection; see OverviewVideoScene
+ * for the one-shot / replay-on-reselect behaviour.
  */
-export function DesignScene({ active }: { active: boolean }) {
-  return <OverviewScene active={active} file="design-card" Fallback={DesignArt} />;
+export function DesignScene({ selected }: { selected: boolean }) {
+  return <OverviewVideoScene selected={selected} file="design" />;
 }
 
-export function ToolsScene({ active }: { active: boolean }) {
-  return <OverviewScene active={active} file="tools-card" Fallback={PluginsArt} />;
+export function ToolsScene({ selected }: { selected: boolean }) {
+  return <OverviewVideoScene selected={selected} file="plugins-tools" />;
 }
 
-export function CodeScene({ active }: { active: boolean }) {
-  return <OverviewScene active={active} file="code-card" Fallback={CodeArt} />;
+export function CodeScene({ selected }: { selected: boolean }) {
+  return <OverviewVideoScene selected={selected} file="code" />;
 }
