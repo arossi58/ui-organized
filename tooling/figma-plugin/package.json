@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/figma-plugin",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "description": "Figma plugin that imports a UI Organized theme.json into Figma Variables — Primitives, Semantic (Light/Dark, aliasing Primitives), Scale and Typography collections.",
   "scripts": {

@@ -1,5 +1,11 @@
 # @ui-organized/schema
 
+## 3.0.0
+
+### Major Changes
+
+- 7fa8db2: consolidated text and icon color tokens to content tokens
+
 ## 2.1.0
 
 ### Minor Changes
