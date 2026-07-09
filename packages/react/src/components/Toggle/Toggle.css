@@ -12,7 +12,7 @@
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
   background-color: var(--color-interactive-ui-default);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   cursor: pointer;
   outline: none;
   transition:

@@ -146,7 +146,7 @@ const SECTION_HEADING = {
   fontWeight: 500,
   fontSize: 20,
   lineHeight: 1.2,
-  color: 'var(--color-text-primary)',
+  color: 'var(--color-content-primary)',
 };
 
 // Square icon button used in the pane header (hamburger + settings gear).
@@ -166,7 +166,7 @@ const IconButton = ({ icon, onClick, title, className }) => (
       background: 'var(--color-interactive-secondary-default)',
       border: 'none',
       cursor: 'pointer',
-      color: 'var(--color-text-primary)',
+      color: 'var(--color-content-primary)',
       flexShrink: 0,
     }}
   >
@@ -447,7 +447,7 @@ const ControlsPanel = ({
               fontWeight: 500,
               fontSize: 14,
               lineHeight: 1.3,
-              color: 'var(--color-text-secondary)',
+              color: 'var(--color-content-secondary)',
             }}
           >
             These settings apply to every swatch in the collection
@@ -579,7 +579,7 @@ const ControlsPanel = ({
                 fontWeight: 400,
                 fontSize: 12,
                 lineHeight: 1.3,
-                color: 'var(--color-text-tertiary)',
+                color: 'var(--color-content-tertiary)',
               }}
             >
               Keep brightness uniform across hues (reduces saturation to stay in gamut)

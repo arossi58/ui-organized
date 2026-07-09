@@ -3,7 +3,7 @@
    `data-theme` + brand vars) so it flips with the theme; the ramp swatches
    themselves are the authored hexes. */
 .core-colors {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-family: "Inter", system-ui, -apple-system, sans-serif;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .core-colors__axis {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   font-size: 0.85rem;
   margin: 0 0 1.5rem;
 }
@@ -30,7 +30,7 @@
 }
 
 .core-colors__blurb {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   max-width: 66ch;
   font-size: 0.9rem;
   line-height: 1.5;
@@ -69,7 +69,7 @@
 .core-colors.core-colors code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.8em;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   background: var(--color-surface-secondary);
   padding: 0.08em 0.35em;
   border-radius: 4px;

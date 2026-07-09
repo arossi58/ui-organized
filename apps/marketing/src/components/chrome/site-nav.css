@@ -43,7 +43,7 @@
   align-items: center;
   flex: 1 0 0;
   text-decoration: none;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .site-nav__links {
@@ -86,7 +86,7 @@
   padding: var(--spacing-space-01) var(--spacing-space-04);
   color: color-mix(
     in srgb,
-    var(--color-text-primary),
+    var(--color-content-primary),
     var(--color-interactive-contents) calc(var(--_label-mix) * 100%)
   );
   text-decoration: none;

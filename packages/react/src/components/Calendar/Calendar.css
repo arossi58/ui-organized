@@ -36,7 +36,7 @@
 }
 
 .calendar__month-name {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 /* Month pagination (DS ghost Button) and the year picker (DS ghost Select) keep
@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: center;
   height: 32px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 /* ─── Day cell ────────────────────────────────────────────────────────────── */
@@ -98,14 +98,14 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   transition:
     background-color 120ms ease,
     color 120ms ease;
 }
 
 .calendar__day[data-outside] .calendar__day-label {
-  color: var(--color-text-placeholder);
+  color: var(--color-content-placeholder);
 }
 
 .calendar__day:hover:not(:disabled):not([data-selected]) .calendar__day-label {

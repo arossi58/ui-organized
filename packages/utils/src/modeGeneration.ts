@@ -86,13 +86,13 @@ export function generateModes(
     "color-surface.emphasis": "neutral.1500",
     "color-surface.strong":   "neutral.1400",
 
-    // ── Text ──────────────────────────────────────────────────────────────
-    "color-text.primary":     "white.100",
-    "color-text.secondary":   "white.800",
-    "color-text.tertiary":    "white.1100",
-    "color-text.placeholder": "white.1100",
-    "color-text.inverse":     "black.1600",
-    "color-text.interactive": "white.100",
+    // ── Content (text + icons) ──────────────────────────────────────────────
+    "color-content.primary":     "white.100",
+    "color-content.secondary":   "white.800",
+    "color-content.tertiary":    "white.1100",
+    "color-content.placeholder": "white.1100",
+    "color-content.inverse":     "black.1600",
+    "color-content.interactive": "white.100",
 
     // ── Borders ───────────────────────────────────────────────────────────
     "color-border.subtle":     "neutral.1500",
@@ -100,11 +100,6 @@ export function generateModes(
     "color-border.emphasis":   "neutral.1300",
     "color-border.strong":     "neutral.1200",
     "color-border.data-entry": "neutral.1300",
-
-    // ── Icons ─────────────────────────────────────────────────────────────
-    "color-icon.primary":   "white.100",
-    "color-icon.secondary": "white.800",
-    "color-icon.tertiary":  "white.1100",
 
     // ── Interactive — primary (brand) ─────────────────────────────────────
     "color-interactive.primary.default":  `brand.${brandShade}`,
@@ -198,13 +193,13 @@ export function generateModes(
     "color-surface.emphasis": "neutral.400",
     "color-surface.strong":   "neutral.500",
 
-    // ── Text ──────────────────────────────────────────────────────────────
-    "color-text.primary":     "black.1600",
-    "color-text.secondary":   "black.900",
-    "color-text.tertiary":    "black.600",
-    "color-text.placeholder": "black.600",
-    "color-text.inverse":     "white.100",
-    "color-text.interactive": "black.1600",
+    // ── Content (text + icons) ──────────────────────────────────────────────
+    "color-content.primary":     "black.1600",
+    "color-content.secondary":   "black.900",
+    "color-content.tertiary":    "black.600",
+    "color-content.placeholder": "black.600",
+    "color-content.inverse":     "white.100",
+    "color-content.interactive": "black.1600",
 
     // ── Borders ───────────────────────────────────────────────────────────
     "color-border.subtle":     "black.200",
@@ -212,11 +207,6 @@ export function generateModes(
     "color-border.emphasis":   "black.400",
     "color-border.strong":     "black.500",
     "color-border.data-entry": "black.600",
-
-    // ── Icons ─────────────────────────────────────────────────────────────
-    "color-icon.primary":   "black.1600",
-    "color-icon.secondary": "black.900",
-    "color-icon.tertiary":  "black.600",
 
     // ── Interactive — primary (brand) ─────────────────────────────────────
     "color-interactive.primary.default":  `brand.${brandShade}`,

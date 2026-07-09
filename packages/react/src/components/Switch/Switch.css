@@ -64,6 +64,6 @@
 /* ─── Switch label ────────────────────────────────────────────────────────── */
 
 .switch__label {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   user-select: none;
 }

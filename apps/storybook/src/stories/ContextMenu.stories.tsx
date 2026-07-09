@@ -39,7 +39,7 @@ export const Inspect: Story = {
           height: 140,
           border: "1px dashed var(--color-border-primary)",
           borderRadius: 8,
-          color: "var(--color-text-tertiary)",
+          color: "var(--color-content-tertiary)",
           userSelect: "none",
         }}
       >

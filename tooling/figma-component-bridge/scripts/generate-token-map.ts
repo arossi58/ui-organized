@@ -49,7 +49,7 @@ console.log(
 const checks = [
   "--color-interactive-primary-default",
   "--color-interactive-destructive-default-ghost",
-  "--color-text-primary",
+  "--color-content-primary",
   "--radius-interactive",
   "--control-height-md",
   "--spacing-space-01",

@@ -8,13 +8,16 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  background-color: var(--color-surface-primary);
+  padding: 24px;
+  border-radius: var(--border-radius-06, 16px);
 }
 
 .sectionTitle {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-heading-strong);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin: 0 0 12px;
@@ -71,13 +74,13 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-strong);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .colHeadWeight {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -92,14 +95,14 @@
 .stepName {
   font-family: monospace;
   font-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   white-space: nowrap;
 }
 
 .stepSize {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   opacity: 0.6;
 }
 
@@ -107,14 +110,37 @@
 .stepLeading {
   font-family: monospace;
   font-size: 10px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
 
+/* Caution when a body step's size drops below the readable threshold.
+   Uses the caution bg/content token pair so the text stays legible against
+   the preview surface in both light and dark themes. */
+.sizeCaution {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  margin-top: 3px;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-family: var(--type-font-body);
+  font-size: 11px;
+  font-weight: var(--type-weight-body-strong, 600);
+  line-height: 1.3;
+  background: var(--color-status-caution-bg, #fdf0d0);
+  color: var(--color-status-caution-content, #6b4e00);
+}
+
+.sizeCaution svg {
+  flex: none;
+}
+
 /* Sample cell */
 .cell {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

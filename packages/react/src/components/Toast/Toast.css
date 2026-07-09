@@ -24,7 +24,7 @@
   border-left-width: 3px;
   border-radius: var(--radius-interactive);
   box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.4);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   transition:
     opacity 200ms ease,
     transform 200ms ease;
@@ -67,12 +67,12 @@
 
 .toast__title {
   margin: 0;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .toast__description {
   margin: 0;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .toast__action {
@@ -82,7 +82,7 @@
   background: none;
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-checkbox);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   cursor: pointer;
   transition: background-color 150ms ease;
 }
@@ -102,7 +102,7 @@
   border: none;
   background: none;
   border-radius: var(--radius-checkbox);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -111,7 +111,7 @@
 
 .toast__close:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .toast__close:focus-visible {

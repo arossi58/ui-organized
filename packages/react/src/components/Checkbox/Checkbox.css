@@ -1,6 +1,11 @@
 /* ─── Checkbox wrapper ────────────────────────────────────────────────────── */
 
 .checkbox {
+  /* Ark renders a visually-hidden <input> (position: absolute) for focus/keyboard.
+     Without a positioned ancestor it anchors to a distant one, so focusing it on
+     click scrolls that container to the input — jumping the page. Containing it
+     here keeps the 1px input at the checkbox, so focus never scrolls. */
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-02);
@@ -98,6 +103,6 @@
 /* ─── Label text ──────────────────────────────────────────────────────────── */
 
 .checkbox__label {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   user-select: none;
 }

@@ -19,7 +19,7 @@
 
 .date-range__separator {
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   user-select: none;
 }
 

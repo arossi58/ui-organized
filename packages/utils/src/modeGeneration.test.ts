@@ -32,11 +32,10 @@ describe("generateModes", () => {
   const requiredKeys = [
     "color-surface.base",
     "color-surface.subtle",
-    "color-text.primary",
-    "color-text.secondary",
+    "color-content.primary",
+    "color-content.secondary",
     "color-border.subtle",
     "color-border.data-entry",
-    "color-icon.primary",
     "color-interactive.primary.default",
     "color-interactive.primary.hover",
     "color-interactive.primary.active",

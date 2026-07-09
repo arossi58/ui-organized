@@ -54,7 +54,7 @@
   font-weight: var(--type-weight-body-strong);
   font-size: var(--type-size-heading-small);
   line-height: var(--type-leading-heading-small);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   /* Two-line clamp (SITE.md §7.4). */
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -69,5 +69,5 @@
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }

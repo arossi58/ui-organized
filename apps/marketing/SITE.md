@@ -58,7 +58,7 @@ Primary references:
 
 1. **All color comes from CSS custom properties.** Never hard-code a hex value in a
    component stylesheet. Consume the design system's semantic tokens first
-   (`--color-surface-*`, `--color-text-*`, `--color-action-*` etc. — use the real token
+   (`--color-surface-*`, `--color-content-*`, `--color-interactive-*` etc. — use the real token
    names from the tokens package). Site-only values that don't exist in the system
    (aurora gradient stops, glow/burst alphas, the `--deep` hero background) live in
    **one file**: `styles/site-tokens.css`, defined once on `:root` and consumed

@@ -45,7 +45,7 @@
   flex: 1;
   overflow-y: auto;
   background-color: var(--color-surface-base);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-family: var(--type-font-body);
   padding: 32px;
 }

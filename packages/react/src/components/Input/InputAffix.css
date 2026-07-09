@@ -83,7 +83,7 @@
   align-items: center;
   justify-content: center;
   width: var(--affix-size);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 .input-affix__adornment--start {
@@ -125,7 +125,7 @@ span.input-affix__adornment {
 }
 
 .input-affix__action:hover:not(:disabled) {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .input-affix__action:focus-visible {

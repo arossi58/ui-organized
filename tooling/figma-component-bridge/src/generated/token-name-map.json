@@ -91,25 +91,33 @@
     "collection": "Semantic",
     "name": "border/secondary"
   },
-  "--color-icon-dark": {
+  "--color-content-dark": {
     "collection": "Semantic",
-    "name": "icon/dark"
+    "name": "content/dark"
   },
-  "--color-icon-light": {
+  "--color-content-inverse": {
     "collection": "Semantic",
-    "name": "icon/light"
+    "name": "content/inverse"
   },
-  "--color-icon-primary": {
+  "--color-content-light": {
     "collection": "Semantic",
-    "name": "icon/primary"
+    "name": "content/light"
   },
-  "--color-icon-secondary": {
+  "--color-content-placeholder": {
     "collection": "Semantic",
-    "name": "icon/secondary"
+    "name": "content/placeholder"
   },
-  "--color-icon-tertiary": {
+  "--color-content-primary": {
     "collection": "Semantic",
-    "name": "icon/tertiary"
+    "name": "content/primary"
+  },
+  "--color-content-secondary": {
+    "collection": "Semantic",
+    "name": "content/secondary"
+  },
+  "--color-content-tertiary": {
+    "collection": "Semantic",
+    "name": "content/tertiary"
   },
   "--color-interactive-contents": {
     "collection": "Semantic",
@@ -343,34 +351,6 @@
     "collection": "Semantic",
     "name": "surface/secondary"
   },
-  "--color-text-dark": {
-    "collection": "Semantic",
-    "name": "text/dark"
-  },
-  "--color-text-inverse": {
-    "collection": "Semantic",
-    "name": "text/inverse"
-  },
-  "--color-text-light": {
-    "collection": "Semantic",
-    "name": "text/light"
-  },
-  "--color-text-placeholder": {
-    "collection": "Semantic",
-    "name": "text/placeholder"
-  },
-  "--color-text-primary": {
-    "collection": "Semantic",
-    "name": "text/primary"
-  },
-  "--color-text-secondary": {
-    "collection": "Semantic",
-    "name": "text/secondary"
-  },
-  "--color-text-tertiary": {
-    "collection": "Semantic",
-    "name": "text/tertiary"
-  },
   "--control-height-lg": {
     "collection": "Scale",
     "name": "component/control-height/lg"
@@ -446,6 +426,10 @@
   "--spacing-space-10": {
     "collection": "Scale",
     "name": "spacing/space-10"
+  },
+  "--spacing-space-11": {
+    "collection": "Scale",
+    "name": "spacing/space-11"
   },
   "--spacing-space-12": {
     "collection": "Scale",

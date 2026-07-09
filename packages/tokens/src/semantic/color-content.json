@@ -1,5 +1,5 @@
 {
-  "color-icon": {
+  "color-content": {
     "primary": {
       "$type": "color",
       "$value": "{grey.100}"
@@ -12,13 +12,21 @@
       "$type": "color",
       "$value": "{grey.1300}"
     },
-    "light": {
+    "placeholder": {
       "$type": "color",
-      "$value": "{grey.100}"
+      "$value": "{grey.1400}"
+    },
+    "inverse": {
+      "$type": "color",
+      "$value": "{grey.2400}"
     },
     "dark": {
       "$type": "color",
       "$value": "{grey.2400}"
+    },
+    "light": {
+      "$type": "color",
+      "$value": "{grey.100}"
     }
   }
 }

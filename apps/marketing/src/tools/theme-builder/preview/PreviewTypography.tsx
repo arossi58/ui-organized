@@ -45,6 +45,9 @@ const BODY_WEIGHT_VARS: Record<string, string> = {
   heavy:    "var(--type-weight-body-heavy)",
 };
 
+// Body text below this size is hard to read; flag it in the preview.
+const MIN_READABLE_SIZE = 10;
+
 function WeightGrid({
   steps,
   fontVar,
@@ -53,6 +56,7 @@ function WeightGrid({
   sizes,
   leadings,
   guides,
+  flagSmallSizes = false,
 }: {
   steps: readonly string[];
   fontVar: string;
@@ -61,6 +65,7 @@ function WeightGrid({
   sizes: Record<string, number>;
   leadings: Record<string, number>;
   guides: boolean;
+  flagSmallSizes?: boolean;
 }) {
   return (
     <div className={styles.grid}>
@@ -74,7 +79,9 @@ function WeightGrid({
         ))}
       </div>
 
-      {steps.map((step) => (
+      {steps.map((step) => {
+        const tooSmall = flagSmallSizes && (sizes[step] ?? 0) < MIN_READABLE_SIZE;
+        return (
         <div key={step} className={styles.row}>
           <div className={styles.meta}>
             <span className={styles.stepName}>{step}</span>
@@ -87,6 +94,17 @@ function WeightGrid({
                 return `${ratio}× · ${leading}px`;
               })()}
             </span>
+            {tooSmall && (
+              <span className={styles.sizeCaution} role="note">
+                <svg width="11" height="11" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                  <path
+                    fill="currentColor"
+                    d="M8 1.2 15.2 14a.9.9 0 0 1-.78 1.35H1.58A.9.9 0 0 1 .8 14L8 1.2Zm0 3.9a.85.85 0 0 0-.85.9l.2 3.5a.65.65 0 0 0 1.3 0l.2-3.5A.85.85 0 0 0 8 5.1Zm0 6.05a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z"
+                  />
+                </svg>
+                Below 10px — too small for body text
+              </span>
+            )}
           </div>
           {WEIGHTS.map((w) => (
             <span
@@ -103,7 +121,8 @@ function WeightGrid({
             </span>
           ))}
         </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
@@ -142,6 +161,7 @@ export function PreviewTypography() {
           sizes={typeScaleSteps}
           leadings={leadingSteps}
           guides={lineHeightGuides}
+          flagSmallSizes
         />
       </section>
     </div>

@@ -26,7 +26,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 /* ─── Required indicator ──────────────────────────────────────────────────── */
@@ -51,7 +51,7 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
   outline: none;
   transition:
@@ -79,7 +79,7 @@
 }
 
 .field__control::placeholder {
-  color: var(--color-text-placeholder);
+  color: var(--color-content-placeholder);
 }
 
 .field__control:hover:not(:disabled):not([data-disabled]) {
@@ -92,7 +92,7 @@
 
 /* Entry — a filled control keeps the default surface (the background does NOT
    change on fill); only the text colour shifts to the emphasized primary value
-   (the placeholder is the lighter `--color-text-placeholder`). Ark's Field
+   (the placeholder is the lighter `--color-content-placeholder`). Ark's Field
    doesn't track a filled state (Base UI's data-filled), so key off the input
    showing content instead. (Inputs without a placeholder match when empty too;
    the design's fields always carry a placeholder.)
@@ -100,11 +100,11 @@
    never `:placeholder-shown`, so they'd always read as filled; the components
    flag the empty state explicitly so the mm/dd/yyyy chrome stays placeholder-grey. */
 .field__control:not(:placeholder-shown):not([data-empty]):not(:disabled):not([data-disabled]) {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .field__control[data-empty]:not(:disabled):not([data-disabled]) {
-  color: var(--color-text-placeholder);
+  color: var(--color-content-placeholder);
 }
 
 .field__control:focus-visible {
@@ -131,7 +131,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 /* Error message is rendered by the shared <FieldError> component. */
@@ -154,5 +154,5 @@
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-body-strong);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }

@@ -78,7 +78,7 @@
   width: 40px;
   border: none;
   background: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -87,7 +87,7 @@
 
 .number-field__stepper:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .number-field__stepper:active {

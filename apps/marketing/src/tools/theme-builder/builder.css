@@ -27,9 +27,9 @@
   --builder-border: var(--color-border-secondary);
 
   /* Text */
-  --builder-text-primary:   var(--color-text-primary);
-  --builder-text-secondary: var(--color-text-secondary);
-  --builder-text-tertiary:  var(--color-text-tertiary);
+  --builder-text-primary:   var(--color-content-primary);
+  --builder-text-secondary: var(--color-content-secondary);
+  --builder-text-tertiary:  var(--color-content-tertiary);
 
   /* Accent — follows the site brand (DS interactive-primary), themed per mode */
   --builder-accent:          var(--color-interactive-primary-default);
@@ -76,10 +76,19 @@
   color: var(--builder-text-primary);
 }
 
+/* Selected tab fills with the site brand accent (DS interactive-primary, themed
+   per mode) with legible on-brand foreground. */
 .theme-builder-tool .tb-section-tabs .tabs__tab[data-selected] {
-  background: var(--builder-surface-hover);
-  color: var(--builder-text-primary);
+  background: var(--builder-accent);
+  color: var(--builder-accent-contents);
   font-weight: 600;
+}
+
+.theme-builder-tool
+  .tb-section-tabs
+  .tabs__tab[data-selected]:hover:not([data-disabled]) {
+  background: var(--builder-accent-hover);
+  color: var(--builder-accent-contents);
 }
 
 .theme-builder-tool .tb-section-tabs .tabs__tab:focus-visible {
@@ -102,5 +111,5 @@
 }
 
 .theme-builder-tool ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-tertiary);
+  background: var(--color-content-tertiary);
 }

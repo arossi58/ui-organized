@@ -39,7 +39,7 @@
 .about-page__prose {
   width: 100%;
   max-width: 640px;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-family: var(--font-body);
   font-size: 18px;
   line-height: 1.6;
@@ -64,12 +64,12 @@
   font-size: clamp(32px, 5vw, 48px);
   line-height: 1.1;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .about-page__lede {
   margin: 0 0 var(--spacing-space-06);
   font-size: 22px;
   line-height: 1.5;
-  color: var(--color-text-secondary, var(--color-text-primary));
+  color: var(--color-content-secondary, var(--color-content-primary));
 }

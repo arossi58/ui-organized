@@ -11,15 +11,15 @@ import { useSelection } from "../state/SelectionContext.js";
 const cmTheme = EditorView.theme({
   "&": {
     backgroundColor: "var(--color-surface-base)",
-    color: "var(--color-text-primary)",
+    color: "var(--color-content-primary)",
     height: "100%",
   },
   ".cm-gutters": {
     backgroundColor: "var(--color-surface-primary)",
-    color: "var(--color-text-tertiary)",
+    color: "var(--color-content-tertiary)",
     border: "none",
   },
-  ".cm-content": { caretColor: "var(--color-text-primary)" },
+  ".cm-content": { caretColor: "var(--color-content-primary)" },
   "&.cm-focused": { outline: "none" },
   ".cm-activeLine": { backgroundColor: "var(--color-surface-secondary)" },
   ".cm-activeLineGutter": { backgroundColor: "var(--color-surface-secondary)" },

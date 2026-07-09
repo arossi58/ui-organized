@@ -26,7 +26,7 @@ type Story = StoryObj<typeof Divider>;
 export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
-    <div style={{ maxWidth: 360, color: "var(--color-text-secondary)" }}>
+    <div style={{ maxWidth: 360, color: "var(--color-content-secondary)" }}>
       <p style={{ margin: 0 }}>Section one</p>
       <Divider {...args} />
       <p style={{ margin: 0 }}>Section two</p>
@@ -37,7 +37,7 @@ export const Inspect: Story = {
 
 export const Horizontal: Story = {
   render: () => (
-    <div style={{ maxWidth: 360, color: "var(--color-text-secondary)" }}>
+    <div style={{ maxWidth: 360, color: "var(--color-content-secondary)" }}>
       <p style={{ margin: 0 }}>Section one</p>
       <Divider orientation="horizontal" spacing="md" />
       <p style={{ margin: 0 }}>Section two</p>
@@ -52,7 +52,7 @@ export const Vertical: Story = {
         display: "flex",
         alignItems: "center",
         height: 24,
-        color: "var(--color-text-secondary)",
+        color: "var(--color-content-secondary)",
       }}
     >
       <span>Home</span>

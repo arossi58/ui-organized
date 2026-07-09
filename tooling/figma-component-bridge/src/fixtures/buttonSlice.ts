@@ -53,7 +53,7 @@ export const buttonSlice: ComponentSpec = {
             name: "label",
             type: "TEXT",
             text: "Button",
-            typography: { size: 14, color: "{--color-text-primary}" },
+            typography: { size: 14, color: "{--color-content-primary}" },
           },
         ],
       },
@@ -64,7 +64,7 @@ export const buttonSlice: ComponentSpec = {
     "--color-interactive-primary-default": "#2563eb",
     "--color-interactive-secondary-default": "#e3e3e3",
     "--color-interactive-contents": "#ffffff",
-    "--color-text-primary": "#1a1a1a",
+    "--color-content-primary": "#1a1a1a",
     "--radius-interactive": "8",
   },
 };

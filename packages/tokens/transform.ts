@@ -80,8 +80,8 @@ const PRIMITIVE_RAMPS = new Set([
 
 const SEMANTIC_KEYS = new Set([
   "border-radius", "spacing", "dimension",
-  "color-border", "color-interactive", "color-icon",
-  "color-status", "color-surface", "color-text",
+  "color-border", "color-interactive", "color-content",
+  "color-status", "color-surface",
 ]);
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -242,10 +242,9 @@ function transformSemanticTokens(tokens: FigmaTree): void {
   const fileMap: Record<string, string> = {
     "color-border":      "semantic/color-border.json",
     "color-interactive": "semantic/color-interactive.json",
-    "color-icon":        "semantic/color-icon.json",
+    "color-content":     "semantic/color-content.json",
     "color-status":      "semantic/color-status.json",
     "color-surface":     "semantic/color-surface.json",
-    "color-text":        "semantic/color-text.json",
     "border-radius":     "semantic/border-radius.json",
     "spacing":           "semantic/spacing.json",
     "dimension":         "semantic/dimension.json",

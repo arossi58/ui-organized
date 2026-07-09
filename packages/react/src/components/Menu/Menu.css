@@ -39,7 +39,7 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   line-height: var(--type-leading-body-small);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   cursor: pointer;
   outline: none;
   user-select: none;
@@ -72,7 +72,7 @@
 
 .menu__item-icon {
   flex-shrink: 0;
-  color: var(--color-icon-primary);
+  color: var(--color-content-primary);
 }
 
 .menu__item--destructive .menu__item-icon {
@@ -118,7 +118,7 @@
 
 .menu__group-label {
   padding: var(--spacing-space-02) var(--spacing-space-03);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 .menu__separator {
