@@ -6,11 +6,11 @@
     },
     "secondary": {
       "$type": "color",
-      "$value": "{grey.500}"
+      "$value": "{grey.1100}"
     },
     "tertiary": {
       "$type": "color",
-      "$value": "{grey.900}"
+      "$value": "{grey.1300}"
     },
     "placeholder": {
       "$type": "color",

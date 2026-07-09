@@ -10,11 +10,11 @@
     },
     "tertiary": {
       "$type": "color",
-      "$value": "{grey.1600}"
+      "$value": "{grey.1800}"
     },
     "placeholder": {
       "$type": "color",
-      "$value": "{grey.1400}"
+      "$value": "{grey.1700}"
     },
     "inverse": {
       "$type": "color",

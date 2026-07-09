@@ -13,6 +13,7 @@
     "space-08":  { "$type": "dimension", "$value": "32px" },
     "space-09":  { "$type": "dimension", "$value": "36px" },
     "space-10":  { "$type": "dimension", "$value": "40px" },
+    "space-11":  { "$type": "dimension", "$value": "44px" },
     "space-12":  { "$type": "dimension", "$value": "48px" },
     "space-16":  { "$type": "dimension", "$value": "64px" },
     "space-32":  { "$type": "dimension", "$value": "128px" }

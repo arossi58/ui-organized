@@ -24,26 +24,27 @@ const FAMILY_REF = /^([a-z]+)\.(\d+)$/;
  * buttons, and UI control surfaces resolve to a solid fill (white in dark, black
  * in light) instead of a subtle overlay. We re-apply the canonical alpha here.
  *
- * The three `--color-surface-overlay-*` tokens are the source of the
- * interactive-ui ramp (overlay-primary/secondary/tertiary == ui
- * default/hover/active = 0.06/0.10/0.14); a token regen flattened them to a
- * solid `{grey.100}`, so they're re-aliased to alpha here too.
+ * The three `--color-surface-overlay-*` tokens carry their own alpha ramp
+ * (overlay-primary/secondary/tertiary = 0.06/0.10/0.14); a token regen
+ * flattened them to a solid `{grey.100}`, so they're re-aliased to alpha here
+ * too. (They used to mirror the interactive-ui ramp, but ui now steps
+ * 0.02/0.06/0.10 while the overlays stay 0.06/0.10/0.14.)
  *
  * Alpha is mode-independent — only the base color (light vs dark) flips, and
  * that already comes from the map — so a single table covers both modes.
  */
 const TOKEN_ALPHA: Record<string, number> = {
-  "--color-interactive-ui-default": 0.06,
-  "--color-interactive-ui-hover": 0.1,
-  "--color-interactive-ui-active": 0.14,
+  "--color-interactive-ui-default": 0.02,
+  "--color-interactive-ui-hover": 0.06,
+  "--color-interactive-ui-active": 0.1,
   "--color-interactive-ui-selected": 0.14,
-  "--color-interactive-secondary-default": 0.15,
+  "--color-interactive-secondary-default": 0.1,
   "--color-interactive-secondary-hover": 0.2,
-  "--color-interactive-secondary-selected": 0.2,
-  "--color-interactive-secondary-active": 0.3,
+  "--color-interactive-secondary-selected": 0.15,
+  "--color-interactive-secondary-active": 0.15,
   "--color-interactive-ghost-default": 0,
   "--color-interactive-ghost-hover": 0.2,
-  "--color-interactive-ghost-active": 0.3,
+  "--color-interactive-ghost-active": 0.15,
   "--color-surface-overlay-primary": 0.06,
   "--color-surface-overlay-secondary": 0.1,
   "--color-surface-overlay-tertiary": 0.14,

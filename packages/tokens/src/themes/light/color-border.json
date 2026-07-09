@@ -10,7 +10,7 @@
     },
     "data-entry": {
       "$type": "color",
-      "$value": "{grey.1600}"
+      "$value": "{grey.1400}"
     }
   }
 }

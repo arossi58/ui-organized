@@ -15,14 +15,14 @@
       },
       "selected": {
         "$type": "color",
-        "$value": "{brand.1300}"
+        "$value": "{brand.1400}"
       }
     },
     "secondary": {
       "default": {
         "$type": "color",
-        "$description": "Translucent neutral overlay — pure black on light surfaces (darkest greyscale). Default state carries a heavier 15% alpha so the resting button reads darker; hover/active step up from there.",
-        "$value": "#00000026"
+        "$description": "Translucent neutral overlay — pure black on light surfaces (darkest greyscale). Default rests at 10% alpha; hover steps up to 20%; active/selected sit at 15%.",
+        "$value": "#0000001a"
       },
       "hover": {
         "$type": "color",
@@ -30,11 +30,11 @@
       },
       "active": {
         "$type": "color",
-        "$value": "#0000004d"
+        "$value": "#00000026"
       },
       "selected": {
         "$type": "color",
-        "$value": "#00000033"
+        "$value": "#00000026"
       }
     },
     "tertiary": {
@@ -68,7 +68,7 @@
       "active": {
         "$type": "color",
         "$description": "Mirrors interactive.secondary.active (same neutral overlay + alpha).",
-        "$value": "#0000004d"
+        "$value": "#00000026"
       }
     },
     "destructive": {
@@ -96,15 +96,15 @@
     "ui": {
       "default": {
         "$type": "color",
-        "$value": "#0202020f"
+        "$value": "#02020205"
       },
       "hover": {
         "$type": "color",
-        "$value": "#0202021a"
+        "$value": "#0202020f"
       },
       "active": {
         "$type": "color",
-        "$value": "#02020224"
+        "$value": "#0202021a"
       },
       "selected": {
         "$type": "color",
