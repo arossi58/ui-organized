@@ -1,5 +1,13 @@
 # @ui-organized/react-vite
 
+## 2.1.1
+
+### Patch Changes
+
+- Updated dependencies [7fa8db2]
+  - @ui-organized/schema@3.0.0
+  - @ui-organized/tokens@3.0.0
+
 ## 2.1.0
 
 ### Minor Changes

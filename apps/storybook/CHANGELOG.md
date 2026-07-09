@@ -1,5 +1,15 @@
 # @ui-organized/storybook
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [7fa8db2]
+  - @ui-organized/tokens@3.0.0
+  - @ui-organized/react@3.0.0
+  - @ui-organized/utils@3.0.0
+  - @ui-organized/storybook-inspector@0.0.2
+
 ## 0.0.2
 
 ### Patch Changes

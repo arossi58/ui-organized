@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/figma-token-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Token Manager Figma plugin — pushes a DTCG project document into Figma Variables with non-destructive reconciliation (stored id manifest; create/update/no-op/orphan).",
   "scripts": {

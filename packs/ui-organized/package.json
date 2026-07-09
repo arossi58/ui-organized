@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/pack-ui-organized",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The UI Organized generator pack — brand palette, neutral preset, typescale, spacing/radius, and elevation generators that emit plain DTCG tokens. The default, optional pack for the Token Manager.",
   "keywords": [
     "design-tokens",
