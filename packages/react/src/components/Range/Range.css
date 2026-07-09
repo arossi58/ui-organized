@@ -20,11 +20,11 @@
 }
 
 .range__label {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 .range__value {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 /* ─── Slider row (start label · control · end label) ──────────────────────── */
@@ -42,7 +42,7 @@
 
 .range__range-label {
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 /* ─── Control (interactive area) ──────────────────────────────────────────── */

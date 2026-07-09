@@ -28,7 +28,7 @@ body,
 
 body {
   background: var(--color-surface-base);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-family: var(--type-font-body);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
@@ -57,7 +57,7 @@ button {
   display: grid;
   place-items: center;
   height: 100vh;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 /* ── Nav sidebar brand ────────────────────────────────────────────────────── */
@@ -103,7 +103,7 @@ button {
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 /* ── Page surface ─────────────────────────────────────────────────────────── */
@@ -141,7 +141,7 @@ button {
   margin: 0;
 }
 .tm-page-sub {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   font-size: 0.82rem;
   margin: 2px 0 0;
 }
@@ -157,7 +157,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin: 0 0 var(--tm-gap-3);
 }
 
@@ -205,7 +205,7 @@ button {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 .tm-pane__scroll {
   flex: 1;
@@ -250,7 +250,7 @@ button {
 }
 .tm-set__handle {
   cursor: grab;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   display: inline-flex;
 }
 .tm-set__name {
@@ -293,7 +293,7 @@ button {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   padding: 7px 10px;
   border-bottom: 1px solid var(--color-border-primary);
   white-space: nowrap;
@@ -303,7 +303,7 @@ button {
   cursor: pointer;
 }
 .tm-table th.tm-th--sortable:hover {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 .tm-th__sort {
   margin-left: 4px;
@@ -329,13 +329,13 @@ button {
   white-space: nowrap;
 }
 .tm-td--name .tm-td__group {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 .tm-td--value {
   width: 38%;
 }
 .tm-td--resolved {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
@@ -349,7 +349,7 @@ button {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 .tm-resolved {
   display: flex;
@@ -363,12 +363,12 @@ button {
 }
 .tm-chain {
   font-size: 0.7rem;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 .tm-empty {
   padding: var(--tm-gap-4);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   font-size: 0.85rem;
 }
 
@@ -402,7 +402,7 @@ button {
   font-size: 0.66rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 .tm-inspector__value {
   font-size: 0.82rem;
@@ -444,7 +444,7 @@ button {
   font-weight: 500;
   text-transform: none;
   letter-spacing: 0;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   z-index: 2;
 }
 
@@ -460,7 +460,7 @@ button {
   white-space: pre;
   overflow: auto;
   max-height: 60vh;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 /* ── Utilities ────────────────────────────────────────────────────────────── */
@@ -476,7 +476,7 @@ button {
   flex-wrap: wrap;
 }
 .tm-muted {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   font-size: 0.82rem;
 }
 .tm-grid-fields {

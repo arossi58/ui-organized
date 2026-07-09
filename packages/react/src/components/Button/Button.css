@@ -52,7 +52,7 @@
 
 .btn--secondary {
   background-color: var(--color-interactive-secondary-default);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   border-color: transparent;
 }
 
@@ -76,20 +76,20 @@
 .btn--tertiary:hover:not(:disabled) {
   background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 .btn--tertiary:active:not(:disabled) {
   background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 /* ─── Intent: ghost ───────────────────────────────────────────────────────── */
 
 .btn--ghost {
   background-color: var(--color-interactive-ghost-default);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   border-color: transparent;
 }
 
@@ -128,12 +128,12 @@
 /* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
 .btn--destructive-ghost:hover:not(:disabled) {
   background-color: var(--color-interactive-destructive-hover);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 .btn--destructive-ghost:active:not(:disabled) {
   background-color: var(--color-interactive-destructive-active);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 /* ─── Size: sm ────────────────────────────────────────────────────────────── */

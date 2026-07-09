@@ -39,7 +39,7 @@
   background-color: var(--color-surface-primary);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-05);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   box-shadow:
     0 20px 25px -5px rgba(0, 0, 0, 0.4),
     0 8px 10px -6px rgba(0, 0, 0, 0.3);
@@ -82,7 +82,7 @@
   border: none;
   background: none;
   border-radius: var(--radius-interactive);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -91,7 +91,7 @@
 
 .dialog__close:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .dialog__close:focus-visible {
@@ -104,12 +104,12 @@
 .dialog__title {
   margin: 0;
   padding-right: var(--spacing-space-07);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .dialog__description {
   margin: 0;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .dialog__footer {

@@ -7,7 +7,7 @@
   gap: 8px;
   font-weight: 700;
   font-size: 15px;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   letter-spacing: -0.01em;
 }
 
@@ -22,13 +22,13 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-medium);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   margin: 0;
 }
 
 .pageSubtitle {
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin: 4px 0 0;
 }
 
@@ -64,12 +64,12 @@
 .sidebarUserName {
   font-size: 13px;
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .sidebarUserMail {
   font-size: 11px;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -112,14 +112,14 @@
 
 .statLabel {
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .statValue {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-small);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .statFooter {
@@ -168,20 +168,20 @@
 
 .orderId {
   font-family: monospace;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }
 
 .orderCustomer {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   min-width: 0;
 }
 
 .orderAmount {
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -206,7 +206,7 @@
   display: flex;
   justify-content: space-between;
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .teamRow {
@@ -292,12 +292,12 @@
 .prefTitle {
   font-size: var(--type-size-body-medium);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .prefDesc {
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 /* ── E-commerce ──────────────────────────────────────────────────────────── */
@@ -344,7 +344,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   margin: 0 0 2px;
 }
 
@@ -393,7 +393,7 @@
 .productName {
   font-size: var(--type-size-body-medium);
   font-weight: 600;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .productRating {
@@ -401,7 +401,7 @@
   align-items: center;
   gap: 3px;
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .productBuy {
@@ -414,7 +414,7 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-body-large);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 /* ── Marketing ───────────────────────────────────────────────────────────── */
@@ -434,12 +434,12 @@
 
 .siteLink {
   font-size: var(--type-size-body-medium);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   text-decoration: none;
 }
 
 .siteLink:hover {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .siteNavActions {
@@ -465,14 +465,14 @@
   font-size: var(--type-size-display-medium);
   line-height: var(--type-leading-display-medium);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   margin: 0;
 }
 
 .heroText {
   font-size: var(--type-size-body-large);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin: 0;
   max-width: 540px;
 }
@@ -545,13 +545,13 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-small);
   font-weight: var(--type-weight-heading-strong);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   margin: 0;
 }
 
 .featureText {
   font-size: var(--type-size-body-medium);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin: 0;
 }
 
@@ -566,7 +566,7 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-heading-large);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   text-align: center;
   margin: 0 0 24px;
 }
@@ -599,14 +599,14 @@
 .tierName {
   font-size: var(--type-size-body-medium);
   font-weight: 600;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .tierPrice {
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
   font-weight: var(--type-weight-heading-heavy);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   line-height: 1.1;
 }
 
@@ -614,13 +614,13 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-medium);
   font-weight: var(--type-weight-body-default);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   margin-left: 4px;
 }
 
 .tierBlurb {
   font-size: var(--type-size-body-small);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin: 0 0 8px;
 }
 
@@ -638,7 +638,7 @@
   align-items: center;
   gap: 8px;
   font-size: var(--type-size-body-medium);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .tierFeatures li :global(svg) {
@@ -662,5 +662,5 @@
 
 .footerNote {
   font-size: var(--type-size-body-small);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
 }

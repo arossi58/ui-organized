@@ -83,7 +83,7 @@
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
   line-height: var(--type-leading-body-large);
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   text-align: center;
   cursor: pointer;
   transition:
@@ -92,7 +92,7 @@
 }
 
 .contact-segmented__item:hover:not([data-active="true"]) {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .contact-segmented__item[data-active="true"] {

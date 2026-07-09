@@ -108,8 +108,8 @@ describe("buildCss — semantic custom properties", () => {
     expect(propertyNames).toContain("--color-surface-base");
   });
 
-  it("emits --color-text-primary", () => {
-    expect(propertyNames).toContain("--color-text-primary");
+  it("emits --color-content-primary", () => {
+    expect(propertyNames).toContain("--color-content-primary");
   });
 
   it("emits --color-interactive-primary-default", () => {
@@ -122,10 +122,6 @@ describe("buildCss — semantic custom properties", () => {
 
   it("emits --color-border-subtle", () => {
     expect(propertyNames).toContain("--color-border-subtle");
-  });
-
-  it("emits --color-icon-primary", () => {
-    expect(propertyNames).toContain("--color-icon-primary");
   });
 });
 

@@ -52,7 +52,7 @@
   border: none;
   cursor: pointer;
   text-align: left;
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-family: var(--type-font-body);
   font-weight: var(--type-weight-body-emphasis);
   outline: none;
@@ -80,7 +80,7 @@
 
 .accordion__icon {
   flex-shrink: 0;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   transition: transform 150ms ease;
 }
 
@@ -95,7 +95,7 @@
 
 .accordion__panel {
   overflow: hidden;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */

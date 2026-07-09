@@ -309,7 +309,7 @@ export default function SpectrumPicker({ color, format, onChange, onEditStart, o
             fontWeight: 400,
             fontSize: 12,
             lineHeight: 1.3,
-            color: 'var(--color-text-tertiary)',
+            color: 'var(--color-content-tertiary)',
           }}
         >
           Black areas are OKLCH colors outside the sRGB range your display can

@@ -34,7 +34,7 @@
   justify-content: center;
   gap: var(--spacing-space-01);
   padding: var(--spacing-space-02) var(--spacing-space-04);
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   background: transparent;
   border: none;
   border-bottom: 4px solid transparent;
@@ -51,20 +51,20 @@
 
 /* hover ─ underline + interactive text, only on non-selected, enabled tabs */
 .tabs__tab:hover:not([data-disabled]):not([data-selected]) {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   border-bottom-color: var(--color-interactive-primary-hover);
 }
 
 /* selected ─ primary underline, emphasized text */
 .tabs__tab[data-selected] {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   border-bottom-color: var(--color-interactive-primary-selected);
   font-weight: var(--type-weight-body-strong);
 }
 
 /* focus ─ 2px focus ring */
 .tabs__tab:focus-visible {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
   border-radius: var(--radius-interactive);
 }

@@ -5,11 +5,10 @@
  *   - color-border:      subtle, medium, emphasis, strong, data-entry
  *   - color-interactive: primary, secondary, tertiary, ghost, destructive,
  *                        contents, ui, focus, focus-inverse, inactive
- *   - color-icon:        icon-primary, icon-secondary, icon-tertiary
  *   - color-status:      success/info/caution/warning/error with bg+content variants
  *   - color-surface:     base, subtle, medium, emphasis, strong, overlays
- *   - color-text:        text-primary, text-secondary, text-interactive,
- *                        text-tertiary, text-placeholder, text-inverse
+ *   - color-content:     foreground text + icons — primary, secondary, interactive,
+ *                        tertiary, placeholder, inverse
  *
  * Default values reference the neutral palette (dark-first surface layer).
  * Mode overrides swap these references per theme mode.
@@ -80,13 +79,6 @@ export const semanticColorTokens = {
     },
   },
 
-  // ── Icons ─────────────────────────────────────────────────────────────────
-  "color-icon": {
-    "primary":   { $value: "{white.100}",  $type: "color" },
-    "secondary": { $value: "{white.800}",  $type: "color" },
-    "tertiary":  { $value: "{white.1100}", $type: "color" },
-  },
-
   // ── Status ────────────────────────────────────────────────────────────────
   "color-status": {
     // Success
@@ -127,8 +119,8 @@ export const semanticColorTokens = {
     "overlay-strong": { $value: "{curtain.black-80p}",    $type: "color" },
   },
 
-  // ── Text ──────────────────────────────────────────────────────────────────
-  "color-text": {
+  // ── Content (text + icons) ─────────────────────────────────────────────────
+  "color-content": {
     "primary":     { $value: "{white.100}",  $type: "color" },
     "secondary":   { $value: "{white.800}",  $type: "color" },
     "interactive": { $value: "{white.100}",  $type: "color" },

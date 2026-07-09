@@ -57,6 +57,9 @@ function scopesFor(
     // semantic tokens. Empty scopes hide them from every picker so designers
     // reach for the semantic colours instead.
     if (collection === PRIMITIVES) return [];
+    // Focus rings are drawn as effects (shadows/outlines) in Figma, not fills or
+    // strokes, so the focus colours only surface in the effect-colour picker.
+    if (name.toLowerCase().includes("focus")) return ["EFFECT_COLOR"];
     // Semantic colours, scoped by role (the first path segment).
     switch (group) {
       case "surface":

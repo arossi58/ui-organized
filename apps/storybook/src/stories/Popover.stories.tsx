@@ -29,7 +29,7 @@ export const Inspect: Story = {
         <p
           style={{
             margin: 0,
-            color: "var(--color-text-secondary)",
+            color: "var(--color-content-secondary)",
             fontSize: "var(--type-size-body-small)",
           }}
         >

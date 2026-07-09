@@ -48,10 +48,9 @@ StyleDictionary.registerTransform({
 const SEMANTIC_COLOR_FILES = [
   "color-border.json",
   "color-interactive.json",
-  "color-icon.json",
+  "color-content.json",
   "color-status.json",
   "color-surface.json",
-  "color-text.json",
 ] as const;
 
 interface DtcgLeaf {

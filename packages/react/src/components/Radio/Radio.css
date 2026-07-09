@@ -7,7 +7,7 @@
 }
 
 .radio-group__label {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   margin-bottom: var(--spacing-space-01);
 }
 
@@ -34,6 +34,9 @@
 /* ─── Radio item (label + control row) ───────────────────────────────────── */
 
 .radio-item {
+  /* Contain Ark's visually-hidden <input> (position: absolute) so focusing it on
+     click doesn't scroll a distant ancestor and jump the page. See Checkbox.css. */
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-02);
@@ -107,7 +110,7 @@
 /* ─── Radio label ─────────────────────────────────────────────────────────── */
 
 .radio-item__label {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   user-select: none;
 }
 

@@ -117,7 +117,7 @@ const CollectionsBar = ({
                           background: 'var(--color-interactive-ui-default)',
                           border: '1px solid var(--color-border-data-entry)',
                           borderRadius: 'var(--radius-interactive)',
-                          color: 'var(--color-text-primary)',
+                          color: 'var(--color-content-primary)',
                           font: 'inherit',
                           padding: '2px 6px',
                           outline: 'none',
@@ -235,7 +235,7 @@ const HeaderIconButton = ({ icon, onClick, title, variant = 'secondary' }) => {
         background: isPrimary
           ? 'var(--color-interactive-primary-default)'
           : 'var(--color-interactive-secondary-default)',
-        color: isPrimary ? 'var(--color-interactive-contents)' : 'var(--color-text-primary)',
+        color: isPrimary ? 'var(--color-interactive-contents)' : 'var(--color-content-primary)',
         border: 'none',
         cursor: 'pointer',
         flexShrink: 0,
@@ -291,7 +291,7 @@ const ColorCard = ({ colorObj, selected, canDelete, onSelect, onDelete, formatCo
           fontWeight: selected ? 600 : 500,
           fontSize: 16,
           lineHeight: 1.5,
-          color: 'var(--color-text-primary)',
+          color: 'var(--color-content-primary)',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -305,7 +305,7 @@ const ColorCard = ({ colorObj, selected, canDelete, onSelect, onDelete, formatCo
           fontWeight: 400,
           fontSize: 14,
           lineHeight: 1.3,
-          color: 'var(--color-text-secondary)',
+          color: 'var(--color-content-secondary)',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
@@ -387,7 +387,7 @@ const Sidebar = ({
             fontWeight: 500,
             fontSize: 20,
             lineHeight: 1.2,
-            color: 'var(--color-text-primary)',
+            color: 'var(--color-content-primary)',
           }}
         >
           Swatches
@@ -439,7 +439,7 @@ const Sidebar = ({
               style={{
                 display: 'flex', alignItems: 'center', gap: 4, padding: '4px 8px',
                 background: 'transparent', border: 'none', cursor: 'pointer',
-                color: 'var(--color-text-secondary)', font: 'inherit', fontSize: 14,
+                color: 'var(--color-content-secondary)', font: 'inherit', fontSize: 14,
               }}
             >
               <Icon name="arrow-left" size={18} />

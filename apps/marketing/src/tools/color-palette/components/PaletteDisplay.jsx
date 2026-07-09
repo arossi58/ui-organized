@@ -47,7 +47,7 @@ const BADGE_FAIL = '#dc2626';
 const contrastBadgeStyle = (bg) => ({
   padding: '2px 6px',
   background: bg,
-  color: 'var(--color-text-primary)',
+  color: 'var(--color-content-primary)',
   borderRadius: 4,
   fontSize: 12,
   fontWeight: 700,
@@ -212,7 +212,7 @@ const PaletteDisplay = ({
                         overflowY: 'auto',
                       }}>
                         {/* Color Name */}
-                        <div style={{ fontWeight: 700, color: 'var(--color-text-primary)', marginBottom: 8 }}>
+                        <div style={{ fontWeight: 700, color: 'var(--color-content-primary)', marginBottom: 8 }}>
                           {selectedColor.name}-{stopNames[index]}
                         </div>
 
@@ -220,7 +220,7 @@ const PaletteDisplay = ({
                         <code style={{
                           fontSize: 12,
                           fontFamily: 'monospace',
-                          color: 'var(--color-text-primary)',
+                          color: 'var(--color-content-primary)',
                           display: 'block',
                           marginBottom: 12,
                           background: 'var(--color-surface-secondary)',
@@ -233,16 +233,16 @@ const PaletteDisplay = ({
                         {/* Contrast Information */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 12 }}>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{ color: 'var(--color-text-primary)' }}>vs Black:</span>
+                            <span style={{ color: 'var(--color-content-primary)' }}>vs Black:</span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <span style={{ fontFamily: 'monospace', fontWeight: 500, color: 'var(--color-text-primary)' }}>{blackContrast.label}</span>
+                              <span style={{ fontFamily: 'monospace', fontWeight: 500, color: 'var(--color-content-primary)' }}>{blackContrast.label}</span>
                               {renderContrastBadge(blackContrast)}
                             </div>
                           </div>
                           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{ color: 'var(--color-text-primary)' }}>vs White:</span>
+                            <span style={{ color: 'var(--color-content-primary)' }}>vs White:</span>
                             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                              <span style={{ fontFamily: 'monospace', fontWeight: 500, color: 'var(--color-text-primary)' }}>{whiteContrast.label}</span>
+                              <span style={{ fontFamily: 'monospace', fontWeight: 500, color: 'var(--color-content-primary)' }}>{whiteContrast.label}</span>
                               {renderContrastBadge(whiteContrast)}
                             </div>
                           </div>

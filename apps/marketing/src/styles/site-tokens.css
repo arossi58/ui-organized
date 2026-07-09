@@ -2,7 +2,7 @@
  * Site-only design values — the ONE place hard-coded values are allowed.
  *
  * Per SITE.md §3.1: components consume the design system's semantic tokens
- * (`--color-surface-*`, `--color-text-*`, …) first. Values that don't exist in
+ * (`--color-surface-*`, `--color-content-*`, …) first. Values that don't exist in
  * the system — the marketing brand palette, the deep hero background, aurora
  * gradient stops, glow/burst alphas — live here, defined once on :root and
  * consumed everywhere else by reference. Never hard-code these elsewhere.

@@ -181,10 +181,10 @@ export function TypographyPanel() {
               label="Base size"
               size="sm"
               value={typeScaleBase}
-              min={8}
+              min={10}
               max={32}
               step={1}
-              onValueChange={(v) => setTypeScale(v ?? typeScaleBase, typeScaleRatio)}
+              onValueChange={(v) => setTypeScale(Math.max(10, v ?? typeScaleBase), typeScaleRatio)}
             />
           </div>
           <div className={styles.ratioField}>

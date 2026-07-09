@@ -315,7 +315,7 @@ const Wordmark = (
       display: "inline-flex",
       alignItems: "center",
       gap: "var(--spacing-space-02)",
-      color: "var(--color-text-primary)",
+      color: "var(--color-content-primary)",
       fontFamily: "var(--type-font-heading)",
       fontWeight: 600,
       fontSize: "20px",

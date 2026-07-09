@@ -16,7 +16,7 @@
   max-width: 240px;
   padding: var(--spacing-space-01) var(--spacing-space-02);
   background-color: var(--color-surface-overlay-primary);
-  color: var(--color-text-inverse);
+  color: var(--color-content-inverse);
   border-radius: var(--border-radius-03);
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
   outline: none;

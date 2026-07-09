@@ -27,3 +27,6 @@ Thumbs.db
 RELEASING.md
 .gitignore
 .gitattributes
+
+COMPONENT-PLUGIN.md
+Connect.md

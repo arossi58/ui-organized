@@ -20,11 +20,11 @@
 }
 
 .meter__label {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
 }
 
 .meter__value {
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   font-variant-numeric: tabular-nums;
 }
 

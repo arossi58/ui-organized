@@ -21,7 +21,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -51,25 +51,25 @@
 /* hover ─ filled primary, primary text (non-selected, enabled only) */
 .nav-item__trigger:hover:not(:disabled):not(.nav-item__trigger--selected) {
   background-color: var(--color-interactive-primary-hover);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 /* active / pressed */
 .nav-item__trigger:active:not(:disabled):not(.nav-item__trigger--selected) {
   background-color: var(--color-interactive-primary-active);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
 }
 
 /* focus ─ 2px ring */
 .nav-item__trigger:focus-visible {
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 /* selected ─ filled primary, emphasized */
 .nav-item__trigger--selected {
   background-color: var(--color-interactive-primary-default);
-  color: var(--color-text-light);
+  color: var(--color-content-light);
   font-weight: var(--type-weight-body-strong);
 }
 
@@ -129,7 +129,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-tertiary);
+  color: var(--color-content-tertiary);
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -147,25 +147,25 @@
 /* hover ─ subtle overlay, primary text (non-selected, enabled only) */
 .nav-sub-item:hover:not(:disabled):not(.nav-sub-item--selected) {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 /* active / pressed */
 .nav-sub-item:active:not(:disabled):not(.nav-sub-item--selected) {
   background-color: var(--color-interactive-ui-active);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 /* focus ─ 2px ring */
 .nav-sub-item:focus-visible {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 /* selected ─ overlay fill, emphasized */
 .nav-sub-item--selected {
   background-color: var(--color-interactive-ui-selected);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   font-weight: var(--type-weight-body-strong);
 }
 
@@ -304,7 +304,7 @@
   border: none;
   border-radius: var(--radius-interactive);
   background: transparent;
-  color: var(--color-text-secondary);
+  color: var(--color-content-secondary);
   text-align: left;
   cursor: pointer;
   outline: none;
@@ -315,11 +315,11 @@
 
 .sidebar__toggle:hover {
   background-color: var(--color-interactive-ui-hover);
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
 }
 
 .sidebar__toggle:focus-visible {
-  color: var(--color-text-primary);
+  color: var(--color-content-primary);
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 

@@ -126,8 +126,8 @@ const cardRoot: CaptureNode = {
     "--border-radius-04": "8px",
   },
   children: [
-    card("card__title", "Title", "--color-text-primary", "rgb(255, 255, 255)", "16px"),
-    card("card__body", "Body content", "--color-text-secondary", "rgb(200, 200, 200)", "14px"),
+    card("card__title", "Title", "--color-content-primary", "rgb(255, 255, 255)", "16px"),
+    card("card__body", "Body content", "--color-content-secondary", "rgb(200, 200, 200)", "14px"),
   ],
 };
 
@@ -149,7 +149,7 @@ assert.equal(cTree.box?.strokeWidth, 1, "card stroke width");
 assert.equal(cTree.box?.radius, "{--border-radius-04}", "card radius ref");
 assert.equal(cTree.children?.length, 2, "card has two children");
 assert.ok(isText(cTree.children?.[0]) && (cTree.children![0] as TextNodeSpec).text === "Title");
-assert.equal((cTree.children![1] as TextNodeSpec).typography?.color, "{--color-text-secondary}");
+assert.equal((cTree.children![1] as TextNodeSpec).typography?.color, "{--color-content-secondary}");
 assert.equal(cardSpec.unresolved.length, 0, "card: nothing unresolved");
 
 // ─── Icon + disabled: <button><svg/> #text "Button" </button> at opacity 0.4 ────

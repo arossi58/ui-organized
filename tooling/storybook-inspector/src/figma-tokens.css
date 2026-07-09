@@ -13,8 +13,8 @@
 .fcp-root {
   --fcp-label: 11px;
   --fcp-row-h: 32px;
-  --fcp-fg: var(--color-text-primary, #e6e6e6);
-  --fcp-muted: var(--color-text-secondary, #8a8a8a);
+  --fcp-fg: var(--color-content-primary, #e6e6e6);
+  --fcp-muted: var(--color-content-secondary, #8a8a8a);
   --fcp-border: var(--color-border-secondary, #333);
   --fcp-surface: var(--color-surface-secondary, #2a2a2a);
   --fcp-field-border: var(--color-border-data-entry, #3a3a3a);
@@ -111,7 +111,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--color-icon-light, #fff);
+  background: var(--color-content-light, #fff);
   transition: transform 0.12s;
 }
 .fcp-switch[data-on="true"]::after { transform: translateX(12px); }
@@ -154,7 +154,7 @@
   border-color: var(--color-status-warning, #5a4a24);
 }
 .fcp-badge[data-tone="none"] {
-  color: var(--color-text-tertiary, #9a9a9a);
+  color: var(--color-content-tertiary, #9a9a9a);
   background: var(--fcp-surface, #262626);
   border-color: var(--fcp-border, #3a3a3a);
 }
@@ -255,12 +255,12 @@
 /* Property value rows + source flags */
 .fcp-prop-value { justify-content: flex-start; gap: 6px; min-width: 0; }
 .fcp-prop-value .fcp-mono { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.fcp-inherited { color: var(--color-text-tertiary, #6a6a6a); font-size: 10px; flex: 0 0 auto; }
+.fcp-inherited { color: var(--color-content-tertiary, #6a6a6a); font-size: 10px; flex: 0 0 auto; }
 .fcp-hardcoded { color: var(--fcp-warn); font-size: 10px; flex: 0 0 auto; white-space: nowrap; }
 .fcp-row[data-flagged="true"] { background: color-mix(in srgb, var(--fcp-warn) 8%, transparent); }
 .fcp-chip-warn { background: var(--color-status-warning-bg, #4a3a1c); color: var(--fcp-warn); }
 
-.fcp-default { color: var(--color-text-tertiary, #6a6a6a); font-size: 10px; font-family: ui-monospace, monospace; flex: 0 0 auto; }
+.fcp-default { color: var(--color-content-tertiary, #6a6a6a); font-size: 10px; font-family: ui-monospace, monospace; flex: 0 0 auto; }
 .fcp-color-field { display: flex; align-items: center; gap: 5px; width: 100%; }
 .fcp-color-swatch {
   flex: 0 0 auto; width: 22px; height: 22px; padding: 0; border: 1px solid var(--fcp-field-border);
