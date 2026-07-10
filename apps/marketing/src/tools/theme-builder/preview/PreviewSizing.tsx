@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, Input, Badge } from "@ui-organized/react";
+import { Button, Card, CardBody, Input, Tag } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import styles from "./PreviewSizing.module.css";
 
@@ -41,7 +41,7 @@ export function PreviewSizing() {
           <Button intent="primary">Primary</Button>
           <Button intent="secondary">Secondary</Button>
           <Input placeholder="Input field" />
-          <Badge variant="info">Badge</Badge>
+          <Tag variant="info">Tag</Tag>
         </div>
         <div className={styles.contextRow}>
           <Card variant="outlined" padding="md" className={styles.contextCard}>

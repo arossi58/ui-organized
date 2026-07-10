@@ -20,8 +20,6 @@ export interface TooltipProps {
   delay?: number;
   /** Delay before closing, in ms. Falls back to a wrapping TooltipProvider. */
   closeDelay?: number;
-  /** Render a pointer arrow. Defaults to true. */
-  showArrow?: boolean;
   /** When true, renders the trigger without a tooltip. */
   disabled?: boolean;
   /** Controlled open state. */

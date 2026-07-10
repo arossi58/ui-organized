@@ -52,7 +52,7 @@
 .scroll-area__thumb {
   flex: 1;
   border-radius: var(--border-radius-full);
-  background-color: var(--color-border-primary);
+  background-color: var(--color-content-tertiary);
 }
 
 /* ─── Corner (where the two scrollbars meet) ──────────────────────────────── */

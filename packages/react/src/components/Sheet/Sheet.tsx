@@ -61,9 +61,10 @@ export function SheetDescription({ className, ...props }: SheetDescriptionProps)
   return <ArkDialog.Description className={clsx("dialog__description", "text-default-body-medium", className)} {...props} />;
 }
 
-/** Right-aligned action row, typically holding the sheet's buttons. */
+/** Action row pinned to the bottom of the panel, holding the sheet's buttons.
+ *  Fills the row on narrow (left/right) sheets, right-aligns on wide ones. */
 export function SheetFooter({ className, ...props }: SheetFooterProps) {
-  return <div className={clsx("dialog__footer", className)} {...props} />;
+  return <div className={clsx("dialog__footer", "sheet__footer", className)} {...props} />;
 }
 
 /** Portalled backdrop + edge-anchored panel holding the sheet body. The panel

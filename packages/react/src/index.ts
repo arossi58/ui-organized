@@ -58,8 +58,8 @@ export type { RangeProps, RangeVariants } from "./components/Range/index.js";
 export { Card, CardHeader, CardBody, CardFooter } from "./components/Card/index.js";
 export type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps, CardVariants } from "./components/Card/index.js";
 
-export { Badge } from "./components/Badge/index.js";
-export type { BadgeProps, BadgeVariants } from "./components/Badge/index.js";
+export { Tag } from "./components/Tag/index.js";
+export type { TagProps, TagVariants } from "./components/Tag/index.js";
 
 export { Alert } from "./components/Alert/index.js";
 export type { AlertProps, AlertVariants } from "./components/Alert/index.js";
@@ -118,7 +118,6 @@ export {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverArrow,
   PopoverClose,
 } from "./components/Popover/index.js";
 export type {
@@ -126,7 +125,6 @@ export type {
   PopoverTriggerProps,
   PopoverContentProps,
   PopoverCloseProps,
-  PopoverArrowProps,
 } from "./components/Popover/index.js";
 
 export { Tooltip, TooltipProvider } from "./components/Tooltip/index.js";

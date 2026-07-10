@@ -10,11 +10,10 @@
   min-width: 180px;
   padding: var(--spacing-space-01);
   background-color: var(--color-surface-primary);
-  border: 1px solid var(--color-border-data-entry);
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.3),
-    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  /* Figma shadow-strong (2117:12383). */
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.25);
   outline: none;
   transform-origin: top;
   transition:
@@ -37,8 +36,8 @@
   padding: var(--spacing-space-01) var(--spacing-space-03);
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
   color: var(--color-content-primary);
   cursor: pointer;
   outline: none;
@@ -118,12 +117,12 @@
 
 .menu__group-label {
   padding: var(--spacing-space-02) var(--spacing-space-03);
-  color: var(--color-content-tertiary);
+  /* Figma header (2168:4613) is a strong, near-black label, not a muted grey. */
+  color: var(--color-content-primary);
 }
 
+/* The separator surface is the shared <Divider> (height / colour / full width);
+   this only adds the menu's block spacing around the rule. */
 .menu__separator {
-  height: 1px;
   margin: var(--spacing-space-01) 0;
-  background-color: var(--color-border-secondary);
-  border: none;
 }

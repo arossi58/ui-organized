@@ -2,6 +2,7 @@ import * as React from "react";
 import { Menu as ArkMenu, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
+import { Divider } from "../Divider/index.js";
 import type {
   MenuProps,
   MenuTriggerProps,
@@ -105,14 +106,21 @@ export function MenuItem({
       className={clsx("menu__item", destructive && "menu__item--destructive", className)}
       {...props}
     >
-      {icon && <Icon name={icon} size={16} className="menu__item-icon" />}
+      {icon && <Icon name={icon} size={20} className="menu__item-icon" />}
       <span className="menu__item-label">{children}</span>
     </ArkMenu.Item>
   );
 }
 
 export function MenuSeparator({ className, ...props }: MenuSeparatorProps) {
-  return <ArkMenu.Separator className={clsx("menu__separator", className)} {...props} />;
+  // Render the design-system Divider as the separator surface; Ark's Separator
+  // merges its semantics/props onto it via asChild. The `menu__separator` class
+  // only adds the menu's block spacing around the rule.
+  return (
+    <ArkMenu.Separator asChild {...props}>
+      <Divider className={clsx("menu__separator", className)} />
+    </ArkMenu.Separator>
+  );
 }
 
 export function MenuGroup({ className, ...props }: MenuGroupProps) {
@@ -152,9 +160,13 @@ export function MenuCheckboxItem({
       {...props}
     >
       {/* Design-system Checkbox control; checked state driven by the item's
-          data-state (see Menu.css), not by the CheckboxItem indicator. */}
+          data-state (see Menu.css), not by the CheckboxItem indicator. The
+          check glyph mirrors the standalone Checkbox — the indicator's
+          visibility is toggled in Menu.css. */}
       <span className="checkbox__control menu__control">
-        <span className="checkbox__indicator checkbox__indicator--check" />
+        <span className="checkbox__indicator">
+          <Icon name="check" size={16} className="checkbox__check" />
+        </span>
       </span>
       <span className="menu__item-label">{children}</span>
     </ArkMenu.CheckboxItem>

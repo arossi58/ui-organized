@@ -1,4 +1,4 @@
-import { Badge, Button } from "@ui-organized/react";
+import { Tag, Button } from "@ui-organized/react";
 import type { EffectiveToken, ResolveMiss, ResolveResult } from "@ui-organized/resolver";
 import { removeToken } from "../yjs/store.js";
 import { colorHex, formatResolved } from "../lib/resolvedFormat.js";
@@ -72,9 +72,9 @@ export function TokenTable({
                   <span className="tm-td__group">{group}</span>
                   {leaf}{" "}
                   {overriddenPaths.has(token.path) && (
-                    <Badge variant="caution" size="sm" emphasized={false}>
+                    <Tag variant="caution" size="sm" emphasized={false}>
                       override
-                    </Badge>
+                    </Tag>
                   )}
                 </td>
                 <td>
@@ -96,9 +96,9 @@ export function TokenTable({
                       <span className="tm-swatch" style={{ background: colorHex(resolution) }} aria-hidden="true" />
                     )}
                     {miss ? (
-                      <Badge variant="error" size="sm" emphasized={false}>
+                      <Tag variant="error" size="sm" emphasized={false}>
                         {miss.kind}
-                      </Badge>
+                      </Tag>
                     ) : (
                       <span className="tm-resolved__val">{resolution ? formatResolved(resolution) : "—"}</span>
                     )}

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Card, CardHeader, CardBody, CardFooter, Button, Badge } from "@ui-organized/react";
+import { Card, CardHeader, CardBody, CardFooter, Button, Tag } from "@ui-organized/react";
 
 const meta: Meta<typeof Card> = {
   title: "Components/Layout/Card",
@@ -175,7 +175,7 @@ export const RichContent: Story = {
   <CardHeader>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
       <strong>Subscription</strong>
-      <Badge variant="success" size="sm">Active</Badge>
+      <Tag variant="success" size="sm">Active</Tag>
     </div>
   </CardHeader>
   <CardBody>
@@ -197,7 +197,7 @@ export const RichContent: Story = {
       <CardHeader>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <strong>Subscription</strong>
-          <Badge variant="success" size="sm">Active</Badge>
+          <Tag variant="success" size="sm">Active</Tag>
         </div>
       </CardHeader>
       <CardBody>

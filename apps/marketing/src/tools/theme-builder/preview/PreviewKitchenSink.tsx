@@ -17,7 +17,7 @@ import {
   Checkbox,
   RadioGroup,
   Range,
-  Badge,
+  Tag,
   Alert,
   Progress,
   Meter,
@@ -214,14 +214,14 @@ export function PreviewKitchenSink() {
         <h2 className={styles.sectionTitle}>Status &amp; Feedback</h2>
 
         <div className={styles.group}>
-          <span className={styles.label}>Badges</span>
+          <span className={styles.label}>Tags</span>
           <div className={styles.row}>
-            <Badge variant="success">Success</Badge>
-            <Badge variant="info">Info</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="error">Error</Badge>
-            <Badge variant="caution">Caution</Badge>
-            <Badge variant="info" emphasized={false}>Subtle</Badge>
+            <Tag variant="success">Success</Tag>
+            <Tag variant="info">Info</Tag>
+            <Tag variant="warning">Warning</Tag>
+            <Tag variant="error">Error</Tag>
+            <Tag variant="caution">Caution</Tag>
+            <Tag variant="info" emphasized={false}>Subtle</Tag>
           </div>
         </div>
 

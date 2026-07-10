@@ -11,7 +11,7 @@ import {
   Select,
   Switch,
   Checkbox,
-  Badge,
+  Tag,
   Avatar,
   Meter,
   Progress,
@@ -108,7 +108,7 @@ function DashboardExample() {
               <span className={styles.statLabel}>{s.label}</span>
               <span className={styles.statValue}>{s.value}</span>
               <div className={styles.statFooter}>
-                <Badge variant={s.variant} size="sm" emphasized={false}>{s.delta}</Badge>
+                <Tag variant={s.variant} size="sm" emphasized={false}>{s.delta}</Tag>
                 <Meter value={s.meter} variant={s.variant === "error" ? "warning" : "default"} size="sm" />
               </div>
             </Card>
@@ -129,7 +129,7 @@ function DashboardExample() {
                     <Avatar name={o.name} size="xs" />
                     <span>{o.name}</span>
                   </div>
-                  <Badge variant={o.variant} size="sm">{o.status}</Badge>
+                  <Tag variant={o.variant} size="sm">{o.status}</Tag>
                   <span className={styles.orderAmount}>{o.amount}</span>
                 </div>
               ))}
@@ -252,7 +252,7 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
         <SearchInput size="sm" placeholder="Search products…" aria-label="Search products" className={styles.shopSearch} />
         <div className={styles.shopBarActions}>
           <Select options={SORT_OPTIONS} defaultValue="popular" size="sm" portalContainer={portal} aria-label="Sort" />
-          <Button intent="secondary" icon="tag">Cart <Badge variant="info" size="sm">3</Badge></Button>
+          <Button intent="secondary" icon="tag">Cart <Tag variant="info" size="sm">3</Tag></Button>
         </div>
       </header>
 
@@ -277,7 +277,7 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
                 className={styles.productImage}
                 style={{ background: `linear-gradient(135deg, hsl(${p.hue} 70% 55%), hsl(${p.hue + 30} 65% 42%))` }}
               >
-                {p.tag && <span className={styles.productTag}><Badge variant={p.variant} size="sm">{p.tag}</Badge></span>}
+                {p.tag && <span className={styles.productTag}><Tag variant={p.variant} size="sm">{p.tag}</Tag></span>}
               </div>
               <div className={styles.productBody}>
                 <div className={styles.productMeta}>
@@ -328,7 +328,7 @@ function MarketingExample() {
       </nav>
 
       <section className={styles.hero}>
-        <Badge variant="info" emphasized={false}>New · v2 design system</Badge>
+        <Tag variant="info" emphasized={false}>New · v2 design system</Tag>
         <h1 className={styles.heroTitle}>Design once. Ship everywhere.</h1>
         <p className={styles.heroText}>
           A token-driven component library that keeps product, brand, and code in
@@ -368,7 +368,7 @@ function MarketingExample() {
               padding="lg"
               className={`${styles.tierCard} ${t.featured ? styles.tierFeatured : ""}`}
             >
-              {t.featured && <span className={styles.tierBadge}><Badge variant="info" size="sm">Popular</Badge></span>}
+              {t.featured && <span className={styles.tierBadge}><Tag variant="info" size="sm">Popular</Tag></span>}
               <span className={styles.tierName}>{t.name}</span>
               <div className={styles.tierPrice}>{t.price}<span className={styles.tierPer}>/mo</span></div>
               <p className={styles.tierBlurb}>{t.blurb}</p>

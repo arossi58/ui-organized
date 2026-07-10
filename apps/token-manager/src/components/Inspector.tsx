@@ -1,4 +1,4 @@
-import { Badge, Button, Divider } from "@ui-organized/react";
+import { Tag, Button, Divider } from "@ui-organized/react";
 import { flattenSet } from "@ui-organized/resolver";
 import { clearOverride, useProjectDocument } from "../yjs/store.js";
 import { useSelection } from "../state/SelectionContext.js";
@@ -61,9 +61,9 @@ export function Inspector() {
 
         <Field label={`Resolved (${selection.mode || "—"})`}>
           {miss ? (
-            <Badge variant="error" size="sm" emphasized={false}>
+            <Tag variant="error" size="sm" emphasized={false}>
               {miss.kind}
-            </Badge>
+            </Tag>
           ) : resolution ? (
             formatResolved(resolution)
           ) : (

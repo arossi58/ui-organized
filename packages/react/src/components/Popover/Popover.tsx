@@ -6,7 +6,6 @@ import type {
   PopoverTriggerProps,
   PopoverContentProps,
   PopoverCloseProps,
-  PopoverArrowProps,
 } from "./Popover.types.js";
 import "./Popover.css";
 
@@ -50,21 +49,12 @@ export function PopoverTrigger({ render, children, ...props }: PopoverTriggerPro
   return <ArkPopover.Trigger {...props}>{children}</ArkPopover.Trigger>;
 }
 
-export function PopoverArrow({ className, ...props }: PopoverArrowProps) {
-  return (
-    <ArkPopover.Arrow className={clsx("popover__arrow", className)} {...props}>
-      <ArkPopover.ArrowTip />
-    </ArkPopover.Arrow>
-  );
-}
-
 /** Portalled, positioned surface holding the popover body. */
 export function PopoverContent({
   side = "bottom",
   align = "center",
   sideOffset = 8,
   alignOffset,
-  showArrow = false,
   container,
   className,
   children,
@@ -84,7 +74,6 @@ export function PopoverContent({
     <Portal container={container}>
       <ArkPopover.Positioner className="popover__positioner">
         <ArkPopover.Content className={clsx("popover__popup", "text-default-body-medium", className)} {...contentProps}>
-          {showArrow && <PopoverArrow />}
           {children}
         </ArkPopover.Content>
       </ArkPopover.Positioner>

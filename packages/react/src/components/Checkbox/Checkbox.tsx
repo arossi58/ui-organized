@@ -1,5 +1,6 @@
 import { Checkbox as ArkCheckbox } from "@ark-ui/react";
 import { clsx } from "clsx";
+import { Icon } from "../Icon/Icon.js";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "./Checkbox.css";
 
@@ -33,13 +34,11 @@ export function Checkbox({
     >
       <ArkCheckbox.Control className="checkbox__control">
         <ArkCheckbox.Indicator className="checkbox__indicator">
-          <span
-            className={
-              indeterminate
-                ? "checkbox__indicator--indeterminate"
-                : "checkbox__indicator--check"
-            }
-          />
+          {indeterminate ? (
+            <span className="checkbox__indicator--indeterminate" />
+          ) : (
+            <Icon name="check" size={16} className="checkbox__check" />
+          )}
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>
       {label && <ArkCheckbox.Label className="checkbox__label text-default-body-large">{label}</ArkCheckbox.Label>}

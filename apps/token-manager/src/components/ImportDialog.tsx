@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {
-  Badge,
+  Tag,
   Button,
   Dialog,
   DialogClose,
@@ -73,9 +73,9 @@ export function ImportDialog({ open, onOpenChange }: { open: boolean; onOpenChan
           placeholder='{ "$metadata": { … }, "$themes": [ … ], "global": { … } }'
         />
         {!error && (
-          <Badge variant="info" size="sm" emphasized={false}>
+          <Tag variant="info" size="sm" emphasized={false}>
             Tokens Studio · UI Organized · plain DTCG
-          </Badge>
+          </Tag>
         )}
         <DialogFooter>
           <DialogClose render={<Button intent="tertiary">Cancel</Button>} />

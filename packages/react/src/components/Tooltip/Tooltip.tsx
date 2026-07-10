@@ -30,7 +30,6 @@ export function Tooltip({
   sideOffset = 6,
   delay,
   closeDelay,
-  showArrow = true,
   disabled,
   open,
   defaultOpen,
@@ -64,11 +63,6 @@ export function Tooltip({
         <ArkTooltip.Positioner className="tooltip__positioner">
           <ArkTooltip.Content className="tooltip__popup text-default-body-small">
             {content}
-            {showArrow && (
-              <ArkTooltip.Arrow className="tooltip__arrow">
-                <ArkTooltip.ArrowTip className="tooltip__arrow-tip" />
-              </ArkTooltip.Arrow>
-            )}
           </ArkTooltip.Content>
         </ArkTooltip.Positioner>
       </Portal>

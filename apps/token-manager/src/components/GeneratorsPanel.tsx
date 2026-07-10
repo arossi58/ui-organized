@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Badge, Button, Input, NumberField, Select, Divider } from "@ui-organized/react";
+import { Tag, Button, Input, NumberField, Select, Divider } from "@ui-organized/react";
 import { NEUTRAL_PRESETS, type UiOrganizedConfig } from "@ui-organized/pack-ui-organized";
 import type { ReconcileReport } from "@ui-organized/token-io";
 import { clearOverride, useProjectDocument } from "../yjs/store.js";
@@ -36,9 +36,9 @@ export function GeneratorsPanel() {
     <div className="tm-card">
       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
         <span className="tm-card__title">Generators</span>
-        <Badge variant="info" size="sm" emphasized={false}>
+        <Tag variant="info" size="sm" emphasized={false}>
           UI Organized pack
-        </Badge>
+        </Tag>
       </div>
 
       <div className="tm-stack" style={{ marginTop: 12 }}>
@@ -122,15 +122,15 @@ function ReconcileReportView({ report }: { report: ReconcileReport }) {
       <div className="tm-stack" style={{ gap: 6 }}>
         <span className="tm-card__title">Regeneration</span>
         <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-          <Badge variant="success" size="sm" emphasized={false}>
+          <Tag variant="success" size="sm" emphasized={false}>
             {report.reapplied.length} reapplied
-          </Badge>
-          <Badge variant="info" size="sm" emphasized={false}>
+          </Tag>
+          <Tag variant="info" size="sm" emphasized={false}>
             {report.redundant.length} absorbed
-          </Badge>
-          <Badge variant={report.stale.length ? "warning" : "info"} size="sm" emphasized={false}>
+          </Tag>
+          <Tag variant={report.stale.length ? "warning" : "info"} size="sm" emphasized={false}>
             {report.stale.length} stale
-          </Badge>
+          </Tag>
         </div>
 
         {report.stale.length > 0 && (

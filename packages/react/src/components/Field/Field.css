@@ -26,7 +26,7 @@
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-default);
   line-height: var(--type-leading-body-small);
-  color: var(--color-content-tertiary);
+  color: var(--color-content-secondary);
 }
 
 /* ─── Required indicator ──────────────────────────────────────────────────── */
@@ -36,7 +36,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background-color: var(--color-status-error-message);
+  background-color: var(--brand);
   flex-shrink: 0;
 }
 
@@ -129,7 +129,7 @@
   margin: 0;
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-default);
+  font-weight: var(--type-weight-body-emphasis);
   line-height: var(--type-leading-body-small);
   color: var(--color-content-tertiary);
 }

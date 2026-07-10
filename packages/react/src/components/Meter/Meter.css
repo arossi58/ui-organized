@@ -34,7 +34,7 @@
   position: relative;
   width: 100%;
   overflow: hidden;
-  background-color: var(--color-interactive-ui-default);
+  background-color: var(--color-interactive-secondary-default);
   border-radius: var(--border-radius-full);
 }
 

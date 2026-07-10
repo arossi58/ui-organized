@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   Alert,
   Avatar,
-  Badge,
+  Tag,
   Button,
   Checkbox,
   Dialog,
@@ -144,7 +144,7 @@ function RealComponent({
     case "heading":
       return <p className="physics-piece__heading">{label}</p>;
     case "badge":
-      return <Badge variant="success">{label}</Badge>;
+      return <Tag variant="success">{label}</Tag>;
     case "stat":
       return (
         <div className="physics-piece__stat">

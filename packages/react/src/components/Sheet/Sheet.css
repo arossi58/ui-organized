@@ -9,8 +9,17 @@
   display: contents;
 }
 
+/* Each edge anchors via `inset` alone: the two pinned sides fix the panel to the
+   edge, and the perpendicular pair (both 0) stretches it across that axis to the
+   exact viewport content width/height. Using inset — not `100vw`/`100vh` — avoids
+   the scrollbar-width overshoot that clipped the panel on the right. The other
+   axis is sized by the size variant below. */
+
 .sheet__popup {
   position: fixed;
+  /* Include the 1px edge border in the box so a full-bleed panel never
+     overflows its axis. */
+  box-sizing: border-box;
   z-index: var(--z-index-dialog);
   display: flex;
   flex-direction: column;
@@ -18,9 +27,8 @@
   padding: var(--spacing-space-06);
   background-color: var(--color-surface-primary);
   color: var(--color-content-primary);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.4),
-    0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  /* Per Figma (2163:911) the sheet separates via its edge border over the
+     dimmed backdrop, with no drop shadow. */
   outline: none;
   overflow-y: auto;
   transition:
@@ -32,26 +40,22 @@
 
 .sheet__popup--right {
   inset: 0 0 0 auto;
-  height: 100vh;
-  border-left: 1px solid var(--color-border-secondary);
+  border-left: 1px solid var(--color-border-primary);
 }
 
 .sheet__popup--left {
   inset: 0 auto 0 0;
-  height: 100vh;
-  border-right: 1px solid var(--color-border-secondary);
+  border-right: 1px solid var(--color-border-primary);
 }
 
 .sheet__popup--top {
   inset: 0 0 auto 0;
-  width: 100vw;
-  border-bottom: 1px solid var(--color-border-secondary);
+  border-bottom: 1px solid var(--color-border-primary);
 }
 
 .sheet__popup--bottom {
   inset: auto 0 0 0;
-  width: 100vw;
-  border-top: 1px solid var(--color-border-secondary);
+  border-top: 1px solid var(--color-border-primary);
 }
 
 /* ─── Sizes (width for left/right, height for top/bottom) ─────────────────── */
@@ -69,6 +73,24 @@
 .sheet__popup--bottom.sheet__popup--md { height: 360px; max-height: 100vh; }
 .sheet__popup--top.sheet__popup--lg,
 .sheet__popup--bottom.sheet__popup--lg { height: 480px; max-height: 100vh; }
+
+/* ─── Footer ──────────────────────────────────────────────────────────────── */
+
+/* Reuses `.dialog__footer` (gap + right alignment) but pins to the bottom of the
+   full-height panel: the auto top margin absorbs the free space above it, so the
+   body sits at the top and the actions at the bottom (Figma's flex-1 body). */
+.sheet__popup .sheet__footer {
+  margin-top: auto;
+}
+
+/* Narrow left/right sheets fill the row with evenly-split actions (Figma
+   2163:911); wide top/bottom sheets keep natural-width, right-aligned actions
+   (Figma 2171:712) via the inherited `.dialog__footer` justify-end. */
+.sheet__popup--left .sheet__footer > *,
+.sheet__popup--right .sheet__footer > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
 
 /* ─── Slide animation (per side) ──────────────────────────────────────────── */
 

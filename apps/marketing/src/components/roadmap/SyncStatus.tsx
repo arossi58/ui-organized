@@ -1,10 +1,10 @@
-import { Badge } from "@ui-organized/react";
+import { Tag } from "@ui-organized/react";
 import { type RoadmapData, timeAgo } from "../../lib/roadmap";
 import "./sync-status.css";
 
 /**
  * Freshness pill for the section header (the mockup's "Last Updated …" status):
- * a design-system info `Badge`, wrapped in a link to the project board so the
+ * a design-system info `Tag`, wrapped in a link to the project board so the
  * invite to contribute stays one click away. When the data is the local fixture
  * (the deployed sync wasn't reachable) it says "Preview data" rather than
  * claiming to be live (SITE.md §7.4).
@@ -20,9 +20,9 @@ export function SyncStatus({ data, fromFixture }: { data: RoadmapData; fromFixtu
       rel="noreferrer"
       title="Open the project board"
     >
-      <Badge variant="info" emphasized={false} size="sm">
+      <Tag variant="info" emphasized={false} size="sm">
         {label}
-      </Badge>
+      </Tag>
     </a>
   );
 }

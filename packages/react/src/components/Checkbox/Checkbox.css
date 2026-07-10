@@ -23,8 +23,8 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  background-color: var(--color-surface-primary);
-  border:  2px solid var(--color-interactive-ui-inverse);
+  background-color: transparent;
+  border: 2px solid var(--color-interactive-ui-inverse);
   border-radius: var(--radius-checkbox);
   display: flex;
   align-items: center;
@@ -36,9 +36,13 @@
     box-shadow 150ms ease;
 }
 
-/* Focus lives on Ark's visually-hidden input, not the control <span>. */
+/* Focus ring — double outline (inner dark, outer light) matching Figma's two
+   drop shadows. Focus lives on Ark's visually-hidden input, not the control
+   <span>, so key off data-focus-visible. */
 .checkbox__control[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  box-shadow:
+    0 0 0 1px var(--color-interactive-focus-inverse),
+    0 0 0 2px var(--color-interactive-focus);
 }
 
 .checkbox__control[data-state="checked"],
@@ -79,22 +83,16 @@
   transform: scale(1);
 }
 
-/* Checkmark */
-.checkbox__indicator--check::after {
-  content: "";
-  display: block;
-  width: 5px;
-  height: 9px;
-  border-right: 2px solid currentColor;
-  border-bottom: 2px solid currentColor;
-  transform: rotate(45deg) translate(-1px, -2px);
+/* Checkmark — Lucide `check` icon, sized to 16px within the 18px box (per Figma). */
+.checkbox__check {
+  display: flex;
+  color: currentColor;
 }
 
 /* Indeterminate dash */
-.checkbox__indicator--indeterminate::after {
-  content: "";
+.checkbox__indicator--indeterminate {
   display: block;
-  width: 9px;
+  width: 10px;
   height: 2px;
   background-color: currentColor;
   border-radius: 1px;

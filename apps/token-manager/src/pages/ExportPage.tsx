@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Badge, Button } from "@ui-organized/react";
+import { Tag, Button } from "@ui-organized/react";
 import { exportCss, exportResolvedTokens } from "@ui-organized/export";
 import { useProjectDocument } from "../yjs/store.js";
 import { useSelection } from "../state/SelectionContext.js";
@@ -46,9 +46,9 @@ export function ExportPage() {
             </p>
           </div>
           <div className="tm-row-controls">
-            <Badge variant="info" size="sm" emphasized={false}>
+            <Tag variant="info" size="sm" emphasized={false}>
               {tokens.length} tokens
-            </Badge>
+            </Tag>
             <Button intent="tertiary" size="sm" onClick={copy}>
               {copied ? "Copied" : "Copy CSS"}
             </Button>

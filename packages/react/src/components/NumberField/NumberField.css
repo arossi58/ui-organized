@@ -29,15 +29,22 @@
   height: var(--control-height-lg);
 }
 
+.field--sm .number-field__stepper {
+  width: var(--control-height-sm);
+}
+
+.field--lg .number-field__stepper {
+  width: var(--control-height-lg);
+}
+
 .number-field__group:has(:focus-visible) {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-/* Invalid / disabled mirror the field control states (data attrs on Field.Root). */
-.field[data-invalid] .number-field__group {
-  border-color: var(--color-status-error-message);
-}
-
+/* Invalid / disabled mirror the field control states (data attrs on Field.Root).
+   Per Figma the border stays the neutral data-entry grey in the error state —
+   the <FieldError> pill is the only error signal (matching the Input control) —
+   so only the focus ring shifts to the error colour. */
 .field[data-invalid] .number-field__group:has(:focus-visible) {
   box-shadow: 0 0 0 2px var(--color-status-error);
 }
@@ -75,7 +82,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 40px;
+  /* Square trigger — width tracks the control height so the button matches the
+     stepper squares in Figma (28 / 32 / 40 per size). */
+  width: var(--control-height-md);
   border: none;
   background: transparent;
   color: var(--color-content-secondary);

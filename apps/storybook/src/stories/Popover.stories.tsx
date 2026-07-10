@@ -10,7 +10,7 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, `sideOffset`, and `showArrow`).",
+          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`).",
       },
     },
   },
@@ -24,7 +24,7 @@ export const Inspect: Story = {
   render: () => (
     <Popover>
       <PopoverTrigger className="btn btn--secondary btn--md">Open popover</PopoverTrigger>
-      <PopoverContent showArrow style={{ maxWidth: 260 }}>
+      <PopoverContent style={{ maxWidth: 260 }}>
         <h4 style={{ margin: "0 0 8px", fontSize: "var(--type-size-body-large)" }}>Dimensions</h4>
         <p
           style={{
@@ -46,7 +46,7 @@ export const Sides: Story = {
       {(["top", "right", "bottom", "left"] as const).map((side) => (
         <Popover key={side}>
           <PopoverTrigger className="btn btn--secondary btn--md">{side}</PopoverTrigger>
-          <PopoverContent side={side} showArrow>
+          <PopoverContent side={side}>
             Positioned on the {side}.
           </PopoverContent>
         </Popover>

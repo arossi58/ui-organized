@@ -9,16 +9,15 @@
 }
 
 .tooltip__popup {
-  /* Zag positions/rotates the arrow automatically and reads these vars for its
-     size and fill (replaces Base UI's per-side ::before offsets). */
-  --arrow-size: 8px;
-  --arrow-background: var(--color-surface-overlay-primary);
+  /* Figma 2163:923 — a light surface card, not a dark bubble. */
   max-width: 240px;
   padding: var(--spacing-space-01) var(--spacing-space-02);
-  background-color: var(--color-surface-overlay-primary);
-  color: var(--color-content-inverse);
-  border-radius: var(--border-radius-03);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  background-color: var(--color-surface-primary);
+  color: var(--color-content-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+  /* Figma shadow-strong. */
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.25);
   outline: none;
   transform-origin: center;
   transition:

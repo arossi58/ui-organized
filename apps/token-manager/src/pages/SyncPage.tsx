@@ -7,7 +7,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogTitle,
-  Badge,
+  Tag,
   Button,
   Input,
   PasswordInput,
@@ -212,9 +212,9 @@ export function SyncPage() {
         )}
 
         {status && (
-          <Badge variant={status.kind === "error" ? "error" : status.kind === "success" ? "success" : "info"} emphasized={false}>
+          <Tag variant={status.kind === "error" ? "error" : status.kind === "success" ? "success" : "info"} emphasized={false}>
             {status.text}
-          </Badge>
+          </Tag>
         )}
 
         {pr && (

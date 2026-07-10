@@ -1,4 +1,4 @@
-import { Badge } from "@ui-organized/react";
+import { Tag } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
 import "./how-it-works.css";
 
@@ -34,9 +34,9 @@ export function HowItWorks() {
           <p className="eyebrow">How it works</p>
           <h2 className="section-title">One config. Three surfaces.</h2>
           <p className="section-sub">
-            <Badge variant="info" size="sm">
+            <Tag variant="info" size="sm">
               theme.config.ts
-            </Badge>{" "}
+            </Tag>{" "}
             is the single source of truth — everything downstream is generated from it.
           </p>
         </Reveal>

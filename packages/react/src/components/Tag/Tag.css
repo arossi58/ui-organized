@@ -1,0 +1,111 @@
+/* ─── Tag base ────────────────────────────────────────────────────────────── */
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-01);
+  border-radius: var(--border-radius-02);
+  font-family: var(--type-font-body);
+  font-weight: var(--type-weight-body-emphasis);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+/* Label truncates; the icon (`.icon` is already flex-shrink:0) keeps its size. */
+.tag__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Icon inherits the tag's text color via currentColor and never shrinks. */
+.tag__icon {
+  flex: 0 0 auto;
+}
+
+/* ─── Sizes (compact; padding + font-size scale together) ──────────────────── */
+
+.tag--sm {
+  padding: 0 var(--spacing-space-01);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.tag--md {
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.tag--lg {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+/* ─── Emphasized (solid bg, high-contrast text) ───────────────────────────── */
+
+.tag--success {
+  background-color: var(--color-status-success);
+  color: var(--color-content-primary);
+}
+
+.tag--info {
+  background-color: var(--color-status-info);
+  color: var(--color-content-primary);
+}
+
+.tag--info-secondary {
+  background-color: var(--color-status-info-secondary);
+  color: var(--color-content-primary);
+}
+
+.tag--caution {
+  background-color: var(--color-status-caution);
+  color: var(--color-content-inverse);
+}
+
+.tag--warning {
+  background-color: var(--color-status-warning);
+  color: var(--color-content-primary);
+}
+
+.tag--error {
+  background-color: var(--color-status-error);
+  color: var(--color-content-primary);
+}
+
+/* ─── Subdued (tinted bg, colored text) ───────────────────────────────────── */
+
+.tag--subdued.tag--success {
+  background-color: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.tag--subdued.tag--info {
+  background-color: var(--color-status-info-bg);
+  color: var(--color-status-info-content);
+}
+
+.tag--subdued.tag--info-secondary {
+  background-color: var(--color-status-info-secondary-bg);
+  color: var(--color-status-info-secondary-content);
+}
+
+.tag--subdued.tag--caution {
+  background-color: var(--color-status-caution-bg);
+  color: var(--color-status-caution-content);
+}
+
+.tag--subdued.tag--warning {
+  background-color: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+}
+
+.tag--subdued.tag--error {
+  background-color: var(--color-status-error-bg);
+  color: var(--color-status-error-content);
+}

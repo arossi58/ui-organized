@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Badge, Button, Select } from "@ui-organized/react";
+import { Tag, Button, Select } from "@ui-organized/react";
 import { useProjectDocument, useUndoState, undo, redo } from "../yjs/store.js";
 import { useSelection } from "../state/SelectionContext.js";
 import { ImportDialog } from "./ImportDialog.js";
@@ -25,9 +25,9 @@ export function TopBar() {
   return (
     <header className="tm-topbar">
       <span className="tm-topbar__title">{doc.meta.name}</span>
-      <Badge variant="info" emphasized={false} size="sm">
+      <Tag variant="info" emphasized={false} size="sm">
         Local
-      </Badge>
+      </Tag>
 
       <div className="tm-topbar__spacer" />
 

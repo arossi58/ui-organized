@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { Link } from "react-router-dom";
-import { Badge, Button, Icon } from "@ui-organized/react";
+import { Tag, Button, Icon } from "@ui-organized/react";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -164,9 +164,9 @@ function Cta({ link }: { link: DetailLink }) {
     return (
       <Button intent={link.primary ? "primary" : "secondary"} disabled>
         {link.label}
-        <Badge variant="info" size="sm" emphasized={false}>
+        <Tag variant="info" size="sm" emphasized={false}>
           Soon
-        </Badge>
+        </Tag>
       </Button>
     );
   }
@@ -197,9 +197,9 @@ function ItemBody({ item }: { item: DetailItem }) {
         <span className="ov-detail__item-title">
           {item.title}
           {item.badge && (
-            <Badge variant="info" size="sm" emphasized={false}>
+            <Tag variant="info" size="sm" emphasized={false}>
               {item.badge}
-            </Badge>
+            </Tag>
           )}
           {item.href && (
             <Icon

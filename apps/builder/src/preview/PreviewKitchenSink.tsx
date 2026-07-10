@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Badge,
+  Tag,
   Alert,
   Tabs,
 } from "@ui-organized/react";
@@ -162,15 +162,15 @@ export function PreviewKitchenSink() {
           </div>
         </section>
 
-        {/* ── Section: Badges ─────────────────────────────────────────────── */}
+        {/* ── Section: Tags ─────────────────────────────────────────────── */}
         <section className={styles.section}>
-          <h2 className={styles.sectionTitle}>Badges</h2>
+          <h2 className={styles.sectionTitle}>Tags</h2>
           <div className={styles.row}>
-            <Badge variant="success">Success</Badge>
-            <Badge variant="info">Info</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="error">Error</Badge>
-            <Badge>Default</Badge>
+            <Tag variant="success">Success</Tag>
+            <Tag variant="info">Info</Tag>
+            <Tag variant="warning">Warning</Tag>
+            <Tag variant="error">Error</Tag>
+            <Tag>Default</Tag>
           </div>
         </section>
 
