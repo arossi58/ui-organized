@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/resolver",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Deterministic DTCG token resolver — references, math, composites, and color modifiers. The single resolution oracle shared by the editor, the Figma plugin, and the MCP server.",
   "keywords": [
     "design-tokens",

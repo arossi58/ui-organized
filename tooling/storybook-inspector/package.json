@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/storybook-inspector",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "Storybook addon (INSPECTOR.md) — a Figma-style properties panel that drives the real, live-rendered Storybook component via args. Reads props/variants from the shared manifest/components.json (same source as the Code Connect MCP server) and surfaces the same confidence/staleness model.",
   "type": "module",

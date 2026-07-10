@@ -1,5 +1,14 @@
 # @ui-organized/figma-plugin
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [7fa8db2]
+  - @ui-organized/tokens@3.0.0
+  - @ui-organized/react@3.0.0
+  - @ui-organized/utils@3.0.0
+
 ## 0.1.2
 
 ### Patch Changes
