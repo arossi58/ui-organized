@@ -2,51 +2,51 @@
   "color-status": {
     "success": {
       "$type": "color",
-      "$value": "{lima.1600}"
+      "$value": "{lima.1700}"
     },
     "success-bg": {
       "$type": "color",
-      "$value": "{lima.2100}"
+      "$value": "{lima.2000}"
     },
     "success-content": {
       "$type": "color",
-      "$value": "{lima.500}"
+      "$value": "{lima.300}"
     },
     "info": {
       "$type": "color",
-      "$value": "{cerulean.1600}"
+      "$value": "{cerulean.1400}"
     },
     "info-bg": {
       "$type": "color",
-      "$value": "{cerulean.2100}"
+      "$value": "{cerulean.2000}"
     },
     "info-content": {
       "$type": "color",
-      "$value": "{cerulean.500}"
+      "$value": "{cerulean.300}"
     },
     "info-secondary": {
       "$type": "color",
-      "$value": "{caribbean.1600}"
+      "$value": "{caribbean.1700}"
     },
     "info-secondary-bg": {
       "$type": "color",
-      "$value": "{caribbean.2100}"
+      "$value": "{caribbean.2000}"
     },
     "info-secondary-content": {
       "$type": "color",
-      "$value": "{caribbean.500}"
+      "$value": "{caribbean.300}"
     },
     "caution": {
       "$type": "color",
-      "$value": "{candlelight.1600}"
+      "$value": "{candlelight.1700}"
     },
     "caution-bg": {
       "$type": "color",
-      "$value": "{candlelight.2100}"
+      "$value": "{candlelight.2000}"
     },
     "caution-content": {
       "$type": "color",
-      "$value": "{candlelight.500}"
+      "$value": "{candlelight.300}"
     },
     "warning": {
       "$type": "color",
@@ -62,7 +62,7 @@
     },
     "error": {
       "$type": "color",
-      "$value": "{crimson.1600}"
+      "$value": "{crimson.1700}"
     },
     "error-message": {
       "$type": "color",
@@ -70,11 +70,11 @@
     },
     "error-bg": {
       "$type": "color",
-      "$value": "{crimson.2100}"
+      "$value": "{crimson.2000}"
     },
     "error-content": {
       "$type": "color",
-      "$value": "{crimson.500}"
+      "$value": "{crimson.300}"
     }
   }
 }

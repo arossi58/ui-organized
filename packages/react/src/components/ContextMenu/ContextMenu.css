@@ -4,17 +4,16 @@
   z-index: var(--z-index-popover);
 }
 
-/* ─── Popup ───────────────────────────────────────────────────────────────── */
+/* ─── Popup (matches the Select / Menu popup surface) ─────────────────────── */
 
 .context-menu__popup {
   min-width: 180px;
   padding: var(--spacing-space-01);
   background-color: var(--color-surface-primary);
-  border: 1px solid var(--color-border-data-entry);
+  border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.3),
-    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  /* Figma shadow-strong (2117:12383). */
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.25);
   outline: none;
   transform-origin: top;
   transition:
@@ -37,8 +36,8 @@
   padding: var(--spacing-space-01) var(--spacing-space-03);
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
   color: var(--color-content-primary);
   cursor: pointer;
   outline: none;
@@ -62,12 +61,20 @@
   opacity: 0.4;
 }
 
+/* Destructive items mirror the destructive-ghost button: coloured text at rest,
+   filling solid with light text on hover/press. */
 .context-menu__item--destructive {
-  color: var(--color-status-error-message);
+  color: var(--color-interactive-destructive-default-ghost);
 }
 
 .context-menu__item--destructive[data-highlighted] {
-  background-color: var(--color-status-error-bg);
+  background-color: var(--color-interactive-destructive-hover);
+  color: var(--color-content-light);
+}
+
+.context-menu__item--destructive:active:not([data-disabled]) {
+  background-color: var(--color-interactive-destructive-active);
+  color: var(--color-content-light);
 }
 
 .context-menu__item-icon {
@@ -76,7 +83,7 @@
 }
 
 .context-menu__item--destructive .context-menu__item-icon {
-  color: var(--color-status-error-message);
+  color: inherit;
 }
 
 .context-menu__item-label {
@@ -90,6 +97,8 @@
    state as data-state on the menu item, so bridge it to the control here. */
 
 .context-menu__control {
+  /* The control is a plain child (not a focusable input) inside the row, so it
+     never gets its own hover/focus attrs — align it like the item icon. */
   margin: 0;
 }
 
@@ -116,12 +125,12 @@
 
 .context-menu__group-label {
   padding: var(--spacing-space-02) var(--spacing-space-03);
-  color: var(--color-content-tertiary);
+  /* Figma header (2168:4613) is a strong, near-black label, not a muted grey. */
+  color: var(--color-content-primary);
 }
 
+/* The separator surface is the shared <Divider> (height / colour / full width);
+   this only adds the menu's block spacing around the rule. */
 .context-menu__separator {
-  height: 1px;
   margin: var(--spacing-space-01) 0;
-  background-color: var(--color-border-secondary);
-  border: none;
 }

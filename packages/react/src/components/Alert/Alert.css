@@ -3,17 +3,15 @@
 .alert {
   display: flex;
   gap: var(--spacing-space-03);
-  padding: var(--spacing-space-04);
+  padding: var(--spacing-space-03) var(--spacing-space-04);
   border-radius: var(--radius-interactive);
-  border-width: 1px;
-  border-style: solid;
+  overflow: clip;
 }
 
 /* ─── Variant: info ───────────────────────────────────────────────────────── */
 
 .alert--info {
   background-color: var(--color-status-info-bg);
-  border-color: var(--color-status-info);
   color: var(--color-status-info-content);
 }
 
@@ -21,7 +19,6 @@
 
 .alert--success {
   background-color: var(--color-status-success-bg);
-  border-color: var(--color-status-success);
   color: var(--color-status-success-content);
 }
 
@@ -29,7 +26,6 @@
 
 .alert--warning {
   background-color: var(--color-status-caution-bg);
-  border-color: var(--color-status-caution);
   color: var(--color-status-caution-content);
 }
 
@@ -37,7 +33,6 @@
 
 .alert--error {
   background-color: var(--color-status-error-bg);
-  border-color: var(--color-status-error);
   color: var(--color-status-error-content);
 }
 
@@ -60,7 +55,6 @@
   flex-shrink: 0;
   display: flex;
   align-items: flex-start;
-  padding-top: 1px;
 }
 
 /* ─── Dismiss button ──────────────────────────────────────────────────────── */

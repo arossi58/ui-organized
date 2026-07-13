@@ -67,6 +67,13 @@ export type { AlertProps, AlertVariants } from "./components/Alert/index.js";
 export { Tabs } from "./components/Tabs/index.js";
 export type { TabsProps, TabItem, TabsVariants } from "./components/Tabs/index.js";
 
+export { SegmentedControl } from "./components/SegmentedControl/index.js";
+export type {
+  SegmentedControlProps,
+  SegmentedControlItem,
+  SegmentedControlVariants,
+} from "./components/SegmentedControl/index.js";
+
 export { NavItem, NavSubItem, Sidebar, NavProvider, useNavContext } from "./components/Navigation/index.js";
 export type {
   NavItemProps,

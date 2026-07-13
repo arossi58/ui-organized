@@ -61,12 +61,20 @@
   opacity: 0.4;
 }
 
+/* Destructive items mirror the destructive-ghost button: coloured text at rest,
+   filling solid with light text on hover/press. */
 .menu__item--destructive {
-  color: var(--color-status-error-message);
+  color: var(--color-interactive-destructive-default-ghost);
 }
 
 .menu__item--destructive[data-highlighted] {
-  background-color: var(--color-status-error-bg);
+  background-color: var(--color-interactive-destructive-hover);
+  color: var(--color-content-light);
+}
+
+.menu__item--destructive:active:not([data-disabled]) {
+  background-color: var(--color-interactive-destructive-active);
+  color: var(--color-content-light);
 }
 
 .menu__item-icon {
@@ -75,7 +83,7 @@
 }
 
 .menu__item--destructive .menu__item-icon {
-  color: var(--color-status-error-message);
+  color: inherit;
 }
 
 .menu__item-label {

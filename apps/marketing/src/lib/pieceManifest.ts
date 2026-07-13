@@ -73,8 +73,8 @@ export const PIECES: PieceDef[] = [
   // The full-height nav rail and the four stat cards. Only the window and the
   // content-panel backing stay static.
   { id: "sidebar", kind: "sidebar", w: 240, h: 700, shape: "rect", cx: 120, cy: 350 },
-  { id: "stat-1", kind: "stat", w: 210, h: 96, shape: "rect", cx: 369, cy: 150, value: "105", label: "Components" },
-  { id: "stat-2", kind: "stat", w: 210, h: 96, shape: "rect", cx: 603, cy: 150, value: "5", label: "Figma Plugins" },
+  { id: "stat-1", kind: "stat", w: 210, h: 96, shape: "rect", cx: 369, cy: 150, value: "48", label: "Components" },
+  { id: "stat-2", kind: "stat", w: 210, h: 96, shape: "rect", cx: 603, cy: 150, value: "2", label: "Figma Plugins" },
   { id: "stat-3", kind: "stat", w: 210, h: 96, shape: "rect", cx: 837, cy: 150, value: "$0", label: "Open Source 4-ever" },
   { id: "stat-4", kind: "stat", w: 210, h: 96, shape: "rect", cx: 1071, cy: 150, value: "Fully", label: "Customizable" },
   // ---- header band --------------------------------------------------------

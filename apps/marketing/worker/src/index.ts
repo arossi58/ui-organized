@@ -20,7 +20,7 @@ export interface Env {
   /** Resend API key — sends the notification email. */
   RESEND_API_KEY: string;
   /** Fine-grained PAT with read+write access to Projects (suggestion path). */
-  GITHUB_TOKEN: string;
+  PROJECT_TOKEN: string;
   /** Turnstile secret key. When set, captcha tokens are verified server-side. */
   TURNSTILE_SECRET_KEY?: string;
 
@@ -225,7 +225,7 @@ async function gh(env: Env, query: string, variables: Record<string, unknown>): 
   const res = await fetch("https://api.github.com/graphql", {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${env.GITHUB_TOKEN}`,
+      Authorization: `Bearer ${env.PROJECT_TOKEN}`,
       "Content-Type": "application/json",
       "User-Agent": "ui-organized-contact-worker",
     },

@@ -16,7 +16,7 @@ export function Alert({ variant = "info", title, children, onDismiss, className 
   return (
     <div role="alert" className={clsx(alertStyles({ variant }), className)}>
       <span className="alert__icon">
-        <Icon name={VARIANT_ICONS[variant]} size={18} />
+        <Icon name={VARIANT_ICONS[variant]} size={20} />
       </span>
       <div className="alert__body">
         {title && <div className="alert__title text-strong-body-medium">{title}</div>}
@@ -29,7 +29,7 @@ export function Alert({ variant = "info", title, children, onDismiss, className 
           onClick={onDismiss}
           aria-label="Dismiss alert"
         >
-          <Icon name="close" size={16} />
+          <Icon name="close" size={20} />
         </button>
       )}
     </div>

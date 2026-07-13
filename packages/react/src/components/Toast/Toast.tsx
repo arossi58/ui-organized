@@ -44,11 +44,11 @@ export function ToastProvider({ children }: ToastProviderProps) {
           return (
             <Toast.Root key={toast.id} className={toastStyles({ status })}>
               <span className="toast__icon">
-                <Icon name={STATUS_ICON[status]} size={18} />
+                <Icon name={STATUS_ICON[status]} size={20} />
               </span>
               <div className="toast__content">
                 <Toast.Title className="toast__title text-strong-body-medium">{toast.title}</Toast.Title>
-                <Toast.Description className="toast__description text-default-body-small">
+                <Toast.Description className="toast__description text-default-body-medium">
                   {toast.description}
                 </Toast.Description>
               </div>
@@ -58,7 +58,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
                 </Toast.ActionTrigger>
               )}
               <Toast.CloseTrigger className="toast__close" aria-label="Dismiss">
-                <Icon name="close" size={16} />
+                <Icon name="close" size={20} />
               </Toast.CloseTrigger>
             </Toast.Root>
           );

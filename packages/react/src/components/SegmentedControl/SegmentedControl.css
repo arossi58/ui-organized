@@ -1,0 +1,98 @@
+/* ─── Segmented control ───────────────────────────────────────────────────── */
+
+.segmented {
+  position: relative;
+  /* Grid with equal 1fr columns → segments share width, each sized to the
+     widest label (no truncation), and the control still fills an explicit
+     width if one is set. */
+  display: inline-grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  box-sizing: border-box;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+/* ─── Selected pill ───────────────────────────────────────────────────────────
+   Ark measures the checked item and exposes --left/--top/--width/--height, and
+   sets `left: var(--left)` inline; we position + size the pill from those. */
+.segmented__indicator {
+  position: absolute;
+  top: var(--top);
+  width: var(--width);
+  height: var(--height);
+  background-color: var(--color-interactive-primary-default);
+  border-radius: var(--radius-interactive);
+  --transition-duration: 150ms;
+}
+
+/* ─── Item ────────────────────────────────────────────────────────────────── */
+
+.segmented__item {
+  position: relative;
+  z-index: 1; /* sit above the indicator pill */
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-01);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-weight: var(--type-weight-body-default);
+  color: var(--color-content-secondary);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 150ms ease, background-color 150ms ease;
+}
+
+.segmented__item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.segmented__item-icon {
+  flex-shrink: 0;
+}
+
+/* Unselected hover — subtle neutral wash (indicator owns the selected state). */
+.segmented__item[data-hover]:not([data-state="checked"]):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.segmented__item[data-state="checked"] {
+  color: var(--color-content-light);
+}
+
+.segmented__item[data-focus-visible] {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.segmented__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Sizes (padding + text scale per Figma) ──────────────────────────────── */
+
+.segmented--sm .segmented__item {
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.segmented--md .segmented__item {
+  padding: var(--spacing-space-01) var(--spacing-space-03);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.segmented--lg .segmented__item {
+  padding: var(--spacing-space-02) var(--spacing-space-04);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}

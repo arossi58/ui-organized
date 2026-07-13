@@ -2,11 +2,11 @@
   "color-status": {
     "success": {
       "$type": "color",
-      "$value": "{lima.1000}"
+      "$value": "{lima.1500}"
     },
     "success-bg": {
       "$type": "color",
-      "$value": "{lima.500}"
+      "$value": "{lima.600}"
     },
     "success-content": {
       "$type": "color",
@@ -14,11 +14,11 @@
     },
     "info": {
       "$type": "color",
-      "$value": "{cerulean.1000}"
+      "$value": "{cerulean.1500}"
     },
     "info-bg": {
       "$type": "color",
-      "$value": "{cerulean.500}"
+      "$value": "{cerulean.600}"
     },
     "info-content": {
       "$type": "color",
@@ -26,11 +26,11 @@
     },
     "info-secondary": {
       "$type": "color",
-      "$value": "{caribbean.1000}"
+      "$value": "{caribbean.1500}"
     },
     "info-secondary-bg": {
       "$type": "color",
-      "$value": "{caribbean.500}"
+      "$value": "{caribbean.600}"
     },
     "info-secondary-content": {
       "$type": "color",
@@ -38,11 +38,11 @@
     },
     "caution": {
       "$type": "color",
-      "$value": "{candlelight.1300}"
+      "$value": "{candlelight.1500}"
     },
     "caution-bg": {
       "$type": "color",
-      "$value": "{candlelight.500}"
+      "$value": "{candlelight.600}"
     },
     "caution-content": {
       "$type": "color",
@@ -62,7 +62,7 @@
     },
     "error": {
       "$type": "color",
-      "$value": "{crimson.1000}"
+      "$value": "{crimson.1500}"
     },
     "error-message": {
       "$type": "color",
@@ -70,7 +70,7 @@
     },
     "error-bg": {
       "$type": "color",
-      "$value": "{crimson.500}"
+      "$value": "{crimson.600}"
     },
     "error-content": {
       "$type": "color",

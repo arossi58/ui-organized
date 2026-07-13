@@ -49,7 +49,7 @@ verified server-side; unset, the Worker skips that check.
 
 ```bash
 npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put GITHUB_TOKEN
+npx wrangler secret put PROJECT_TOKEN
 npx wrangler secret put TURNSTILE_SECRET_KEY   # optional
 ```
 
