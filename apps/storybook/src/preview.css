@@ -20,3 +20,15 @@ html[data-theme="light"] #storybook-root {
   background-color: var(--color-surface-base);
   color-scheme: light;
 }
+
+/* ── Docs component-preview blocks ──────────────────────────────────────────── */
+/* On an autodocs page each rendered story sits in a `.sbdocs-preview` card whose
+   background otherwise follows the docs theme's `background.content` (now
+   surface-base, matching the page). Lift the preview blocks back onto
+   surface-primary so each component sample reads as a card against the
+   surface-base page — the same surface relationship as the theme builder.
+   `!important` beats addon-docs' runtime-injected emotion styles. */
+.sbdocs-preview,
+.sbdocs-preview .docs-story {
+  background-color: var(--color-surface-primary) !important;
+}
