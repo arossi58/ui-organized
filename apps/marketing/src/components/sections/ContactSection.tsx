@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Alert, Button, Input, TextArea } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
 import { Turnstile } from "./Turnstile";
@@ -8,7 +9,6 @@ import {
   TURNSTILE_SITE_KEY,
   type ContactInquiryType,
 } from "../../lib/contact";
-import { trackEvent } from "../../lib/analytics";
 import "./contact-section.css";
 
 interface InquiryOption {
@@ -51,16 +51,6 @@ export function ContactSection() {
 
   const honeypotRef = useRef<HTMLInputElement>(null);
   const mountedAtRef = useRef<number>(Date.now());
-  // Tracks whether we've already logged the "started filling the form" event,
-  // so contact_start fires at most once per mount (on first field interaction).
-  const startedRef = useRef(false);
-
-  /** Fire contact_start the first time the visitor edits any field. */
-  function markStarted() {
-    if (startedRef.current) return;
-    startedRef.current = true;
-    trackEvent("contact_start", { inquiry_type: inquiryType });
-  }
 
   const handleCaptchaVerify = useCallback((token: string) => setCaptchaToken(token), []);
   const handleCaptchaExpire = useCallback(() => setCaptchaToken(null), []);
@@ -112,9 +102,6 @@ export function ContactSection() {
     try {
       await submitContactForm({ inquiryType, name, email, message, captchaToken });
       setStatus("success");
-      // Conversion: only a genuine submission (not the honeypot/timing feigned
-      // success above, which returns early) reaches here.
-      trackEvent("contact_submit", { inquiry_type: inquiryType });
       resetForm();
     } catch {
       setStatus("error");
@@ -134,12 +121,7 @@ export function ContactSection() {
           </p>
         </header>
 
-        <form
-          className="contact-form"
-          onSubmit={handleSubmit}
-          onChange={markStarted}
-          noValidate
-        >
+        <form className="contact-form" onSubmit={handleSubmit} noValidate>
           {status === "success" && (
             <Alert variant="success" title="Thanks for reaching out">
               Your message is on its way — we&rsquo;ll be in touch soon.
@@ -239,6 +221,12 @@ export function ContactSection() {
           >
             {status === "submitting" ? "Sending…" : "Submit"}
           </Button>
+
+          <p className="contact-form__privacy">
+            By submitting, you agree to our{" "}
+            <Link to="/privacy">Privacy Policy</Link>. We&rsquo;ll only use your
+            details to respond to you.
+          </p>
         </form>
       </Reveal>
     </section>

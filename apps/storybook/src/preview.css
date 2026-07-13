@@ -17,6 +17,6 @@ html[data-theme="dark"] #storybook-root {
 html[data-theme="light"],
 html[data-theme="light"] body,
 html[data-theme="light"] #storybook-root {
-  background-color: #ffffff;
+  background-color: var(--color-surface-base);
   color-scheme: light;
 }

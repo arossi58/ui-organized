@@ -5,7 +5,6 @@ import type {
   HoverCardProps,
   HoverCardTriggerProps,
   HoverCardContentProps,
-  HoverCardArrowProps,
 } from "./HoverCard.types.js";
 import "./HoverCard.css";
 
@@ -56,21 +55,12 @@ export function HoverCardTrigger({ render, children, ...props }: HoverCardTrigge
   return <ArkHoverCard.Trigger {...props}>{children}</ArkHoverCard.Trigger>;
 }
 
-export function HoverCardArrow({ className, ...props }: HoverCardArrowProps) {
-  return (
-    <ArkHoverCard.Arrow className={clsx("hover-card__arrow", className)} {...props}>
-      <ArkHoverCard.ArrowTip />
-    </ArkHoverCard.Arrow>
-  );
-}
-
 /** Portalled, positioned surface holding the preview content. */
 export function HoverCardContent({
   side = "bottom",
   align = "center",
   sideOffset = 8,
   alignOffset,
-  showArrow = false,
   container,
   className,
   children,
@@ -90,7 +80,6 @@ export function HoverCardContent({
     <Portal container={container}>
       <ArkHoverCard.Positioner className="hover-card__positioner">
         <ArkHoverCard.Content className={clsx("hover-card__popup", "text-default-body-medium", className)} {...contentProps}>
-          {showArrow && <HoverCardArrow />}
           {children}
         </ArkHoverCard.Content>
       </ArkHoverCard.Positioner>

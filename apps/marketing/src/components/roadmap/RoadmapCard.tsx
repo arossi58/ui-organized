@@ -18,7 +18,7 @@ export function RoadmapCard({ item }: RoadmapCardProps) {
   const isDraft = item.url === null;
 
   const card = (
-    <Card variant="outlined" padding="md" className="roadmap-card">
+    <Card padding="md" className="roadmap-card">
       <CardBody className="roadmap-card__body">
         <p className="roadmap-card__title">{item.title}</p>
         <span className="roadmap-card__meta">

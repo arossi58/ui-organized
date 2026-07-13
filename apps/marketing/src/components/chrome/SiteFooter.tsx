@@ -8,6 +8,17 @@ export function SiteFooter() {
       <Link className="site-footer__brand" to="/" aria-label="UI Organized — home">
         <BrandMark />
       </Link>
+      <nav className="site-footer__legal" aria-label="Legal">
+        <Link className="site-footer__link" to="/privacy">
+          Privacy
+        </Link>
+        <Link className="site-footer__link" to="/terms">
+          Terms
+        </Link>
+        <Link className="site-footer__link" to="/cookies">
+          Cookies
+        </Link>
+      </nav>
       <span className="site-footer__note">Open source · MIT license</span>
     </footer>
   );

@@ -23,8 +23,6 @@ export interface HoverCardTriggerProps
   render?: React.ReactElement;
 }
 
-export type HoverCardArrowProps = React.ComponentPropsWithoutRef<"div">;
-
 export interface HoverCardContentProps extends React.ComponentPropsWithoutRef<"div"> {
   /** Side of the trigger to position against. Defaults to 'bottom'. */
   side?: HoverCardSide;
@@ -34,8 +32,6 @@ export interface HoverCardContentProps extends React.ComponentPropsWithoutRef<"d
   sideOffset?: number;
   /** Offset along the alignment axis, in px. */
   alignOffset?: number;
-  /** Render a pointer arrow toward the trigger. Defaults to false. */
-  showArrow?: boolean;
   /** Portal container. Defaults to document.body. */
   container?: React.RefObject<HTMLElement | null>;
 }

@@ -104,7 +104,7 @@ function DashboardExample() {
 
         <div className={styles.statRow}>
           {STATS.map((s) => (
-            <Card key={s.label} variant="outlined" padding="md" className={styles.statCard}>
+            <Card key={s.label} padding="md" className={styles.statCard}>
               <span className={styles.statLabel}>{s.label}</span>
               <span className={styles.statValue}>{s.value}</span>
               <div className={styles.statFooter}>
@@ -116,7 +116,7 @@ function DashboardExample() {
         </div>
 
         <div className={styles.dashGrid}>
-          <Card variant="outlined" padding="none" className={styles.ordersCard}>
+          <Card padding="none" className={styles.ordersCard}>
             <CardHeader className={styles.cardHeaderRow}>
               <strong>Recent orders</strong>
               <Button intent="ghost" size="sm">View all</Button>
@@ -136,7 +136,7 @@ function DashboardExample() {
             </div>
           </Card>
 
-          <Card variant="outlined" padding="md" className={styles.activityCard}>
+          <Card padding="md" className={styles.activityCard}>
             <CardHeader className={styles.cardHeaderPlain}><strong>Goals</strong></CardHeader>
             <CardBody className={styles.goalsBody}>
               <div className={styles.goal}>
@@ -183,7 +183,7 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
           <p className={styles.pageSubtitle}>Manage how your information appears across the workspace.</p>
         </div>
 
-        <Card variant="outlined" padding="lg" className={styles.formCard}>
+        <Card padding="lg" className={styles.formCard}>
           <CardHeader className={styles.cardHeaderPlain}><strong>Personal information</strong></CardHeader>
           <CardBody className={styles.formBody}>
             <div className={styles.formGrid}>
@@ -200,7 +200,7 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
           </CardFooter>
         </Card>
 
-        <Card variant="outlined" padding="lg">
+        <Card padding="lg">
           <CardHeader className={styles.cardHeaderPlain}><strong>Notifications</strong></CardHeader>
           <CardBody className={styles.prefBody}>
             <div className={styles.prefRow}>
@@ -272,7 +272,7 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
 
         <div className={styles.productGrid}>
           {PRODUCTS.map((p) => (
-            <Card key={p.name} variant="outlined" padding="none" className={styles.productCard}>
+            <Card key={p.name} padding="none" className={styles.productCard}>
               <div
                 className={styles.productImage}
                 style={{ background: `linear-gradient(135deg, hsl(${p.hue} 70% 55%), hsl(${p.hue + 30} 65% 42%))` }}
@@ -350,7 +350,7 @@ function MarketingExample() {
 
       <section className={styles.featureGrid}>
         {FEATURES.map((f) => (
-          <Card key={f.title} variant="outlined" padding="lg" className={styles.featureCard}>
+          <Card key={f.title} padding="lg" className={styles.featureCard}>
             <span className={styles.featureIcon}><Icon name={f.icon} size={20} /></span>
             <h3 className={styles.featureTitle}>{f.title}</h3>
             <p className={styles.featureText}>{f.text}</p>
@@ -364,7 +364,7 @@ function MarketingExample() {
           {TIERS.map((t) => (
             <Card
               key={t.name}
-              variant={t.featured ? "elevated" : "outlined"}
+              variant={t.featured ? "elevated" : "default"}
               padding="lg"
               className={`${styles.tierCard} ${t.featured ? styles.tierFeatured : ""}`}
             >

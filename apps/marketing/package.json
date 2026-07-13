@@ -11,6 +11,8 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@fontsource/eb-garamond": "^5.0.0",
+    "@fontsource/inter": "^5.0.0",
     "@ui-organized/react": "workspace:*",
     "@ui-organized/schema": "workspace:*",
     "@ui-organized/tokens": "workspace:*",

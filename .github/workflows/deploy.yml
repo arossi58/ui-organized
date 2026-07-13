@@ -57,9 +57,10 @@ jobs:
       - name: Build marketing (site root)
         env:
           BASE_PATH: /
-          # GA4 Measurement ID. Set as a repo secret (Settings → Secrets and
-          # variables → Actions). Unset → analytics is silently disabled.
-          VITE_GA_MEASUREMENT_ID: ${{ secrets.VITE_GA_MEASUREMENT_ID }}
+          # Cloudflare Web Analytics beacon token (cookieless). Set as a repo
+          # secret (Settings → Secrets and variables → Actions). Unset →
+          # analytics is silently disabled.
+          VITE_CF_ANALYTICS_TOKEN: ${{ secrets.VITE_CF_ANALYTICS_TOKEN }}
           # Contact form. Both are public (they ship in the client bundle), so
           # they live as repo *variables*, not secrets. The endpoint is the
           # deployed contact Worker URL (apps/marketing/worker). Unset → the form

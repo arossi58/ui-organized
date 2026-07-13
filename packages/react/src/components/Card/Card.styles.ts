@@ -4,7 +4,6 @@ export const cardStyles = cva("card", {
   variants: {
     variant: {
       default:  "card--default",
-      outlined: "card--outlined",
       elevated: "card--elevated",
     },
     padding: {

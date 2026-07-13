@@ -250,12 +250,11 @@ export type {
   ToolbarGroupProps,
 } from "./components/Toolbar/index.js";
 
-export { HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } from "./components/HoverCard/index.js";
+export { HoverCard, HoverCardTrigger, HoverCardContent } from "./components/HoverCard/index.js";
 export type {
   HoverCardProps,
   HoverCardTriggerProps,
   HoverCardContentProps,
-  HoverCardArrowProps,
 } from "./components/HoverCard/index.js";
 
 export {

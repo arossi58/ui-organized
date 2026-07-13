@@ -4,14 +4,17 @@ import { HomePage } from "./pages/HomePage";
 import { DocsPage } from "./pages/DocsPage";
 import { ToolsPage } from "./pages/ToolsPage";
 import { AboutPage } from "./pages/AboutPage";
+import { PrivacyPage } from "./pages/PrivacyPage";
+import { TermsPage } from "./pages/TermsPage";
+import { CookiePage } from "./pages/CookiePage";
 import { SiteNav } from "./components/chrome/SiteNav";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
 import { initAnalytics } from "./lib/analytics";
-import { usePageTracking } from "./hooks/usePageTracking";
 
-// Load gtag.js and configure GA4 once, before first render. No-op unless
-// VITE_GA_MEASUREMENT_ID is set, so dev/preview stay silent. See lib/analytics.
+// Load the Cloudflare Web Analytics beacon once, before first render. No-op
+// unless VITE_CF_ANALYTICS_TOKEN is set, so dev/preview stay silent. The beacon
+// is cookieless and tracks SPA route changes itself. See lib/analytics.
 initAnalytics();
 
 // Vite injects the deploy base (e.g. "/<repo>/" on GitHub Pages) as BASE_URL.
@@ -29,9 +32,6 @@ function SiteChrome() {
   const { pathname } = useLocation();
   const variant = pathname === "/" ? "overlay" : "solid";
 
-  // Emit a GA4 page view on each route change (no-op when analytics is off).
-  usePageTracking();
-
   return (
     <div className="site-chrome">
       <SiteNav variant={variant} />
@@ -43,6 +43,10 @@ function SiteChrome() {
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/tools/:toolId" element={<ToolsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        {/* Legal pages — linked from the footer + contact form. */}
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/cookies" element={<CookiePage />} />
       </Routes>
     </div>
   );

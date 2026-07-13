@@ -10,7 +10,7 @@ const meta: Meta<typeof HoverCard> = {
     docs: {
       description: {
         component:
-          "A rich preview shown when a trigger is hovered or focused. Compose `<HoverCard>` with `<HoverCardTrigger>` and `<HoverCardContent>` (side/align/showArrow).",
+          "A rich preview shown when a trigger is hovered or focused. Compose `<HoverCard>` with `<HoverCardTrigger>` and `<HoverCardContent>` (side/align).",
       },
     },
   },
@@ -30,7 +30,7 @@ export const Inspect: Story = {
           </a>
         }
       />
-      <HoverCardContent showArrow>
+      <HoverCardContent>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <strong>ui-organized</strong>
           <span style={{ color: "var(--color-content-secondary)" }}>

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-03T01:53:18.943Z",
+  "generatedAt": "2026-07-13T02:53:17.317Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -12,10 +12,9 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
-    "packages/react/src/components/Badge/Badge.types.ts::Badge": "sha256:edb55552178c147b",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
     "packages/react/src/components/Button/Button.types.ts::Button": "sha256:6d519848f6e30dac",
-    "packages/react/src/components/Card/Card.types.ts::Card": "sha256:85ae00f080301a0f",
+    "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
@@ -44,6 +43,7 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:f411b86fd0af3040",
     "packages/react/src/components/Field/Field.types.ts::Field": "sha256:1381062600517458",
     "packages/react/src/components/Field/Field.types.ts::FieldControl": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldDescription": "sha256:4f53cda18c2baa0c",
@@ -53,8 +53,7 @@
     "packages/react/src/components/Field/Field.types.ts::Fieldset": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardArrow": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:ce807107512e1d31",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:90589c38fc3d98e8",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:90f0ac6deaa84765",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
@@ -78,17 +77,16 @@
     "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": "sha256:3db469cd143dd0c1",
     "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": "sha256:c14424eb19ef5d89",
     "packages/react/src/components/Popover/Popover.types.ts::Popover": "sha256:a93ae00228c7bad7",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverArrow": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:11cf6d752c8ab96f",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:3ce4770f849d5d1e",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Progress/Progress.types.ts::Progress": "sha256:1828fc99db4d4a55",
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": "sha256:93806ae6d8e62cb8",
     "packages/react/src/components/Range/Range.types.ts::Range": "sha256:56341b313d548653",
     "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": "sha256:206685e02d9d0872",
     "packages/react/src/components/SearchInput/SearchInput.types.ts::SearchInput": "sha256:102ee6860f02c5fa",
+    "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": "sha256:f727abc048f7e838",
     "packages/react/src/components/Select/Select.types.ts::Select": "sha256:1b786275d6126657",
-    "packages/react/src/components/Separator/Separator.types.ts::Separator": "sha256:c5de96eadc107432",
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:547d87a13141e747",
@@ -100,17 +98,14 @@
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
     "packages/react/src/components/Switch/Switch.types.ts::Switch": "sha256:81671ca52c9acd68",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
+    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:e022f7c3635671e2",
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:acde0a4546711e5e",
     "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarButton": "sha256:a8b5bafd14c6d42c",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarInput": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarLink": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarSeparator": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:ffa66e1e441b93b2",
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:7d2c6910f54dd1f2",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084"
   },
   "props": {
@@ -306,32 +301,6 @@
         "description": "Image source URL."
       }
     ],
-    "packages/react/src/components/Badge/Badge.types.ts::Badge": [
-      {
-        "name": "children",
-        "type": "React.ReactNode",
-        "required": false
-      },
-      {
-        "name": "emphasized",
-        "type": "boolean",
-        "required": false,
-        "description": "When true (default), renders a solid filled badge with primary text."
-      },
-      {
-        "name": "size",
-        "type": "\"sm\" | \"md\" | \"lg\"",
-        "required": false,
-        "defaultValue": "md",
-        "description": "Size variant."
-      },
-      {
-        "name": "variant",
-        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
-        "required": false,
-        "description": "Status color variant."
-      }
-    ],
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": [
       {
         "name": "items",
@@ -391,7 +360,7 @@
       },
       {
         "name": "variant",
-        "type": "\"default\" | \"outlined\" | \"elevated\"",
+        "type": "\"default\" | \"elevated\"",
         "required": false,
         "defaultValue": "default",
         "description": "Visual style variant."
@@ -915,6 +884,22 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": [],
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": [],
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": [],
+    "packages/react/src/components/Divider/Divider.types.ts::Divider": [
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Orientation of the rule."
+      },
+      {
+        "name": "spacing",
+        "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "none",
+        "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
+      }
+    ],
     "packages/react/src/components/Field/Field.types.ts::Field": [
       {
         "name": "disabled",
@@ -999,7 +984,6 @@
         "description": "Delay before opening on hover, in ms."
       }
     ],
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardArrow": [],
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": [
       {
         "name": "align",
@@ -1020,13 +1004,6 @@
         "required": false,
         "defaultValue": "document",
         "description": "Portal container."
-      },
-      {
-        "name": "showArrow",
-        "type": "boolean",
-        "required": false,
-        "defaultValue": "false",
-        "description": "Render a pointer arrow toward the trigger."
       },
       {
         "name": "side",
@@ -1639,7 +1616,6 @@
         "description": "Controlled open state."
       }
     ],
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverArrow": [],
     "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": [],
     "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": [
       {
@@ -1661,13 +1637,6 @@
         "required": false,
         "defaultValue": "document",
         "description": "Portal container."
-      },
-      {
-        "name": "showArrow",
-        "type": "boolean",
-        "required": false,
-        "defaultValue": "false",
-        "description": "Render a pointer arrow toward the trigger."
       },
       {
         "name": "side",
@@ -1981,6 +1950,63 @@
         "description": "Size variant."
       }
     ],
+    "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label for the group."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Uncontrolled initial value."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disable the entire control."
+      },
+      {
+        "name": "items",
+        "type": "SegmentedControlItem[]",
+        "required": true,
+        "description": "Segments to render, left to right."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name for the underlying radio inputs."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called with the newly selected value."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
+      }
+    ],
     "packages/react/src/components/Select/Select.types.ts::Select": [
       {
         "name": "className",
@@ -2072,22 +2098,6 @@
         "required": false,
         "defaultValue": "default",
         "description": "Visual variant."
-      }
-    ],
-    "packages/react/src/components/Separator/Separator.types.ts::Separator": [
-      {
-        "name": "orientation",
-        "type": "\"horizontal\" | \"vertical\"",
-        "required": false,
-        "defaultValue": "horizontal",
-        "description": "Orientation of the rule."
-      },
-      {
-        "name": "spacing",
-        "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
-        "required": false,
-        "defaultValue": "md",
-        "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
       }
     ],
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": [
@@ -2351,6 +2361,45 @@
         "description": "Controlled active tab value."
       }
     ],
+    "packages/react/src/components/Tag/Tag.types.ts::Tag": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "emphasized",
+        "type": "boolean",
+        "required": false,
+        "description": "When true (default), renders a solid filled tag with high-contrast text."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName | IconComponent",
+        "required": false,
+        "description": "Optional icon rendered inside the tag — a canonical icon name or an icon component."
+      },
+      {
+        "name": "iconPosition",
+        "type": "\"left\" | \"right\"",
+        "required": false,
+        "defaultValue": "left",
+        "description": "Which side of the label the icon sits on."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "variant",
+        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+        "required": false,
+        "description": "Status color variant."
+      }
+    ],
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": [
       {
         "name": "error",
@@ -2480,18 +2529,7 @@
         "description": "Layout orientation."
       }
     ],
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarButton": [
-      {
-        "name": "icon",
-        "type": "CanonicalIconName",
-        "required": false,
-        "description": "Optional leading icon."
-      }
-    ],
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": [],
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarInput": [],
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarLink": [],
-    "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarSeparator": [],
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": [
       {
         "name": "align",
@@ -2554,13 +2592,6 @@
         "type": "boolean",
         "required": false,
         "description": "Controlled open state."
-      },
-      {
-        "name": "showArrow",
-        "type": "boolean",
-        "required": false,
-        "defaultValue": "true",
-        "description": "Render a pointer arrow."
       },
       {
         "name": "side",

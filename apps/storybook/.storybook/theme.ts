@@ -128,9 +128,11 @@ export function makeManagerTheme(mode: ThemeMode, brand: string) {
     colorPrimary: primary,
     colorSecondary: primary,
 
-    appBg: v("--color-surface-secondary", "#f2f2f2"),
-    appContentBg: v("--color-surface-primary", "#ffffff"),
-    appPreviewBg: v("--color-surface-primary", "#ffffff"),
+    // Match the theme builder: nav chrome (sidebar) sits on surface-primary,
+    // while the page/canvas behind the stories uses surface-base.
+    appBg: v("--color-surface-primary", "#ffffff"),
+    appContentBg: v("--color-surface-base", "#f7f7f7"),
+    appPreviewBg: v("--color-surface-base", "#f7f7f7"),
     appBorderColor: v("--color-border-secondary", "#e0e0e0"),
     appBorderRadius: 8,
 

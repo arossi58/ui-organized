@@ -44,7 +44,7 @@ export function PreviewSizing() {
           <Tag variant="info">Tag</Tag>
         </div>
         <div className={styles.contextRow}>
-          <Card variant="outlined" padding="md" className={styles.contextCard}>
+          <Card padding="md" className={styles.contextCard}>
             <CardBody>Cards round to a larger step in the scale.</CardBody>
           </Card>
         </div>

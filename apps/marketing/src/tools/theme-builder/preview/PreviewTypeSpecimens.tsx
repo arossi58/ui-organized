@@ -194,7 +194,7 @@ function PricingSpecimen() {
       {TIERS.map((t) => (
         <Card
           key={t.name}
-          variant={t.featured ? "elevated" : "outlined"}
+          variant={t.featured ? "elevated" : "default"}
           padding="lg"
           className={styles.tierCard}
         >

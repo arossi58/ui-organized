@@ -1,0 +1,113 @@
+/* Legal routes (privacy / terms / cookies): the marketing nav stays in flow at
+   the top, then a centred prose column sits on the same flat cream surface + dot
+   lattice as the rest of the site. Mirrors about-page.css, with typographic
+   styles for the long-form document body. */
+.legal-page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  background: var(--color-surface-primary);
+  isolation: isolate;
+  /* Re-tone the lattice to ink so it reads on cream (mirrors .about-page). */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+.legal-page__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.legal-page__stage {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--spacing-space-08) var(--section-px) var(--spacing-space-10);
+}
+
+/* Centred reading column: constrained measure, generous line height. */
+.legal-prose {
+  width: 100%;
+  max-width: 720px;
+  color: var(--color-content-primary);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.legal-prose__eyebrow {
+  margin: 0 0 var(--spacing-space-02);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-interactive-primary-default);
+}
+
+.legal-prose__title {
+  margin: 0 0 var(--spacing-space-02);
+  font-family: var(--font-heading, var(--font-body));
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.1;
+  font-weight: 600;
+  color: var(--color-content-primary);
+}
+
+.legal-prose__updated {
+  margin: 0 0 var(--spacing-space-07);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--site-ink-soft, var(--color-content-secondary));
+}
+
+/* Long-form body: style the semantic elements pages emit as children. */
+.legal-prose h2 {
+  margin: var(--spacing-space-07) 0 var(--spacing-space-03);
+  font-family: var(--font-heading, var(--font-body));
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--color-content-primary);
+}
+
+.legal-prose h3 {
+  margin: var(--spacing-space-05) 0 var(--spacing-space-02);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--color-content-primary);
+}
+
+.legal-prose p {
+  margin: 0 0 var(--spacing-space-04);
+}
+
+.legal-prose ul {
+  margin: 0 0 var(--spacing-space-04);
+  padding-left: 1.4em;
+}
+
+.legal-prose li {
+  margin: 0 0 var(--spacing-space-02);
+}
+
+.legal-prose a {
+  color: var(--color-interactive-primary-default);
+  text-underline-offset: 2px;
+}
+
+.legal-prose strong {
+  font-weight: 600;
+  color: var(--color-content-primary);
+}
+
+/* First heading after the intro shouldn't add a big top gap on top of the
+   updated-date spacing. */
+.legal-prose > h2:first-of-type {
+  margin-top: var(--spacing-space-03);
+}

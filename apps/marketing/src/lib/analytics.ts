@@ -1,89 +1,66 @@
 /**
- * Google Analytics 4 (gtag.js) integration.
+ * Cloudflare Web Analytics integration (cookieless).
+ *
+ * ─── WHY NOT GOOGLE ANALYTICS ───────────────────────────────────────────────
+ * This site previously used GA4 (gtag.js), which sets `_ga` cookies and sends
+ * data to Google — triggering GDPR/ePrivacy consent-banner obligations. We
+ * replaced it with Cloudflare Web Analytics, which is **cookieless** and stores
+ * no personal data on the visitor's device: it needs no consent banner. See the
+ * Privacy Policy and Cookie Policy pages for the user-facing statement.
  *
  * ─── HOW IT'S WIRED ─────────────────────────────────────────────────────────
- * The Measurement ID is read from `VITE_GA_MEASUREMENT_ID` (same pattern as the
- * Turnstile key in `contact.ts`) so no ID is hard-coded in source. Set it in
+ * The beacon token is read from `VITE_CF_ANALYTICS_TOKEN` (get it from the
+ * Cloudflare dashboard → Web Analytics → your site → JS snippet). Set it in
  * `apps/marketing/.env.local` for local runs; production gets it from a GitHub
  * Actions secret injected at build time (see `.github/workflows/deploy.yml`).
  *
  * When the variable is unset — dev without a `.env.local`, `vite preview`, PR
- * checks — `GA_MEASUREMENT_ID` is empty, `initAnalytics()` does nothing, and the
- * gtag script is never loaded. So analytics is opt-in and silent by default.
+ * checks — the beacon is never loaded, so analytics is opt-in and silent by
+ * default.
  *
- * Because the site is a BrowserRouter SPA, the default gtag snippet's single
- * load-time pageview would miss every client-side navigation. So we configure
- * with `send_page_view: false` and emit page views ourselves on each route
- * change via `trackPageView()` (driven by `usePageTracking`).
+ * The beacon tracks single-page-app navigations automatically (it hooks the
+ * History API), so there is no per-route tracking hook to maintain.
  */
 
-/** GA4 Measurement ID (e.g. "G-XXXXXXXXXX"). Empty string disables analytics. */
-export const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID ?? "";
+/** Cloudflare Web Analytics beacon token. Empty string disables analytics. */
+export const CF_ANALYTICS_TOKEN = import.meta.env.VITE_CF_ANALYTICS_TOKEN ?? "";
 
-/** Whether a Measurement ID is configured (analytics should run). */
-export const analyticsEnabled = GA_MEASUREMENT_ID !== "";
+/** Whether a beacon token is configured (analytics should run). */
+export const analyticsEnabled = CF_ANALYTICS_TOKEN !== "";
 
-// Guards against double-injecting the script if initAnalytics runs twice
+// Guards against double-injecting the beacon if initAnalytics runs twice
 // (e.g. React StrictMode double-invokes effects in dev).
 let initialized = false;
 
 /**
- * Push a raw gtag command onto the dataLayer. Mirrors the standard inline
- * snippet's `gtag(...)` shim, but typed and centralised.
- */
-const gtag: (...args: unknown[]) => void = function () {
-  window.dataLayer = window.dataLayer ?? [];
-  // gtag.js only treats a dataLayer entry as a command when it is the original
-  // `arguments` object — a plain array is silently ignored, so `config` and
-  // `page_view` would never register and no hits reach GA. Push `arguments`
-  // directly, matching Google's canonical snippet.
-  // eslint-disable-next-line prefer-rest-params
-  window.dataLayer.push(arguments);
-};
-
-/**
- * Load gtag.js and configure the GA4 property. Idempotent and a no-op when no
- * Measurement ID is set. Call once at app startup.
+ * Inject the Cloudflare Web Analytics beacon. Idempotent and a no-op when no
+ * token is set. Call once at app startup. `spa: true` enables client-side
+ * route-change tracking for the BrowserRouter app.
  */
 export function initAnalytics(): void {
   if (initialized || !analyticsEnabled || typeof window === "undefined") return;
   initialized = true;
 
-  // Inject the async gtag loader script.
   const script = document.createElement("script");
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  script.defer = true;
+  script.src = "https://static.cloudflareinsights.com/beacon.min.js";
+  script.setAttribute(
+    "data-cf-beacon",
+    JSON.stringify({ token: CF_ANALYTICS_TOKEN, spa: true }),
+  );
   document.head.appendChild(script);
-
-  gtag("js", new Date());
-  // send_page_view:false — we emit page views per route change instead, so SPA
-  // navigations are counted (the default would only fire once, on first load).
-  gtag("config", GA_MEASUREMENT_ID, { send_page_view: false });
 }
 
 /**
- * Record a page view for a client-side route. `path` should be the in-app path
- * (pathname + search), e.g. "/tools/figma-plugin". No-op when analytics is off.
- */
-export function trackPageView(path: string): void {
-  if (!analyticsEnabled || typeof window === "undefined") return;
-  gtag("event", "page_view", {
-    page_path: path,
-    page_location: window.location.origin + path,
-    page_title: document.title,
-  });
-}
-
-/**
- * Record a custom event (e.g. "view_npm_package", "tool_select"). `params`
- * become GA4 event parameters — note that custom params only surface in reports
- * once registered as custom dimensions (Admin → Custom definitions). No-op when
- * analytics is off.
+ * Record a custom UI event (e.g. "tool_select"). Retained as a no-op so existing
+ * call sites keep compiling: Cloudflare Web Analytics is aggregate/cookieless and
+ * has no custom-event API, so there is nowhere to send these. Kept as a seam in
+ * case a future analytics tool that supports events is adopted — swap the body
+ * here rather than re-threading calls through the app.
  */
 export function trackEvent(
-  name: string,
-  params?: Record<string, unknown>,
+  _name: string,
+  _params?: Record<string, unknown>,
 ): void {
-  if (!analyticsEnabled || typeof window === "undefined") return;
-  gtag("event", name, params ?? {});
+  /* no-op — see doc comment */
 }

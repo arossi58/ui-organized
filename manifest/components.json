@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-07-03T01:53:18.943Z",
+  "generatedAt": "2026-07-13T02:53:17.317Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -362,7 +362,7 @@
       "usageSnippet": "<Badge>…</Badge>",
       "propSignatureHash": "sha256:edb55552178c147b",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -454,15 +454,15 @@
         },
         {
           "name": "variant",
-          "type": "\"default\" | \"outlined\" | \"elevated\"",
+          "type": "\"default\" | \"elevated\"",
           "required": false,
           "defaultValue": "default",
           "description": "Visual style variant."
         }
       ],
       "usageSnippet": "<Card>…</Card>",
-      "propSignatureHash": "sha256:85ae00f080301a0f",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:520564c416c01667",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
       "status": "draft"
     },
     {
@@ -1321,6 +1321,34 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Divider",
+      "codeName": "Divider",
+      "codePath": "packages/react/src/components/Divider/Divider.types.ts",
+      "framework": "react",
+      "importStatement": "import { Divider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Orientation of the rule."
+        },
+        {
+          "name": "spacing",
+          "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "none",
+          "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
+        }
+      ],
+      "usageSnippet": "<Divider />",
+      "propSignatureHash": "sha256:f411b86fd0af3040",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Field",
       "codeName": "Field",
       "codePath": "packages/react/src/components/Field/Field.types.ts",
@@ -1522,7 +1550,7 @@
       "usageSnippet": "<HoverCardArrow />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -1553,13 +1581,6 @@
           "description": "Portal container."
         },
         {
-          "name": "showArrow",
-          "type": "boolean",
-          "required": false,
-          "defaultValue": "false",
-          "description": "Render a pointer arrow toward the trigger."
-        },
-        {
           "name": "side",
           "type": "HoverCardSide",
           "required": false,
@@ -1575,8 +1596,8 @@
         }
       ],
       "usageSnippet": "<HoverCardContent />",
-      "propSignatureHash": "sha256:ce807107512e1d31",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:90589c38fc3d98e8",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
       "status": "draft"
     },
     {
@@ -2513,7 +2534,7 @@
       "usageSnippet": "<PopoverArrow />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -2557,13 +2578,6 @@
           "description": "Portal container."
         },
         {
-          "name": "showArrow",
-          "type": "boolean",
-          "required": false,
-          "defaultValue": "false",
-          "description": "Render a pointer arrow toward the trigger."
-        },
-        {
           "name": "side",
           "type": "PopoverSide",
           "required": false,
@@ -2579,8 +2593,8 @@
         }
       ],
       "usageSnippet": "<PopoverContent />",
-      "propSignatureHash": "sha256:11cf6d752c8ab96f",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:3ce4770f849d5d1e",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
       "status": "draft"
     },
     {
@@ -2954,6 +2968,75 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "SegmentedControl",
+      "codeName": "SegmentedControl",
+      "codePath": "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts",
+      "framework": "react",
+      "importStatement": "import { SegmentedControl } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label for the group."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Uncontrolled initial value."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disable the entire control."
+        },
+        {
+          "name": "items",
+          "type": "SegmentedControlItem[]",
+          "required": true,
+          "description": "Segments to render, left to right."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the underlying radio inputs."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with the newly selected value."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled selected value."
+        }
+      ],
+      "usageSnippet": "<SegmentedControl items={/* SegmentedControlItem[] */} />",
+      "propSignatureHash": "sha256:f727abc048f7e838",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Select",
       "codeName": "Select",
       "codePath": "packages/react/src/components/Select/Select.types.ts",
@@ -3083,7 +3166,7 @@
       "usageSnippet": "<Separator />",
       "propSignatureHash": "sha256:c5de96eadc107432",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -3410,6 +3493,57 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Tag",
+      "codeName": "Tag",
+      "codePath": "packages/react/src/components/Tag/Tag.types.ts",
+      "framework": "react",
+      "importStatement": "import { Tag } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "emphasized",
+          "type": "boolean",
+          "required": false,
+          "description": "When true (default), renders a solid filled tag with high-contrast text."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName | IconComponent",
+          "required": false,
+          "description": "Optional icon rendered inside the tag — a canonical icon name or an icon component."
+        },
+        {
+          "name": "iconPosition",
+          "type": "\"left\" | \"right\"",
+          "required": false,
+          "defaultValue": "left",
+          "description": "Which side of the label the icon sits on."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "variant",
+          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+          "required": false,
+          "description": "Status color variant."
+        }
+      ],
+      "usageSnippet": "<Tag>…</Tag>",
+      "propSignatureHash": "sha256:e022f7c3635671e2",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "TextArea",
       "codeName": "TextArea",
       "codePath": "packages/react/src/components/TextArea/TextArea.types.ts",
@@ -3615,7 +3749,7 @@
       "usageSnippet": "<ToolbarButton />",
       "propSignatureHash": "sha256:a8b5bafd14c6d42c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -3641,7 +3775,7 @@
       "usageSnippet": "<ToolbarInput />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -3654,7 +3788,7 @@
       "usageSnippet": "<ToolbarLink />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -3667,7 +3801,7 @@
       "usageSnippet": "<ToolbarSeparator />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -3740,13 +3874,6 @@
           "description": "Controlled open state."
         },
         {
-          "name": "showArrow",
-          "type": "boolean",
-          "required": false,
-          "defaultValue": "true",
-          "description": "Render a pointer arrow."
-        },
-        {
           "name": "side",
           "type": "TooltipSide",
           "required": false,
@@ -3762,8 +3889,8 @@
         }
       ],
       "usageSnippet": "<Tooltip content={/* React.ReactNode */}>…</Tooltip>",
-      "propSignatureHash": "sha256:ffa66e1e441b93b2",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:7d2c6910f54dd1f2",
+      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
       "status": "draft"
     },
     {

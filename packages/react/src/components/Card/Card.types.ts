@@ -2,7 +2,7 @@ import type * as React from "react";
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Visual style variant. Defaults to 'default'. */
-  variant?: "default" | "outlined" | "elevated";
+  variant?: "default" | "elevated";
   /** Padding size. Defaults to 'md'. */
   padding?: "none" | "sm" | "md" | "lg";
   children?: React.ReactNode;

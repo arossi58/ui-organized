@@ -336,7 +336,7 @@ export function PreviewKitchenSink() {
             </CardFooter>
           </Card>
 
-          <Card variant="outlined">
+          <Card>
             <CardHeader><strong>Settings</strong></CardHeader>
             <CardBody>
               <Input label="Display name" placeholder="Your name" />

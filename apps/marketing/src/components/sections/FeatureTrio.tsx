@@ -38,7 +38,7 @@ export function FeatureTrio() {
         <div className="feature-trio__grid">
           {FEATURES.map((feature) => (
             <Reveal key={feature.title} className="feature-trio__cell">
-              <Card variant="outlined" padding="lg" className="feature-trio__card">
+              <Card padding="lg" className="feature-trio__card">
                 <span className="feature-trio__accent" aria-hidden="true" />
                 <CardBody>
                   <h3 className="feature-trio__title">{feature.title}</h3>

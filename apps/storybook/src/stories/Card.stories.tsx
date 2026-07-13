@@ -17,7 +17,7 @@ const meta: Meta<typeof Card> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "outlined", "elevated"],
+      options: ["default", "elevated"],
     },
     padding: {
       control: "select",
@@ -84,14 +84,6 @@ export const AllVariants: Story = {
     <p>Card with default variant.</p>
   </CardBody>
 </Card>
-<Card variant="outlined">
-  <CardHeader>
-    <strong>outlined</strong>
-  </CardHeader>
-  <CardBody>
-    <p>Card with outlined variant.</p>
-  </CardBody>
-</Card>
 <Card variant="elevated">
   <CardHeader>
     <strong>elevated</strong>
@@ -106,7 +98,7 @@ export const AllVariants: Story = {
   },
   render: () => (
     <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-start" }}>
-      {(["default", "outlined", "elevated"] as const).map((variant) => (
+      {(["default", "elevated"] as const).map((variant) => (
         <Card key={variant} variant={variant} style={{ width: "240px" }}>
           <CardHeader>
             <strong>{variant}</strong>
@@ -127,22 +119,22 @@ export const AllPaddingSizes: Story = {
     docs: {
       source: {
         code: `
-<Card variant="outlined" padding="none">
+<Card padding="none">
   <CardBody>
     <p>padding="none"</p>
   </CardBody>
 </Card>
-<Card variant="outlined" padding="sm">
+<Card padding="sm">
   <CardBody>
     <p>padding="sm"</p>
   </CardBody>
 </Card>
-<Card variant="outlined" padding="md">
+<Card padding="md">
   <CardBody>
     <p>padding="md"</p>
   </CardBody>
 </Card>
-<Card variant="outlined" padding="lg">
+<Card padding="lg">
   <CardBody>
     <p>padding="lg"</p>
   </CardBody>
@@ -154,7 +146,7 @@ export const AllPaddingSizes: Story = {
   render: () => (
     <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "flex-start" }}>
       {(["none", "sm", "md", "lg"] as const).map((padding) => (
-        <Card key={padding} variant="outlined" padding={padding} style={{ width: "200px" }}>
+        <Card key={padding} padding={padding} style={{ width: "200px" }}>
           <CardBody>
             <p style={{ margin: 0, color: "var(--color-content-secondary)", fontSize: "var(--type-size-body-small)" }}>
               padding="{padding}"
