@@ -23,6 +23,25 @@ import {
   type ThemeMode,
 } from "./theme";
 
+// Self-heal stale deploys. Storybook lazy-imports each story/docs CSF as a
+// hashed chunk; after a redeploy GitHub Pages removes the old hashes, so a
+// browser still holding a cached preview shell requests a chunk that now 404s
+// ("Failed to fetch dynamically imported module") — which breaks every autodocs
+// page at once. Vite fires `vite:preloadError` for that failed import; reload
+// once to pull the fresh shell, guarding against a reload loop if a chunk is
+// genuinely missing.
+if (typeof window !== "undefined") {
+  window.addEventListener("vite:preloadError", (event) => {
+    event.preventDefault();
+    const KEY = "sb:preload-reloaded-at";
+    const last = Number(sessionStorage.getItem(KEY) ?? 0);
+    if (Date.now() - last > 10_000) {
+      sessionStorage.setItem(KEY, String(Date.now()));
+      window.location.reload();
+    }
+  });
+}
+
 // Match the canvas to the visitor's brand chosen on the marketing site (shared
 // via localStorage on the same origin). Only the brand-derived tokens are
 // overridden — the same subset the site's ThemeProvider sets — so the shipped
