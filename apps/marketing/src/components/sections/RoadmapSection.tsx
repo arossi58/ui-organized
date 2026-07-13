@@ -24,15 +24,15 @@ export function RoadmapSection() {
             <div className="roadmap-section__intro">
               <h2 className="section-title roadmap-section__title">What we’re working on</h2>
               <p className="roadmap-section__lede">
-                A live view of what items are in progress. See something you want
-                to help with?{" "}
+                A live look at what&rsquo;s in progress. See something you&rsquo;d
+                like to help with?{" "}
                 <a className="roadmap-section__link" href={LINKS_CONTRIBUTE}>
-                  Learn how you can contribute.
+                  Learn how to contribute.
                 </a>
                 <br />
-                Have an idea you would like to share with us?{" "}
+                Have an idea to share?{" "}
                 <a className="roadmap-section__link" href="#contact">
-                  Submit down below
+                  Submit it below.
                 </a>
               </p>
             </div>

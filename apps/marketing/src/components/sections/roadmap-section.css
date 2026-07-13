@@ -24,7 +24,7 @@
 
 /* The mockup's title is the brand display serif, not the Roboto section title. */
 .roadmap-section__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(34px, 4.6vw, 48px);
   line-height: 1.15;

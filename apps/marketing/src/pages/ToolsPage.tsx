@@ -1,8 +1,10 @@
 import { Fragment, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Sidebar, NavItem, Icon, useNavContext } from "@ui-organized/react";
+import { Monitor } from "lucide-react";
 import { TOOLS, resolveTool } from "../lib/tools";
 import { TOOL_COMPONENTS } from "../lib/toolComponents";
+import { useMediaQuery } from "../hooks/useMediaQuery";
 import { trackEvent } from "../lib/analytics";
 import "../components/gradient/dot-grid.css";
 import "./tools-page.css";
@@ -35,6 +37,31 @@ export function ToolsPage() {
   const active = resolveTool(toolId);
   const ToolComponent =
     active.status === "live" ? TOOL_COMPONENTS[active.id] : undefined;
+  // The tools are interactive, canvas-heavy apps (palette generator, icon
+  // scaler, theme builder) built for a wide, precise workspace — they don't fit
+  // a phone. On mobile we skip mounting them entirely and show a note to come
+  // back on a larger screen.
+  const isMobile = useMediaQuery("(max-width: 720px)");
+
+  if (isMobile) {
+    return (
+      <div className="tools-page">
+        <div className="tools-page__dots dot-grid" aria-hidden="true" />
+        <main className="tools-page__stage" id="main">
+          <div className="tools-note">
+            <span className="tools-note__art" aria-hidden="true">
+              <Icon name={Monitor} size={40} />
+            </span>
+            <h1 className="tools-note__title">Best viewed on desktop</h1>
+            <p className="tools-note__body">
+              The design tools need a larger screen to work well. Open this page
+              on a desktop or tablet to try them.
+            </p>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="tools-page">

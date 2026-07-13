@@ -14,7 +14,7 @@
   margin: 0 0 var(--spacing-space-03);
   /* Same brand display serif as the hero heading — the Branding mockup renders
      "Let's fix it" in EB Garamond Medium (500), 64px (Figma node 142:6493). */
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(40px, 7vw, 64px);
   line-height: 1.15;

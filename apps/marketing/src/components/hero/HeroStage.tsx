@@ -4,8 +4,11 @@ import { AppFrame } from "./AppFrame";
 import { PieceLayer } from "./PieceLayer";
 import { EndCaption } from "./EndCaption";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { useScrollProgress } from "../../hooks/useScrollProgress";
 import type { HeroStageEngine } from "../../lib/heroStageEngine";
+import { DESKTOP_MANIFEST } from "../../lib/pieceManifest";
+import { MOBILE_MANIFEST } from "../../lib/mobilePieceManifest";
 import "../gradient/dot-grid.css";
 import "./hero-stage.css";
 
@@ -44,6 +47,11 @@ function introSeenToday(): boolean {
  */
 export function HeroStage() {
   const reduced = useReducedMotion();
+  // Phones get a bespoke mobile screen the pieces assemble into (feedback);
+  // wider viewports get the desktop dashboard. The manifests are module
+  // constants, so `manifest` is a stable identity per breakpoint.
+  const isMobile = useMediaQuery("(max-width: 720px)");
+  const manifest = isMobile ? MOBILE_MANIFEST : DESKTOP_MANIFEST;
   const [finePointer] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches,
   );
@@ -59,6 +67,7 @@ export function HeroStage() {
   const frameRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const captionRef = useRef<HTMLDivElement>(null);
+  const fadeRef = useRef<HTMLDivElement>(null);
   const pieceEls = useRef<Array<HTMLElement | null>>([]);
 
   const progress = useScrollProgress(stageRef);
@@ -102,9 +111,10 @@ export function HeroStage() {
           title,
           caption,
           glow: null,
+          fade: fadeRef.current,
           pieceEls: pieceEls.current,
         },
-        { reducedMotion: reduced, finePointer, skipIntro },
+        { reducedMotion: reduced, finePointer, skipIntro, manifest },
       );
       engine.setProgressSource(() => progress.current);
       engine.start();
@@ -113,17 +123,41 @@ export function HeroStage() {
       cancelled = true;
       engine?.stop();
     };
-  }, [reduced, finePointer, progress, skipIntro]);
+    // `manifest` flips when crossing the mobile breakpoint — rebuild the engine
+    // (and its bodies) for the new frame + piece set.
+  }, [reduced, finePointer, progress, skipIntro, manifest]);
+
+  const mobileFrame = manifest.variant === "mobile";
 
   return (
-    <div className={`hero-stage${reduced ? " hero-stage--static" : ""}`} ref={stageRef}>
+    <div
+      className={`hero-stage${reduced ? " hero-stage--static" : ""}${mobileFrame ? " hero-stage--mobile" : ""}`}
+      ref={stageRef}
+    >
       <div className="hero-stage__sticky" ref={stickyRef}>
         {/* No gradient layers — flat surface with the dot lattice only. */}
         <div className="hero-stage__dots dot-grid" aria-hidden="true" />
 
         <HeroTitle rootRef={titleRef} />
-        <AppFrame ref={frameRef} />
-        <PieceLayer ref={layerRef} pieceEls={pieceEls} />
+        <AppFrame
+          ref={frameRef}
+          variant={manifest.variant}
+          frameW={manifest.frameW}
+          frameH={manifest.frameH}
+        />
+        {/* Keyed by variant so switching breakpoints fully remounts the pieces
+            (the two manifests share no ids) and re-collects their refs. */}
+        <PieceLayer
+          key={manifest.variant}
+          ref={layerRef}
+          pieces={manifest.pieces}
+          pieceEls={pieceEls}
+        />
+        {/* Mobile: the phone bleeds off the bottom; this gradient fades it into
+            the page so the caption below reads cleanly over it (Figma 299:14654). */}
+        {mobileFrame && (
+          <div className="hero-stage__fade" aria-hidden="true" ref={fadeRef} />
+        )}
         <EndCaption rootRef={captionRef} />
       </div>
       {/* Soft scroll-snap point at the edit-mode threshold (see hero-stage.css). */}

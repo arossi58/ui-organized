@@ -84,11 +84,11 @@ const TOOL_ITEMS: DetailItem[] = TOOLS.filter((tool) => tool.status !== "planned
   }),
 );
 
-const DETAILS: Record<OverviewId, DetailContent> = {
+export const DETAILS: Record<OverviewId, DetailContent> = {
   design: {
     title: "Design",
     heading: "An ever-growing Figma library",
-    lead: "Every component, color, type style, and spacing step lives in Figma as a published variable — the same tokens that drive the code, so the canvas and the build never drift apart.",
+    lead: "Every component, color, type style, and spacing step lives in Figma as a published variable. Those same tokens drive the code, so the canvas and the build never drift apart.",
     items: [
       {
         icon: Component,
@@ -114,7 +114,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
   tools: {
     title: "Tools",
     heading: "Generators that do the busywork",
-    lead: "A growing gallery of web tools — plus a Figma plugin — that turn the token set into finished, on-brand assets in a few clicks.",
+    lead: "A growing gallery of web tools, plus a Figma plugin, that turn the token set into finished, on-brand assets in a few clicks.",
     items: TOOL_ITEMS,
     links: [
       { label: "Open the tools", href: "/tools", primary: true },
@@ -129,7 +129,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       {
         icon: Package,
         title: "@ui-organized/react",
-        desc: "Accessible components — buttons, inputs, navigation, overlays, and more.",
+        desc: "Accessible components: buttons, inputs, navigation, overlays, and more.",
         href: LINKS.npmReact,
         external: true,
       },
@@ -141,7 +141,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       {
         icon: Github,
         title: "Open source",
-        desc: "Apache-2.0 on GitHub — browse the source, file an issue, or open a PR.",
+        desc: "Apache-2.0 on GitHub. Browse the source, file an issue, or open a PR.",
         href: LINKS.github,
         external: true,
       },
@@ -245,7 +245,7 @@ function Item({ item }: { item: DetailItem }) {
   );
 }
 
-function DetailBody({ content }: { content: DetailContent }) {
+export function DetailBody({ content }: { content: DetailContent }) {
   return (
     <div className="ov-detail__inner">
       <div className="ov-detail__intro">

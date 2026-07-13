@@ -21,7 +21,12 @@ export function RoadmapColumn({ column, doneOverflowUrl }: RoadmapColumnProps) {
   const showOverflow = isDone && column.items.length >= DONE_VISIBLE_LIMIT;
 
   return (
-    <section className="roadmap-column" aria-label={column.title} ref={ref}>
+    <section
+      className="roadmap-column"
+      aria-label={column.title}
+      data-column={column.id}
+      ref={ref}
+    >
       <h3 className="roadmap-column__title">{column.title}</h3>
 
       <ol className="roadmap-column__list">

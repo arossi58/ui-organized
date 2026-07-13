@@ -7,7 +7,7 @@
  * refs; the engine never creates DOM. The snapping math is pure in `lattice.ts`.
  */
 import Matter from "matter-js";
-import { FRAME_W, FRAME_H, PIECES, type PieceDef } from "./pieceManifest";
+import { type PieceDef, type HeroManifest } from "./pieceManifest";
 import {
   STAGE,
   OVERLAY,
@@ -75,12 +75,18 @@ export interface HeroStageRefs {
   titleHint?: HTMLElement | null;
   caption: HTMLElement;
   glow: HTMLElement | null;
+  /** Mobile only: the bottom gradient that fades the phone into the page. Driven
+   * with the frame reveal so it appears only as the mockup assembles. */
+  fade?: HTMLElement | null;
   pieceEls: Array<HTMLElement | null>;
 }
 
 export interface HeroStageOptions {
   reducedMotion: boolean;
   finePointer: boolean;
+  /** Which hero build to run — the desktop dashboard or the mobile phone screen.
+   * Supplies the frame's coordinate space, its pieces, and the viewport fit. */
+  manifest: HeroManifest;
   /**
    * Skip the one-time falling/assembly intro and open directly on the finished,
    * organized layout — but with the full engine live (components clickable, the
@@ -132,7 +138,14 @@ export function createHeroStageEngine(
   refs: HeroStageRefs,
   options: HeroStageOptions,
 ): HeroStageEngine {
-  const { reducedMotion, finePointer, skipIntro = false } = options;
+  const { reducedMotion, finePointer, skipIntro = false, manifest } = options;
+  // Alias the manifest fields to the names the engine has always used, so the
+  // rest of the loop is manifest-agnostic. `reflow` gates the desktop-only
+  // column/sidebar relayout (see pieceLayout); a mobile screen assembles pieces
+  // straight onto their manifest slots.
+  const { frameW: FRAME_W, frameH: FRAME_H, pieces: PIECES, reflow } = manifest;
+  const { widthFactor: FIT_W, heightFactor: FIT_H } = manifest;
+  const isMobileFrame = manifest.variant === "mobile";
 
   let W = 0;
   let H = 0;
@@ -174,26 +187,41 @@ export function createHeroStageEngine(
   function measure() {
     W = refs.sticky.clientWidth;
     H = refs.sticky.clientHeight;
-    // Cap at 1 so the mockup never scales *past* its native 1:1 size — on large
-    // screens the components stay their default size rather than zooming up
-    // (feedback); smaller screens stay width/height-limited below 1.
-    S = Math.min(1, (W * 0.92) / FRAME_W, (H * 0.58) / FRAME_H);
-    frameRect.w = FRAME_W * S;
-    frameRect.h = FRAME_H * S;
-    frameRect.x = (W - frameRect.w) / 2;
-    // Center the window vertically in the band between the tucked hero title and
-    // the caption, so the gap above the mockup matches the gap below (feedback).
-    // The title settles full-size, so project it to its tucked pose (the same
-    // transform updateOverlays applies at full tuck); the caption is bottom-
-    // anchored, so its laid-out top is exact.
+
+    // The tucked title's bottom edge (projected to its assembled pose) — both
+    // layouts anchor off it so the window clears the heading.
     const titleH = (refs.title.firstElementChild as HTMLElement | null)?.offsetHeight ?? 0;
     const titleScale = 1 - OVERLAY.titleShrink;
     const titleBottom =
       (H / 2) * titleScale - H * OVERLAY.titleRise + (titleH * titleScale) / 2;
-    const captionTop = refs.caption.offsetTop;
-    frameRect.y = titleBottom + (captionTop - titleBottom - frameRect.h) / 2;
-    // Never let the window run off the top or bottom of the viewport.
-    frameRect.y = Math.max(24, Math.min(frameRect.y, H - 24 - frameRect.h));
+
+    if (isMobileFrame) {
+      // Phone: width-driven scale so it nearly fills the viewport width, anchored
+      // just below the tucked title (matching the Figma layout) with a small gap
+      // so it never collides with the heading. It's intentionally taller than the
+      // space below the title — it bleeds off the bottom, where the gradient
+      // overlay + caption fade it into the page (see hero-stage__fade).
+      S = Math.min(1, (W * FIT_W) / FRAME_W);
+      frameRect.w = FRAME_W * S;
+      frameRect.h = FRAME_H * S;
+      frameRect.x = (W - frameRect.w) / 2;
+      frameRect.y = titleBottom + Math.max(16, H * 0.03);
+    } else {
+      // Cap at 1 so the mockup never scales *past* its native 1:1 size — on large
+      // screens the components stay their default size rather than zooming up
+      // (feedback); smaller screens stay width/height-limited below 1.
+      S = Math.min(1, (W * FIT_W) / FRAME_W, (H * FIT_H) / FRAME_H);
+      frameRect.w = FRAME_W * S;
+      frameRect.h = FRAME_H * S;
+      frameRect.x = (W - frameRect.w) / 2;
+      // Center the window vertically in the band between the tucked hero title and
+      // the caption, so the gap above the mockup matches the gap below (feedback).
+      // The caption is bottom-anchored, so its laid-out top is exact.
+      const captionTop = refs.caption.offsetTop;
+      frameRect.y = titleBottom + (captionTop - titleBottom - frameRect.h) / 2;
+      // Never let the window run off the top or bottom of the viewport.
+      frameRect.y = Math.max(24, Math.min(frameRect.y, H - 24 - frameRect.h));
+    }
     const f = refs.frame.style;
     f.width = `${frameRect.w}px`;
     f.height = `${frameRect.h}px`;
@@ -218,6 +246,9 @@ export function createHeroStageEngine(
    * anchored badge) is fixed; everything else in the body tracks `bodyLeft` so it
    * fills the space the sidebar vacates, and block controls/stats widen too. */
   function pieceLayout(p: PieceRuntime): { cx: number; w: number } {
+    // Mobile (no reflow): assemble each piece onto its manifest slot as-is — its
+    // current home center (arrange-drag updates it) and its manifest width.
+    if (!reflow) return { cx: p.homeCx, w: p.def.w };
     const { kind, w } = p.def;
     const bL = bodyLeft();
     const bR = FRAME_W - BODY_PAD; // 1176, fixed right edge
@@ -568,6 +599,9 @@ export function createHeroStageEngine(
     const fe = frameReveal(P);
     refs.frame.style.opacity = `${fe}`;
     refs.frame.style.transform = `translateY(${OVERLAY.frameRise * (1 - fe)}px) scale(${OVERLAY.frameScaleFrom + (1 - OVERLAY.frameScaleFrom) * fe})`;
+    // The mobile fade tracks the frame reveal, so the gradient is only present
+    // once the phone is assembling into view (not during the fall/at rest top).
+    if (refs.fade) refs.fade.style.opacity = `${fe}`;
 
     const cap = captionReveal(P);
     refs.caption.style.opacity = `${cap}`;
@@ -699,6 +733,7 @@ export function createHeroStageEngine(
     refs.title.style.transform = `translateY(${-H * OVERLAY.titleRise}px) scale(${1 - OVERLAY.titleShrink})`;
     refs.frame.style.opacity = "1";
     refs.frame.style.transform = "none";
+    if (refs.fade) refs.fade.style.opacity = "1";
     if (refs.titleHint) refs.titleHint.style.display = "none";
     refs.caption.style.opacity = "1";
     refs.caption.style.pointerEvents = "auto";

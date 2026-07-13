@@ -64,3 +64,55 @@
 .app-frame.is-gridding .app-frame__portal {
   opacity: 1;
 }
+
+/* ── Mobile phone shell ───────────────────────────────────────────────────────
+   The mobile manifest assembles into a portrait phone rather than the dashboard
+   window: bigger corner rounding and a slim status bar are the only static
+   chrome (the app UI itself rains in as pieces). */
+.app-frame--mobile {
+  border-radius: 34px;
+}
+
+/* Status bar pinned to the top of the mockup canvas (frame units — it scales
+   with `--frame-scale` like the rest of the mockup). */
+.app-frame__statusbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  color: var(--color-content-primary);
+}
+
+.app-frame__clock {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Signal bars (rising) — decorative right-side status glyph. */
+.app-frame__signal {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 12px;
+}
+.app-frame__signal i {
+  width: 4px;
+  border-radius: 1px;
+  background: var(--color-content-primary);
+}
+.app-frame__signal i:nth-child(1) {
+  height: 5px;
+}
+.app-frame__signal i:nth-child(2) {
+  height: 8px;
+}
+.app-frame__signal i:nth-child(3) {
+  height: 12px;
+}

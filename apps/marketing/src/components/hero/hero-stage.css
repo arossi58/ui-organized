@@ -54,4 +54,33 @@
   pointer-events: none;
 }
 
+/* Mobile phone hero (Figma 299:12654): the phone window is anchored under the
+   heading and bleeds off the bottom of the viewport. This gradient covers the
+   phone's lower portion and fades it into the page background, so the caption
+   ("Let's fix it" + Get Started) reads cleanly over the faded phone. Sits above
+   the pieces (z10); the caption is lifted above it below. */
+.hero-stage__fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 42svh;
+  z-index: 12;
+  pointer-events: none;
+  /* Hidden until the engine fades it in with the frame reveal, so it only shows
+     while the phone is assembling into view (driven in updateOverlays). */
+  opacity: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-surface-primary) 52%
+  );
+}
+
+/* The caption overlaps the phone bottom on mobile — lift it above the pieces
+   and the fade so it stays legible over the faded window. */
+.hero-stage--mobile .end-caption {
+  z-index: 14;
+}
+
 /* Light hero: nav brand uses the default ink color (no override needed) */

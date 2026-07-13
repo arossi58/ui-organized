@@ -12,7 +12,7 @@
 }
 
 .overview__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(34px, 4.6vw, 48px);
   line-height: 1.15;
@@ -44,6 +44,35 @@
 
 .overview__cell {
   display: flex;
+  /* Card on top; on mobile its inline accordion panel stacks beneath it. */
+  flex-direction: column;
+}
+
+/* Mobile inline detail — an accordion panel beneath each card that animates its
+   height open/closed (feedback). The grid-rows 0fr→1fr technique animates to the
+   content's natural height with no JS measurement. */
+.ov-accordion {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+.ov-accordion.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.ov-accordion__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ov-accordion {
+    transition:
+      grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.28s ease;
+  }
 }
 
 /* Stagger the scroll-reveal across the row (~90ms apart). */
@@ -172,7 +201,7 @@
 }
 
 .ov-card__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(26px, 2.6vw, 40px);
   line-height: 1.2;
@@ -261,7 +290,7 @@
 
 /* Intro column — serif heading + lead + CTAs */
 .ov-detail__heading {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(24px, 2.4vw, 32px);
   line-height: 1.15;
@@ -359,5 +388,20 @@ a.ov-detail__item--link:focus-visible {
   font-size: 13.5px;
   line-height: 1.45;
   color: var(--site-ink-soft);
+}
+
+/* ── Mobile inline accordion panel ────────────────────────────────────────────
+   Placed after the shared `.ov-detail:not(:empty)` rule so these win by source
+   order (equal specificity). The panel keeps the bordered, rounded surface but
+   drops the drop shadow — the accordion's `overflow: hidden` would clip it — and
+   pins its own top gap under the card. */
+.ov-detail.ov-detail--inline {
+  margin-top: var(--spacing-space-04);
+  box-shadow: none;
+}
+
+/* Tighten the inner padding on phones so the detail reads snug under its card. */
+.ov-detail--inline .ov-detail__inner {
+  padding: var(--spacing-space-05);
 }
 

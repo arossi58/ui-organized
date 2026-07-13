@@ -115,16 +115,16 @@ export function ContactSection() {
         <header className="contact-section__header">
           <h2 className="contact-section__title">We&rsquo;d like to hear from you</h2>
           <p className="contact-section__sub">
-            We welcome any feedback or ideas to help make UI Organized better. We are
-            also in need of designers, developers, and anyone else interested in
-            helping make design easier for everyone.
+            Feedback and ideas are always welcome, and they help make UI
+            Organized better. We&rsquo;re also looking for designers, developers,
+            and anyone who wants to help make design easier for everyone.
           </p>
         </header>
 
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
           {status === "success" && (
             <Alert variant="success" title="Thanks for reaching out">
-              Your message is on its way — we&rsquo;ll be in touch soon.
+              Your message is on its way. We&rsquo;ll be in touch soon.
             </Alert>
           )}
           {status === "error" && formError && (

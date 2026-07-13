@@ -1,0 +1,136 @@
+/* Mobile primary navigation — the full-screen takeover opened by the hamburger
+   in SiteNav. It sits *below* the nav pill (z-index 490 < the nav's 500) so the
+   pill's logo + hamburger/X stay on top and never move when the menu opens or
+   closes. Kept mounted and toggled via `.mobile-menu--open` so both the enter
+   and exit animations run from CSS; inert (hidden + no pointer events) when
+   closed. Only relevant ≤720px, where the desktop pill row is hidden.
+
+   `padding-top` clears the fixed nav pill so the link list starts below it.
+
+   z-index is scoped to the .site-nav stacking context (the header is z-index
+   500, so this whole panel already sits above the page): 1 here + 2 on the pill
+   keeps the pill on top of the panel. */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1; /* below the pill (z-index 2) within the .site-nav context */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* the inner scroll region owns any overflow */
+  padding-top: calc(
+    var(--spacing-space-04) * 2 + var(--spacing-space-02) * 2 + 34px
+  );
+  background: var(--color-surface-primary);
+  color: var(--color-content-primary);
+  /* Inert + off-screen until open. */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+/* Everything below the fixed bar scrolls together, so a long / fully-expanded
+   Appearance list never gets clipped on short viewports. */
+.mobile-menu__scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-menu--open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-menu {
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s linear 0.24s;
+  }
+  .mobile-menu--open {
+    transition:
+      opacity 0.24s ease,
+      transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+      visibility 0s;
+  }
+}
+
+/* The large tap-friendly link list. */
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-06) var(--section-px) var(--spacing-space-04);
+}
+
+.mobile-menu__link {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 9vw, 42px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-content-primary);
+  text-decoration: none;
+  padding: var(--spacing-space-03) 0;
+}
+
+.mobile-menu__link--active {
+  color: var(--color-interactive-primary-default);
+}
+
+.mobile-menu__link:focus-visible {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: 4px;
+  border-radius: var(--border-radius-sm, 4px);
+}
+
+/* Links stagger in once the panel opens (motion-gated). */
+@media (prefers-reduced-motion: no-preference) {
+  .mobile-menu__link {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  .mobile-menu--open .mobile-menu__link {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.4s ease,
+      transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .mobile-menu--open .mobile-menu__link:nth-child(1) {
+    transition-delay: 0.06s;
+  }
+  .mobile-menu--open .mobile-menu__link:nth-child(2) {
+    transition-delay: 0.12s;
+  }
+  .mobile-menu--open .mobile-menu__link:nth-child(3) {
+    transition-delay: 0.18s;
+  }
+  .mobile-menu--open .mobile-menu__link:nth-child(4) {
+    transition-delay: 0.24s;
+  }
+}
+
+/* Appearance (theme) controls, tucked into an accordion pinned to the bottom. */
+.mobile-menu__appearance {
+  margin-top: auto;
+  padding: var(--spacing-space-04) var(--section-px)
+    calc(var(--spacing-space-06) + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* The theme-menu list/switch styling (theme-menu.css) is reused inside the
+   accordion; nudge the colour rows to full width within the panel padding. */
+.mobile-menu__appearance .theme-menu__switch-row {
+  padding-inline: 0;
+}
+.mobile-menu__appearance .theme-menu__item {
+  padding-inline: var(--spacing-space-02);
+}

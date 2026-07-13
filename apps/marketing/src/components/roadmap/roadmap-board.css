@@ -39,17 +39,101 @@
     color-mix(in srgb, var(--color-surface-overlay-tertiary) 10%, transparent);
 }
 
-/* Stacked, single-column on narrow screens — the simpler, more accessible
-   default (SITE.md §7.4). Drop the dividers; let the columns breathe. */
+/* Segmented control that switches the visible column on mobile. Hidden on
+   desktop, where all three columns show at once. */
+.roadmap-board__tabs {
+  display: none;
+}
+
 @media (max-width: 860px) {
+  .roadmap-board__tabs {
+    display: flex;
+    gap: var(--spacing-space-01);
+    margin-bottom: var(--spacing-space-05);
+    padding: var(--spacing-space-01);
+    background: var(--color-interactive-ui-default);
+    border: 1px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-06);
+  }
+
+  .roadmap-board__tab {
+    flex: 1 0 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-space-02);
+    min-width: 0;
+    padding: var(--spacing-space-02) var(--spacing-space-02);
+    border: 0;
+    border-radius: var(--radius-interactive, var(--border-radius-05));
+    background: transparent;
+    color: var(--color-content-tertiary);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.2;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .roadmap-board__tab[data-active="true"] {
+    background: var(--color-interactive-primary-default);
+    color: var(--color-interactive-contents);
+  }
+
+  .roadmap-board__tab:not([data-active="true"]):hover {
+    color: var(--color-content-primary);
+  }
+
+  .roadmap-board__tab:focus-visible {
+    outline: 2px solid var(--color-interactive-focus);
+    outline-offset: 1px;
+  }
+
+  /* A pill counter beside each label; muted until the tab is active. */
+  .roadmap-board__tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 18px;
+    padding: 0 6px;
+    border-radius: var(--border-radius-full);
+    background: color-mix(in srgb, currentColor 14%, transparent);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Only one column shows at a time, so drop the tall board floor — an empty or
+     short column shouldn't leave a big void; a full one grows the board itself. */
+  .roadmap-board {
+    min-height: 0;
+  }
+
+  /* Single-column view: only the active column shows, no dividers. */
   .roadmap-board__columns {
     grid-template-columns: 1fr;
-    gap: var(--spacing-space-06);
   }
   .roadmap-board__columns > * + * {
     border-left: none;
-    border-top: 1.5px solid
-      color-mix(in srgb, var(--color-surface-overlay-tertiary) 10%, transparent);
-    padding-top: var(--spacing-space-06);
+  }
+  .roadmap-board__columns[data-active="backlog"]
+    > .roadmap-column:not([data-column="backlog"]),
+  .roadmap-board__columns[data-active="in-progress"]
+    > .roadmap-column:not([data-column="in-progress"]),
+  .roadmap-board__columns[data-active="done"]
+    > .roadmap-column:not([data-column="done"]) {
+    display: none;
+  }
+
+  /* Cards are shown immediately when a column becomes active — the scroll-reveal
+     stagger can't fire for a column that was display:none when it entered view,
+     so opt out of the hidden start state on mobile (see roadmap-column.css). */
+  .roadmap-column__item {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

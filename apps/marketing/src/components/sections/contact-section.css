@@ -18,7 +18,7 @@
 }
 
 .contact-section__title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(32px, 5vw, 48px);
   line-height: 1.2;

@@ -46,7 +46,9 @@ export type PieceKind =
   | "badge"
   | "stat"
   // The account avatar, pinned to the far right of the header.
-  | "avatar";
+  | "avatar"
+  // Mobile-only: a bottom tab bar of icon buttons (see the mobile manifest).
+  | "tabbar";
 
 export interface PieceDef {
   id: string;
@@ -101,3 +103,34 @@ export const PIECES: PieceDef[] = [
   { id: "meter", kind: "meter", w: 424, h: 40, shape: "rect", cx: 948, cy: 498, label: "Storage used" },
   { id: "textarea", kind: "textarea", w: 424, h: 88, shape: "rect", cx: 948, cy: 596, label: "Text Area" },
 ];
+
+/**
+ * A hero build the engine can run: the frame's coordinate space (frameW×frameH),
+ * the pieces that assemble inside it, and how it scales to the viewport. The site
+ * ships two — the desktop dashboard (below) and a bespoke mobile screen
+ * (`mobilePieceManifest`). `reflow` turns on the desktop-only column/sidebar
+ * relayout; a mobile screen lays out from its manifest positions directly.
+ */
+export interface HeroManifest {
+  variant: "desktop" | "mobile";
+  frameW: number;
+  frameH: number;
+  pieces: PieceDef[];
+  /** Desktop sidebar-collapse column reflow. Off = assemble at manifest slots. */
+  reflow: boolean;
+  /** measure() viewport fit: S is capped by width×widthFactor and height×heightFactor. */
+  widthFactor: number;
+  heightFactor: number;
+}
+
+/** The desktop dashboard (the original hero). Fit factors match the values the
+ * engine's measure() historically used (0.92 of width, 0.58 of height). */
+export const DESKTOP_MANIFEST: HeroManifest = {
+  variant: "desktop",
+  frameW: FRAME_W,
+  frameH: FRAME_H,
+  pieces: PIECES,
+  reflow: true,
+  widthFactor: 0.92,
+  heightFactor: 0.58,
+};

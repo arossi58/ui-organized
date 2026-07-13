@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Switch } from "@ui-organized/react";
 import { useTheme } from "../../theme/ThemeProvider";
-import { trackEvent } from "../../lib/analytics";
+import { ThemeControls } from "./ThemeControls";
 import "./theme-menu.css";
 
 /**
@@ -11,27 +10,14 @@ import "./theme-menu.css";
  *
  * The swatch shows the live brand primary so the control reads as a colour
  * picker; the panel matches the mockup (DS Switch + a single-select colour
- * list) and is wired for keyboard use — Escape and outside-click close it.
+ * list, shared with the mobile menu via ThemeControls) and is wired for
+ * keyboard use — Escape and outside-click close it.
  */
 export function ThemeMenu() {
-  const { mode, brand, brandHex, options, setMode, setBrand } = useTheme();
+  const { mode, brand, brandHex } = useTheme();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
-
-  // theme_change is logged here (the user-driven controls) rather than in the
-  // provider, whose effect also runs on the initial localStorage hydration —
-  // we only want deliberate light/dark and brand switches.
-  function handleModeChange(checked: boolean) {
-    const next = checked ? "dark" : "light";
-    setMode(next);
-    trackEvent("theme_change", { change: "mode", mode: next });
-  }
-
-  function handleBrandChange(name: string) {
-    if (name !== brand) trackEvent("theme_change", { change: "brand", brand: name });
-    setBrand(name);
-  }
 
   useEffect(() => {
     if (!open) return;
@@ -71,54 +57,7 @@ export function ThemeMenu() {
 
       {open && (
         <div className="theme-menu__panel" role="dialog" aria-label="Theme settings">
-          <div className="theme-menu__switch-row">
-            <Switch
-              label="Dark Mode"
-              checked={mode === "dark"}
-              onCheckedChange={handleModeChange}
-            />
-          </div>
-
-          <div className="theme-menu__list" role="radiogroup" aria-label="Brand colour">
-            {options.map((option) => {
-              const selected = option.name === brand;
-              return (
-                <button
-                  key={option.name}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  className="theme-menu__item"
-                  onClick={() => handleBrandChange(option.name)}
-                >
-                  <span
-                    className="theme-menu__swatch"
-                    style={{ background: option.hex }}
-                    aria-hidden="true"
-                  />
-                  <span className="theme-menu__item-label">{option.label}</span>
-                  {selected && (
-                    <svg
-                      className="theme-menu__check"
-                      viewBox="0 0 20 20"
-                      width="18"
-                      height="18"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M5 10.5l3.4 3.4L15 7"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          <ThemeControls />
         </div>
       )}
     </div>

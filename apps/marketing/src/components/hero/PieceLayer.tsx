@@ -1,9 +1,11 @@
 import { forwardRef, type MutableRefObject } from "react";
-import { PIECES } from "../../lib/pieceManifest";
+import type { PieceDef } from "../../lib/pieceManifest";
 import { PhysicsPiece } from "./PhysicsPiece";
 
 interface PieceLayerProps {
-  /** Filled with each piece's element, index-aligned to PIECES, for the engine. */
+  /** The active manifest's pieces (desktop dashboard or mobile phone screen). */
+  pieces: PieceDef[];
+  /** Filled with each piece's element, index-aligned to `pieces`, for the engine. */
   pieceEls: MutableRefObject<Array<HTMLElement | null>>;
 }
 
@@ -16,10 +18,10 @@ interface PieceLayerProps {
  * classes the engine toggles.
  */
 export const PieceLayer = forwardRef<HTMLDivElement, PieceLayerProps>(
-  function PieceLayer({ pieceEls }, ref) {
+  function PieceLayer({ pieces, pieceEls }, ref) {
     return (
       <div className="piece-layer" ref={ref}>
-        {PIECES.map((def, i) => (
+        {pieces.map((def, i) => (
           <PhysicsPiece
             key={def.id}
             def={def}

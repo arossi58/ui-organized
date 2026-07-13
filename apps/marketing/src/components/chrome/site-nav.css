@@ -24,6 +24,10 @@
    slight backdrop blur, fully rounded. Surface + border come from the design
    system, so the pill flips with light/dark mode. */
 .site-nav__pill {
+  /* Sits above the mobile menu panel (which slides in behind it at z-index 1),
+     so the logo + hamburger/X never move when the menu opens/closes. */
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 640px;
   display: flex;
@@ -127,9 +131,41 @@
   justify-content: flex-end;
 }
 
-/* On narrow screens, drop the link row — keep the logo + theme menu. */
+/* Hamburger — hidden on desktop; revealed ≤720px in place of the theme menu.
+   Same circular target as the theme swatch so the pill stays balanced. */
+.site-nav__hamburger {
+  display: none;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-full);
+  background: var(--color-surface-base);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.site-nav__hamburger:hover {
+  transform: scale(1.06);
+}
+.site-nav__hamburger:focus-visible {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: 2px;
+}
+
+/* On narrow screens, drop the desktop link row + theme popover and show the
+   hamburger, which opens the full-screen MobileMenu. */
 @media (max-width: 720px) {
-  .site-nav__links {
+  .site-nav__links,
+  .site-nav__theme {
     display: none;
+  }
+  .site-nav__hamburger {
+    display: inline-flex;
+    flex: none;
   }
 }

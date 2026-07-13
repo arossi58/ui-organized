@@ -19,7 +19,7 @@
   /* Brand display serif, matching the Branding mockup heading exactly:
      EB Garamond Medium (500), 64px (Figma node 174:16132). Capped at 64px and
      scaled down with the viewport so it stays on one line on the marketing page. */
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(40px, 7vw, 64px);
   line-height: 1.15;

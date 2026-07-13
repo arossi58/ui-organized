@@ -1,7 +1,8 @@
 import { useState, type ComponentType } from "react";
 import { Reveal } from "../Reveal";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { OverviewCard } from "./OverviewCard";
-import { OverviewDetail, type OverviewId } from "./OverviewDetail";
+import { OverviewDetail, DetailBody, DETAILS, type OverviewId } from "./OverviewDetail";
 import { DesignScene, ToolsScene, CodeScene } from "./overview/scenes";
 import "./overview-section.css";
 
@@ -44,6 +45,13 @@ const PANEL_ID = "overview-detail";
  */
 export function OverviewSection() {
   const [openId, setOpenId] = useState<OverviewId | null>("design");
+  // Below the grid's collapse point the detail panel moves inline, directly
+  // under the tapped card, and animates open/closed like an accordion (rather
+  // than one shared panel below the whole row).
+  const inlineDetail = useMediaQuery("(max-width: 880px)");
+
+  const toggle = (id: OverviewId) =>
+    setOpenId((current) => (current === id ? null : id));
 
   return (
     <section className="section overview" id="overview">
@@ -52,31 +60,50 @@ export function OverviewSection() {
           <div className="overview__head">
             <h2 className="overview__title">An Open Source Design System</h2>
             <p className="overview__lede">
-              UI Organized is an open source community focused on providing
-              design tools and resources for others. This takes shape as a
-              design system, plugins, and a community looking to help others.
+              UI Organized is an open source community building design tools and
+              resources for everyone. It takes shape as a design system, a set of
+              plugins, and people who want to make design easier.
             </p>
           </div>
         </Reveal>
 
         <div className="overview__grid">
-          {CARDS.map((card) => (
-            <Reveal key={card.id} className="overview__cell">
-              <OverviewCard
-                title={card.title}
-                body={card.body}
-                Art={card.Art}
-                open={openId === card.id}
-                panelId={PANEL_ID}
-                onToggle={() =>
-                  setOpenId((current) => (current === card.id ? null : card.id))
-                }
-              />
-            </Reveal>
-          ))}
+          {CARDS.map((card) => {
+            const open = openId === card.id;
+            const cardPanelId = `${PANEL_ID}-${card.id}`;
+            return (
+              <Reveal key={card.id} className="overview__cell">
+                <OverviewCard
+                  title={card.title}
+                  body={card.body}
+                  Art={card.Art}
+                  open={open}
+                  panelId={inlineDetail ? cardPanelId : PANEL_ID}
+                  onToggle={() => toggle(card.id)}
+                />
+
+                {/* Mobile: each card gets its own accordion panel beneath it. */}
+                {inlineDetail && (
+                  <div
+                    id={cardPanelId}
+                    role="region"
+                    aria-label={`${card.title} details`}
+                    className={`ov-accordion${open ? " is-open" : ""}`}
+                  >
+                    <div className="ov-accordion__inner">
+                      <div className="ov-detail ov-detail--inline">
+                        <DetailBody content={DETAILS[card.id]} />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </Reveal>
+            );
+          })}
         </div>
 
-        <OverviewDetail id={PANEL_ID} openId={openId} />
+        {/* Desktop: one shared panel below the row. */}
+        {!inlineDetail && <OverviewDetail id={PANEL_ID} openId={openId} />}
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
+  Icon,
   Input,
   Meter,
   NavItem,
@@ -150,6 +151,23 @@ function RealComponent({
         <div className="physics-piece__stat">
           <span className="physics-piece__stat-value">{value}</span>
           <span className="physics-piece__stat-label">{label}</span>
+        </div>
+      );
+    case "tabbar":
+      return (
+        <div className="physics-piece__tabbar">
+          <span className="physics-piece__tab is-active">
+            <Icon name="home" size={22} />
+          </span>
+          <span className="physics-piece__tab">
+            <Icon name="search" size={22} />
+          </span>
+          <span className="physics-piece__tab">
+            <Icon name="grid" size={22} />
+          </span>
+          <span className="physics-piece__tab">
+            <Icon name="settings" size={22} />
+          </span>
         </div>
       );
     default:
