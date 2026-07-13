@@ -1,5 +1,7 @@
-import type { CSSProperties } from "react";
-import { useBuilderStore } from "../state/themeState";
+import { useState, type CSSProperties } from "react";
+import { SegmentedControl } from "@ui-organized/react";
+import { useBuilderStore, DEFAULT_HEADING_PREVIEW, DEFAULT_BODY_PREVIEW } from "../state/themeState";
+import { PreviewTypeSpecimens } from "./PreviewTypeSpecimens";
 import styles from "./PreviewTypography.module.css";
 
 // CSS custom properties aren't in React.CSSProperties — cast inline style objects with this.
@@ -8,20 +10,6 @@ type LooseStyle = CSSProperties & Record<string, string>;
 // Scale steps grouped by role
 const HEADING_STEPS = ["display-xlarge", "display-large", "display-medium", "heading-large", "heading-medium", "heading-small"] as const;
 const BODY_STEPS    = ["body-large", "body-medium", "body-small", "caption"] as const;
-
-// A short sample per step so the four weight columns stay readable side by side.
-const SAMPLE: Record<string, string> = {
-  "display-xlarge": "Ag",
-  "display-large":  "Ag",
-  "display-medium": "Ag",
-  "heading-large":  "Almost",
-  "heading-medium": "Almost",
-  "heading-small":  "Almost",
-  "body-large":     "The quick brown fox",
-  "body-medium":    "The quick brown fox",
-  "body-small":     "The quick brown fox",
-  "caption":        "The quick brown fox",
-};
 
 // Weight roles, in column order, mapped to the themed weight custom properties.
 const WEIGHTS = [
@@ -56,6 +44,7 @@ function WeightGrid({
   sizes,
   leadings,
   guides,
+  sample,
   flagSmallSizes = false,
 }: {
   steps: readonly string[];
@@ -65,6 +54,7 @@ function WeightGrid({
   sizes: Record<string, number>;
   leadings: Record<string, number>;
   guides: boolean;
+  sample: string;
   flagSmallSizes?: boolean;
 }) {
   return (
@@ -117,7 +107,7 @@ function WeightGrid({
                 fontWeight: weightVars[w.key],
               } as LooseStyle}
             >
-              {SAMPLE[step]}
+              {sample}
             </span>
           ))}
         </div>
@@ -127,6 +117,13 @@ function WeightGrid({
   );
 }
 
+const TAB_ITEMS = [
+  { value: "specs", label: "Specs" },
+  { value: "examples", label: "Examples" },
+];
+
+type TypeTab = "specs" | "examples";
+
 export function PreviewTypography() {
   const {
     headingWeights,
@@ -134,10 +131,25 @@ export function PreviewTypography() {
     typeScaleSteps,
     leadingSteps,
     lineHeightGuides,
+    headingPreviewText,
+    bodyPreviewText,
   } = useBuilderStore();
+  const [tab, setTab] = useState<TypeTab>("specs");
 
   return (
     <div className={styles.root}>
+      <SegmentedControl
+        className={styles.tabs}
+        aria-label="Typography view"
+        items={TAB_ITEMS}
+        value={tab}
+        onValueChange={(v) => setTab(v as TypeTab)}
+      />
+
+      {tab === "examples" ? (
+        <PreviewTypeSpecimens />
+      ) : (
+        <>
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Headings</h2>
         <WeightGrid
@@ -148,6 +160,7 @@ export function PreviewTypography() {
           sizes={typeScaleSteps}
           leadings={leadingSteps}
           guides={lineHeightGuides}
+          sample={headingPreviewText || DEFAULT_HEADING_PREVIEW}
         />
       </section>
 
@@ -161,9 +174,12 @@ export function PreviewTypography() {
           sizes={typeScaleSteps}
           leadings={leadingSteps}
           guides={lineHeightGuides}
+          sample={bodyPreviewText || DEFAULT_BODY_PREVIEW}
           flagSmallSizes
         />
       </section>
+        </>
+      )}
     </div>
   );
 }

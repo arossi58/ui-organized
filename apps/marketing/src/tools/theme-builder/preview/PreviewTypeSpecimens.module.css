@@ -1,0 +1,388 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Line-height guides: when active, each reading role paints a 1px rule at every
+   line-height interval so the leading can be judged in flowing text. `--leading`
+   is defined per role class (mirroring its line-height) and tiles the overlay. */
+.guides {
+  --type-guide-color: color-mix(in srgb, var(--color-interactive-primary-default) 32%, transparent);
+}
+
+/* ── Specimen frame ──────────────────────────────────────────────────────── */
+
+.specimen {
+  width: 100%;
+  max-width: 680px;
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-06, 16px);
+  padding: 32px;
+}
+
+/* ── Shared type roles: each maps to the live type scale ──────────────────── */
+
+.eyebrow {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.displayXl {
+  --leading: var(--type-leading-display-xlarge);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-xlarge);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-heavy);
+  color: var(--color-content-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.displayLg {
+  --leading: var(--type-leading-display-large);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-large);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-heavy);
+  color: var(--color-content-primary);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.displayMd {
+  --leading: var(--type-leading-display-medium);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-heavy);
+  color: var(--color-content-primary);
+  letter-spacing: -0.01em;
+}
+
+.headingLg {
+  --leading: var(--type-leading-heading-large);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-large);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+  margin: 0;
+}
+
+.headingMd {
+  --leading: var(--type-leading-heading-medium);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+  margin: 0;
+}
+
+.headingSm {
+  --leading: var(--type-leading-heading-small);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+  margin: 0;
+}
+
+.lede {
+  --leading: var(--type-leading-body-large);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-body-default);
+  color: var(--color-content-secondary);
+  margin: 0;
+}
+
+.body {
+  --leading: var(--type-leading-body-medium);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-body-default);
+  color: var(--color-content-primary);
+  margin: 0;
+}
+
+.bodySm {
+  --leading: var(--type-leading-body-small);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-body-default);
+  color: var(--color-content-secondary);
+  margin: 0;
+}
+
+.caption {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  font-weight: var(--type-weight-body-default);
+  color: var(--color-content-tertiary);
+}
+
+/* Per-line rule for the reading roles, painted only when guides are active. */
+.guides .displayXl,
+.guides .displayLg,
+.guides .displayMd,
+.guides .headingLg,
+.guides .headingMd,
+.guides .headingSm,
+.guides .lede,
+.guides .body,
+.guides .bodySm,
+.guides .pullQuote {
+  background-image: linear-gradient(
+    to bottom,
+    var(--type-guide-color) 0,
+    var(--type-guide-color) 1px,
+    transparent 1px,
+    transparent 100%
+  );
+  background-size: 100% var(--leading);
+  background-repeat: repeat-y;
+  background-position: 0 0;
+}
+
+/* ── 1 · Editorial ───────────────────────────────────────────────────────── */
+
+.article {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.byline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bylineText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.bylineName {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+.pullQuote {
+  --leading: var(--type-leading-heading-small);
+  margin: 6px 0;
+  padding-left: 18px;
+  border-left: 3px solid var(--color-interactive-primary-default);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-small);
+  line-height: var(--leading);
+  font-weight: var(--type-weight-heading-emphasis);
+  font-style: italic;
+  color: var(--color-content-secondary);
+}
+
+/* ── 2 · Blog index ──────────────────────────────────────────────────────── */
+
+.postList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 0;
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.post:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.post:last-child {
+  padding-bottom: 0;
+}
+
+.postText {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* ── 3 · Marketing hero ──────────────────────────────────────────────────── */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.hero .lede {
+  max-width: 460px;
+}
+
+.heroActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.featureRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  width: 100%;
+  margin-top: 12px;
+  text-align: left;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  margin-bottom: 4px;
+  background: var(--color-interactive-ui-default);
+  color: var(--color-content-primary);
+}
+
+/* ── 4 · Documentation ───────────────────────────────────────────────────── */
+
+.docs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.docsPath {
+  font-family: monospace;
+  font-size: var(--type-size-caption);
+  color: var(--color-content-tertiary);
+}
+
+.code {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-secondary);
+  overflow-x: auto;
+}
+
+.code code {
+  font-family: monospace;
+  font-size: var(--type-size-body-small);
+  color: var(--color-content-primary);
+}
+
+.docsList {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--color-interactive-ui-default);
+  color: var(--color-content-secondary);
+}
+
+.note svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+/* ── 5 · Pricing ─────────────────────────────────────────────────────────── */
+
+.tierRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.tierBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tierNameRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tierPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.tierPer {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  color: var(--color-content-tertiary);
+}
+
+.tierFooter {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.tierButton {
+  width: 100%;
+}
+
+.tierFooter .caption {
+  text-align: center;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+
+@media (max-width: 720px) {
+  .featureRow,
+  .tierRow {
+    grid-template-columns: 1fr;
+  }
+}

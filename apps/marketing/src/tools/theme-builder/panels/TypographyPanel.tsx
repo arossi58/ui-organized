@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useBuilderStore } from "../state/themeState";
+import { useBuilderStore, DEFAULT_HEADING_PREVIEW, DEFAULT_BODY_PREVIEW } from "../state/themeState";
 import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
-import { Select, NumberField, Range, Switch, type SelectOption } from "@ui-organized/react";
+import { Select, Combobox, Input, NumberField, Range, Switch, type SelectOption, type ComboboxOption } from "@ui-organized/react";
 import styles from "./TypographyPanel.module.css";
 
 // ─── Scale ratio options ──────────────────────────────────────────────────────
@@ -38,6 +38,9 @@ function FontPicker({
   loading,
   portalContainer,
   onSelect,
+  previewText,
+  previewPlaceholder,
+  onPreviewTextChange,
 }: {
   label: string;
   value: string;
@@ -46,8 +49,11 @@ function FontPicker({
   loading: boolean;
   portalContainer: HTMLElement | null;
   onSelect: (family: string, weights: Record<string, number>) => void;
+  previewText: string;
+  previewPlaceholder: string;
+  onPreviewTextChange: (text: string) => void;
 }) {
-  const fontOptions: SelectOption[] = fonts.map((f) => ({ value: f.family, label: f.family }));
+  const fontOptions: ComboboxOption[] = fonts.map((f) => ({ value: f.family, label: f.family }));
 
   const selectedFont = fonts.find((f) => f.family === value) ?? null;
   const availableWeights = selectedFont ? getAvailableWeights(selectedFont) : [400];
@@ -72,13 +78,15 @@ function FontPicker({
 
   return (
     <div className={styles.pickerWrap}>
-      <Select
+      <Combobox
         label={label}
         value={value}
         options={fontOptions}
-        onValueChange={handleFontChange}
+        onValueChange={(family) => family && handleFontChange(family)}
         disabled={loading}
         size="sm"
+        placeholder="Search fonts…"
+        emptyMessage="No matching Figma fonts."
         portalContainer={portalContainer}
       />
       <div className={styles.weightRoles}>
@@ -97,6 +105,13 @@ function FontPicker({
           </div>
         ))}
       </div>
+      <Input
+        label="Preview text"
+        size="sm"
+        value={previewText}
+        placeholder={previewPlaceholder}
+        onChange={(e) => onPreviewTextChange(e.target.value)}
+      />
     </div>
   );
 }
@@ -109,8 +124,10 @@ export function TypographyPanel() {
     bodyFamily, bodyWeights,
     typeScaleBase, typeScaleRatio, typeScaleMode,
     headingLineHeight, bodyLineHeight, lineHeightMode, lineHeightGuides,
+    headingPreviewText, bodyPreviewText,
     setHeadingFont, setBodyFont, setTypeScale,
     setHeadingLineHeight, setBodyLineHeight, setLineHeightGuides,
+    setHeadingPreviewText, setBodyPreviewText,
     resetTypeScale, resetLineHeight,
   } = useBuilderStore();
 
@@ -149,6 +166,9 @@ export function TypographyPanel() {
             loading={loading}
             portalContainer={portalEl}
             onSelect={setHeadingFont}
+            previewText={headingPreviewText}
+            previewPlaceholder={DEFAULT_HEADING_PREVIEW}
+            onPreviewTextChange={setHeadingPreviewText}
           />
           <FontPicker
             label="Body Font"
@@ -158,6 +178,9 @@ export function TypographyPanel() {
             loading={loading}
             portalContainer={portalEl}
             onSelect={setBodyFont}
+            previewText={bodyPreviewText}
+            previewPlaceholder={DEFAULT_BODY_PREVIEW}
+            onPreviewTextChange={setBodyPreviewText}
           />
         </div>
       </section>
@@ -261,9 +284,6 @@ export function TypographyPanel() {
             checked={lineHeightGuides}
             onCheckedChange={setLineHeightGuides}
           />
-          <span className={styles.guideHint}>
-            Outlines the top and bottom of each line's box in the preview.
-          </span>
         </div>
       </section>
     </div>

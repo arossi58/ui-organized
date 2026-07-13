@@ -1,14 +1,22 @@
-/* ─── Card base ───────────────────────────────────────────────────────────── */
+/* ─── Card base ───────────────────────────────────────────────────────────────
+   Matches the Figma card: a flex column with a `radius-06` (16px) corner that
+   clips its content. Direct children stretch to the card width, and the padding
+   size sets both the inset and the gap between stacked sections. */
 
 .card {
-  border-radius: var(--radius-interactive);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: var(--border-radius-06);
   overflow: hidden;
 }
 
 /* ─── Variants ────────────────────────────────────────────────────────────── */
 
+/* Figma card surface: primary surface behind a 1px `border-primary` hairline. */
 .card--default {
   background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
 }
 
 .card--outlined {
@@ -23,34 +31,38 @@
     0 2px 4px -2px rgba(0, 0, 0, 0.2);
 }
 
-/* ─── Padding ─────────────────────────────────────────────────────────────── */
+/* ─── Padding (Figma size axis: inset + gap scale together) ────────────────── */
 
 .card--padding-none {
   padding: 0;
+  gap: 0;
 }
 
 .card--padding-sm {
-  padding: var(--spacing-space-03);
+  padding: var(--spacing-space-02);
+  gap: var(--spacing-space-02);
 }
 
 .card--padding-md {
-  padding: var(--spacing-space-05);
+  padding: var(--spacing-space-03);
+  gap: var(--spacing-space-03);
 }
 
 .card--padding-lg {
-  padding: var(--spacing-space-08);
+  padding: var(--spacing-space-04);
+  gap: var(--spacing-space-04);
 }
 
-/* ─── Card sections ───────────────────────────────────────────────────────── */
+/* ─── Card sections ───────────────────────────────────────────────────────────
+   The card's `gap` provides the spacing between sections, so header/footer only
+   add their divider rule and the inset that keeps content off the rule. */
 
 .card__header {
   padding-bottom: var(--spacing-space-03);
   border-bottom: 1px solid var(--color-border-secondary);
-  margin-bottom: var(--spacing-space-04);
 }
 
 .card__footer {
   padding-top: var(--spacing-space-03);
   border-top: 1px solid var(--color-border-secondary);
-  margin-top: var(--spacing-space-04);
 }

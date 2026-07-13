@@ -1,4 +1,4 @@
-import { Tabs } from "@ui-organized/react";
+import { SegmentedControl } from "@ui-organized/react";
 import { useBuilderStore, type ActivePanel } from "./state/themeState";
 import { ColorPanel } from "./panels/ColorPanel";
 import { TypographyPanel } from "./panels/TypographyPanel";
@@ -19,10 +19,9 @@ const TABS: { id: ActivePanel; label: string }[] = [
   { id: "export",     label: "Export" },
 ];
 
-// DS Tabs is array-driven (list + panels). We use it for the section tab bar and
-// hide its empty panels via builder.css — the body below is our own two-pane
-// layout, driven by the same `activePanel` state.
-const TAB_ITEMS = TABS.map((t) => ({ value: t.id, label: t.label, content: null }));
+// The section switcher is a DS SegmentedControl driven by `activePanel`; the
+// two-pane body below reacts to the same state.
+const TAB_ITEMS = TABS.map((t) => ({ value: t.id, label: t.label }));
 
 function PanelContent({ active }: { active: ActivePanel }) {
   switch (active) {
@@ -79,11 +78,12 @@ export default function ThemeBuilder() {
 
   return (
     <div className={`${styles.layout} theme-builder-tool`}>
-      {/* ── Top bar: one DS tab set across the top · preview mode ──────────── */}
+      {/* ── Top bar: section segmented control · preview mode ─────────────── */}
       <header className={styles.topBar}>
-        <Tabs
-          className={`${styles.tabs} tb-section-tabs`}
-          tabs={TAB_ITEMS}
+        <SegmentedControl
+          className={styles.tabs}
+          aria-label="Theme section"
+          items={TAB_ITEMS}
           value={activePanel}
           onValueChange={(v) => setActivePanel(v as ActivePanel)}
         />

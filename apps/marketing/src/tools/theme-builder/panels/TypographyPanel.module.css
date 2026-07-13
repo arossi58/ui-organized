@@ -108,9 +108,3 @@
   flex-direction: column;
   gap: 6px;
 }
-
-.guideHint {
-  font-size: 11px;
-  color: var(--builder-text-tertiary);
-  line-height: 1.4;
-}

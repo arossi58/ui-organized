@@ -4,6 +4,12 @@
   gap: 48px;
 }
 
+/* ── Specs / Examples segmented control ──────────────────────────────────── */
+
+.tabs {
+  align-self: flex-start;
+}
+
 .section {
   display: flex;
   flex-direction: column;

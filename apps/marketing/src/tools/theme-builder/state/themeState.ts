@@ -35,6 +35,9 @@ const DEFAULT_BRAND_HEX    = "#bc4900"; // mars.1400
 const DEFAULT_NEUTRAL      = "grey";
 const DEFAULT_HEADING_FAMILY = typeFontTokens.heading;
 const DEFAULT_BODY_FAMILY = typeFontTokens.body;
+/** Sample strings the typography specs preview shows when the user hasn't typed their own. */
+export const DEFAULT_HEADING_PREVIEW = "Almost before we knew it, we had left the ground";
+export const DEFAULT_BODY_PREVIEW = "The quick brown fox jumps over the lazy dog";
 /** Base/ratio the size slider jumps to when the user first customizes the scale. */
 const DEFAULT_TYPE_BASE = 16;
 const DEFAULT_TYPE_RATIO = 1.25;
@@ -152,6 +155,10 @@ export interface BuilderState {
   lineHeightMode: "system" | "custom";
   /** Resolved per-step line-heights (px) — the single source the preview/export read. */
   leadingSteps: Record<string, number>;
+  /** Custom sample text for the heading rows of the typography specs preview. */
+  headingPreviewText: string;
+  /** Custom sample text for the body/caption rows of the typography specs preview. */
+  bodyPreviewText: string;
 
   // Border radius
   radiusBase: number;
@@ -183,6 +190,8 @@ export interface BuilderState {
   setTypeScale: (base: number, ratio: number) => void;
   setHeadingLineHeight: (scale: number) => void;
   setBodyLineHeight: (scale: number) => void;
+  setHeadingPreviewText: (text: string) => void;
+  setBodyPreviewText: (text: string) => void;
   /** Restore the canonical design-system sizes (mode → "system"). */
   resetTypeScale: () => void;
   /** Restore the canonical design-system line-heights (mode → "system"). */
@@ -224,6 +233,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   bodyLineHeight: DEFAULT_LINE_HEIGHT,
   lineHeightMode: "system",
   leadingSteps: { ...typeLeadingTokens },
+  headingPreviewText: DEFAULT_HEADING_PREVIEW,
+  bodyPreviewText: DEFAULT_BODY_PREVIEW,
 
   // Border radius
   radiusBase: DEFAULT_RADIUS_BASE,
@@ -240,7 +251,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   activePanel: "color",
   themeName: "My Theme",
   previewMode: "light" as "light" | "dark", // matches the site's default theme (light)
-  lineHeightGuides: false,
+  lineHeightGuides: true,
   activeExample: "dashboard" as ExampleId,
 
   // Actions
@@ -311,6 +322,9 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       lineHeightMode: "custom",
       leadingSteps: resolveLeadings(state.typeScaleSteps, "custom", state.headingLineHeight, scale),
     })),
+
+  setHeadingPreviewText: (text) => set(() => ({ headingPreviewText: text })),
+  setBodyPreviewText: (text) => set(() => ({ bodyPreviewText: text })),
 
   resetTypeScale: () =>
     set((state) => {

@@ -38,61 +38,10 @@
   --builder-accent-subtle:   color-mix(in oklab, var(--color-interactive-primary-default) 12%, transparent);
 }
 
-/* The top tab bar uses the DS Tabs component for its styled tab list; the body
-   below is our own layout, so the (empty) DS tab panels are hidden. */
+/* DS Tabs shown inside the live preview (kitchen sink) render their panels as a
+   sample; the tool doesn't use their panels for layout, so they're hidden. */
 .theme-builder-tool .tabs__panels {
   display: none;
-}
-
-/* Restyle the section tab bar (top bar only — scoped to `.tb-section-tabs` so
-   the DS Tabs shown inside the live preview keep their default look) as a
-   segmented control, matching the Light/Dark preview switch beside it. */
-.theme-builder-tool .tb-section-tabs .tabs__list {
-  display: inline-flex;
-  gap: 2px;
-  padding: 2px;
-  background: var(--builder-surface-input);
-  border: 1px solid var(--builder-border);
-  border-radius: 8px;
-}
-
-.theme-builder-tool .tb-section-tabs .tabs__tab {
-  padding: 5px 12px;
-  border: none;
-  margin-bottom: 0;
-  border-radius: 6px;
-  color: var(--builder-text-secondary);
-  font-size: var(--type-size-body-medium, 14px);
-  font-weight: 500;
-  transition:
-    background 0.12s ease,
-    color 0.12s ease;
-}
-
-.theme-builder-tool
-  .tb-section-tabs
-  .tabs__tab:hover:not([data-disabled]):not([data-selected]) {
-  background: transparent;
-  color: var(--builder-text-primary);
-}
-
-/* Selected tab fills with the site brand accent (DS interactive-primary, themed
-   per mode) with legible on-brand foreground. */
-.theme-builder-tool .tb-section-tabs .tabs__tab[data-selected] {
-  background: var(--builder-accent);
-  color: var(--builder-accent-contents);
-  font-weight: 600;
-}
-
-.theme-builder-tool
-  .tb-section-tabs
-  .tabs__tab[data-selected]:hover:not([data-disabled]) {
-  background: var(--builder-accent-hover);
-  color: var(--builder-accent-contents);
-}
-
-.theme-builder-tool .tb-section-tabs .tabs__tab:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 /* Scrollbar styling (scoped to the tool) */

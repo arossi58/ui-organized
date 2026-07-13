@@ -124,20 +124,25 @@ export function useGoogleFonts(): UseGoogleFontsResult {
   return { fonts, loading, error };
 }
 
-// ─── Fallback list (shown when API key is missing) ────────────────────────────
+// ─── Curated Figma-available font list ────────────────────────────────────────
+//
+// Every family below ships in the Google Fonts library, which Figma bundles in
+// full — so anything selectable here is guaranteed to resolve to a real font in
+// Figma. This is also the fallback used when the Google Fonts API is
+// unavailable. Keep this list to Google Fonts only; adding a family that Figma
+// can't render would let users pick a font the design tool would substitute.
 
 const FALLBACK_FONTS: GoogleFont[] = [
+  // Sans-serif
+  { family: "Inter", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
   { family: "Roboto", variants: ["regular","100","300","500","700","900"], files: {} },
   { family: "Open Sans", variants: ["regular","300","500","600","700","800"], files: {} },
   { family: "Lato", variants: ["regular","100","300","700","900"], files: {} },
   { family: "Montserrat", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
-  { family: "Oswald", variants: ["regular","200","300","500","600","700"], files: {} },
-  { family: "Inter", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
   { family: "Poppins", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
   { family: "Raleway", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
   { family: "Nunito", variants: ["regular","200","300","600","700","800","900"], files: {} },
-  { family: "Playfair Display", variants: ["regular","500","600","700","800","900"], files: {} },
-  { family: "Merriweather", variants: ["regular","300","700","900"], files: {} },
+  { family: "Nunito Sans", variants: ["regular","200","300","600","700","800","900"], files: {} },
   { family: "Source Sans 3", variants: ["regular","200","300","600","700","900"], files: {} },
   { family: "PT Sans", variants: ["regular","700"], files: {} },
   { family: "Ubuntu", variants: ["regular","300","500","700"], files: {} },
@@ -147,4 +152,53 @@ const FALLBACK_FONTS: GoogleFont[] = [
   { family: "Figtree", variants: ["regular","300","500","600","700","800","900"], files: {} },
   { family: "Plus Jakarta Sans", variants: ["regular","200","300","500","600","700","800"], files: {} },
   { family: "Work Sans", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Rubik", variants: ["regular","300","500","600","700","800","900"], files: {} },
+  { family: "Karla", variants: ["regular","200","300","500","600","700","800"], files: {} },
+  { family: "Manrope", variants: ["regular","200","300","500","600","700","800"], files: {} },
+  { family: "Space Grotesk", variants: ["regular","300","500","600","700"], files: {} },
+  { family: "Sora", variants: ["regular","100","200","300","500","600","700","800"], files: {} },
+  { family: "Libre Franklin", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Barlow", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Quicksand", variants: ["regular","300","500","600","700"], files: {} },
+  { family: "Josefin Sans", variants: ["regular","100","200","300","500","600","700"], files: {} },
+  { family: "Cabin", variants: ["regular","500","600","700"], files: {} },
+  { family: "Dosis", variants: ["regular","200","300","500","600","700","800"], files: {} },
+  { family: "Titillium Web", variants: ["regular","200","300","600","700","900"], files: {} },
+  { family: "Heebo", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Assistant", variants: ["regular","200","300","500","600","700","800"], files: {} },
+  { family: "Fira Sans", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "IBM Plex Sans", variants: ["regular","100","200","300","500","600","700"], files: {} },
+  { family: "Archivo", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Kanit", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Oswald", variants: ["regular","200","300","500","600","700"], files: {} },
+  { family: "Bebas Neue", variants: ["regular"], files: {} },
+  { family: "Anton", variants: ["regular"], files: {} },
+  { family: "Comfortaa", variants: ["regular","300","500","600","700"], files: {} },
+  // Serif
+  { family: "Playfair Display", variants: ["regular","500","600","700","800","900"], files: {} },
+  { family: "Merriweather", variants: ["regular","300","700","900"], files: {} },
+  { family: "Lora", variants: ["regular","500","600","700"], files: {} },
+  { family: "PT Serif", variants: ["regular","700"], files: {} },
+  { family: "Bitter", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Libre Baskerville", variants: ["regular","700"], files: {} },
+  { family: "EB Garamond", variants: ["regular","500","600","700","800"], files: {} },
+  { family: "Cormorant Garamond", variants: ["regular","300","500","600","700"], files: {} },
+  { family: "Crimson Text", variants: ["regular","600","700"], files: {} },
+  { family: "Spectral", variants: ["regular","200","300","500","600","700","800"], files: {} },
+  { family: "Domine", variants: ["regular","500","600","700"], files: {} },
+  { family: "Zilla Slab", variants: ["regular","300","500","600","700"], files: {} },
+  { family: "Roboto Slab", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
+  { family: "Abril Fatface", variants: ["regular"], files: {} },
+  // Monospace
+  { family: "IBM Plex Mono", variants: ["regular","100","200","300","500","600","700"], files: {} },
+  { family: "JetBrains Mono", variants: ["regular","100","200","300","500","600","700","800"], files: {} },
+  { family: "Roboto Mono", variants: ["regular","100","200","300","500","600","700"], files: {} },
+  { family: "Source Code Pro", variants: ["regular","200","300","500","600","700","800","900"], files: {} },
+  { family: "Space Mono", variants: ["regular","700"], files: {} },
+  { family: "Fira Code", variants: ["regular","300","500","600","700"], files: {} },
+  // Display / hand
+  { family: "Pacifico", variants: ["regular"], files: {} },
+  { family: "Dancing Script", variants: ["regular","500","600","700"], files: {} },
+  { family: "Caveat", variants: ["regular","500","600","700"], files: {} },
+  { family: "Lobster", variants: ["regular"], files: {} },
 ];
