@@ -11,8 +11,15 @@
   height: 100vh;
   height: 100dvh;
   /* The tools route is a full-viewport app view: the page itself must never
-     scroll — only regions inside a tool (sidebars, content) scroll. */
-  overflow: hidden;
+     scroll — only regions inside a tool (sidebars, content) scroll. Use `clip`,
+     not `hidden`: `hidden` still makes this a scroll container, so focusing a
+     control deep in a tool (e.g. a switch at the bottom of the controls panel)
+     lets the browser scroll the shell to reveal it — dragging the in-flow nav
+     off the top. Nested flex min-content sizing leaves a few hundred px of
+     phantom scrollable height here, which is exactly what that focus-scroll ran
+     into. `clip` clips identically but is NOT a scroll container, so the nav can
+     never be scrolled out of view. */
+  overflow: clip;
 }
 
 .tools-page {
