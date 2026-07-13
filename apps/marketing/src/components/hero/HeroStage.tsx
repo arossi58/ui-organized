@@ -9,6 +9,31 @@ import type { HeroStageEngine } from "../../lib/heroStageEngine";
 import "../gradient/dot-grid.css";
 import "./hero-stage.css";
 
+/** localStorage key holding the local date (YYYY-MM-DD) the falling intro last
+ * played, so it only plays once per calendar day per visitor (feedback). */
+const HERO_INTRO_KEY = "uio:hero-intro-day";
+
+/** Today as a local YYYY-MM-DD stamp (not UTC, so "per day" matches the visitor's
+ * clock). */
+function todayStamp(): string {
+  const d = new Date();
+  const m = `${d.getMonth() + 1}`.padStart(2, "0");
+  const day = `${d.getDate()}`.padStart(2, "0");
+  return `${d.getFullYear()}-${m}-${day}`;
+}
+
+/** Whether the falling intro already played today (→ open on the assembled,
+ * interactive layout instead). Reads once at mount; falls back to playing the
+ * intro if storage is unavailable (private mode, etc.). */
+function introSeenToday(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(HERO_INTRO_KEY) === todayStamp();
+  } catch {
+    return false;
+  }
+}
+
 /**
  * The hero scroll stage (SITE.md §5): a 300vh track with a pinned viewport in
  * which the pieces fall (matter-js), assemble into the app frame as you scroll,
@@ -22,6 +47,11 @@ export function HeroStage() {
   const [finePointer] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches,
   );
+  // Play the staggered fall-in only on the first visit of the day; on repeat
+  // same-day visits the pieces start already settled in the matter.js pile, so
+  // they don't "pop in" — but the full scroll track and the physics → assembled
+  // component transition are unchanged (feedback). Captured once at mount.
+  const [skipIntro] = useState(introSeenToday);
 
   const stageRef = useRef<HTMLDivElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
@@ -32,6 +62,18 @@ export function HeroStage() {
   const pieceEls = useRef<Array<HTMLElement | null>>([]);
 
   const progress = useScrollProgress(stageRef);
+
+  // Mark the intro as played today the first time we run it (so the next visit
+  // this day skips it). Only when we're actually animating — reduced motion and
+  // repeat visits don't claim the slot.
+  useEffect(() => {
+    if (reduced || skipIntro) return;
+    try {
+      window.localStorage.setItem(HERO_INTRO_KEY, todayStamp());
+    } catch {
+      /* storage unavailable — the intro just replays next visit, which is fine. */
+    }
+  }, [reduced, skipIntro]);
 
   useEffect(() => {
     const stage = stageRef.current;
@@ -62,7 +104,7 @@ export function HeroStage() {
           glow: null,
           pieceEls: pieceEls.current,
         },
-        { reducedMotion: reduced, finePointer },
+        { reducedMotion: reduced, finePointer, skipIntro },
       );
       engine.setProgressSource(() => progress.current);
       engine.start();
@@ -71,7 +113,7 @@ export function HeroStage() {
       cancelled = true;
       engine?.stop();
     };
-  }, [reduced, finePointer, progress]);
+  }, [reduced, finePointer, progress, skipIntro]);
 
   return (
     <div className={`hero-stage${reduced ? " hero-stage--static" : ""}`} ref={stageRef}>

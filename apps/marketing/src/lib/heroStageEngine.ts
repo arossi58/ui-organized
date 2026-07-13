@@ -81,6 +81,15 @@ export interface HeroStageRefs {
 export interface HeroStageOptions {
   reducedMotion: boolean;
   finePointer: boolean;
+  /**
+   * Skip the one-time falling/assembly intro and open directly on the finished,
+   * organized layout — but with the full engine live (components clickable, the
+   * sidebar-collapse reflow, arrange/drag if enabled). Used for repeat visits
+   * within the same day so the pieces don't "pop in" every time (feedback); the
+   * caller gates this to once per day and collapses the scroll track to one
+   * viewport (`.hero-stage--static`).
+   */
+  skipIntro?: boolean;
 }
 
 interface PieceRuntime {
@@ -123,7 +132,7 @@ export function createHeroStageEngine(
   refs: HeroStageRefs,
   options: HeroStageOptions,
 ): HeroStageEngine {
-  const { reducedMotion, finePointer } = options;
+  const { reducedMotion, finePointer, skipIntro = false } = options;
 
   let W = 0;
   let H = 0;
@@ -767,13 +776,23 @@ export function createHeroStageEngine(
     }
 
     P = getProgress();
-    if (P >= STAGE.physicsEnd) {
-      // Loaded mid-scroll: drop everything and pre-settle the pile before handoff.
+    // `skipIntro` (repeat visit today) drops the staggered fall-in: every piece
+    // spawns at once and the physics is fast-forwarded so they're already resting
+    // in the pile — no "pop in". The normal scroll flow still runs from there, so
+    // scrolling lifts the settled pile into the assembled component layout exactly
+    // as on a first visit. `P >= physicsEnd` is the mid-scroll load case, which
+    // also needs the pile pre-settled before the physics→assembly handoff.
+    if (skipIntro || P >= STAGE.physicsEnd) {
       spawnAllNow();
       for (let k = 0; k < 180; k++) Engine.update(engine, 1000 / 60);
-      capturePoses();
-      refs.layer.classList.add("is-frozen");
-      inPhysics = false;
+      // Past the physics phase already: capture the settled pile and hand off to
+      // the assembly lerp. Still within physics (the usual skipIntro case at the
+      // top): leave the pile live so scrolling drives the transition.
+      if (P >= STAGE.physicsEnd) {
+        capturePoses();
+        refs.layer.classList.add("is-frozen");
+        inPhysics = false;
+      }
     } else {
       scheduleSpawns();
     }

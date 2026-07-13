@@ -19,6 +19,7 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -66,20 +67,43 @@ const BRAND_TOKEN_KEYS = [
 ] as const;
 
 interface StoredTheme {
-  mode: ThemeMode;
+  /** Absent until the visitor explicitly picks light/dark — until then the site
+   * follows the OS `prefers-color-scheme`. */
+  mode?: ThemeMode;
   brand: string;
 }
 
-function readStored(): StoredTheme {
-  const fallback: StoredTheme = { mode: "light", brand: DEFAULT_BRAND };
+/** The OS colour-scheme preference; defaults to light where it can't be read. */
+function systemMode(): ThemeMode {
+  if (typeof window === "undefined" || !window.matchMedia) return "light";
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+interface InitialTheme {
+  mode: ThemeMode;
+  brand: string;
+  /** Whether `mode` came from an explicit stored choice (vs. the OS default). */
+  explicitMode: boolean;
+}
+
+function readStored(): InitialTheme {
+  const fallback: InitialTheme = {
+    mode: systemMode(),
+    brand: DEFAULT_BRAND,
+    explicitMode: false,
+  };
   if (typeof localStorage === "undefined") return fallback;
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return fallback;
     const parsed = JSON.parse(raw) as Partial<StoredTheme>;
+    const hasMode = parsed.mode === "dark" || parsed.mode === "light";
     return {
-      mode: parsed.mode === "dark" ? "dark" : "light",
+      // No stored mode → follow the OS preference so the default matches what the
+      // visitor already uses; a stored mode is a deliberate override we keep.
+      mode: hasMode ? (parsed.mode as ThemeMode) : systemMode(),
       brand: getBrandOption(parsed.brand).name,
+      explicitMode: hasMode,
     };
   } catch {
     return fallback;
@@ -88,8 +112,33 @@ function readStored(): StoredTheme {
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const initial = useMemo(readStored, []);
-  const [mode, setMode] = useState<ThemeMode>(initial.mode);
+  const [mode, setModeState] = useState<ThemeMode>(initial.mode);
   const [brand, setBrand] = useState<string>(initial.brand);
+  // Whether the visitor has deliberately chosen a mode. Until they do, `mode`
+  // tracks the OS preference (and isn't persisted), so the site's default always
+  // matches the visitor's system theme.
+  const [explicitMode, setExplicitMode] = useState<boolean>(initial.explicitMode);
+
+  // Picking light/dark is a deliberate override: remember it and stop following
+  // the OS from here on.
+  const setMode = useCallback((next: ThemeMode) => {
+    setExplicitMode(true);
+    setModeState(next);
+  }, []);
+  const toggleMode = useCallback(() => {
+    setExplicitMode(true);
+    setModeState((m) => (m === "dark" ? "light" : "dark"));
+  }, []);
+
+  // Until the visitor makes an explicit choice, follow live OS colour-scheme
+  // changes so the site stays in sync with their system theme.
+  useEffect(() => {
+    if (explicitMode || typeof window === "undefined" || !window.matchMedia) return;
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = (e: MediaQueryListEvent) => setModeState(e.matches ? "dark" : "light");
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, [explicitMode]);
 
   // Apply to <html> before paint so brand + mode land together with no flash.
   useLayoutEffect(() => {
@@ -112,11 +161,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, brand }));
+      // Persist the brand always; persist `mode` only once it's an explicit
+      // choice, so a visitor who never toggles keeps following their OS theme
+      // across reloads instead of being pinned to whatever it happened to be.
+      const payload: StoredTheme = explicitMode ? { mode, brand } : { brand };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
     } catch {
       /* storage unavailable (private mode) — the live attribute/vars still hold */
     }
-  }, [mode, brand]);
+  }, [mode, brand, explicitMode]);
 
   const value = useMemo<ThemeContextValue>(
     () => ({
@@ -124,11 +177,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       brand,
       brandHex: getBrandOption(brand).hex,
       setMode,
-      toggleMode: () => setMode((m) => (m === "dark" ? "light" : "dark")),
+      toggleMode,
       setBrand,
       options: BRAND_OPTIONS,
     }),
-    [mode, brand],
+    [mode, brand, setMode, toggleMode],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

@@ -84,6 +84,7 @@
  * nests into the window (its square right edge stays flush with the body). */
 .physics-piece__sidebar {
   height: 100%;
+  background: var(--color-surface-primary);
   border-top-left-radius: var(--border-radius-08);
   border-bottom-left-radius: var(--border-radius-08);
   overflow: hidden;
@@ -121,7 +122,9 @@
   font-family: var(--type-font-heading);
   font-size: var(--type-size-display-medium);
   font-weight: var(--type-weight-heading-strong);
-  line-height: var(--type-leading-display-medium);
+  /* Trim the display leading so the big figure hugs its glyphs — with the card's
+     flex centering this makes the number + caption read visually centred. */
+  line-height: 1;
 }
 .physics-piece__stat-label {
   font-family: var(--type-font-body);

@@ -1,20 +1,27 @@
 <!doctype html>
 <!-- Single global theme control: this `data-theme` is the one source of truth for
-     every @ui-organized/react component's colours across the whole site. It runs light by
-     default; change it here to re-theme the entire site. No component overrides it. -->
+     every @ui-organized/react component's colours across the whole site. The
+     inline script below settles it before first paint — to the visitor's stored
+     choice, or their OS `prefers-color-scheme` by default. The `light` here is
+     just the pre-script value. No component overrides it. -->
 <html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Apply the stored light/dark choice before first paint so the page never
-         flashes the wrong mode. The brand colour is applied by the app
-         (ThemeProvider); this only needs to settle `data-theme`. -->
+    <!-- Settle light/dark before first paint so the page never flashes the wrong
+         mode: use the visitor's stored choice, else fall back to their OS
+         `prefers-color-scheme` (matching ThemeProvider's default). The brand
+         colour is applied by the app; this only needs to settle `data-theme`. -->
     <script>
       try {
         var t = JSON.parse(localStorage.getItem("ui-org-site-theme") || "null");
-        if (t && (t.mode === "dark" || t.mode === "light")) {
-          document.documentElement.setAttribute("data-theme", t.mode);
-        }
+        var mode =
+          t && (t.mode === "dark" || t.mode === "light")
+            ? t.mode
+            : window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.setAttribute("data-theme", mode);
       } catch (e) {}
     </script>
     <title>UI Organized — From pile to product</title>

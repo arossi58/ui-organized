@@ -21,6 +21,9 @@ export const LINKS = {
   githubFigmaPlugin: `${repo}/tree/main/tooling/figma-plugin`,
   /** The Figma community profile hosting the published plugins. */
   figmaProfile: "https://www.figma.com/@andrewrossi",
+  /** The published Figma Community design library — the design side of the system. */
+  figmaLibrary:
+    "https://www.figma.com/community/file/1658347068449240470/ui-organized-core",
   /** The published Color Palette Generator companion plugin on Figma Community. */
   figmaColorPalettePlugin:
     "https://www.figma.com/community/plugin/1649282319867000745",

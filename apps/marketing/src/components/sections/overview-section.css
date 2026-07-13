@@ -3,14 +3,7 @@
    light paper/cream surfaces and DS tokens. */
 
 .overview {
-  /* Warm brand wash — orange/coral derived from the brand tokens via color-mix
-     (per site-tokens.css: brand-accent alphas are mixed against the source
-     tokens), so the backdrop tracks the accent the cards light up to. */
-  background:
-    radial-gradient(900px 560px at 12% 0%, color-mix(in srgb, var(--site-orange) 15%, transparent), transparent 60%),
-    radial-gradient(820px 600px at 92% 38%, color-mix(in srgb, var(--site-coral) 12%, transparent), transparent 62%),
-    radial-gradient(700px 520px at 62% 100%, color-mix(in srgb, var(--site-orange) 9%, transparent), transparent 60%),
-    var(--color-surface-primary);
+  background: var(--color-surface-primary);
 }
 
 /* Section header — editorial serif title + body-large lede (Branding mockup). */
@@ -207,6 +200,9 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+  /* Nest inside the card's rounded top corners — a slightly tighter inner radius
+     than the card (24px) less the stage's space-03 inset reads as concentric. */
+  border-radius: var(--border-radius-medium, 12px);
 }
 
 /* ── Detail panel ─────────────────────────────────────────────────────────

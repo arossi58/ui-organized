@@ -26,6 +26,7 @@ export type OverviewId = "design" | "tools" | "code";
  */
 const OUTBOUND_EVENTS: Record<string, string> = {
   [LINKS.npmReact]: "view_npm_package",
+  [LINKS.figmaLibrary]: "view_figma_library",
   [LINKS.githubFigmaPlugin]: "view_figma_plugin",
   [LINKS.figmaProfile]: "view_figma_plugin",
   [LINKS.github]: "view_github",
@@ -106,7 +107,7 @@ const DETAILS: Record<OverviewId, DetailContent> = {
       },
     ],
     links: [
-      { label: "Get the Figma library", href: LINKS.githubFigmaPlugin, external: true, primary: true, comingSoon: true },
+      { label: "Get the Figma library", href: LINKS.figmaLibrary, external: true, primary: true },
       { label: "Build a theme", href: "/tools/theme-builder" },
     ],
   },
