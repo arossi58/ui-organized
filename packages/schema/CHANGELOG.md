@@ -1,5 +1,11 @@
 # @ui-organized/schema
 
+## 3.1.0
+
+### Minor Changes
+
+- 980ecf0: Styling updates
+
 ## 3.0.0
 
 ### Major Changes

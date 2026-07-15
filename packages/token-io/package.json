@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/token-io",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Serialize/deserialize the project document and import/export adapters (DTCG, Tokens Studio, GitHub, Supabase) plus the non-destructive reconciler. Pack-agnostic.",
   "keywords": [
     "design-tokens",

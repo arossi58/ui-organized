@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/utils",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Color generation, type scale, spacing, and semantic token resolution utilities for the ui-organized design system.",
   "keywords": [
     "design-system",
