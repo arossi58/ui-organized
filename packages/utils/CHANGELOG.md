@@ -1,5 +1,17 @@
 # @ui-organized/utils
 
+## 3.1.0
+
+### Minor Changes
+
+- 980ecf0: Styling updates
+
+### Patch Changes
+
+- 67687e1: Remap the semantic status colors (`success`, `info`, `info-secondary`, `caution`, `error`) to new primitive shades from the theme-builder export, in both the shipped token pipeline and the theme builder's resolver. Dark base now uses the `1700`/`2000`/`300` shade pattern and light uses `1500`/`600`/`2100`; `error-message` is unchanged. The `warning` (cerise) tokens are untouched.
+- Updated dependencies [980ecf0]
+  - @ui-organized/schema@3.1.0
+
 ## 3.0.0
 
 ### Major Changes
