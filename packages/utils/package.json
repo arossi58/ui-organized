@@ -46,9 +46,6 @@
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@ui-organized/schema": "workspace:*"
-  },
   "devDependencies": {
     "@ui-organized/tsconfig": "workspace:*",
     "tsup": "^8.0.0",

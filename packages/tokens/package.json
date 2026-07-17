@@ -60,12 +60,12 @@
   },
   "dependencies": {
     "@ui-organized/schema": "workspace:*",
-    "@ui-organized/utils": "workspace:*",
-    "style-dictionary": "^4.0.0"
+    "@ui-organized/utils": "workspace:*"
   },
   "devDependencies": {
     "@ui-organized/tsconfig": "workspace:*",
     "@types/node": "^20.0.0",
+    "style-dictionary": "^4.0.0",
     "tsup": "^8.0.0",
     "tsx": "^4.0.0",
     "typescript": "^5.4.0",

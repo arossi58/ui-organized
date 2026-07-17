@@ -70,7 +70,6 @@
   },
   "dependencies": {
     "@ark-ui/react": "^5.37.2",
-    "@ui-organized/schema": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
     "class-variance-authority": "^0.7.0",
