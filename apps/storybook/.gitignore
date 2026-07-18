@@ -1,0 +1,8 @@
+# Storybook build output — regenerated fresh in CI (deploy.yml), not consumed from git
+storybook-static/
+
+# Playwright VR run artifacts (baselines under visual/__screenshots__ are committed)
+test-results/
+playwright-report/
+blob-report/
+.playwright/
