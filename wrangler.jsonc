@@ -1,0 +1,46 @@
+{
+  // Cloudflare Workers static-asset hosting for the UI Organized site.
+  // This is an ASSETS-ONLY Worker: it has no `main` script, so it must NOT
+  // declare an `assets.binding` (a binding is only useful alongside `main`).
+  //
+  // The asset directory `./_site` is assembled by scripts/assemble-site.mjs
+  // (invoked from the .github/actions/build-site composite action) — it is
+  // ephemeral build output and is gitignored. `wrangler deploy --dry-run`
+  // needs it to exist locally; run the assemble script first.
+  //
+  // Deploys are driven by CI, never by hand:
+  //   - PR previews      → ci-report.yml runs `wrangler versions upload`
+  //   - production (main) → ci-report.yml runs `wrangler deploy`
+  //   - staging (manual)  → deploy-staging.yml runs `wrangler deploy --env staging`
+  //
+  // Custom domains (uiorganized.com / staging.uiorganized.com) are attached to
+  // the Workers out-of-band (Cloudflare dashboard → the Worker → Custom Domains,
+  // or via a `routes` block once the zone is ready) as part of the DNS cutover.
+  // Not declared here so `--dry-run` needs no zone access.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "uiorganized",
+  "compatibility_date": "2026-07-17",
+  "assets": {
+    "directory": "./_site",
+    // Our site is a BrowserRouter SPA (marketing) at the root with static
+    // sub-apps under /builder/ and /storybook/. `404-page` serves the nearest
+    // 404.html walking up the tree, with a 404 status — and the assembler
+    // writes _site/404.html = the marketing app shell, so client-side routes
+    // resolve exactly as they did on GitHub Pages (which served 404.html too).
+    "not_found_handling": "404-page"
+  },
+  // Per-PR preview URLs (used by `wrangler versions upload` in ci-report.yml).
+  "preview_urls": true,
+  "env": {
+    // Staging is deployed manually via deploy-staging.yml (workflow_dispatch).
+    // `assets` is NOT inherited by named environments, so it is redeclared here.
+    "staging": {
+      "name": "uiorganized-staging",
+      "assets": {
+        "directory": "./_site",
+        "not_found_handling": "404-page"
+      },
+      "preview_urls": true
+    }
+  }
+}

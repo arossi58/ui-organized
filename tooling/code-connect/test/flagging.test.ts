@@ -81,7 +81,7 @@ describe("Layer 4 — verify-generated-code (§7.4)", () => {
   beforeAll(() => {
     const scanned = scanReact(REPO);
     const button = scanned.find((s) => s.codeName === "Button")!;
-    const badge = scanned.find((s) => s.codeName === "Badge")!;
+    const tag = scanned.find((s) => s.codeName === "Tag")!;
 
     const base = (o: Partial<ComponentManifestEntry>): ComponentManifestEntry => ({
       figmaComponentKey: "", figmaComponentName: "", codeName: "", codePath: "",
@@ -91,9 +91,9 @@ describe("Layer 4 — verify-generated-code (§7.4)", () => {
 
     const staleButtonProps = button.props.filter((p) => p.name !== "iconPosition");
     const components = [
-      base({ figmaComponentKey: "k-badge", figmaComponentName: "Badge", codeName: "Badge",
-        codePath: badge.codePath, importStatement: badge.importStatement, props: badge.props,
-        propSignatureHash: badge.propSignatureHash }),
+      base({ figmaComponentKey: "k-tag", figmaComponentName: "Tag", codeName: "Tag",
+        codePath: tag.codePath, importStatement: tag.importStatement, props: tag.props,
+        propSignatureHash: tag.propSignatureHash }),
       base({ figmaComponentKey: "k-btn", figmaComponentName: "Button", codeName: "Button",
         codePath: button.codePath, importStatement: button.importStatement, props: staleButtonProps,
         propSignatureHash: hashProps(staleButtonProps) }), // stale vs latest
@@ -108,11 +108,11 @@ describe("Layer 4 — verify-generated-code (§7.4)", () => {
     writeFileSync(join(dir, "latest-hashes.json"), JSON.stringify({
       generatedAt: "",
       hashes: {
-        [entryId(badge.codePath, "Badge")]: badge.propSignatureHash,
+        [entryId(tag.codePath, "Tag")]: tag.propSignatureHash,
         [entryId(button.codePath, "Button")]: button.propSignatureHash, // differs → Button stale
       },
       props: {
-        [entryId(badge.codePath, "Badge")]: badge.props,
+        [entryId(tag.codePath, "Tag")]: tag.props,
         [entryId(button.codePath, "Button")]: button.props,
       },
     }));
@@ -126,7 +126,7 @@ describe("Layer 4 — verify-generated-code (§7.4)", () => {
   };
 
   it("passes clean, correct usage of a current component", () => {
-    const f = write("ok.tsx", `import { Badge } from '@ui-organized/react';\nexport const A = () => <Badge variant="info" size="md" />;\n`);
+    const f = write("ok.tsx", `import { Tag } from '@ui-organized/react';\nexport const A = () => <Tag variant="info" size="md" />;\n`);
     expect(verifyGeneratedCode([f], loader, dir)).toHaveLength(0);
   });
 
@@ -137,7 +137,7 @@ describe("Layer 4 — verify-generated-code (§7.4)", () => {
   });
 
   it("flags a prop not in the component's signature", () => {
-    const f = write("badprop.tsx", `import { Badge } from '@ui-organized/react';\nexport const A = () => <Badge glow="bright" onClick={() => {}} className="x" />;\n`);
+    const f = write("badprop.tsx", `import { Tag } from '@ui-organized/react';\nexport const A = () => <Tag glow="bright" onClick={() => {}} className="x" />;\n`);
     const found = verifyGeneratedCode([f], loader, dir);
     const unknown = found.filter((x) => x.kind === "unknown-prop");
     expect(unknown).toHaveLength(1);
