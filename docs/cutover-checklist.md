@@ -36,15 +36,16 @@ Repo → Settings → Secrets and variables → Actions.
 
 - [ ] Add secret **`CLOUDFLARE_API_TOKEN`** (from step 1).
 - [ ] Add secret **`CLOUDFLARE_ACCOUNT_ID`** (from step 1).
-- [ ] **Reclassify the analytics token**: delete the existing **secret**
-      `VITE_CF_ANALYTICS_TOKEN`, then re-create it as a **Variable** with the same value
-      (Cloudflare dashboard → Web Analytics → your site → JS snippet → the `token` in
-      `data-cf-beacon`). It must be a *variable* so the build embeds it into the
-      production bundle. *(Why: the production artifact is built by the untrusted CI job,
-      which never sees secrets. The token is already public in the client bundle, so this
-      is safe.)*
-- [ ] Confirm the existing variables **`VITE_CONTACT_ENDPOINT`** and
-      **`VITE_TURNSTILE_SITE_KEY`** are still present.
+- [ ] **Analytics (optional — currently off).** There is no `VITE_CF_ANALYTICS_TOKEN`
+      configured today, so analytics is disabled and the migration keeps it that way — **no
+      action needed**. To turn it on later, add `VITE_CF_ANALYTICS_TOKEN` as a repository
+      **Variable** (not a secret) with the value from Cloudflare dashboard → Web Analytics →
+      your site → JS snippet (the `token` in `data-cf-beacon`). It must be a *variable*
+      because the production bundle is built by the untrusted CI job, which never sees
+      secrets — and the token is public in the client bundle anyway.
+- [ ] If the contact form is in use, ensure the variables **`VITE_CONTACT_ENDPOINT`** and
+      **`VITE_TURNSTILE_SITE_KEY`** are set (unset → the form is stubbed and Turnstile is
+      hidden — a safe default, and what fork-PR previews always get).
 
 ## 3. Create the two Workers (first deploy)
 

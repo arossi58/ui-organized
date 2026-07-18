@@ -68,14 +68,16 @@ Set under **Settings → Secrets and variables → Actions**.
 | ------------------------ | -------- | -------------------------------- | ------------------------------------------------ |
 | `CLOUDFLARE_API_TOKEN`   | secret   | `ci-report.yml`, `deploy-staging`| Workers deploy permission                        |
 | `CLOUDFLARE_ACCOUNT_ID`  | secret   | `ci-report.yml`, `deploy-staging`| Cloudflare account id                            |
-| `VITE_CF_ANALYTICS_TOKEN`| variable | `ci.yml` (build)                 | **Now a variable** (public; ships in the bundle) |
+| `VITE_CF_ANALYTICS_TOKEN`| variable | `ci.yml` (build)                 | Optional; analytics off unless set (public → variable) |
 | `VITE_CONTACT_ENDPOINT`  | variable | `ci.yml` (build)                 | Contact-form Worker URL                          |
 | `VITE_TURNSTILE_SITE_KEY`| variable | `ci.yml` (build)                 | Turnstile site key                               |
 
-`VITE_CF_ANALYTICS_TOKEN` was a secret under GitHub Pages; it must be re-created as a
-**variable** so the untrusted CI build can embed it into the production bundle. It's safe
-as a variable because it is already public in the client bundle. (Fork PR previews get no
-variables at all, so their previews build with analytics off — intended.)
+Analytics is currently **disabled** — no `VITE_CF_ANALYTICS_TOKEN` is configured, and the
+migration keeps it off with no action required. To enable Cloudflare Web Analytics, add
+`VITE_CF_ANALYTICS_TOKEN` as a repository **variable** (not a secret — it's public in the
+client bundle) so the CI build embeds it into the production bundle. Leave it unset to keep
+analytics off. Fork-PR previews never receive variables, so they always build with
+analytics off regardless.
 
 `ROADMAP_TOKEN` (roadmap sync) and `NPM_TOKEN` (release) are unchanged.
 

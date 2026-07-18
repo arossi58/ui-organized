@@ -11,8 +11,8 @@
  * ─── HOW IT'S WIRED ─────────────────────────────────────────────────────────
  * The beacon token is read from `VITE_CF_ANALYTICS_TOKEN` (get it from the
  * Cloudflare dashboard → Web Analytics → your site → JS snippet). Set it in
- * `apps/marketing/.env.local` for local runs; production gets it from a GitHub
- * Actions repository *variable* injected at build time by the build-site action
+ * `apps/marketing/.env.local` for local runs; when configured, production reads it from
+ * a GitHub Actions repository *variable* injected at build time by the build-site action
  * (see `.github/actions/build-site` and `.github/workflows/ci.yml`). It's a repo
  * variable rather than a secret because it ships publicly in the client bundle.
  *
