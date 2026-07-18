@@ -26,15 +26,17 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+# Internal docs kept local, not published
 RELEASING.md
-.gitignore
-.gitattributes
-
-CONNECT.md
+Connect.md
 COMPONENT-PLUGIN.md
-
-
 MIGRATION.md
-
-# Internal operational docs (kept local, not published)
 docs/
+
+# Internal spec / build-plan docs (kept local, not published)
+tooling/token-editor/
+apps/marketing/SITE.md
+
+# Stray exports / unused source assets (not used in production)
+svg-animations/
+/theme.json
