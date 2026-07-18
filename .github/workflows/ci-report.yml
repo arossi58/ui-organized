@@ -37,6 +37,12 @@ jobs:
       - name: Checkout base config
         uses: actions/checkout@v4
 
+      # wrangler (below) requires Node >= 22.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
       # Cross-workflow download of the artifact CI uploaded. This is inert static
       # output; we never run install/build/lifecycle scripts from it.
       - name: Download site artifact
@@ -135,6 +141,12 @@ jobs:
     steps:
       - name: Checkout base config
         uses: actions/checkout@v4
+
+      # wrangler (below) requires Node >= 22.
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
 
       - name: Download site artifact
         uses: actions/download-artifact@v4

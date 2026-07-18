@@ -31,7 +31,8 @@ runs:
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version: 20
+        # wrangler >= 4.112 requires Node 22+; the site build/tests run fine on it too.
+        node-version: 22
         cache: pnpm
 
     - name: Install dependencies

@@ -83,6 +83,8 @@ analytics off regardless.
 
 ## Deploy locally (validation only — do not run real deploys casually)
 
+> Requires **Node 22+** (wrangler's minimum). Use `nvm use 22`, Volta, or similar.
+
 ```bash
 # Build the apps + assemble _site/ (what CI does):
 pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^... --filter=@ui-organized/storybook^...

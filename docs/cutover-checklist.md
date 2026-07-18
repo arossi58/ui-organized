@@ -59,6 +59,9 @@ works once the production Worker exists, so do this before relying on previews.
       **`uiorganized-staging`**.
 
 **Option B — first deploy locally (more control), from the branch:**
+
+> Requires **Node 22+** (wrangler's minimum) — e.g. `nvm use 22`.
+
 ```bash
 export CLOUDFLARE_API_TOKEN=...      # your shell only — do not commit
 export CLOUDFLARE_ACCOUNT_ID=...
@@ -78,17 +81,25 @@ pnpm exec wrangler deploy --env staging   # creates uiorganized-staging
 
 ## 4. Attach custom domains + DNS cutover
 
-`uiorganized.com` currently points at GitHub Pages. Cloudflare custom domains manage the
-DNS record for you, so this is where traffic actually moves.
+`uiorganized.com`'s DNS is **already on Cloudflare** (nameservers `*.ns.cloudflare.com`) —
+Squarespace is only the **registrar**, so there's no domain migration to do. The apex and
+`www` currently have **proxied records pointing at the live Squarespace site**, and there
+is **no apex `MX` record** (so email isn't affected — verify if you use `@uiorganized.com`
+mail). A Worker Custom Domain can't attach while those records exist, which is the
+"already has externally managed DNS records" error. Do it in two steps.
 
-- [ ] Workers & Pages → **`uiorganized`** → Settings → Domains & Routes → **Add** →
-      *Custom domain* → `uiorganized.com` (and `www.uiorganized.com` if you serve www).
-- [ ] Workers & Pages → **`uiorganized-staging`** → add custom domain
-      `staging.uiorganized.com`.
-- [ ] DNS (dashboard → your domain → DNS → Records): remove the **old GitHub Pages
-      records** for the apex/www (the `A` records to GitHub's `185.199.108–111.153`, or a
-      `CNAME` to `arossi58.github.io`). Cloudflare will have added the Worker route
-      records; make sure nothing still points at Pages.
+**4a. Validate on a subdomain first (zero risk to the live site):**
+- [ ] Workers & Pages → **`uiorganized-staging`** → Settings → Domains & Routes → **Add** →
+      *Custom domain* → **`staging.uiorganized.com`** (no existing record → no conflict).
+- [ ] Confirm the staging site loads and behaves before touching the apex.
+
+**4b. Cut the apex over (when ready — this replaces the Squarespace site):**
+- [ ] DNS → Records: **record the current `uiorganized.com` apex and `www` values first**
+      (screenshot — that's your rollback), then **delete** those records. ⚠️ This takes the
+      Squarespace site offline at those hostnames.
+- [ ] Workers & Pages → **`uiorganized`** → Domains & Routes → **Add** → *Custom domain* →
+      `uiorganized.com` (then again for `www.uiorganized.com`). Cloudflare recreates the
+      records pointing at the Worker.
 - [ ] Wait for the certificate to go active, then load `https://uiorganized.com`.
 
 ## 5. Decommission GitHub Pages
@@ -114,11 +125,11 @@ DNS record for you, so this is where traffic actually moves.
 
 ## 7. Keep a rollback path until you're confident
 
-- [ ] Don't delete anything at GitHub Pages / your DNS backup until production on Workers
+- [ ] Keep the noted apex/`www` record values (from step 4b) until production on Workers
       is verified for a day or two.
-- [ ] **To roll back:** point `uiorganized.com` DNS back at GitHub Pages and
-      `git revert` the migration merge (restores `deploy.yml` + `CNAME`), then re-enable
-      Pages in Settings.
+- [ ] **To roll back:** delete the Worker custom domain and re-create the apex/`www` DNS
+      records with their original Squarespace values. (Optionally also `git revert` the
+      migration merge.)
 
 ---
 
