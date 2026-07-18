@@ -24,7 +24,7 @@ let loader: ManifestLoader;
 
 beforeAll(() => {
   const scanned = scanReact(REPO);
-  const badge = scanned.find((s) => s.codeName === "Badge")!;
+  const tag = scanned.find((s) => s.codeName === "Tag")!;
   const button = scanned.find((s) => s.codeName === "Button")!;
 
   // Perturb Button: store props with one removed → stored hash lags current code.
@@ -47,13 +47,13 @@ beforeAll(() => {
 
   const components: ComponentManifestEntry[] = [
     base({
-      figmaComponentKey: "fig-badge",
-      figmaComponentName: "Badge",
-      codeName: "Badge",
-      codePath: badge.codePath,
-      importStatement: badge.importStatement,
-      props: badge.props,
-      propSignatureHash: badge.propSignatureHash, // matches latest → current
+      figmaComponentKey: "fig-tag",
+      figmaComponentName: "Tag",
+      codeName: "Tag",
+      codePath: tag.codePath,
+      importStatement: tag.importStatement,
+      props: tag.props,
+      propSignatureHash: tag.propSignatureHash, // matches latest → current
     }),
     base({
       figmaComponentKey: "fig-button",
@@ -84,12 +84,12 @@ beforeAll(() => {
     JSON.stringify({
       generatedAt: "",
       hashes: {
-        [entryId(badge.codePath, "Badge")]: badge.propSignatureHash,
+        [entryId(tag.codePath, "Tag")]: tag.propSignatureHash,
         // real current → differs from stored:
         [entryId(button.codePath, "Button")]: button.propSignatureHash,
       },
       props: {
-        [entryId(badge.codePath, "Badge")]: badge.props,
+        [entryId(tag.codePath, "Tag")]: tag.props,
         [entryId(button.codePath, "Button")]: button.props, // full set → diff vs stale
       },
     }),
@@ -99,7 +99,7 @@ beforeAll(() => {
 
 describe("get_component_context — anti-hallucination (§6.4)", () => {
   it("resolves a current mapping as exact with no warning", () => {
-    const r = buildComponentContext(loader, { figmaComponentKey: "fig-badge" });
+    const r = buildComponentContext(loader, { figmaComponentKey: "fig-tag" });
     expect(r.found).toBe(true);
     expect(r.confidence).toBe("exact");
     expect(r.staleness?.isStale).toBe(false);
@@ -159,7 +159,7 @@ describe("search_components", () => {
 
 describe("validate_mapping (live re-scan)", () => {
   it("passes a current mapping with an empty diff", () => {
-    const r = validateMapping(loader, { figmaComponentKey: "fig-badge" });
+    const r = validateMapping(loader, { figmaComponentKey: "fig-tag" });
     expect(r.isValid).toBe(true);
     expect(r.diff ?? []).toHaveLength(0);
   });
@@ -183,6 +183,6 @@ describe("list_stale", () => {
     const { staleEntries } = listStale(loader);
     const keys = staleEntries.map((e) => e.componentKey);
     expect(keys).toContain("fig-button");
-    expect(keys).not.toContain("fig-badge");
+    expect(keys).not.toContain("fig-tag");
   });
 });

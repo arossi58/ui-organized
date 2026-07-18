@@ -1,0 +1,59 @@
+name: CI
+
+# UNTRUSTED workflow. This runs on every push and pull request — including PRs
+# from forks, whose code we do not trust. It therefore:
+#   - declares read-only permissions,
+#   - references NO secrets (fork PRs don't get them anyway), and
+#   - only builds + tests + uploads artifacts. It never deploys.
+# The trusted counterpart (ci-report.yml) runs on `workflow_run` after this
+# completes, holds the Cloudflare credentials, and does the deploying/commenting.
+#
+# The `push: [main]` trigger is required for production: a successful main run
+# uploads the artifact that ci-report.yml deploys to production. `roadmap-sync.yml`
+# also dispatches this workflow to redeploy the site with fresh roadmap.json.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Installs deps and builds the 3-app site into _site/. The VITE_* values are
+      # public repository VARIABLES (not secrets), so this untrusted job may read
+      # them. On fork PRs GitHub withholds even variables, so previews build with
+      # analytics off / contact form stubbed — which is the desired behavior.
+      - name: Build and assemble site
+        uses: ./.github/actions/build-site
+        with:
+          cf-analytics-token: ${{ vars.VITE_CF_ANALYTICS_TOKEN }}
+          contact-endpoint: ${{ vars.VITE_CONTACT_ENDPOINT }}
+          turnstile-site-key: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+
+      # Full suite (turbo test): token/manifest/component tests across packages.
+      # A red suite blocks deploys, because ci-report only deploys on success.
+      - name: Run tests
+        run: pnpm test
+
+      # Consumed by ci-report.yml via cross-workflow download. include-hidden-files
+      # is required or the assembled _site/.assetsignore (a dotfile) is dropped.
+      - name: Upload site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7

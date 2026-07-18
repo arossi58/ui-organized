@@ -8,6 +8,8 @@ tokens-update
 # Build output / test artifacts
 storybook-static/
 coverage/
+# Assembled Cloudflare Workers deploy directory (scripts/assemble-site.mjs)
+_site/
 
 # Caches
 .vite/
@@ -28,5 +30,8 @@ RELEASING.md
 .gitignore
 .gitattributes
 
+CONNECT.md
 COMPONENT-PLUGIN.md
-Connect.md
+
+
+MIGRATION.md

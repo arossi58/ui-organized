@@ -5,9 +5,9 @@ import { extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { IncomingMessage, ServerResponse } from "node:http";
 
-// On GitHub Pages the app is served from https://<user>.github.io/<repo>/,
-// so the build needs a matching base path. Locally `base` stays "/".
-// React Router reads the same value via import.meta.env.BASE_URL.
+// The build's base path is set via BASE_PATH. On the deployed Cloudflare Workers
+// site the marketing app is served at the root (BASE_PATH=/); locally `base`
+// stays "/". React Router reads the same value via import.meta.env.BASE_URL.
 const base = process.env.BASE_PATH ?? "/";
 
 // ── Storybook under /storybook/ ─────────────────────────────────────────────

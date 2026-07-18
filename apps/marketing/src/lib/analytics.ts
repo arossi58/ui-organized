@@ -12,7 +12,9 @@
  * The beacon token is read from `VITE_CF_ANALYTICS_TOKEN` (get it from the
  * Cloudflare dashboard → Web Analytics → your site → JS snippet). Set it in
  * `apps/marketing/.env.local` for local runs; production gets it from a GitHub
- * Actions secret injected at build time (see `.github/workflows/deploy.yml`).
+ * Actions repository *variable* injected at build time by the build-site action
+ * (see `.github/actions/build-site` and `.github/workflows/ci.yml`). It's a repo
+ * variable rather than a secret because it ships publicly in the client bundle.
  *
  * When the variable is unset — dev without a `.env.local`, `vite preview`, PR
  * checks — the beacon is never loaded, so analytics is opt-in and silent by

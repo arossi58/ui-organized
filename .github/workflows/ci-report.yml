@@ -1,0 +1,154 @@
+name: CI Report
+
+# TRUSTED workflow. Triggered by `workflow_run` after CI (ci.yml) completes, it
+# runs from the BASE repository's default branch with write permissions and the
+# Cloudflare credentials — but it NEVER executes fork code: it only downloads the
+# artifact CI produced (as inert data) and hands the assembled _site/ to wrangler.
+# This is the secure alternative to the privileged fork-PR trigger pattern that
+# runs untrusted code with a writable token — which this repo deliberately avoids.
+#
+#   - PR (incl. forks)     → deploy a preview version + sticky PR comment
+#   - push/dispatch on main → deploy production (consumes the same tested artifact)
+#
+# Staging is deployed separately and manually (deploy-staging.yml).
+on:
+  workflow_run:
+    workflows: ["CI"] # must match ci.yml's `name:` exactly
+    types: [completed]
+
+permissions:
+  contents: read # checkout the trusted base-branch wrangler.jsonc
+  actions: read # required for cross-workflow artifact download
+  pull-requests: write # sticky preview comment
+  deployments: write # surfaces the deploy in the PR/commit UI
+
+jobs:
+  # ── Per-PR preview ─────────────────────────────────────────────────────────
+  preview:
+    if: >
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: preview-${{ github.event.workflow_run.head_branch }}
+      cancel-in-progress: true
+    steps:
+      # No `ref:` → the trusted default-branch wrangler.jsonc, never the fork's.
+      - name: Checkout base config
+        uses: actions/checkout@v4
+
+      # Cross-workflow download of the artifact CI uploaded. This is inert static
+      # output; we never run install/build/lifecycle scripts from it.
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: _site
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      # `versions upload` creates a preview version WITHOUT shifting production
+      # traffic. packageManager: npm installs a standalone, pinned wrangler so the
+      # privileged job never runs the repo's pnpm workspace install scripts.
+      - name: Upload preview version
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          packageManager: npm
+          command: versions upload
+
+      # wrangler-action's `deployment-url` output is not populated for
+      # `versions upload`, so parse the preview URL out of the command output.
+      - name: Extract preview URL
+        id: preview_url
+        env:
+          COMMAND_OUTPUT: ${{ steps.deploy.outputs.command-output }}
+        run: |
+          url="$(grep -oiE 'https://[a-z0-9.-]+\.workers\.dev' <<<"$COMMAND_OUTPUT" | head -n1)"
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          if [ -z "$url" ]; then echo "::warning::No preview URL found in wrangler output"; fi
+
+      # Derive the PR from the TRUSTED head SHA (never a fork-controlled value) so
+      # the comment can't be redirected onto another PR. Sticky: update in place.
+      - name: Comment preview URL on the PR
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.preview_url.outputs.url }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        with:
+          script: |
+            const url = process.env.PREVIEW_URL;
+            const marker = '<!-- cf-preview-comment -->';
+            const { owner, repo } = context.repo;
+            const { data: prs } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner, repo, commit_sha: process.env.HEAD_SHA,
+            });
+            const pr = prs.find((p) => p.state === 'open');
+            if (!pr) { core.info('No open PR for this commit — skipping comment.'); return; }
+            if (!url) { core.warning('No preview URL captured — skipping comment.'); return; }
+            const body = [
+              marker,
+              '### 🔎 Cloudflare preview',
+              '',
+              'This PR was deployed to a preview version:',
+              '',
+              `**${url}**`,
+              '',
+              '| App | URL |',
+              '| --- | --- |',
+              `| Marketing | ${url}/ |`,
+              `| Builder | ${url}/builder/ |`,
+              `| Storybook | ${url}/storybook/ |`,
+              '',
+              `[CI run & test summary](${process.env.RUN_URL})`,
+              '',
+              '_Posted by the maintainer-side `CI Report` workflow after CI passed. Fork-PR previews build with analytics off and the contact form stubbed._',
+            ].join('\n');
+            const { data: comments } = await github.rest.issues.listComments({
+              owner, repo, issue_number: pr.number,
+            });
+            const existing = comments.find((c) => c.body?.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: pr.number, body });
+            }
+
+  # ── Production ─────────────────────────────────────────────────────────────
+  # The event-type clause is load-bearing: a fork PR opened from a branch literally
+  # named `main` has head_branch == 'main', but its event is `pull_request`.
+  # Requiring push/workflow_dispatch keeps production maintainer-only.
+  production:
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      (github.event.workflow_run.event == 'push' ||
+       github.event.workflow_run.event == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    steps:
+      - name: Checkout base config
+        uses: actions/checkout@v4
+
+      - name: Download site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: site
+          path: _site
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Deploy production
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.112.0"
+          packageManager: npm
+          command: deploy

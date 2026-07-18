@@ -1,0 +1,46 @@
+name: Deploy staging
+
+# Manual deploy to the `staging` environment (staging.uiorganized.com).
+# Triggered by hand (Actions tab → "Run workflow", or `gh workflow run
+# deploy-staging.yml`). Unlike production/preview — which consume the artifact a
+# prior CI run already built — an arbitrary manual dispatch has no upstream run to
+# source from, so it builds the site itself. Maintainer-only (it holds the
+# Cloudflare credentials), so building trusted checked-out code here is fine.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag, or SHA to deploy to staging
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: staging-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Build and assemble site
+        uses: ./.github/actions/build-site
+        with:
+          cf-analytics-token: ${{ vars.VITE_CF_ANALYTICS_TOKEN }}
+          contact-endpoint: ${{ vars.VITE_CONTACT_ENDPOINT }}
+          turnstile-site-key: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+
+      # wrangler is a root devDependency; the composite action already ran
+      # `pnpm install`, so invoke it directly. It reads the credentials from env.
+      - name: Deploy to staging
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --env staging

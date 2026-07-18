@@ -1,0 +1,72 @@
+name: Build and assemble site
+description: >
+  Installs deps, builds the marketing, builder, and Storybook apps, and assembles
+  the static _site/ directory served by Cloudflare Workers. Shared by ci.yml
+  (untrusted) and deploy-staging.yml (manual) so both build the site identically.
+
+# All three inputs are PUBLIC build-time values (they ship in the client bundle),
+# so they are passed as repository *variables*, never secrets. Unset values
+# degrade gracefully: analytics off, contact form stubbed, Turnstile hidden.
+inputs:
+  cf-analytics-token:
+    description: Cloudflare Web Analytics beacon token (public). Empty disables analytics.
+    required: false
+    default: ""
+  contact-endpoint:
+    description: Contact-form Worker URL for the marketing site. Empty stubs the form.
+    required: false
+    default: ""
+  turnstile-site-key:
+    description: Cloudflare Turnstile site key. Empty hides the widget.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    # pnpm version comes from the "packageManager" field in package.json.
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    # Build only the workspace deps the apps rely on (@ui-organized/react, tokens,
+    # utils, …). `^...` selects each app's dependencies but not the apps themselves.
+    - name: Build workspace dependencies
+      shell: bash
+      run: pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^... --filter=@ui-organized/storybook^...
+
+    # Run Vite / Storybook directly rather than each package's `build` script, which
+    # also runs `tsc --noEmit`. The apps have pre-existing type errors that would
+    # block the build; esbuild bundling does not typecheck. (Type safety is still
+    # enforced elsewhere via `pnpm test` / the packages' own builds.)
+    - name: Build marketing (site root)
+      shell: bash
+      env:
+        BASE_PATH: /
+        VITE_CF_ANALYTICS_TOKEN: ${{ inputs.cf-analytics-token }}
+        VITE_CONTACT_ENDPOINT: ${{ inputs.contact-endpoint }}
+        VITE_TURNSTILE_SITE_KEY: ${{ inputs.turnstile-site-key }}
+      run: pnpm --filter @ui-organized/marketing exec vite build
+
+    - name: Build builder (/builder/)
+      shell: bash
+      env:
+        BASE_PATH: /builder/
+      run: pnpm --filter @ui-organized/builder exec vite build
+
+    - name: Build Storybook (/storybook/)
+      shell: bash
+      run: pnpm --filter @ui-organized/storybook exec storybook build
+
+    - name: Assemble _site
+      shell: bash
+      run: node scripts/assemble-site.mjs
