@@ -1,5 +1,14 @@
 # @ui-organized/figma-component-bridge
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [b616cc8]
+  - @ui-organized/tokens@3.2.0
+  - @ui-organized/utils@3.2.0
+  - @ui-organized/react@4.1.0
+
 ## 0.0.3
 
 ### Patch Changes
