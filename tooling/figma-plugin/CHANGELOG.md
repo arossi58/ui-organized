@@ -1,5 +1,12 @@
 # @ui-organized/figma-plugin
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [92af28d]
+  - @ui-organized/react@5.0.0
+
 ## 0.1.6
 
 ### Patch Changes

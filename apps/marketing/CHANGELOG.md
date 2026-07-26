@@ -1,5 +1,12 @@
 # @ui-organized/marketing
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [92af28d]
+  - @ui-organized/react@5.0.0
+
 ## 0.0.6
 
 ### Patch Changes
