@@ -26,17 +26,21 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+# Internal docs kept local, not published
 RELEASING.md
-.gitignore
-.gitattributes
-
-CONNECT.md
+Connect.md
 COMPONENT-PLUGIN.md
-
-
 MIGRATION.md
+docs/
+
+# Internal spec / build-plan docs (kept local, not published)
+tooling/token-editor/
+apps/marketing/SITE.md
 
 # Internal operational docs (kept local, not published).
 # Anchored to the repo root: an unanchored `docs/` also swallows source
 # directories that happen to be named docs, e.g. apps/marketing/src/docs/.
 /docs/
+# Stray exports / unused source assets (not used in production)
+svg-animations/
+/theme.json
