@@ -12,6 +12,7 @@ import type {
   DialogFooterProps,
 } from "./Dialog.types.js";
 import "./Dialog.css";
+import { projectRender } from "../../utils/projectRender.js";
 
 /** Dialog root — controls open state. */
 export function Dialog({ open, defaultOpen, onOpenChange, modal, children }: DialogProps) {
@@ -32,7 +33,7 @@ export function DialogTrigger({ render, children, ...props }: DialogTriggerProps
   if (render) {
     return (
       <ArkDialog.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "DialogTrigger")}
       </ArkDialog.Trigger>
     );
   }
@@ -44,7 +45,7 @@ export function DialogClose({ render, children, ...props }: DialogCloseProps) {
   if (render) {
     return (
       <ArkDialog.CloseTrigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "DialogClose")}
       </ArkDialog.CloseTrigger>
     );
   }

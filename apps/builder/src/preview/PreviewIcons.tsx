@@ -1,19 +1,17 @@
 import { Icon } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import { CANONICAL_ICON_NAMES, type CanonicalIconName } from "@ui-organized/utils";
 import styles from "./PreviewIcons.module.css";
 
-const ALL_PREVIEW_ICONS: CanonicalIconName[] = [
-  "search", "settings", "user", "mail", "check", "close", "plus", "minus",
-  "chevron-right", "chevron-left", "chevron-up", "chevron-down",
-  "arrow-right", "arrow-left", "arrow-up", "arrow-down",
-  "edit", "trash", "download", "upload",
-  "check-circle", "alert-circle", "info", "alert-triangle",
-  "star", "heart", "lock", "unlock",
-  "home", "calendar", "filter", "eye", "eye-off", "bookmark",
-  "refresh", "copy", "link", "external-link",
-  "image", "file", "folder", "database",
-  "bell", "phone", "message", "globe",
-];
+/**
+ * Every icon the design system defines.
+ *
+ * Read from `CANONICAL_ICON_NAMES` rather than hand-listed: the previous list
+ * had drifted to include nine names the system never shipped (`link`, `image`,
+ * `file`, `folder`, `database`, `bell`, `message`, `globe`, `x`), which broke
+ * `tsc` and so the whole builder build. Deriving it means the preview shows
+ * exactly what exists and cannot drift again.
+ */
+const ALL_PREVIEW_ICONS: readonly CanonicalIconName[] = CANONICAL_ICON_NAMES;
 
 const SIZE_STEPS = [12, 16, 20, 24, 32, 40, 48, 64];
 

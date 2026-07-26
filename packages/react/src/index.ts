@@ -8,6 +8,10 @@ export type { IconProps } from "./components/Icon/index.js";
 
 export { IconProvider } from "./context/IconContext.js";
 export type { IconConfig, IconProviderProps } from "./context/IconContext.js";
+// The registry, not the sets: this entry must not reach any icon library, or the
+// optional peers become mandatory again. See ./icons/registry.ts.
+export { registerIconSet, getIconSet, registeredLibraries } from "./icons/registry.js";
+export type { IconLibrary, IconSet, IconNameMap } from "./icons/registry.js";
 
 export { Button } from "./components/Button/index.js";
 export type { ButtonProps, ButtonVariants } from "./components/Button/index.js";

@@ -32,6 +32,7 @@ Connect.md
 COMPONENT-PLUGIN.md
 MIGRATION.md
 docs/
+FIGMA-PARITY.md
 
 # Internal spec / build-plan docs (kept local, not published)
 tooling/token-editor/
@@ -44,3 +45,4 @@ apps/marketing/SITE.md
 # Stray exports / unused source assets (not used in production)
 svg-animations/
 /theme.json
+.wrangler/

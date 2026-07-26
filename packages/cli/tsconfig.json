@@ -1,0 +1,10 @@
+{
+  "extends": "@ui-organized/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": ".",
+    "exactOptionalPropertyTypes": true,
+    "types": ["node"]
+  },
+  "include": ["src", "test"]
+}

@@ -16,6 +16,7 @@ import type {
   MenuRadioItemProps,
 } from "./Menu.types.js";
 import "./Menu.css";
+import { projectRender } from "../../utils/projectRender.js";
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.
 import "../Checkbox/Checkbox.css";
 import "../Radio/Radio.css";
@@ -48,7 +49,7 @@ export function MenuTrigger({ render, children, ...props }: MenuTriggerProps) {
   if (render) {
     return (
       <ArkMenu.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "MenuTrigger")}
       </ArkMenu.Trigger>
     );
   }

@@ -21,7 +21,9 @@ import "./ui.css";
 
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { createRoot } from "react-dom/client";
-import { Alert, Badge, Button, IconProvider, Input, Select } from "@ui-organized/react";
+import { Alert, Tag, Button, IconProvider, Input, Select } from "@ui-organized/react";
+// Registers the Lucide set — the library imports no icon package itself.
+import "@ui-organized/react/icons/lucide";
 import manifestJson from "./generated/component-manifest.json";
 import { SPECS } from "./generated/specs";
 import type { ComponentManifest, ComponentManifestEntry } from "./manifest";
@@ -145,9 +147,9 @@ function ComponentCard({
       <div className="comp__axes">
         {axes.length > 0 ? (
           axes.map((a) => (
-            <Badge key={a.name} variant="info" size="sm" title={(a.values ?? []).join(" · ")}>
+            <Tag key={a.name} variant="info" size="sm" title={(a.values ?? []).join(" · ")}>
               {a.name} · {a.values?.length}
-            </Badge>
+            </Tag>
           ))
         ) : (
           <span className="comp__muted">no variant axes</span>

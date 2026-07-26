@@ -10,7 +10,8 @@ const DEFAULT_MODES: Array<{ value: ExportDefaultMode; label: string; hint: stri
 ];
 
 export function ExportPanel() {
-  const { themeName, setThemeName, exportDefaultMode, setExportDefaultMode } = useBuilderStore();
+  const { themeName, setThemeName, exportDefaultMode, setExportDefaultMode, icons } =
+    useBuilderStore();
   const { exportBundle } = useExport();
   const [status, setStatus] = useState<"idle" | "busy" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
@@ -105,8 +106,16 @@ export function ExportPanel() {
         <h3 className={styles.sectionTitle}>How it works</h3>
         <ol className={styles.steps}>
           <li>
-            <strong>Web</strong> — drop <code>theme.css</code> into your project and import
-            it once at your app entry, <em>after</em> the component styles:
+            <strong>Apply it</strong> — point the CLI at the zip. It files everything where
+            your project keeps things, and checks the theme before it writes:
+            <pre className={styles.codeBlock}>{`npx @ui-organized/cli theme my-theme.zip`}</pre>
+            No install step. It verifies the theme defines every token the components read,
+            that the typefaces it names can load, and that nothing in your own CSS overrides
+            it — then prints the import lines. Add <code>--dry-run</code> to look first.
+          </li>
+          <li>
+            <strong>Or by hand</strong> — drop <code>theme.css</code> in and import it at your
+            app entry, <em>after</em> the component styles:
             <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles'
 import './styles/theme.css'`}</pre>
             Order matters: both declare on <code>:root</code>, and that tie is decided by
@@ -116,13 +125,21 @@ import './styles/theme.css'`}</pre>
             <code>data-theme="light"</code> / <code>"dark"</code> on <code>&lt;html&gt;</code>.
           </li>
           <li>
-            <strong>Icons</strong> — wrap your app with the exported config so every
-            icon inherits the library, reference size and stroke scaling:
-            <pre className={styles.codeBlock}>{`import { iconConfig } from './icons'
+            <strong>Icons</strong> — install the library you picked, register it, and wrap
+            your app with the exported config:
+            <pre className={styles.codeBlock}>{`import '@ui-organized/react/icons/${icons.library}'
+import { iconConfig } from './icons'
 
 <IconProvider {...iconConfig}>
   <App />
 </IconProvider>`}</pre>
+            The subpath import is required — <code>@ui-organized/react</code> imports no icon
+            package itself, which is what keeps the ones you didn’t choose out of your bundle.
+          </li>
+          <li>
+            <strong>Fonts</strong> — <code>theme.css</code> names its typefaces but cannot
+            load them. <code>fonts.ts</code> carries the <code>&lt;link&gt;</code> tags for
+            your families; add them to your document head, or let the CLI print them.
           </li>
           <li>
             <strong>Figma</strong> — import <code>theme.json</code> with the

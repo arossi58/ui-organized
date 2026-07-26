@@ -41,6 +41,21 @@
       "types": "./styles.d.ts",
       "default": "./dist/index.css"
     },
+    "./icons/lucide": {
+      "types": "./dist/icons/lucide.d.ts",
+      "import": "./dist/icons/lucide.mjs",
+      "require": "./dist/icons/lucide.js"
+    },
+    "./icons/tabler": {
+      "types": "./dist/icons/tabler.d.ts",
+      "import": "./dist/icons/tabler.mjs",
+      "require": "./dist/icons/tabler.js"
+    },
+    "./icons/heroicons": {
+      "types": "./dist/icons/heroicons.d.ts",
+      "import": "./dist/icons/heroicons.mjs",
+      "require": "./dist/icons/heroicons.js"
+    },
     "./token-contract.json": "./token-contract.json"
   },
   "files": [
@@ -54,8 +69,8 @@
     "access": "public"
   },
   "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --external react",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
+    "build": "tsup",
+    "dev": "tsup --watch",
     "test": "vitest run",
     "gen:contract": "tsx scripts/token-contract.ts",
     "lint": "eslint src/",

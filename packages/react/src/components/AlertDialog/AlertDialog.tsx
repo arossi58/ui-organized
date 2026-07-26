@@ -15,6 +15,7 @@ import type {
 } from "./AlertDialog.types.js";
 // Reuses the Dialog chrome (backdrop, popup sizing, title/description/footer/close).
 import "../Dialog/Dialog.css";
+import { projectRender } from "../../utils/projectRender.js";
 
 /** AlertDialog root — a focus-trapping confirm dialog dismissed via its actions. */
 export function AlertDialog({ open, defaultOpen, onOpenChange, children }: AlertDialogProps) {
@@ -36,7 +37,7 @@ export function AlertDialogTrigger({ render, children, ...props }: AlertDialogTr
   if (render) {
     return (
       <ArkDialog.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "AlertDialogTrigger")}
       </ArkDialog.Trigger>
     );
   }

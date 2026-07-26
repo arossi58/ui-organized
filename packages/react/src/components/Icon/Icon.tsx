@@ -1,9 +1,8 @@
 import { clsx } from "clsx";
 import { adjustStrokeWidth, shouldAdjustStroke } from "@ui-organized/utils";
 import { useIconConfig } from "../../context/IconContext.js";
-import { lucideIconSet } from "../../icons/lucide.js";
-import { tablerIconSet, tablerSolidSet } from "../../icons/tabler.js";
-import { heroiconsOutlineSet, heroiconsSolidSet } from "../../icons/heroicons.js";
+import { getIconSet, registeredLibraries, type IconSet } from "../../icons/registry.js";
+import { warnMissingIconSet } from "./warnMissingIconSet.js";
 import type { IconProps } from "./Icon.types.js";
 import "./Icon.css";
 
@@ -13,32 +12,52 @@ const ICON_VIEWBOX = 24;
 /**
  * Foundational Icon component — the single interface for rendering icons.
  *
- * Reads the active library, style, and stroke adjustment setting from
- * the nearest `IconProvider`. Resolves the canonical icon name to the
- * correct component for the active library and renders it at the
- * requested size, applying optical stroke correction when enabled.
+ * Reads the active library, style, and stroke adjustment setting from the
+ * nearest `IconProvider`, resolves the canonical name against that library's
+ * registered set, and renders it at the requested size with optical stroke
+ * correction when enabled.
  *
- * Components never import directly from lucide-react, @tabler/icons-react,
- * or @heroicons/react — they always go through this component.
+ * The set has to be registered by importing its subpath — see
+ * `../../icons/registry.ts` for why the core deliberately imports none of the
+ * icon libraries itself:
+ *
+ * ```ts
+ * import "@ui-organized/react/icons/lucide";
+ * ```
+ *
+ * Components never import from lucide-react, @tabler/icons-react or
+ * @heroicons/react directly — they always go through this component.
  */
 export function Icon({ name, size = 24, label, className }: IconProps) {
-  const { library, style, strokeAdjustment, baseSize, baseStroke } = useIconConfig();
+  const { library, style, strokeAdjustment, baseSize, baseStroke, icons } = useIconConfig();
 
-  // Resolve the component. A directly-supplied component (e.g. a lucide-react
-  // icon) is used as-is — this keeps tree-shaking and needs no canonical name.
-  // Otherwise resolve the canonical name against the active library's set.
+  // A directly-supplied component is used as-is — it keeps tree-shaking, needs
+  // no canonical name, and needs no registered set. Note that library icons are
+  // `forwardRef` objects rather than plain functions, so this tests for "not a
+  // string" rather than "is a function".
+  const supplied = typeof name !== "string" ? name : undefined;
+
+  // An explicit `icons` on the provider wins; otherwise use whatever the
+  // imported subpath registered.
+  const set: IconSet | undefined = supplied ? undefined : (icons ?? getIconSet(library));
+
+  if (!supplied && !set) {
+    // The one failure this restructure could introduce: upgrading without adding
+    // the subpath import renders nothing at all. Silence would be indefensible,
+    // so say exactly what to add. Dev-only, and once per library.
+    warnMissingIconSet(library, registeredLibraries());
+    return null;
+  }
+
   let IconComponent: React.ComponentType<Record<string, unknown>> | undefined;
-  if (typeof name !== "string") {
-    // A directly-supplied component. Note: library icons (e.g. lucide-react) are
-    // `forwardRef` objects, not plain functions — so test for "not a string"
-    // rather than "is a function".
-    IconComponent = name;
-  } else if (library === "lucide") {
-    IconComponent = lucideIconSet[name];
-  } else if (library === "tabler") {
-    IconComponent = (style === "solid" ? tablerSolidSet[name] : undefined) ?? tablerIconSet[name];
-  } else {
-    IconComponent = style === "solid" ? heroiconsSolidSet[name] : heroiconsOutlineSet[name];
+  if (supplied) {
+    IconComponent = supplied;
+  } else if (set) {
+    // Fall back to the outline cut when a library has no solid variant for this
+    // name — Lucide ships no solid set at all.
+    IconComponent =
+      (style === "solid" ? set.solid?.[name as keyof typeof set.solid] : undefined) ??
+      set.outline[name as keyof typeof set.outline];
   }
 
   if (!IconComponent) return null;
@@ -61,21 +80,13 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
     }
   }
 
-  // Build SVG props per library
-  const svgProps: Record<string, unknown> = {};
-
-  if (library === "lucide") {
-    svgProps["size"] = size;
-    if (effectiveStroke !== undefined) svgProps["strokeWidth"] = effectiveStroke;
-  } else if (library === "tabler") {
-    svgProps["size"] = size;
-    if (effectiveStroke !== undefined) svgProps["stroke"] = effectiveStroke;
-  } else {
-    // Heroicons: size via width/height; stroke via strokeWidth SVG prop
-    svgProps["width"] = size;
-    svgProps["height"] = size;
-    if (effectiveStroke !== undefined) svgProps["strokeWidth"] = effectiveStroke;
-  }
+  // Sizing and stroke props are the adapter's business — the libraries disagree
+  // (Lucide `size`/`strokeWidth`, Tabler `size`/`stroke`, Heroicons
+  // `width`/`height`/`strokeWidth`). A directly-supplied component has no
+  // adapter, so it gets the Lucide-shaped props it most likely expects.
+  const svgProps: Record<string, unknown> = set
+    ? set.svgProps(size, effectiveStroke)
+    : { size, ...(effectiveStroke !== undefined ? { strokeWidth: effectiveStroke } : {}) };
 
   return (
     <span

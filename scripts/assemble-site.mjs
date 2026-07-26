@@ -49,12 +49,16 @@ mkdirSync(OUT, { recursive: true });
 // Marketing at the site root.
 cpSync(src.marketing, OUT, { recursive: true });
 
-// SPA fallback: the marketing app is a BrowserRouter SPA, so a direct hit on a
-// client route (e.g. /docs) has no matching file. Workers `not_found_handling:
-// "404-page"` serves the nearest 404.html (with a 404 status); making it the app
-// shell lets React Router resolve the route client-side — identical to how
-// GitHub Pages served 404.html. Assets are absolute under BASE_PATH=/, so they
-// load regardless of the requested route's depth.
+// The marketing app is a BrowserRouter SPA, so a direct hit on a client route
+// (e.g. /docs/theming) has no matching file. Workers `not_found_handling:
+// "single-page-application"` handles that by serving /index.html with a **200**
+// — see wrangler.jsonc for why the status matters.
+//
+// 404.html is written anyway, as a fallback for any host that looks for it (it
+// is what GitHub Pages served, and what `404-page` mode would serve). It costs
+// one copy of the shell and means the site degrades to working-but-404 rather
+// than broken if the asset config is ever changed back. Assets are absolute
+// under BASE_PATH=/, so they load regardless of the route's depth.
 const marketingIndex = resolve(OUT, "index.html");
 if (!existsSync(marketingIndex)) {
   console.error(`✖ marketing build has no index.html at ${marketingIndex}`);

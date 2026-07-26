@@ -26,6 +26,8 @@ import '@ui-organized/react/styles'          // 2. component styles
 import './styles/theme.css'                  // 3. your theme — last, so it wins
 import './index.css'                         // 4. your own layout
 
+import '@ui-organized/react/icons/lucide'    // registers your icon set
+
 import { iconConfig } from './icons'
 import App from './App'
 
@@ -59,6 +61,8 @@ export default function App() {
 
 const TOGGLE = `document.documentElement.setAttribute('data-theme', 'dark')`;
 
+const CLI_APPLY = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip`;
+
 export function GetStartedPage() {
   return (
     <>
@@ -84,8 +88,32 @@ export function GetStartedPage() {
           </p>
           <CodeBlock code={INSTALL_ICONS} language="sh" />
           <p>
-            Optional means the package doesn’t pull one in for you, and choosing a library
-            you haven’t installed fails at <em>import</em> time, not at install time.
+            Optional here is literal: the package imports none of the three, so the two you
+            don’t choose are never resolved — not at install, not at build. The one you do
+            choose needs registering with a single import, shown below.
+          </p>
+        </DocsSection>
+
+        <DocsSection
+          title="Add your theme"
+          subtitle="One command, if you exported one from the Theme Builder."
+        >
+          <CodeBlock code={CLI_APPLY} language="sh" />
+          <p>
+            This puts <code>theme.css</code>, <code>fonts.ts</code> and <code>icons.ts</code>{" "}
+            where your project keeps things, and — more usefully — checks the theme before it
+            writes: whether it defines everything the components read, whether the typefaces it
+            names can actually load, and whether anything in your own CSS will silently
+            override it. Add <code>--dry-run</code> to see the plan without writing.
+          </p>
+          <p>
+            It prints the import lines afterwards rather than editing your entry module. Those
+            are the next section, and they’re the same whether you used the CLI or copied the
+            files by hand. Full detail in <Link to="/docs/theming">Theming</Link>.
+          </p>
+          <p className={styles.propNote}>
+            Skipping the theme for now is fine — <code>@ui-organized/tokens/variables.css</code>{" "}
+            is a complete default theme on its own.
           </p>
         </DocsSection>
 
@@ -139,6 +167,19 @@ export function GetStartedPage() {
                     <span className={styles.propName}>./index.css</span>
                   </td>
                   <td>Anything of your own that should beat all of the above.</td>
+                </tr>
+                <tr>
+                  <td>
+                    <span className={styles.propName}>@ui-organized/react/icons/lucide</span>
+                  </td>
+                  <td>
+                    Not a stylesheet — it registers your icon set. The library imports no
+                    icon package itself, so the one you chose has to be pulled in
+                    explicitly; that’s what keeps the other two out of your bundle. Swap{" "}
+                    <code>lucide</code> for <code>tabler</code> or <code>heroicons</code>.
+                    Omit it and <code>&lt;Icon&gt;</code> renders nothing and logs the line
+                    to add.
+                  </td>
                 </tr>
               </tbody>
             </table>

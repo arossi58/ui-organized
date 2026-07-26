@@ -12,6 +12,11 @@ import { DocsContainer } from "@storybook/addon-docs/blocks";
 import { addons } from "storybook/preview-api";
 import { GLOBALS_UPDATED, SET_GLOBALS } from "storybook/internal/core-events";
 import { IconProvider } from "@ui-organized/react";
+// All three sets: the Icon stories switch library from the toolbar, so every one
+// has to be registered here. A consuming app would import only the set it uses.
+import "@ui-organized/react/icons/lucide";
+import "@ui-organized/react/icons/tabler";
+import "@ui-organized/react/icons/heroicons";
 import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
 import "../src/preview.css";

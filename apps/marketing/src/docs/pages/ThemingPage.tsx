@@ -99,6 +99,13 @@ const UNCLASSIFIED = contractTokens.filter((name) => !CLASSIFIED.has(name));
 
 // ─── Snippets ────────────────────────────────────────────────────────────────
 
+const CLI_APPLY = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip`;
+
+const CLI_CHECK = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip --dry-run
+
+✓ Theme covers all ${tokenContract.tokens.length} required tokens
+✓ Fonts declared for Oswald and Inter`;
+
 const IMPORTS = `import '@ui-organized/react/styles'   // component styles
 import './styles/theme.css'           // your theme — after, so it wins`;
 
@@ -194,10 +201,76 @@ export function ThemingPage() {
 
         <DocsSection
           title="Option A — the Theme Builder"
-          subtitle="Pick a brand and a neutral, preview the whole system, export."
+          subtitle="Pick a brand and a neutral, preview the whole system, export, apply."
         >
           <p>
-            The <Link to="/tools">Theme Builder</Link> exports a zip containing four files:
+            Export from the <Link to="/tools">Theme Builder</Link>, then point the CLI at the
+            zip. It puts every file where your project keeps things and checks the theme
+            before it writes anything:
+          </p>
+          <CodeBlock code={CLI_APPLY} language="sh" />
+          <p>
+            No install step — <code>npx</code> fetches it, and it has no dependencies of its
+            own. Add <code>--dry-run</code> to see the plan and the findings without writing.
+          </p>
+          <p>
+            The checks are the reason it exists. Copying four files is{" "}
+            <code>unzip &amp;&amp; cp</code>; what needs a tool is knowing whether the result
+            is <em>right</em>, and each of these used to be silent — a green build and an app
+            that looked plausible while rendering the wrong thing:
+          </p>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th scope="col">Check</th>
+                  <th scope="col">What it catches</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Token coverage</td>
+                  <td>
+                    A theme that doesn’t define everything the components read, diffed against
+                    the contract below. <strong>Blocks the apply</strong> and names each one.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fonts not loadable</td>
+                  <td>
+                    <code>theme.css</code> copied and <code>fonts.ts</code> left behind, so the
+                    head keeps loading the previous theme’s typefaces.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Weights that don’t exist</td>
+                  <td>
+                    A family that doesn’t ship a weight the theme asks for. Google answers{" "}
+                    <code>200</code> and omits the face, so only reading the returned CSS
+                    reveals it.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Cascade conflicts</td>
+                  <td>
+                    A <code>--type-font-*</code> in your own CSS that will silently beat the
+                    theme.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            It refuses to overwrite when your working tree is dirty, detects where an existing{" "}
+            <code>theme.css</code> lives rather than assuming a layout (<code>--out</code>{" "}
+            overrides), and running it twice is a no-op. Exit code is non-zero when a check
+            blocks, so it works in CI.
+          </p>
+
+          <h3 className={styles.sectionSub}>What’s in the bundle</h3>
+          <p>
+            Applying by hand is fine too — the CLI is a convenience over these five files, not
+            a requirement:
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -244,6 +317,10 @@ export function ThemingPage() {
             </table>
           </div>
 
+          <p>
+            However the files get there, the imports are yours to add — the CLI prints them
+            rather than editing your entry module:
+          </p>
           <CodeBlock code={IMPORTS} language="ts" />
 
           <p>
@@ -297,6 +374,13 @@ export function ThemingPage() {
             theme falls back to the baseline — or, for the two constant families, to a value
             built into the component CSS.
           </p>
+          <p>
+            The same list ships as <code>token-contract.json</code> inside{" "}
+            <code>@ui-organized/react</code>, which is what{" "}
+            <code>npx @ui-organized/cli theme</code> diffs your theme against before applying
+            it. You can check a theme yourself at any time:
+          </p>
+          <CodeBlock code={CLI_CHECK} language="sh" />
           <div className={styles.tableWrap}>
             <table className={styles.table}>
               <thead>

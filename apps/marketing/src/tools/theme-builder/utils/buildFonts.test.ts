@@ -258,6 +258,15 @@ describe("README fonts section", () => {
     expect(readme).toContain("Anton does not ship weights 500, 600 and 700");
   });
 
+  it("leads with the CLI, and names this bundle's own zip", () => {
+    state().setThemeName("Kitchen Sink Teal");
+    const readme = buildReadme(state());
+    expect(readme).toContain("npx @ui-organized/cli theme kitchen-sink-teal-theme.zip");
+    // The manual route stays — the CLI is a convenience, not a requirement.
+    expect(readme).toContain("@ui-organized/react/styles");
+    expect(readme).toMatch(/by hand/i);
+  });
+
   it("omits that note when every weight is real", () => {
     setFonts(
       { family: "Inter", weights: FOUR, available: NINE },

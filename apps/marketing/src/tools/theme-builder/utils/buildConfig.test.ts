@@ -125,12 +125,30 @@ describe("buildIconsModule", () => {
     expect(src).toContain("@heroicons/react");
   });
 
-  it("compiles under noUnusedLocals — no unused imports", () => {
+  it("compiles under noUnusedLocals — no unused value imports", () => {
     // The generated file used to open with `import { IconProvider }` and never
     // use it, which is a hard error under the Vite React template's default
     // `noUnusedLocals`. The usage example belongs in the doc comment.
     const src = buildIconsModule(state());
-    expect(src).not.toMatch(/^import /m);
+    const valueImports = src.match(/^import (?!type )/gm) ?? [];
+    expect(valueImports).toEqual([]);
+  });
+
+  it("types the config instead of freezing it", () => {
+    // `as const` gives literal types, so `useState(iconConfig.strokeAdjustment)`
+    // infers useState<true> and rejects a (checked: boolean) => void handler.
+    // Annotating also validates the generated object against the real interface.
+    const src = buildIconsModule(state());
+    expect(src).toContain('import type { IconConfig } from "@ui-organized/react"');
+    expect(src).toContain("export const iconConfig: IconConfig = {");
+    expect(src).not.toContain("as const");
+  });
+
+  it("tells you to register the icon set for the chosen library", () => {
+    // The library imports no icon package itself, so the subpath import is not
+    // optional advice — without it <Icon> renders nothing.
+    state().setIcons({ library: "tabler" });
+    expect(buildIconsModule(state())).toContain('import "@ui-organized/react/icons/tabler"');
   });
 });
 

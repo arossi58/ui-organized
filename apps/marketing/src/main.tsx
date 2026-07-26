@@ -8,6 +8,13 @@ import "./styles/fonts";
 // components reference the token variables defined here.
 import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
+// All three icon sets. The library imports none of them itself — that is what
+// makes the optional peers genuinely optional — so each has to be registered
+// explicitly. This site needs all three because the Theme Builder preview and
+// the icon scaler switch library at runtime; a normal app imports just one.
+import "@ui-organized/react/icons/lucide";
+import "@ui-organized/react/icons/tabler";
+import "@ui-organized/react/icons/heroicons";
 // Site layers: the one home for site-only values, then shared layout primitives.
 import "./styles/site-tokens.css";
 import "./styles/layout.css";

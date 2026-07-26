@@ -13,6 +13,7 @@ Storybook, a theme builder, and a marketing site.
 | [`@ui-organized/schema`](packages/schema) | Zod schemas / types for the theme config |
 | [`@ui-organized/utils`](packages/utils) | Color, type-scale, spacing & semantic-token utilities |
 | [`@ui-organized/react-vite`](packages/react-vite) | Vite plugin that builds & injects theme tokens |
+| [`@ui-organized/cli`](packages/cli) | `uiorg` — applies a theme bundle and checks it actually works |
 
 The `apps/*` (marketing, builder, storybook) and `tooling/*` workspaces are
 private and not published.
@@ -21,6 +22,8 @@ private and not published.
 
 - [Get started](https://uiorganized.com/docs/get-started) — install and wire up
   the stylesheets.
+- `npx @ui-organized/cli theme <bundle.zip>` — apply a Theme Builder export, and
+  find out at apply time if it's incomplete.
 - [Theming](https://uiorganized.com/docs/theming) — the three ways to re-skin the
   system, and what a complete theme has to define.
 

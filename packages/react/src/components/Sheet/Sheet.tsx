@@ -14,6 +14,7 @@ import type {
 // Reuses the Dialog chrome (backdrop, title/description/footer/close).
 import "../Dialog/Dialog.css";
 import "./Sheet.css";
+import { projectRender } from "../../utils/projectRender.js";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */
 export function Sheet({ open, defaultOpen, onOpenChange, modal, children }: SheetProps) {
@@ -34,7 +35,7 @@ export function SheetTrigger({ render, children, ...props }: SheetTriggerProps) 
   if (render) {
     return (
       <ArkDialog.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "SheetTrigger")}
       </ArkDialog.Trigger>
     );
   }
@@ -46,7 +47,7 @@ export function SheetClose({ render, children, ...props }: SheetCloseProps) {
   if (render) {
     return (
       <ArkDialog.CloseTrigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "SheetClose")}
       </ArkDialog.CloseTrigger>
     );
   }

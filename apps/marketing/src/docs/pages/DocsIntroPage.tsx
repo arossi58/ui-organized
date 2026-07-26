@@ -19,6 +19,7 @@ const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/schema", "Zod schema / types for the theme config"],
   ["@ui-organized/utils", "Colour, type-scale, spacing & semantic-token utilities"],
   ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens"],
+  ["@ui-organized/cli", "uiorg — applies a theme bundle and checks it actually works"],
 ];
 
 export function DocsIntroPage() {
@@ -78,6 +79,12 @@ export function DocsIntroPage() {
             <li>
               <strong>Theme builder</strong> — <Link to="/tools">a web tool</Link> to pick a
               brand + neutral, preview the whole system live, then export the tokens.
+            </li>
+            <li>
+              <strong>CLI</strong> — <code>npx @ui-organized/cli theme &lt;bundle.zip&gt;</code>{" "}
+              applies an export to your project and checks it before writing: whether the theme
+              covers every token the components read, whether its typefaces can load, and
+              whether your own CSS overrides it. See <Link to="/docs/theming">Theming</Link>.
             </li>
             <li>
               <strong>Storybook</strong> — the interactive playground, with per-story controls

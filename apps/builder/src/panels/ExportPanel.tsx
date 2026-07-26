@@ -75,6 +75,10 @@ export function ExportPanel() {
             Drop <code>theme.css</code> into your project (e.g. <code>src/styles/</code>).
           </li>
           <li>
+            Or let the CLI file it for you, and check it while it does:
+            <pre className={styles.codeBlock}>{`npx @ui-organized/cli theme my-theme.zip`}</pre>
+          </li>
+          <li>
             Import it once at your app entry, <em>after</em> the component styles —
             both declare on <code>:root</code>, and that tie is decided by source order:
             <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles'

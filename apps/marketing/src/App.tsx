@@ -7,6 +7,7 @@ import { AboutPage } from "./pages/AboutPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
 import { TermsPage } from "./pages/TermsPage";
 import { CookiePage } from "./pages/CookiePage";
+import { NotFoundPage } from "./pages/NotFoundPage";
 import { SiteNav } from "./components/chrome/SiteNav";
 import { Grain } from "./components/gradient/Grain";
 import { ThemeProvider } from "./theme/ThemeProvider";
@@ -63,6 +64,10 @@ function SiteChrome() {
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/cookies" element={<CookiePage />} />
+        {/* Catch-all. The host serves this shell for any unmatched path so that
+            real routes return 200 rather than 404 — which means a wrong URL
+            lands here too, and needs somewhere to land. */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </div>
   );

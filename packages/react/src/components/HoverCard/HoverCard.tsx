@@ -7,6 +7,7 @@ import type {
   HoverCardContentProps,
 } from "./HoverCard.types.js";
 import "./HoverCard.css";
+import { projectRender } from "../../utils/projectRender.js";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkHoverCard.Root>["positioning"]>;
 
@@ -48,7 +49,7 @@ export function HoverCardTrigger({ render, children, ...props }: HoverCardTrigge
   if (render) {
     return (
       <ArkHoverCard.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "HoverCardTrigger")}
       </ArkHoverCard.Trigger>
     );
   }

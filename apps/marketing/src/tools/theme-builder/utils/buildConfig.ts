@@ -309,18 +309,22 @@ export function buildThemeJson(state: BuilderState): string {
 export function buildIconsModule(state: BuilderState): string {
   const { library, style, strokeAdjustment, baseSize, baseStroke } = state.icons;
   const pkg = ICON_PACKAGES[library];
-  // No `import { IconProvider }` here. This module only exports data, so the
-  // import went unused — and `noUnusedLocals` (on by default in the Vite React
-  // template) turns that into a build error the moment the file is dropped in.
+  // `import type` only — a value import would go unused here and `noUnusedLocals`
+  // (on by default in the Vite React template) turns that into a build error the
+  // moment the file is dropped in. The annotation is deliberately not `as const`:
+  // literal types make the config unusable as React state (see the doc comment).
   return `/**
  * Icon configuration exported from the UI Organized Theme Builder.
  *
  * Icons are runtime React context, not CSS — wrap your app with <IconProvider>
  * so every <Icon> inherits the chosen library, style, reference size and stroke
- * scaling. Requires the matching icon package: \`npm i ${pkg}\`.
+ * scaling.
  *
- * Mount once near the root of your app:
+ * Two things to install and import:
  *
+ *   npm i ${pkg}
+ *
+ *   import "@ui-organized/react/icons/${library}";   // registers the icon set
  *   import { IconProvider } from "@ui-organized/react";
  *   import { iconConfig } from "./icons";
  *
@@ -328,18 +332,18 @@ export function buildIconsModule(state: BuilderState): string {
  *     <App />
  *   </IconProvider>
  *
- * Note the \`as const\`: \`library\`, \`style\` and \`strokeAdjustment\` are literal
- * types, not \`string\`/\`boolean\`. Spreading is fine, but seeding React state from
- * one needs the type written out — \`useState<boolean>(iconConfig.strokeAdjustment)\`,
- * otherwise it infers \`useState<${strokeAdjustment}>\` and won't accept the other value.
+ * The subpath import is required: @ui-organized/react imports no icon library
+ * itself, which is what keeps the two you didn't choose out of your bundle.
  */
-export const iconConfig = {
+import type { IconConfig } from "@ui-organized/react";
+
+export const iconConfig: IconConfig = {
   library: ${JSON.stringify(library)},
   style: ${JSON.stringify(style)},
   strokeAdjustment: ${strokeAdjustment},
   baseSize: ${baseSize},
   baseStroke: ${baseStroke},
-} as const;
+};
 `;
 }
 
@@ -368,8 +372,8 @@ export function buildReadme(state: BuilderState): string {
 
   return `# ${name}
 
-Exported from the UI Organized Theme Builder. This bundle is one source of truth
-in three consumable shapes.
+Exported from the UI Organized Theme Builder. One source of truth — the DTCG
+tokens — plus everything derived from it that code and Figma actually consume.
 
 ## Files
 
@@ -386,6 +390,22 @@ in three consumable shapes.
 - **fonts.ts** — the typefaces this theme names, with the stylesheet URL that
   loads each one. \`theme.css\` can name a font but cannot efficiently fetch it,
   so loading is left to your document head.
+
+## Quick start
+
+Point the CLI at this bundle and it files everything where your project keeps
+things — then tells you what's left to do:
+
+\`\`\`sh
+npx @ui-organized/cli theme ${state.themeName ? `${state.themeName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-theme.zip` : "my-theme.zip"}
+\`\`\`
+
+No install step. Before writing anything it checks that this theme defines every
+custom property the components read, that the typefaces below can actually load,
+and that nothing in your own CSS will silently override them. Add \`--dry-run\`
+to see the plan and the findings without touching your files.
+
+The rest of this file is what it does, in case you'd rather do it by hand.
 
 ## Use in code (web)
 
@@ -463,16 +483,16 @@ ${
 
 ## Use the icons (code)
 
-The icon libraries are *optional* peer dependencies — picking one in the builder
-that you have not installed fails at import time, not at export time:
+The icon libraries are *optional* peer dependencies: \`@ui-organized/react\`
+imports none of them itself, so you install the one you chose and register it.
+That is what keeps the other two out of your install and your bundle.
 
 \`\`\`sh
 npm i ${pkg}
 \`\`\`
 
-Then wrap your app with the exported config (see \`icons.ts\`):
-
 \`\`\`tsx
+import '@ui-organized/react/icons/${state.icons.library}'   // registers the icon set
 import { IconProvider } from '@ui-organized/react'
 import { iconConfig } from './icons'
 
@@ -480,6 +500,9 @@ import { iconConfig } from './icons'
   <App />
 </IconProvider>
 \`\`\`
+
+Both lines are required. Without the subpath import \`<Icon>\` renders nothing and
+logs how to fix it; without the package installed the import itself fails.
 
 ## Use in Figma
 

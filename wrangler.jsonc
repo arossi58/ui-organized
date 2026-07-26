@@ -23,11 +23,22 @@
   "assets": {
     "directory": "./_site",
     // Our site is a BrowserRouter SPA (marketing) at the root with static
-    // sub-apps under /builder/ and /storybook/. `404-page` serves the nearest
-    // 404.html walking up the tree, with a 404 status — and the assembler
-    // writes _site/404.html = the marketing app shell, so client-side routes
-    // resolve exactly as they did on GitHub Pages (which served 404.html too).
-    "not_found_handling": "404-page"
+    // sub-apps under /builder/ and /storybook/.
+    //
+    // `404-page` (the GitHub Pages carry-over) served the app shell but with a
+    // 404 *status*, so every client-side route — /tools, /docs/theming, every
+    // component page — looked dead to crawlers and link-preview bots even though
+    // it rendered fine in a browser. `packages/react/README.md` links to
+    // /docs/theming, so that mattered.
+    //
+    // `single-page-application` serves /index.html with a 200 for any path that
+    // doesn't match a real asset. Assets that DO exist are untouched, so
+    // /builder/ and /storybook/ still serve their own index.html.
+    //
+    // The tradeoff: a genuinely wrong URL now also gets the shell and a 200.
+    // The marketing app has a catch-all route rendering a proper "not found"
+    // page so that lands somewhere sensible rather than on a blank screen.
+    "not_found_handling": "single-page-application"
   },
   // Per-PR preview URLs (used by `wrangler versions upload` in ci-report.yml).
   "preview_urls": true,
@@ -38,7 +49,7 @@
       "name": "uiorganized-staging",
       "assets": {
         "directory": "./_site",
-        "not_found_handling": "404-page"
+        "not_found_handling": "single-page-application"
       },
       "preview_urls": true
     }

@@ -1,9 +1,17 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
+import type { IconLibrary, IconSet } from "../icons/registry.js";
 
 export interface IconConfig {
-  /** Active icon library. */
-  library: "lucide" | "tabler" | "heroicons";
+  /**
+   * Active icon library.
+   *
+   * The set itself must be registered by importing its subpath once —
+   * `import "@ui-organized/react/icons/lucide"` — or passed as `icons`. The
+   * package deliberately imports none of the icon libraries itself; see
+   * `../icons/registry.ts`.
+   */
+  library: IconLibrary;
   /** Icon style — outline/stroke or solid/filled. */
   style: "outline" | "solid";
   /**
@@ -21,6 +29,13 @@ export interface IconConfig {
    * Lucide and Tabler's native stroke width.
    */
   baseStroke: number;
+  /**
+   * The icon set, supplied explicitly rather than through the import-side-effect
+   * registry. Takes precedence over `library`, and is the option to reach for if
+   * you'd rather not depend on module side effects (some bundlers treat them as
+   * removable, and it makes the dependency legible in the code).
+   */
+  icons?: IconSet;
 }
 
 const defaultIconConfig: IconConfig = {
@@ -37,7 +52,9 @@ export function useIconConfig(): IconConfig {
   return useContext(IconContext);
 }
 
-export interface IconProviderProps extends Partial<Pick<IconConfig, "baseSize" | "baseStroke">>, Omit<IconConfig, "baseSize" | "baseStroke"> {
+export interface IconProviderProps
+  extends Partial<Pick<IconConfig, "baseSize" | "baseStroke" | "icons">>,
+    Omit<IconConfig, "baseSize" | "baseStroke" | "icons"> {
   children: ReactNode;
 }
 
@@ -46,9 +63,24 @@ export interface IconProviderProps extends Partial<Pick<IconConfig, "baseSize" |
  * Wrap your application (or the theme builder preview) with this provider,
  * passing the icon settings from the active theme config.
  *
+ * Register the library once, near your app entry:
+ *
  * @example
  * ```tsx
- * <IconProvider library="lucide" style="outline" strokeAdjustment={true}>
+ * import "@ui-organized/react/icons/lucide";
+ *
+ * <IconProvider library="lucide" style="outline" strokeAdjustment>
+ *   <App />
+ * </IconProvider>
+ * ```
+ *
+ * Or pass the set explicitly, with no reliance on import side effects:
+ *
+ * @example
+ * ```tsx
+ * import { lucideIcons } from "@ui-organized/react/icons/lucide";
+ *
+ * <IconProvider library="lucide" icons={lucideIcons}>
  *   <App />
  * </IconProvider>
  * ```
@@ -59,11 +91,14 @@ export function IconProvider({
   strokeAdjustment,
   baseSize = 24,
   baseStroke = 2,
+  icons,
   children,
 }: IconProviderProps) {
-  return (
-    <IconContext.Provider value={{ library, style, strokeAdjustment, baseSize, baseStroke }}>
-      {children}
-    </IconContext.Provider>
+  // Memoised so the context value is referentially stable — every Icon in the
+  // tree consumes it, and a fresh object each render would re-render all of them.
+  const value = useMemo<IconConfig>(
+    () => ({ library, style, strokeAdjustment, baseSize, baseStroke, icons }),
+    [library, style, strokeAdjustment, baseSize, baseStroke, icons],
   );
+  return <IconContext.Provider value={value}>{children}</IconContext.Provider>;
 }

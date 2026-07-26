@@ -8,6 +8,7 @@ import type {
   PopoverCloseProps,
 } from "./Popover.types.js";
 import "./Popover.css";
+import { projectRender } from "../../utils/projectRender.js";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkPopover.Root>["positioning"]>;
 
@@ -42,7 +43,7 @@ export function PopoverTrigger({ render, children, ...props }: PopoverTriggerPro
   if (render) {
     return (
       <ArkPopover.Trigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "PopoverTrigger")}
       </ArkPopover.Trigger>
     );
   }
@@ -86,7 +87,7 @@ export function PopoverClose({ render, children, ...props }: PopoverCloseProps) 
   if (render) {
     return (
       <ArkPopover.CloseTrigger asChild {...props}>
-        {render}
+        {projectRender(render, children, "PopoverClose")}
       </ArkPopover.CloseTrigger>
     );
   }

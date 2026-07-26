@@ -31,6 +31,8 @@ import {
 } from "react";
 import { createRoot } from "react-dom/client";
 import { Alert, Button, IconProvider, TextArea } from "@ui-organized/react";
+// Registers the Lucide set — the library imports no icon package itself.
+import "@ui-organized/react/icons/lucide";
 import type {
   ChangeStatus,
   CollectionSummary,

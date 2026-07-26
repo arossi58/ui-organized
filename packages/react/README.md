@@ -10,15 +10,50 @@ React component library for the **ui-organized** design system, built on
 npm install @ui-organized/react @ui-organized/tokens
 ```
 
-`react` and `react-dom` (>=18) are peer dependencies. Icon libraries are
-**optional** peers — install whichever set you use:
+`react` and `react-dom` (>=18) are peer dependencies.
+
+## Icons
+
+Icon libraries are **optional** peers, and genuinely so: this package imports
+none of them. Install the one you want and register it with a single import.
 
 ```sh
 npm install lucide-react        # or @tabler/icons-react, or @heroicons/react
 ```
 
-Optional means the package won't install one for you, and picking a library you
-haven't installed fails at *import* time.
+```ts
+// once, near your app entry
+import "@ui-organized/react/icons/lucide";
+```
+
+```tsx
+import { Icon, IconProvider } from "@ui-organized/react";
+
+<IconProvider library="lucide" style="outline">
+  <Icon name="search" label="Search" />
+</IconProvider>
+```
+
+The subpath is the only module that touches `lucide-react`, so the two libraries
+you didn't choose are never resolved — not at install, not at build. Forget the
+import and `<Icon>` renders nothing and logs the line to add.
+
+Prefer not to rely on import side effects? Pass the set explicitly:
+
+```tsx
+import { lucideIcons } from "@ui-organized/react/icons/lucide";
+
+<IconProvider library="lucide" icons={lucideIcons}>
+```
+
+You can also hand `<Icon>` a component directly, which needs no registration and
+no canonical name:
+
+```tsx
+import { Rocket } from "lucide-react";
+
+<Icon name={Rocket} label="Launch" />
+```
 
 ## Usage
 
