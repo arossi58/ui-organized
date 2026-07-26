@@ -1,0 +1,73 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`buildAiContext — golden > renders the full Button payload 1`] = `
+"# Button — @ui-organized/react
+
+Verified context from the UI Organized design system, scanned directly from \`packages/react/src/components/Button/Button.types.ts\`. Everything below is generated from the component's real type signature — it is not a summary and not a guess.
+
+## Rules — follow exactly
+
+1. Import ONLY from \`@ui-organized/react\`. Never from a relative path, \`shadcn/ui\`, \`@/components/ui/*\`, or any other library. Never re-declare or re-implement this component.
+2. The props table below is this component's COMPLETE own API. If a prop you want is not listed, it does not exist — do not invent it and do not rename one. \`variant\` is NOT a prop of this component — the emphasis axis is \`intent\`. \`icon\` takes an icon NAME string from the list below, not a React element — never \`icon={<SomeIcon />}\`.
+3. Union props are closed sets. A value not listed below is invalid.
+4. Do not style this component with utility classes, hex colors, or px literals. Vary it with its props. If extra layout is genuinely required, use design tokens only — \`var(--color-…)\`, \`var(--spacing-space-…)\`, \`var(--border-radius-…)\`, \`var(--type-size-…)\`.
+5. Do not wrap or fork this component to add a variant.
+6. If the design needs something this component cannot express, say so — do not approximate it with custom markup.
+
+## Import
+
+\`\`\`tsx
+import { Button } from '@ui-organized/react';
+\`\`\`
+
+Once per app (already done in any existing UI Organized app):
+
+\`\`\`tsx
+import '@ui-organized/tokens/variables.css';
+import '@ui-organized/react/styles';
+\`\`\`
+
+## What it is
+
+Buttons trigger actions. Use \`intent\` to convey emphasis and tone, \`size\` for density.
+
+## Props — complete (4 own props)
+
+| Prop | Allowed values | Required | Default | Notes |
+| --- | --- | --- | --- | --- |
+| \`icon\` | \`"plus"\` \\| \`"arrow-right"\` \\| \`"download"\` \\| \`"trash"\` \\| \`"edit"\` \\| \`"check"\` \\| \`"close"\` | no | — | Optional icon to render inside the button. |
+| \`iconPosition\` | \`"left"\` \\| \`"right"\` | no | \`"left"\` | Whether the icon appears before or after the button label. |
+| \`intent\` | \`"primary"\` \\| \`"secondary"\` \\| \`"tertiary"\` \\| \`"ghost"\` \\| \`"destructive"\` \\| \`"destructive-ghost"\` | no | \`"primary"\` | Visual style intent. |
+| \`size\` | \`"sm"\` \\| \`"md"\` \\| \`"lg"\` | no | \`"md"\` | Size variant. |
+
+Beyond the props above, this component forwards the standard React props of its underlying element — \`children\`, \`className\`, \`id\`, \`style\`, \`ref\`, its native event handlers (\`onClick\`, \`onChange\`, …), and \`aria-*\` / \`data-*\` attributes. Those are the ONLY additions; they do not extend the variant API above.
+
+## Current state (what the human is looking at)
+
+\`\`\`tsx
+<Button intent="primary" size="md">Button</Button>
+\`\`\`
+
+## Verified examples
+
+**All intents**
+
+\`\`\`tsx
+<Button intent="primary">Primary</Button>
+<Button intent="ghost">Ghost</Button>
+\`\`\`
+
+## Provenance
+
+- Package: @ui-organized/react@4.1.0
+- Source: packages/react/src/components/Button/Button.types.ts
+- Confidence: exact
+- Props: in sync with code (last scanned 2026-07-03T01:18:35.349Z)
+- Docs: https://uiorganized.com/docs/button
+- Spec: https://uiorganized.com/ai/Button.md
+- All components: 114 components — https://uiorganized.com/llms.txt
+- Generated: 2026-07-25T00:00:00.000Z
+
+If you need a prop, a value, or a component that is not in this document, stop and ask — do not invent one.
+"
+`;

@@ -52,6 +52,52 @@
   border-color: var(--builder-accent);
 }
 
+/* Default-mode picker — a segmented row of radios styled as buttons. */
+.modeRow {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: var(--builder-surface-hover);
+  border-radius: 8px;
+}
+
+.modeOption {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--builder-text-secondary);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modeOption:hover {
+  color: var(--builder-text-primary);
+}
+
+/* The radio itself stays in the DOM for keyboard and screen-reader support; the
+   label is what's painted. */
+.modeOption input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modeOption:has(input:checked) {
+  background: var(--builder-surface-input);
+  color: var(--builder-text-primary);
+  font-weight: 600;
+}
+
+.modeOption:has(input:focus-visible) {
+  outline: 2px solid var(--builder-accent);
+  outline-offset: 1px;
+}
+
 .downloadBtn {
   display: flex;
   align-items: center;

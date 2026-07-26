@@ -5,7 +5,7 @@
 }
 
 .tooltip__positioner {
-  z-index: var(--z-index-tooltip);
+  z-index: var(--z-index-tooltip, 1200);
 }
 
 .tooltip__popup {

@@ -216,7 +216,10 @@
 /* ─── Sidebar (container) ────────────────────────────────────────────────────── */
 
 .sidebar {
-  --sidebar-width: var(--dimension-06); /* 240px */
+  /* Fallback, not decoration: `--dimension-*` and `--z-index-*` are layout
+     constants no theme customises, so a generated theme can omit them — and then
+     this collapses to shrink-to-fit with nothing thrown. See tokenContract.test.ts. */
+  --sidebar-width: var(--dimension-06, 240px);
 
   /* Collapsed rail fits exactly one icon square plus the SAME horizontal padding
      as the expanded sidebar, so the padding never changes between states:

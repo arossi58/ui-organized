@@ -6,6 +6,7 @@
 import { addons, types } from "storybook/manager-api";
 import { AddonPanel } from "storybook/internal/components";
 import { Panel } from "./Panel.js";
+import { AiContextTool } from "./AiContextTool.js";
 // DS token custom properties (`--color-*`, `--border-radius-*`). The shipped
 // variables.css isn't in scope in the manager realm (only the preview iframe
 // loads it), so we inject it here — that's what lets the panel style itself from
@@ -15,6 +16,7 @@ import styles from "./figma-tokens.css";
 
 const ADDON_ID = "figma-inspector";
 const PANEL_ID = `${ADDON_ID}/panel`;
+const TOOL_ID = `${ADDON_ID}/ai-context`;
 
 // This module can be evaluated more than once in a single manager: Storybook
 // discovers the addon both through the preset's `managerEntries` and through the
@@ -49,6 +51,17 @@ if (!flags.__fcpInspectorRegistered) {
           <Panel />
         </AddonPanel>
       ),
+    });
+
+    // Toolbar, not just the panel: the panel is story-view only, and the Docs
+    // page is exactly where someone reading about a component wants to hand it
+    // to their agent. Registered inside this same guarded callback — a second
+    // `addons.add` from the duplicate module evaluation would show two buttons.
+    addons.add(TOOL_ID, {
+      type: types.TOOL,
+      title: "Copy AI context",
+      match: ({ viewMode }) => viewMode === "story" || viewMode === "docs",
+      render: () => <AiContextTool />,
     });
   });
 }

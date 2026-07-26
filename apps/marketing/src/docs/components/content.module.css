@@ -1,0 +1,304 @@
+/* Long-form docs content: prose, sections, code blocks, prop tables, badges. */
+
+/* No measure on the wrapper itself: the colour ramps, prop tables and preview
+   surfaces inside a docs section need the full column. The reading measure is
+   applied to the text elements that actually need it. */
+.prose {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.prose p {
+  max-width: 74ch;
+  margin: 0 0 var(--spacing-space-04);
+  color: var(--color-content-secondary);
+}
+
+.prose a {
+  color: var(--color-interactive-primary-default);
+  text-underline-offset: 0.2em;
+}
+
+.prose ul,
+.prose ol {
+  max-width: 74ch;
+  margin: 0 0 var(--spacing-space-04);
+  padding-left: var(--spacing-space-05);
+  color: var(--color-content-secondary);
+}
+
+.prose li {
+  margin-bottom: var(--spacing-space-02);
+}
+
+.prose strong {
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.section {
+  margin-top: var(--spacing-space-09);
+  scroll-margin-top: var(--spacing-space-08);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-space-04);
+  margin-bottom: var(--spacing-space-04);
+}
+
+.sectionTitle {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--type-leading-heading-medium);
+  font-weight: var(--type-weight-heading-strong);
+}
+
+.sectionSub {
+  margin: 0 0 var(--spacing-space-04);
+  max-width: 74ch;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+/* Sits directly under the primary example, so the copy action is attached to
+   the thing it copies rather than floating in the page header. */
+.primaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  margin-top: var(--spacing-space-03);
+}
+
+/* ── Code block ───────────────────────────────────────────────────────────── */
+
+.code {
+  overflow: hidden;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-secondary);
+}
+
+/* Inside a preview frame the surface already draws the border and radius. */
+.code[data-attached] {
+  border: 0;
+  border-radius: 0;
+}
+
+.codeBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-02) var(--spacing-space-02) var(--spacing-space-02)
+    var(--spacing-space-04);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.codeLabel {
+  color: var(--color-content-tertiary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+}
+
+.codeMeta {
+  margin-right: auto;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+}
+
+.codePre {
+  /* Wide snippets scroll inside the block; the page itself must never scroll
+     sideways. */
+  overflow-x: auto;
+  margin: 0;
+  padding: var(--spacing-space-04);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-body-small);
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.codePre code {
+  color: var(--color-content-primary);
+  white-space: pre;
+}
+
+/* ── Copy button (shared by code blocks, import lines, AI context) ─────────── */
+
+.copy {
+  flex-shrink: 0;
+  padding: var(--spacing-space-015) var(--spacing-space-03);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-03);
+  background: var(--color-surface-primary);
+  color: var(--color-content-secondary);
+  font-family: inherit;
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-strong);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.copy:hover {
+  border-color: var(--color-border-primary);
+  color: var(--color-content-primary);
+}
+
+.copy[data-state="copied"] {
+  border-color: var(--color-status-success);
+  color: var(--color-status-success-content);
+}
+
+.copy[data-state="failed"] {
+  border-color: var(--color-status-warning);
+  color: var(--color-status-warning-content);
+}
+
+/* ── Props table ──────────────────────────────────────────────────────────── */
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-space-03) var(--spacing-space-04);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table tbody tr + tr td {
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.propName {
+  color: var(--color-content-primary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-weight: var(--type-weight-body-strong);
+  white-space: nowrap;
+}
+
+.required {
+  margin-left: var(--spacing-space-01);
+  color: var(--color-status-error);
+}
+
+.values {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-01);
+}
+
+.value {
+  padding: 0.1em 0.4em;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+  white-space: nowrap;
+}
+
+.typeText {
+  color: var(--color-content-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+.propNote {
+  max-width: 40ch;
+  color: var(--color-content-secondary);
+}
+
+.noProps {
+  padding: var(--spacing-space-05);
+  color: var(--color-content-secondary);
+}
+
+.passthrough {
+  max-width: 74ch;
+  margin-top: var(--spacing-space-03);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* ── Status badge ─────────────────────────────────────────────────────────── */
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  padding: 0.15em 0.55em;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-full);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-strong);
+  white-space: nowrap;
+}
+
+.badge[data-tone="ok"] {
+  border-color: var(--color-status-success);
+  background: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.badge[data-tone="warn"] {
+  border-color: var(--color-status-warning);
+  background: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+}
+
+.badge[data-tone="info"] {
+  border-color: var(--color-status-info);
+  background: var(--color-status-info-bg);
+  color: var(--color-status-info-content);
+}
+
+.badge[data-tone="error"] {
+  border-color: var(--color-status-error);
+  background: var(--color-status-error-bg);
+  color: var(--color-status-error-content);
+}

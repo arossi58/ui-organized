@@ -121,6 +121,9 @@ export type ActivePanel = "color" | "typography" | "sizing" | "icons" | "example
 /** Real-world layout shown in the Examples tab. */
 export type ExampleId = "dashboard" | "form" | "ecommerce" | "marketing";
 
+/** What the exported stylesheet renders as before any `data-theme` is set. */
+export type ExportDefaultMode = "light" | "dark" | "system";
+
 // ─── State shape ──────────────────────────────────────────────────────────────
 
 export interface BuilderState {
@@ -142,6 +145,17 @@ export interface BuilderState {
   headingWeights: Record<string, number>;
   bodyFamily: string;
   bodyWeights: Record<string, number>;
+  /**
+   * Weights each chosen family actually ships, from the Google Fonts variant
+   * list (italics dropped, `"regular"` → 400).
+   *
+   * Held in state rather than looked up at export time because the export is a
+   * pure function of state, while the variant list arrives from an async fetch.
+   * It is also what tells the picker that e.g. Anton ships only 400, so the
+   * other three weight roles will be synthesised by the browser.
+   */
+  headingFontAvailable: number[];
+  bodyFontAvailable: number[];
   typeScaleBase: number;
   typeScaleRatio: number;
   typeScaleSteps: Record<string, number>;
@@ -171,6 +185,16 @@ export interface BuilderState {
   // Icons
   icons: IconsConfig;
 
+  // Export
+  /**
+   * Which mode the exported stylesheet puts on bare `:root` — i.e. what a page
+   * renders as before any `data-theme` attribute is set.
+   *
+   * `"system"` follows `prefers-color-scheme`. This is an export concern, not a
+   * preview one: the preview always renders `previewMode`.
+   */
+  exportDefaultMode: ExportDefaultMode;
+
   // UI state
   activePanel: ActivePanel;
   themeName: string;
@@ -185,8 +209,9 @@ export interface BuilderState {
   setBrandColor: (hex: string) => void;
   setBrandShade: (shade: string) => void;
   setNeutralFamily: (name: string) => void;
-  setHeadingFont: (family: string, weights: Record<string, number>) => void;
-  setBodyFont: (family: string, weights: Record<string, number>) => void;
+  /** `available` is the family's real weight list; omit to leave it unchanged. */
+  setHeadingFont: (family: string, weights: Record<string, number>, available?: number[]) => void;
+  setBodyFont: (family: string, weights: Record<string, number>, available?: number[]) => void;
   setTypeScale: (base: number, ratio: number) => void;
   setHeadingLineHeight: (scale: number) => void;
   setBodyLineHeight: (scale: number) => void;
@@ -201,6 +226,7 @@ export interface BuilderState {
   setIcons: (config: Partial<IconsConfig>) => void;
   setActivePanel: (panel: ActivePanel) => void;
   setThemeName: (name: string) => void;
+  setExportDefaultMode: (mode: ExportDefaultMode) => void;
   setPreviewMode: (mode: "light" | "dark") => void;
   setLineHeightGuides: (on: boolean) => void;
   setActiveExample: (id: ExampleId) => void;
@@ -225,6 +251,11 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   headingWeights: { ...DEFAULT_HEADING_WEIGHTS },
   bodyFamily: DEFAULT_BODY_FAMILY,
   bodyWeights: { ...DEFAULT_BODY_WEIGHTS },
+  // Seeded with the declared weights so an export made before the font list
+  // loads still asks for exactly what the theme declares — never for weights the
+  // theme doesn't use. The picker replaces these with the family's real list.
+  headingFontAvailable: Object.values(DEFAULT_HEADING_WEIGHTS),
+  bodyFontAvailable: Object.values(DEFAULT_BODY_WEIGHTS),
   typeScaleBase: DEFAULT_TYPE_BASE,
   typeScaleRatio: DEFAULT_TYPE_RATIO,
   typeScaleSteps: { ...typeSizeTokens },
@@ -246,6 +277,11 @@ export const useBuilderStore = create<BuilderState>((set) => ({
 
   // Icons
   icons: { library: "lucide", style: "outline", strokeAdjustment: false, baseSize: 24, baseStroke: 2 },
+
+  // Export
+  // Light, because that is what most apps default to — and because a dark `:root`
+  // makes a light app paint one dark frame before its theme script runs.
+  exportDefaultMode: "light" as ExportDefaultMode,
 
   // UI state
   activePanel: "color",
@@ -289,11 +325,19 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       neutralRamp: getCoreFamily(name),
     })),
 
-  setHeadingFont: (family, weights) =>
-    set(() => ({ headingFamily: family, headingWeights: weights })),
+  setHeadingFont: (family, weights, available) =>
+    set((state) => ({
+      headingFamily: family,
+      headingWeights: weights,
+      headingFontAvailable: available ?? state.headingFontAvailable,
+    })),
 
-  setBodyFont: (family, weights) =>
-    set(() => ({ bodyFamily: family, bodyWeights: weights })),
+  setBodyFont: (family, weights, available) =>
+    set((state) => ({
+      bodyFamily: family,
+      bodyWeights: weights,
+      bodyFontAvailable: available ?? state.bodyFontAvailable,
+    })),
 
   setTypeScale: (base, ratio) =>
     set((state) => {
@@ -365,6 +409,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
 
   setThemeName: (name) => set(() => ({ themeName: name })),
 
+  setExportDefaultMode: (mode) => set(() => ({ exportDefaultMode: mode })),
   setPreviewMode: (mode) => set(() => ({ previewMode: mode })),
 
   setLineHeightGuides: (on) => set(() => ({ lineHeightGuides: on })),
@@ -477,6 +522,20 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
     heavy: wv("body-heavy", state.bodyWeights.heavy ?? 700),
   };
 
+  // Which weights each family ships. Only ever recorded in `$extensions`, so a
+  // theme.json written before this existed — or one hand-built in Figma — has no
+  // `fonts` key at all. Falling back to the declared weights keeps the export
+  // honest in that case: it asks for exactly what the theme uses, never more.
+  const availableFor = (role: "heading" | "body", declared: Record<string, number>): number[] => {
+    const listed: unknown = ext.fonts?.[role]?.available;
+    const numeric = Array.isArray(listed)
+      ? listed.filter((w): w is number => typeof w === "number" && Number.isFinite(w))
+      : [];
+    return numeric.length > 0 ? numeric : Object.values(declared);
+  };
+  const headingFontAvailable = availableFor("heading", headingWeights);
+  const bodyFontAvailable = availableFor("body", bodyWeights);
+
   // Line-heights. Read the resolved `type.leading` tree (authoritative), with
   // the multipliers kept as slider positions for custom mode. Mode from metadata,
   // else inferred from whether the leadings still match the design system.
@@ -505,6 +564,15 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   };
 
   const themeName: string = ext.themeName ?? state.themeName;
+
+  // Export default mode. A hand-built Figma theme carries no metadata, so fall
+  // back to the current setting rather than silently re-flipping the default.
+  const exportDefaultMode: ExportDefaultMode =
+    ext.exportDefaultMode === "light" ||
+    ext.exportDefaultMode === "dark" ||
+    ext.exportDefaultMode === "system"
+      ? ext.exportDefaultMode
+      : state.exportDefaultMode;
   /* eslint-enable @typescript-eslint/no-explicit-any */
 
   return {
@@ -520,6 +588,8 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
     bodyFamily,
     headingWeights,
     bodyWeights,
+    headingFontAvailable,
+    bodyFontAvailable,
     headingLineHeight,
     bodyLineHeight,
     lineHeightMode,
@@ -530,6 +600,7 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
     spacingScale: generateSpacingScale(spacingBaseUnit),
     icons,
     themeName,
+    exportDefaultMode,
   };
 }
 

@@ -13,6 +13,14 @@ const base = import.meta.env.BASE_URL;
 /** The public source repository — the canonical home for issues, PRs, source. */
 const repo = "https://github.com/arossi58/ui-organized";
 
+/**
+ * Canonical public origin. Used for URLs that only resolve on the deployed site
+ * — the generated `/ai/<Component>.md` specs and `/llms.txt` — where handing out
+ * a `localhost` link would produce a "fetch this" prompt that no agent can act
+ * on. Everything else should stay origin-relative.
+ */
+export const SITE_ORIGIN = "https://uiorganized.com";
+
 export const LINKS = {
   builder: `${base}builder/`,
   storybook: `${base}storybook/`,

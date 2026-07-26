@@ -1,0 +1,200 @@
+/* axe-core results for the live preview. */
+
+/* Smooth reveal. `grid-template-rows: 0fr → 1fr` animates to the content's
+   natural height without measuring it in JS, so the readout expands rather than
+   snapping in and shoving the page down. The wrapper is always mounted (see
+   A11yResults) — a node that appears and disappears has no "from" state to
+   transition out of. */
+.reveal {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.28s cubic-bezier(0.2, 0, 0, 1),
+    margin-top 0.28s cubic-bezier(0.2, 0, 0, 1),
+    opacity 0.2s ease;
+}
+
+.reveal[data-open] {
+  grid-template-rows: 1fr;
+  /* Breathing room between the readout and the component it describes. Part of
+     the transition so the gap opens with the panel instead of jumping. */
+  margin-top: var(--spacing-space-05);
+  opacity: 1;
+}
+
+/* `min-height: 0` is what lets a grid item actually shrink below its content. */
+.revealInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+  }
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-primary);
+}
+
+.intro,
+.pass,
+.error {
+  margin: 0;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.pass {
+  color: var(--color-status-success-content);
+}
+
+.error {
+  color: var(--color-status-error-content);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* Pinned to the top-right of the readout. */
+.dismiss {
+  margin-left: auto;
+}
+
+.count {
+  padding: 0.15em 0.55em;
+  border: 1px solid transparent;
+  border-radius: var(--border-radius-full);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.count[data-tone="good"] {
+  border-color: var(--color-status-success);
+  background: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.count[data-tone="bad"] {
+  border-color: var(--color-status-error);
+  background: var(--color-status-error-bg);
+  color: var(--color-status-error-content);
+}
+
+.count[data-tone="warn"] {
+  border-color: var(--color-status-warning);
+  background: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+}
+
+.listHeading {
+  margin: var(--spacing-space-02) 0 0;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  padding: var(--spacing-space-03);
+  border: 1px solid var(--color-border-secondary);
+  border-left-width: 3px;
+  border-radius: var(--border-radius-04);
+}
+
+.item[data-tone="bad"] {
+  border-left-color: var(--color-status-error);
+}
+
+.item[data-tone="warn"] {
+  border-left-color: var(--color-status-warning);
+}
+
+.itemHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-space-02);
+}
+
+.itemTitle {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.itemCount {
+  margin-left: auto;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  white-space: nowrap;
+}
+
+.impact {
+  padding: 0.1em 0.45em;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.impact[data-impact="critical"],
+.impact[data-impact="serious"] {
+  background: var(--color-status-error-bg);
+  color: var(--color-status-error-content);
+}
+
+.impact[data-impact="moderate"] {
+  background: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+}
+
+.itemBody {
+  margin: var(--spacing-space-02) 0;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.selector {
+  overflow-x: auto;
+  margin: 0 0 var(--spacing-space-01);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+}
+
+.itemLink {
+  display: inline-block;
+  margin-top: var(--spacing-space-01);
+  color: var(--color-interactive-primary-default);
+  font-size: var(--type-size-caption);
+}

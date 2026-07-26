@@ -54,7 +54,8 @@
   "dependencies": {
     "@ui-organized/schema": "workspace:*",
     "@ui-organized/resolver": "workspace:*",
-    "@ui-organized/token-io": "workspace:*"
+    "@ui-organized/token-io": "workspace:*",
+    "@ui-organized/tokens": "workspace:*"
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^1.0.0",

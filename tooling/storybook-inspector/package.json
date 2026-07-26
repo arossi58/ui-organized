@@ -7,7 +7,8 @@
   "main": "preset.ts",
   "exports": {
     "./preset": "./preset.ts",
-    "./manager": "./dist/manager.js"
+    "./manager": "./dist/manager.js",
+    "./inspect": "./src/inspect/index.ts"
   },
   "scripts": {
     "build": "node build.mjs",

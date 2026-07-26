@@ -144,17 +144,11 @@ export async function buildTokens(): Promise<void> {
   // Bare --brand alias (the brand primary). Mode-independent, so it lives on :root.
   const brandBlock = `\n:root {\n  --brand: var(--brand-1400);\n}\n`;
 
-  // Overlay z-index layering scale. Stacking order for portalled overlays:
-  // popovers/menus/selects sit beneath dialogs; tooltips and toasts float above
-  // everything so they stay visible over an open dialog. Layout constants, not
-  // themeable colors, so they are mode-independent and live on :root.
-  const zIndexBlock =
-    `\n:root {\n` +
-    `  --z-index-popover: 1000;\n` +
-    `  --z-index-dialog: 1100;\n` +
-    `  --z-index-tooltip: 1200;\n` +
-    `  --z-index-toast: 1300;\n` +
-    `}\n`;
-
-  appendFileSync(outFile, darkBlock + lightBlock + brandBlock + zIndexBlock, "utf-8");
+  // The overlay z-index scale used to be appended here as a string literal, which
+  // made it unimportable — and that is precisely why the Theme Builder export
+  // silently dropped it. It is now `src/semantic/z-index.json`, so Style
+  // Dictionary emits it into the `:root` block above and `definitions/globals.ts`
+  // can read the same file. `buildThemeBlock` only reads SEMANTIC_COLOR_FILES, so
+  // it stays out of the per-mode blocks where it doesn't belong.
+  appendFileSync(outFile, darkBlock + lightBlock + brandBlock, "utf-8");
 }

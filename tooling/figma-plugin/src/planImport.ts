@@ -228,7 +228,7 @@ export async function planImport(theme: ThemeDoc): Promise<ImportPlan> {
     colorRow(SEMANTIC, path, after, semBeforeMode);
   }
 
-  // ─── 3. Scale (spacing / radius / component) ─────────────────────────────────
+  // ─── 3. Scale (spacing / radius / dimension / component) ─────────────────────
   const planDimensions = (node: Record<string, DtcgNode> | undefined, prefix: string) => {
     for (const { path, token } of flattenTokens(node)) {
       const num = toFloat(token.$value);
@@ -241,6 +241,7 @@ export async function planImport(theme: ThemeDoc): Promise<ImportPlan> {
   };
   planDimensions(theme.spacing, "spacing/");
   planDimensions(theme["border-radius"], "radius/");
+  planDimensions(theme.dimension, "dimension/");
   planDimensions(theme.component, "component/");
 
   // ─── 4. Typography ───────────────────────────────────────────────────────────

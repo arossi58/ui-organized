@@ -11,12 +11,15 @@
 //   /404.html    → copy of the marketing shell (SPA fallback; see not_found_handling)
 //   /builder/    → builder app
 //   /storybook/  → white-labeled Storybook
+//   /llms.txt    → AI index (llms.txt convention)
+//   /ai/*.md     → per-component machine-verified specs
 //   /coverage/   → placeholder (real coverage report is a deferred follow-up)
 //   /quality/    → placeholder (real quality dashboard is a deferred follow-up)
 //   /.assetsignore → excludes files Workers should not serve
 //
 // Run directly for local verification: `node scripts/assemble-site.mjs`
 import { rmSync, mkdirSync, cpSync, copyFileSync, writeFileSync, existsSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -64,6 +67,17 @@ cpSync(src.builder, resolve(OUT, "builder"), { recursive: true });
 
 // Storybook under /storybook/ (its static build uses relative asset paths).
 cpSync(src.storybook, resolve(OUT, "storybook"), { recursive: true });
+
+// ── AI surface: /llms.txt + /ai/<Component>.md ──────────────────────────────
+// Generated from the Code Connect manifest by the same buildAiContext() the
+// docs site's "Copy for AI" button uses, so the short "fetch this URL" prompt
+// it offers resolves to exactly the spec the long form would have pasted.
+// Shelled out rather than inlined so this script stays a pure file-copier.
+execFileSync(
+  "pnpm",
+  ["--filter", "@ui-organized/code-connect", "exec", "tsx", "scripts/generate-ai-docs.ts", OUT],
+  { stdio: "inherit", cwd: repoRoot },
+);
 
 // ── Placeholders ────────────────────────────────────────────────────────────
 // /coverage and /quality are part of the deploy path contract, but the data
@@ -130,5 +144,6 @@ writeFileSync(
 );
 
 console.log("✓ Assembled _site/ (marketing → /, builder → /builder/, storybook → /storybook/)");
-console.log("  + placeholders: /coverage, /quality  |  + 404.html (SPA shell)  |  + .assetsignore");
+console.log("  + AI surface: /llms.txt, /ai/*.md  |  + placeholders: /coverage, /quality");
+console.log("  + 404.html (SPA shell)  |  + .assetsignore");
 console.log("  NOTE: /quality and /coverage are placeholders pending the deferred data pipeline.");

@@ -75,8 +75,9 @@ export function ExportPanel() {
             Drop <code>theme.css</code> into your project (e.g. <code>src/styles/</code>).
           </li>
           <li>
-            Import it once at your app entry, after the component styles:
-            <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles.css'
+            Import it once at your app entry, <em>after</em> the component styles —
+            both declare on <code>:root</code>, and that tie is decided by source order:
+            <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles'
 import './styles/theme.css'`}</pre>
           </li>
           <li>

@@ -5,7 +5,8 @@ import "./ScrollArea.css";
 
 /**
  * A scrollable container with a custom, themed scrollbar. Give the Root a bounded
- * height (via `style={{ height }}` / `maxHeight`) so its content can overflow.
+ * height (via `style={{ height }}` / `maxHeight`, or a class that sets one) so
+ * its content can overflow.
  */
 export function ScrollArea({ children, orientation = "vertical", className, style }: ScrollAreaProps) {
   const showVertical = orientation === "vertical" || orientation === "both";

@@ -2,7 +2,10 @@
   "extends": "@ui-organized/tsconfig/react.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    // `.` rather than `src` so `scripts/` typechecks too — it holds the token
+    // contract extractor, which `src/tokenContract.test.ts` imports. tsup builds
+    // only what `src/index.ts` reaches, so nothing there ships.
+    "rootDir": "."
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }

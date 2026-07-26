@@ -86,18 +86,47 @@ describe("manifest-resolver.resolveStory (§3)", () => {
     expect(r.entry?.codeName).toBe("Button");
   });
 
-  it("3.2 fallback by name → fuzzy, never exact", () => {
+  it("3.1b an unambiguous exact code-name match → exact", () => {
+    // This used to assert "fuzzy, never exact". That rule was written when
+    // confidence only described the *Figma* mapping; it now also drives the AI
+    // context block's warnings, and labelling a perfect name match as
+    // unverified put a scary caveat on 42 of the 45 stories — which trains
+    // people to ignore the caveat that matters. `similarity` returns exactly 1
+    // only for normalized string equality, and its contract reserves that for a
+    // true exact match, so this is the promotion it was always intended for.
     const r = resolveStory(entries, { componentName: "Button" });
-    expect(r.confidence).toBe("fuzzy");
-    expect(r.source).toBe("fallback");
+    expect(r.confidence).toBe("exact");
+    expect(r.source).toBe("code-name");
     expect(r.entry?.codeName).toBe("Button");
-    expect(r.score).toBeGreaterThan(0);
+    expect(r.score).toBe(1);
   });
 
   it("falls back when an explicit key doesn't resolve", () => {
     const r = resolveStory(entries, { componentKey: "ghost", componentName: "Badge" });
-    expect(r.source).toBe("fallback");
     expect(r.entry?.codeName).toBe("Badge");
+    // An exact name match still wins over the unresolvable key.
+    expect(r.source).toBe("code-name");
+  });
+
+  it("refuses an ambiguous fallback rather than guessing", () => {
+    // The real case this guards: the Navigation story scores 0.556 against
+    // `Pagination` — over the 0.55 threshold — so the panel used to show
+    // Pagination's props on Navigation. Two candidates within the margin now
+    // resolve to nothing, and the Unmapped state says so.
+    const ambiguous = [
+      { ...entries[0]!, codeName: "Paginate", figmaComponentName: "Paginate" },
+      { ...entries[0]!, codeName: "Paginator", figmaComponentName: "Paginator" },
+    ];
+    const r = resolveStory(ambiguous, { componentName: "Pagination" });
+    expect(r.confidence).toBe("none");
+    expect(r.entry).toBeNull();
+  });
+
+  it("still accepts a decisive fuzzy match", () => {
+    const r = resolveStory(entries, { componentName: "Buttons" });
+    expect(r.confidence).toBe("fuzzy");
+    expect(r.source).toBe("fallback");
+    expect(r.entry?.codeName).toBe("Button");
   });
 
   it("3.3 no match → unmapped, entry null", () => {

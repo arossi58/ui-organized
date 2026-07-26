@@ -30,6 +30,18 @@ The generated tokens are exposed via the virtual module
 `virtual:@ui-organized/theme` and emitted as `ds-theme.css` in the build output.
 Editing `theme.json` during development triggers a token rebuild and reload.
 
+## When to reach for this
+
+This is one of three ways to theme the system, and the least common:
+
+- **A `theme.css` from the [Theme Builder](https://uiorganized.com/tools)** — no
+  build step, no config. What most projects want.
+- **Hand-written CSS overrides** — redefine the custom properties you care about.
+- **This plugin** — when the *config* is the artifact you version and the CSS is
+  a build output, e.g. when the same `theme.json` also drives Figma.
+
+Full comparison: <https://uiorganized.com/docs/theming>.
+
 ## License
 
 Apache-2.0

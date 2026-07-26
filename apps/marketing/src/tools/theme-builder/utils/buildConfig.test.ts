@@ -1,9 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { typeSizeTokens, typeLeadingTokens } from "@ui-organized/tokens";
 import { useBuilderStore } from "../state/themeState";
-import { buildThemeTokens, buildThemeJson, buildIconsModule } from "./buildConfig";
+import { buildThemeTokens, buildThemeJson, buildIconsModule, buildReadme } from "./buildConfig";
+import { buildThemeCss } from "./buildCss";
+import tokenContract from "../../../../../../packages/react/token-contract.json";
 
 const state = () => useBuilderStore.getState();
+
+/** Every `--name` the generated stylesheet declares, across all its blocks. */
+function declaredVars(css: string): Set<string> {
+  return new Set([...css.matchAll(/^\s*(--[\w-]+)\s*:/gm)].map((m) => m[1]!));
+}
 
 describe("buildThemeTokens (DTCG)", () => {
   it("emits valid JSON", () => {
@@ -116,5 +123,88 @@ describe("buildIconsModule", () => {
     expect(src).toContain('library: "heroicons"');
     expect(src).toContain("baseSize: 20");
     expect(src).toContain("@heroicons/react");
+  });
+
+  it("compiles under noUnusedLocals — no unused imports", () => {
+    // The generated file used to open with `import { IconProvider }` and never
+    // use it, which is a hard error under the Vite React template's default
+    // `noUnusedLocals`. The usage example belongs in the doc comment.
+    const src = buildIconsModule(state());
+    expect(src).not.toMatch(/^import /m);
+  });
+});
+
+describe("buildThemeCss", () => {
+  it("declares every token @ui-organized/react consumes", () => {
+    // THE regression test. The export previously re-skinned the whole semantic
+    // layer but omitted --dimension-* and --z-index-*, which broke the sidebar
+    // and every portalled overlay with a green build and a clean console. The
+    // contract is derived from the library's own CSS, so this fails the moment a
+    // component starts reading a token the export doesn't emit.
+    // See docs/theme-test.md and packages/react/scripts/token-contract.ts.
+    const declared = declaredVars(buildThemeCss(state()));
+    const missing = tokenContract.tokens.filter((name) => !declared.has(name));
+    expect(missing, "tokens the theme export fails to declare").toEqual([]);
+  });
+
+  it("puts the mode-independent layout constants on :root, not in a mode block", () => {
+    const css = buildThemeCss(state());
+    const root = css.slice(css.indexOf(":root"), css.indexOf('[data-theme="light"]'));
+    expect(root).toContain("--dimension-06: 240px;");
+    expect(root).toContain("--z-index-popover: 1000;");
+    expect(root).toContain("--z-index-toast: 1300;");
+  });
+
+  it("ships both modes regardless of which one :root defaults to", () => {
+    for (const mode of ["light", "dark", "system"] as const) {
+      state().setExportDefaultMode(mode);
+      const css = buildThemeCss(state());
+      expect(css, mode).toContain('[data-theme="light"] {');
+      expect(css, mode).toContain('[data-theme="dark"] {');
+    }
+  });
+
+  it("puts the chosen default mode on bare :root", () => {
+    const surfaceIn = (css: string, block: string) => {
+      const start = css.indexOf(block);
+      return /--color-surface-primary: (#[0-9a-fA-F]+)/.exec(css.slice(start))?.[1];
+    };
+
+    state().setExportDefaultMode("light");
+    const lightDefault = buildThemeCss(state());
+    expect(surfaceIn(lightDefault, ":root")).toBe(surfaceIn(lightDefault, '[data-theme="light"]'));
+
+    state().setExportDefaultMode("dark");
+    const darkDefault = buildThemeCss(state());
+    expect(surfaceIn(darkDefault, ":root")).toBe(surfaceIn(darkDefault, '[data-theme="dark"]'));
+  });
+
+  it("lets an explicit data-theme beat the system preference", () => {
+    state().setExportDefaultMode("system");
+    const css = buildThemeCss(state());
+    // Without `:not([data-theme])` this media query ties with [data-theme="light"]
+    // on specificity and wins on source order, forcing a light island dark.
+    expect(css).toContain("@media (prefers-color-scheme: dark)");
+    expect(css).toContain(":root:not([data-theme])");
+    expect(css.indexOf("@media")).toBeLessThan(css.indexOf('[data-theme="light"] {'));
+  });
+});
+
+describe("buildReadme", () => {
+  it("documents the import path that actually resolves", () => {
+    // `@ui-organized/react/styles.css` shipped in this README for months and
+    // fails the build on the first line — it wasn't an exports subpath.
+    const readme = buildReadme(state());
+    expect(readme).toContain("@ui-organized/react/styles");
+    expect(readme).toContain("theme.css");
+    // Order is the other half of the instruction, and was missing entirely.
+    expect(readme).toMatch(/order/i);
+  });
+
+  it("describes the default mode the CSS actually emits", () => {
+    state().setExportDefaultMode("dark");
+    expect(buildReadme(state())).toContain('data-theme="dark"');
+    state().setExportDefaultMode("light");
+    expect(buildReadme(state())).toContain('data-theme="light"');
   });
 });

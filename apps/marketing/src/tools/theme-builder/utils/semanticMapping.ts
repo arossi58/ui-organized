@@ -15,6 +15,7 @@ import {
   resolveSemanticColors,
   type ColorRamp,
 } from "@ui-organized/utils";
+import { globalConstantVars } from "@ui-organized/tokens";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -157,6 +158,24 @@ export function computeControlHeightVars(
   };
 }
 
+// ─── Global layout constants ──────────────────────────────────────────────────
+
+/**
+ * `--dimension-*` and `--z-index-*` — the tokens the builder does not expose as
+ * controls because no theme has a reason to change them, but which the component
+ * CSS still reads (`--dimension-06` is the sidebar rail; `--z-index-*` is the
+ * whole portalled-overlay stack).
+ *
+ * They must ship in the export anyway. Leaving them out produced exactly the
+ * failure that made this function exist: a green build, a clean console, a
+ * sidebar silently shrunk to fit its content, and every popover, dialog, tooltip
+ * and toast stacking on DOM order alone. Values come from `@ui-organized/tokens`
+ * so they can never drift from the library that consumes them.
+ */
+export function computeGlobalConstantVars(): CSSVarMap {
+  return globalConstantVars();
+}
+
 // ─── Combined ─────────────────────────────────────────────────────────────────
 
 export function computeAllPreviewVars(params: {
@@ -192,5 +211,6 @@ export function computeAllPreviewVars(params: {
     ...computeRadiusVars(params.borderRadius),
     ...computeComponentTokenVars(params.borderRadius, params.spacingScale),
     ...computeControlHeightVars(params.leadingSteps, params.spacingScale),
+    ...computeGlobalConstantVars(),
   };
 }

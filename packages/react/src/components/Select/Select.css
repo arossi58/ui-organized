@@ -100,7 +100,7 @@
 /* ─── Popup positioner ────────────────────────────────────────────────────── */
 
 .select-positioner {
-  z-index: var(--z-index-popover);
+  z-index: var(--z-index-popover, 1000);
 }
 
 /* ─── Popup ───────────────────────────────────────────────────────────────── */

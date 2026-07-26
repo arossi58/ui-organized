@@ -20,6 +20,9 @@ import {
   computeControlHeightVars,
   type CSSVarMap,
 } from "./semanticMapping";
+import { dimensionTokens } from "@ui-organized/tokens";
+import { listPhrase, normalizeWeights, unservableWeights } from "../hooks/useGoogleFonts";
+import { fontLinkTags, resolveThemeFonts } from "./buildFonts";
 import { resolveSemanticRefs, getCoreFamily, type SemanticRef, type ColorRamp } from "@ui-organized/utils";
 import type { BuilderState, IconLibrary } from "../state/themeState";
 
@@ -245,6 +248,26 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
         // Icons are runtime React config (IconProvider), not a CSS/Figma variable
         // type — captured here and emitted as icons.ts for code consumers.
         icons: { ...state.icons, package: ICON_PACKAGES[state.icons.library] },
+        // Which mode the derived stylesheet puts on bare `:root`. A CSS-emit
+        // concern with no token of its own, so it lives here and round-trips.
+        exportDefaultMode: state.exportDefaultMode,
+        // Font provenance. `type.font.*` already names the families, but not that
+        // they're Google Fonts nor which weights each one actually ships — and
+        // without that a consumer can't load them, and we can't tell them which
+        // of their weights the browser will be synthesising.
+        fonts: {
+          provider: "google",
+          heading: {
+            family: state.headingFamily,
+            weights: normalizeWeights(Object.values(state.headingWeights)),
+            available: normalizeWeights(state.headingFontAvailable),
+          },
+          body: {
+            family: state.bodyFamily,
+            weights: normalizeWeights(Object.values(state.bodyWeights)),
+            available: normalizeWeights(state.bodyFontAvailable),
+          },
+        },
       },
     },
     // Full ramps for every color family this theme uses — the alias targets
@@ -260,6 +283,20 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
     spacing: dimensionTokensFromMap(computeSpacingVars(state.spacingScale), "spacing-"),
     "border-radius": dimensionTokensFromMap(computeRadiusVars(state.borderRadius), "border-radius-"),
     component: componentTokens(state),
+    // Fixed layout sizes (`--dimension-01…12`). Not builder-controlled, but the
+    // component CSS reads them — `--dimension-06` is the sidebar rail — so the
+    // export has to carry them or a theme is quietly incomplete. The z-index
+    // scale is deliberately CSS-only: stacking order has no Figma equivalent.
+    // Key order here is JS's, not ours: "10".."12" are valid array indices, so
+    // they hoist ahead of "01".."09" no matter how the object is built. Same as
+    // the existing `spacing` / `border-radius` groups, and equally harmless —
+    // consumers read this by key. The CSS emit re-sorts, where order is visible.
+    dimension: Object.fromEntries(
+      Object.entries(dimensionTokens).map(([step, value]) => [
+        step,
+        { $type: "dimension", $value: value } satisfies DtcgToken,
+      ]),
+    ),
   };
 }
 
@@ -272,15 +309,30 @@ export function buildThemeJson(state: BuilderState): string {
 export function buildIconsModule(state: BuilderState): string {
   const { library, style, strokeAdjustment, baseSize, baseStroke } = state.icons;
   const pkg = ICON_PACKAGES[library];
+  // No `import { IconProvider }` here. This module only exports data, so the
+  // import went unused — and `noUnusedLocals` (on by default in the Vite React
+  // template) turns that into a build error the moment the file is dropped in.
   return `/**
- * Icon configuration exported from the Design System Theme Builder.
+ * Icon configuration exported from the UI Organized Theme Builder.
  *
  * Icons are runtime React context, not CSS — wrap your app with <IconProvider>
  * so every <Icon> inherits the chosen library, style, reference size and stroke
  * scaling. Requires the matching icon package: \`npm i ${pkg}\`.
+ *
+ * Mount once near the root of your app:
+ *
+ *   import { IconProvider } from "@ui-organized/react";
+ *   import { iconConfig } from "./icons";
+ *
+ *   <IconProvider {...iconConfig}>
+ *     <App />
+ *   </IconProvider>
+ *
+ * Note the \`as const\`: \`library\`, \`style\` and \`strokeAdjustment\` are literal
+ * types, not \`string\`/\`boolean\`. Spreading is fine, but seeding React state from
+ * one needs the type written out — \`useState<boolean>(iconConfig.strokeAdjustment)\`,
+ * otherwise it infers \`useState<${strokeAdjustment}>\` and won't accept the other value.
  */
-import { IconProvider } from "@ui-organized/react";
-
 export const iconConfig = {
   library: ${JSON.stringify(library)},
   style: ${JSON.stringify(style)},
@@ -288,51 +340,131 @@ export const iconConfig = {
   baseSize: ${baseSize},
   baseStroke: ${baseStroke},
 } as const;
-
-// Usage — mount once near the root of your app:
-//
-//   import { iconConfig } from "./icons";
-//
-//   <IconProvider {...iconConfig}>
-//     <App />
-//   </IconProvider>
 `;
 }
 
 // ─── README ──────────────────────────────────────────────────────────────────────
 
-export function buildReadme(state: BuilderState, cssFileName: string): string {
+export function buildReadme(state: BuilderState): string {
   const name = state.themeName || "My Theme";
   const pkg = ICON_PACKAGES[state.icons.library];
+  const fonts = resolveThemeFonts(state);
+  const familyList = fonts.map((f) => `**${f.family}**`).join(" and ");
+
+  // Weights the chosen families don't ship. Google answers 200 and omits the
+  // face, so the browser synthesises it — which is worth saying out loud in the
+  // README rather than leaving someone to wonder why their bold looks smeared.
+  const synthesised = [
+    { role: "heading", family: state.headingFamily, missing: unservableWeights(Object.values(state.headingWeights), state.headingFontAvailable) },
+    { role: "body", family: state.bodyFamily, missing: unservableWeights(Object.values(state.bodyWeights), state.bodyFontAvailable) },
+  ].filter((f) => f.missing.length > 0);
+
+  const mode = state.exportDefaultMode;
+  const rootMode = mode === "system" ? "light" : mode;
+  const defaultLine =
+    mode === "system"
+      ? "`:root` is light and follows `prefers-color-scheme` when no `data-theme` is set."
+      : `\`:root\` is **${mode}** — that is what a page renders as before any \`data-theme\` is set.`;
+
   return `# ${name}
 
-Exported from the Design System Theme Builder. This bundle is one source of
-truth in three consumable shapes.
+Exported from the UI Organized Theme Builder. This bundle is one source of truth
+in three consumable shapes.
 
 ## Files
 
 - **theme.json** — DTCG design tokens (the canonical config). \`primitive.color\`
   holds the full ramps of every color family this theme uses; \`color.light\` /
   \`color.dark\` are the semantic tokens, each **referencing** a primitive
-  (\`{primitive.color.…}\`) or carrying a raw literal. Typography, spacing, radius
-  and component aliases are theme-independent. Icon settings live under
+  (\`{primitive.color.…}\`) or carrying a raw literal. Typography, spacing, radius,
+  dimension and component aliases are theme-independent. Icon settings live under
   \`$extensions["com.ui-organized.theme-builder"].icons\`.
-- **${cssFileName}** — derived web stylesheet (CSS custom properties for both
-  modes). Use this if you just want to drop the theme into a web app.
+- **theme.css** — derived web stylesheet (CSS custom properties for both modes).
+  Use this if you just want to drop the theme into a web app.
 - **icons.ts** — \`IconProvider\` config. Icons are React context, not a CSS or
   Figma variable, so they are applied in code rather than through the tokens.
+- **fonts.ts** — the typefaces this theme names, with the stylesheet URL that
+  loads each one. \`theme.css\` can name a font but cannot efficiently fetch it,
+  so loading is left to your document head.
 
 ## Use in code (web)
 
+Install the library, then import the stylesheets **in this order** at your app
+entry:
+
 \`\`\`ts
-import '@ui-organized/react/styles.css'
-import './styles/${cssFileName}'
+// src/main.tsx
+import '@ui-organized/react/styles'   // 1. component styles
+import './styles/theme.css'           // 2. this export — after, so it wins
+import './index.css'                  // 3. your own layout, last
 \`\`\`
 
-The theme defaults to dark on \`:root\`. Toggle modes with \`data-theme="light"\`
-or \`data-theme="dark"\` on \`<html>\`.
+Order is load-bearing. \`theme.css\` and any baseline token stylesheet both
+declare on \`:root\`, and \`:root\` vs \`:root\` is a specificity tie — decided by
+source order. Import the theme earlier and the baseline silently wins.
+
+This file is self-contained: it carries the resolved colors *and* the
+theme-independent constants (\`--dimension-*\`, \`--z-index-*\`) the component
+styles need, so \`@ui-organized/tokens/variables.css\` is optional. Add it *before*
+\`theme.css\` if you also want the raw primitive ramps to reference directly.
+
+### Modes
+
+${defaultLine} Switch by attribute — no re-import:
+
+\`\`\`ts
+document.documentElement.setAttribute('data-theme', 'light')  // or 'dark'
+\`\`\`
+
+Pin the default in your HTML so the first frame paints correctly, before any
+JavaScript runs:
+
+\`\`\`html
+<html lang="en" data-theme="${rootMode}">
+\`\`\`
+
+Setting \`data-theme\` is a DOM mutation, so nothing re-renders on its own. Code
+that reads resolved token values needs a \`MutationObserver\` on the attribute.
+
+## Use the fonts (web)
+
+This theme is set in ${familyList}. **\`theme.css\` names those families but does
+not load them** — add these to your document \`<head>\`:
+
+\`\`\`html
+${fontLinkTags(fonts)}
+\`\`\`
+
+Without them the theme's metrics — sizes, weights and leading — render in
+whatever fallback the browser picks. It looks deliberate, which is exactly why
+it's easy to miss.
+
+The tags are deliberately *not* an \`@import\` inside \`theme.css\`. An \`@import\` is
+invisible to the browser's preload scanner, so the font would sit behind a second
+round trip, and it would hard-code a CDN into your tokens — which makes
+self-hosting a matter of editing generated output after every re-export.
+\`fonts.ts\` carries the same list as data if you'd rather generate the tags at
+build time, or self-host the files and ignore these entirely.
+${
+  synthesised.length > 0
+    ? `
+> **Note:** ${synthesised
+        .map(
+          (f) =>
+            `${f.family} does not ship weight${f.missing.length > 1 ? "s" : ""} ${listPhrase(f.missing.map(String))}`,
+        )
+        .join("; ")}. The browser will synthesise ${synthesised.length > 1 ? "those" : "that"} rather than load a real face, which usually reads heavier and looser than the genuine cut.
+`
+    : ""
+}
+> **Watch the cascade:** any \`--type-font-*\` declaration in a stylesheet imported
+> *after* \`theme.css\` silently overrides these families. Loading the font does not
+> fix that — check your import order first if the typeface still looks wrong.
 
 ## Use the icons (code)
+
+The icon libraries are *optional* peer dependencies — picking one in the builder
+that you have not installed fails at import time, not at export time:
 
 \`\`\`sh
 npm i ${pkg}
@@ -341,8 +473,8 @@ npm i ${pkg}
 Then wrap your app with the exported config (see \`icons.ts\`):
 
 \`\`\`tsx
-import { iconConfig } from './icons'
 import { IconProvider } from '@ui-organized/react'
+import { iconConfig } from './icons'
 
 <IconProvider {...iconConfig}>
   <App />
@@ -358,8 +490,9 @@ Import **theme.json** with the **UI Organized - Theme Import** plugin. It create
 - **Semantic** — \`color.light\` / \`color.dark\` as the collection's Light/Dark
   modes; each color is a Figma **alias** pointing at a Primitive, so re-skinning
   the brand/neutral re-flows everything.
-- **Scale** — spacing, radius and component dimensions, including the shared
-  \`control-height\` (sm/md/lg) that keeps buttons, inputs and selects aligned.
+- **Scale** — spacing, radius, fixed dimensions and component dimensions,
+  including the shared \`control-height\` (sm/md/lg) that keeps buttons, inputs and
+  selects aligned.
 - **Typography** — font families, weights, sizes and line-heights.
 - **Icons** — only when dynamic stroke scaling is on: each icon size with its
   optically-corrected stroke weight (Figma can't compute strokes the way the

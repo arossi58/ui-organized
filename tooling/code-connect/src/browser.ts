@@ -45,3 +45,38 @@ export {
   noMatchForKey,
   unresolvableNode,
 } from "./serialize-core.js";
+export {
+  parseEnumValues,
+  classifyProp,
+  controlsFor,
+  controlFromArgType,
+  defaultOf,
+  mergeControls,
+  groupControls,
+  type Control,
+  type ControlKind,
+  type ControlSection,
+  type StoryArgTypeInput,
+} from "./controls-core.js";
+export {
+  buildAiContext,
+  jsxFromArgs,
+  expandPropType,
+  packageFromImport,
+  humanizeLabel,
+  type AiContextData,
+  type AiContextExample,
+  type AiContextFormat,
+  type AiContextInput,
+  type AiContextMeta,
+  type AiContextProp,
+  type AiContextResult,
+} from "./ai-context.js";
+export {
+  derivePropHints,
+  globalRules,
+  CLOSING_RULE,
+  COMPOUND_SCOPE_NOTE,
+  PASSTHROUGH_NOTE,
+  TOKEN_FAMILIES,
+} from "./ai-context-rules.js";

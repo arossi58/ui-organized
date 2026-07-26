@@ -9,6 +9,7 @@ import {
   type TokenResolution,
 } from "@ui-organized/resolver";
 import { applyOverrides } from "@ui-organized/token-io";
+import { globalConstantVars } from "@ui-organized/tokens";
 
 /**
  * Resolves a project document into CSS custom properties.
@@ -67,6 +68,21 @@ export function exportCss(doc: ProjectDocument, options: ExportCssOptions = {}):
         if (v !== undefined) perMode.get(mode)!.push(`  ${cssName}: ${v};`);
       });
     }
+  }
+
+  // Backfill the non-themeable layout constants (`--dimension-*`, `--z-index-*`)
+  // for any document that doesn't define them. The component CSS reads them —
+  // `--dimension-06` is the sidebar rail, `--z-index-*` is the whole overlay
+  // stack — and a stylesheet that omits them fails silently: green build, clean
+  // console, shrunken sidebar, overlays stacking on DOM order. A document that
+  // *does* define them keeps its own values; this only fills gaps.
+  //
+  // Compared on emitted CSS names, not token paths: `--z-index-popover` could
+  // reverse-map to either `z.index.popover` or `z-index.popover`, and guessing
+  // wrong would either duplicate the declaration or drop it.
+  const emitted = new Set([...allPaths].map((path) => "--" + path.replace(/\./g, "-")));
+  for (const [name, value] of Object.entries(globalConstantVars())) {
+    if (!emitted.has(name)) root.push(`  ${name}: ${value};`);
   }
 
   let css = `:root {\n${root.join("\n")}\n}\n`;

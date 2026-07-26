@@ -91,6 +91,8 @@ function scopesFor(
     // Scale collection — spacing / radius / component dimensions.
     if (group === "radius") return ["CORNER_RADIUS"];
     if (group === "spacing") return ["GAP", "WIDTH_HEIGHT"];
+    // Fixed layout sizes — sidebar rails, panel min-heights. Sizing only.
+    if (group === "dimension") return ["WIDTH_HEIGHT"];
     if (group === "component") {
       const n = name.toLowerCase();
       if (n.includes("radius")) return ["CORNER_RADIUS"];

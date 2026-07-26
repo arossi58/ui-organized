@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useBuilderStore, DEFAULT_HEADING_PREVIEW, DEFAULT_BODY_PREVIEW } from "../state/themeState";
-import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
+import {
+  useGoogleFonts,
+  getAvailableWeights,
+  loadGoogleFont,
+  weightCoverageWarning,
+  type GoogleFont,
+} from "../hooks/useGoogleFonts";
 import { Select, Combobox, Input, NumberField, Range, Switch, type SelectOption, type ComboboxOption } from "@ui-organized/react";
 import styles from "./TypographyPanel.module.css";
 
@@ -48,7 +54,7 @@ function FontPicker({
   fonts: GoogleFont[];
   loading: boolean;
   portalContainer: HTMLElement | null;
-  onSelect: (family: string, weights: Record<string, number>) => void;
+  onSelect: (family: string, weights: Record<string, number>, available?: number[]) => void;
   previewText: string;
   previewPlaceholder: string;
   onPreviewTextChange: (text: string) => void;
@@ -59,6 +65,14 @@ function FontPicker({
   const availableWeights = selectedFont ? getAvailableWeights(selectedFont) : [400];
   const weightOptions: SelectOption[] = availableWeights.map((w) => ({ value: String(w), label: String(w) }));
 
+  // Catching this at pick time beats any downstream build warning: the variant
+  // list is already in hand, so it costs no extra request. Never blocks the
+  // choice — a display face with one weight is a legitimate pick, it just
+  // shouldn't be a surprise when Strong and Heavy look identical.
+  const coverageWarning = selectedFont
+    ? weightCoverageWarning(value, weights, availableWeights)
+    : null;
+
   function handleFontChange(family: string) {
     const font = fonts.find((f) => f.family === family);
     if (!font) return;
@@ -68,12 +82,16 @@ function FontPicker({
       ws.reduce((prev, curr) =>
         Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev,
       );
-    onSelect(font.family, {
-      default:  nearest(400),
-      emphasis: nearest(500),
-      strong:   nearest(600),
-      heavy:    nearest(700),
-    });
+    onSelect(
+      font.family,
+      {
+        default:  nearest(400),
+        emphasis: nearest(500),
+        strong:   nearest(600),
+        heavy:    nearest(700),
+      },
+      ws,
+    );
   }
 
   return (
@@ -89,6 +107,11 @@ function FontPicker({
         emptyMessage="No matching Figma fonts."
         portalContainer={portalContainer}
       />
+      {coverageWarning && (
+        <p className={styles.weightWarning} role="status">
+          {coverageWarning}
+        </p>
+      )}
       <div className={styles.weightRoles}>
         {WEIGHT_ROLES.map(({ key, label: wLabel }) => (
           <div key={key} className={styles.weightRow}>
@@ -120,7 +143,7 @@ function FontPicker({
 
 export function TypographyPanel() {
   const {
-    headingFamily, headingWeights,
+    headingFamily, headingWeights, headingFontAvailable, bodyFontAvailable,
     bodyFamily, bodyWeights,
     typeScaleBase, typeScaleRatio, typeScaleMode,
     headingLineHeight, bodyLineHeight, lineHeightMode, lineHeightGuides,
@@ -136,13 +159,36 @@ export function TypographyPanel() {
   // Keep the active fonts loaded with their full weight set — including the
   // defaults, which were never picked through the dropdown — so changing any
   // weight role renders against a real font file rather than a fallback.
+  //
+  // Also records each family's real variant list in state. The defaults never go
+  // through `handleFontChange`, so without this the export would fall back to
+  // "available = whatever the theme declares" and could never tell the user a
+  // weight is being synthesised.
   useEffect(() => {
     if (!fonts.length) return;
-    for (const family of [headingFamily, bodyFamily]) {
-      const font = fonts.find((f) => f.family === family);
-      if (font) loadGoogleFont(family, getAvailableWeights(font));
+    const same = (a: number[], b: number[]) =>
+      a.length === b.length && a.every((w, i) => w === b[i]);
+
+    const heading = fonts.find((f) => f.family === headingFamily);
+    if (heading) {
+      const ws = getAvailableWeights(heading);
+      loadGoogleFont(headingFamily, ws);
+      // Only write when it actually changed — an unconditional set() would push a
+      // fresh store object and re-render every subscriber on each pass.
+      if (!same(ws, headingFontAvailable)) setHeadingFont(headingFamily, headingWeights, ws);
     }
-  }, [fonts, headingFamily, bodyFamily]);
+
+    const body = fonts.find((f) => f.family === bodyFamily);
+    if (body) {
+      const ws = getAvailableWeights(body);
+      loadGoogleFont(bodyFamily, ws);
+      if (!same(ws, bodyFontAvailable)) setBodyFont(bodyFamily, bodyWeights, ws);
+    }
+    // The weight maps are deliberately not dependencies: this only needs to run
+    // when the font list or a chosen family changes, and including them would
+    // cycle through the setters it calls.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fonts, headingFamily, bodyFamily, headingFontAvailable, bodyFontAvailable]);
 
   // Portal Select dropdowns into the panel root so they inherit the dark DS theme.
   const [portalEl, setPortalEl] = useState<HTMLDivElement | null>(null);

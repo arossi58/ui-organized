@@ -1,7 +1,7 @@
 /* ─── Context menu positioner ─────────────────────────────────────────────── */
 
 .context-menu__positioner {
-  z-index: var(--z-index-popover);
+  z-index: var(--z-index-popover, 1000);
 }
 
 /* ─── Popup (matches the Select / Menu popup surface) ─────────────────────── */
