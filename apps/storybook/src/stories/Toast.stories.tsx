@@ -6,6 +6,12 @@ const meta: Meta = {
   title: "Components/Feedback/Toast",
   parameters: {
     layout: "centered",
+    // This file has no `component:` (the story is driven by a hook, not a single
+    // element) and its title leaf is "Toast" while the exported component is
+    // `ToastProvider`, so neither of the automatic joins can find the manifest
+    // entry. Naming it explicitly is the escape hatch — read by the native docs
+    // registry (apps/marketing/src/docs/registry.ts); Storybook ignores it.
+    codeConnect: { codeName: "ToastProvider" },
     docs: {
       description: {
         component:

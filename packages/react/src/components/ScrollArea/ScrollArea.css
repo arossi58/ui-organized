@@ -10,6 +10,11 @@
 .scroll-area__viewport {
   height: 100%;
   width: 100%;
+  /* A Root bounded by `max-height` rather than `height` leaves the viewport's
+     `height: 100%` resolving to auto, so it would grow past the Root and get
+     clipped instead of scrolling. Inheriting the cap makes both ways of
+     bounding the Root work; it computes to `none` when the Root sets neither. */
+  max-height: inherit;
   overflow: scroll;
   overscroll-behavior: contain;
   outline: none;

@@ -59,6 +59,20 @@
   gap: 8px;
 }
 
+/* Inline notice when the chosen family can't carry all four weight roles.
+   Informational, not an error — a one-weight display face is a legitimate
+   choice, it just shouldn't be a silent one. */
+.weightWarning {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(214, 158, 46, 0.12);
+  border: 1px solid rgba(214, 158, 46, 0.35);
+  color: var(--builder-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
 /* Weight select wrapper */
 .weightSelectWrap {
   width: 80px;

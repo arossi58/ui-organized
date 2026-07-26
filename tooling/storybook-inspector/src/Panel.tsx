@@ -10,13 +10,7 @@ import { readSiteTheme, resolveBrandVars } from "./site-theme.js";
 import { useManifestEntry } from "./hooks/useManifestEntry.js";
 import { useLiveArgs } from "./hooks/useLiveArgs.js";
 import { usePreviewInspection } from "./hooks/usePreviewInspection.js";
-import {
-  controlsFor,
-  controlFromArgType,
-  defaultOf,
-  type Control,
-  type StoryArgTypeInput,
-} from "./controls.js";
+import { mergeControls, type Control, type StoryArgTypeInput } from "./controls.js";
 import { matchesQuery } from "./inspect/format.js";
 import { driftedPropNames } from "./arg-drift.js";
 import { StatusBadge } from "./components/StatusBadge.js";
@@ -24,6 +18,7 @@ import { PropertySection } from "./components/PropertySection.js";
 import { InspectorTree } from "./components/InspectorTree.js";
 import { ElementDetails } from "./components/ElementDetails.js";
 import { VariantMatrix } from "./components/VariantMatrix.js";
+import { AiContextSection } from "./components/AiContextSection.js";
 import { VariantPropertyRow } from "./components/VariantPropertyRow.js";
 import { BooleanPropertyRow } from "./components/BooleanPropertyRow.js";
 import { TextPropertyRow } from "./components/TextPropertyRow.js";
@@ -71,28 +66,10 @@ function ArgControls() {
   const drifted = driftedPropNames(drift);
   const driftDetail = (name: string) => drift.find((d) => d.prop === name)?.detail;
 
-  // Full Controls-panel parity: build a control for every arg from its argType, and
-  // where the manifest has a verified variant (accurate enum options from code) use
-  // that instead. Order follows the argTypes definition order, like Controls.
-  const manifestByName = new Map((entry ? controlsFor(entry.props) : []).map((c) => [c.name, c]));
-  const controls: Control[] = [];
-  const seen = new Set<string>();
-  for (const [name, at] of Object.entries(argTypes)) {
-    seen.add(name);
-    const fromArg = controlFromArgType(name, at);
-    const manifest = manifestByName.get(name);
-    // Prefer the manifest's variant (verified options); else the argType control.
-    const chosen = manifest?.kind === "variant" ? manifest : fromArg ?? manifest;
-    if (!chosen) continue;
-    controls.push({
-      ...chosen,
-      description: chosen.description ?? at.description,
-      defaultValue: chosen.defaultValue ?? defaultOf(at),
-      verified: manifestByName.has(name),
-    });
-  }
-  // Manifest props Storybook didn't surface as argTypes (rare).
-  for (const [name, c] of manifestByName) if (!seen.has(name)) controls.push({ ...c, verified: true });
+  // Full Controls-panel parity: a control for every arg, with the manifest's
+  // verified enum options winning where it has them. Shared with the native docs
+  // playground so both surfaces show the same controls in the same order.
+  const controls: Control[] = mergeControls(entry?.props ?? [], argTypes);
 
   if (controls.length === 0) {
     return <p className="fcp-empty">This story has no controllable args.</p>;
@@ -216,6 +193,10 @@ export function Panel() {
           {current && <ElementDetails node={current} />}
         </>
       )}
+
+      <PropertySection title="AI context" defaultCollapsed>
+        <AiContextSection />
+      </PropertySection>
 
       <PropertySection title="Variants" defaultCollapsed>
         <VariantMatrix />

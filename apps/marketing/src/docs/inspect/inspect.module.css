@@ -1,0 +1,260 @@
+/* Inspect view: live controls, the element/token inspector, the variant matrix. */
+
+/* Controls first, preview second — see ComponentInspectPage. */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  gap: var(--spacing-space-05);
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.panel {
+  padding: var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-primary);
+}
+
+.panelTitle {
+  margin: 0 0 var(--spacing-space-04);
+  color: var(--color-content-secondary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.empty {
+  margin: 0;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+}
+
+/* Outline applied to the element the inspector has selected. `outline` rather
+   than `border` so it never changes layout — a border would resize the very box
+   whose dimensions the panel is reporting. */
+:global([data-docs-inspected="true"]) {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 1px;
+}
+
+/* Mirrors the Docs tab's placement of the copy action, directly under the
+   preview it copies. */
+.primaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  margin-top: var(--spacing-space-03);
+}
+
+/* ── Controls ─────────────────────────────────────────────────────────────── */
+
+/* Each control is a design-system field that draws its own label and helper
+   text, so this only owns the rhythm between them. */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-05);
+  align-items: stretch;
+}
+
+.controlRow {
+  min-width: 0;
+}
+
+/* The one field with no DS equivalent — matched to the DS label typography so
+   it doesn't read as a different system. */
+.colorField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.colorLabel {
+  color: var(--color-content-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.colorInput {
+  width: 100%;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--border-radius-03);
+  background: none;
+}
+
+/* ── Element inspector ────────────────────────────────────────────────────── */
+
+.inspector {
+  display: grid;
+  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  gap: var(--spacing-space-04);
+}
+
+@media (max-width: 800px) {
+  .inspector {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* The kit's `ScrollArea` Root — it owns the overflow, this owns the frame.
+   Capped rather than fixed so a short tree doesn't leave an empty well. */
+.tree {
+  max-height: 22rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-04);
+}
+
+.treeList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.treeNode {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  border: none;
+  background: none;
+  color: var(--color-content-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+  text-align: left;
+  cursor: pointer;
+}
+
+.treeNode:hover {
+  background: var(--color-interactive-ghost-hover);
+}
+
+.treeNode[aria-current="true"] {
+  background: var(--color-interactive-primary-selected);
+  color: var(--color-content-primary);
+}
+
+.treeTag {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.treeFlag {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0 0.35em;
+  border-radius: var(--border-radius-full);
+  background: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+  font-size: var(--type-size-caption);
+}
+
+.details {
+  min-width: 0;
+}
+
+.detailsHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-space-02);
+  margin-bottom: var(--spacing-space-03);
+}
+
+.detailsTag {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.detailsBox,
+.detailsClass {
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+}
+
+.group + .group {
+  margin-top: var(--spacing-space-04);
+}
+
+.groupTitle {
+  margin: 0 0 var(--spacing-space-01);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.propTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--type-size-caption);
+}
+
+.propTable td,
+.propTable th {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  text-align: left;
+  vertical-align: top;
+}
+
+.propTable tr + tr td,
+.propTable tr + tr th {
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.propKey {
+  width: 8rem;
+  color: var(--color-content-tertiary);
+  font-weight: var(--type-weight-body-default);
+}
+
+.propValue {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  color: var(--color-content-primary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+.swatch {
+  flex-shrink: 0;
+  width: 0.9em;
+  height: 0.9em;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-02);
+}
+
+.source {
+  padding: 0.05em 0.4em;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-tertiary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.95em;
+}
+
+.source[data-source="token"] {
+  background: var(--color-status-success-bg);
+  color: var(--color-status-success-content);
+}
+
+.source[data-source="flagged"] {
+  background: var(--color-status-warning-bg);
+  color: var(--color-status-warning-content);
+}

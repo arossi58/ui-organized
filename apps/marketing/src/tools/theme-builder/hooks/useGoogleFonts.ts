@@ -51,6 +51,98 @@ async function fetchGoogleFonts(): Promise<GoogleFont[]> {
   return fetchPromise;
 }
 
+/** Ascending, deduplicated — the order `css2` requires in its `wght@` list. */
+export function normalizeWeights(weights: number[]): number[] {
+  return [...new Set(weights)].sort((a, b) => a - b);
+}
+
+/**
+ * The Google Fonts `css2` stylesheet URL for one family and its weights.
+ *
+ * Exported and shared, because both the live preview and the exported `fonts.ts`
+ * need this URL and two implementations would drift. Three things the endpoint
+ * cares about, all of them silent failures if you get them wrong:
+ *
+ * - **One family per request.** An unknown family is dropped from a multi-family
+ *   request without an error, so a typo takes that font down and still answers 200.
+ * - **Weights ascending.** `wght@700;400` is rejected outright.
+ * - **Family name percent-encoded** — `Playfair Display` → `Playfair%20Display`.
+ *
+ * Note it does *not* validate that the family ships these weights: asking for a
+ * weight a family doesn't have is also a 200 with the face quietly omitted, and
+ * the browser then synthesises it. That check needs the family's variant list —
+ * see `unservableWeights`.
+ */
+export function googleFontsHref(family: string, weights: number[]): string {
+  const wght = normalizeWeights(weights).join(";");
+  return `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${wght}&display=swap`;
+}
+
+/**
+ * Which of `declared` the family cannot actually serve.
+ *
+ * Google answers 200 and omits the face, so a status check never catches this —
+ * the only signal is the family's own variant list.
+ */
+export function unservableWeights(declared: number[], available: number[]): number[] {
+  const have = new Set(available);
+  return normalizeWeights(declared).filter((w) => !have.has(w));
+}
+
+/**
+ * Warn about a family that can't carry the theme's four weight roles.
+ *
+ * There are two ways to lose the hierarchy, and they need different wording:
+ *
+ * - **Collapsed** — picking the family snapped several roles onto the same
+ *   weight, because it's all the family ships. Anton offers only 400, so Default,
+ *   Emphasis, Strong and Heavy all end up at 400 and render identically. This is
+ *   what actually happens through the picker, and today it happens in silence.
+ * - **Synthesised** — the theme declares weights the family doesn't ship. The
+ *   picker can't produce this (it snaps, and its dropdown only offers real
+ *   weights), but importing a theme.json can: hand-edited, round-tripped through
+ *   Figma, or written when the family had a different variant list. Google
+ *   answers 200 and omits the face, so the browser fakes it.
+ *
+ * Returns null when the family serves every declared weight distinctly.
+ */
+export function weightCoverageWarning(
+  family: string,
+  roles: Record<string, number>,
+  available: number[],
+): string | null {
+  if (!family || available.length === 0) return null;
+
+  const declared = Object.values(roles).filter((w) => Number.isFinite(w));
+  if (declared.length === 0) return null;
+
+  const missing = unservableWeights(declared, available);
+  if (missing.length > 0) {
+    const plural = missing.length > 1 ? "s" : "";
+    return `${family} does not ship weight${plural} ${listPhrase(missing.map(String))}. The browser will synthesise ${missing.length > 1 ? "them" : "it"}, which reads heavier and looser than a real cut.`;
+  }
+
+  // Role order matters for the message: name the roles that lost their identity,
+  // not the one that kept it.
+  const entries = Object.entries(roles);
+  const base = entries[0];
+  if (!base) return null;
+  const collapsed = entries.slice(1).filter(([, w]) => w === base[1]);
+  if (collapsed.length === 0) return null;
+
+  return `${family} ships only weight${normalizeWeights(available).length > 1 ? "s" : ""} ${listPhrase(normalizeWeights(available).map(String))}, so ${listPhrase(collapsed.map(([role]) => capitalize(role)))} render the same as ${capitalize(base[0])}.`;
+}
+
+function capitalize(word: string): string {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+/** `["a","b","c"]` → `"a, b and c"`. Shared so the picker and README agree. */
+export function listPhrase(items: string[]): string {
+  if (items.length <= 1) return items[0] ?? "";
+  return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+}
+
 /**
  * Inject (or update) a Google Fonts CSS link in <head> for a family + weights.
  *
@@ -61,8 +153,8 @@ async function fetchGoogleFonts(): Promise<GoogleFont[]> {
  */
 export function loadGoogleFont(family: string, weights: number[]): void {
   const id = `gf-${family.replace(/\s+/g, "-")}`;
-  const weightsStr = [...new Set(weights)].sort((a, b) => a - b).join(";");
-  const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weightsStr}&display=swap`;
+  const weightsStr = normalizeWeights(weights).join(";");
+  const url = googleFontsHref(family, weights);
 
   const existing = document.getElementById(id) as HTMLLinkElement | null;
   if (existing) {
@@ -132,7 +224,7 @@ export function useGoogleFonts(): UseGoogleFontsResult {
 // unavailable. Keep this list to Google Fonts only; adding a family that Figma
 // can't render would let users pick a font the design tool would substitute.
 
-const FALLBACK_FONTS: GoogleFont[] = [
+export const FALLBACK_FONTS: GoogleFont[] = [
   // Sans-serif
   { family: "Inter", variants: ["regular","100","200","300","500","600","700","800","900"], files: {} },
   { family: "Roboto", variants: ["regular","100","300","500","700","900"], files: {} },

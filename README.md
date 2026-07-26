@@ -8,7 +8,7 @@ Storybook, a theme builder, and a marketing site.
 
 | Package | Description |
 | --- | --- |
-| [`@ui-organized/react`](packages/react) | React component library built on Base UI |
+| [`@ui-organized/react`](packages/react) | React component library built on Ark UI |
 | [`@ui-organized/tokens`](packages/tokens) | Design tokens (typed exports + generated CSS variables) |
 | [`@ui-organized/schema`](packages/schema) | Zod schemas / types for the theme config |
 | [`@ui-organized/utils`](packages/utils) | Color, type-scale, spacing & semantic-token utilities |
@@ -16,6 +16,13 @@ Storybook, a theme builder, and a marketing site.
 
 The `apps/*` (marketing, builder, storybook) and `tooling/*` workspaces are
 private and not published.
+
+## Using it
+
+- [Get started](https://uiorganized.com/docs/get-started) — install and wire up
+  the stylesheets.
+- [Theming](https://uiorganized.com/docs/theming) — the three ways to re-skin the
+  system, and what a complete theme has to define.
 
 ## Develop
 

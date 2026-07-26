@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/react",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "description": "React component library for the ui-organized design system, built on Ark UI.",
   "keywords": [
     "design-system",
@@ -33,10 +33,20 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
-    "./styles": "./dist/index.css"
+    "./styles": {
+      "types": "./styles.d.ts",
+      "default": "./dist/index.css"
+    },
+    "./styles.css": {
+      "types": "./styles.d.ts",
+      "default": "./dist/index.css"
+    },
+    "./token-contract.json": "./token-contract.json"
   },
   "files": [
     "dist",
+    "styles.d.ts",
+    "token-contract.json",
     "README.md",
     "LICENSE"
   ],
@@ -47,6 +57,7 @@
     "build": "tsup src/index.ts --format esm,cjs --dts --external react",
     "dev": "tsup src/index.ts --format esm,cjs --dts --external react --watch",
     "test": "vitest run",
+    "gen:contract": "tsx scripts/token-contract.ts",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
@@ -85,6 +96,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
     "typescript": "^5.4.0",
     "vitest": "^2.0.0"
   }

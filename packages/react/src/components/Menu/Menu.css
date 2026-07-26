@@ -1,7 +1,7 @@
 /* ─── Menu positioner ─────────────────────────────────────────────────────── */
 
 .menu__positioner {
-  z-index: var(--z-index-popover);
+  z-index: var(--z-index-popover, 1000);
 }
 
 /* ─── Popup (matches the Select popup surface) ────────────────────────────── */

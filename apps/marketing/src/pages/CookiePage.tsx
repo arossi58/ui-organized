@@ -55,10 +55,9 @@ export function CookiePage() {
       <h2>Third-party content</h2>
       <p>
         Some pages load resources from third parties — for example icon files from the
-        jsDelivr CDN in the icon-scaler tool, and an embedded Storybook on the docs
-        page. These providers may process technical data such as your IP address to
-        deliver that content. See our <Link to="/privacy">Privacy Policy</Link> for
-        details.
+        jsDelivr CDN in the icon-scaler tool. These providers may process technical data
+        such as your IP address to deliver that content. See our{" "}
+        <Link to="/privacy">Privacy Policy</Link> for details.
       </p>
 
       <h2>More information</h2>

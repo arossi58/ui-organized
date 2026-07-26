@@ -1,0 +1,177 @@
+/* Docs shell: a fixed category rail beside the content column, inside the
+   route's framed window.
+
+   The two columns scroll INDEPENDENTLY rather than the frame scrolling as one
+   surface. That's what keeps the search field and the category rail put while
+   you read — a sticky rail still rides up with the page until it catches, and
+   the search box drifted off the top. Padding lives inside the columns, not on
+   the grid, so each one scrolls its own content under its own padding.
+
+   Padding is frame-relative: the frame is already inset from the viewport by
+   `--section-px`, so repeating that here would double the gutter. */
+
+.root {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  gap: var(--spacing-space-08);
+  align-items: stretch;
+  width: 100%;
+  max-width: 84rem;
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+  height: 100%;
+  min-height: 0;
+  min-width: 0;
+  /* The rail never scrolls; only its list does. */
+  overflow: hidden;
+  padding: var(--spacing-space-06) 0 var(--spacing-space-06) var(--spacing-space-07);
+}
+
+/* Both scrolling columns are the kit's `ScrollArea`, so the class names here
+   land on its Root: it owns the overflow, and these only give it the box to
+   scroll inside. Padding goes on the content beneath, leaving the Root a plain
+   box the viewport can fill and the overlay bar can run the height of. */
+.sidebarScroll {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.sidebarNav {
+  /* Clear of the overlay scrollbar, with room for the last item's focus ring. */
+  padding-right: var(--spacing-space-03);
+  padding-bottom: var(--spacing-space-02);
+}
+
+/* The divider's own block margin is the gap between sections now, so the group
+   adds none of its own. */
+
+/* Type comes from the `text-default-body-medium` utility on the element — the
+   same one `NavItem` carries. The padding and gap match `.nav-item__trigger`
+   too, so a heading's glyph and word land in the same columns as the rows
+   below it; only the tertiary colour marks it as a heading. */
+.groupLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  margin-bottom: var(--spacing-space-01);
+  padding: var(--spacing-space-02);
+  color: var(--color-content-tertiary);
+}
+
+.groupDivider {
+  margin-block: var(--spacing-space-04);
+}
+
+/* Rows are the design system's `NavItem`; this only owns the stacking. */
+.groupList {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.empty {
+  padding: var(--spacing-space-03);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+}
+
+.main {
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+}
+
+.mainInner {
+  padding: var(--spacing-space-06) var(--spacing-space-07) var(--spacing-space-12) 0;
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  padding-bottom: var(--spacing-space-05);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-display-medium);
+  line-height: var(--type-leading-display-medium);
+  font-weight: var(--type-weight-heading-strong);
+}
+
+.lede {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  margin-top: var(--spacing-space-02);
+}
+
+/* ── Docs / Inspect tabs ──────────────────────────────────────────────────── */
+
+/* The strip itself is the design system's `Tabs`; this only owns the gap
+   between the page header and it. */
+.tabs {
+  margin-top: var(--spacing-space-02);
+}
+
+@media (max-width: 900px) {
+  .root {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-space-05);
+    height: auto;
+  }
+
+  .sidebar {
+    height: auto;
+    overflow: visible;
+    padding: var(--spacing-space-06) var(--spacing-space-07) 0;
+  }
+
+  .sidebarScroll {
+    max-height: 18rem;
+  }
+
+  /* Doubled class so it outranks the ScrollArea Root's own `overflow: hidden`
+     regardless of which stylesheet the bundler emits first: the frame scrolls
+     as one surface below this width, so the column must not clip. */
+  .main.main {
+    height: auto;
+    overflow: visible;
+  }
+
+  .mainInner {
+    padding: var(--spacing-space-05) var(--spacing-space-07) var(--spacing-space-12);
+  }
+}

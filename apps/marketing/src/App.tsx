@@ -1,7 +1,7 @@
+import { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Agentation } from "agentation";
 import { HomePage } from "./pages/HomePage";
-import { DocsPage } from "./pages/DocsPage";
 import { ToolsPage } from "./pages/ToolsPage";
 import { AboutPage } from "./pages/AboutPage";
 import { PrivacyPage } from "./pages/PrivacyPage";
@@ -21,6 +21,12 @@ initAnalytics();
 // React Router uses the same value so links resolve under that prefix.
 const basename = import.meta.env.BASE_URL;
 
+// The docs subtree pulls the Code Connect manifest, the scanner's latest-hashes
+// artifact and all 45 Storybook CSF modules (which between them import most of
+// the component library). Split out so none of that weight lands in the home
+// page's chunk.
+const DocsRoutes = lazy(() => import("./docs/DocsRoutes"));
+
 /**
  * Persistent app chrome: one SiteNav instance lives above the route outlet and
  * survives navigation, so its selected pill can morph continuously from the old
@@ -37,7 +43,17 @@ function SiteChrome() {
       <SiteNav variant={variant} />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/docs" element={<DocsPage />} />
+        {/* Native docs — component pages render real @ui-organized/react
+            components in this document. `/*` so the subtree owns its own
+            routing (foundations pages, per-component Docs and Inspect views). */}
+        <Route
+          path="/docs/*"
+          element={
+            <Suspense fallback={null}>
+              <DocsRoutes />
+            </Suspense>
+          }
+        />
         {/* Tools gallery — the bare path shows the first tool; /tools/<id>
             selects a specific one (both render the same page). */}
         <Route path="/tools" element={<ToolsPage />} />

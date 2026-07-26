@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/marketing",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,10 +13,13 @@
   "dependencies": {
     "@fontsource/eb-garamond": "^5.0.0",
     "@fontsource/inter": "^5.0.0",
+    "@ui-organized/code-connect": "workspace:*",
     "@ui-organized/react": "workspace:*",
     "@ui-organized/schema": "workspace:*",
+    "@ui-organized/storybook-inspector": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
+    "axe-core": "^4.10.0",
     "gsap": "^3.15.0",
     "jszip": "^3.10.1",
     "lucide-react": "^0.400.0",

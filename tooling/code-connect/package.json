@@ -14,6 +14,7 @@
   },
   "scripts": {
     "scan": "tsx scripts/scan.ts",
+    "generate:ai-docs": "tsx scripts/generate-ai-docs.ts",
     "mcp": "tsx src/mcp/server.ts",
     "mcp:http": "tsx src/mcp/http-server.ts",
     "verify": "tsx scripts/verify.ts",

@@ -37,6 +37,10 @@ docs/
 tooling/token-editor/
 apps/marketing/SITE.md
 
+# Internal operational docs (kept local, not published).
+# Anchored to the repo root: an unanchored `docs/` also swallows source
+# directories that happen to be named docs, e.g. apps/marketing/src/docs/.
+/docs/
 # Stray exports / unused source assets (not used in production)
 svg-animations/
 /theme.json

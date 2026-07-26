@@ -1,5 +1,11 @@
 # @ui-organized/token-io
 
+## 0.1.4
+
+### Patch Changes
+
+- @ui-organized/resolver@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

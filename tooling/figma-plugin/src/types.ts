@@ -37,6 +37,8 @@ export interface ThemeDoc {
   spacing?: Record<string, DtcgNode>;
   "border-radius"?: Record<string, DtcgNode>;
   component?: Record<string, DtcgNode>;
+  /** Fixed layout sizes (`dimension.01…12`) — the sidebar rail, min-heights, etc. */
+  dimension?: Record<string, DtcgNode>;
   $extensions?: {
     "com.ui-organized.theme-builder"?: { icons?: IconsConfig };
   };

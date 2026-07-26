@@ -56,6 +56,38 @@ describe("exportCss", () => {
     expect(root).toContain("--color-black");
   });
 
+  it("backfills the layout constants a document doesn't define", () => {
+    // The failure this prevents is silent: without --dimension-06 the sidebar
+    // shrinks to fit and every portalled overlay loses its z-index, with nothing
+    // thrown and a clean console. See docs/theme-test.md.
+    const root = css.slice(css.indexOf(":root"), css.indexOf("[data-theme"));
+    expect(root).toContain("--dimension-06: 240px;");
+    expect(root).toContain("--z-index-popover: 1000;");
+    expect(root).toContain("--z-index-toast: 1300;");
+  });
+
+  it("lets a document's own layout constants win over the backfill", () => {
+    const custom: ProjectDocument = {
+      ...doc,
+      sets: [
+        ...doc.sets,
+        {
+          name: "layout",
+          tokens: { dimension: { $type: "dimension", "06": { $value: "300px" } } },
+        },
+      ],
+      themes: [
+        {
+          name: "Default",
+          selectedTokenSets: { ...doc.themes[0]!.selectedTokenSets, layout: "enabled" },
+        },
+      ],
+    };
+    const out = exportCss(custom);
+    expect(out).toContain("--dimension-06: 300px;");
+    expect(out).not.toContain("--dimension-06: 240px;");
+  });
+
   it("emits mode-varying tokens per mode under [data-theme]", () => {
     expect(css).toContain('[data-theme="light"]');
     expect(css).toContain('[data-theme="dark"]');

@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/export",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Export pipeline — resolves a DTCG project document (via @ui-organized/resolver, the authoritative oracle) into CSS custom properties with per-mode semantics. Style Dictionary + sd-transforms parity tested.",
   "keywords": [
     "design-tokens",
@@ -54,7 +54,8 @@
   "dependencies": {
     "@ui-organized/schema": "workspace:*",
     "@ui-organized/resolver": "workspace:*",
-    "@ui-organized/token-io": "workspace:*"
+    "@ui-organized/token-io": "workspace:*",
+    "@ui-organized/tokens": "workspace:*"
   },
   "devDependencies": {
     "@tokens-studio/sd-transforms": "^1.0.0",

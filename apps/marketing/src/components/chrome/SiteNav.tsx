@@ -17,7 +17,9 @@ interface SiteNavProps {
 /**
  * Primary nav items. `to` items are in-site routes (React Router, so the nav
  * persists across them); `href` items point at sibling apps / placeholders.
- * "Docs" is the white-labeled Storybook embedded in the /docs route; "Tools" the
+ * "Docs" is the native documentation at /docs — component pages that render real
+ * `@ui-organized/react` components in this document (Storybook stays at
+ * /storybook/ as the playground, linked per component); "Tools" the
  * design-system tool gallery at /tools (which now hosts the theme builder too).
  */
 type NavItem = { label: string; to?: string; href?: string };

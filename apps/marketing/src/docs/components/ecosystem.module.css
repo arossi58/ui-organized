@@ -1,0 +1,102 @@
+/* The ecosystem diagram. Every fill and stroke is a theme token, so the drawing
+   re-themes with the page instead of baking in a palette. */
+
+.figure {
+  /* Wide diagrams scroll inside their own frame; the docs column never scrolls
+     sideways (see docs.css). */
+  overflow-x: auto;
+  margin: 0;
+  padding: var(--spacing-space-05);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-primary);
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Below this the labels shrink past legibility, so the frame scrolls rather
+     than the diagram continuing to shrink with the column. */
+  min-width: 42rem;
+  font-family: var(--type-font-body);
+}
+
+/* ── Nodes ────────────────────────────────────────────────────────────────── */
+
+.box {
+  fill: var(--color-surface-secondary);
+  stroke: var(--color-border-secondary);
+  stroke-width: 1;
+}
+
+/* The config is the thing everything else derives from — the only accented box. */
+.node[data-tone="source"] .box {
+  fill: color-mix(
+    in srgb,
+    var(--color-interactive-primary-default) 8%,
+    var(--color-surface-primary)
+  );
+  stroke: var(--color-interactive-primary-default);
+  stroke-width: 1.5;
+}
+
+/* Dashed: the tools consume the system, they aren't a layer of it. */
+.node[data-tone="tool"] .box {
+  fill: var(--color-surface-primary);
+  stroke-dasharray: 4 4;
+}
+
+.eyebrow {
+  fill: var(--color-interactive-primary-default);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.08em;
+}
+
+.title {
+  fill: var(--color-content-primary);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.pkg {
+  fill: var(--color-content-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+.note {
+  fill: var(--color-content-tertiary);
+}
+
+/* ── Edges ────────────────────────────────────────────────────────────────── */
+
+.edge {
+  fill: none;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.edge[data-tone="core"] {
+  stroke: var(--color-interactive-primary-default);
+}
+
+.edge[data-tone="tool"] {
+  /* A text-weight grey, not a border grey: at 1.5px a border token reads as a
+     smudge next to the accented spine. */
+  stroke: var(--color-content-tertiary);
+}
+
+/* Markers don't inherit from the path that references them, so the heads are
+   toned by the same attribute rather than by `context-stroke`. */
+.head[data-tone="core"] {
+  fill: var(--color-interactive-primary-default);
+}
+
+.head[data-tone="tool"] {
+  fill: var(--color-content-tertiary);
+}
+
+.edgeLabel {
+  fill: var(--color-content-tertiary);
+  font-size: 11.5px;
+}

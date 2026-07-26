@@ -1,10 +1,16 @@
 import { useState } from "react";
-import { useBuilderStore } from "../state/themeState";
+import { useBuilderStore, type ExportDefaultMode } from "../state/themeState";
 import { useExport } from "../hooks/useExport";
 import styles from "./ExportPanel.module.css";
 
+const DEFAULT_MODES: Array<{ value: ExportDefaultMode; label: string; hint: string }> = [
+  { value: "light", label: "Light", hint: "`:root` is light." },
+  { value: "dark", label: "Dark", hint: "`:root` is dark." },
+  { value: "system", label: "System", hint: "`:root` follows the OS setting." },
+];
+
 export function ExportPanel() {
-  const { themeName, setThemeName } = useBuilderStore();
+  const { themeName, setThemeName, exportDefaultMode, setExportDefaultMode } = useBuilderStore();
   const { exportBundle } = useExport();
   const [status, setStatus] = useState<"idle" | "busy" | "success" | "error">("idle");
   const [errors, setErrors] = useState<string[]>([]);
@@ -48,6 +54,29 @@ export function ExportPanel() {
         />
       </section>
 
+      <section className={styles.section}>
+        <span className={styles.fieldLabel} id="default-mode-label">Default mode</span>
+        <div className={styles.modeRow} role="radiogroup" aria-labelledby="default-mode-label">
+          {DEFAULT_MODES.map((mode) => (
+            <label key={mode.value} className={styles.modeOption}>
+              <input
+                type="radio"
+                name="export-default-mode"
+                value={mode.value}
+                checked={exportDefaultMode === mode.value}
+                onChange={() => setExportDefaultMode(mode.value)}
+              />
+              {mode.label}
+            </label>
+          ))}
+        </div>
+        <p className={styles.hint}>
+          What a page renders as before any <code>data-theme</code> is set. Both modes
+          always ship — this only decides the one on bare <code>:root</code>, so a light
+          app doesn’t paint a dark first frame.
+        </p>
+      </section>
+
       <button
         className={styles.downloadBtn}
         onClick={handleExport}
@@ -77,10 +106,13 @@ export function ExportPanel() {
         <ol className={styles.steps}>
           <li>
             <strong>Web</strong> — drop <code>theme.css</code> into your project and import
-            it once at your app entry, after the component styles:
-            <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles.css'
+            it once at your app entry, <em>after</em> the component styles:
+            <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles'
 import './styles/theme.css'`}</pre>
-            The theme defaults to dark on <code>:root</code>; toggle with
+            Order matters: both declare on <code>:root</code>, and that tie is decided by
+            source order. The file is self-contained — it carries the layout constants
+            (<code>--dimension-*</code>, <code>--z-index-*</code>) too, so no baseline
+            stylesheet is required. Toggle modes with{" "}
             <code>data-theme="light"</code> / <code>"dark"</code> on <code>&lt;html&gt;</code>.
           </li>
           <li>

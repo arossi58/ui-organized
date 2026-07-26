@@ -1,0 +1,128 @@
+/* The stage a live component renders into. Framed so a preview reads as a
+   distinct surface from the surrounding prose, and so the vision filters have an
+   obvious boundary. */
+
+.surface {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-primary);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-secondary);
+}
+
+.toolbarSpacer {
+  margin-left: auto;
+}
+
+/* Toolbar controls (the vision-filter picker, re-read). Native form elements
+   here rather than DS components: the toolbar is page chrome, and dropping a
+   `Select` into it would put a documented component inside the frame that
+   documents it. */
+.toolbar select {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-03);
+  background: var(--color-surface-primary);
+  color: var(--color-content-secondary);
+  font-family: inherit;
+  font-size: var(--type-size-caption);
+}
+
+.toolbar select:hover {
+  border-color: var(--color-border-primary);
+  color: var(--color-content-primary);
+}
+
+/* The scan/filter target. Kept as its own element so `filter` applies to the
+   rendered component only — putting it on .surface would tint the frame and the
+   toolbar too, which makes the simulation misleading. */
+.stage {
+  display: flex;
+  min-height: 5rem;
+}
+
+.stage[data-layout="padded"] {
+  align-items: flex-start;
+  padding: var(--spacing-space-06);
+}
+
+.stage[data-layout="centered"] {
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-08) var(--spacing-space-06);
+}
+
+.stage[data-layout="fullscreen"] {
+  align-items: stretch;
+  padding: 0;
+}
+
+/* Stories are authored as blocks; without this a flex child collapses to its
+   content width and grids inside a story stop filling. */
+.stageInner {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.stage[data-layout="centered"] .stageInner {
+  flex: 0 1 auto;
+}
+
+/* Code that belongs to the preview above it, inside the same frame. The block's
+   own border is dropped (see CodeBlock `attached`) so the two read as one card
+   rather than two stacked ones. */
+.footer {
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* ── Failure state ────────────────────────────────────────────────────────── */
+
+.error {
+  margin: var(--spacing-space-04);
+  padding: var(--spacing-space-04);
+  border: 1px solid var(--color-status-error);
+  border-radius: var(--border-radius-04);
+  background: var(--color-status-error-bg);
+  color: var(--color-status-error-content);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.errorTitle {
+  margin: 0 0 var(--spacing-space-02);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.errorDetail {
+  overflow-x: auto;
+  margin: 0;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+}
+
+/* ── Example block: preview above its source ──────────────────────────────── */
+
+.example + .example {
+  margin-top: var(--spacing-space-06);
+}
+
+.exampleTitle {
+  margin: 0 0 var(--spacing-space-03);
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+.exampleCode {
+  margin-top: var(--spacing-space-03);
+}

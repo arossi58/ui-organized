@@ -111,4 +111,13 @@ function serveStorybook(): PluginOption {
 export default defineConfig({
   base,
   plugins: [react(), serveStorybook()],
+  esbuild: {
+    // The docs registry joins each Storybook story to its manifest entry through
+    // `meta.component`'s function name (src/docs/registry.ts). Minification
+    // renames functions, which would silently drop every page back to matching
+    // on the story title — and Navigation, whose component is `NavItem`, would
+    // stop resolving. Storybook sets the same flag for the same class of reason
+    // (apps/storybook/.storybook/main.ts).
+    keepNames: true,
+  },
 });

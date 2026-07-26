@@ -111,7 +111,7 @@
 /* ─── Popup ───────────────────────────────────────────────────────────────── */
 
 .combobox-positioner {
-  z-index: var(--z-index-popover);
+  z-index: var(--z-index-popover, 1000);
 }
 
 .combobox-popup {
