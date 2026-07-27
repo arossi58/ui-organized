@@ -77,7 +77,7 @@
     "gen:contract": "tsx scripts/token-contract.ts",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
-    "test:smoke": "pnpm build && node scripts/smoke-icons.mjs"
+    "test:smoke": "node scripts/smoke-icons.mjs"
   },
   "peerDependencies": {
     "@heroicons/react": ">=2.0.0",
@@ -110,6 +110,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
     "lucide-react": "^0.400.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",

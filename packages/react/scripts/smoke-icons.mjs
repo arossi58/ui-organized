@@ -23,16 +23,23 @@
  *   way initially read as "the fix didn't work" when the fix was correct.
  *
  * So: build `examples/icon-smoke` — a real workspace app using the documented
- * setup and nothing else — serve the built output, and count the `<svg>`
- * elements a browser actually renders. Only the runtime answer is trustworthy.
+ * setup and nothing else — then execute the built bundle and count the `<svg>`
+ * elements it actually renders. Only the runtime answer is trustworthy.
+ *
+ * jsdom rather than a real browser, deliberately. The tree shaking under test
+ * happens at *build* time; running the output only has to answer "did the
+ * registration execute, and does `<Icon>` produce an element" — no layout, no
+ * paint, no CSS. jsdom answers that identically to Chromium, in a second, with
+ * nothing to install. The first version of this used Playwright and failed in CI
+ * because the runner has no browser binaries: a gate that needs a 150 MB
+ * download it never asked for isn't a gate.
  */
 
 import { execFileSync } from "node:child_process";
-import { createServer } from "node:http";
 import { existsSync } from "node:fs";
 import { readFile } from "node:fs/promises";
-import { dirname, extname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const repoRoot = dirname(dirname(pkgRoot));
@@ -48,67 +55,98 @@ const check = (name, ok, detail = "") => {
   if (!ok) failures++;
 };
 
-const MIME = { ".js": "text/javascript", ".css": "text/css", ".html": "text/html", ".svg": "image/svg+xml" };
 
-if (!existsSync(join(pkgRoot, "dist", "icons", "lucide.mjs"))) {
+process.stdout.write("\nBuilding examples/icon-smoke and everything it depends on…\n");
+
+// The trailing `...` selects the example app *and its dependency closure* —
+// @ui-organized/react, plus tokens, utils and schema, which react needs at
+// runtime. Building only this package was the first version of this gate, and it
+// failed in CI: nothing else builds those, so the app's build died resolving
+// them. A gate that assumes another step ran first isn't a gate.
+try {
+  execFileSync("pnpm", ["--filter", "@ui-organized/example-icon-smoke...", "build"], {
+    cwd: repoRoot,
+    stdio: ["ignore", "pipe", "pipe"],
+    encoding: "utf8",
+  });
+} catch (error) {
   process.stderr.write(
-    `\n✗ ${join(pkgRoot, "dist/icons/lucide.mjs")} doesn't exist — the library isn't built.\n` +
-      `  Run \`pnpm build\` in packages/react first.\n\n`,
+    `\n✗ Could not build the example app or its dependencies.\n\n${error.stderr || error.stdout || error.message}\n`,
   );
   process.exit(1);
 }
 
-process.stdout.write("\nBuilding examples/icon-smoke against the real package…\n");
-
-execFileSync("pnpm", ["--filter", "@ui-organized/example-icon-smoke", "build"], {
-  cwd: repoRoot,
-  stdio: ["ignore", "pipe", "pipe"],
-});
+check("the library built", existsSync(join(pkgRoot, "dist", "icons", "lucide.mjs")));
 check("the example app builds", existsSync(join(distDir, "index.html")));
 
-const server = createServer(async (req, res) => {
-  const path = !req.url || req.url === "/" ? "/index.html" : req.url.split("?")[0];
-  try {
-    const body = await readFile(join(distDir, path));
-    res.writeHead(200, { "content-type": MIME[extname(path)] ?? "application/octet-stream" });
-    res.end(body);
-  } catch {
-    res.writeHead(404).end();
-  }
+// The one JS bundle Vite emitted, found via the built index.html rather than a
+// glob — the hashed filename changes every build.
+const html = await readFile(join(distDir, "index.html"), "utf8");
+const entry = /<script[^>]+src="([^"]+\.js)"/.exec(html)?.[1];
+if (!entry) {
+  process.stderr.write("\n✗ No module script found in the built index.html.\n\n");
+  process.exit(1);
+}
+
+const { JSDOM } = await import("jsdom");
+const dom = new JSDOM(`<!doctype html><html><body><div id="root"></div></body></html>`, {
+  url: "http://localhost/",
+  pretendToBeVisual: true,
 });
-await new Promise((resolve) => server.listen(0, resolve));
-const url = `http://localhost:${server.address().port}/`;
 
-const { chromium } = await import(
-  join(repoRoot, "node_modules/.pnpm/node_modules/playwright/index.mjs")
-);
-const browser = await chromium.launch();
+// React reads these off the global scope. Assigned rather than passed, because
+// the bundle is imported as an ordinary module, not evaluated inside jsdom's
+// script runner — that keeps Node's own module resolution and error reporting.
+const noise = [];
+
+// `defineProperty` rather than assignment: Node ≥21 defines a getter-only
+// `globalThis.navigator`, so a plain assignment throws.
+const defineGlobal = (name, value) =>
+  Object.defineProperty(globalThis, name, { value, writable: true, configurable: true });
+
+// Install jsdom's whole window surface rather than a hand-picked list. Naming
+// globals individually turns into whack-a-mole — React needs some, Vite's module
+// preload polyfill needs MutationObserver, and the next bundler change will need
+// something else. Everything Node already provides is left alone.
+defineGlobal("window", dom.window);
+defineGlobal("document", dom.window.document);
+for (const key of Object.getOwnPropertyNames(dom.window)) {
+  if (key in globalThis) continue;
+  const value = dom.window[key];
+  if (typeof value === "function" || (value && typeof value === "object")) defineGlobal(key, value);
+}
+// These two Node does have, but not wired to this document.
+defineGlobal("navigator", dom.window.navigator);
+defineGlobal("requestAnimationFrame", (cb) => setTimeout(() => cb(Date.now()), 0));
+defineGlobal("cancelAnimationFrame", clearTimeout);
+
+const realWarn = console.warn;
+const realError = console.error;
+console.warn = (...args) => noise.push(args.join(" "));
+console.error = (...args) => noise.push(args.join(" "));
+
 try {
-  const page = await browser.newPage();
-  const noise = [];
-  page.on("console", (m) => {
-    if (m.type() === "warning" || m.type() === "error") noise.push(m.text());
-  });
-  page.on("pageerror", (e) => noise.push(String(e)));
+  await import(pathToFileURL(join(distDir, entry.replace(/^\//, ""))).href);
+  // React 18 renders synchronously through createRoot().render, but let any
+  // queued microtask settle before measuring.
+  await new Promise((resolve) => setTimeout(resolve, 50));
 
-  await page.goto(url, { waitUntil: "networkidle" });
-  const rendered = await page.evaluate(() => ({
-    svgs: document.querySelectorAll("svg").length,
-    slots: document.querySelectorAll(".icon").length,
-  }));
+  const svgs = dom.window.document.querySelectorAll("svg").length;
+  const slots = dom.window.document.querySelectorAll(".icon").length;
 
   check(
     "icons render in the production build",
-    rendered.svgs > 0,
-    rendered.svgs > 0
-      ? `${rendered.svgs} <svg> in ${rendered.slots} slots`
+    svgs > 0,
+    svgs > 0
+      ? `${svgs} <svg> in ${slots} slots`
       : "0 rendered — the registration import was tree-shaken. Check `sideEffects` in packages/react/package.json.",
   );
-  check("every icon rendered, not just some", rendered.svgs === EXPECTED_ICONS, `${rendered.svgs} of ${EXPECTED_ICONS}`);
-  check("no console warnings or page errors", noise.length === 0, noise[0]?.slice(0, 100) ?? "");
+  check("every icon rendered, not just some", svgs === EXPECTED_ICONS, `${svgs} of ${EXPECTED_ICONS}`);
+  check("no console warnings or errors", noise.length === 0, noise[0]?.slice(0, 100) ?? "");
 } finally {
-  await browser.close();
-  server.close();
+  console.warn = realWarn;
+  console.error = realError;
+  dom.window.close();
 }
 
 process.stdout.write(
