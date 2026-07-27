@@ -1,5 +1,12 @@
 # @ui-organized/token-manager
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies [a013962]
+  - @ui-organized/react@5.0.1
+
 ## 0.1.6
 
 ### Patch Changes
