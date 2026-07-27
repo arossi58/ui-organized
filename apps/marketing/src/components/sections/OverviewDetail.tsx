@@ -124,7 +124,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   code: {
     title: "Code",
     heading: "Components you can install",
-    lead: "Accessible React components built on Base UI and themed entirely by the design tokens. Install from npm and ship UI that matches the canvas exactly.",
+    lead: "Accessible React components built on Ark UI and themed entirely by the design tokens. Install from npm and ship UI that matches the canvas exactly.",
     items: [
       {
         icon: Package,

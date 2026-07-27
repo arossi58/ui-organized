@@ -94,7 +94,13 @@ for (const entry of manifest.components) {
     confidence: "exact",
     meta: {
       packageVersion: reactPkg.version,
-      setupImports: ["@ui-organized/tokens/variables.css", "@ui-organized/react/styles"],
+      setupImports: [
+        "@ui-organized/tokens/variables.css",
+        "@ui-organized/react/styles",
+        // Registers the icon set. Omit it and every <Icon> renders nothing —
+        // the library imports no icon package itself.
+        "@ui-organized/react/icons/lucide",
+      ],
       siteUrl: `${SITE_ORIGIN}/docs/${kebab(entry.codeName)}`,
       docUrl: `${SITE_ORIGIN}/ai/${entry.codeName}.md`,
       indexUrl: `${SITE_ORIGIN}/llms.txt`,

@@ -36,7 +36,13 @@ const byName = (name: string): ComponentManifestEntry => {
 /** Fixed meta so the snapshot never depends on a clock or a package bump. */
 const META = {
   packageVersion: "4.1.0",
-  setupImports: ["@ui-organized/tokens/variables.css", "@ui-organized/react/styles"],
+  setupImports: [
+        "@ui-organized/tokens/variables.css",
+        "@ui-organized/react/styles",
+        // Registers the icon set. Omit it and every <Icon> renders nothing —
+        // the library imports no icon package itself.
+        "@ui-organized/react/icons/lucide",
+      ],
   siteUrl: "https://uiorganized.com/docs/button",
   docUrl: "https://uiorganized.com/ai/Button.md",
   indexUrl: "https://uiorganized.com/llms.txt",

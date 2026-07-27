@@ -467,6 +467,19 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
     out.push(
       ["```tsx", ...input.meta.setupImports.map((i) => `import '${i}';`), "```"].join("\n"),
     );
+    // The icon subpath is the one setup line whose absence fails *silently*:
+    // `@ui-organized/react` imports no icon library itself, so without it
+    // `<Icon>` renders nothing at all. An agent that copies the block verbatim
+    // would otherwise emit an app whose icons are simply missing.
+    const iconImport = input.meta.setupImports.find((i) => i.includes("/icons/"));
+    if (iconImport) {
+      const library = iconImport.split("/").pop();
+      out.push(
+        `The \`icons/${library}\` line registers the icon set — \`@ui-organized/react\` imports no icon ` +
+          `library itself, so without it every \`<Icon>\` renders nothing. Swap \`${library}\` for ` +
+          `\`tabler\` or \`heroicons\` to match the project, and make sure the matching package is installed.`,
+      );
+    }
   }
 
   if (data.description) {

@@ -25,7 +25,10 @@ Once per app (already done in any existing UI Organized app):
 \`\`\`tsx
 import '@ui-organized/tokens/variables.css';
 import '@ui-organized/react/styles';
+import '@ui-organized/react/icons/lucide';
 \`\`\`
+
+The \`icons/lucide\` line registers the icon set — \`@ui-organized/react\` imports no icon library itself, so without it every \`<Icon>\` renders nothing. Swap \`lucide\` for \`tabler\` or \`heroicons\` to match the project, and make sure the matching package is installed.
 
 ## What it is
 
