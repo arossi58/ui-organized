@@ -47,6 +47,15 @@ jobs:
       - name: Run tests
         run: pnpm test
 
+      # Packs @ui-organized/cli, installs the tarball, and runs the bin THROUGH
+      # the symlink npm creates. No unit test can cover this: an import-based
+      # test calls main() directly and so bypasses the entry point, which is
+      # exactly where a published CLI shipped as a silent no-op — no output,
+      # exit 0, whole suite green. `pnpm release` runs this too, so a manual
+      # publish is gated the same way.
+      - name: Smoke-test the packed CLI
+        run: pnpm smoke
+
       # Consumed by ci-report.yml via cross-workflow download. include-hidden-files
       # is required or the assembled _site/.assetsignore (a dotfile) is dropped.
       - name: Upload site artifact

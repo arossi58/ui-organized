@@ -23,7 +23,7 @@
   "type": "module",
   "sideEffects": false,
   "bin": {
-    "uiorg": "./dist/index.js"
+    "uiorg": "./dist/cli.js"
   },
   "exports": {
     ".": {
@@ -46,6 +46,7 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
+    "test:smoke": "node scripts/smoke.mjs",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },

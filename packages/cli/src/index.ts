@@ -1,5 +1,5 @@
+import { readFileSync } from "node:fs";
 import { relative } from "node:path";
-import { pathToFileURL } from "node:url";
 import { commit, describeWrite, planApply } from "./apply.js";
 import {
   BundleError,
@@ -51,7 +51,24 @@ Examples
   npx @ui-organized/cli theme ~/Downloads/my-theme.zip --out src/theme
 `;
 
-const VERSION = "0.1.0";
+/**
+ * Read from package.json rather than hardcoded.
+ *
+ * A literal here drifts the moment Changesets bumps the version: 0.2.0 shipped
+ * reporting `0.1.0`, because nothing connects a constant to the file that
+ * actually defines the version. Both bundles live in `dist/`, so package.json is
+ * one level up, and npm always includes it in the tarball.
+ */
+function version(): string {
+  try {
+    const pkg = JSON.parse(
+      readFileSync(new URL("../package.json", import.meta.url), "utf8"),
+    ) as { version?: string };
+    return pkg.version ?? "unknown";
+  } catch {
+    return "unknown";
+  }
+}
 
 interface Options {
   bundle?: string;
@@ -63,12 +80,20 @@ interface Options {
 }
 
 export async function run(argv: string[]): Promise<number> {
-  if (argv.length === 0 || argv[0] === "-h" || argv[0] === "--help") {
+  // Asking for help is a success; being given nothing to do is not. The two used
+  // to share an exit code, which meant a CLI that ran but did nothing was
+  // indistinguishable from one working correctly — exactly what made the
+  // symlink bug read as caller error for as long as it did.
+  if (argv.length === 0) {
+    process.stderr.write(`${USAGE}\n`);
+    return 2;
+  }
+  if (argv[0] === "-h" || argv[0] === "--help") {
     process.stdout.write(USAGE);
     return 0;
   }
   if (argv[0] === "-v" || argv[0] === "--version") {
-    process.stdout.write(`${VERSION}\n`);
+    process.stdout.write(`${version()}\n`);
     return 0;
   }
 
@@ -273,10 +298,13 @@ function importSpecifier(project: Project, themeCssPath: string): string {
 }
 
 /**
- * Entry point.
+ * Run the CLI against `process.argv`, setting the exit code.
  *
- * Guarded so that importing this module — which the tests do, to drive `run`
- * directly — doesn't execute the CLI against the test runner's own argv.
+ * This module is the *library* half of the package and never executes itself —
+ * `src/cli.ts` is the bin, and it calls this unconditionally. Keeping the two
+ * apart is deliberate: the previous single-module arrangement needed an
+ * entry-point guard to tell "run as a bin" from "imported by a test", and that
+ * guard silently disabled the whole CLI when installed. See `src/cli.ts`.
  */
 export async function main(): Promise<void> {
   try {
@@ -287,8 +315,4 @@ export async function main(): Promise<void> {
     );
     process.exitCode = 1;
   }
-}
-
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  void main();
 }

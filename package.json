@@ -12,7 +12,8 @@
     "generate:palette": "node scripts/generate-core-palette.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "release": "turbo run build --filter=./packages/* && changeset publish"
+    "smoke": "pnpm --filter @ui-organized/cli test:smoke",
+    "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",
