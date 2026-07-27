@@ -1,0 +1,21 @@
+{
+  "name": "@ui-organized/example-icon-smoke",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "The smallest app that uses the documented icon setup. Built and rendered by the icon smoke gate.",
+  "scripts": {
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ui-organized/react": "workspace:*",
+    "lucide-react": "^0.400.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.0",
+    "vite": "^5.4.0"
+  }
+}

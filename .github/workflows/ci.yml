@@ -47,13 +47,22 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-      # Packs @ui-organized/cli, installs the tarball, and runs the bin THROUGH
-      # the symlink npm creates. No unit test can cover this: an import-based
-      # test calls main() directly and so bypasses the entry point, which is
-      # exactly where a published CLI shipped as a silent no-op — no output,
-      # exit 0, whole suite green. `pnpm release` runs this too, so a manual
-      # publish is gated the same way.
-      - name: Smoke-test the packed CLI
+      # Two gates against bugs that only exist in the published/production
+      # artifact, which unit tests cannot reach. Both have already caught a
+      # shipped regression; `pnpm release` runs them too, so a manual publish is
+      # gated the same way.
+      #
+      #  · CLI — packs the tarball, installs it, runs the bin THROUGH npm's bin
+      #    symlink. An import-based test calls main() directly and bypasses the
+      #    entry point, which is exactly where the CLI shipped as a silent no-op:
+      #    no output, exit 0, whole suite green.
+      #
+      #  · Icons — builds examples/icon-smoke for production and counts the <svg>
+      #    elements a browser renders. Icon registration happens by import side
+      #    effect, so a wrong `sideEffects` field tree-shakes it away in `vite
+      #    build` only; dev renders fine and nothing throws. Grepping the bundle
+      #    can't substitute — it's minified.
+      - name: Smoke-test the published artifacts
         run: pnpm smoke
 
       # Consumed by ci-report.yml via cross-workflow download. include-hidden-files

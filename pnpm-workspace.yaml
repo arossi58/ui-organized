@@ -3,3 +3,7 @@ packages:
   - 'packs/*'
   - 'apps/*'
   - 'tooling/*'
+  # A minimal consumer used as a release gate: it is built for real and its
+  # rendered output is asserted, which is the only way to catch tree-shaking
+  # regressions that unit tests and `vite dev` both miss.
+  - 'examples/*'

@@ -22,7 +22,9 @@
     "url": "https://github.com/arossi58/ui-organized/issues"
   },
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "./dist/icons/*.mjs",
+    "./dist/icons/*.js"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -74,7 +76,8 @@
     "test": "vitest run",
     "gen:contract": "tsx scripts/token-contract.ts",
     "lint": "eslint src/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:smoke": "pnpm build && node scripts/smoke-icons.mjs"
   },
   "peerDependencies": {
     "@heroicons/react": ">=2.0.0",

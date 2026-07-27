@@ -12,7 +12,7 @@
     "generate:palette": "node scripts/generate-core-palette.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "smoke": "pnpm --filter @ui-organized/cli test:smoke",
+    "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke",
     "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish"
   },
   "devDependencies": {
