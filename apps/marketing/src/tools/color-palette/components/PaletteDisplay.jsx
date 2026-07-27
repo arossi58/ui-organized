@@ -81,8 +81,10 @@ const PaletteDisplay = ({
     return <span style={contrastBadgeStyle(BADGE_FAIL)}>✗</span>;
   };
 
+  // Editor stage — the other full-panel canvas in this tool, so it carries the
+  // same shared surface as the collections landing.
   return (
-    <div style={{ flex: 1, minWidth: 0, background: 'var(--color-surface-secondary)', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ flex: 1, minWidth: 0, background: 'var(--color-surface-primary)', display: 'flex', flexDirection: 'column' }}>
       {selectedColor && palette && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'var(--color-surface-primary)', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1)' }}>
           {palette.map((color, index) => {

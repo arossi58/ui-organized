@@ -12,7 +12,9 @@
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  background: var(--color-surface-base);
+  /* Matches every other tool in the gallery (see `.tools-panel--embed`); the
+     tool's own cards stay on `surface-secondary`, so they still read as raised. */
+  background: var(--color-surface-primary);
   color: var(--color-content-primary);
 }
 

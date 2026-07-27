@@ -23,11 +23,10 @@ export function FoundationsColorPage() {
         title="Color"
         lede={
           <>
-            UI Organized colour has two layers: a large <strong>core palette</strong> of
-            ready-made OKLCH ramps, and the <strong>semantic tokens</strong> that map a small
-            set of roles onto that palette for each theme. Components only ever speak in
-            semantic roles; the core palette is what those roles — and your custom themes —
-            are built from.
+            Colour has two layers: a <strong>core palette</strong> of ready-made OKLCH ramps,
+            and the <strong>semantic tokens</strong> that map a small set of roles onto it per
+            theme. Components speak only in roles; the palette is what those roles, and your
+            custom themes, are built from.
           </>
         }
       />

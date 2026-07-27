@@ -90,7 +90,7 @@ export function ComponentInspectPage() {
               />
             ) : (
               <p className={styles.empty}>
-                No verified manifest entry matched this story, so there are no controls to show.
+                No verified manifest entry matched this story, so there are no controls.
               </p>
             )}
           </div>
@@ -133,7 +133,7 @@ export function ComponentInspectPage() {
         <DocsProse>
           <DocsSection
             title="Inspect"
-            subtitle="The rendered element tree, with each style property tagged as token-backed, inherited, or a hardcoded value that should have been a token."
+            subtitle="The rendered element tree. Each style property is tagged token-backed, inherited, or hardcoded — a value that should have been a token."
           >
             <ElementInspector nodes={inspection.nodes} onHighlight={highlight} />
           </DocsSection>

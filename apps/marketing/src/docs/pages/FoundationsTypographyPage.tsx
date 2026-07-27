@@ -18,11 +18,11 @@ export function FoundationsTypographyPage() {
         title="Typography"
         lede={
           <>
-            The design system ships a single source of truth for text: 40 global{" "}
+            One source of truth for text: 40 global{" "}
             <code>.text-&#123;weight&#125;-&#123;step&#125;</code> utility classes that mirror
-            the Figma type-style panel. Each class bundles font family, size, weight and
-            line-height from <code>--type-*</code> tokens, so components apply one class
-            instead of re-declaring those properties.
+            the Figma type-style panel. Each bundles font family, size, weight and line-height
+            from <code>--type-*</code> tokens, so components apply one class instead of
+            re-declaring four properties.
           </>
         }
       />

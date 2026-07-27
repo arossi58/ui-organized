@@ -10,19 +10,26 @@
    Padding is frame-relative: the frame is already inset from the viewport by
    `--section-px`, so repeating that here would double the gutter. */
 
+/* Full-bleed inside the frame — no `max-width` + `margin: 0 auto` here, and no
+   column gap. The rail has to sit flush against the frame's left edge with its
+   own right stroke, exactly like the tools gallery's DS `Sidebar`; centring the
+   grid floated it off that edge, and the gap replaced the stroke with air. The
+   reading measure moved to `.mainInner`, which centres itself in the remaining
+   column so wide viewports don't stretch the prose. */
 .root {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
-  gap: var(--spacing-space-08);
   align-items: stretch;
   width: 100%;
-  max-width: 84rem;
   height: 100%;
   min-height: 0;
-  margin: 0 auto;
 }
 
+/* Padding and stroke mirror the DS `Sidebar` the tools route uses: 15rem wide
+   (its `--dimension-06`), space-04 inset, `border-primary` divider. The right
+   inset stays smaller than the left so the nav rows keep the overlay
+   scrollbar's clearance (see `.sidebarNav`) without drifting off the stroke. */
 .sidebar {
   display: flex;
   flex-direction: column;
@@ -32,7 +39,9 @@
   min-width: 0;
   /* The rail never scrolls; only its list does. */
   overflow: hidden;
-  padding: var(--spacing-space-06) 0 var(--spacing-space-06) var(--spacing-space-07);
+  padding: var(--spacing-space-04) var(--spacing-space-03) var(--spacing-space-06)
+    var(--spacing-space-04);
+  border-right: 1px solid var(--color-border-primary);
 }
 
 /* Both scrolling columns are the kit's `ScrollArea`, so the class names here
@@ -45,8 +54,9 @@
 }
 
 .sidebarNav {
-  /* Clear of the overlay scrollbar, with room for the last item's focus ring. */
-  padding-right: var(--spacing-space-03);
+  /* Clear of the overlay scrollbar, with room for the last item's focus ring.
+     The rail's own right inset carries the rest of the gutter to the stroke. */
+  padding-right: var(--spacing-space-01);
   padding-bottom: var(--spacing-space-02);
 }
 
@@ -89,8 +99,12 @@
   min-height: 0;
 }
 
+/* Owns the gutter on both sides now that the grid has no gap, and carries the
+   measure the grid used to (84rem total − the 15rem rail). */
 .mainInner {
-  padding: var(--spacing-space-06) var(--spacing-space-07) var(--spacing-space-12) 0;
+  max-width: 67rem;
+  margin-inline: auto;
+  padding: var(--spacing-space-06) var(--spacing-space-07) var(--spacing-space-12);
 }
 
 /* ── Page header ──────────────────────────────────────────────────────────── */
@@ -149,14 +163,19 @@
 @media (max-width: 900px) {
   .root {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--spacing-space-05);
+    /* No gap: the rail's bottom stroke is the seam, and `.mainInner` already
+       pads the content away from it. */
     height: auto;
   }
 
+  /* Stacked above the content, the divider moves to the bottom edge and the
+     rail spans the full width — same swap the tools shell makes. */
   .sidebar {
     height: auto;
     overflow: visible;
-    padding: var(--spacing-space-06) var(--spacing-space-07) 0;
+    padding: var(--spacing-space-06) var(--spacing-space-07);
+    border-right: none;
+    border-bottom: 1px solid var(--color-border-primary);
   }
 
   .sidebarScroll {

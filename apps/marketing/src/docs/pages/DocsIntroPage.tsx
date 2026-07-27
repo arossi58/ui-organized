@@ -30,11 +30,10 @@ export function DocsIntroPage() {
         title="UI Organized"
         lede={
           <>
-            <strong>An open-source, token-driven design system ecosystem.</strong> A single
-            theme config drives everything — design and code — so a brand colour chosen once
-            shows up identically in Figma, in the component library, and on the products
-            built with it. These docs are the live component reference, and they're built
-            with the system itself.
+            <strong>An open-source, token-driven design system ecosystem.</strong> One theme
+            config drives design and code, so a brand colour chosen once looks identical in
+            Figma, in the component library, and in the products built with it. These docs are
+            the live component reference, built with the system itself.
           </>
         }
       />
@@ -82,9 +81,9 @@ export function DocsIntroPage() {
             </li>
             <li>
               <strong>CLI</strong> — <code>npx @ui-organized/cli theme &lt;bundle.zip&gt;</code>{" "}
-              applies an export to your project and checks it before writing: whether the theme
-              covers every token the components read, whether its typefaces can load, and
-              whether your own CSS overrides it. See <Link to="/docs/theming">Theming</Link>.
+              applies an export, after checking that the theme covers every token the components
+              read, that its typefaces load, and that your own CSS doesn't override it. See{" "}
+              <Link to="/docs/theming">Theming</Link>.
             </li>
             <li>
               <strong>Storybook</strong> — the interactive playground, with per-story controls
@@ -98,17 +97,17 @@ export function DocsIntroPage() {
           <ul>
             <li>
               <strong>One source of truth.</strong> Components reference semantic <em>roles</em>,
-              not hexes. Re-theme by swapping the brand/neutral family — every surface, border
-              and control follows. See <Link to="/docs/foundations/color">Foundations → Color</Link>.
+              not hexes. Swap the brand or neutral family and every surface, border and control
+              follows. See <Link to="/docs/foundations/color">Foundations → Color</Link>.
             </li>
             <li>
               <strong>Design ↔ code parity.</strong> The Figma plugin emits the <em>same</em>{" "}
-              config the code consumes, so there's no hand-translation drift between the two.
+              config the code consumes, so there's no hand-translation to drift.
             </li>
             <li>
               <strong>Accessible by construction.</strong> Brand steps are contrast-checked
-              against on-brand text, and light/dark are first-class — each token carries its
-              own assignment per mode.
+              against on-brand text, and each token carries its own assignment per mode, so
+              light and dark are both first-class.
             </li>
             <li>
               <strong>Framework-agnostic foundation.</strong> Tokens ship as plain CSS
@@ -140,10 +139,10 @@ export function DocsIntroPage() {
             </li>
           </ul>
           <p>
-            New here? Start with <Link to="/docs/get-started">Get started</Link> to install and
-            wire up the stylesheets, then <Link to="/docs/theming">Theming</Link> to make it
-            yours. Browse <Link to="/docs/foundations/color">Foundations</Link> for the token
-            reference, or pick any of the {docsComponents.length} components from the sidebar.
+            New here? <Link to="/docs/get-started">Get started</Link> installs and wires up the
+            stylesheets; <Link to="/docs/theming">Theming</Link> makes it yours.{" "}
+            <Link to="/docs/foundations/color">Foundations</Link> is the token reference, and
+            all {docsComponents.length} components are in the sidebar.
           </p>
         </DocsSection>
       </DocsProse>

@@ -17,8 +17,12 @@
    The accent maps to the DS brand (interactive-primary), so the controls match
    whatever brand the site theme menu has selected, in both modes. ───────────── */
 .theme-builder-tool {
-  /* Surfaces */
-  --builder-bg:             var(--color-surface-base);
+  /* Surfaces. The canvas is `surface-primary` so the builder reads on the same
+     background as every other tool in the gallery (see `.tools-panel--embed`);
+     the floating controls panel separates by border + radius, not by fill. The
+     live preview keeps its own surfaces — it's demonstrating the user's theme,
+     not the tool chrome. */
+  --builder-bg:             var(--color-surface-primary);
   --builder-surface:        var(--color-surface-primary);
   --builder-surface-input:  var(--color-surface-secondary);
   --builder-surface-hover:  var(--color-interactive-ui-hover);

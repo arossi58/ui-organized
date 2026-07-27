@@ -17,7 +17,7 @@ import "./tools-page.css";
  * app in the panel, while the rest show a placeholder describing what's coming.
  */
 /**
- * Sidebar group heading + divider (e.g. "Standalone apps"). On the collapsed
+ * Sidebar group heading + divider (e.g. "Standalone apps", "Dev tools"). On the collapsed
  * icon-only rail the label is dropped, leaving just the divider — the label
  * would have nothing to align to. Reads the rail's collapsed state from the DS
  * Navigation context.
@@ -72,14 +72,12 @@ export function ToolsPage() {
         <div className="tools-shell">
           <Sidebar navLabel="Tools" collapsible>
             {TOOLS.filter((tool) => !tool.hidden).map((tool, i, visible) => {
-              // Open the "Standalone apps" group at the first standalone tool.
-              const startsStandaloneGroup =
-                tool.standalone && !visible[i - 1]?.standalone;
+              // Head each named group (e.g. "Standalone apps", "Dev tools") at
+              // its first tool. The ungrouped core tools lead with no heading.
+              const startsGroup = tool.group && tool.group !== visible[i - 1]?.group;
               return (
                 <Fragment key={tool.id}>
-                  {startsStandaloneGroup && (
-                    <ToolsNavSection label="Standalone apps" />
-                  )}
+                  {startsGroup && <ToolsNavSection label={tool.group!} />}
                   <NavItem
                     label={tool.name}
                     icon={tool.icon}

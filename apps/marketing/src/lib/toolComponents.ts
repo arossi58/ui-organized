@@ -8,9 +8,13 @@ import { lazy, type ComponentType, type LazyExoticComponent } from "react";
  * A slug present here + `status: "live"` in tools.ts makes ToolsPage render the
  * tool in the panel; anything missing falls back to the "coming soon"
  * placeholder.
+ *
+ * `ui-inspect` is the exception to "embed": the inspector is an npm package you
+ * mount in your own dev app, so its panel is an explainer page.
  */
 export const TOOL_COMPONENTS: Record<string, LazyExoticComponent<ComponentType>> = {
   "color-palette": lazy(() => import("../tools/color-palette/ColorPaletteTool")),
   "icon-scaler": lazy(() => import("../tools/icon-scaler/IconScaler")),
   "theme-builder": lazy(() => import("../tools/theme-builder/ThemeBuilder")),
+  "ui-inspect": lazy(() => import("../tools/ui-inspect/UiInspectGuide")),
 };

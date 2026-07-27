@@ -65,7 +65,7 @@ export function ComponentDocsPage() {
           {examples.length > 0 && (
             <DocsSection
               title="Examples"
-              subtitle="Every example below is the real component, rendered live on this page."
+              subtitle="Every example is the real component, rendered live."
             >
               {examples.map((story) => (
                 <StoryExample key={story.exportName} story={story} />
@@ -78,7 +78,7 @@ export function ComponentDocsPage() {
             subtitle={
               entry
                 ? `The complete API of ${entry.codeName}, scanned from ${entry.codePath}.`
-                : "No verified manifest entry matched this story, so there is no prop table to show."
+                : "No verified manifest entry matched this story, so there is no prop table."
             }
           >
             {entry && <PropsTable props={entry.props} />}
@@ -87,7 +87,7 @@ export function ComponentDocsPage() {
           {related.length > 0 && (
             <DocsSection
               title="Subcomponents"
-              subtitle={`${component.name} is a compound component — compose it from these parts rather than looking for props on the root.`}
+              subtitle={`${component.name} is compound — compose it from these parts rather than looking for props on the root.`}
             >
               {related.map((sub) => (
                 <div key={sub.codeName}>

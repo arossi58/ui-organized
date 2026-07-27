@@ -158,10 +158,9 @@ export function ThemingPage() {
         title="Theming"
         lede={
           <>
-            Every component reads its colour, type and spacing from CSS custom properties —
-            never a literal. Re-theming means redefining those properties, and there are three
-            ways to do it: generate a theme, write one by hand, or build one from a config at
-            bundle time.
+            Every component reads its colour, type and spacing from CSS custom properties,
+            never a literal. Re-theming means redefining those properties — generate a theme,
+            write one by hand, or build one from a config at bundle time.
           </>
         }
       />
@@ -180,15 +179,14 @@ export function ThemingPage() {
             <li>
               <strong>Semantic tokens</strong> — the roles.{" "}
               <code>--color-surface-primary</code>, <code>--color-content-primary</code>,{" "}
-              <code>--color-interactive-primary-default</code>. Each one points at a primitive
-              step, and each carries its own assignment per mode. This is the layer a theme
-              re-points.
+              <code>--color-interactive-primary-default</code>. Each points at a primitive step
+              and carries its own assignment per mode. This is the layer a theme re-points.
             </li>
             <li>
-              <strong>Component aliases</strong> — a thin layer of shared decisions:{" "}
+              <strong>Component aliases</strong> — shared decisions:{" "}
               <code>--radius-interactive</code>, <code>--control-height-md</code>,{" "}
-              <code>--Button-Large-horizontal</code>. Named for what they do, so a change lands
-              consistently everywhere.
+              <code>--Button-Large-horizontal</code>. Named for what they do, so one change
+              lands everywhere.
             </li>
           </ul>
           <p>
@@ -205,8 +203,8 @@ export function ThemingPage() {
         >
           <p>
             Export from the <Link to="/tools">Theme Builder</Link>, then point the CLI at the
-            zip. It puts every file where your project keeps things and checks the theme
-            before it writes anything:
+            zip. It files each export where your project keeps it, and checks the theme before
+            writing anything:
           </p>
           <CodeBlock code={CLI_APPLY} language="sh" />
           <p>
@@ -215,9 +213,8 @@ export function ThemingPage() {
           </p>
           <p>
             The checks are the reason it exists. Copying four files is{" "}
-            <code>unzip &amp;&amp; cp</code>; what needs a tool is knowing whether the result
-            is <em>right</em>, and each of these used to be silent — a green build and an app
-            that looked plausible while rendering the wrong thing:
+            <code>unzip &amp;&amp; cp</code>; knowing the result is <em>right</em> is not. Each
+            of these used to fail silently — green build, plausible-looking app, wrong output:
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -231,8 +228,8 @@ export function ThemingPage() {
                 <tr>
                   <td>Token coverage</td>
                   <td>
-                    A theme that doesn’t define everything the components read, diffed against
-                    the contract below. <strong>Blocks the apply</strong> and names each one.
+                    Tokens the components read but the theme doesn’t define, diffed against the
+                    contract below. <strong>Blocks the apply</strong> and names each one.
                   </td>
                 </tr>
                 <tr>
@@ -246,8 +243,7 @@ export function ThemingPage() {
                   <td>Weights that don’t exist</td>
                   <td>
                     A family that doesn’t ship a weight the theme asks for. Google answers{" "}
-                    <code>200</code> and omits the face, so only reading the returned CSS
-                    reveals it.
+                    <code>200</code> with the face missing, so only the returned CSS reveals it.
                   </td>
                 </tr>
                 <tr>
@@ -261,10 +257,10 @@ export function ThemingPage() {
             </table>
           </div>
           <p>
-            It refuses to overwrite when your working tree is dirty, detects where an existing{" "}
+            It refuses to overwrite a dirty working tree, finds where your existing{" "}
             <code>theme.css</code> lives rather than assuming a layout (<code>--out</code>{" "}
-            overrides), and running it twice is a no-op. Exit code is non-zero when a check
-            blocks, so it works in CI.
+            overrides), and is a no-op on a second run. A blocked check exits non-zero, so it
+            works in CI.
           </p>
 
           <h3 className={styles.sectionSub}>What’s in the bundle</h3>
@@ -304,7 +300,6 @@ export function ThemingPage() {
                   <td><span className={styles.propName}>fonts.ts</span></td>
                   <td>
                     The typefaces the theme names, with the stylesheet URL that loads each.
-                    CSS can name a font but not efficiently fetch one.
                   </td>
                   <td><code>src/fonts.ts</code> + tags in your head</td>
                 </tr>
@@ -325,9 +320,9 @@ export function ThemingPage() {
 
           <p>
             <code>theme.css</code> resolves every semantic token to a literal at export time and
-            carries the layout constants too, so it is <strong>self-contained</strong> —{" "}
+            carries the layout constants, so it is <strong>self-contained</strong> and{" "}
             <code>@ui-organized/tokens/variables.css</code> is optional. Add it <em>before</em>{" "}
-            the theme if you also want the raw primitive ramps available to reference.
+            the theme if you want the raw primitive ramps to reference.
           </p>
           <p>
             The export panel’s <strong>Default mode</strong> control decides which mode lands on
@@ -343,10 +338,10 @@ export function ThemingPage() {
         >
           <CodeBlock code={OVERRIDE} language="css" />
           <p>
-            Redefine only what you want to change; everything you leave alone falls through to
-            the baseline. Colour tokens belong in the mode blocks, since each mode assigns them
-            separately. Type, spacing, radius and the layout constants are mode-independent and
-            belong on <code>:root</code>.
+            Redefine only what you want to change; the rest falls through to the baseline.
+            Colour tokens belong in the mode blocks, since each mode assigns them separately.
+            Type, spacing, radius and the layout constants are mode-independent, so they belong
+            on <code>:root</code>.
           </p>
         </DocsSection>
 
@@ -358,9 +353,9 @@ export function ThemingPage() {
           <p>
             <code>@ui-organized/react-vite</code> reads a theme config, validates it against{" "}
             <code>@ui-organized/schema</code>, runs the token pipeline and injects the result —
-            exposed as <code>virtual:@ui-organized/theme</code> and emitted as{" "}
-            <code>ds-theme.css</code>. Editing the config in development rebuilds the tokens and
-            reloads. Use this when the config is the artifact you version rather than the CSS.
+            exposed as <code>virtual:@ui-organized/theme</code>, emitted as{" "}
+            <code>ds-theme.css</code>. Editing the config in development rebuilds and reloads.
+            Use this when the config, not the CSS, is the artifact you version.
           </p>
         </DocsSection>
 
@@ -376,9 +371,8 @@ export function ThemingPage() {
           </p>
           <p>
             The same list ships as <code>token-contract.json</code> inside{" "}
-            <code>@ui-organized/react</code>, which is what{" "}
-            <code>npx @ui-organized/cli theme</code> diffs your theme against before applying
-            it. You can check a theme yourself at any time:
+            <code>@ui-organized/react</code> — what the CLI diffs your theme against before
+            applying it. Check a theme yourself at any time:
           </p>
           <CodeBlock code={CLI_CHECK} language="sh" />
           <div className={styles.tableWrap}>
@@ -423,15 +417,13 @@ export function ThemingPage() {
           </div>
 
           <p>
-            The two <strong>constant</strong> families are worth knowing about.{" "}
-            <code>--dimension-*</code> and <code>--z-index-*</code> are theme-independent —
-            no theme has a reason to change them — but component CSS still reads them:{" "}
-            <code>--dimension-06</code> is the sidebar’s width, and <code>--z-index-*</code> is
-            the entire portalled-overlay stack. A theme that omits them used to fail silently,
-            with a green build, a clean console, a sidebar shrunk to fit its content and every
-            overlay stacking on DOM order. Generated themes now include them, and the component
-            styles carry the token values as <code>var()</code> fallbacks so a partial theme
-            still renders correctly.
+            The two <strong>constant</strong> families are marked that way because no theme has
+            a reason to change them — but component CSS still reads them.{" "}
+            <code>--dimension-06</code> is the sidebar’s width; <code>--z-index-*</code> is the
+            whole portalled-overlay stack. Omitting them once meant a sidebar shrunk to its
+            content and overlays stacking on DOM order, with a green build and a clean console.
+            Generated themes now include them, and component styles carry the values as{" "}
+            <code>var()</code> fallbacks, so a partial theme still renders correctly.
           </p>
         </DocsSection>
 
@@ -446,22 +438,20 @@ export function ThemingPage() {
             <Link to="/docs/get-started">Get started</Link>. Skip it and you get the theme’s
             metrics in a fallback face, which looks intentional rather than broken.
           </p>
-          <p>
-            Two things that bite after you’ve loaded the font:
-          </p>
+          <p>Two things still bite after the font loads:</p>
           <ul>
             <li>
               <strong>Import order still wins.</strong> Any <code>--type-font-*</code>{" "}
               declaration in a stylesheet imported <em>after</em> the theme silently overrides
-              it. Loading the font doesn’t fix that.
+              it.
             </li>
             <li>
-              <strong>Not every family ships every weight.</strong> The design system uses four
+              <strong>Not every family ships every weight.</strong> The system uses four
               (default, emphasis, strong, heavy). A display face like Anton ships only 400, so
-              the builder snaps all four roles onto it and your hierarchy flattens — the picker
-              says so when it happens. Where a weight is requested but not shipped, Google
-              answers <code>200</code> with the face simply missing and the browser synthesises
-              it, which reads heavier and looser than a real cut.
+              all four roles snap onto it and your hierarchy flattens — the picker says so when
+              it happens. Ask for a weight a family doesn’t ship and Google answers{" "}
+              <code>200</code> with the face missing, leaving the browser to synthesise
+              something heavier and looser than a real cut.
             </li>
           </ul>
         </DocsSection>
@@ -497,10 +487,9 @@ export function ThemingPage() {
           </div>
           <p>
             Every tinted neutral is roughly <strong>half</strong> the luminance of{" "}
-            <code>grey</code> at the same step. So swapping the neutral family shifts the
-            weight of the UI, not just its hue — inactive states and skeleton placeholders read
-            noticeably heavier in light mode. Not a bug, but check the builder’s light preview
-            before committing to a tinted neutral.
+            <code>grey</code> at the same step, so swapping the family shifts the weight of the
+            UI, not just its hue — inactive states and skeletons read noticeably heavier in
+            light mode. Not a bug, but check the builder’s light preview first.
           </p>
         </DocsSection>
 
@@ -512,8 +501,8 @@ export function ThemingPage() {
           </p>
           <p>
             Setting it is a DOM mutation, so nothing re-renders. Components restyle immediately
-            because they resolve through CSS; code that reads <em>computed</em> token values has
-            to observe the attribute:
+            because they resolve through CSS; code that reads <em>computed</em> token values
+            must observe the attribute:
           </p>
           <CodeBlock code={OBSERVER} language="ts" />
         </DocsSection>
@@ -524,11 +513,10 @@ export function ThemingPage() {
             <a href={LINKS.githubFigmaPlugin} target="_blank" rel="noreferrer">
               Theme Import plugin
             </a>{" "}
-            builds Primitives, Semantic (with Light/Dark modes, aliased to primitives), Scale
-            and Typography collections from it. Edit variables in Figma, export a fresh{" "}
-            <code>theme.json</code>, and load it back into the builder — the round trip
-            preserves your parametric settings, so the design and code sides never
-            hand-translate.
+            builds Primitives, Semantic (Light/Dark modes, aliased to primitives), Scale and
+            Typography collections from it. Edit variables in Figma, export a fresh{" "}
+            <code>theme.json</code>, load it back into the builder. The round trip preserves
+            your parametric settings, so neither side hand-translates.
           </p>
         </DocsSection>
       </DocsProse>

@@ -1,0 +1,269 @@
+/* UI Inspect guide — a reading panel inside the tools shell.
+
+   The embed panel (`.tools-panel--embed`) is a definite-height flex column with
+   `overflow: hidden`, so this root owns the scrolling like every other tool
+   does; only the column inside it moves. Type + rhythm mirror the docs route so
+   an explainer in the gallery reads as the same site, not a second one. */
+
+.root {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  /* Same surface the embed panel and every other tool now use — stated here so
+     the guide doesn't depend on the panel to paint behind it. */
+  background: var(--color-surface-primary);
+  color: var(--color-content-primary);
+}
+
+.column {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: var(--spacing-space-09) var(--spacing-space-07) var(--spacing-space-12);
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────────── */
+
+.hero {
+  padding-bottom: var(--spacing-space-06);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  margin: 0 0 var(--spacing-space-03);
+  /* Inter, via the site's heading stack — not the brand serif. Headings here
+     match the docs route and the DS components rather than the home hero. */
+  font-family: var(--font-display);
+  font-weight: var(--type-weight-heading-strong, 600);
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-content-primary);
+}
+
+/* Tinted disc echoing `.tools-panel__art`, sized down to sit on a title line. */
+.titleIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--border-radius-full, 999px);
+  background: color-mix(in srgb, var(--site-orange) 12%, transparent);
+  color: var(--site-orange);
+}
+
+.lede {
+  margin: 0 0 var(--spacing-space-03);
+  max-width: 68ch;
+  font-size: var(--type-size-body-large, 18px);
+  line-height: 1.55;
+  color: var(--color-content-primary);
+}
+
+.leadNote {
+  margin: 0 0 var(--spacing-space-05);
+  max-width: 70ch;
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-03);
+}
+
+/* ── Demo clip ────────────────────────────────────────────────────────────── */
+
+.demo {
+  margin: var(--spacing-space-06) 0 0;
+}
+
+.demoVideo {
+  display: block;
+  width: 100%;
+  /* The source is 1440×884 (a 1760×1080 capture, scaled); pinning the ratio
+     keeps the poster from reflowing the page when the clip loads. */
+  aspect-ratio: 1440 / 884;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-secondary);
+}
+
+.demoCaption {
+  margin: var(--spacing-space-03) 0 0;
+  max-width: 72ch;
+  font-size: var(--type-size-body-small);
+  line-height: 1.6;
+  color: var(--color-content-secondary);
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────────── */
+
+.section {
+  margin-top: var(--spacing-space-09);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--spacing-space-03);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--type-leading-heading-medium);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+}
+
+.sectionSub {
+  margin: 0 0 var(--spacing-space-05);
+  max-width: 72ch;
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+/* ── Steps ────────────────────────────────────────────────────────────────── */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-06);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+}
+
+.stepNum {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--border-radius-full, 999px);
+  background: color-mix(in srgb, var(--site-orange) 14%, transparent);
+  color: var(--site-orange);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+  font-weight: 600;
+}
+
+.stepTitle {
+  margin: 0;
+  font-size: var(--type-size-body-large, 17px);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+}
+
+.body {
+  margin: 0;
+  max-width: 72ch;
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+/* Inline keycap + its icon, kept on one baseline inside a sentence. */
+.kbdRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  vertical-align: middle;
+  color: var(--color-content-tertiary);
+}
+
+.kbd {
+  padding: 1px 7px;
+  border: 1px solid var(--color-border-primary);
+  border-bottom-width: 2px;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: var(--type-size-caption);
+}
+
+/* ── Feature / note lists ─────────────────────────────────────────────────── */
+
+.features {
+  display: grid;
+  gap: var(--spacing-space-03);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature {
+  display: flex;
+  gap: var(--spacing-space-04);
+  padding: var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-secondary);
+}
+
+.featureIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--border-radius-04, 10px);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  color: var(--site-orange);
+}
+
+.featureTitle {
+  display: block;
+  margin-bottom: 2px;
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-heavy);
+  color: var(--color-content-primary);
+}
+
+.featureDesc {
+  display: block;
+  font-size: var(--type-size-body-small);
+  line-height: 1.6;
+  color: var(--color-content-secondary);
+}
+
+/* Inline code inside the guide's own prose (the docs prose sheet isn't in
+   scope here). */
+.root code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* Code blocks bring their own background; don't double-tint them. */
+.root pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+}
+
+@media (max-width: 900px) {
+  .column {
+    padding: var(--spacing-space-07) var(--spacing-space-05)
+      var(--spacing-space-10);
+  }
+}

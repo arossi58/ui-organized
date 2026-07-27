@@ -483,7 +483,7 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   // Full-screen collections landing (marketing layout, before entering the editor).
   if (collectionsView && view === 'overview') {
     return (
-      <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-base)' }}>
+      <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-primary)' }}>
         <CollectionsOverview
           collections={collections}
           activeCollectionId={activeCollectionId}
@@ -498,7 +498,7 @@ const ColorPaletteGenerator = ({ collectionsView = false }) => {
   }
 
   return (
-    <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-base)' }}>
+    <div style={{ display: 'flex', height: '100%', width: '100%', minHeight: 0, overflow: 'hidden', background: 'var(--color-surface-primary)' }}>
       {collectionsView && (
         <CollectionsRail
           collections={collections}

@@ -38,4 +38,6 @@ export const LINKS = {
   npm: "https://www.npmjs.com",
   /** The published React component library on npm. */
   npmReact: "https://www.npmjs.com/package/@ui-organized/react",
+  /** The dev-only design-system inspector on npm (see /tools/ui-inspect). */
+  npmUiInspect: "https://www.npmjs.com/package/@ui-organized/ui-inspect",
 } as const;
