@@ -36,6 +36,16 @@ const check = (name, ok, detail = "") => {
   if (!ok) failures++;
 };
 
+/**
+ * Context, not an assertion.
+ *
+ * A separate marker on purpose: an earlier version rendered this as `✓` while
+ * its own message said the condition was absent, so a run that proved nothing
+ * looked like a run that proved something. If a line isn't a pass/fail, it must
+ * not wear a tick.
+ */
+const note = (text) => process.stdout.write(`  · ${text}\n`);
+
 /** Run a command, capturing stdout/stderr and the exit code rather than throwing. */
 function attempt(file, args, options = {}) {
   try {
@@ -51,6 +61,21 @@ function attempt(file, args, options = {}) {
 }
 
 try {
+  // Pre-flight. Without this, an unbuilt package produces six cascading
+  // failures that all look like CLI bugs — which is exactly what happened when
+  // this first ran in CI, where nothing builds `@ui-organized/cli` (no other
+  // workspace depends on it, so it isn't in any build filter's closure). The
+  // `test:smoke` script now builds first; this is the guard for when that
+  // stops being true.
+  const built = join(pkgRoot, "dist", "cli.js");
+  if (!existsSync(built)) {
+    process.stderr.write(
+      `\n✗ ${built} doesn't exist — the package isn't built.\n` +
+        `  Run \`pnpm build\` in packages/cli first. This script cannot test an artifact that hasn't been produced.\n\n`,
+    );
+    process.exit(1);
+  }
+
   process.stdout.write("\nPacking and installing the real artifact…\n");
 
   const packed = execFileSync("npm", ["pack", "--pack-destination", work, "--silent"], {
@@ -72,17 +97,20 @@ try {
   });
 
   const bin = join(app, "node_modules", ".bin", "uiorg");
-  check("the bin is installed", existsSync(bin));
+  check("the bin is installed", existsSync(bin), existsSync(bin) ? "" : `expected ${bin}`);
 
-  // The whole point: npm links bins rather than copying them, and it was the
-  // link that broke the tool. If this ever stops being a symlink the test still
-  // passes, but it stops proving what it was written to prove — so say so.
-  const linked = existsSync(bin) && lstatSync(bin).isSymbolicLink();
-  check(
-    "the bin is a symlink (the condition that broke it)",
-    true,
-    linked ? "symlink, as npm installs it" : "NOT a symlink — this platform can't reproduce the original bug",
-  );
+  // npm links bins rather than copying them, and it was the link that broke the
+  // tool — so on POSIX this is a real assertion: if the bin isn't a symlink, the
+  // run below isn't exercising the condition the bug needed. Windows gets .cmd
+  // shims instead, which is legitimate, so there it's reported and not asserted.
+  if (existsSync(bin)) {
+    const linked = lstatSync(bin).isSymbolicLink();
+    if (process.platform === "win32") {
+      note("bin is a shim, not a symlink (Windows) — the original bug's condition isn't reproducible here");
+    } else {
+      check("the bin is a symlink — the condition that broke it", linked, linked ? "" : "npm copied it; this run proves less than it should");
+    }
+  }
 
   const help = attempt(bin, ["--help"]);
   check("`uiorg --help` prints help through the bin", help.stdout.includes("uiorg — UI Organized"), `exit ${help.code}, ${help.stdout.length} bytes`);
