@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import "../components/gradient/dot-grid.css";
-import "./about-page.css";
+import "./simple-page.css";
 
 /**
  * The site-level catch-all.
@@ -12,20 +13,22 @@ import "./about-page.css";
  * site chrome around an empty page, which reads as a broken site rather than a
  * wrong address.
  *
- * Reuses the About page's layout so it inherits the same dot lattice and prose
- * treatment as every other simple route.
+ * Uses the shared minimal-route shell (simple-page.css) so it inherits the same
+ * dot lattice and prose treatment as every other simple route.
  */
 export function NotFoundPage() {
   const { pathname } = useLocation();
 
-  return (
-    <div className="about-page">
-      <div className="about-page__dots dot-grid" aria-hidden="true" />
+  useDocumentMeta({ title: "Page not found — UI Organized" });
 
-      <main className="about-page__stage" id="main">
-        <article className="about-page__prose">
-          <p className="about-page__eyebrow">404</p>
-          <h1 className="about-page__title">Page not found</h1>
+  return (
+    <div className="simple-page">
+      <div className="simple-page__dots dot-grid" aria-hidden="true" />
+
+      <main className="simple-page__stage" id="main">
+        <article className="simple-page__prose">
+          <p className="simple-page__eyebrow">404</p>
+          <h1 className="simple-page__title">Page not found</h1>
           <p>
             There's nothing at <code>{pathname}</code>.
           </p>

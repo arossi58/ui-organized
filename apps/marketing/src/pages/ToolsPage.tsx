@@ -5,6 +5,7 @@ import { Monitor } from "lucide-react";
 import { TOOLS, resolveTool } from "../lib/tools";
 import { TOOL_COMPONENTS } from "../lib/toolComponents";
 import { useMediaQuery } from "../hooks/useMediaQuery";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { trackEvent } from "../lib/analytics";
 import "../components/gradient/dot-grid.css";
 import "./tools-page.css";
@@ -42,6 +43,13 @@ export function ToolsPage() {
   // a phone. On mobile we skip mounting them entirely and show a note to come
   // back on a larger screen.
   const isMobile = useMediaQuery("(max-width: 720px)");
+
+  // Titled by the selected tool, so a shared /tools/<id> link is self-describing.
+  // Must sit above the mobile early-return to stay unconditional.
+  useDocumentMeta({
+    title: `${active.name} — UI Organized Tools`,
+    description: active.tagline,
+  });
 
   if (isMobile) {
     return (

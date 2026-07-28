@@ -1,7 +1,11 @@
-/* About route: the marketing nav stays in flow at the top, then a centred prose
-   column sits on the same flat cream surface + dot lattice as the rest of the
-   site. Mirrors the docs/tools routes' backdrop treatment. */
-.about-page {
+/* Minimal route shell: the marketing nav stays in flow at the top, then a centred
+   prose column sits on the same flat cream surface + dot lattice as the rest of
+   the site. Mirrors the docs/tools routes' backdrop treatment.
+
+   Shared by any route that is just a heading and a few paragraphs (today: the
+   404 catch-all). Pages with their own sectioned layout — About, the legal
+   pages — bring their own stylesheet instead. */
+.simple-page {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -17,7 +21,7 @@
 }
 
 /* Dot lattice as the page backdrop, behind the nav + prose column. */
-.about-page__dots {
+.simple-page__dots {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -25,7 +29,7 @@
 }
 
 /* Fills the space under the in-flow nav; centres the prose column. */
-.about-page__stage {
+.simple-page__stage {
   position: relative;
   z-index: 1;
   display: flex;
@@ -36,7 +40,7 @@
 }
 
 /* Centred reading column: constrained measure, generous line height. */
-.about-page__prose {
+.simple-page__prose {
   width: 100%;
   max-width: 640px;
   color: var(--color-content-primary);
@@ -45,11 +49,11 @@
   line-height: 1.6;
 }
 
-.about-page__prose > p + p {
+.simple-page__prose > p + p {
   margin-top: var(--spacing-space-05);
 }
 
-.about-page__eyebrow {
+.simple-page__eyebrow {
   margin: 0 0 var(--spacing-space-02);
   font-size: 14px;
   font-weight: 500;
@@ -58,16 +62,16 @@
   color: var(--color-interactive-primary-default);
 }
 
-.about-page__title {
+.simple-page__title {
   margin: 0 0 var(--spacing-space-05);
-  font-family: var(--font-heading, var(--font-body));
+  font-family: var(--font-display);
   font-size: clamp(32px, 5vw, 48px);
   line-height: 1.1;
   font-weight: 600;
   color: var(--color-content-primary);
 }
 
-.about-page__lede {
+.simple-page__lede {
   margin: 0 0 var(--spacing-space-06);
   font-size: 22px;
   line-height: 1.5;

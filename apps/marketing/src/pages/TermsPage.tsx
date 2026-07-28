@@ -8,7 +8,11 @@ import { LegalPage } from "./LegalPage";
  */
 export function TermsPage() {
   return (
-    <LegalPage title="Terms of Service" updated="12 July 2026">
+    <LegalPage
+      title="Terms of Service"
+      updated="12 July 2026"
+      description="The terms that apply to using the UI Organized website, tools, and documentation."
+    >
       <p>
         These terms govern your use of this website and the in-browser tools it hosts.
         By using the site, you agree to them. If you don&rsquo;t agree, please don&rsquo;t

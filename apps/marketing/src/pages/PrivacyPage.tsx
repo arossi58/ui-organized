@@ -12,7 +12,11 @@ import { LegalPage } from "./LegalPage";
  */
 export function PrivacyPage() {
   return (
-    <LegalPage title="Privacy Policy" updated="12 July 2026">
+    <LegalPage
+      title="Privacy Policy"
+      updated="12 July 2026"
+      description="What information UI Organized collects when you visit this site, why, and the choices you have."
+    >
       <p>
         This Privacy Policy explains what information UI Organized (&ldquo;we&rdquo;,
         &ldquo;us&rdquo;) collects when you visit this website, why we collect it, and

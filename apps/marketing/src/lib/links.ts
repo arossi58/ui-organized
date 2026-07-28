@@ -25,6 +25,9 @@ export const LINKS = {
   builder: `${base}builder/`,
   storybook: `${base}storybook/`,
   github: repo,
+  /** The public GitHub Projects board the roadmap syncs from — where the work
+      in progress lives, and where contributors pick something up. */
+  githubProject: "https://github.com/users/arossi58/projects/2",
   /** The Figma plugin that imports a theme.json into Figma Variables. */
   githubFigmaPlugin: `${repo}/tree/main/tooling/figma-plugin`,
   /** The Figma community profile hosting the published plugins. */

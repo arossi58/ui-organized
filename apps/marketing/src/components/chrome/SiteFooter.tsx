@@ -19,7 +19,7 @@ export function SiteFooter() {
           Cookies
         </Link>
       </nav>
-      <span className="site-footer__note">Open source · MIT license</span>
+      <span className="site-footer__note">Open source · Apache-2.0</span>
     </footer>
   );
 }

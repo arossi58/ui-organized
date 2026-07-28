@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import "../components/gradient/dot-grid.css";
 import "./legal-page.css";
 
@@ -16,14 +17,19 @@ export function LegalPage({
   eyebrow = "Legal",
   title,
   updated,
+  description,
   children,
 }: {
   eyebrow?: string;
   title: string;
   /** Human-readable "last updated" date, e.g. "12 July 2026". */
   updated: string;
+  /** Meta description for this policy; the title is derived from `title`. */
+  description?: string;
   children: ReactNode;
 }) {
+  useDocumentMeta({ title: `${title} — UI Organized`, description });
+
   return (
     <div className="legal-page">
       {/* Same flat-surface dot lattice the other routes sit on. */}

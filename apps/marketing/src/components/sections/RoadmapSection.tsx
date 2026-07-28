@@ -3,6 +3,7 @@ import { RoadmapBoard } from "../roadmap/RoadmapBoard";
 import { SyncStatus } from "../roadmap/SyncStatus";
 import { useRoadmap } from "../../hooks/useRoadmap";
 import { isRoadmapEmpty } from "../../lib/roadmap";
+import { LINKS } from "../../lib/links";
 import "./roadmap-section.css";
 
 /**
@@ -26,7 +27,7 @@ export function RoadmapSection() {
               <p className="roadmap-section__lede">
                 A live look at what&rsquo;s in progress. See something you&rsquo;d
                 like to help with?{" "}
-                <a className="roadmap-section__link" href={LINKS_CONTRIBUTE}>
+                <a className="roadmap-section__link" href={LINKS.githubProject}>
                   Learn how to contribute.
                 </a>
                 <br />
@@ -49,6 +50,3 @@ export function RoadmapSection() {
     </section>
   );
 }
-
-/** Where "Learn how you can contribute" points — the public project board. */
-const LINKS_CONTRIBUTE = "https://github.com/users/arossi58/projects/2";

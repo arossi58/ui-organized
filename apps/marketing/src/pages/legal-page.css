@@ -1,6 +1,6 @@
 /* Legal routes (privacy / terms / cookies): the marketing nav stays in flow at
    the top, then a centred prose column sits on the same flat cream surface + dot
-   lattice as the rest of the site. Mirrors about-page.css, with typographic
+   lattice as the rest of the site. Mirrors simple-page.css, with typographic
    styles for the long-form document body. */
 .legal-page {
   position: relative;
@@ -10,7 +10,7 @@
   min-height: 0;
   background: var(--color-surface-primary);
   isolation: isolate;
-  /* Re-tone the lattice to ink so it reads on cream (mirrors .about-page). */
+  /* Re-tone the lattice to ink so it reads on cream (mirrors .simple-page). */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
 }
 
@@ -52,7 +52,7 @@
 
 .legal-prose__title {
   margin: 0 0 var(--spacing-space-02);
-  font-family: var(--font-heading, var(--font-body));
+  font-family: var(--font-display);
   font-size: clamp(30px, 5vw, 44px);
   line-height: 1.1;
   font-weight: 600;

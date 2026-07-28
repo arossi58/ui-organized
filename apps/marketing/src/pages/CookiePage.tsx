@@ -9,7 +9,11 @@ import { LegalPage } from "./LegalPage";
  */
 export function CookiePage() {
   return (
-    <LegalPage title="Cookie Policy" updated="12 July 2026">
+    <LegalPage
+      title="Cookie Policy"
+      updated="12 July 2026"
+      description="How UI Organized uses browser storage, and why the site's analytics are cookieless."
+    >
       <p>
         This page explains the cookies and similar technologies this site uses. The
         short version: <strong>we don&rsquo;t use tracking or advertising cookies</strong>,
