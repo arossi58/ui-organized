@@ -38,7 +38,7 @@ const DEMO = `${import.meta.env.BASE_URL}inspector/demo`;
 
 const INSTALL = `npm i -D @ui-organized/ui-inspect`;
 
-const MOUNT = `// src/main.tsx — your app entry
+const MOUNT = `// src/main.tsx: your app entry
 if (import.meta.env.DEV) {
   const { mountInspector } = await import("@ui-organized/ui-inspect")
   mountInspector()
@@ -48,7 +48,7 @@ const OPTIONS = `const inspector = mountInspector({
   // start expanded instead of collapsed to the launcher button
   expanded: true,
 
-  // where tokens come from — default is the page's own :root custom properties
+  // where tokens come from; default is the page's own :root custom properties
   config: {
     source: "css-vars",   // "css-vars" | "dtcg" | "tailwind" | "json"
     root: ":root",
@@ -72,17 +72,17 @@ const FEATURES: Feature[] = [
   {
     icon: PencilRuler,
     title: "Quick live edits while you work locally",
-    desc: "The main reason to reach for it: change a value on the running page, pick the replacement from your own token scale, and see it immediately. Edits are written as CSS rules into a single rebuilt <style> element — never inline styles — so what you settle on is what you paste back into a stylesheet.",
+    desc: "The main reason to reach for it: change a value on the running page, pick the replacement from your own token scale, and see it immediately. Edits are written as CSS rules into a single rebuilt <style> element, never inline styles, so what you settle on is what you paste back into a stylesheet.",
   },
   {
     icon: Pipette,
     title: "Values resolved against your tokens",
-    desc: "Every property shows its computed value and which token it matches, if any — so a hard-coded value and a token-backed one are told apart at a glance.",
+    desc: "Every property shows its computed value and which token it matches, if any, so a hard-coded value and a token-backed one are told apart at a glance.",
   },
   {
     icon: Shapes,
     title: "Matched by value type, not by name",
-    desc: "Matching runs on the resolved type — color, length, number, family — never on token names. A property is only audited when your system actually defines tokens of that type, so you never get an “everything is broken” score.",
+    desc: "Matching runs on the resolved type (color, length, number, family), never on token names. A property is only audited when your system actually defines tokens of that type, so you never get an “everything is broken” score.",
   },
   {
     icon: Gauge,
@@ -116,7 +116,7 @@ const NOTES: Feature[] = [
   {
     icon: FileCode,
     title: "ESM only",
-    desc: "Ships as ES modules. Any framework works — React, Vue, Svelte, or plain HTML — it inspects the rendered page, not your component tree.",
+    desc: "Ships as ES modules. Any framework works (React, Vue, Svelte, or plain HTML); it inspects the rendered page, not your component tree.",
   },
 ];
 
@@ -175,12 +175,12 @@ export default function UiInspectGuide() {
           <p className={styles.leadNote}>
             Its primary use is <strong>quick live edits while you work locally</strong>:
             nudge a value against your own token scale, judge it on the real page in the
-            real app, and carry what you settle on back into code — without leaving the
+            real app, and carry what you settle on back into code, without leaving the
             dev server you already have running.
           </p>
           <p className={styles.leadNote}>
-            It reads the tokens your page already defines — by default the{" "}
-            <code>:root</code> custom properties — so there is nothing to configure. It
+            It reads the tokens your page already defines, by default the{" "}
+            <code>:root</code> custom properties, so there is nothing to configure. It
             isn&rsquo;t tied to <code>@ui-organized/react</code>: it inspects whatever
             design system the page actually ships, including none.
           </p>
@@ -216,7 +216,7 @@ export default function UiInspectGuide() {
             aria-label="Screen recording: opening UI Inspect on a running app, selecting an element, replacing its font size with a token from the page's own scale, and reviewing the edit in the Changes tab."
           />
           <figcaption className={styles.demoCaption}>
-            A live edit end to end — select an element, swap a hard-coded size for a
+            A live edit end to end: select an element, swap a hard-coded size for a
             token off the page&rsquo;s own scale, then read the change back out of the
             Changes tab as JSON or Markdown.
           </figcaption>
@@ -224,7 +224,7 @@ export default function UiInspectGuide() {
 
         <Section
           title="How it works"
-          sub="Three steps, all of them in your own project — the inspector never runs on this site."
+          sub="Three steps, all of them in your own project; the inspector never runs on this site."
         >
           <ol className={styles.steps}>
             <li className={styles.step}>
@@ -242,11 +242,11 @@ export default function UiInspectGuide() {
               </div>
               <p className={styles.body}>
                 The dynamic <code>import()</code> is what keeps it out of the production
-                bundle — the guard decides whether the module is ever fetched.
+                bundle; the guard decides whether the module is ever fetched.
               </p>
               <CodeBlock code={MOUNT} language="ts" />
               <p className={styles.body}>
-                Not on Vite? Any dev-only guard works —{" "}
+                Not on Vite? Any dev-only guard works:{" "}
                 <code>process.env.NODE_ENV !== &quot;production&quot;</code>, a bundler{" "}
                 <code>define</code>, or simply not importing it from your production
                 entry.
