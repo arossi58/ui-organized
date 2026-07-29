@@ -1,42 +1,65 @@
 /**
- * Figma-Dev-Mode-style inspection of the rendered component: the element tree on
- * the left, the selected element's token-backed style properties on the right.
+ * Figma-Dev-Mode-style inspection of the rendered component: the element tree,
+ * then the selected element's token-backed style properties.
  *
  * The facts come from `extractInspection` (shared with the Storybook Inspector);
  * only the presentation is local, styled for the docs site rather than
- * Storybook's panel chrome.
+ * Storybook's panel chrome. It renders inside the Inspect tab of the properties
+ * panel, so everything stacks in a single column and each row has to survive
+ * being narrow.
  *
  * The valuable column is `source`: a property tagged `literal` where a token was
  * expected is a hardcoded value that should have been a token — which is exactly
  * what someone auditing the design system wants surfaced.
  */
 import { useEffect, useState } from "react";
-import { ScrollArea } from "@ui-organized/react";
+import { ScrollArea, Tag } from "@ui-organized/react";
 import type { InspectedNode, StyleProp } from "@ui-organized/storybook-inspector/inspect";
 import { shorten } from "@ui-organized/storybook-inspector/inspect";
 import styles from "./inspect.module.css";
 
-function PropRow({ prop }: { prop: StyleProp }) {
+/**
+ * Where a value came from. The two states worth acting on get a status `Tag`;
+ * `inherited` and literals in slots no token covers are context, and reading as
+ * quiet text keeps a dense element from becoming a wall of chips.
+ */
+function SourceTag({ prop }: { prop: StyleProp }) {
+  if (prop.source === "token") {
+    const name = prop.varName ?? "token";
+    return (
+      <Tag size="sm" variant="success" emphasized={false} className={styles.sourceTag} title={name}>
+        {name}
+      </Tag>
+    );
+  }
+
   // A literal in a token-backed slot is the finding worth flagging; a literal
   // `display: flex` is just how CSS works.
-  const flagged = prop.source === "literal" && prop.tokenable;
+  if (prop.source === "literal" && prop.tokenable) {
+    return (
+      <Tag size="sm" variant="warning" emphasized={false}>
+        hardcoded
+      </Tag>
+    );
+  }
+
+  return <span className={styles.sourceMuted}>{prop.source}</span>;
+}
+
+function PropRow({ prop }: { prop: StyleProp }) {
   return (
-    <tr>
-      <th scope="row" className={styles.propKey}>
-        {prop.property}
-      </th>
-      <td className={styles.propValue}>
-        {prop.isColor && (
-          <span className={styles.swatch} style={{ background: prop.value }} aria-hidden="true" />
-        )}
-        <code>{shorten(prop.value)}</code>
-      </td>
-      <td>
-        <span className={styles.source} data-source={flagged ? "flagged" : prop.source}>
-          {prop.source === "token" ? (prop.varName ?? "token") : flagged ? "hardcoded" : prop.source}
+    <div className={styles.propRow}>
+      <dt className={styles.propKey}>{prop.property}</dt>
+      <dd className={styles.propValue}>
+        <span className={styles.valueLine}>
+          {prop.isColor && (
+            <span className={styles.swatch} style={{ background: prop.value }} aria-hidden="true" />
+          )}
+          <code title={prop.value}>{shorten(prop.value)}</code>
         </span>
-      </td>
-    </tr>
+        <SourceTag prop={prop} />
+      </dd>
+    </div>
   );
 }
 
@@ -87,9 +110,15 @@ export function ElementInspector({
               >
                 <span className={styles.treeTag}>{node.label}</span>
                 {node.hardcodedCount > 0 && (
-                  <span className={styles.treeFlag} title={`${node.hardcodedCount} hardcoded values`}>
+                  <Tag
+                    size="sm"
+                    variant="warning"
+                    emphasized={false}
+                    className={styles.treeFlag}
+                    title={`${node.hardcodedCount} hardcoded values`}
+                  >
                     {node.hardcodedCount}
-                  </span>
+                  </Tag>
                 )}
               </button>
             </li>
@@ -114,13 +143,11 @@ export function ElementInspector({
           current.groups.map((group) => (
             <div className={styles.group} key={group.title}>
               <h4 className={styles.groupTitle}>{group.title}</h4>
-              <table className={styles.propTable}>
-                <tbody>
-                  {group.props.map((prop) => (
-                    <PropRow key={`${group.title}:${prop.property}`} prop={prop} />
-                  ))}
-                </tbody>
-              </table>
+              <dl className={styles.propList}>
+                {group.props.map((prop) => (
+                  <PropRow key={`${group.title}:${prop.property}`} prop={prop} />
+                ))}
+              </dl>
             </div>
           ))
         )}

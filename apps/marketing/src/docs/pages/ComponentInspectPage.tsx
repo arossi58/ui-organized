@@ -4,16 +4,16 @@
  *
  * One live instance driven by real controls, with the element/token inspector,
  * the colour-vision simulations and an axe run all pointed at the same rendered
- * DOM. The variant matrix lives on the Docs tab instead: its examples already
- * enumerate the variants, and showing them twice made this view a scroll.
+ * DOM. The controls and the inspector are two views of one panel beside the
+ * preview (see `PropertiesPanel`). The variant matrix lives on the Docs tab
+ * instead: its examples already enumerate the variants, and showing them twice
+ * made this view a scroll.
  */
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "@ui-organized/react";
 import {
   DocsPageHeader,
-  DocsProse,
-  DocsSection,
   DocsTabs,
   InlineMarkdown,
   PreviewSurface,
@@ -23,8 +23,7 @@ import { getDocsComponent, inspectStory } from "../registry";
 import { stalenessFor } from "../staleness";
 import { useStorybookLink } from "../useStorybookLink";
 import { CopyAiContext } from "../ai/CopyAiContext";
-import { PropertyControls } from "../inspect/PropertyControls";
-import { ElementInspector } from "../inspect/ElementInspector";
+import { PropertiesPanel } from "../inspect/PropertiesPanel";
 import { useInspection } from "../inspect/useInspection";
 import { A11yResults, A11yRunButton } from "../a11y/A11yResults";
 import { useA11yScan } from "../a11y/useA11yScan";
@@ -74,26 +73,19 @@ export function ComponentInspectPage() {
       />
 
       <DocsTabs tabs={componentTabs(component.slug)} active="inspect">
-        {/* Controls on the left, preview on the right — you read the property
+        {/* Panel on the left, preview on the right — you read the property
             you're about to change, then watch the component respond, rather
-            than tracking back across the page. */}
+            than tracking back across the page. The inspector shares the panel,
+            so hovering an element outlines it in the preview beside it. */}
         <div className={styles.grid}>
-          <div className={styles.panel}>
-            <h2 className={styles.panelTitle}>Properties</h2>
-            {component.entry ? (
-              <PropertyControls
-                props={component.entry.props}
-                argTypes={component.argTypes}
-                args={args}
-                onChange={setArg}
-                onReset={reset}
-              />
-            ) : (
-              <p className={styles.empty}>
-                No verified manifest entry matched this story, so there are no controls.
-              </p>
-            )}
-          </div>
+          <PropertiesPanel
+            component={component}
+            args={args}
+            onChange={setArg}
+            onReset={reset}
+            nodes={inspection.nodes}
+            onHighlight={highlight}
+          />
 
           <div>
             <PreviewSurface
@@ -129,15 +121,6 @@ export function ComponentInspectPage() {
             </div>
           </div>
         </div>
-
-        <DocsProse>
-          <DocsSection
-            title="Inspect"
-            subtitle="The rendered element tree. Each style property is tagged token-backed, inherited, or hardcoded — a value that should have been a token."
-          >
-            <ElementInspector nodes={inspection.nodes} onHighlight={highlight} />
-          </DocsSection>
-        </DocsProse>
       </DocsTabs>
     </>
   );

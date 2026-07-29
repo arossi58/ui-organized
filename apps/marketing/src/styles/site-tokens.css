@@ -75,6 +75,14 @@
   --font-mono: var(--type-font-body, "Inter"), system-ui, sans-serif;
   /* Brand display serif for big headings (the hero title), per the mockup. */
   --font-serif: "EB Garamond", Georgia, "Times New Roman", serif;
+  /* Code role — distinct from `--font-mono` above, which is the letterspaced
+     label role in Inter. The docs surfaces that print real code (the element
+     inspector's tags, computed values and token names) need a true monospace
+     face so columns of values line up and `l`/`1`/`I` stay distinguishable.
+     The design system has no mono family token (`--type-font-heading` and
+     `--type-font-body` are both Inter), so the stack lives here with the other
+     sanctioned literals rather than being inlined at each use site. */
+  --font-code: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 }
 
 /* Dark mode — flip the marketing-only surfaces and ink so the whole site (not

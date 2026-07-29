@@ -1,9 +1,11 @@
-/* Inspect view: live controls, the element/token inspector, the variant matrix. */
+/* Inspect view: the tabbed Properties/Inspect panel, sat beside the live preview. */
 
-/* Controls first, preview second — see ComponentInspectPage. */
+/* Panel first, preview second — see ComponentInspectPage. The column is wide
+   enough to stack the element tree above its property rows without the values
+   truncating, which a Figma-width 20rem rail could not do. */
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 20rem) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
   gap: var(--spacing-space-05);
   align-items: start;
 }
@@ -14,27 +16,50 @@
   }
 }
 
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+
 .panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
   padding: var(--spacing-space-04);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-05);
   background: var(--color-surface-primary);
 }
 
-.panelTitle {
-  margin: 0 0 var(--spacing-space-04);
-  color: var(--color-content-secondary);
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-caption);
-  font-weight: var(--type-weight-body-heavy);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+/* The segmented control's root is `inline-grid`; stretching it splits the two
+   segments evenly across the panel so it reads as the panel's tab strip rather
+   than a stray toggle sitting in the corner. */
+.panelTabs {
+  width: 100%;
+}
+
+/* Both views stay mounted so switching tabs keeps the selected element and the
+   focused control — which means `hidden` has to beat this rule's own `display`. */
+.panelView {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  min-width: 0;
+}
+
+.panelView[hidden] {
+  display: none;
+}
+
+.panelNote {
+  margin: 0;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
 }
 
 .empty {
   margin: 0;
   color: var(--color-content-tertiary);
   font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
 }
 
 /* Outline applied to the element the inspector has selected. `outline` rather
@@ -70,8 +95,9 @@
   min-width: 0;
 }
 
-/* The one field with no DS equivalent — matched to the DS label typography so
-   it doesn't read as a different system. */
+/* The one field with no DS equivalent — matched to the DS label typography and
+   the `Input` frame (`control-height-sm`, `radius-interactive`) so it doesn't
+   read as a different system next to the fields above it. */
 .colorField {
   display: flex;
   flex-direction: column;
@@ -88,38 +114,41 @@
 
 .colorInput {
   width: 100%;
-  height: 2rem;
+  height: var(--control-height-sm);
   padding: 0;
   border: 1px solid var(--color-border-data-entry);
-  border-radius: var(--border-radius-03);
+  border-radius: var(--radius-interactive);
   background: none;
 }
 
 /* ── Element inspector ────────────────────────────────────────────────────── */
 
+/* Stacked, not side by side: at panel width the tree and the property rows each
+   need the full column. */
 .inspector {
-  display: grid;
-  grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-space-04);
+  min-width: 0;
 }
 
-@media (max-width: 800px) {
-  .inspector {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* The kit's `ScrollArea` Root — it owns the overflow, this owns the frame.
-   Capped rather than fixed so a short tree doesn't leave an empty well. */
+/* An inset strip rather than a bordered box — the panel already draws a frame,
+   and a second one inside it double-frames the tree. Same treatment as the docs
+   code bar and table heads. The `ScrollArea` Root owns the overflow; the cap is
+   a max so a short tree doesn't leave an empty well. */
 .tree {
-  max-height: 22rem;
-  border: 1px solid var(--color-border-secondary);
+  max-height: var(--dimension-06);
   border-radius: var(--border-radius-04);
+  background: var(--color-surface-secondary);
 }
 
+/* Extra room on the right so a row's hardcoded-count chip clears the overlay
+   scrollbar (`ScrollArea` draws it 10px wide, over the content) on a tree tall
+   enough to scroll. */
 .treeList {
   margin: 0;
-  padding: 0;
+  padding: var(--spacing-space-01) var(--spacing-space-03) var(--spacing-space-01)
+    var(--spacing-space-01);
   list-style: none;
 }
 
@@ -128,23 +157,34 @@
   align-items: center;
   gap: var(--spacing-space-02);
   width: 100%;
-  padding: var(--spacing-space-01) var(--spacing-space-02);
+  padding: var(--spacing-space-005) var(--spacing-space-02);
   border: none;
+  border-radius: var(--border-radius-02);
   background: none;
   color: var(--color-content-secondary);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: var(--type-size-caption);
+  font-family: var(--font-code);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
   text-align: left;
   cursor: pointer;
 }
 
 .treeNode:hover {
-  background: var(--color-interactive-ghost-hover);
+  background: var(--color-interactive-ui-hover);
 }
 
+/* The design system's selected-row treatment (`.nav-sub-item--selected`): a
+   neutral overlay fill, not the brand pill. The brand fill put near-black
+   `content-primary` text on a saturated mars tone in light mode. */
 .treeNode[aria-current="true"] {
-  background: var(--color-interactive-primary-selected);
+  background: var(--color-interactive-ui-selected);
   color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-emphasis);
+}
+
+.treeNode:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
 .treeTag {
@@ -153,14 +193,10 @@
   white-space: nowrap;
 }
 
+/* Positioning only — the chip itself is a design-system `Tag`. */
 .treeFlag {
   flex-shrink: 0;
   margin-left: auto;
-  padding: 0 0.35em;
-  border-radius: var(--border-radius-full);
-  background: var(--color-status-warning-bg);
-  color: var(--color-status-warning-content);
-  font-size: var(--type-size-caption);
 }
 
 .details {
@@ -175,86 +211,117 @@
   margin-bottom: var(--spacing-space-03);
 }
 
+/* These `<code>` elements used to inherit the prose stylesheet's treatment; the
+   inspector now lives in the panel rather than in `DocsProse`, so it states its
+   own code typography. */
 .detailsTag {
   color: var(--color-content-primary);
+  font-family: var(--font-code);
   font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
   font-weight: var(--type-weight-body-strong);
 }
 
 .detailsBox,
 .detailsClass {
   color: var(--color-content-tertiary);
-  font-size: var(--type-size-caption);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
 }
 
 .group + .group {
   margin-top: var(--spacing-space-04);
 }
 
+/* The site's one eyebrow recipe (see layout.module.css). */
 .groupTitle {
   margin: 0 0 var(--spacing-space-01);
   color: var(--color-content-tertiary);
+  font-family: var(--type-font-body);
   font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
   font-weight: var(--type-weight-body-heavy);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.propTable {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--type-size-caption);
+/* Name/value pairs rather than a table: the provenance chip has to wrap under
+   its value at panel width, which three table columns can't do. */
+.propList {
+  margin: 0;
 }
 
-.propTable td,
-.propTable th {
-  padding: var(--spacing-space-01) var(--spacing-space-02);
-  text-align: left;
-  vertical-align: top;
+.propRow {
+  display: grid;
+  grid-template-columns: var(--dimension-03) minmax(0, 1fr);
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-015) 0;
 }
 
-.propTable tr + tr td,
-.propTable tr + tr th {
+.propRow + .propRow {
   border-top: 1px solid var(--color-border-secondary);
 }
 
 .propKey {
-  width: 8rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
   color: var(--color-content-tertiary);
-  font-weight: var(--type-weight-body-default);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
 }
 
+/* Value above provenance: a token name is routinely longer than the value it
+   stands in for, so the two never share a line here. */
 .propValue {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+  margin: 0;
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.valueLine {
   display: flex;
   align-items: center;
   gap: var(--spacing-space-02);
-  color: var(--color-content-primary);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  max-width: 100%;
+}
+
+.valueLine code {
+  overflow: hidden;
+  font-family: var(--font-code);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .swatch {
   flex-shrink: 0;
-  width: 0.9em;
-  height: 0.9em;
+  width: var(--spacing-space-03);
+  height: var(--spacing-space-03);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-02);
 }
 
-.source {
-  padding: 0.05em 0.4em;
-  border-radius: var(--border-radius-02);
-  background: var(--color-surface-secondary);
+/* A token name is code. Long ones truncate inside the `Tag` (which already
+   ellipsises its label) rather than forcing the panel wider.
+
+   Doubled selector for specificity: `Tag`'s own `.tag` rule sets the body font
+   at the same weight (0,1,0) and its stylesheet lands after this module's, so a
+   single class here loses and the token name renders in Inter. */
+.sourceTag.sourceTag {
+  max-width: 100%;
+  font-family: var(--font-code);
+}
+
+/* `inherited`, and literals in slots no token covers, are context rather than
+   findings — chips stay reserved for the two states worth acting on, so a dense
+   element doesn't turn the panel into a wall of pills. */
+.sourceMuted {
   color: var(--color-content-tertiary);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: 0.95em;
-}
-
-.source[data-source="token"] {
-  background: var(--color-status-success-bg);
-  color: var(--color-status-success-content);
-}
-
-.source[data-source="flagged"] {
-  background: var(--color-status-warning-bg);
-  color: var(--color-status-warning-content);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
 }
