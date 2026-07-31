@@ -13,6 +13,12 @@ export interface ComboboxProps {
   defaultValue?: string;
   /** Called with the selected option's value (empty string when cleared). */
   onValueChange?: (value: string) => void;
+  /** Controlled open state of the dropdown. */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Callback fired when the dropdown opens or closes. */
+  onOpenChange?: (open: boolean) => void;
   /** Placeholder shown in the search input when nothing is selected. */
   placeholder?: string;
   /** Accessible label rendered above the control. */

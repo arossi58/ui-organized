@@ -57,8 +57,10 @@
   flex-direction: column;
 }
 
+/* The seven-column track lives on each week now that weeks are real rows (see
+   Calendar.tsx); the grid itself just stacks them, which lays out the same. */
 .calendar__weekdays,
-.calendar__grid {
+.calendar__week {
   display: grid;
   grid-template-columns: repeat(7, var(--calendar-cell));
 }

@@ -14,7 +14,11 @@ export function ScrollArea({ children, orientation = "vertical", className, styl
 
   return (
     <ArkScrollArea.Root className={clsx("scroll-area", className)} style={style}>
-      <ArkScrollArea.Viewport className="scroll-area__viewport">
+      {/* The viewport is the element that scrolls, and a pointer drag is the only
+          way to reach content below the fold unless it can take focus. Content
+          that is itself focusable (links, inputs) makes this redundant but
+          harmless; content that isn't — prose, a long table — depends on it. */}
+      <ArkScrollArea.Viewport className="scroll-area__viewport" tabIndex={0}>
         <ArkScrollArea.Content className="scroll-area__content">{children}</ArkScrollArea.Content>
       </ArkScrollArea.Viewport>
       {showVertical && (

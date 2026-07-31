@@ -21,13 +21,14 @@ type Story = StoryObj<typeof Breadcrumb>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
+  render: (args) => (
     <Breadcrumb
       items={[
         { label: "Home", href: "#", icon: "home" },
         { label: "Components", href: "#" },
         { label: "Breadcrumb" },
       ]}
+      {...args}
     />
   ),
 };

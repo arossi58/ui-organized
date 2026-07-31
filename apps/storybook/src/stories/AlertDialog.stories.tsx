@@ -30,8 +30,8 @@ type Story = StoryObj<typeof AlertDialog>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <AlertDialog>
+  render: (args) => (
+    <AlertDialog {...args}>
       <AlertDialogTrigger className="btn btn--destructive btn--md">Delete account</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Delete account?</AlertDialogTitle>

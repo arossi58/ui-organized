@@ -66,9 +66,12 @@ function PropRow({ prop }: { prop: StyleProp }) {
 export function ElementInspector({
   nodes,
   onHighlight,
+  onReveal,
 }: {
   nodes: InspectedNode[];
   onHighlight: (ref: number | null) => void;
+  /** Selecting a row outlines it in the preview, opening its overlay if shut. */
+  onReveal: (ref: number | null) => void;
 }) {
   const [selected, setSelected] = useState(0);
 
@@ -78,9 +81,10 @@ export function ElementInspector({
     if (selected >= nodes.length) setSelected(0);
   }, [nodes, selected]);
 
-  // Highlighting is hover-driven only. Outlining the selected node on mount
-  // draws a box around the component the moment the page loads, which reads as a
-  // rendering artifact rather than a tool — and it lands in screenshots.
+  // Hover previews an element; a click selects it and keeps the outline. What
+  // is deliberately NOT done is outlining on mount — that draws a box around the
+  // component the moment the page loads, which reads as a rendering artifact
+  // rather than a tool, and it lands in screenshots.
   useEffect(() => () => onHighlight(null), [onHighlight]);
 
   if (nodes.length === 0) {
@@ -102,7 +106,10 @@ export function ElementInspector({
                 style={{
                   paddingLeft: `calc(${node.depth} * var(--spacing-space-03) + var(--spacing-space-02))`,
                 }}
-                onClick={() => setSelected(node.ref)}
+                onClick={() => {
+                  setSelected(node.ref);
+                  onReveal(node.ref);
+                }}
                 onFocus={() => onHighlight(node.ref)}
                 onBlur={() => onHighlight(null)}
                 onMouseEnter={() => onHighlight(node.ref)}

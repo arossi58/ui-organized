@@ -29,8 +29,8 @@ type Story = StoryObj<typeof ContextMenu>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <ContextMenu>
+  render: (args) => (
+    <ContextMenu {...args}>
       <ContextMenuTrigger
         style={{
           display: "grid",

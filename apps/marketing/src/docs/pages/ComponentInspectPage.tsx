@@ -43,8 +43,22 @@ export function ComponentInspectPage() {
   const [vision, setVision] = useState<string | null>(null);
   const stage = useRef<HTMLDivElement>(null);
 
-  const args = useMemo(() => ({ ...(story?.args ?? {}), ...overrides }), [story, overrides]);
-  const { inspection, refresh, highlight } = useInspection(stage, args);
+  // Opening an overlay from the State switch makes it controlled, and a
+  // controlled overlay whose own trigger and close button can no longer move it
+  // is a trap. Hand the story an `onOpenChange` that writes back to the same
+  // override, so the switch and the component always agree in both directions —
+  // clicking the trigger in the preview flips the switch, and vice versa.
+  const entryProps = component?.entry?.props;
+  const args = useMemo(() => {
+    const merged: Record<string, unknown> = { ...(story?.args ?? {}), ...overrides };
+    const controllable = entryProps?.some((prop) => prop.name === "onOpenChange");
+    if (controllable && !("onOpenChange" in merged)) {
+      merged.onOpenChange = (open: boolean) =>
+        setOverrides((current) => ({ ...current, open }));
+    }
+    return merged;
+  }, [story, overrides, entryProps]);
+  const { inspection, refresh, highlight, reveal } = useInspection(stage, args);
   const scan = useA11yScan(stage, args);
 
   const setArg = useCallback((name: string, value: unknown) => {
@@ -85,6 +99,7 @@ export function ComponentInspectPage() {
             onReset={reset}
             nodes={inspection.nodes}
             onHighlight={highlight}
+            onReveal={reveal}
           />
 
           <div>
@@ -92,6 +107,7 @@ export function ComponentInspectPage() {
               layout={story.layout}
               label={component.name}
               stageRef={stage}
+              containOverlays
               visionFilter={visionFilterValue(vision)}
               toolbar={
                 <>

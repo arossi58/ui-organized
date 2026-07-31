@@ -1,7 +1,9 @@
+import { useId } from "react";
 import { RadioGroup as ArkRadioGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { radioGroupStyles } from "./Radio.styles.js";
 import { Icon } from "../Icon/index.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import type { RadioGroupProps } from "./Radio.types.js";
 import "./Radio.css";
 
@@ -15,11 +17,25 @@ export function RadioGroup({
   disabled,
   name,
   className,
+  "aria-label": ariaLabel,
 }: RadioGroupProps) {
+  // The group label sits outside Ark's Root — it's a sibling of the items, not a
+  // child — so the Label part is never rendered and the radiogroup's
+  // `aria-labelledby` would dangle. Handing Ark the id of the heading we do
+  // render points it at a real element instead.
+  const labelId = useId();
+
   return (
     <div className={clsx(radioGroupStyles({ orientation }), className)}>
-      {label && <div className="radio-group__label">{label}</div>}
+      {label && (
+        <div className="radio-group__label" id={labelId}>
+          {label}
+        </div>
+      )}
       <ArkRadioGroup.Root
+        ids={label ? { label: labelId } : undefined}
+        aria-labelledby={label ? undefined : OMIT_ARIA}
+        aria-label={label ? undefined : ariaLabel}
         value={value}
         defaultValue={defaultValue}
         onValueChange={

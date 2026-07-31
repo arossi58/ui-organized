@@ -48,7 +48,21 @@
 /* ─── Emphasized (solid bg, light text) ───────────────────────────────────────
    Every emphasized tag draws its label in `content-light` (Figma `content/light`,
    #fcfcfc). The token is fixed light in both themes, so the label stays legible on
-   the solid status fill regardless of the surrounding theme. */
+   the solid status fill regardless of the surrounding theme.
+
+   KNOWN WCAG AA GAP (light theme). The label is 12px, so it needs 4.5:1, and four
+   of the six fills don't reach it against #fcfcfc:
+
+     success         lima.1500       #589f00   3.21
+     caution         candlelight.1500 #b7a000  2.55
+     warning         cerise.1000     #f74697   3.26
+     info-secondary  caribbean.1500  #00a072   3.26
+     (info 8.34 and error 7.66 pass)
+
+   Deliberately left as-is: the fills come from `semanticColorMap.ts`, which is
+   generated from the token JSON, so closing this is a palette decision — either
+   darker light-theme steps (the dark theme's 1700s all clear 4.5) or a dark label
+   on the light fills — not something to patch in this file. */
 
 .tag--success {
   background-color: var(--color-status-success);

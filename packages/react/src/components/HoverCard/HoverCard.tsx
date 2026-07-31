@@ -8,6 +8,7 @@ import type {
 } from "./HoverCard.types.js";
 import "./HoverCard.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkHoverCard.Root>["positioning"]>;
 
@@ -28,6 +29,7 @@ export function HoverCard({
     placement: "bottom",
     gutter: 8,
   });
+  const containedPositioning = useContainedPositioning();
   return (
     <SetPositioningContext.Provider value={setPositioning}>
       <ArkHoverCard.Root
@@ -36,7 +38,7 @@ export function HoverCard({
         onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
         openDelay={openDelay}
         closeDelay={closeDelay}
-        positioning={positioning}
+        positioning={{ ...positioning, ...containedPositioning }}
       >
         {children}
       </ArkHoverCard.Root>
@@ -77,8 +79,9 @@ export function HoverCardContent({
     });
   }, [setPositioning, placement, sideOffset, alignOffset]);
 
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkHoverCard.Positioner className="hover-card__positioner">
         <ArkHoverCard.Content className={clsx("hover-card__popup", "text-default-body-medium", className)} {...contentProps}>
           {children}

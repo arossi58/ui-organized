@@ -27,8 +27,8 @@ type Story = StoryObj<typeof Toolbar>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Toolbar>
+  render: (args) => (
+    <Toolbar {...args}>
       <Button intent="ghost">Button</Button>
       <Button intent="ghost">Button</Button>
       <Divider orientation="vertical" />

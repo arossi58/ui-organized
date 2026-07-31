@@ -1,6 +1,7 @@
 import { SegmentGroup as ArkSegmentGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import { segmentedControlStyles } from "./SegmentedControl.styles.js";
 import type { SegmentedControlProps } from "./SegmentedControl.types.js";
 import "./SegmentedControl.css";
@@ -34,6 +35,10 @@ export function SegmentedControl({
       name={name}
       orientation="horizontal"
       aria-label={ariaLabel}
+      // The control is named by `aria-label`; it renders no Label part, so Ark's
+      // `aria-labelledby` would point at an element that never exists — and it
+      // outranks the label that is actually there.
+      aria-labelledby={OMIT_ARIA}
       className={clsx(segmentedControlStyles({ size }), className)}
     >
       {/* Sliding highlight behind the selected segment. */}

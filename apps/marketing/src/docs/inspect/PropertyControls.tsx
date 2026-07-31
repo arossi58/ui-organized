@@ -15,6 +15,7 @@
  * an `aria-label`, which looked right and behaved wrong.
  */
 import {
+  groupControls,
   mergeControls,
   type Control,
   type PropDefinition,
@@ -157,16 +158,26 @@ export function PropertyControls({
     return <p className={styles.empty}>This component has no controllable props.</p>;
   }
 
+  // `groupControls` puts State first, which is what makes an overlay inspectable
+  // at all: for a Dialog or a Select, `open` is the switch that brings the rest
+  // of the component into existence, not one prop among twenty.
+  const sections = groupControls(controls);
+
   return (
     <div className={styles.controls}>
-      {controls.map((control) => (
-        <div className={styles.controlRow} key={control.name}>
-          <ControlRow
-            control={control}
-            value={args[control.name]}
-            onChange={(value) => onChange(control.name, value)}
-          />
-        </div>
+      {sections.map((section) => (
+        <section className={styles.controlSection} key={section.title}>
+          <h3 className={styles.controlSectionTitle}>{section.title}</h3>
+          {section.controls.map((control) => (
+            <div className={styles.controlRow} key={control.name}>
+              <ControlRow
+                control={control}
+                value={args[control.name]}
+                onChange={(value) => onChange(control.name, value)}
+              />
+            </div>
+          ))}
+        </section>
       ))}
       <Button intent="ghost" size="sm" icon="refresh" onClick={onReset}>
         Reset all

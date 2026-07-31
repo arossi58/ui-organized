@@ -28,8 +28,10 @@ type Story = StoryObj<typeof Menubar>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Menubar>
+  // Args go on the Menubar — it's the documented component here, so it's what
+  // the docs panel's controls describe. The three Menus keep their own state.
+  render: (args) => (
+    <Menubar {...args}>
       <Menu>
         <MenuTrigger className="menubar__trigger">File</MenuTrigger>
         <MenuContent>

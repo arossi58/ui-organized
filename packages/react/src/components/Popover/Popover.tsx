@@ -1,14 +1,22 @@
 import * as React from "react";
-import { Popover as ArkPopover, Portal } from "@ark-ui/react";
+import { Popover as ArkPopover, Portal, usePopoverContext } from "@ark-ui/react";
 import { clsx } from "clsx";
 import type {
   PopoverProps,
   PopoverTriggerProps,
   PopoverContentProps,
+  PopoverTitleProps,
+  PopoverDescriptionProps,
   PopoverCloseProps,
 } from "./Popover.types.js";
 import "./Popover.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { popupControls } from "../../utils/aria.js";
+import {
+  useContainedPopoverProps,
+  useContainedPositioning,
+  useOverlayPortal,
+} from "../../preview/useOverlayPortal.js";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkPopover.Root>["positioning"]>;
 
@@ -23,14 +31,17 @@ export function Popover({ open, defaultOpen, onOpenChange, modal, children }: Po
     placement: "bottom",
     gutter: 8,
   });
+  const contained = useContainedPopoverProps();
+  const containedPositioning = useContainedPositioning();
   return (
     <SetPositioningContext.Provider value={setPositioning}>
       <ArkPopover.Root
+        {...contained}
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
-        modal={modal}
-        positioning={positioning}
+        modal={modal ?? contained.modal}
+        positioning={{ ...positioning, ...containedPositioning }}
       >
         {children}
       </ArkPopover.Root>
@@ -40,14 +51,19 @@ export function Popover({ open, defaultOpen, onOpenChange, modal, children }: Po
 
 /** Element that toggles the popover. Pass `render` to project a custom element. */
 export function PopoverTrigger({ render, children, ...props }: PopoverTriggerProps) {
+  const controls = popupControls(usePopoverContext().open);
   if (render) {
     return (
-      <ArkPopover.Trigger asChild {...props}>
+      <ArkPopover.Trigger asChild {...controls} {...props}>
         {projectRender(render, children, "PopoverTrigger")}
       </ArkPopover.Trigger>
     );
   }
-  return <ArkPopover.Trigger {...props}>{children}</ArkPopover.Trigger>;
+  return (
+    <ArkPopover.Trigger {...controls} {...props}>
+      {children}
+    </ArkPopover.Trigger>
+  );
 }
 
 /** Portalled, positioned surface holding the popover body. */
@@ -71,14 +87,41 @@ export function PopoverContent({
     });
   }, [setPositioning, placement, sideOffset, alignOffset]);
 
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkPopover.Positioner className="popover__positioner">
         <ArkPopover.Content className={clsx("popover__popup", "text-default-body-medium", className)} {...contentProps}>
           {children}
         </ArkPopover.Content>
       </ArkPopover.Positioner>
     </Portal>
+  );
+}
+
+/**
+ * Heading for the popover, and the thing that names it.
+ *
+ * Ark gives the content `role="dialog"`, which needs an accessible name; it
+ * points at this part when one is rendered. A popover with neither a title nor
+ * an `aria-label` on its content reaches a screen reader as an unnamed dialog.
+ */
+export function PopoverTitle({ className, ...props }: PopoverTitleProps) {
+  return (
+    <ArkPopover.Title
+      className={clsx("popover__title", "text-strong-body-large", className)}
+      {...props}
+    />
+  );
+}
+
+/** Supporting copy under the title; becomes the popover's description. */
+export function PopoverDescription({ className, ...props }: PopoverDescriptionProps) {
+  return (
+    <ArkPopover.Description
+      className={clsx("popover__description", "text-default-body-medium", className)}
+      {...props}
+    />
   );
 }
 

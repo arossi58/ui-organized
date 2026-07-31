@@ -82,5 +82,7 @@ export const AllStates: Story = {
 };
 
 export const WithoutLabel: Story = {
-  args: {},
+  // With no caption beside it, nothing says what the switch controls; the
+  // label-less form needs `aria-label` to carry that.
+  args: { "aria-label": "Enable notifications" },
 };

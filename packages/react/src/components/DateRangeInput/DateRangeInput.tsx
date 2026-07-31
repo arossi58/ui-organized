@@ -8,6 +8,8 @@ import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate } from "../Calendar/dateUtils.js";
 import { DatePopover, datePopoverPositioning } from "../DateField/DatePopover.js";
+import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
+import { popupControls } from "../../utils/aria.js";
 import { openDatePicker } from "../DateField/openDatePicker.js";
 import { useCoarsePointer } from "../DateField/useCoarsePointer.js";
 import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types.js";
@@ -50,6 +52,7 @@ export function DateRangeInput({
 }: DateRangeInputProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
+  const containedPositioning = useContainedPositioning();
 
   const reactId = useId();
   const labelId = `${reactId}-label`;
@@ -160,7 +163,7 @@ export function DateRangeInput({
     );
   } else {
     const startTrigger = (
-      <ArkPopover.Trigger asChild>
+      <ArkPopover.Trigger asChild {...popupControls(open)}>
         <button
           type="button"
           className="input-affix__adornment input-affix__adornment--start input-affix__action"
@@ -175,7 +178,7 @@ export function DateRangeInput({
       <ArkPopover.Root
         open={open}
         onOpenChange={(details) => setOpen(details.open)}
-        positioning={datePopoverPositioning(rowRef)}
+        positioning={datePopoverPositioning(rowRef, containedPositioning)}
         initialFocusEl={() => activeDayRef.current}
       >
         <div className="date-range__row" ref={rowRef}>
@@ -189,7 +192,7 @@ export function DateRangeInput({
             }),
           )}
         </div>
-        <DatePopover container={portalContainer}>
+        <DatePopover container={portalContainer} label={`${startLabel} — ${endLabel}, choose dates`}>
           <Calendar
             mode="range"
             numMonths={2}

@@ -2,6 +2,7 @@ import * as React from "react";
 import { Tooltip as ArkTooltip, Portal } from "@ark-ui/react";
 import type { TooltipProps, TooltipProviderProps } from "./Tooltip.types.js";
 import "./Tooltip.css";
+import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /**
  * Ark UI has no app-level "shared delays" provider (delays are per-tooltip Root
@@ -37,6 +38,9 @@ export function Tooltip({
   container,
 }: TooltipProps) {
   const shared = React.useContext(TooltipDelayContext);
+  // Both before the `disabled` bail-out — hooks can't sit behind an early return.
+  const containedPositioning = useContainedPositioning();
+  const portal = useOverlayPortal(container);
   if (disabled) return <>{children}</>;
 
   // Base UI took separate side/align/sideOffset props; Ark/Zag takes a single
@@ -56,10 +60,10 @@ export function Tooltip({
       onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
       openDelay={delay ?? shared.delay}
       closeDelay={closeDelay ?? shared.closeDelay}
-      positioning={{ placement, gutter: sideOffset }}
+      positioning={{ placement, gutter: sideOffset, ...containedPositioning }}
     >
       {trigger}
-      <Portal container={container}>
+      <Portal {...portal}>
         <ArkTooltip.Positioner className="tooltip__positioner">
           <ArkTooltip.Content className="tooltip__popup text-default-body-small">
             {content}

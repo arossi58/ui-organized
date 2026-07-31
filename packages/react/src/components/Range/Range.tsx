@@ -3,6 +3,7 @@ import { Slider, Field } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { rangeStyles } from "./Range.styles.js";
 import { FieldError } from "../FieldError/index.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import type { RangeProps } from "./Range.types.js";
 import "./Range.css";
 
@@ -57,9 +58,16 @@ export function Range({
   name,
   id,
   className,
+  "aria-label": ariaLabel,
 }: RangeProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
+
+  // The caption is a Field.Label — it carries the *field's* id, while the slider
+  // machine names its thumb after its own Label part, which this component never
+  // renders. Left alone the thumb points at nothing and has no accessible name;
+  // pinning both to one id is what joins the caption to the thumb.
+  const labelId = React.useId();
 
   // A fixed set of allowed values is driven by index, so pointer drags and
   // arrow keys both settle exactly on an allowed value (evenly spaced).
@@ -119,12 +127,17 @@ export function Range({
       disabled={disabled}
     >
       <div className="range__header">
-        {label && <Field.Label className="range__label text-default-body-small">{label}</Field.Label>}
+        {label && (
+          <Field.Label id={labelId} className="range__label text-default-body-small">
+            {label}
+          </Field.Label>
+        )}
         {!hideValue && <span className="range__value text-default-body-large">{displayValue}</span>}
       </div>
 
       <Slider.Root
         className="range__slider"
+        ids={label ? { label: labelId } : undefined}
         value={[sliderValue]}
         onValueChange={(details) => handleChange(details.value)}
         onValueChangeEnd={(details) => handleCommitted(details.value)}
@@ -144,7 +157,12 @@ export function Range({
           <Slider.Control className="range__control">
             <Slider.Track className="range__track">
               <Slider.Range className="range__indicator" />
-              <Slider.Thumb index={0} className="range__thumb">
+              <Slider.Thumb
+                index={0}
+                className="range__thumb"
+                aria-labelledby={label ? undefined : OMIT_ARIA}
+                aria-label={label ? undefined : ariaLabel}
+              >
                 <Slider.HiddenInput />
               </Slider.Thumb>
             </Slider.Track>

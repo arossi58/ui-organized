@@ -1,4 +1,4 @@
-import { Dialog as ArkDialog, Portal } from "@ark-ui/react";
+import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { dialogStyles } from "./Dialog.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -13,15 +13,19 @@ import type {
 } from "./Dialog.types.js";
 import "./Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { popupControls } from "../../utils/aria.js";
+import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Dialog root — controls open state. */
 export function Dialog({ open, defaultOpen, onOpenChange, modal, children }: DialogProps) {
+  const contained = useContainedDialogProps();
   return (
     <ArkDialog.Root
+      {...contained}
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
-      modal={modal}
+      modal={modal ?? contained.modal}
     >
       {children}
     </ArkDialog.Root>
@@ -30,14 +34,19 @@ export function Dialog({ open, defaultOpen, onOpenChange, modal, children }: Dia
 
 /** Element that opens the dialog. Pass `render` to project a custom element. */
 export function DialogTrigger({ render, children, ...props }: DialogTriggerProps) {
+  const controls = popupControls(useDialogContext().open);
   if (render) {
     return (
-      <ArkDialog.Trigger asChild {...props}>
+      <ArkDialog.Trigger asChild {...controls} {...props}>
         {projectRender(render, children, "DialogTrigger")}
       </ArkDialog.Trigger>
     );
   }
-  return <ArkDialog.Trigger {...props}>{children}</ArkDialog.Trigger>;
+  return (
+    <ArkDialog.Trigger {...controls} {...props}>
+      {children}
+    </ArkDialog.Trigger>
+  );
 }
 
 /** Closes the dialog when activated. Pass `render` to project a custom element. */
@@ -76,9 +85,10 @@ export function DialogContent({
   children,
   ...contentProps
 }: DialogContentProps) {
+  const portal = useOverlayPortal(container);
   // Ark centers the content with a Positioner (Base UI's popup self-centered).
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkDialog.Backdrop className="dialog__backdrop" />
       <ArkDialog.Positioner className="dialog__positioner">
         <ArkDialog.Content className={clsx(dialogStyles({ size }), className)} {...contentProps}>

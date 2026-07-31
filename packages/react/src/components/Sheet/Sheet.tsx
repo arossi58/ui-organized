@@ -1,4 +1,4 @@
-import { Dialog as ArkDialog, Portal } from "@ark-ui/react";
+import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { sheetStyles } from "./Sheet.styles.js";
 import { Icon } from "../Icon/index.js";
@@ -15,15 +15,19 @@ import type {
 import "../Dialog/Dialog.css";
 import "./Sheet.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { popupControls } from "../../utils/aria.js";
+import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */
 export function Sheet({ open, defaultOpen, onOpenChange, modal, children }: SheetProps) {
+  const contained = useContainedDialogProps();
   return (
     <ArkDialog.Root
+      {...contained}
       open={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
-      modal={modal}
+      modal={modal ?? contained.modal}
     >
       {children}
     </ArkDialog.Root>
@@ -32,14 +36,19 @@ export function Sheet({ open, defaultOpen, onOpenChange, modal, children }: Shee
 
 /** Element that opens the sheet. Pass `render` to project a custom element. */
 export function SheetTrigger({ render, children, ...props }: SheetTriggerProps) {
+  const controls = popupControls(useDialogContext().open);
   if (render) {
     return (
-      <ArkDialog.Trigger asChild {...props}>
+      <ArkDialog.Trigger asChild {...controls} {...props}>
         {projectRender(render, children, "SheetTrigger")}
       </ArkDialog.Trigger>
     );
   }
-  return <ArkDialog.Trigger {...props}>{children}</ArkDialog.Trigger>;
+  return (
+    <ArkDialog.Trigger {...controls} {...props}>
+      {children}
+    </ArkDialog.Trigger>
+  );
 }
 
 /** Closes the sheet when activated. Pass `render` to project a custom element. */
@@ -79,8 +88,9 @@ export function SheetContent({
   children,
   ...contentProps
 }: SheetContentProps) {
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkDialog.Backdrop className="dialog__backdrop" />
       <ArkDialog.Positioner className="dialog__positioner sheet__positioner">
         <ArkDialog.Content

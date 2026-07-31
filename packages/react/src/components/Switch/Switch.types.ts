@@ -16,4 +16,6 @@ export interface SwitchProps {
   /** ID for the switch element. */
   id?: string;
   className?: string;
+  /** Accessible name when the switch is rendered without a visible `label`. */
+  "aria-label"?: string;
 }

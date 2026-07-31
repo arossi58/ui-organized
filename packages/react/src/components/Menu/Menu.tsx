@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Menu as ArkMenu, Portal } from "@ark-ui/react";
+import { Menu as ArkMenu, Portal, useMenuContext } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import { Divider } from "../Divider/index.js";
@@ -17,6 +17,9 @@ import type {
 } from "./Menu.types.js";
 import "./Menu.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { popupControls } from "../../utils/aria.js";
+import { useInMenubar } from "../Menubar/MenubarContext.js";
+import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.
 import "../Checkbox/Checkbox.css";
 import "../Radio/Radio.css";
@@ -30,13 +33,14 @@ export function Menu({ open, defaultOpen, onOpenChange, children }: MenuProps) {
     placement: "bottom-start",
     gutter: 4,
   });
+  const contained = useContainedPositioning();
   return (
     <SetPositioningContext.Provider value={setPositioning}>
       <ArkMenu.Root
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
-        positioning={positioning}
+        positioning={{ ...positioning, ...contained }}
       >
         {children}
       </ArkMenu.Root>
@@ -46,14 +50,27 @@ export function Menu({ open, defaultOpen, onOpenChange, children }: MenuProps) {
 
 /** Element that opens the menu. Pass `render` to project a custom element. */
 export function MenuTrigger({ render, children, ...props }: MenuTriggerProps) {
+  // Inside a menubar the trigger is one of the bar's menuitems, not a button —
+  // `role="menubar"` admits no other children. The data attribute is how the bar
+  // finds its own triggers for roving focus: a menu that portals its content
+  // into the bar (as the docs previews do) would otherwise put that menu's
+  // *items* in reach of a `[role="menuitem"]` query. See Menubar.tsx.
+  const menubar = useInMenubar()
+    ? ({ role: "menuitem", "data-menubar-item": "" } as const)
+    : undefined;
+  const controls = popupControls(useMenuContext().open);
   if (render) {
     return (
-      <ArkMenu.Trigger asChild {...props}>
+      <ArkMenu.Trigger asChild {...controls} {...menubar} {...props}>
         {projectRender(render, children, "MenuTrigger")}
       </ArkMenu.Trigger>
     );
   }
-  return <ArkMenu.Trigger {...props}>{children}</ArkMenu.Trigger>;
+  return (
+    <ArkMenu.Trigger {...controls} {...menubar} {...props}>
+      {children}
+    </ArkMenu.Trigger>
+  );
 }
 
 /** Portalled, positioned surface holding the menu items. */
@@ -77,8 +94,9 @@ export function MenuContent({
     });
   }, [setPositioning, placement, sideOffset, alignOffset]);
 
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkMenu.Positioner className="menu__positioner">
         <ArkMenu.Content className={clsx("menu__popup", className)} {...contentProps}>
           {children}

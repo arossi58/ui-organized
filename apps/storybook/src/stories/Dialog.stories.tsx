@@ -29,8 +29,11 @@ type Story = StoryObj<typeof Dialog>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Dialog>
+  // Args reach the root so the docs Inspect panel's State switch can open it.
+  // No default `open`: unset leaves the dialog uncontrolled, so the trigger
+  // behaves normally until something actually drives it.
+  render: (args) => (
+    <Dialog {...args}>
       <DialogTrigger className="btn btn--primary btn--md">Delete project</DialogTrigger>
       <DialogContent>
         <DialogTitle>Delete project</DialogTitle>

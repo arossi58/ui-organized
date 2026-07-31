@@ -42,6 +42,13 @@ interface StoryParameters {
 
 export type PreviewLayout = "padded" | "centered" | "fullscreen";
 
+/**
+ * A CSF decorator. Storybook passes the story as a callable plus a context; the
+ * ones in this repo are all providers (`ToastProvider`, `NavSurface`) that use
+ * neither argument beyond calling the story, so the context is passed as `{}`.
+ */
+type StoryDecorator = (story: () => ReactNode, context: unknown) => ReactNode;
+
 interface StoryMeta {
   title?: string;
   component?: unknown;
@@ -49,6 +56,7 @@ interface StoryMeta {
   parameters?: StoryParameters;
   argTypes?: Record<string, StoryArgTypeInput>;
   args?: Args;
+  decorators?: StoryDecorator[];
 }
 
 interface StoryObject {
@@ -261,9 +269,26 @@ export function buildRegistry(
 
       // Wrapped in a component so any hooks the story or the component uses run
       // in this fiber, not in the docs page that mounts it. See `Story` above.
-      const Story: ComponentType<{ args: Args }> = renderFn
+      const base: ComponentType<{ args: Args }> = renderFn
         ? ({ args: a }) => (renderFn(a) ?? null) as ReactNode
         : ({ args: a }) => (Component ? createElement(Component, a) : null);
+
+      // `meta.decorators` are part of what a story renders, not decoration we
+      // can drop: Toast's decorator is the `<ToastProvider>` that supplies its
+      // viewport, and without it the story shows buttons that do nothing.
+      // Applied innermost-first so the first decorator ends up outermost, as
+      // Storybook does it. The context carries the merged parameters, which is
+      // the part of it decorators here actually read (Navigation branches on
+      // `parameters.noSurface`).
+      const decorators = meta.decorators ?? [];
+      const decoratorContext = { parameters: { ...metaParams, ...params } };
+      const Story: ComponentType<{ args: Args }> = decorators.length
+        ? ({ args: a }) =>
+            decorators.reduceRight<ReactNode>(
+              (child, decorate) => decorate(() => child, decoratorContext),
+              createElement(base, { args: a }),
+            )
+        : base;
       Story.displayName = `Story(${meta.title}/${exportName})`;
 
       stories.push({

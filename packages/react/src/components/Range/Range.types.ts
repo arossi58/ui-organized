@@ -52,4 +52,6 @@ export interface RangeProps {
   /** ID for the slider root. */
   id?: string;
   className?: string;
+  /** Accessible name for the thumb when there is no visible `label`. */
+  "aria-label"?: string;
 }

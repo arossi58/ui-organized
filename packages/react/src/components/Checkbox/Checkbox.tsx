@@ -1,6 +1,7 @@
 import { Checkbox as ArkCheckbox } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "./Checkbox.css";
 
@@ -15,6 +16,7 @@ export function Checkbox({
   name,
   id,
   className,
+  "aria-label": ariaLabel,
 }: CheckboxProps) {
   // Ark's Checkbox.Root *is* the <label>. Base UI took a separate `indeterminate`
   // prop; Ark folds it into the checked value ("indeterminate"). Adapt the
@@ -42,7 +44,13 @@ export function Checkbox({
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>
       {label && <ArkCheckbox.Label className="checkbox__label text-default-body-large">{label}</ArkCheckbox.Label>}
-      <ArkCheckbox.HiddenInput />
+      {/* Ark points the input at the Label part unconditionally. With no `label`
+          there is no such element, so the reference dangles — and a dangling
+          `aria-labelledby` outranks `aria-label`, leaving the box nameless. */}
+      <ArkCheckbox.HiddenInput
+        aria-labelledby={label ? undefined : OMIT_ARIA}
+        aria-label={label ? undefined : ariaLabel}
+      />
     </ArkCheckbox.Root>
   );
 }

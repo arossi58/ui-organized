@@ -77,7 +77,10 @@ export function NavItem({
         )}
       </button>
       {showSubList && (
-        <div id={subListId} className="nav-item__sub-list" role="list">
+        // `role="group"`, not `list`: the sub-items are buttons, and a list may
+        // only contain listitems — the mismatch is an ARIA error. What the panel
+        // actually is here is the disclosure the button above expands.
+        <div id={subListId} className="nav-item__sub-list" role="group">
           <div className="nav-item__sub-list-inner">{children}</div>
         </div>
       )}

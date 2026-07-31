@@ -29,8 +29,8 @@ type Story = StoryObj<typeof Sheet>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Sheet>
+  render: (args) => (
+    <Sheet {...args}>
       <SheetTrigger className="btn btn--primary btn--md">Open sheet</SheetTrigger>
       <SheetContent>
         <SheetTitle>Edit profile</SheetTitle>

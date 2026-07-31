@@ -9,6 +9,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useChannel } from "storybook/manager-api";
 import { STORY_RENDERED, STORY_ARGS_UPDATED } from "storybook/internal/core-events";
 import { extractInspection, type InspectedNode } from "../inspect/extract.js";
+import { openOverlayFor } from "../inspect/reveal.js";
 
 const HL_ID = "fcp-highlight";
 const SKIP_TAGS = new Set(["SCRIPT", "STYLE", "LINK", "TEMPLATE", "NOSCRIPT"]);
@@ -37,29 +38,11 @@ function portalRoots(doc: Document, main: Element): Element[] {
   );
 }
 
-/**
- * Open the overlay a portal element belongs to (INSPECTOR ask: clicking a portal
- * element should open it). Walks up to a node whose `id` a trigger points at via
- * `aria-controls`, and clicks that trigger when it's currently closed — so the
- * overlay is actually visible for the highlight, instead of a hidden element.
- */
+/** Open the overlay a portal element belongs to, so the highlight lands on
+ *  something visible. Shared with the docs site — see `inspect/reveal.ts`. */
 function openPortalFor(win: Window | null, el: Element | null): void {
   if (!win || !el) return;
-  const doc = win.document;
-  let node: Element | null = el;
-  while (node && node !== doc.body) {
-    if (node.id) {
-      const trigger = doc.querySelector(`[aria-controls="${node.id.replace(/"/g, '\\"')}"]`);
-      if (trigger) {
-        const closed =
-          trigger.getAttribute("aria-expanded") === "false" ||
-          trigger.getAttribute("data-state") === "closed";
-        if (closed) (trigger as HTMLElement).click();
-        return;
-      }
-    }
-    node = node.parentElement;
-  }
+  openOverlayFor(win.document, el);
 }
 
 function drawHighlight(win: Window | null, el: Element | null): void {

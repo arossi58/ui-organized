@@ -13,6 +13,12 @@ export interface SelectProps {
   defaultValue?: string;
   /** Callback fired when the selected value changes. */
   onValueChange?: (value: string) => void;
+  /** Controlled open state of the dropdown. */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Callback fired when the dropdown opens or closes. */
+  onOpenChange?: (open: boolean) => void;
   /** Placeholder text shown when nothing is selected. */
   placeholder?: string;
   /** Accessible label rendered above the trigger. */

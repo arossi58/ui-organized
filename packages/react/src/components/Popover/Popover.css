@@ -26,3 +26,15 @@
   opacity: 0;
   transform: scale(0.96);
 }
+
+/* ─── Title + description ─────────────────────────────────────────────────── */
+
+.popover__title {
+  margin: 0 0 var(--spacing-space-02);
+  color: var(--color-content-primary);
+}
+
+.popover__description {
+  margin: 0;
+  color: var(--color-content-secondary);
+}

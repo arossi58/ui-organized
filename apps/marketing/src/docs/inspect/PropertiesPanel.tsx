@@ -33,6 +33,7 @@ interface PropertiesPanelProps {
   onReset: () => void;
   nodes: InspectedNode[];
   onHighlight: (ref: number | null) => void;
+  onReveal: (ref: number | null) => void;
 }
 
 export function PropertiesPanel({
@@ -42,6 +43,7 @@ export function PropertiesPanel({
   onReset,
   nodes,
   onHighlight,
+  onReveal,
 }: PropertiesPanelProps) {
   const [view, setView] = useState("properties");
 
@@ -75,12 +77,7 @@ export function PropertiesPanel({
       </div>
 
       <div className={styles.panelView} hidden={view !== "inspect"}>
-        {/* The tree speaks for itself; what needs saying is what the tags mean. */}
-        <p className={styles.panelNote}>
-          Each property is tagged token-backed, inherited, or hardcoded — a value that should
-          have been a token.
-        </p>
-        <ElementInspector nodes={nodes} onHighlight={onHighlight} />
+        <ElementInspector nodes={nodes} onHighlight={onHighlight} onReveal={onReveal} />
       </div>
     </div>
   );

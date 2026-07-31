@@ -48,13 +48,6 @@
   display: none;
 }
 
-.panelNote {
-  margin: 0;
-  color: var(--color-content-tertiary);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
-}
-
 .empty {
   margin: 0;
   color: var(--color-content-tertiary);
@@ -64,10 +57,22 @@
 
 /* Outline applied to the element the inspector has selected. `outline` rather
    than `border` so it never changes layout — a border would resize the very box
-   whose dimensions the panel is reporting. */
-:global([data-docs-inspected="true"]) {
+   whose dimensions the panel is reporting.
+
+   Two states: hover previews an element, a click selects it and the outline
+   stays put, because that's the element the property list below is describing. */
+:global([data-docs-inspected="true"]),
+:global([data-docs-selected="true"]) {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: 1px;
+}
+
+:global([data-docs-selected="true"]) {
+  outline-style: dashed;
+}
+
+:global([data-docs-selected="true"][data-docs-inspected="true"]) {
+  outline-style: solid;
 }
 
 /* Mirrors the Docs tab's placement of the copy action, directly under the
@@ -93,6 +98,26 @@
 
 .controlRow {
   min-width: 0;
+}
+
+/* Sections come from `groupControls`, shared with the Storybook Inspector panel.
+   The heading is quiet on purpose — it separates State from Properties without
+   competing with the field labels underneath it, which are the thing being read. */
+.controlSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-05);
+  align-items: stretch;
+}
+
+.controlSectionTitle {
+  margin: 0;
+  color: var(--color-content-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* The one field with no DS equivalent — matched to the DS label typography and

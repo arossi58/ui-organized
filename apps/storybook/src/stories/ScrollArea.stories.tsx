@@ -21,9 +21,10 @@ type Story = StoryObj<typeof ScrollArea>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
+  render: (args) => (
     <ScrollArea
       style={{ height: 200, width: 280, border: "1px solid var(--color-border-secondary)", borderRadius: 8 }}
+      {...args}
     >
       <div style={{ padding: 16, display: "flex", flexDirection: "column", gap: 8 }}>
         {Array.from({ length: 30 }, (_, i) => (

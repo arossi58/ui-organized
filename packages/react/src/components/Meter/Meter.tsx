@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { clsx } from "clsx";
 import { meterStyles } from "./Meter.styles.js";
 import type { MeterProps } from "./Meter.types.js";
@@ -19,11 +20,15 @@ export function Meter({
   variant,
   size,
   className,
+  "aria-label": ariaLabel,
 }: MeterProps) {
   const showHeader = label != null || showValue;
   const clamped = Math.min(Math.max(value, min), max);
   const percent = max > min ? ((clamped - min) / (max - min)) * 100 : 0;
   const formatted = new Intl.NumberFormat(undefined, format).format(value);
+  // `role="meter"` needs an accessible name: the caption when there is one,
+  // otherwise whatever the caller passes. A bare number is not a measurement.
+  const labelId = useId();
 
   return (
     <div
@@ -32,11 +37,17 @@ export function Meter({
       aria-valuemin={min}
       aria-valuemax={max}
       aria-valuetext={formatted}
+      aria-labelledby={label != null ? labelId : undefined}
+      aria-label={label == null ? ariaLabel : undefined}
       className={clsx(meterStyles({ variant, size }), className)}
     >
       {showHeader && (
         <div className="meter__header text-default-body-small">
-          {label != null && <span className="meter__label">{label}</span>}
+          {label != null && (
+            <span className="meter__label" id={labelId}>
+              {label}
+            </span>
+          )}
           {showValue && <span className="meter__value">{formatted}</span>}
         </div>
       )}

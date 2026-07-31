@@ -1,12 +1,17 @@
 import { defineConfig } from "tsup";
 
 /**
- * Four entries, and the split is the point.
+ * Five entries, and the split is the point.
  *
  * `index` must not reach any icon library — that is what makes the optional
  * peers genuinely optional. Each `icons/*` entry is the only module that imports
  * its library, so a consumer who imports `icons/lucide` never resolves Tabler or
  * Heroicons, and a bundler never tries to.
+ *
+ * `preview` is the odd one out: it's tooling for surfaces that show components
+ * (docs stages, inspectors), kept out of `.` so the library's public API stays
+ * the components. Its context object is `globalThis`-keyed precisely because
+ * this entry and `index` get separate copies of the module in the CJS build.
  *
  * Output names are chosen to match the `exports` map in package.json:
  * `dist/icons/lucide.mjs` ← `src/icons/entry-lucide.ts`.
@@ -17,6 +22,7 @@ export default defineConfig({
     "icons/lucide": "src/icons/entry-lucide.ts",
     "icons/tabler": "src/icons/entry-tabler.ts",
     "icons/heroicons": "src/icons/entry-heroicons.ts",
+    preview: "src/preview/index.ts",
   },
   format: ["esm", "cjs"],
   dts: true,

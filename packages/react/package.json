@@ -43,6 +43,11 @@
       "types": "./styles.d.ts",
       "default": "./dist/index.css"
     },
+    "./preview": {
+      "types": "./dist/preview.d.ts",
+      "import": "./dist/preview.mjs",
+      "require": "./dist/preview.js"
+    },
     "./icons/lucide": {
       "types": "./dist/icons/lucide.d.ts",
       "import": "./dist/icons/lucide.mjs",

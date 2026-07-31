@@ -10,6 +10,45 @@
   background: var(--color-surface-primary);
 }
 
+/* ── Contained overlays (Inspect view) ─────────────────────────────────────
+   The library renders a contained overlay in place instead of portalling it,
+   but `position: fixed` still resolves against the viewport unless an ancestor
+   is a containing block. `contain: paint` makes this frame that ancestor — and
+   clips to it — so a Dialog's backdrop, a Sheet's edge panel and the Toast
+   group all land inside the preview instead of over the page.
+
+   With a vision filter active, `.stage` becomes a nearer containing block (a
+   `filter` creates one too), so the backdrop covers the stage rather than the
+   whole frame. That's the filter working as intended, not a bug. */
+.surface[data-contain-overlays] {
+  contain: paint;
+}
+
+/* Room for a dialog, and for a menu to open downward without running out of
+   frame. Contained overlays open below their trigger and never flip (see
+   `useContainedPositioning`), so what matters is the space underneath it —
+   which is also why a `centered` story is pinned to the top here. Centring a
+   trigger halves the room a popup has and leaves a tall menu clipped. */
+.surface[data-contain-overlays] .stage {
+  min-height: 28rem;
+}
+
+.surface[data-contain-overlays] .stage[data-layout="centered"] {
+  align-items: flex-start;
+}
+
+/* Dialog and Sheet size themselves off the viewport (`calc(100vw - …)`), which
+   inside a frame this size overflows it. Bound them to the frame instead. */
+.surface[data-contain-overlays] :global(.dialog__popup) {
+  width: 100%;
+  max-height: 100%;
+}
+
+.surface[data-contain-overlays] :global(.sheet__popup) {
+  max-width: 100%;
+  max-height: 100%;
+}
+
 .toolbar {
   display: flex;
   flex-wrap: wrap;

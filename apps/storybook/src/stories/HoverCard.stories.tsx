@@ -21,8 +21,8 @@ type Story = StoryObj<typeof HoverCard>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <HoverCard>
+  render: (args) => (
+    <HoverCard {...args}>
       <HoverCardTrigger
         render={
           <a href="#" style={{ color: "var(--color-interactive-primary-default)" }}>

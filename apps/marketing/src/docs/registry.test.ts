@@ -7,6 +7,8 @@
  * live data on purpose — a fixture would keep passing after someone renames a
  * component or retitles a story.
  */
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, it, expect } from "vitest";
 import {
   docsComponents,
@@ -123,6 +125,17 @@ describe("story shapes", () => {
   it("carries the curated snippets across the whole corpus", () => {
     const withCode = docsComponents.flatMap((c) => c.stories).filter((s) => s.code);
     expect(withCode.length).toBeGreaterThan(60);
+  });
+
+  it("applies meta.decorators, so Toast gets its provider", () => {
+    // `meta.decorators` were dropped for a long time, and Toast is where it
+    // showed: its decorator IS the `<ToastProvider>` supplying the viewport, so
+    // without it the story rendered four buttons that did nothing visible.
+    const toast = getDocsComponent("toast");
+    const story = toast && inspectStory(toast);
+    expect(story).toBeDefined();
+    const html = renderToStaticMarkup(createElement(story!.Story, { args: story!.args }));
+    expect(html).toContain("toast__viewport");
   });
 });
 

@@ -22,6 +22,8 @@ export {
   type StyleProp,
 } from "./extract.js";
 
+export { openOverlayFor, isRendered } from "./reveal.js";
+
 export {
   isColorValue,
   isIconTag,

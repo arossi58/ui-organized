@@ -30,7 +30,14 @@
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-/* Pressed (on) state — filled with the active primary colour. */
+/* Pressed (on) state — filled with the active primary colour.
+
+   KNOWN WCAG AA GAP. `interactive-primary-active` is brand.1300 (#cd5613 on the
+   default Mars brand) and `interactive-contents` is grey.100 (#fcfcfc): 4.15:1
+   against the 4.5 a 16px label needs. brand.1400 would reach 5.00, but the step
+   is set in the token JSON that generates `semanticColorMap.ts`, so moving it is
+   a palette decision rather than a component one. Same call as the emphasized
+   Tag labels — see Tag.css. */
 .toggle[data-state="on"] {
   background-color: var(--color-interactive-primary-active);
   color: var(--color-interactive-contents);

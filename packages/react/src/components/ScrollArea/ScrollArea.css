@@ -22,6 +22,14 @@
   scrollbar-width: none;
 }
 
+/* The viewport is a keyboard tab stop (see ScrollArea.tsx), so it has to show
+   where focus is. Inset, because an outline on a clipping container is drawn
+   half outside the Root and gets cut off. */
+.scroll-area__viewport:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
+}
+
 .scroll-area__viewport::-webkit-scrollbar {
   display: none;
 }

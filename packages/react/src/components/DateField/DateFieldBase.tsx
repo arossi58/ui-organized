@@ -9,10 +9,12 @@ import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate, todayYMD, type YMD } from "../Calendar/dateUtils.js";
+import { popupControls } from "../../utils/aria.js";
 import { openDatePicker } from "./openDatePicker.js";
 import { setNativeInputValue } from "./setNativeInputValue.js";
 import { useCoarsePointer } from "./useCoarsePointer.js";
 import { DatePopover, datePopoverPositioning } from "./DatePopover.js";
+import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
 import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // Shares the Input field surface/state styling; InputAffix.css supplies the
 // leading calendar button and hides the native picker chrome.
@@ -53,6 +55,7 @@ export function DateFieldBase({
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const isDateTime = type === "datetime-local";
+  const containedPositioning = useContainedPositioning();
 
   const coarse = useCoarsePointer();
   const [open, setOpen] = useState(false);
@@ -139,11 +142,11 @@ export function DateFieldBase({
         <ArkPopover.Root
           open={open}
           onOpenChange={(details) => setOpen(details.open)}
-          positioning={datePopoverPositioning(fieldRef)}
+          positioning={datePopoverPositioning(fieldRef, containedPositioning)}
           initialFocusEl={() => activeDayRef.current}
         >
           <div className="input-affix" ref={fieldRef}>
-            <ArkPopover.Trigger asChild>
+            <ArkPopover.Trigger asChild {...popupControls(open)}>
               <button
                 type="button"
                 className="input-affix__adornment input-affix__adornment--start input-affix__action"
@@ -155,7 +158,7 @@ export function DateFieldBase({
             </ArkPopover.Trigger>
             {control}
           </div>
-          <DatePopover container={portalContainer}>
+          <DatePopover container={portalContainer} label={pickerLabel}>
             <Calendar
               mode="single"
               value={parseISODate(datePart)}

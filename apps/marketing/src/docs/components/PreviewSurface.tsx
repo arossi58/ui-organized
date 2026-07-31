@@ -12,9 +12,15 @@
  *    so a failure is contained to its own preview and reported in place.
  * 3. **A scan target.** `stageRef` exposes just the rendered component — not the
  *    frame or toolbar — for the accessibility checker and the vision filters.
+ * 4. **Overlay containment**, opt-in via `containOverlays`. A Dialog that
+ *    portals to `<body>` and covers the window is right in an app and useless in
+ *    a docs panel: it hides the inspector describing it, and it renders outside
+ *    `stageRef`, so the element tree and the axe run never see it. Contained, it
+ *    renders in place inside the stage and every one of those follows.
  */
 import { Component, type ReactNode, type Ref } from "react";
 import { IconProvider } from "@ui-organized/react";
+import { PreviewOverlayProvider } from "@ui-organized/react/preview";
 import type { PreviewLayout } from "../registry";
 import styles from "./preview.module.css";
 
@@ -60,6 +66,12 @@ interface PreviewSurfaceProps {
    * reader has to associate by proximity.
    */
   footer?: ReactNode;
+  /**
+   * Render overlays (Dialog, Menu, Select's listbox, Toast…) inside this frame
+   * rather than over the window. The Inspect view sets it; the Docs tab doesn't,
+   * so its examples keep behaving the way they would in an application.
+   */
+  containOverlays?: boolean;
 }
 
 export function PreviewSurface({
@@ -70,9 +82,10 @@ export function PreviewSurface({
   visionFilter,
   label = "This preview",
   footer,
+  containOverlays = false,
 }: PreviewSurfaceProps) {
   return (
-    <div className={styles.surface}>
+    <div className={styles.surface} data-contain-overlays={containOverlays || undefined}>
       {toolbar && <div className={styles.toolbar}>{toolbar}</div>}
       {/* The vision filter goes on the outer stage so it covers the padded
           area, but `stageRef` — the axe target and the inspection root — goes on
@@ -87,7 +100,9 @@ export function PreviewSurface({
         <div className={styles.stageInner} ref={stageRef}>
           <PreviewBoundary label={label}>
             <IconProvider library="lucide" style="outline" strokeAdjustment>
-              {children}
+              {/* Inside `stageRef`, so a contained overlay lands in the subtree
+                  the inspector and the axe run already scan. */}
+              <PreviewOverlayProvider contain={containOverlays}>{children}</PreviewOverlayProvider>
             </IconProvider>
           </PreviewBoundary>
         </div>

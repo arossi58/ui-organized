@@ -114,9 +114,13 @@
   z-index: var(--z-index-popover, 1000);
 }
 
+/* The popup is the listbox itself and holds the options directly — see
+   Combobox.tsx on why there is no separate list element between them. */
 .combobox-popup {
   width: var(--reference-width);
   max-height: 280px;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: var(--spacing-space-01);
@@ -145,13 +149,7 @@
   color: var(--color-content-tertiary);
 }
 
-/* ─── List + items ────────────────────────────────────────────────────────── */
-
-.combobox-popup__list {
-  display: flex;
-  flex-direction: column;
-  outline: none;
-}
+/* ─── Items ───────────────────────────────────────────────────────────────── */
 
 .combobox-popup__item {
   display: flex;

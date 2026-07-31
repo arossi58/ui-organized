@@ -56,6 +56,13 @@ function orderedPair(a: YMD, b: YMD): [YMD, YMD] {
   return compareYMD(a, b) <= 0 ? [a, b] : [b, a];
 }
 
+/** `monthGrid`'s flat run of days, split into the weeks it already represents. */
+function weeksOf(cells: YMD[]): YMD[][] {
+  const weeks: YMD[][] = [];
+  for (let i = 0; i < cells.length; i += 7) weeks.push(cells.slice(i, i + 7));
+  return weeks;
+}
+
 export function Calendar({
   mode,
   value,
@@ -199,60 +206,67 @@ export function Calendar({
           aria-label={monthLabel(monthAnchor.year, monthAnchor.month)}
           onKeyDown={onGridKeyDown}
         >
-          {cells.map((d) => {
-            const iso = toISODate(d);
-            const outside = !isSameMonth(d, monthAnchor);
-            const disabled = !isWithin(d, min, max);
+          {/* Weeks are real rows. A grid may only own rows, and a gridcell may
+              only sit in one — a flat run of 42 day buttons under role="grid"
+              is neither. `monthGrid` always returns six whole weeks, so the
+              chunking is exact. */}
+          {weeksOf(cells).map((week) => (
+            <div key={toISODate(week[0]!)} className="calendar__week" role="row">
+              {week.map((d) => {
+                const iso = toISODate(d);
+                const outside = !isSameMonth(d, monthAnchor);
+                const disabled = !isWithin(d, min, max);
 
-            const isSingleSel = mode === "single" && isSameYMD(d, value ?? null);
-            const isLo = !!lo && isSameYMD(d, lo);
-            const isHi = !!hi && isSameYMD(d, hi);
-            const isEndpoint =
-              mode === "range" && (isSameYMD(d, start) || isSameYMD(d, end) || isLo || isHi);
-            const selected = isSingleSel || isEndpoint;
-            const inRange =
-              !!lo && !!hi && compareYMD(d, lo) > 0 && compareYMD(d, hi) < 0;
+                const isSingleSel = mode === "single" && isSameYMD(d, value ?? null);
+                const isLo = !!lo && isSameYMD(d, lo);
+                const isHi = !!hi && isSameYMD(d, hi);
+                const isEndpoint =
+                  mode === "range" && (isSameYMD(d, start) || isSameYMD(d, end) || isLo || isHi);
+                const selected = isSingleSel || isEndpoint;
+                const inRange = !!lo && !!hi && compareYMD(d, lo) > 0 && compareYMD(d, hi) < 0;
 
-            return (
-              <button
-                key={iso}
-                type="button"
-                ref={(el) => {
-                  if (el) dayRefs.current.set(iso, el);
-                  else dayRefs.current.delete(iso);
-                  if (isSameYMD(d, focused) && activeDayRef) activeDayRef.current = el;
-                }}
-                className="calendar__day"
-                role="gridcell"
-                tabIndex={isSameYMD(d, focused) ? 0 : -1}
-                disabled={disabled}
-                aria-label={ymdToDate(d).toLocaleDateString(undefined, {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-                aria-selected={selected || undefined}
-                aria-current={isSameYMD(d, today) ? "date" : undefined}
-                data-outside={outside || undefined}
-                data-today={isSameYMD(d, today) || undefined}
-                data-selected={selected || undefined}
-                data-range-lo={(isLo && hi && !isSameYMD(lo, hi)) || undefined}
-                data-range-hi={(isHi && lo && !isSameYMD(lo, hi)) || undefined}
-                data-in-range={inRange || undefined}
-                onClick={() => {
-                  setFocused(d);
-                  selectDay(d);
-                }}
-                onMouseEnter={() => {
-                  if (mode === "range" && start && !end) setHover(d);
-                }}
-                onFocus={() => setFocused(d)}
-              >
-                <span className="calendar__day-label text-default-body-large">{d.day}</span>
-              </button>
-            );
-          })}
+                return (
+                  <button
+                    key={iso}
+                    type="button"
+                    ref={(el) => {
+                      if (el) dayRefs.current.set(iso, el);
+                      else dayRefs.current.delete(iso);
+                      if (isSameYMD(d, focused) && activeDayRef) activeDayRef.current = el;
+                    }}
+                    className="calendar__day"
+                    role="gridcell"
+                    tabIndex={isSameYMD(d, focused) ? 0 : -1}
+                    disabled={disabled}
+                    aria-label={ymdToDate(d).toLocaleDateString(undefined, {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                    aria-selected={selected || undefined}
+                    aria-current={isSameYMD(d, today) ? "date" : undefined}
+                    data-outside={outside || undefined}
+                    data-today={isSameYMD(d, today) || undefined}
+                    data-selected={selected || undefined}
+                    data-range-lo={(isLo && hi && !isSameYMD(lo, hi)) || undefined}
+                    data-range-hi={(isHi && lo && !isSameYMD(lo, hi)) || undefined}
+                    data-in-range={inRange || undefined}
+                    onClick={() => {
+                      setFocused(d);
+                      selectDay(d);
+                    }}
+                    onMouseEnter={() => {
+                      if (mode === "range" && start && !end) setHover(d);
+                    }}
+                    onFocus={() => setFocused(d)}
+                  >
+                    <span className="calendar__day-label text-default-body-large">{d.day}</span>
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
     );

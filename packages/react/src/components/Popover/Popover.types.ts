@@ -39,3 +39,7 @@ export interface PopoverContentProps extends React.ComponentPropsWithoutRef<"div
   /** Portal container. Defaults to document.body. */
   container?: React.RefObject<HTMLElement | null>;
 }
+
+export interface PopoverTitleProps extends React.ComponentPropsWithoutRef<"h2"> {}
+
+export interface PopoverDescriptionProps extends React.ComponentPropsWithoutRef<"p"> {}

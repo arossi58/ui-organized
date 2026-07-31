@@ -21,8 +21,8 @@ type Story = StoryObj<typeof Collapsible>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Collapsible style={{ maxWidth: 360 }}>
+  render: (args) => (
+    <Collapsible style={{ maxWidth: 360 }} {...args}>
       <CollapsibleTrigger>Show details</CollapsibleTrigger>
       <CollapsibleContent>
         <p style={{ margin: 0 }}>

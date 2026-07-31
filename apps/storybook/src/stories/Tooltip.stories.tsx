@@ -21,8 +21,8 @@ type Story = StoryObj<typeof Tooltip>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Tooltip content="Copy to clipboard">
+  render: (args) => (
+    <Tooltip content="Copy to clipboard" {...args}>
       <button className="btn btn--secondary btn--md">Hover me</button>
     </Tooltip>
   ),

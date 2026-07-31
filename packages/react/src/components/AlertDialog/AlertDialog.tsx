@@ -1,4 +1,4 @@
-import { Dialog as ArkDialog, Portal } from "@ark-ui/react";
+import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { dialogStyles } from "../Dialog/Dialog.styles.js";
 import { buttonStyles } from "../Button/Button.styles.js";
@@ -16,12 +16,15 @@ import type {
 // Reuses the Dialog chrome (backdrop, popup sizing, title/description/footer/close).
 import "../Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
+import { popupControls } from "../../utils/aria.js";
+import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** AlertDialog root — a focus-trapping confirm dialog dismissed via its actions. */
 export function AlertDialog({ open, defaultOpen, onOpenChange, children }: AlertDialogProps) {
   // role="alertdialog" gives it the alert semantics + no outside-click dismiss.
   return (
     <ArkDialog.Root
+      {...useContainedDialogProps()}
       role="alertdialog"
       open={open}
       defaultOpen={defaultOpen}
@@ -34,14 +37,19 @@ export function AlertDialog({ open, defaultOpen, onOpenChange, children }: Alert
 
 /** Element that opens the dialog. Pass `render` to project a custom element. */
 export function AlertDialogTrigger({ render, children, ...props }: AlertDialogTriggerProps) {
+  const controls = popupControls(useDialogContext().open);
   if (render) {
     return (
-      <ArkDialog.Trigger asChild {...props}>
+      <ArkDialog.Trigger asChild {...controls} {...props}>
         {projectRender(render, children, "AlertDialogTrigger")}
       </ArkDialog.Trigger>
     );
   }
-  return <ArkDialog.Trigger {...props}>{children}</ArkDialog.Trigger>;
+  return (
+    <ArkDialog.Trigger {...controls} {...props}>
+      {children}
+    </ArkDialog.Trigger>
+  );
 }
 
 export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps) {
@@ -68,8 +76,9 @@ export function AlertDialogContent({
   children,
   ...contentProps
 }: AlertDialogContentProps) {
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkDialog.Backdrop className="dialog__backdrop" />
       <ArkDialog.Positioner className="dialog__positioner">
         <ArkDialog.Content className={clsx(dialogStyles({ size }), className)} {...contentProps}>

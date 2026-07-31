@@ -18,4 +18,6 @@ export interface MeterProps {
   /** Track thickness. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
   className?: string;
+  /** Accessible name when the meter is rendered without a visible `label`. */
+  "aria-label"?: string;
 }

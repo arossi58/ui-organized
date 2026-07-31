@@ -16,6 +16,7 @@ import type {
   ContextMenuRadioItemProps,
 } from "./ContextMenu.types.js";
 import "./ContextMenu.css";
+import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.
 import "../Checkbox/Checkbox.css";
 import "../Radio/Radio.css";
@@ -29,13 +30,14 @@ const SetPositioningContext = React.createContext<((p: Positioning) => void) | n
 /** ContextMenu root — controls open state. */
 export function ContextMenu({ open, defaultOpen, onOpenChange, children }: ContextMenuProps) {
   const [positioning, setPositioning] = React.useState<Positioning>({ gutter: 4 });
+  const containedPositioning = useContainedPositioning();
   return (
     <SetPositioningContext.Provider value={setPositioning}>
       <ArkMenu.Root
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
-        positioning={positioning}
+        positioning={{ ...positioning, ...containedPositioning }}
       >
         {children}
       </ArkMenu.Root>
@@ -72,8 +74,9 @@ export function ContextMenuContent({
     });
   }, [setPositioning, sideOffset, alignOffset]);
 
+  const portal = useOverlayPortal(container);
   return (
-    <Portal container={container}>
+    <Portal {...portal}>
       <ArkMenu.Positioner className="context-menu__positioner">
         <ArkMenu.Content className={clsx("context-menu__popup", className)} {...contentProps}>
           {children}

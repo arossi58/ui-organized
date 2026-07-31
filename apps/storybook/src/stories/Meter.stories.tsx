@@ -28,7 +28,9 @@ export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
     <div style={{ width: 320 }}>
-      <Meter {...args} />
+      {/* Bare track, no caption — `role="meter"` still has to say what it
+          measures, and `label` takes over as soon as one is set. */}
+      <Meter aria-label="Measured value" {...args} />
     </div>
   ),
   args: { value: 64, variant: "default", size: "md" },

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-07-13T02:53:17.317Z",
+  "generatedAt": "2026-07-31T00:02:54.122Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -673,6 +673,12 @@
           "required": false
         },
         {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
           "name": "defaultValue",
           "type": "string",
           "required": false,
@@ -715,10 +721,22 @@
           "description": "Name attribute for form submission."
         },
         {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the dropdown opens or closes."
+        },
+        {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "required": false,
           "description": "Called with the selected option's value (empty string when cleared)."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state of the dropdown."
         },
         {
           "name": "options",
@@ -759,8 +777,8 @@
         }
       ],
       "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
-      "propSignatureHash": "sha256:1d817c06c1c9a01d",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:afd52166dcebfe72",
+      "lastSyncedAt": "2026-07-31T00:02:54.122Z",
       "status": "draft"
     },
     {
@@ -3049,6 +3067,12 @@
           "required": false
         },
         {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
           "name": "defaultValue",
           "type": "string",
           "required": false,
@@ -3085,10 +3109,22 @@
           "description": "Name attribute for form submission."
         },
         {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the dropdown opens or closes."
+        },
+        {
           "name": "onValueChange",
           "type": "(value: string) => void",
           "required": false,
           "description": "Callback fired when the selected value changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state of the dropdown."
         },
         {
           "name": "options",
@@ -3136,8 +3172,8 @@
         }
       ],
       "usageSnippet": "<Select options={/* SelectOption[] */} />",
-      "propSignatureHash": "sha256:1b786275d6126657",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:a2c90f2f6a9c57da",
+      "lastSyncedAt": "2026-07-31T00:02:54.122Z",
       "status": "draft"
     },
     {

@@ -191,16 +191,26 @@ export function mergeControls(
  * Group controls into Figma-style sections. A control whose name shares a prefix
  * with others (e.g. `icon`, `iconPosition`) collapses under that prefix; the rest
  * live under "Properties". Pure UI grouping, no logic implication (§4).
+ *
+ * "State" comes first and is the reason the grouping exists at all for overlays.
+ * A Dialog's or a Select's interesting DOM only exists while it is open, so on a
+ * preview surface `open` isn't one prop among twenty — it's the switch that
+ * makes the component inspectable. Matched on the prop NAME so this stays
+ * component-agnostic: nothing here knows what a Dialog is.
  */
+const STATE_CONTROL = /^(default)?(open|expanded)$|^modal$/i;
+
 export interface ControlSection {
   title: string;
   controls: Control[];
 }
 
 export function groupControls(controls: Control[]): ControlSection[] {
-  const iconish = controls.filter((c) => /^icon/i.test(c.name));
-  const rest = controls.filter((c) => !/^icon/i.test(c.name));
+  const state = controls.filter((c) => STATE_CONTROL.test(c.name));
+  const iconish = controls.filter((c) => !STATE_CONTROL.test(c.name) && /^icon/i.test(c.name));
+  const rest = controls.filter((c) => !STATE_CONTROL.test(c.name) && !/^icon/i.test(c.name));
   const sections: ControlSection[] = [];
+  if (state.length) sections.push({ title: "State", controls: state });
   if (rest.length) sections.push({ title: "Properties", controls: rest });
   if (iconish.length) sections.push({ title: "Icon", controls: iconish });
   return sections;

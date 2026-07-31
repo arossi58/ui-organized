@@ -13,6 +13,7 @@ import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { ComboboxProps } from "./Combobox.types.js";
 import "./Combobox.css";
+import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 // Module-level so `useFilter`'s memo key is stable (it keys on the props object
 // identity); otherwise `contains` — and the derived collection — would churn
@@ -24,6 +25,9 @@ export function Combobox({
   value,
   defaultValue,
   onValueChange,
+  open,
+  defaultOpen,
+  onOpenChange,
   placeholder,
   label,
   helperText,
@@ -38,6 +42,8 @@ export function Combobox({
 }: ComboboxProps) {
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
+  const portal = useOverlayPortal();
+  const containedPositioning = useContainedPositioning();
 
   // Ark doesn't filter for us (Base UI did): mirror the input text and rebuild
   // the collection from the matching options. Rendering items from
@@ -74,11 +80,14 @@ export function Combobox({
           onValueChange ? (details) => onValueChange(details.value[0] ?? "") : undefined
         }
         onInputValueChange={(details) => setQuery(details.inputValue)}
+        open={open}
+        defaultOpen={defaultOpen}
+        onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
         invalid={isInvalid}
         disabled={disabled}
         name={name}
         required={required}
-        positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed" }}
+        positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed", ...containedPositioning }}
       >
         {label && (
           <ArkCombobox.Label className="field__label">
@@ -95,20 +104,23 @@ export function Combobox({
             <Icon name="chevron-down" size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </ArkCombobox.Trigger>
         </ArkCombobox.Control>
-        <Portal container={portalContainer ? { current: portalContainer } : undefined}>
+        {/* An explicitly-passed container still wins over the preview context. */}
+        <Portal {...(portalContainer ? { container: { current: portalContainer } } : portal)}>
           <ArkCombobox.Positioner className="combobox-positioner">
             <ArkCombobox.Content className="combobox-popup">
               <ArkCombobox.Empty className="combobox-popup__empty text-default-body-medium">{emptyMessage}</ArkCombobox.Empty>
-              <ArkCombobox.List className="combobox-popup__list">
-                {collection.items.map((item) => (
-                  <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item text-default-body-large">
-                    <span className="combobox-popup__item-label">{item.label}</span>
-                    <ArkCombobox.ItemIndicator className="combobox-popup__item-indicator">
-                      <Icon name="check" size={CONTROL_ICON_SIZE[size ?? "md"]} />
-                    </ArkCombobox.ItemIndicator>
-                  </ArkCombobox.Item>
-                ))}
-              </ArkCombobox.List>
+              {/* Items sit directly in Content, which is itself the listbox —
+                  Combobox.List is a second labelled wrapper for the
+                  non-composite mode, and in between it reads as a child of the
+                  listbox that isn't an option. */}
+              {collection.items.map((item) => (
+                <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item text-default-body-large">
+                  <span className="combobox-popup__item-label">{item.label}</span>
+                  <ArkCombobox.ItemIndicator className="combobox-popup__item-indicator">
+                    <Icon name="check" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+                  </ArkCombobox.ItemIndicator>
+                </ArkCombobox.Item>
+              ))}
             </ArkCombobox.Content>
           </ArkCombobox.Positioner>
         </Portal>

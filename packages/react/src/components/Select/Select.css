@@ -105,6 +105,8 @@
 
 /* ─── Popup ───────────────────────────────────────────────────────────────── */
 
+/* The popup is the listbox itself and holds the options directly — see
+   Select.tsx on why there is no separate list element between them. */
 .select-popup {
   background-color: var(--color-surface-primary);
   border: 1px solid var(--color-border-data-entry);
@@ -114,7 +116,12 @@
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   outline: none;
   transform-origin: top;
   transition:
@@ -125,17 +132,6 @@
 .select-popup[data-state="closed"] {
   opacity: 0;
   transform: scaleY(0.95);
-}
-
-/* ─── List ────────────────────────────────────────────────────────────────── */
-
-.select-popup__list {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  max-height: 280px;
-  overscroll-behavior: contain;
-  outline: none;
 }
 
 /* ─── Item ────────────────────────────────────────────────────────────────── */
@@ -189,6 +185,23 @@
 /* A borderless, label-less trigger that mirrors the ghost Button's colour
    states (--color-interactive-ghost-*). Size, layout, focus, invalid and
    disabled treatments are inherited from the base trigger above. */
+
+/* The label is hidden, not dropped. Ark names the trigger, the listbox and the
+   hidden <select> after the Label part; without it in the DOM all three point
+   at nothing, and a dangling `aria-labelledby` outranks any `aria-label` put
+   beside it — so the field ends up with no accessible name at all. */
+.select-field__label--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
 
 .select-field--ghost .select-field__trigger {
   background-color: var(--color-interactive-ghost-default);

@@ -24,4 +24,6 @@ export interface RadioGroupProps {
   /** Name attribute for form submission. */
   name?: string;
   className?: string;
+  /** Accessible name for the group when it has no visible `label`. */
+  "aria-label"?: string;
 }

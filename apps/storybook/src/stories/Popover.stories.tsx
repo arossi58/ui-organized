@@ -1,5 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Popover, PopoverTrigger, PopoverContent } from "@ui-organized/react";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverTitle,
+  PopoverDescription,
+} from "@ui-organized/react";
 
 const meta: Meta<typeof Popover> = {
   title: "Components/Overlay/Popover",
@@ -10,7 +16,7 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`).",
+          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`). The content is a dialog, so name it — with a `<PopoverTitle>`, or `aria-label` when it has no heading.",
       },
     },
   },
@@ -21,20 +27,12 @@ type Story = StoryObj<typeof Popover>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: () => (
-    <Popover>
+  render: (args) => (
+    <Popover {...args}>
       <PopoverTrigger className="btn btn--secondary btn--md">Open popover</PopoverTrigger>
       <PopoverContent style={{ maxWidth: 260 }}>
-        <h4 style={{ margin: "0 0 8px", fontSize: "var(--type-size-body-large)" }}>Dimensions</h4>
-        <p
-          style={{
-            margin: 0,
-            color: "var(--color-content-secondary)",
-            fontSize: "var(--type-size-body-small)",
-          }}
-        >
-          Set the width and height of the selected layer.
-        </p>
+        <PopoverTitle>Dimensions</PopoverTitle>
+        <PopoverDescription>Set the width and height of the selected layer.</PopoverDescription>
       </PopoverContent>
     </Popover>
   ),
@@ -46,7 +44,8 @@ export const Sides: Story = {
       {(["top", "right", "bottom", "left"] as const).map((side) => (
         <Popover key={side}>
           <PopoverTrigger className="btn btn--secondary btn--md">{side}</PopoverTrigger>
-          <PopoverContent side={side}>
+          {/* No heading here, so the dialog is named by `aria-label` instead. */}
+          <PopoverContent side={side} aria-label={`Positioned on the ${side}`}>
             Positioned on the {side}.
           </PopoverContent>
         </Popover>

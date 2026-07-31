@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Button,
   Toggle,
@@ -92,6 +92,15 @@ const BREADCRUMB_ITEMS = [
 
 export function PreviewKitchenSink() {
   const portalContainer = usePreviewPortalContainer();
+  // Two conventions for the same idea: the fields take the element (`portalContainer`),
+  // the overlays take a ref (`container`). Passing the raw element to the second
+  // group made Ark read `.current` off an element, get `undefined`, and quietly
+  // fall back to `document.body` — so those four overlays rendered outside the
+  // themed container they were supposed to be demonstrating.
+  const portalContainerRef = useMemo(
+    () => (portalContainer ? { current: portalContainer } : undefined),
+    [portalContainer],
+  );
   const [page, setPage] = useState(2);
 
   return (
@@ -274,7 +283,7 @@ export function PreviewKitchenSink() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Overlays</h2>
         <div className={styles.row}>
-          <Tooltip content="Save (⌘S)" container={portalContainer}>
+          <Tooltip content="Save (⌘S)" container={portalContainerRef}>
             <Button intent="secondary" icon="check">Hover me</Button>
           </Tooltip>
 
@@ -282,7 +291,7 @@ export function PreviewKitchenSink() {
             <DialogTrigger
               render={<Button intent="primary">Open dialog</Button>}
             />
-            <DialogContent container={portalContainer}>
+            <DialogContent container={portalContainerRef}>
               <DialogTitle>Confirm export</DialogTitle>
               <DialogDescription>
                 Download your theme as a ready-to-use stylesheet?
@@ -296,14 +305,14 @@ export function PreviewKitchenSink() {
 
           <Popover>
             <PopoverTrigger render={<Button intent="secondary">Popover</Button>} />
-            <PopoverContent container={portalContainer}>
+            <PopoverContent container={portalContainerRef}>
               <p>Popovers inherit the themed surface and text tokens.</p>
             </PopoverContent>
           </Popover>
 
           <Menu>
             <MenuTrigger render={<Button intent="secondary" icon="menu" iconPosition="right">Actions</Button>} />
-            <MenuContent container={portalContainer}>
+            <MenuContent container={portalContainerRef}>
               <MenuItem icon="edit">Edit</MenuItem>
               <MenuItem icon="copy">Duplicate</MenuItem>
               <MenuSeparator />

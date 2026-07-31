@@ -53,6 +53,21 @@ describe("controls.classifyProp", () => {
       "iconPosition",
     ]);
   });
+  it("leads with State, so an overlay's `open` isn't buried among its props", () => {
+    const controls = controlsFor([
+      prop({ name: "size", type: '"sm" | "md"' }),
+      prop({ name: "open", type: "boolean" }),
+      prop({ name: "defaultOpen", type: "boolean" }),
+      prop({ name: "modal", type: "boolean" }),
+      prop({ name: "icon", type: "string" }),
+    ]);
+    const sections = groupControls(controls);
+    expect(sections.map((s) => s.title)).toEqual(["State", "Properties", "Icon"]);
+    expect(sections[0]?.controls.map((c) => c.name)).toEqual(["open", "defaultOpen", "modal"]);
+    // A component with no state props keeps the shape it had before.
+    expect(groupControls(controlsFor([prop({ name: "size", type: '"sm" | "md"' })])).map((s) => s.title))
+      .toEqual(["Properties"]);
+  });
 });
 
 describe("controls.controlFromArgType (Args: cover story args beyond the manifest)", () => {

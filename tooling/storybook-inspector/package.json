@@ -30,6 +30,7 @@
     "@types/react": "^18.0.0",
     "@ui-organized/tsconfig": "workspace:*",
     "esbuild": "^0.24.0",
+    "jsdom": "^29.1.1",
     "react": "^18.0.0",
     "storybook": "^10.4.4",
     "typescript": "^5.4.0",

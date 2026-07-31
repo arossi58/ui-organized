@@ -33,11 +33,11 @@ type Story = StoryObj<typeof Menu>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: function InspectExample() {
+  render: function InspectExample(args) {
     const [showGrid, setShowGrid] = useState(true);
     const [density, setDensity] = useState("comfortable");
     return (
-      <Menu>
+      <Menu {...args}>
         <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuItem icon="user">Profile</MenuItem>

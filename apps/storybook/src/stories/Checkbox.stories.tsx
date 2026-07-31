@@ -92,5 +92,7 @@ export const AllStates: Story = {
 };
 
 export const WithoutLabel: Story = {
-  args: {},
+  // A checkbox with no caption still needs a name — nothing in the DOM says what
+  // it toggles. `aria-label` supplies one for the label-less case.
+  args: { "aria-label": "Select row" },
 };

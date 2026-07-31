@@ -18,4 +18,6 @@ export interface CheckboxProps {
   /** ID for the input element. */
   id?: string;
   className?: string;
+  /** Accessible name when the checkbox is rendered without a visible `label`. */
+  "aria-label"?: string;
 }
