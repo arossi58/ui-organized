@@ -6,7 +6,7 @@
   --gap: var(--spacing-space-02);
   bottom: var(--spacing-space-04);
   right: var(--spacing-space-04);
-  z-index: var(--z-index-toast, 1300);
+  z-index: var(--z-index-toast, 1400);
   outline: none;
 }
 

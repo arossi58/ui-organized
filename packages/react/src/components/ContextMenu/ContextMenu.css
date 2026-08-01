@@ -1,12 +1,10 @@
-/* ─── Context menu positioner ─────────────────────────────────────────────── */
-
-.context-menu__positioner {
-  z-index: var(--z-index-popover, 1000);
-}
-
 /* ─── Popup (matches the Select / Menu popup surface) ─────────────────────── */
 
 .context-menu__popup {
+  /* Stacking belongs on the popup, never `.context-menu__positioner`: zag
+     writes an inline `z-index: var(--z-index)` onto the positioner and fills
+     that variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-popover, 1200);
   min-width: 180px;
   padding: var(--spacing-space-01);
   background-color: var(--color-surface-primary);

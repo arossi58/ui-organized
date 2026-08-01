@@ -62,8 +62,8 @@ describe("exportCss", () => {
     // thrown and a clean console. See docs/theme-test.md.
     const root = css.slice(css.indexOf(":root"), css.indexOf("[data-theme"));
     expect(root).toContain("--dimension-06: 240px;");
-    expect(root).toContain("--z-index-popover: 1000;");
-    expect(root).toContain("--z-index-toast: 1300;");
+    expect(root).toContain("--z-index-popover: 1200;");
+    expect(root).toContain("--z-index-toast: 1400;");
   });
 
   it("lets a document's own layout constants win over the backfill", () => {

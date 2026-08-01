@@ -40,7 +40,7 @@ produces a stylesheet:
 import { dimensionTokens, zIndexTokens, globalConstantVars } from "@ui-organized/tokens";
 
 globalConstantVars();
-// → { "--dimension-01": "40px", …, "--z-index-toast": "1300" }
+// → { "--dimension-01": "40px", …, "--z-index-toast": "1400" }
 ```
 
 Other typed exports: `typeSizeTokens`, `typeLeadingTokens`, `typeFontTokens`,

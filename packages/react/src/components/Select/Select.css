@@ -97,17 +97,15 @@
 /* Description (helper text) and the error message use the shared field chrome
    (`.field__description` in Field.css and the <FieldError> component). */
 
-/* ─── Popup positioner ────────────────────────────────────────────────────── */
-
-.select-positioner {
-  z-index: var(--z-index-popover, 1000);
-}
-
 /* ─── Popup ───────────────────────────────────────────────────────────────── */
 
 /* The popup is the listbox itself and holds the options directly — see
    Select.tsx on why there is no separate list element between them. */
 .select-popup {
+  /* Stacking belongs on the popup, never `.select-positioner`: zag writes an
+     inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-popover, 1200);
   background-color: var(--color-surface-primary);
   border: 1px solid var(--color-border-data-entry);
   border-radius: var(--radius-interactive);

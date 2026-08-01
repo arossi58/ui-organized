@@ -1,14 +1,12 @@
-/* ─── Hover card positioner ───────────────────────────────────────────────── */
-
-.hover-card__positioner {
-  z-index: var(--z-index-popover, 1000);
-}
-
 /* ─── Popup ────────────────────────────────────────────────────────────────
    Shares the Popover's Figma surface (border-primary + shadow-strong + 12px
    inset); adds the hover-card preview max-width. */
 
 .hover-card__popup {
+  /* Stacking belongs on the popup, never `.hover-card__positioner`: zag writes
+     an inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-popover, 1200);
   max-width: 320px;
   background-color: var(--color-surface-primary);
   border: 1px solid var(--color-border-primary);

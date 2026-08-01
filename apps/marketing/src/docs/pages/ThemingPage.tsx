@@ -80,7 +80,7 @@ const FAMILIES: Family[] = [
   {
     prefix: "--z-index-",
     label: "--z-index-*",
-    role: "Stacking order for portalled overlays: popovers below dialogs, tooltips and toasts above everything.",
+    role: "Stacking order for portalled overlays: anchored surfaces above dialogs, since a menu can be opened from inside one; tooltips and toasts above those.",
     themeable: false,
   },
 ];

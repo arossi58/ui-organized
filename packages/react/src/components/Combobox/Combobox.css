@@ -110,13 +110,13 @@
 
 /* ─── Popup ───────────────────────────────────────────────────────────────── */
 
-.combobox-positioner {
-  z-index: var(--z-index-popover, 1000);
-}
-
 /* The popup is the listbox itself and holds the options directly — see
    Combobox.tsx on why there is no separate list element between them. */
 .combobox-popup {
+  /* Stacking belongs on the popup, never `.combobox-positioner`: zag writes an
+     inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-popover, 1200);
   width: var(--reference-width);
   max-height: 280px;
   display: flex;

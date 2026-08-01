@@ -4,11 +4,11 @@
   display: inline-flex;
 }
 
-.tooltip__positioner {
-  z-index: var(--z-index-tooltip, 1200);
-}
-
 .tooltip__popup {
+  /* Stacking belongs on the popup, never `.tooltip__positioner`: zag writes an
+     inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-tooltip, 1300);
   /* Figma 2163:923 — a light surface card, not a dark bubble. */
   max-width: 240px;
   padding: var(--spacing-space-01) var(--spacing-space-02);

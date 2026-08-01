@@ -105,7 +105,7 @@ export function tokenValues(css: string): Map<string, string> {
 // ─── Deriving ────────────────────────────────────────────────────────────────
 
 export interface Contract {
-  /** Concatenated source of every component stylesheet. */
+  /** Concatenated source of every component stylesheet, comments stripped. */
   css: string;
   /** Every `var()` reference found, with its fallbacks and bare-usage count. */
   used: Map<string, Usage>;
@@ -116,8 +116,11 @@ export interface Contract {
 }
 
 export function deriveContract(dir: string = SRC_DIR): Contract {
+  // Comments go first: prose is not usage. The overlay stacking rules explain
+  // zag's mechanism by quoting `z-index: var(--z-index)` verbatim, and left in
+  // place that sentence enters the contract as a token every theme must ship.
   const css = cssFiles(dir)
-    .map((file) => readFileSync(file, "utf8"))
+    .map((file) => readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, ""))
     .join("\n");
   const used = usages(css);
   const declared = declarations(css);

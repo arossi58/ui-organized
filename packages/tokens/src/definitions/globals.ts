@@ -36,9 +36,23 @@ export const dimensionTokens: Record<string, string> = Object.fromEntries(
 const dimensionSteps = Object.keys(dimensionTokens).sort((a, b) => Number(a) - Number(b));
 
 /**
- * Stacking order for portalled overlays: popovers, menus and selects sit beneath
- * dialogs; tooltips and toasts float above everything so they stay visible over
- * an open dialog.
+ * Stacking order for portalled overlays, lowest first: `dialog` → `popover` →
+ * `tooltip` → `toast`.
+ *
+ * Anchored surfaces rank **above** modal ones, which reads backwards until you
+ * notice that an anchored surface is always spawned *from* something — and that
+ * something is often a dialog. A <Select> inside a <Dialog> has to paint over
+ * its own host, so `popover` (every menu, select, combobox, hover card and date
+ * picker) sits above `dialog` (dialog, sheet, and their backdrops). Tooltips
+ * clear those in turn, and toasts clear everything, so a notification is never
+ * swallowed by whatever is open.
+ *
+ * The corollary for component CSS: a popper-positioned layer must declare its
+ * z-index on the *popup*, never the positioner. @zag-js/popper writes an inline
+ * `z-index: var(--z-index)` onto the positioner and fills that variable from
+ * `getComputedStyle(positioner.firstElementChild).zIndex` — so a rule on the
+ * positioner is outranked by the library's own inline style and silently does
+ * nothing. See the popup rule in each component's CSS.
  */
 export const zIndexTokens: Record<string, number> = Object.fromEntries(
   Object.entries(zIndex["z-index"]).map(([layer, token]) => [layer, token.$value]),
