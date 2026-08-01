@@ -8,6 +8,8 @@
  */
 
 export { DocsLayout } from "./DocsLayout";
+export { DocsNav, DOCS_COMPACT_QUERY } from "./DocsNav";
+export { DocsNavSheet } from "./DocsNavSheet";
 export { DocsPageHeader, DocsTabs, type DocsTab } from "./DocsPageHeader";
 export { DocsProse, DocsSection } from "./DocsProse";
 export { InlineMarkdown, renderInline } from "./InlineMarkdown";

@@ -258,7 +258,7 @@
   margin-top: var(--spacing-space-04);
 }
 
-/* The site's one eyebrow recipe (see layout.module.css). */
+/* Small-caps section label — the panel's only heading level below the tabs. */
 .groupTitle {
   margin: 0 0 var(--spacing-space-01);
   color: var(--color-content-tertiary);
@@ -349,4 +349,20 @@
   color: var(--color-content-tertiary);
   font-size: var(--type-size-caption);
   line-height: var(--type-leading-caption);
+}
+
+/* ── Phone tier ───────────────────────────────────────────────────────────── */
+@media (max-width: 720px) {
+  /* A fixed 120px key column left barely 180px for the value, and prop values
+     here are token names and long unions. Stack the pair instead. */
+  .propRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-space-005);
+  }
+
+  /* 240px of element tree is a third of a phone screen before the panel below
+     it even starts. */
+  .tree {
+    max-height: var(--dimension-05);
+  }
 }

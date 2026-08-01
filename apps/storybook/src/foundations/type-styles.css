@@ -58,3 +58,21 @@
   color: var(--color-content-tertiary);
   white-space: nowrap;
 }
+
+/* Phone tier. A specimen set in `display-xlarge` (64px) is wider than the column
+   on its own, so `justify-content: space-between` against a nowrap metadata
+   block had nowhere to go — the metrics ran off the right edge and, in the
+   marketing docs, were clipped by the page's hidden horizontal overflow. Stack
+   them instead. */
+@media (max-width: 720px) {
+  .type-styles__row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .type-styles__row > :first-child {
+    min-width: 0;
+    overflow-wrap: break-word;
+  }
+}

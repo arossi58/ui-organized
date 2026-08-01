@@ -26,7 +26,6 @@ export function DocsIntroPage() {
   return (
     <>
       <DocsPageHeader
-        eyebrow="Documentation"
         title="UI Organized"
         lede={
           <>

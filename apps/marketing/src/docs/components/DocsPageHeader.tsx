@@ -17,8 +17,6 @@ import { Tabs } from "@ui-organized/react";
 import styles from "./layout.module.css";
 
 interface DocsPageHeaderProps {
-  /** Small uppercase line above the title, e.g. the component's category. */
-  eyebrow?: ReactNode;
   title: string;
   /** One-paragraph description. */
   lede?: ReactNode;
@@ -26,10 +24,11 @@ interface DocsPageHeaderProps {
   actions?: ReactNode;
 }
 
-export function DocsPageHeader({ eyebrow, title, lede, actions }: DocsPageHeaderProps) {
+// No eyebrow above the title: it only ever said "Documentation", which the rail,
+// the URL and the page you clicked to get here all say already.
+export function DocsPageHeader({ title, lede, actions }: DocsPageHeaderProps) {
   return (
     <header className={styles.header}>
-      {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
       <h1 className={styles.title}>{title}</h1>
       {lede && <p className={styles.lede}>{lede}</p>}
       {actions && <div className={styles.actions}>{actions}</div>}

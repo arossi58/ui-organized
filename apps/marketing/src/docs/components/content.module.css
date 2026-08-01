@@ -43,6 +43,10 @@
   background: var(--color-surface-secondary);
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   font-size: 0.9em;
+  /* Inline code here is routinely a file path (`storyPath`, `codePath`) with no
+     spaces to break at — wider than a phone column, and the page hides
+     horizontal overflow, so it used to be clipped rather than scrolled. */
+  overflow-wrap: anywhere;
 }
 
 .section {
@@ -234,15 +238,18 @@
   white-space: nowrap;
 }
 
+/* A prop's type is often a long union with no break opportunities of its own. */
 .typeText {
   color: var(--color-content-secondary);
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
   font-size: 0.9em;
+  overflow-wrap: anywhere;
 }
 
 .propNote {
   max-width: 40ch;
   color: var(--color-content-secondary);
+  overflow-wrap: anywhere;
 }
 
 .noProps {

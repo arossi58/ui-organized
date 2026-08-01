@@ -42,7 +42,10 @@ export function ToolsPage() {
   // scaler, theme builder) built for a wide, precise workspace — they don't fit
   // a phone. On mobile we skip mounting them entirely and show a note to come
   // back on a larger screen.
-  const isMobile = useMediaQuery("(max-width: 720px)");
+  // Matches `.tools-shell`'s own stacking breakpoint in tools-page.css — at 760
+  // the gate and the layout used to disagree, so 721–760px mounted a tool into a
+  // shell that was still row-flexed for a desktop rail.
+  const isMobile = useMediaQuery("(max-width: 760px)");
 
   // Titled by the selected tool, so a shared /tools/<id> link is self-describing.
   // Must sit above the mobile early-return to stay unconditional.

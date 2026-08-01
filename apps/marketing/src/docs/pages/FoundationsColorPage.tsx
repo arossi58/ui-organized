@@ -17,8 +17,6 @@ import { DocsPageHeader, DocsProse, DocsSection } from "../components";
 export function FoundationsColorPage() {
   return (
     <>
-      {/* No eyebrow: the rail already files these pages under Foundations, so
-          the label only repeated the group heading a few pixels to its left. */}
       <DocsPageHeader
         title="Color"
         lede={
