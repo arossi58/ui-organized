@@ -116,23 +116,16 @@
   padding-bottom: var(--spacing-space-05);
 }
 
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-space-02);
-  color: var(--color-content-tertiary);
-  font-size: var(--type-size-caption);
-  font-weight: var(--type-weight-body-heavy);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
+/* Clamped like every other display heading on the site (the hero, About, the
+   legal pages): a flat 40px was the one h1 that didn't scale, and at 375px it
+   set two or three words to a line. Bottoms out at heading-large, so a phone
+   gets 32px and anything from ~667px up is the unchanged 40px. */
 .title {
   margin: 0;
   color: var(--color-content-primary);
   font-family: var(--type-font-heading);
-  font-size: var(--type-size-display-medium);
-  line-height: var(--type-leading-display-medium);
+  font-size: clamp(var(--type-size-heading-large), 6vw, var(--type-size-display-medium));
+  line-height: clamp(var(--type-leading-heading-large), 9.6vw, var(--type-leading-display-medium));
   font-weight: var(--type-weight-heading-strong);
 }
 
@@ -160,37 +153,102 @@
   margin-top: var(--spacing-space-02);
 }
 
+/* ── Compact nav: sticky bar + left sheet ─────────────────────────────────────
+   Everything below is only ever rendered under DOCS_COMPACT_QUERY — `DocsLayout`
+   mounts `DocsNavSheet` or the rail, not both — so none of it needs a media
+   query of its own. */
+
+/* Row one of the single-column grid. Sticks against whichever scrollport is
+   live: the frame between 721 and 900 (where it tucks under the frame's radius),
+   the viewport at 720 and below (where the in-flow site nav scrolls away above
+   it and this becomes the standing docs chrome). */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-03) var(--spacing-space-05);
+  border-bottom: 1px solid var(--color-border-primary);
+  background: var(--color-surface-primary);
+}
+
+/* The sheet panel. Doubled class for the same reason `.main.main` is below:
+   `.sheet__popup` is a single class too, so which of the two wins would
+   otherwise come down to the order the bundler emits the stylesheets in.
+   Where the panel *starts* is set in docs.css, which offsets it and its scrim
+   together so the sheet stays inside the docs page. */
+.navSheet.navSheet {
+  gap: var(--spacing-space-04);
+  padding: var(--spacing-space-04) var(--spacing-space-03) var(--spacing-space-04)
+    var(--spacing-space-04);
+  /* The panel itself never scrolls; the nav list inside it does, so the search
+     field stays put — the same split as the standing rail. */
+  overflow: hidden;
+}
+
+.navSheetTitle {
+  flex: none;
+}
+
+/* Ark keeps the closed panel mounted and marks it `hidden`, but `.sheet__popup`
+   sets `display: flex` from the author origin, which beats the UA's
+   `[hidden] { display: none }`. Without this the closed panel is merely parked
+   off-screen at `translateX(-100%)` — still laid out, still focusable, so ~55
+   nav rows stay in the tab order. `visibility` (not `display`) so the slide-out
+   still plays; it flips only after the transform has finished. */
+.navSheet.navSheet[hidden] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .navSheet.navSheet {
+    transition:
+      transform 200ms ease,
+      visibility 0s;
+  }
+
+  .navSheet.navSheet[hidden] {
+    transition:
+      transform 200ms ease,
+      visibility 0s linear 200ms;
+  }
+}
+
+/* Keep in sync with DOCS_COMPACT_QUERY (DocsNav.tsx). */
 @media (max-width: 900px) {
   .root {
+    /* One column: the nav has moved into the sheet, so the content column is
+       the whole frame. */
     grid-template-columns: minmax(0, 1fr);
-    /* No gap: the rail's bottom stroke is the seam, and `.mainInner` already
-       pads the content away from it. */
     height: auto;
   }
 
-  /* Stacked above the content, the divider moves to the bottom edge and the
-     rail spans the full width — same swap the tools shell makes. */
-  .sidebar {
-    height: auto;
-    overflow: visible;
-    padding: var(--spacing-space-06) var(--spacing-space-07);
-    border-right: none;
-    border-bottom: 1px solid var(--color-border-primary);
-  }
-
-  .sidebarScroll {
-    max-height: 18rem;
-  }
-
-  /* Doubled class so it outranks the ScrollArea Root's own `overflow: hidden`
-     regardless of which stylesheet the bundler emits first: the frame scrolls
-     as one surface below this width, so the column must not clip. */
-  .main.main {
-    height: auto;
-    overflow: visible;
-  }
-
+  /* `.main` (the ScrollArea) isn't rendered at all below this width — see
+     DocsLayout — so there's nothing here to un-clip. The content column is the
+     grid child directly, which is why it needs `min-width: 0`: a grid item's
+     automatic minimum size is its *min-content* width, so without this the
+     column ignores its `minmax(0, 1fr)` track and stretches to the widest thing
+     inside it — the same 787px-inside-375px failure the ScrollArea caused.
+     Overflow is then each wide thing's own business, and the wrappers that need
+     it (`.tableWrap`, the code blocks, the preview stage) already scroll. */
   .mainInner {
+    min-width: 0;
+    /* Auto inline margins stop a grid item stretching to its track, which
+       leaves it shrink-to-fit — i.e. sized to its own min-content, the 787px
+       -inside-375px failure again. The centring they buy is dead weight here
+       anyway: one column, and `max-width: 67rem` can't bind below 900px. */
+    margin-inline: 0;
     padding: var(--spacing-space-05) var(--spacing-space-07) var(--spacing-space-12);
+  }
+}
+
+/* Phone tier — the page has unframed by now (docs.css), so the gutter is the
+   only thing between the prose and the screen edge. 28px each side was costing
+   the content column more than it was worth at 375px. */
+@media (max-width: 720px) {
+  .mainInner {
+    padding: var(--spacing-space-05) var(--spacing-space-05) var(--spacing-space-10);
   }
 }

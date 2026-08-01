@@ -74,3 +74,18 @@
   padding: 0.08em 0.35em;
   border-radius: 4px;
 }
+
+/* Phone tier. A fixed 7rem label ate a third of the column and left the ramp's
+   12+ stops as ~16px slivers; give the family name its own line so the ramp gets
+   the full width. */
+@media (max-width: 720px) {
+  .core-colors__row {
+    flex-wrap: wrap;
+    gap: 0.35rem 0.75rem;
+  }
+
+  .core-colors__name {
+    flex: 1 0 100%;
+    width: auto;
+  }
+}

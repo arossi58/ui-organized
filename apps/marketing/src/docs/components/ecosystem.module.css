@@ -22,6 +22,15 @@
   font-family: var(--type-font-body);
 }
 
+/* The narrow drawing is a single column sized to fit, so the floor that made the
+   wide one scroll would only reintroduce the scrollbar it exists to allow.
+   Keep in sync with NARROW_QUERY (EcosystemDiagram.tsx). */
+@media (max-width: 860px) {
+  .svg {
+    min-width: 0;
+  }
+}
+
 /* ── Nodes ────────────────────────────────────────────────────────────────── */
 
 .box {

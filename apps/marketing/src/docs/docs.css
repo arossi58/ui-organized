@@ -72,6 +72,30 @@
   pointer-events: none;
 }
 
+/* Portal target for the compact nav sheet (DocsNavSheet). Zero-height — it only
+   exists to place the sheet in the DOM: above the stage (z 1) and the dot
+   lattice (z 0), but still inside `.docs-page`'s `isolation: isolate`, so the
+   sheet's own `z-index: 1100` is scoped *below* the site nav's 500 rather than
+   competing with it. That's what keeps the nav pill visible over the sheet's
+   backdrop — the docs nav is a second navigation surface, not a replacement for
+   the primary one. */
+.docs-page__overlays {
+  position: relative;
+  z-index: 2;
+}
+
+/* Keep the sheet inside the docs page instead of over the whole window. Both the
+   panel and its scrim are `position: fixed`, so they'd otherwise start at the
+   viewport's top edge and cover the site nav too. `--docs-sheet-nav-clearance`
+   is however much of the nav is on screen when the sheet opens, written to this
+   host by DocsNavSheet; it's 0 once the nav has scrolled away, at which point
+   the docs already are the whole viewport. The bottom edge needs no such
+   treatment — the docs page runs to the bottom of the window. */
+.docs-page__overlays .sheet__popup,
+.docs-page__overlays .dialog__backdrop {
+  top: var(--docs-sheet-nav-clearance, 0px);
+}
+
 /* The window inset. The nav already supplies the top gap, so only the sides and
    bottom are padded — same as the old docs route. */
 .docs-page__stage {
@@ -108,8 +132,10 @@
   overflow: clip;
 }
 
-/* Side-by-side independent scrolling stops making sense once the rail stacks
-   above the content — hand scrolling back to the frame. */
+/* Side-by-side independent scrolling stops making sense once the rail moves into
+   a sheet and the content has the frame to itself — hand scrolling back to the
+   frame, so the sticky docs bar has a scrollport to stick against.
+   Keep in sync with DOCS_COMPACT_QUERY (components/DocsNav.tsx). */
 @media (max-width: 900px) {
   .docs-page__frame {
     overflow-y: auto;

@@ -77,3 +77,9 @@
   line-height: 1.5;
   color: var(--color-content-secondary, var(--color-content-primary));
 }
+
+/* A 404's echoed path has no spaces to break at, and the page hides horizontal
+   overflow — so a long deep-link used to run off the edge and be clipped. */
+.simple-page__prose code {
+  overflow-wrap: anywhere;
+}

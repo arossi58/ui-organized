@@ -165,3 +165,39 @@
 .exampleCode {
   margin-top: var(--spacing-space-03);
 }
+
+/* ── Phone tier ───────────────────────────────────────────────────────────────
+   Stories are authored against a desktop canvas, and a good number of them set a
+   hard `width` (240–600px) on their wrapper. On a phone that overflows the stage
+   — and because `body` is `overflow-x: hidden`, it used to be *clipped* with no
+   affordance that anything was missing. Scrolling the story inside its own frame
+   keeps the preview honest without touching the shared story files (which the
+   Storybook app and its visual-regression baselines also read). */
+@media (max-width: 720px) {
+  .stage {
+    overflow-x: auto;
+  }
+
+  /* Buy back what the frame's inset was costing: at 375px the stage's usable
+     width goes from ~271px to ~303px. */
+  .stage[data-layout="padded"] {
+    padding: var(--spacing-space-04);
+  }
+
+  .stage[data-layout="centered"] {
+    padding: var(--spacing-space-06) var(--spacing-space-04);
+  }
+
+  /* A `fullscreen` story sizes itself off the window — the Navigation sidebar
+     demos are `height: 100vh` — so three of them in a row would be three full
+     screens of scrolling before the next paragraph. */
+  .stage[data-layout="fullscreen"] {
+    max-height: 32rem;
+    overflow: auto;
+  }
+
+  /* Room for a contained overlay still, but 28rem is most of a phone screen. */
+  .surface[data-contain-overlays] .stage {
+    min-height: 20rem;
+  }
+}

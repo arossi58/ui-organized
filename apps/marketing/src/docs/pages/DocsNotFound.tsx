@@ -5,7 +5,7 @@ import { DocsPageHeader, DocsProse } from "../components";
 export function DocsNotFound({ slug }: { slug?: string }) {
   return (
     <>
-      <DocsPageHeader eyebrow="Documentation" title="Not found" />
+      <DocsPageHeader title="Not found" />
       <DocsProse>
         <p>
           {slug ? (

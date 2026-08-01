@@ -13,7 +13,6 @@ import { DocsPageHeader, DocsProse, DocsSection } from "../components";
 export function FoundationsTypographyPage() {
   return (
     <>
-      {/* No eyebrow — see `FoundationsColorPage`. */}
       <DocsPageHeader
         title="Typography"
         lede={

@@ -95,7 +95,6 @@ export function GetStartedPage() {
   return (
     <>
       <DocsPageHeader
-        eyebrow="Documentation"
         title="Get started"
         lede={
           <>

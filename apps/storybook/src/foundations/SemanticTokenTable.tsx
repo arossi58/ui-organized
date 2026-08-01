@@ -145,38 +145,46 @@ export function SemanticTokenTable() {
         <section className="sem-tokens__group" key={cat.key}>
           <h3 className="sem-tokens__heading">{cat.label}</h3>
           <p className="sem-tokens__blurb">{cat.blurb}</p>
-          <table className="sem-tokens__table">
-            <thead>
-              <tr>
-                <th>Token</th>
-                <th>Light</th>
-                <th>Dark</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {byCategory.get(cat.key)!.map((token) => (
-                <tr key={token}>
-                  <td>
-                    <code>{token}</code>
-                  </td>
-                  <td>
-                    <div className="sem-tokens__cell">
-                      <Swatch color={lightVars[token]} />
-                      <code>{light[token]}</code>
-                    </div>
-                  </td>
-                  <td>
-                    <div className="sem-tokens__cell">
-                      <Swatch color={darkVars[token]} />
-                      <code>{dark[token]}</code>
-                    </div>
-                  </td>
-                  <td className="sem-tokens__role">{roleFor(token)}</td>
+          {/* Four columns of nowrap token names don't fit a phone. Scroll the
+              table rather than let it overflow the page — the marketing docs
+              render this inside a body that hides horizontal overflow, so
+              without the wrapper the Role column was simply unreachable.
+              `tabIndex` because nothing inside is focusable, so without it a
+              keyboard user has no way to reach the columns off to the right. */}
+          <div className="sem-tokens__scroll" tabIndex={0}>
+            <table className="sem-tokens__table">
+              <thead>
+                <tr>
+                  <th>Token</th>
+                  <th>Light</th>
+                  <th>Dark</th>
+                  <th>Role</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {byCategory.get(cat.key)!.map((token) => (
+                  <tr key={token}>
+                    <td>
+                      <code>{token}</code>
+                    </td>
+                    <td>
+                      <div className="sem-tokens__cell">
+                        <Swatch color={lightVars[token]} />
+                        <code>{light[token]}</code>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="sem-tokens__cell">
+                        <Swatch color={darkVars[token]} />
+                        <code>{dark[token]}</code>
+                      </div>
+                    </td>
+                    <td className="sem-tokens__role">{roleFor(token)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       ))}
     </div>

@@ -154,7 +154,6 @@ export function ThemingPage() {
   return (
     <>
       <DocsPageHeader
-        eyebrow="Documentation"
         title="Theming"
         lede={
           <>
