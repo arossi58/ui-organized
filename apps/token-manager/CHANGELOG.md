@@ -1,5 +1,14 @@
 # @ui-organized/token-manager
 
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies [eea54c1]
+  - @ui-organized/tokens@3.4.0
+  - @ui-organized/react@5.1.0
+  - @ui-organized/export@0.2.1
+
 ## 0.1.7
 
 ### Patch Changes
