@@ -1,0 +1,247 @@
+/* ─── ColorPicker ─────────────────────────────────────────────────────────────
+   A swatch trigger and a portalled picker surface. Label / helper / error chrome
+   comes from `.field` (Field.css); the popup mirrors `.select-popup` so an open
+   picker and an open Select read as the same kind of surface.
+
+   The channel sliders reuse the `Range` recipe — same track height, same thumb
+   size and ring — rather than inventing a second slider vocabulary. */
+
+.color-picker__control {
+  display: flex;
+  align-items: center;
+}
+
+/* ─── Trigger ─────────────────────────────────────────────────────────────── */
+
+.color-picker__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  box-sizing: border-box;
+  height: var(--control-height-md);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.color-picker--sm .color-picker__trigger {
+  height: var(--control-height-sm);
+}
+
+.color-picker--lg .color-picker__trigger {
+  height: var(--control-height-lg);
+}
+
+.color-picker__trigger:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.color-picker__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.color-picker__trigger[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.color-picker__trigger[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* The swatch sits over the checkerboard, so a translucent colour reads as
+   translucent rather than as a darker opaque one. */
+.color-picker__swatch-well {
+  position: relative;
+  display: block;
+  width: var(--spacing-space-05);
+  height: var(--spacing-space-05);
+  border-radius: var(--radius-checkbox);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.color-picker__value-swatch {
+  position: absolute;
+  inset: 0;
+}
+
+.color-picker__value-text {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  text-transform: uppercase;
+}
+
+/* ─── Transparency grid ───────────────────────────────────────────────────────
+   Ark writes its own checkerboard inline — `#fff` plus a `conic-gradient` of
+   `#eeeeee` — which is a light-theme assumption baked into the library. This
+   overrides it with surface tokens so the grid is correct in both themes. The
+   cell size stays raw (see TRANSPARENCY_CELL in the TSX). */
+
+.color-picker__grid {
+  background-color: var(--color-surface-primary);
+  background-image: conic-gradient(
+    var(--color-surface-secondary) 0 25%,
+    transparent 0 50%,
+    var(--color-surface-secondary) 0 75%,
+    transparent 0
+  );
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+.color-picker__popup {
+  /* Stacking belongs on the popup, never `.color-picker__positioner`: zag writes
+     an inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. */
+  z-index: var(--z-index-popover, 1200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  width: var(--dimension-05, 200px);
+  padding: var(--spacing-space-03);
+  background-color: var(--color-surface-primary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+/* ─── Saturation / value area ─────────────────────────────────────────────── */
+
+.color-picker__area {
+  position: relative;
+  height: var(--dimension-03, 120px);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+}
+
+.color-picker__area-bg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ─── Channel sliders ─────────────────────────────────────────────────────── */
+
+.color-picker__sliders {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+}
+
+.color-picker__slider-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.color-picker__channel-slider {
+  position: relative;
+  height: var(--spacing-space-03);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+/* `flex` belongs only to the slider sharing a row with the eyedropper, where
+   the main axis is horizontal. On the alpha slider — a child of the column
+   container — `flex: 1` would set a flex-basis of 0 on the *height*, collapsing
+   it to nothing. */
+.color-picker__slider-row .color-picker__channel-slider {
+  flex: 1;
+}
+
+.color-picker__channel-track {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+}
+
+/* ─── Thumbs ──────────────────────────────────────────────────────────────────
+   One rule for the area thumb and both slider thumbs — they are the same
+   affordance and must stay the same size. */
+
+.color-picker__thumb {
+  box-sizing: border-box;
+  width: var(--spacing-space-03);
+  height: var(--spacing-space-03);
+  border-radius: var(--border-radius-full);
+  /* A 2px light ring is what keeps the thumb visible over any colour beneath
+     it, including white. Geometry, not a themed value. */
+  border: 2px solid var(--color-content-light);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.2);
+  outline: none;
+}
+
+.color-picker__thumb:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Eyedropper ──────────────────────────────────────────────────────────── */
+
+.color-picker__eyedropper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-01);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-secondary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.color-picker__eyedropper:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.color-picker__eyedropper:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Swatches ────────────────────────────────────────────────────────────── */
+
+.color-picker__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-01);
+}
+
+.color-picker__swatch-trigger {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-checkbox);
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 150ms ease;
+}
+
+.color-picker__swatch-trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.color-picker__swatch {
+  display: block;
+  width: var(--spacing-space-05);
+  height: var(--spacing-space-05);
+  border-radius: var(--radius-checkbox);
+  /* 1px hairline keeps a white swatch visible against a white popup. */
+  border: 1px solid var(--color-border-secondary);
+}

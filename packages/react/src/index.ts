@@ -344,3 +344,32 @@ export type { MarqueeProps, MarqueeItem, MarqueeVariants } from "./components/Ma
 
 export { Timer } from "./components/Timer/index.js";
 export type { TimerProps, TimerPart, TimerVariants } from "./components/Timer/index.js";
+
+export { ColorPicker } from "./components/ColorPicker/index.js";
+export type { ColorPickerProps, ColorPickerVariants } from "./components/ColorPicker/index.js";
+
+export { DatePicker } from "./components/DatePicker/index.js";
+export type { DatePickerProps, DatePickerVariants } from "./components/DatePicker/index.js";
+
+export {
+  FloatingPanel,
+  FloatingPanelTrigger,
+  FloatingPanelContent,
+  FloatingPanelHeader,
+  FloatingPanelTitle,
+  FloatingPanelBody,
+  FloatingPanelClose,
+} from "./components/FloatingPanel/index.js";
+export type {
+  FloatingPanelProps,
+  FloatingPanelTriggerProps,
+  FloatingPanelContentProps,
+  FloatingPanelHeaderProps,
+  FloatingPanelTitleProps,
+  FloatingPanelBodyProps,
+  FloatingPanelCloseProps,
+  FloatingPanelVariants,
+} from "./components/FloatingPanel/index.js";
+
+export { Tour } from "./components/Tour/index.js";
+export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";

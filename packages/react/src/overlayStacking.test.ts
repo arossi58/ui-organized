@@ -37,6 +37,21 @@ const POPPER_LAYERS: Record<string, string> = {
   "hover-card__positioner": "hover-card__popup",
   "tooltip__positioner": "tooltip__popup",
   "date-popover-positioner": "date-popover",
+  "color-picker__positioner": "color-picker__popup",
+  "date-picker__positioner": "date-picker__popup",
+  // Tour is popper-backed only while the current step is a `tooltip`; for
+  // `dialog`/`floating` steps the positioner is a plain fixed box. Registering
+  // it is correct either way and strictly safer — declaring on the content works
+  // when zag reads it, and when it doesn't the positioner's `z-index: auto`
+  // creates no stacking context, so the content competes at the root.
+  "tour__positioner": "tour__content",
+  // FloatingPanel is NOT popper-backed — its positioner carries only the drag
+  // position and no inline `z-index`, so a rule there would in fact survive. It
+  // is registered anyway rather than added to NON_POPPER_NAMESPACE: one map
+  // entry keeps it inside all four assertions, including the tier check, which
+  // is the coverage this file exists to provide. Widening the exemption would
+  // remove it from every one of them.
+  "floating-panel__positioner": "floating-panel__content",
 };
 
 /**

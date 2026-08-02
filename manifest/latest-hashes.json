@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T17:47:27.946Z",
+  "generatedAt": "2026-08-02T18:17:38.357Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -25,6 +25,7 @@
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:e34276d65935bd10",
     "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:afd52166dcebfe72",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": "sha256:a689780b8ecb2542",
@@ -37,6 +38,7 @@
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
     "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
@@ -56,6 +58,13 @@
     "packages/react/src/components/Field/Field.types.ts::FieldLabel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::Fieldset": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanel": "sha256:de71f68bc5505cbb",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelBody": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelClose": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelContent": "sha256:fe34e6848f3af1a5",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelHeader": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTitle": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTrigger": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:90589c38fc3d98e8",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
@@ -121,6 +130,7 @@
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:7d2c6910f54dd1f2",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084",
+    "packages/react/src/components/Tour/Tour.types.ts::Tour": "sha256:c9fda0ee4ed41a43",
     "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38"
   },
   "props": {
@@ -750,6 +760,138 @@
     ],
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": [],
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": [],
+    "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "container",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Portal target for the picker surface."
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for the uncontrolled case."
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial colour for the uncontrolled case."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the control."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "format",
+        "type": "\"rgba\" | \"hsla\" | \"hsba\"",
+        "required": false,
+        "defaultValue": "rgba",
+        "description": "Which notation the channel inputs use."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the trigger."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the trigger."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name for the hidden input."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the picker opens or closes."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called continuously as the colour changes, with a CSS colour string."
+      },
+      {
+        "name": "onValueChangeEnd",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called once the interaction ends."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state of the picker."
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Makes the colour read-only while keeping the trigger focusable."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field required and shows the required indicator."
+      },
+      {
+        "name": "showEyeDropper",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the eyedropper button, where the browser supports it."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "swatches",
+        "type": "string[]",
+        "required": false,
+        "description": "Preset swatches offered under the picker area."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled colour, as a CSS colour string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"swatch-only\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Trigger treatment."
+      }
+    ],
     "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": [
       {
         "name": "className",
@@ -995,6 +1137,144 @@
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": [],
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": [],
     "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": [],
+    "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "container",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Portal target for the calendar surface."
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for the uncontrolled case."
+      },
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial value for the uncontrolled case, as ISO dates."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the control."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the control."
+      },
+      {
+        "name": "locale",
+        "type": "string",
+        "required": false,
+        "description": "BCP-47 locale driving month names, weekday order and formatting."
+      },
+      {
+        "name": "max",
+        "type": "string",
+        "required": false,
+        "description": "Latest selectable date, as an ISO date."
+      },
+      {
+        "name": "min",
+        "type": "string",
+        "required": false,
+        "description": "Earliest selectable date, as an ISO date."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name for the hidden input."
+      },
+      {
+        "name": "numOfMonths",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Months shown side by side."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the calendar opens or closes."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Called with the new ISO dates whenever the selection changes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state of the calendar."
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Makes the value read-only while keeping the control focusable."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field required and shows the required indicator."
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\" | \"range\"",
+        "required": false,
+        "defaultValue": "single",
+        "description": "How many dates may be picked."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled value as ISO dates (`YYYY-MM-DD`)."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"ghost\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Control treatment."
+      }
+    ],
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": [
       {
         "name": "className",
@@ -1358,6 +1638,144 @@
     "packages/react/src/components/Field/Field.types.ts::FieldLabel": [],
     "packages/react/src/components/Field/Field.types.ts::Fieldset": [],
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": [],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanel": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for the uncontrolled case."
+      },
+      {
+        "name": "defaultPosition",
+        "type": "{ x: number; y: number }",
+        "required": false,
+        "description": "Initial position in pixels, relative to the positioning strategy."
+      },
+      {
+        "name": "defaultSize",
+        "type": "{ width: number; height: number }",
+        "required": false,
+        "description": "Initial size in pixels."
+      },
+      {
+        "name": "draggable",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Allows dragging the panel by its header."
+      },
+      {
+        "name": "maxSize",
+        "type": "{ width: number; height: number }",
+        "required": false,
+        "description": "Largest size the panel can be resized to."
+      },
+      {
+        "name": "minSize",
+        "type": "{ width: number; height: number }",
+        "required": false,
+        "description": "Smallest size the panel can be resized to."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the panel opens or closes."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "name": "resizable",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Allows resizing the panel from its edges."
+      },
+      {
+        "name": "strategy",
+        "type": "\"absolute\" | \"fixed\"",
+        "required": false,
+        "defaultValue": "fixed",
+        "description": "Positioning strategy."
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelBody": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelClose": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelContent": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "container",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Portal target for the panel."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant, driving the panel's default width."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"elevated\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Surface treatment."
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelHeader": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTitle": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTrigger": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      }
+    ],
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": [
       {
         "name": "children",
@@ -3780,6 +4198,80 @@
         "type": "number",
         "required": false,
         "description": "Default delay before opening, in ms, for descendant tooltips."
+      }
+    ],
+    "packages/react/src/components/Tour/Tour.types.ts::Tour": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "closeOnEscape",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Closes on Escape."
+      },
+      {
+        "name": "closeOnInteractOutside",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Closes when clicking outside the card."
+      },
+      {
+        "name": "onStepChange",
+        "type": "(stepId: string | null) => void",
+        "required": false,
+        "description": "Called with the new step id whenever the tour advances, or `null` on close."
+      },
+      {
+        "name": "preventInteraction",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Blocks interaction with the page behind the tour."
+      },
+      {
+        "name": "showProgress",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the \"step N of M\" counter."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "spotlightRadius",
+        "type": "number",
+        "required": false,
+        "defaultValue": "4",
+        "description": "Corner radius of the spotlight cutout, in pixels."
+      },
+      {
+        "name": "stepId",
+        "type": "string | null",
+        "required": true,
+        "description": "The step to show, by id."
+      },
+      {
+        "name": "steps",
+        "type": "TourStep[]",
+        "required": true,
+        "description": "The steps, in order."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"compact\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Card treatment."
       }
     ],
     "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": [

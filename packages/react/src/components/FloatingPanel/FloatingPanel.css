@@ -1,0 +1,160 @@
+/* ─── FloatingPanel ───────────────────────────────────────────────────────────
+   A draggable, resizable window. zag writes the panel's position (`--x`, `--y`)
+   and size on the positioner inline, so nothing here sets either.
+
+   Stacking note: this is the one overlay in the package that is NOT
+   popper-backed — its positioner carries no inline `z-index`. It still declares
+   stacking on the content and is still registered in POPPER_LAYERS, so the
+   "style the popup, never the positioner" rule and the tier assertion both keep
+   covering it. See overlayStacking.test.ts. */
+
+.floating-panel__content {
+  /* Stacking belongs on the content, matching every other overlay in the
+     package even though zag would not overwrite a rule on the positioner here. */
+  z-index: var(--z-index-popover, 1200);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-surface-primary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.floating-panel__content--sm { width: var(--dimension-08, 320px); }
+.floating-panel__content--md { width: var(--dimension-10, 400px); }
+.floating-panel__content--lg { width: var(--dimension-12, 560px); }
+
+.floating-panel__content--elevated {
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────────
+   The whole header is the drag handle, so the cursor has to say so across the
+   full bar rather than only over a grip. */
+
+.floating-panel__header {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--color-surface-secondary);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+.floating-panel__drag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  background: none;
+  border: none;
+  cursor: grab;
+  outline: none;
+  text-align: start;
+}
+
+.floating-panel__drag:active,
+.floating-panel__drag[data-dragging] {
+  cursor: grabbing;
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. Inset so it stays inside the panel's own border. */
+.floating-panel__drag:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--color-interactive-focus);
+}
+
+.floating-panel__title {
+  margin: 0;
+  color: var(--color-content-primary);
+}
+
+/* ─── Body ────────────────────────────────────────────────────────────────── */
+
+.floating-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--spacing-space-03);
+  color: var(--color-content-primary);
+}
+
+/* ─── Close ───────────────────────────────────────────────────────────────── */
+
+.floating-panel__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: var(--spacing-space-005);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-secondary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.floating-panel__close:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.floating-panel__close:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Resize handles ──────────────────────────────────────────────────────────
+   Invisible hit areas on each edge and corner. The 6px edge and 12px corner are
+   pointer-accuracy constants — a handle sized from the spacing scale would
+   change hit target size whenever the scale is re-based, which is a usability
+   regression rather than a design change. */
+
+.floating-panel__resize {
+  position: absolute;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.floating-panel__resize--n,
+.floating-panel__resize--s {
+  left: 0;
+  right: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.floating-panel__resize--n { top: 0; }
+.floating-panel__resize--s { bottom: 0; }
+
+.floating-panel__resize--e,
+.floating-panel__resize--w {
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.floating-panel__resize--e { right: 0; }
+.floating-panel__resize--w { left: 0; }
+
+/* Corners sit above the edges so a diagonal drag wins where they overlap. */
+.floating-panel__resize--ne,
+.floating-panel__resize--se,
+.floating-panel__resize--sw,
+.floating-panel__resize--nw {
+  width: 12px;
+  height: 12px;
+  z-index: 1;
+}
+
+.floating-panel__resize--nw { top: 0; left: 0; cursor: nwse-resize; }
+.floating-panel__resize--ne { top: 0; right: 0; cursor: nesw-resize; }
+.floating-panel__resize--se { bottom: 0; right: 0; cursor: nwse-resize; }
+.floating-panel__resize--sw { bottom: 0; left: 0; cursor: nesw-resize; }
