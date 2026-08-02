@@ -373,3 +373,15 @@ export type {
 
 export { Tour } from "./components/Tour/index.js";
 export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";
+
+export { FileUpload } from "./components/FileUpload/index.js";
+export type { FileUploadProps, FileUploadVariants } from "./components/FileUpload/index.js";
+
+export { ImageCropper } from "./components/ImageCropper/index.js";
+export type { ImageCropperProps, CropRect, ImageCropperVariants } from "./components/ImageCropper/index.js";
+
+export { SignaturePad } from "./components/SignaturePad/index.js";
+export type { SignaturePadProps, SignaturePadVariants } from "./components/SignaturePad/index.js";
+
+export { QRCode } from "./components/QRCode/index.js";
+export type { QRCodeProps, QRCodeVariants } from "./components/QRCode/index.js";

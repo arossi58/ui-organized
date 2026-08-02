@@ -1,0 +1,173 @@
+/* ─── ImageCropper ────────────────────────────────────────────────────────────
+   A crop box over an image. zag owns every position and size here — the crop
+   rect, the image transform and each handle's placement are written inline —
+   so this file only supplies colour, the viewport's height and the handles'
+   hit areas.
+
+   `--cropper-viewport` is local geometry in the same category as
+   `--calendar-cell`: the viewport's height is aspect-driven, not a themeable
+   dimension. It is still sourced from the token scale. */
+
+.image-cropper--sm .image-cropper__viewport {
+  --cropper-viewport: var(--dimension-05, 200px);
+}
+
+.image-cropper--md .image-cropper__viewport {
+  --cropper-viewport: var(--dimension-07, 280px);
+}
+
+.image-cropper--lg .image-cropper__viewport {
+  --cropper-viewport: var(--dimension-09, 360px);
+}
+
+.image-cropper__viewport {
+  position: relative;
+  width: 100%;
+  height: var(--cropper-viewport);
+  overflow: hidden;
+  border-radius: var(--radius-interactive);
+  /* The curtain behind the image is what makes the crop box read as a cutout
+     rather than a border. */
+  background-color: var(--color-surface-curtain);
+  touch-action: none;
+  user-select: none;
+}
+
+.image-cropper__image {
+  display: block;
+  max-width: none;
+  /* Dragging the browser's own image ghost would fight the crop interaction. */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ─── Selection ───────────────────────────────────────────────────────────────
+   The crop box. A very large outer shadow is what dims everything outside it —
+   one element rather than four masking rectangles, so there are no seams at the
+   corners as the box moves. */
+
+.image-cropper__selection {
+  position: absolute;
+  box-shadow: 0 0 0 9999px var(--color-surface-curtain);
+  /* The outline is light, not themed to a brand colour: it has to stay legible
+     over arbitrary image content, which a hue cannot guarantee. */
+  outline: 1px solid var(--color-content-light);
+  cursor: move;
+}
+
+.image-cropper--circle .image-cropper__selection {
+  border-radius: var(--border-radius-full);
+}
+
+/* ─── Grid ────────────────────────────────────────────────────────────────────
+   Rule-of-thirds guides.
+
+   Each Grid part is a **band**, not a line — zag insets it to the middle third
+   along one axis (`inset: 33.33% 0` and `0 33.33%`). The two guide lines are
+   therefore that band's edges: giving it a background instead fills the whole
+   middle third, which reads as a grey slab across the image.
+
+   Deliberately faint: guides assist composition and must not compete with the
+   photograph underneath. */
+
+.image-cropper__grid[data-axis="horizontal"] {
+  border-top: 1px solid var(--color-content-light);
+  border-bottom: 1px solid var(--color-content-light);
+}
+
+.image-cropper__grid[data-axis="vertical"] {
+  border-left: 1px solid var(--color-content-light);
+  border-right: 1px solid var(--color-content-light);
+}
+
+.image-cropper__grid {
+  opacity: 0.4;
+}
+
+/* ─── Handles ─────────────────────────────────────────────────────────────────
+   The element itself is only a hit area and is never painted. zag sizes the
+   edge handles to span their whole edge — which is right for grabbing, and
+   would read as four solid bars if it were given a fill. The visible affordance
+   is a `::after` dot centred inside each, so hit area and appearance are
+   independent.
+
+   The 8px dot and the 6px minimum hit area are pointer-accuracy constants,
+   deliberately not from the spacing scale: `--spacing-space-02` is 8px today
+   only by coincidence, and re-basing the scale must not shrink a drag target. */
+
+.image-cropper__handle {
+  position: absolute;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+}
+
+/* zag sizes each handle along its edge only — `width: 96%` for n/s, `height:
+   96%` for e/w, and nothing at all for the corners — and expects content to
+   supply the other axis. The dot below is absolutely positioned and so
+   contributes none, which leaves every handle 0px thick and effectively
+   ungrabbable. These give each one a real hit area. */
+.image-cropper__handle--n,
+.image-cropper__handle--s {
+  height: 12px;
+}
+
+.image-cropper__handle--e,
+.image-cropper__handle--w {
+  width: 12px;
+}
+
+.image-cropper__handle--nw,
+.image-cropper__handle--ne,
+.image-cropper__handle--se,
+.image-cropper__handle--sw {
+  width: 16px;
+  height: 16px;
+}
+
+.image-cropper__handle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  translate: -50% -50%;
+  background-color: var(--color-interactive-primary-default);
+  border: 1px solid var(--color-content-light);
+  border-radius: var(--radius-checkbox);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. It goes on the dot, which is the part you can see. */
+.image-cropper__handle:focus-visible::after {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.image-cropper__handle--nw { cursor: nwse-resize; }
+.image-cropper__handle--n  { cursor: ns-resize; }
+.image-cropper__handle--ne { cursor: nesw-resize; }
+.image-cropper__handle--e  { cursor: ew-resize; }
+.image-cropper__handle--se { cursor: nwse-resize; }
+.image-cropper__handle--s  { cursor: ns-resize; }
+.image-cropper__handle--sw { cursor: nesw-resize; }
+.image-cropper__handle--w  { cursor: ew-resize; }
+
+/* On a rectangle the corners carry the affordance — dots on every edge as well
+   would crowd a small crop box. The edge hit areas stay live either way. */
+.image-cropper--rectangle .image-cropper__handle--n::after,
+.image-cropper--rectangle .image-cropper__handle--e::after,
+.image-cropper--rectangle .image-cropper__handle--s::after,
+.image-cropper--rectangle .image-cropper__handle--w::after {
+  content: none;
+}
+
+/* A circular crop has no corners to point at, so the edges carry the dots
+   instead — a corner dot would float outside the visible shape. */
+.image-cropper--circle .image-cropper__handle--nw::after,
+.image-cropper--circle .image-cropper__handle--ne::after,
+.image-cropper--circle .image-cropper__handle--se::after,
+.image-cropper--circle .image-cropper__handle--sw::after {
+  content: none;
+}

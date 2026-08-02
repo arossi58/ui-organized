@@ -1,0 +1,60 @@
+/* ─── QRCode ──────────────────────────────────────────────────────────────────
+   A scannable code. zag generates the pattern and publishes its geometry as
+   `--qrcode-width` / `--qrcode-height` / `--qrcode-pixel-size`; nothing here
+   sets the module grid.
+
+   `--qr-size` is the rendered edge length and stays local rather than becoming
+   a token: the code must be an integer multiple of its module size, and a
+   themed value would produce fractional modules — visible moiré, and a code a
+   scanner can fail to read. The size steps below are chosen to divide cleanly
+   at the default 10px module. */
+
+.qr-code {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-space-03);
+}
+
+.qr-code--sm { --qr-size: var(--dimension-03, 120px); }
+.qr-code--md { --qr-size: var(--dimension-05, 200px); }
+.qr-code--lg { --qr-size: var(--dimension-07, 280px); }
+
+.qr-code__frame {
+  width: var(--qr-size);
+  height: var(--qr-size);
+  /* The quiet zone is part of the spec, not decoration — a code with no margin
+     is measurably harder for a scanner to lock onto. */
+  padding: var(--spacing-space-02);
+  background-color: var(--color-surface-primary);
+  box-sizing: border-box;
+}
+
+/* The framed variant puts the code on a card, for placing it over a photo or a
+   coloured band where the bare pattern would lose its quiet zone. */
+.qr-code--framed .qr-code__frame {
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-03);
+}
+
+/* The pattern is an SVG path; `fill` is the ink. High contrast against the
+   frame is a scanning requirement, so this pair is deliberately the strongest
+   content colour on the primary surface rather than a softer one. */
+.qr-code__pattern {
+  fill: var(--color-content-primary);
+}
+
+/* ─── Overlay ─────────────────────────────────────────────────────────────────
+   A logo over the centre. Only safe at high error correction — the component's
+   types say so on the prop. */
+
+.qr-code__overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-primary);
+  border-radius: var(--radius-checkbox);
+}

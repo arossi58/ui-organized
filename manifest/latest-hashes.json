@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T18:17:38.357Z",
+  "generatedAt": "2026-08-02T18:39:22.446Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -58,6 +58,7 @@
     "packages/react/src/components/Field/Field.types.ts::FieldLabel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::Fieldset": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/FileUpload/FileUpload.types.ts::FileUpload": "sha256:5037daf8df9203b2",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanel": "sha256:de71f68bc5505cbb",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelClose": "sha256:8e43c867ebd12f85",
@@ -70,6 +71,7 @@
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:90f0ac6deaa84765",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
+    "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:7a065a645590a677",
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
     "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": "sha256:5990e288f07f2275",
@@ -99,6 +101,7 @@
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Progress/Progress.types.ts::Progress": "sha256:107504ef664f40a5",
+    "packages/react/src/components/QRCode/QRCode.types.ts::QRCode": "sha256:651243f891e80bbe",
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": "sha256:6b1a92c950305c6c",
     "packages/react/src/components/Range/Range.types.ts::Range": "sha256:0ffbd394cc54fdad",
     "packages/react/src/components/RatingGroup/RatingGroup.types.ts::RatingGroup": "sha256:f91adc6c16e05917",
@@ -114,6 +117,7 @@
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": "sha256:0341f1edb917c622",
+    "packages/react/src/components/SignaturePad/SignaturePad.types.ts::SignaturePad": "sha256:5d7550266d4b805e",
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
     "packages/react/src/components/Splitter/Splitter.types.ts::Splitter": "sha256:333d3414459f7252",
     "packages/react/src/components/Steps/Steps.types.ts::Steps": "sha256:ba967994bcab4048",
@@ -1638,6 +1642,146 @@
     "packages/react/src/components/Field/Field.types.ts::FieldLabel": [],
     "packages/react/src/components/Field/Field.types.ts::Fieldset": [],
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": [],
+    "packages/react/src/components/FileUpload/FileUpload.types.ts::FileUpload": [
+      {
+        "name": "accept",
+        "type": "string | string[] | Record<string, string[]>",
+        "required": false,
+        "description": "Accepted types, as MIME types or extensions — `\"image\"`, `[\"image/png\", \".pdf\"]`, or a map of MIME type to extensions."
+      },
+      {
+        "name": "acceptedFiles",
+        "type": "File[]",
+        "required": false,
+        "description": "Controlled list of accepted files."
+      },
+      {
+        "name": "allowDrop",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Accepts files dropped onto the dropzone."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultAcceptedFiles",
+        "type": "File[]",
+        "required": false,
+        "description": "Initial files for the uncontrolled case."
+      },
+      {
+        "name": "directory",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Lets the picker select a whole directory."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the control."
+      },
+      {
+        "name": "dropzoneLabel",
+        "type": "string",
+        "required": false,
+        "description": "Text inside the dropzone."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the control."
+      },
+      {
+        "name": "maxFiles",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Maximum number of files."
+      },
+      {
+        "name": "maxFileSize",
+        "type": "number",
+        "required": false,
+        "description": "Largest accepted file, in bytes."
+      },
+      {
+        "name": "minFileSize",
+        "type": "number",
+        "required": false,
+        "description": "Smallest accepted file, in bytes."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name for the hidden input."
+      },
+      {
+        "name": "onFileChange",
+        "type": "(details: { acceptedFiles: File[]; rejectedFiles: unknown[] }) => void",
+        "required": false,
+        "description": "Called with the accepted and rejected lists whenever either changes."
+      },
+      {
+        "name": "onFileReject",
+        "type": "(files: unknown[]) => void",
+        "required": false,
+        "description": "Called with the files that failed validation."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field required and shows the required indicator."
+      },
+      {
+        "name": "showPreview",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows a thumbnail for image files."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "triggerLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Choose",
+        "description": "Text on the browse button."
+      },
+      {
+        "name": "variant",
+        "type": "\"dropzone\" | \"button\" | \"compact\"",
+        "required": false,
+        "defaultValue": "dropzone",
+        "description": "Layout."
+      }
+    ],
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanel": [
       {
         "name": "children",
@@ -1882,6 +2026,117 @@
         "name": "children",
         "type": "ReactNode",
         "required": true
+      }
+    ],
+    "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": [
+      {
+        "name": "alt",
+        "type": "string",
+        "required": false,
+        "description": "Alternative text for the image."
+      },
+      {
+        "name": "aspectRatio",
+        "type": "number",
+        "required": false,
+        "description": "Locks the crop box to a ratio, e.g."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "cropShape",
+        "type": "\"rectangle\" | \"circle\"",
+        "required": false,
+        "defaultValue": "rectangle",
+        "description": "Shape of the crop box."
+      },
+      {
+        "name": "defaultZoom",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Initial zoom for the uncontrolled case."
+      },
+      {
+        "name": "fixedCropArea",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Prevents the crop box being moved or resized."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the viewport."
+      },
+      {
+        "name": "initialCrop",
+        "type": "CropRect",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Crop box the editor opens with."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the viewport."
+      },
+      {
+        "name": "maxZoom",
+        "type": "number",
+        "required": false,
+        "defaultValue": "3",
+        "description": "Largest zoom level."
+      },
+      {
+        "name": "minZoom",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Smallest zoom level."
+      },
+      {
+        "name": "onCropChange",
+        "type": "(crop: CropRect) => void",
+        "required": false,
+        "description": "Called continuously as the crop box moves or resizes."
+      },
+      {
+        "name": "onZoomChange",
+        "type": "(zoom: number) => void",
+        "required": false,
+        "description": "Called when the zoom changes."
+      },
+      {
+        "name": "showGrid",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Draws rule-of-thirds guides inside the crop box."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant, driving the viewport's height."
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": true,
+        "description": "Image to crop."
+      },
+      {
+        "name": "zoom",
+        "type": "number",
+        "required": false,
+        "description": "Controlled zoom level."
       }
     ],
     "packages/react/src/components/Input/Input.types.ts::Input": [
@@ -2827,6 +3082,81 @@
         "description": "Color variant."
       }
     ],
+    "packages/react/src/components/QRCode/QRCode.types.ts::QRCode": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "downloadFileName",
+        "type": "string",
+        "required": false,
+        "defaultValue": "qr-code",
+        "description": "File name for the download, without an extension."
+      },
+      {
+        "name": "downloadLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Download",
+        "description": "Text on the download button."
+      },
+      {
+        "name": "errorCorrection",
+        "type": "\"L\" | \"M\" | \"Q\" | \"H\"",
+        "required": false,
+        "defaultValue": "M",
+        "description": "Error-correction level."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Accessible label for the code."
+      },
+      {
+        "name": "overlay",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Logo or badge drawn over the centre of the code."
+      },
+      {
+        "name": "pixelSize",
+        "type": "number",
+        "required": false,
+        "defaultValue": "10",
+        "description": "Edge length of one module (a single square of the code), in pixels."
+      },
+      {
+        "name": "showDownload",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Shows a download button below the code."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant, driving the rendered edge length."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "description": "The string encoded into the code — a URL, an id, anything scannable."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"framed\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Surface treatment."
+      }
+    ],
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": [
       {
         "name": "aria-label",
@@ -3473,6 +3803,121 @@
         "type": "(collapsed: boolean) => void",
         "required": false,
         "description": "Called with the next collapsed state whenever the toggle is used."
+      }
+    ],
+    "packages/react/src/components/SignaturePad/SignaturePad.types.ts::SignaturePad": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "clearLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Clear",
+        "description": "Text on the clear button."
+      },
+      {
+        "name": "defaultPaths",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial strokes for the uncontrolled case."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables drawing."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the pad."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the pad."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Form field name for the hidden input."
+      },
+      {
+        "name": "onDraw",
+        "type": "(paths: string[]) => void",
+        "required": false,
+        "description": "Called as each stroke is drawn."
+      },
+      {
+        "name": "onDrawEnd",
+        "type": "( paths: string[], getDataUrl: (type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number) => Promise<string>, ) => void",
+        "required": false,
+        "description": "Called when a stroke finishes."
+      },
+      {
+        "name": "paths",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled strokes, as SVG path data."
+      },
+      {
+        "name": "readOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Makes the signature read-only while keeping it visible."
+      },
+      {
+        "name": "required",
+        "type": "boolean",
+        "required": false,
+        "description": "Marks the field required and shows the required indicator."
+      },
+      {
+        "name": "showClear",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the clear button."
+      },
+      {
+        "name": "showGuide",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the sign-here rule across the pad."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant, driving the pad's height."
+      },
+      {
+        "name": "strokeWidth",
+        "type": "number",
+        "required": false,
+        "defaultValue": "2",
+        "description": "Ink width in device pixels."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"bordered\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Surface treatment."
       }
     ],
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": [
@@ -4224,7 +4669,7 @@
         "name": "onStepChange",
         "type": "(stepId: string | null) => void",
         "required": false,
-        "description": "Called with the new step id whenever the tour advances, or `null` on close."
+        "description": "Called with the new step id whenever the tour advances, and with `null` when it closes."
       },
       {
         "name": "preventInteraction",
