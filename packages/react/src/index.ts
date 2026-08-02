@@ -323,3 +323,24 @@ export type {
   SheetFooterProps,
   SheetVariants,
 } from "./components/Sheet/index.js";
+
+export { Listbox } from "./components/Listbox/index.js";
+export type { ListboxProps, ListboxOption, ListboxVariants } from "./components/Listbox/index.js";
+
+export { TreeView } from "./components/TreeView/index.js";
+export type { TreeViewProps, TreeViewNode, TreeViewVariants } from "./components/TreeView/index.js";
+
+export { Steps } from "./components/Steps/index.js";
+export type { StepsProps, StepItem, StepsVariants } from "./components/Steps/index.js";
+
+export { Splitter } from "./components/Splitter/index.js";
+export type { SplitterProps, SplitterPanelDef, SplitterVariants } from "./components/Splitter/index.js";
+
+export { Carousel } from "./components/Carousel/index.js";
+export type { CarouselProps, CarouselSlide, CarouselVariants } from "./components/Carousel/index.js";
+
+export { Marquee } from "./components/Marquee/index.js";
+export type { MarqueeProps, MarqueeItem, MarqueeVariants } from "./components/Marquee/index.js";
+
+export { Timer } from "./components/Timer/index.js";
+export type { TimerProps, TimerPart, TimerVariants } from "./components/Timer/index.js";

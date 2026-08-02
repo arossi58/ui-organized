@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T14:46:46.619Z",
+  "generatedAt": "2026-08-02T17:47:27.946Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -19,6 +19,7 @@
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
@@ -61,6 +62,8 @@
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:90f0ac6deaa84765",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:7a065a645590a677",
+    "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
+    "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": "sha256:5990e288f07f2275",
     "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
     "packages/react/src/components/Menubar/Menubar.types.ts::Menubar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Menu/Menu.types.ts::MenuCheckboxItem": "sha256:dc0af9c05089e992",
@@ -103,18 +106,22 @@
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": "sha256:0341f1edb917c622",
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
+    "packages/react/src/components/Splitter/Splitter.types.ts::Splitter": "sha256:333d3414459f7252",
+    "packages/react/src/components/Steps/Steps.types.ts::Steps": "sha256:ba967994bcab4048",
     "packages/react/src/components/Switch/Switch.types.ts::Switch": "sha256:42ffb8903433d9dc",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
     "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:e022f7c3635671e2",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
+    "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:acde0a4546711e5e",
     "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:7d2c6910f54dd1f2",
-    "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084"
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084",
+    "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38"
   },
   "props": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": [
@@ -487,6 +494,99 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false
+      }
+    ],
+    "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": [
+      {
+        "name": "autoplay",
+        "type": "boolean | { delay: number }",
+        "required": false,
+        "description": "Advances on a timer."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultPage",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Initial page index for the uncontrolled case."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label for the carousel region."
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Wraps from the last slide back to the first."
+      },
+      {
+        "name": "onPageChange",
+        "type": "(page: number) => void",
+        "required": false,
+        "description": "Called with the new index whenever the visible page changes."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Scroll direction."
+      },
+      {
+        "name": "page",
+        "type": "number",
+        "required": false,
+        "description": "Controlled page index."
+      },
+      {
+        "name": "showIndicators",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the dot indicators below the slides."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant, driving control and indicator scale."
+      },
+      {
+        "name": "slides",
+        "type": "CarouselSlide[]",
+        "required": true,
+        "description": "The slides, in order."
+      },
+      {
+        "name": "slidesPerPage",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "How many slides are visible at once."
+      },
+      {
+        "name": "spacing",
+        "type": "string",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Gap between slides."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"minimal\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual treatment."
       }
     ],
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": [
@@ -1391,6 +1491,159 @@
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial selection for the uncontrolled case."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Disables the whole list."
+      },
+      {
+        "name": "emptyMessage",
+        "type": "string",
+        "required": false,
+        "description": "Message shown when `options` is empty."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the list."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Called with the full selection whenever it changes."
+      },
+      {
+        "name": "options",
+        "type": "ListboxOption[]",
+        "required": true,
+        "description": "The options to list, in display order."
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\" | \"extended\"",
+        "required": false,
+        "defaultValue": "single",
+        "description": "How many options may be selected at once."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled selection."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"bordered\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual treatment."
+      }
+    ],
+    "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": [
+      {
+        "name": "autoFill",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Repeats the content until the track is full, so there is never a gap."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultPaused",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Starts paused."
+      },
+      {
+        "name": "delay",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Seconds to wait before the first pass."
+      },
+      {
+        "name": "items",
+        "type": "MarqueeItem[]",
+        "required": true,
+        "description": "The items to scroll, in order."
+      },
+      {
+        "name": "loopCount",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Number of passes before stopping."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Scroll direction."
+      },
+      {
+        "name": "pauseOnInteraction",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Pauses while hovered or focused."
+      },
+      {
+        "name": "reverse",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Reverses the travel direction."
+      },
+      {
+        "name": "showEdges",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Fades the leading and trailing edges into the background."
+      },
+      {
+        "name": "spacing",
+        "type": "string",
+        "required": false,
+        "defaultValue": "the",
+        "description": "Gap between items."
+      },
+      {
+        "name": "speed",
+        "type": "number",
+        "required": false,
+        "defaultValue": "50",
+        "description": "Pixels travelled per second."
       }
     ],
     "packages/react/src/components/Menu/Menu.types.ts::Menu": [
@@ -2839,6 +3092,137 @@
         "description": "Explicit width — a number is treated as pixels."
       }
     ],
+    "packages/react/src/components/Splitter/Splitter.types.ts::Splitter": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultSize",
+        "type": "number[]",
+        "required": false,
+        "defaultValue": "an",
+        "description": "Initial sizes for the uncontrolled case."
+      },
+      {
+        "name": "onResize",
+        "type": "(size: number[]) => void",
+        "required": false,
+        "description": "Called continuously while a handle is dragged."
+      },
+      {
+        "name": "onResizeEnd",
+        "type": "(size: number[]) => void",
+        "required": false,
+        "description": "Called once, when the drag ends."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Split direction."
+      },
+      {
+        "name": "panels",
+        "type": "SplitterPanelDef[]",
+        "required": true,
+        "description": "The panels, in order."
+      },
+      {
+        "name": "size",
+        "type": "number[]",
+        "required": false,
+        "description": "Controlled sizes, as percentages, one per panel."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"subtle\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Handle treatment."
+      }
+    ],
+    "packages/react/src/components/Steps/Steps.types.ts::Steps": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "completedContent",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Panel shown once every step is complete."
+      },
+      {
+        "name": "defaultStep",
+        "type": "number",
+        "required": false,
+        "defaultValue": "0",
+        "description": "Initial step index for the uncontrolled case."
+      },
+      {
+        "name": "linear",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Prevents jumping ahead past the current step."
+      },
+      {
+        "name": "onStepChange",
+        "type": "(step: number) => void",
+        "required": false,
+        "description": "Called with the new index whenever the current step changes."
+      },
+      {
+        "name": "onStepComplete",
+        "type": "() => void",
+        "required": false,
+        "description": "Called once the last step is completed."
+      },
+      {
+        "name": "orientation",
+        "type": "\"horizontal\" | \"vertical\"",
+        "required": false,
+        "defaultValue": "horizontal",
+        "description": "Layout direction."
+      },
+      {
+        "name": "showContent",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Renders the step panels and the previous/next buttons."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "step",
+        "type": "number",
+        "required": false,
+        "description": "Controlled index of the current step."
+      },
+      {
+        "name": "steps",
+        "type": "StepItem[]",
+        "required": true,
+        "description": "The steps, in order."
+      },
+      {
+        "name": "variant",
+        "type": "\"numbered\" | \"dotted\"",
+        "required": false,
+        "defaultValue": "numbered",
+        "description": "Indicator style."
+      }
+    ],
     "packages/react/src/components/Switch/Switch.types.ts::Switch": [
       {
         "name": "aria-label",
@@ -3125,6 +3509,86 @@
         "description": "Size variant."
       }
     ],
+    "packages/react/src/components/Timer/Timer.types.ts::Timer": [
+      {
+        "name": "autoStart",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Starts as soon as it mounts."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "countdown",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Counts down to `targetMs` instead of up from it."
+      },
+      {
+        "name": "interval",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1000",
+        "description": "Milliseconds between ticks."
+      },
+      {
+        "name": "onComplete",
+        "type": "() => void",
+        "required": false,
+        "description": "Called once the target is reached."
+      },
+      {
+        "name": "parts",
+        "type": "TimerPart[]",
+        "required": false,
+        "description": "Which units to display, in order."
+      },
+      {
+        "name": "showControls",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Renders start / pause / reset buttons."
+      },
+      {
+        "name": "showLabels",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "Shows the unit name under each value."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "startMs",
+        "type": "number",
+        "required": false,
+        "description": "Where the timer starts, in milliseconds."
+      },
+      {
+        "name": "targetMs",
+        "type": "number",
+        "required": false,
+        "description": "Where the timer stops, in milliseconds."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"boxed\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual treatment."
+      }
+    ],
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": [
       {
         "name": "children",
@@ -3316,6 +3780,89 @@
         "type": "number",
         "required": false,
         "description": "Default delay before opening, in ms, for descendant tooltips."
+      }
+    ],
+    "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultExpandedValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Branches expanded on first render."
+      },
+      {
+        "name": "defaultSelectedValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial selection for the uncontrolled case."
+      },
+      {
+        "name": "expandedValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled set of expanded branch ids."
+      },
+      {
+        "name": "items",
+        "type": "TreeViewNode[]",
+        "required": true,
+        "description": "The tree to render, in display order."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label rendered above the tree."
+      },
+      {
+        "name": "onExpandedChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Called with the full expanded set whenever a branch opens or closes."
+      },
+      {
+        "name": "onSelectionChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Called with the full selection whenever it changes."
+      },
+      {
+        "name": "selectedValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled selection, by node id."
+      },
+      {
+        "name": "selectionMode",
+        "type": "\"single\" | \"multiple\"",
+        "required": false,
+        "defaultValue": "single",
+        "description": "How many nodes may be selected at once."
+      },
+      {
+        "name": "showIndentGuides",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the vertical rules that connect a branch to its children."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      },
+      {
+        "name": "variant",
+        "type": "\"default\" | \"bordered\"",
+        "required": false,
+        "defaultValue": "default",
+        "description": "Visual treatment."
       }
     ]
   }

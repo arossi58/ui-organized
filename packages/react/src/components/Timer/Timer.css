@@ -1,0 +1,130 @@
+/* ─── Timer ───────────────────────────────────────────────────────────────────
+   A count up or down, split into units. zag renders each unit's value into the
+   Item part, so this file only lays them out and types them.
+
+   Digits are tabular throughout: a proportional font makes the whole row jitter
+   on every tick as digit widths change, which is far more distracting than the
+   count itself. */
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  align-items: flex-start;
+}
+
+/* Aligned to the top, not centred. A segment is a column — value above label —
+   so centring the row would centre the colon against the whole column and drop
+   it below the digits it separates. Top alignment plus a separator that matches
+   the value's own line box puts the two on the same centre line whether labels
+   are shown or not. */
+.timer__area {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-01);
+}
+
+.timer__segment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-space-005);
+}
+
+/* ─── Value ───────────────────────────────────────────────────────────────── */
+
+.timer__value {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-heading-small);
+  color: var(--color-content-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.timer--sm .timer__value {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.timer--lg .timer__value {
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--type-leading-heading-medium);
+}
+
+/* ─── Boxed variant ───────────────────────────────────────────────────────────
+   Each unit on its own tile. A minimum width keeps the tiles from resizing
+   between one- and two-digit values. */
+
+.timer--boxed .timer__value {
+  box-sizing: border-box;
+  min-width: var(--spacing-space-09);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-interactive);
+  text-align: center;
+}
+
+.timer--sm.timer--boxed .timer__value {
+  min-width: var(--spacing-space-07);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+}
+
+.timer--lg.timer--boxed .timer__value {
+  min-width: var(--spacing-space-11);
+}
+
+.timer--boxed .timer__area {
+  gap: var(--spacing-space-02);
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────────
+   Purely decorative — the units are already announced individually, so the
+   colon is aria-hidden in the component and only needs to be dimmed here. */
+
+.timer__separator {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-heading-small);
+  font-weight: var(--type-weight-heading-emphasis);
+  line-height: var(--type-leading-heading-small);
+  color: var(--color-content-tertiary);
+}
+
+.timer--sm .timer__separator {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.timer--lg .timer__separator {
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--type-leading-heading-medium);
+}
+
+/* In the boxed variant the value carries vertical padding, so the separator has
+   to carry the same amount to stay on the digits' centre line. */
+.timer--boxed .timer__separator {
+  padding-block: var(--spacing-space-02);
+}
+
+.timer--sm.timer--boxed .timer__separator {
+  padding-block: var(--spacing-space-01);
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+.timer__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+  text-transform: capitalize;
+}
+
+/* ─── Control ─────────────────────────────────────────────────────────────── */
+
+.timer__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}

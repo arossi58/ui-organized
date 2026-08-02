@@ -72,6 +72,9 @@ export const RUNTIME_PROVIDED = new Set([
   "--y",
   // Tour stacks backdrop/spotlight/content and tags each with its layer index.
   "--tour-layer",
+  // Tree view tags every node with its nesting level; indentation is computed
+  // from it rather than from a per-level rule.
+  "--depth",
 ]);
 
 // ─── Reading ─────────────────────────────────────────────────────────────────

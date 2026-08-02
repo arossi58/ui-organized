@@ -1,0 +1,129 @@
+/* ─── Listbox ─────────────────────────────────────────────────────────────────
+   A standing list of selectable options — not an anchored surface. It shares the
+   item recipe with `.select-popup` (hover, selected, indicator) so a listbox and
+   an open Select read as the same control, but it has no positioner, no portal
+   and no z-index: it lives in the flow. */
+
+.listbox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.listbox__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-secondary);
+}
+
+.listbox__content {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  outline: none;
+}
+
+/* The bordered variant is the one that reads as a container; the default sits
+   flush in whatever surface hosts it. */
+.listbox--bordered .listbox__content {
+  background-color: var(--color-surface-primary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-01);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. Roving focus lives on the content, not the items. */
+.listbox__content:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Item ────────────────────────────────────────────────────────────────── */
+
+.listbox__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms ease;
+}
+
+.listbox--sm .listbox__item {
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+}
+
+.listbox--lg .listbox__item {
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+}
+
+/* Ark drives keyboard focus with data-highlighted, which is distinct from
+   selection — both can be true at once, so they must not use the same fill. */
+.listbox__item[data-highlighted] {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.listbox__item[data-state="checked"] {
+  background-color: var(--color-interactive-ui-selected);
+  font-weight: var(--type-weight-body-emphasis);
+}
+
+.listbox__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.listbox__item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.listbox__item-indicator {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--color-interactive-primary-default);
+}
+
+/* ─── Group ───────────────────────────────────────────────────────────────── */
+
+.listbox__group {
+  display: flex;
+  flex-direction: column;
+}
+
+.listbox__group-label {
+  padding: var(--spacing-space-02) var(--spacing-space-02) var(--spacing-space-01);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+}
+
+/* ─── Empty ───────────────────────────────────────────────────────────────────
+   Ark hides this part whenever the collection has items, so it needs no
+   conditional rendering on our side. */
+
+.listbox__empty {
+  padding: var(--spacing-space-03) var(--spacing-space-02);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-tertiary);
+  text-align: center;
+}
