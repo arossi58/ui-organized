@@ -1,0 +1,88 @@
+/* ─── RatingGroup ─────────────────────────────────────────────────────────────
+   A row of star items. Label / helper / error chrome comes from `.field`
+   (Field.css); everything below is rating-specific.
+
+   Fill is driven entirely by the data attributes zag puts on the item
+   (`data-highlighted`, `data-half`, `data-disabled`, `data-readonly`), so the
+   component ships no fill logic of its own. */
+
+.rating-group__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+}
+
+.rating-group__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: var(--radius-interactive);
+  outline: none;
+  color: var(--color-interactive-inactive-02);
+  transition:
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Icons in this package are stroked outlines; a rating star reads as filled,
+   so the glyph's fill follows its stroke colour and both change together. */
+.rating-group__star {
+  fill: currentColor;
+}
+
+.rating-group__item[data-highlighted] {
+  color: var(--color-interactive-primary-default);
+}
+
+/* `warning` maps to the caution ramp, not the warning one — see §7.3 of
+   FIGMA-PARITY.md for why the library's warning/caution naming diverges. */
+.rating-group--warning .rating-group__item[data-highlighted] {
+  color: var(--color-status-caution);
+}
+
+/* Half state: the item itself stays empty and the clipped overlay carries the
+   fill, so the boundary lands exactly on the glyph's midpoint. */
+.rating-group__item[data-half] {
+  color: var(--color-interactive-inactive-02);
+}
+
+.rating-group__half {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* 50% is the definition of a half rating, not a tunable. */
+  width: 50%;
+  color: var(--color-interactive-primary-default);
+}
+
+.rating-group--warning .rating-group__half {
+  color: var(--color-status-caution);
+}
+
+.rating-group__item[data-half] .rating-group__half {
+  display: flex;
+}
+
+/* The overlay is half as wide as the item but the glyph inside it must not
+   shrink, or the two stars stop lining up. */
+.rating-group__half .rating-group__star {
+  flex-shrink: 0;
+}
+
+.rating-group__item:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.rating-group__item[data-readonly] {
+  cursor: default;
+}
+
+.rating-group__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}

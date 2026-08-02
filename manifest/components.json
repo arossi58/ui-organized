@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-07-31T00:02:54.122Z",
+  "generatedAt": "2026-08-02T14:46:46.619Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -276,6 +276,112 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "AngleSlider",
+      "codeName": "AngleSlider",
+      "codePath": "packages/react/src/components/AngleSlider/AngleSlider.types.ts",
+      "framework": "react",
+      "importStatement": "import { AngleSlider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial angle in degrees for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the dial."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the dial."
+        },
+        {
+          "name": "markers",
+          "type": "number[]",
+          "required": false,
+          "description": "Tick marks in degrees, e.g."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called continuously as the dial is dragged."
+        },
+        {
+          "name": "onValueChangeEnd",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called once, when the drag ends."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the angle read-only while keeping it focusable."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows the current angle beside the label."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Degrees per keyboard step."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "description": "Controlled angle in degrees, 0–360."
+        }
+      ],
+      "usageSnippet": "<AngleSlider />",
+      "propSignatureHash": "sha256:f06a87c39b1d2957",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Avatar",
       "codeName": "Avatar",
       "codePath": "packages/react/src/components/Avatar/Avatar.types.ts",
@@ -401,7 +507,7 @@
       "props": [
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "CanonicalIconName | IconComponent",
           "required": false,
           "description": "Optional icon to render inside the button."
         },
@@ -428,8 +534,8 @@
         }
       ],
       "usageSnippet": "<Button />",
-      "propSignatureHash": "sha256:6d519848f6e30dac",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:f812888fdf6764f8",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -531,6 +637,12 @@
       "importStatement": "import { Checkbox } from '@ui-organized/react';",
       "props": [
         {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the checkbox is rendered without a visible `label`."
+        },
+        {
           "name": "checked",
           "type": "boolean",
           "required": false,
@@ -591,8 +703,86 @@
         }
       ],
       "usageSnippet": "<Checkbox />",
-      "propSignatureHash": "sha256:ef2e1d3a01365ae7",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:cf4b0e586ed96657",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Clipboard",
+      "codeName": "Clipboard",
+      "codePath": "packages/react/src/components/Clipboard/Clipboard.types.ts",
+      "framework": "react",
+      "importStatement": "import { Clipboard } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copied",
+          "description": "Text on the trigger just after copying."
+        },
+        {
+          "name": "copyLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copy",
+          "description": "Text on the trigger before copying."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(copied: boolean) => void",
+          "required": false,
+          "description": "Called when the copied state changes."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3000",
+          "description": "Milliseconds the copied state stays visible before reverting."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The text copied to the clipboard."
+        },
+        {
+          "name": "variant",
+          "type": "\"input\" | \"button\"",
+          "required": false,
+          "defaultValue": "input",
+          "description": "Layout."
+        }
+      ],
+      "usageSnippet": "<Clipboard value={/* string */} />",
+      "propSignatureHash": "sha256:1f0e2a3c80b01679",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -1367,6 +1557,137 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Editable",
+      "codeName": "Editable",
+      "codePath": "packages/react/src/components/Editable/Editable.types.ts",
+      "framework": "react",
+      "importStatement": "import { Editable } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "activationMode",
+          "type": "\"focus\" | \"dblclick\" | \"click\" | \"none\"",
+          "required": false,
+          "defaultValue": "focus",
+          "description": "What starts an edit."
+        },
+        {
+          "name": "autoResize",
+          "type": "boolean",
+          "required": false,
+          "description": "Grows the input to fit its content instead of filling the width."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial value for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the value."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the value."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of characters."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called on every keystroke while editing."
+        },
+        {
+          "name": "onValueCommit",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called when the edit is committed — on submit, or on blur in blur mode."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Text shown when the value is empty."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the value read-only, so no edit can be started."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "showControls",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows explicit edit / submit / cancel buttons."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "submitMode",
+          "type": "\"blur\" | \"enter\" | \"both\" | \"none\"",
+          "required": false,
+          "defaultValue": "blur",
+          "description": "What commits an edit."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled value."
+        }
+      ],
+      "usageSnippet": "<Editable />",
+      "propSignatureHash": "sha256:4acc88909e051c06",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Field",
       "codeName": "Field",
       "codePath": "packages/react/src/components/Field/Field.types.ts",
@@ -2015,6 +2336,12 @@
       "importStatement": "import { Meter } from '@ui-organized/react';",
       "props": [
         {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the meter is rendered without a visible `label`."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
@@ -2074,8 +2401,8 @@
         }
       ],
       "usageSnippet": "<Meter value={/* number */} />",
-      "propSignatureHash": "sha256:b6ba916fba5d5478",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:ef09ae151baf0f59",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -2500,6 +2827,146 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "PinInput",
+      "codeName": "PinInput",
+      "codePath": "packages/react/src/components/PinInput/PinInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { PinInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "blurOnComplete",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Blurs the last cell once the value is complete."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial value for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables every cell."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the cells."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the cells."
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "Number of cells."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Renders entered characters as dots, like a password field."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called on every keystroke with the concatenated value."
+        },
+        {
+          "name": "onValueComplete",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called once every cell is filled."
+        },
+        {
+          "name": "otp",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Marks the cells as a one-time-code field so browsers and password managers offer to autofill an SMS code."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder character shown in each empty cell."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the value read-only while keeping it focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "type",
+          "type": "\"numeric\" | \"alphanumeric\" | \"alphabetic\"",
+          "required": false,
+          "defaultValue": "numeric",
+          "description": "Which characters each cell accepts."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled value, one character per cell."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"underline\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment of each cell."
+        }
+      ],
+      "usageSnippet": "<PinInput />",
+      "propSignatureHash": "sha256:7bb9543b95a35aa0",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Popover",
       "codeName": "Popover",
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
@@ -2617,6 +3084,32 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "PopoverDescription",
+      "codeName": "PopoverDescription",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverTitle",
+      "codeName": "PopoverTitle",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "PopoverTrigger",
       "codeName": "PopoverTrigger",
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
@@ -2655,6 +3148,13 @@
           "description": "Maximum value."
         },
         {
+          "name": "shape",
+          "type": "\"linear\" | \"circular\"",
+          "required": false,
+          "defaultValue": "linear",
+          "description": "Track geometry."
+        },
+        {
           "name": "showValue",
           "type": "boolean",
           "required": false,
@@ -2684,8 +3184,8 @@
         }
       ],
       "usageSnippet": "<Progress />",
-      "propSignatureHash": "sha256:1828fc99db4d4a55",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:107504ef664f40a5",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -2696,6 +3196,12 @@
       "framework": "react",
       "importStatement": "import { RadioGroup } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
         {
           "name": "className",
           "type": "string",
@@ -2752,8 +3258,8 @@
         }
       ],
       "usageSnippet": "<RadioGroup options={/* RadioOption[] */} />",
-      "propSignatureHash": "sha256:93806ae6d8e62cb8",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:6b1a92c950305c6c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -2764,6 +3270,12 @@
       "framework": "react",
       "importStatement": "import { Range } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the thumb when there is no visible `label`."
+        },
         {
           "name": "className",
           "type": "string",
@@ -2891,8 +3403,115 @@
         }
       ],
       "usageSnippet": "<Range />",
-      "propSignatureHash": "sha256:56341b313d548653",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:0ffbd394cc54fdad",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "RatingGroup",
+      "codeName": "RatingGroup",
+      "codePath": "packages/react/src/components/RatingGroup/RatingGroup.types.ts",
+      "framework": "react",
+      "importStatement": "import { RatingGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "allowHalf",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Allows half-star ratings."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "required": false,
+          "defaultValue": "5",
+          "description": "Number of rating items."
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial rating for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the stars."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the stars."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called with the new rating whenever it changes."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Renders the rating without interaction while keeping it readable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "description": "Controlled rating."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"warning\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Colour of the filled stars."
+        }
+      ],
+      "usageSnippet": "<RatingGroup />",
+      "propSignatureHash": "sha256:f91adc6c16e05917",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -3411,6 +4030,12 @@
       "importStatement": "import { Switch } from '@ui-organized/react';",
       "props": [
         {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the switch is rendered without a visible `label`."
+        },
+        {
           "name": "checked",
           "type": "boolean",
           "required": false,
@@ -3465,8 +4090,8 @@
         }
       ],
       "usageSnippet": "<Switch />",
-      "propSignatureHash": "sha256:81671ca52c9acd68",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:42ffb8903433d9dc",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -3576,6 +4201,124 @@
       "usageSnippet": "<Tag>…</Tag>",
       "propSignatureHash": "sha256:e022f7c3635671e2",
       "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TagsInput",
+      "codeName": "TagsInput",
+      "codePath": "packages/react/src/components/TagsInput/TagsInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { TagsInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "addOnPaste",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Creates tags from pasted text."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial tags for the uncontrolled case."
+        },
+        {
+          "name": "delimiter",
+          "type": "string",
+          "required": false,
+          "description": "Splits pasted or typed text into several tags."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "editable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Allows a double-click to edit an existing tag in place."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of tags."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden inputs."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the full list whenever a tag is added or removed."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder shown in the entry field."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the tags read-only while keeping them focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled list of tags."
+        }
+      ],
+      "usageSnippet": "<TagsInput />",
+      "propSignatureHash": "sha256:552c98b946bd1448",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {

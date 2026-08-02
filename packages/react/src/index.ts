@@ -41,6 +41,24 @@ export type {
   DateRangeInputVariants,
 } from "./components/DateRangeInput/index.js";
 
+export { PinInput } from "./components/PinInput/index.js";
+export type { PinInputProps, PinInputVariants } from "./components/PinInput/index.js";
+
+export { TagsInput } from "./components/TagsInput/index.js";
+export type { TagsInputProps, TagsInputVariants } from "./components/TagsInput/index.js";
+
+export { Editable } from "./components/Editable/index.js";
+export type { EditableProps, EditableVariants } from "./components/Editable/index.js";
+
+export { AngleSlider } from "./components/AngleSlider/index.js";
+export type { AngleSliderProps, AngleSliderVariants } from "./components/AngleSlider/index.js";
+
+export { RatingGroup } from "./components/RatingGroup/index.js";
+export type { RatingGroupProps, RatingGroupVariants } from "./components/RatingGroup/index.js";
+
+export { Clipboard } from "./components/Clipboard/index.js";
+export type { ClipboardProps, ClipboardVariants } from "./components/Clipboard/index.js";
+
 export { FieldError } from "./components/FieldError/index.js";
 export type { FieldErrorProps } from "./components/FieldError/index.js";
 

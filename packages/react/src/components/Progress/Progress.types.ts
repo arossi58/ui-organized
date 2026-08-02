@@ -13,5 +13,11 @@ export interface ProgressProps {
   variant?: "default" | "success" | "warning" | "error";
   /** Track thickness. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
+  /**
+   * Track geometry. `circular` draws a ring instead of a bar — the same value
+   * and states, in the shape that fits beside an avatar or inside a tile.
+   * Defaults to 'linear'.
+   */
+  shape?: "linear" | "circular";
   className?: string;
 }

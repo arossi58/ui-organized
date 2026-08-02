@@ -1,0 +1,131 @@
+/* ─── AngleSlider ─────────────────────────────────────────────────────────────
+   A circular dial for picking a rotation. Label / helper / error chrome comes
+   from `.field` (Field.css).
+
+   zag writes `--angle` on the root and `rotate: var(--angle)` inline on the
+   thumb, so this file never computes the angle — it only has to place the thumb
+   at the top of the dial and move its rotation origin to the dial's centre.
+   Same for markers, which get `--marker-display-value` and their own inline
+   rotate.
+
+   `--angle-slider-dial` and `--angle-slider-thumb` are local geometry, not
+   tokens: the dial is a computed circle in the same category as
+   `--calendar-cell`, and there is no themeable meaning to its diameter beyond
+   the size step it comes from. Both are still sourced from the token scale. */
+
+.angle-slider--sm .angle-slider__control {
+  --angle-slider-dial: var(--dimension-01, 40px);
+  --angle-slider-thumb: var(--spacing-space-02);
+}
+
+.angle-slider--md .angle-slider__control {
+  --angle-slider-dial: var(--dimension-02, 80px);
+  --angle-slider-thumb: var(--spacing-space-03);
+}
+
+.angle-slider--lg .angle-slider__control {
+  --angle-slider-dial: var(--dimension-03, 120px);
+  --angle-slider-thumb: var(--spacing-space-04);
+}
+
+.angle-slider__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+}
+
+.angle-slider__value {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Dial ────────────────────────────────────────────────────────────────── */
+
+.angle-slider__control {
+  position: relative;
+  box-sizing: border-box;
+  width: var(--angle-slider-dial);
+  height: var(--angle-slider-dial);
+  border-radius: var(--border-radius-full);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-secondary);
+  background-color: var(--color-interactive-ui-default);
+  cursor: grab;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.angle-slider__control:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.angle-slider__control:active {
+  cursor: grabbing;
+}
+
+.angle-slider__control[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.angle-slider__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.angle-slider__control[data-readonly] {
+  cursor: default;
+}
+
+/* ─── Thumb ───────────────────────────────────────────────────────────────────
+   Sits at the top of the dial with its own centre on the vertical axis, then
+   spins around the dial's centre. The origin's y offset is measured from the
+   thumb's own top-left, which is flush with the dial's top edge — so it is
+   exactly the dial radius. */
+
+.angle-slider__thumb {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--angle-slider-thumb);
+  height: var(--angle-slider-thumb);
+  margin-left: calc(var(--angle-slider-thumb) / -2);
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-primary-default);
+  transform-origin: 50% calc(var(--angle-slider-dial) / 2);
+  outline: none;
+  transition: box-shadow 150ms ease;
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.angle-slider__thumb:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.angle-slider__thumb[data-invalid] {
+  background-color: var(--color-status-error);
+}
+
+/* ─── Markers ─────────────────────────────────────────────────────────────── */
+
+.angle-slider__markers {
+  position: absolute;
+  inset: 0;
+}
+
+.angle-slider__marker {
+  position: absolute;
+  top: var(--spacing-space-005);
+  left: 50%;
+  width: 1px;
+  height: var(--spacing-space-01);
+  margin-left: -0.5px;
+  background-color: var(--color-content-tertiary);
+  transform-origin: 50% calc(var(--angle-slider-dial) / 2);
+}

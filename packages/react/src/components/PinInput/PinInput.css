@@ -1,0 +1,116 @@
+/* ─── PinInput ────────────────────────────────────────────────────────────────
+   A row of single-character cells. The label / helper / error chrome comes from
+   `.field` (Field.css); only the cell row below is pin-specific.
+
+   The cells deliberately do NOT carry `.field__control`. That class is a
+   full-width single control with its own height rule, and a cell is a fixed
+   square — reusing it would mean widening the `:not()` exclusion chain in
+   Field.css to opt straight back out again. The surface tokens are the same
+   ones `.field__control` uses, so the two stay visually identical. */
+
+.pin-input__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* Cells are square: one local var drives both edges. `--control-height-*` is
+   the same ladder every other control's box height comes from, so a pin cell
+   lines up with an adjacent Input or Button. */
+.pin-input--sm .pin-input__cell {
+  --pin-input-cell: var(--control-height-sm);
+}
+
+.pin-input--md .pin-input__cell {
+  --pin-input-cell: var(--control-height-md);
+}
+
+.pin-input--lg .pin-input__cell {
+  --pin-input-cell: var(--control-height-lg);
+}
+
+.pin-input__cell {
+  box-sizing: border-box;
+  width: var(--pin-input-cell);
+  height: var(--pin-input-cell);
+  padding: 0;
+  text-align: center;
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.pin-input--sm .pin-input__cell {
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.pin-input__cell::placeholder {
+  color: var(--color-content-placeholder);
+}
+
+.pin-input__cell:hover:not(:disabled):not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.pin-input__cell:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.pin-input__cell[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.pin-input__cell[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.pin-input__cell:disabled,
+.pin-input__cell[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Underline variant ───────────────────────────────────────────────────────
+   Bottom rule only. The side borders are dropped rather than made transparent
+   so the cell keeps its full width for the character. */
+
+.pin-input--underline .pin-input__cell {
+  background-color: transparent;
+  border-color: transparent;
+  border-bottom-color: var(--color-border-data-entry);
+  border-radius: 0;
+}
+
+.pin-input--underline .pin-input__cell:hover:not(:disabled):not([data-disabled]) {
+  background-color: transparent;
+  border-bottom-color: var(--color-content-tertiary);
+}
+
+/* An inset ring would read as a box on a variant whose whole point is the
+   absence of one, so focus thickens and recolours the rule instead. */
+.pin-input--underline .pin-input__cell:focus-visible {
+  box-shadow: inset 0 -1px 0 0 var(--color-interactive-focus);
+  border-bottom-color: var(--color-interactive-focus);
+}
+
+.pin-input--underline .pin-input__cell[data-invalid] {
+  border-bottom-color: var(--color-status-error);
+}
+
+.pin-input--underline .pin-input__cell[data-invalid]:focus-visible {
+  box-shadow: inset 0 -1px 0 0 var(--color-status-error);
+}

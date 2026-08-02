@@ -1,0 +1,65 @@
+/* ─── Clipboard ───────────────────────────────────────────────────────────────
+   A value plus a copy trigger. Label / helper chrome comes from `.field`
+   (Field.css); the control row and the read-only value box are clipboard's own.
+
+   The trigger is the library `Button`, so every interactive token — surface,
+   hover, focus ring, disabled — is inherited rather than restated here. */
+
+.clipboard__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* ─── Value box (input variant) ───────────────────────────────────────────────
+   The same surface as `.field__control`, but the value is never editable, so
+   it takes the muted content colour and reads as a display of the string
+   rather than an entry point for one. */
+
+.clipboard--input .clipboard__input {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  height: var(--control-height-md);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-secondary);
+  outline: none;
+  text-overflow: ellipsis;
+  transition: box-shadow 150ms ease;
+}
+
+.clipboard--sm.clipboard--input .clipboard__input {
+  height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.clipboard--lg.clipboard--input .clipboard__input {
+  height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. The box stays focusable so the value can be selected and
+   copied by keyboard without the trigger. */
+.clipboard--input .clipboard__input:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Copy indicator ──────────────────────────────────────────────────────────
+   Ark renders the indicator as its own element inside the Button; it must not
+   introduce a second baseline or the icon drifts off the label's centre line. */
+
+.clipboard__indicator {
+  display: inline-flex;
+  align-items: center;
+}

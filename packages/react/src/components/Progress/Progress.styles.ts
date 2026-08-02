@@ -13,10 +13,15 @@ export const progressStyles = cva("progress", {
       md: "progress--md",
       lg: "progress--lg",
     },
+    shape: {
+      linear:   "progress--linear",
+      circular: "progress--circular",
+    },
   },
   defaultVariants: {
     variant: "default",
     size:    "md",
+    shape:   "linear",
   },
 });
 

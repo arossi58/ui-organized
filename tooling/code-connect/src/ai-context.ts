@@ -91,6 +91,11 @@ export interface AiContextProp {
   type: string;
   /** Expanded members when the type is a closed set. */
   values?: string[];
+  /**
+   * The named type `values` enumerates, when it is one arm of a wider union
+   * rather than the whole prop type. Absent when `values` covers `type` itself.
+   */
+  valuesType?: string;
   required: boolean;
   defaultValue?: string;
   description?: string;
@@ -195,29 +200,67 @@ function code(text: string): string {
  * This is the single highest-value transform in the payload: `icon?:
  * CanonicalIconName` tells an agent nothing, while the same prop with its 61
  * members listed tells it everything.
+ *
+ * A named alias is also matched when it is one arm of a wider union, which is
+ * what `Button.icon` (`CanonicalIconName | IconComponent`) is: the prop accepts
+ * a component too, but the name arm is still a closed set and is still the arm
+ * an agent gets wrong. `valuesType` reports which arm was expanded so the
+ * rendered sentence names that type rather than the whole union — the values
+ * are exhaustive for `CanonicalIconName`, not for the prop.
  */
 export function expandPropType(
   prop: PropDefinition,
   typeValues?: Record<string, string[]>,
-): { type: string; values?: string[] } {
+): { type: string; values?: string[]; valuesType?: string } {
   const inline = parseEnumValues(prop.type);
   if (inline) return { type: prop.type, values: inline };
 
-  const named = typeValues?.[prop.type.trim()];
+  const whole = prop.type.trim();
+  const named = typeValues?.[whole];
   if (named?.length) return { type: prop.type, values: [...named] };
 
+  // Split on top-level `|` only. A nested union inside `Array<A | B>` or an
+  // object literal is not an arm of this type and must not be treated as one.
+  for (const arm of topLevelUnionArms(whole)) {
+    const armValues = typeValues?.[arm];
+    if (armValues?.length) {
+      return { type: prop.type, values: [...armValues], valuesType: arm };
+    }
+  }
+
   return { type: prop.type };
+}
+
+/** Arms of a union, ignoring `|` nested inside brackets, braces or parens. */
+function topLevelUnionArms(type: string): string[] {
+  if (!type.includes("|")) return [];
+  const arms: string[] = [];
+  let depth = 0;
+  let current = "";
+  for (const ch of type) {
+    if (ch === "<" || ch === "(" || ch === "[" || ch === "{") depth++;
+    else if (ch === ">" || ch === ")" || ch === "]" || ch === "}") depth--;
+    if (ch === "|" && depth === 0) {
+      arms.push(current.trim());
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+  arms.push(current.trim());
+  return arms.filter(Boolean);
 }
 
 function toContextProp(
   prop: PropDefinition,
   typeValues?: Record<string, string[]>,
 ): AiContextProp {
-  const { values } = expandPropType(prop, typeValues);
+  const { values, valuesType } = expandPropType(prop, typeValues);
   return {
     name: prop.name,
     type: prop.type,
     ...(values ? { values } : {}),
+    ...(valuesType ? { valuesType } : {}),
     required: prop.required,
     ...(prop.defaultValue ? { defaultValue: prop.defaultValue } : {}),
     ...(prop.description ? { description: prop.description } : {}),
@@ -413,11 +456,17 @@ function propTable(props: AiContextProp[]): { table: string; expansions: Map<str
     // Plain pipes here — `cell()` owns the markdown escaping, and doing it in
     // both places yields a visible `\\|` in the rendered table.
     let allowed: string;
-    if (p.values && p.values.length <= INLINE_VALUE_LIMIT) {
+    // An expansion that covers only one arm of a union keeps the full type in
+    // the cell — the prop really does accept the other arms — and names just
+    // the expanded arm in the "see below" pointer and its heading.
+    const expandedType = p.valuesType ?? p.type;
+    if (p.values && !p.valuesType && p.values.length <= INLINE_VALUE_LIMIT) {
       allowed = p.values.map((v) => code(`"${v}"`)).join(" | ");
     } else if (p.values) {
-      expansions.set(p.type, p.values);
-      allowed = `${code(p.type)} — see below`;
+      expansions.set(expandedType, p.values);
+      allowed = p.valuesType
+        ? `${code(p.type)} — ${code(p.valuesType)} see below`
+        : `${code(p.type)} — see below`;
     } else {
       allowed = code(p.type);
     }
