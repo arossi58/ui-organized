@@ -55,6 +55,11 @@ export const CANONICAL_ICON_NAMES = [
   "menu",
   "grid",
   "list",
+  "file",
+  "folder",
+  // Media / playback
+  "play",
+  "pause",
   // People / identity
   "user",
   "users",
@@ -68,6 +73,8 @@ export const CANONICAL_ICON_NAMES = [
   "home",
   "calendar",
   "clock",
+  "pipette",
+  "rotate-cw",
 ] as const;
 
 export type CanonicalIconName = (typeof CANONICAL_ICON_NAMES)[number];
@@ -127,6 +134,11 @@ export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
   "menu":           { lucide: "Menu",           tabler: "IconMenu2",          heroicons: "Bars3Icon"                    },
   "grid":           { lucide: "Grid2X2",        tabler: "IconLayoutGrid",     heroicons: "Squares2X2Icon"               },
   "list":           { lucide: "List",           tabler: "IconList",           heroicons: "ListBulletIcon"               },
+  "file":           { lucide: "File",           tabler: "IconFile",           heroicons: "DocumentIcon"                 },
+  "folder":         { lucide: "Folder",         tabler: "IconFolder",         heroicons: "FolderIcon"                   },
+  // Media / playback
+  "play":           { lucide: "Play",           tabler: "IconPlayerPlay",     heroicons: "PlayIcon"                     },
+  "pause":          { lucide: "Pause",          tabler: "IconPlayerPause",    heroicons: "PauseIcon"                    },
   // People / identity
   "user":           { lucide: "User",           tabler: "IconUser",           heroicons: "UserIcon"                     },
   "users":          { lucide: "Users",          tabler: "IconUsers",          heroicons: "UsersIcon"                    },
@@ -140,6 +152,11 @@ export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
   "home":           { lucide: "Home",           tabler: "IconHome",           heroicons: "HomeIcon"                     },
   "calendar":       { lucide: "Calendar",       tabler: "IconCalendar",       heroicons: "CalendarIcon"                 },
   "clock":          { lucide: "Clock",          tabler: "IconClock",          heroicons: "ClockIcon"                    },
+  // Heroicons has no dedicated eyedropper outside its 24/outline set and no
+  // clockwise-rotate glyph at all; EyeDropperIcon and ArrowPathIcon are the
+  // closest true equivalents, and ArrowPathIcon already backs "refresh".
+  "pipette":        { lucide: "Pipette",        tabler: "IconColorPicker",    heroicons: "EyeDropperIcon"               },
+  "rotate-cw":      { lucide: "RotateCw",       tabler: "IconRotateClockwise", heroicons: "ArrowPathIcon"               },
 };
 
 // ─── Name resolution ──────────────────────────────────────────────────────────

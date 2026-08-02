@@ -28,16 +28,50 @@ export const CONTRACT_PATH = "token-contract.json";
 export const VARIABLES_CSS = "../tokens/output/variables.css";
 
 /**
- * Custom properties Ark UI sets inline at runtime — popover measurements, the
- * collapsible's animated height, the segmented control's indicator box. Consumed
- * but never themeable, so they are not part of the contract.
+ * Custom properties Ark UI (really @zag-js) writes inline at runtime, then
+ * expects our CSS to read back. They carry measured geometry, animation timing
+ * derived from content size, and machine progress — values that only exist once
+ * the component has laid out. A theme cannot supply them and must not try, so
+ * they are excluded from the contract rather than added to variables.css.
+ *
+ * The names are zag's, not ours. Grep the relevant `*.connect.js` in
+ * node_modules/@zag-js/<machine>/dist before adding one, and add it only when
+ * our own CSS actually reads it.
  */
 export const RUNTIME_PROVIDED = new Set([
+  // Popover/tooltip measurements, the collapsible's animated height, the
+  // segmented control's indicator box.
   "--reference-width",
   "--height",
   "--width",
   "--top",
   "--left",
+  // Marquee — every timing value is computed from content width and `speed`.
+  "--marquee-duration",
+  "--marquee-delay",
+  "--marquee-spacing",
+  "--marquee-loop-count",
+  "--marquee-translate",
+  // Carousel — slide geometry from `slidesPerPage`/`spacing`.
+  "--slide-item-size",
+  "--slide-spacing",
+  "--slides-per-page",
+  // QR code — module grid sized from the encoded payload.
+  "--qrcode-width",
+  "--qrcode-height",
+  "--qrcode-pixel-size",
+  // Machine progress: Steps' completion bar, Timer's countdown fraction, and
+  // the progress circle's stroke geometry.
+  "--percent",
+  "--value",
+  "--radius",
+  "--circumference",
+  "--offset",
+  // Floating panel drag position.
+  "--x",
+  "--y",
+  // Tour stacks backdrop/spotlight/content and tags each with its layer index.
+  "--tour-layer",
 ]);
 
 // ─── Reading ─────────────────────────────────────────────────────────────────
