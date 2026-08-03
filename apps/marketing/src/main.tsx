@@ -25,3 +25,17 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <App />
   </React.StrictMode>,
 );
+
+// UI Inspect — the design-system inspector, dev only. Click the launcher it
+// mounts in the page, then click an element to resolve its properties against
+// this site's own :root custom properties, which is exactly the token set
+// @ui-organized/tokens ships. It binds no keyboard shortcuts.
+//
+// The dynamic import() inside the guard is what keeps it out of the production
+// bundle: Vite statically replaces import.meta.env.DEV with false for a build,
+// so the branch, and the chunk it would have pulled in, is dropped entirely.
+if (import.meta.env.DEV) {
+  void import("@ui-organized/ui-inspect").then(({ mountInspector }) => {
+    mountInspector();
+  });
+}
