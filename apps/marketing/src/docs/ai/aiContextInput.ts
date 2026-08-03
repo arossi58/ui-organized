@@ -16,6 +16,7 @@ import {
   type AiContextResult,
   type Staleness,
 } from "@ui-organized/code-connect/browser";
+import { getUsageGuide } from "@ui-organized/code-connect/usage";
 import reactPkg from "../../../../../packages/react/package.json";
 import { SITE_ORIGIN } from "../../lib/links";
 import { docsComponents, type DocsComponent } from "../registry";
@@ -59,6 +60,9 @@ export function aiContextInputFor(
     staleness: options.staleness,
     confidence: "exact",
     description: component.description,
+    // The Usage tab's guidance, verbatim — an agent gets the same boundaries a
+    // reader does, including the "use X instead" the prop table can't express.
+    usage: getUsageGuide(component.slug),
     examples: usableExamples(component),
     liveArgs: options.liveArgs,
     // Storybook's argTypes carry hand-listed options for props whose type is a

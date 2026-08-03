@@ -11,7 +11,7 @@ const meta: Meta<typeof Icon> = {
       description: {
         component:
           "Icon renders a named glyph from the active icon library. Choose the glyph with `name`, its pixel `size`, and pass an optional `label` to expose it to assistive tech (otherwise it is treated as decorative).\n\n" +
-          "Two things select the library, and both are required: `IconProvider` picks it (`library=\"lucide\"`), and a one-time subpath import registers the set — `import '@ui-organized/react/icons/lucide'`. The package imports no icon library itself, which is what keeps the ones you don't use out of your bundle; without the import every icon renders nothing and logs how to fix it.",
+          "Two things select the library, and both are required: `IconProvider` picks it (`library=\"lucide\"`), and a one-time subpath import registers the set with `import '@ui-organized/react/icons/lucide'`. The package imports no icon library itself, which is what keeps the ones you don't use out of your bundle; without the import every icon renders nothing and logs how to fix it.",
       },
     },
   },

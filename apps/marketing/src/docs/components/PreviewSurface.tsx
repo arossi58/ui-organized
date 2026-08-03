@@ -72,6 +72,15 @@ interface PreviewSurfaceProps {
    * so its examples keep behaving the way they would in an application.
    */
   containOverlays?: boolean;
+  /**
+   * Trade the contained frame's generous headroom for a shorter stage.
+   *
+   * The Inspect view reserves 28rem under a contained overlay because a menu
+   * opens downward and must not run out of frame. The Usage tab's do/don't cards
+   * are half that wide and shown two to a row, where the same reserve is mostly
+   * empty space — and the overlays it stages are chosen to fit.
+   */
+  compact?: boolean;
 }
 
 export function PreviewSurface({
@@ -83,9 +92,14 @@ export function PreviewSurface({
   label = "This preview",
   footer,
   containOverlays = false,
+  compact = false,
 }: PreviewSurfaceProps) {
   return (
-    <div className={styles.surface} data-contain-overlays={containOverlays || undefined}>
+    <div
+      className={styles.surface}
+      data-contain-overlays={containOverlays || undefined}
+      data-compact={compact || undefined}
+    >
       {toolbar && <div className={styles.toolbar}>{toolbar}</div>}
       {/* The vision filter goes on the outer stage so it covers the padded
           area, but `stageRef` — the axe target and the inspection root — goes on

@@ -13,7 +13,7 @@ const meta: Meta<typeof Tag> = {
     docs: {
       description: {
         component:
-          "Tags label and categorize content. Use `variant` to convey status (success, info, info-secondary, caution, warning, error), `size` for density, and `emphasized` to toggle between a solid and subdued style. Pass `icon` (with optional `iconPosition`) to render a leading or trailing icon — 16px across every size, set `spacing-01` from the label.",
+          "Tags label and categorize content. Use `variant` to convey status (success, info, info-secondary, caution, warning, error), `size` for density, and `emphasized` to toggle between a solid and subdued style. Pass `icon` (with optional `iconPosition`) to render a leading or trailing icon, 16px across every size and set `spacing-01` from the label.",
       },
     },
   },
