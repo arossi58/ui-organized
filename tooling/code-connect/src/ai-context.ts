@@ -24,6 +24,8 @@ import type {
 } from "./schema.js";
 import { parseEnumValues } from "./controls-core.js";
 import { contextForEntry } from "./serialize-core.js";
+import { usageReferenceName } from "./usage/index.js";
+import type { UsageGuide } from "./usage/types.js";
 import {
   CLOSING_RULE,
   COMPOUND_SCOPE_NOTE,
@@ -77,6 +79,15 @@ export interface AiContextInput {
   resolutionNote?: string;
   /** Prose from the story meta's `docs.description.component`. */
   description?: string;
+  /**
+   * Hand-authored guidance from `src/usage/` — when to reach for the component
+   * and, more usefully, when not to.
+   *
+   * The one part of the payload that isn't derivable from the code: a prop table
+   * can say a Meter takes a `value`, and nothing in the type signature can say
+   * that a task in flight wants a Progress instead.
+   */
+  usage?: UsageGuide;
   /** Real examples, best first. Falls back to `entry.usageSnippet`. */
   examples?: AiContextExample[];
   /** Current control values → the "current state" JSX. */
@@ -105,6 +116,7 @@ export interface AiContextData {
   /** Merged import for a compound family. */
   compositionImport?: string;
   description?: string;
+  usage?: UsageGuide;
   props: AiContextProp[];
   subcomponents?: Array<{ name: string; props: AiContextProp[] }>;
   passthrough: string;
@@ -393,6 +405,7 @@ function buildData(input: AiContextInput): AiContextData {
     importStatement: entry.importStatement,
     ...(compositionImport ? { compositionImport } : {}),
     ...(input.description ? { description: input.description } : {}),
+    ...(input.usage ? { usage: input.usage } : {}),
     props,
     ...(subcomponents.length ? { subcomponents } : {}),
     passthrough: PASSTHROUGH_NOTE,
@@ -442,6 +455,55 @@ function propTable(props: AiContextProp[]): { table: string; expansions: Map<str
   return { table, expansions };
 }
 
+/**
+ * The hand-authored guidance, as Markdown blocks.
+ *
+ * Placed between "what it is" and the prop table on purpose: an agent that
+ * reaches the props already knows whether this is the right component, which is
+ * the failure the prop table can't prevent. "When not to use" leads with the
+ * replacement so the correction is the first thing on the line.
+ */
+function usageSections(usage: UsageGuide): string[] {
+  const out: string[] = [];
+
+  out.push("## When to use");
+  out.push(usage.useWhen.map((line) => `- ${line}`).join("\n"));
+
+  out.push("## When NOT to use: pick a different component");
+  out.push(
+    usage.avoid
+      .map(({ text, instead }) => {
+        const names = instead?.map((slug) => code(usageReferenceName(slug))).join(" or ");
+        return names ? `- ${text} Use ${names} instead.` : `- ${text}`;
+      })
+      .join("\n"),
+  );
+
+  out.push("## Usage rules");
+  out.push(
+    usage.guidance.map(({ do: yes, dont }) => `- ${yes} **Not:** ${dont}`).join("\n"),
+  );
+
+  out.push("## Accessibility obligations");
+  out.push(usage.accessibility.map((line) => `- ${line}`).join("\n"));
+
+  if (usage.content?.length) {
+    out.push("## Writing the copy");
+    out.push(usage.content.map((line) => `- ${line}`).join("\n"));
+  }
+
+  if (usage.related?.length) {
+    out.push("## Related components");
+    out.push(
+      usage.related
+        .map(({ slug, when }) => `- ${code(usageReferenceName(slug))}: when ${when}`)
+        .join("\n"),
+    );
+  }
+
+  return out;
+}
+
 function renderMarkdown(data: AiContextData, input: AiContextInput): string {
   const out: string[] = [];
   const { entry } = input;
@@ -486,6 +548,8 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
     out.push("## What it is");
     out.push(data.description);
   }
+
+  if (data.usage) out.push(...usageSections(data.usage));
 
   if (data.subcomponents?.length) {
     out.push("## Composition — required");

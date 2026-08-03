@@ -37,6 +37,12 @@
   align-items: flex-start;
 }
 
+/* The Usage tab's do/don't cards: half the width, two to a row, and the overlays
+   staged there are picked to fit. See `compact` in PreviewSurface. */
+.surface[data-contain-overlays][data-compact] .stage {
+  min-height: 18rem;
+}
+
 /* Dialog and Sheet size themselves off the viewport (`calc(100vw - …)`), which
    inside a frame this size overflows it. Bound them to the frame instead. */
 .surface[data-contain-overlays] :global(.dialog__popup) {

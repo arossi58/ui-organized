@@ -19,5 +19,12 @@ export { PreviewSurface } from "./PreviewSurface";
 export { PrimaryExample, exampleCode, importStatementFor } from "./PrimaryExample";
 export { StoryExample } from "./StoryExample";
 export { PropsTable } from "./PropsTable";
+export {
+  UsageSummary,
+  UsageList,
+  UsageAvoidList,
+  UsageRelatedList,
+  UsageGuidanceGrid,
+} from "./UsageGuidance";
 export { StatusBadge } from "./StatusBadge";
 export { useCopy, copyLabel, type CopyState } from "./useCopy";

@@ -10,7 +10,7 @@ const meta: Meta<typeof Meter> = {
     docs: {
       description: {
         component:
-          "Shows a static measured value within a known range (disk usage, score) — distinct from Progress, which tracks task completion. `value` is required.",
+          "Shows a static measured value within a known range (disk usage, score), distinct from Progress, which tracks task completion. `value` is required.",
       },
     },
   },

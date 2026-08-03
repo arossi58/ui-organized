@@ -115,8 +115,8 @@ export function DocsNav({ onNavigate }: DocsNavProps) {
   const { pathname } = useLocation();
 
   // `NavItem` renders a button, so it can't carry `NavLink`'s active state —
-  // we resolve it from the route. A component stays selected on its Inspect
-  // view, hence the trailing-slash prefix test rather than a bare equality.
+  // we resolve it from the route. A component stays selected on its Usage and
+  // Inspect views, hence the trailing-slash prefix test rather than equality.
   const isActive = (to: string, exact = false) =>
     exact ? pathname === to : pathname === to || pathname.startsWith(`${to}/`);
 

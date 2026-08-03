@@ -265,6 +265,68 @@
   line-height: var(--type-leading-body-small);
 }
 
+/* ── Props table: phone disclosure ────────────────────────────────────────── */
+
+/* Only ever rendered below PROPS_COLLAPSE_QUERY (PropsTable.tsx mounts the bare
+   table above it), so these need no media query of their own. The trigger reads
+   as the table's own header bar: closed, it *is* the top edge; open, it hands
+   its bottom border and radii to the table below. */
+
+.propsToggle {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-03) var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-05);
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  font-family: inherit;
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-small);
+  text-align: left;
+  cursor: pointer;
+}
+
+.propsToggle:hover {
+  border-color: var(--color-border-primary);
+}
+
+.propsToggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.propsDisclosure[data-open="true"] .propsToggle {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* The table brings its own frame; drop the seam where the two meet. */
+.propsDisclosure[data-open="true"] .tableWrap {
+  border-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.propsChevron {
+  flex-shrink: 0;
+  color: var(--color-content-secondary);
+}
+
+.propsDisclosure[data-open="true"] .propsChevron {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .propsChevron {
+    transition: transform 0.15s ease;
+  }
+}
+
 /* ── Status badge ─────────────────────────────────────────────────────────── */
 
 .badges {

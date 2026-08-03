@@ -11,7 +11,7 @@ const meta: Meta<typeof PasswordInput> = {
     docs: {
       description: {
         component:
-          "A password field built on `Input` — adds a trailing show/hide toggle that switches the control between masked and plain text (toggle with `showToggle`). Supports the same `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
+          "A password field built on `Input`, adding a trailing show/hide toggle that switches the control between masked and plain text (toggle with `showToggle`). Supports the same `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
       },
     },
   },

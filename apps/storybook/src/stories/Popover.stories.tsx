@@ -16,7 +16,7 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`). The content is a dialog, so name it — with a `<PopoverTitle>`, or `aria-label` when it has no heading.",
+          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`). The content is a dialog, so name it: give it a `<PopoverTitle>`, or an `aria-label` when it has no heading.",
       },
     },
   },

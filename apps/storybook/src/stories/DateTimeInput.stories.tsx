@@ -10,7 +10,7 @@ const meta: Meta<typeof DateTimeInput> = {
     docs: {
       description: {
         component:
-          "A date-and-time field built on `Input` — a native `<input type=\"datetime-local\">` on the field surface with a leading calendar button. On desktop the button opens a design-system calendar popover with a time field; on touch devices it defers to the OS-native picker. Accepts native `value` / `min` / `max` / `step` (ISO `YYYY-MM-DDTHH:mm`) alongside the shared `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
+          "A date-and-time field built on `Input`, with a native `<input type=\"datetime-local\">` on the field surface with a leading calendar button. On desktop the button opens a design-system calendar popover with a time field; on touch devices it defers to the OS-native picker. Accepts native `value` / `min` / `max` / `step` (ISO `YYYY-MM-DDTHH:mm`) alongside the shared `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
       },
     },
   },
