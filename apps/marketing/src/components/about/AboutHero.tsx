@@ -4,9 +4,9 @@ import "./about.css";
 
 /**
  * About — the whole page, deliberately. One raised panel on the flat cream + dot
- * lattice the other in-flow routes sit on: the heading, the background, the why,
- * and a footnote. This is the one page where the site's "we" becomes an "I", so
- * it gets a single essay measure rather than the section rhythm the rest of the
+ * lattice the other in-flow routes sit on: the heading, three paragraphs, and a
+ * signature. This is the one page where the site's "we" becomes an "I", so it
+ * gets a single essay measure rather than the section rhythm the rest of the
  * site uses.
  */
 export function AboutHero() {
@@ -18,43 +18,40 @@ export function AboutHero() {
       <div className="wrap about-hero__inner">
         <Reveal>
           <div className="about-hero__panel">
-            <h1 className="about-hero__title">
-              There is no reason to not have a design system
-            </h1>
+            <h1 className="about-hero__title">The accessibility of design</h1>
 
             <div className="about-hero__body">
               <p className="about-prose">
-                UI Organized started as my own kit. A design system and a
+                UI Organized started as my own toolkit. A design system and a
                 handful of tools I built to fit how I worked day to day, because
-                the same things kept breaking in the handoff between design and
-                code, and fixing them once seemed better than working around them
-                forever. It grew into my master&rsquo;s capstone, and then it kept
-                going past it. Everything since came out of the same place: a
-                component library, a Figma library, and the tools between them. A
-                color system that builds a full accessible palette from a single
-                brand color. A token manager. A Code Connect pipeline that keeps
-                the canvas and the codebase pointed at the same thing.
+                I kept encountering the same challenges. It grew into my
+                master&rsquo;s capstone, and then it kept going past it. I wanted
+                an easy to use design system for designers and developers, to
+                bring them closer together and allow teams to grow beyond what UI
+                Organized provides out of the box.
               </p>
               <p className="about-prose">
-                It&rsquo;s free because access is the part nobody accounts for.
-                Design quality isn&rsquo;t only a matter of talent. It&rsquo;s a
-                matter of what the people building a thing could get their hands
-                on, and every experience anyone ships is capped by that. A Figma
-                file, a repo, a plugin that saves an afternoon: when the good
-                stuff sits behind a paywall, the cost doesn&rsquo;t stop at the
-                team that couldn&rsquo;t pay it. It lands on whoever uses what
-                they shipped instead. We&rsquo;re a rare collective of people
-                trained in empathy and service. If we mean that, we owe it to
-                each other. So: Apache-2.0, all of it. Use it, fork it, ship
-                something better than I would have.
+                We often talk about accessibility in design, and how we serve
+                users with diverse abilities. Yet we often don&rsquo;t consider
+                the accessibility of the craft itself. Design quality and
+                timelines are influenced by what tools, techniques, and knowledge
+                teams have at their disposal. A Figma file, a repo, a plugin that
+                saves a few minutes or an entire afternoon: when the good stuff
+                sits behind a paywall, the cost doesn&rsquo;t stop at the team
+                that couldn&rsquo;t pay it. It lands on the user and what they
+                received instead.
+              </p>
+              <p className="about-prose">
+                We&rsquo;re a rare collective of people trained in empathy and
+                service. If we mean that, we owe it to each other. Use it, fork
+                it, build great experiences.
               </p>
 
-              <p className="about-hero__note">
-                An ongoing project by{" "}
+              <p className="about-hero__sign">
+                -{" "}
                 <a href="https://arossi.design/" target="_blank" rel="noreferrer">
                   Andrew Rossi
                 </a>
-                .
               </p>
             </div>
           </div>
