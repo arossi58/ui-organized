@@ -46,6 +46,11 @@ svg-animations/
 /theme.json
 .wrangler/
 
+# Locally installed Claude Code skills (vendored from upstream repos, e.g.
+# .claude/skills/humanizer from github.com/blader/humanizer). Not part of the
+# design system, and re-installable from source, so they stay out of the repo.
+/.claude/skills/
+
 # Paused, in-progress projects — removed from the repo until they are finished.
 # Kept on disk locally, and also excluded in pnpm-workspace.yaml: without that
 # exclusion they still match `apps/*` / `tooling/*` on a maintainer machine, so

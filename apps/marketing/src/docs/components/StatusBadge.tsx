@@ -65,7 +65,7 @@ export function StatusBadge({
       )}
 
       {deprecated && (
-        <Badge tone="error" title="This component is deprecated — prefer a current one.">
+        <Badge tone="error" title="This component is deprecated. Prefer a current one.">
           deprecated
         </Badge>
       )}

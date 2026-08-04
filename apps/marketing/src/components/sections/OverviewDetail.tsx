@@ -87,8 +87,8 @@ const TOOL_ITEMS: DetailItem[] = TOOLS.filter((tool) => tool.status !== "planned
 export const DETAILS: Record<OverviewId, DetailContent> = {
   design: {
     title: "Design",
-    heading: "An ever-growing Figma library",
-    lead: "Every component, color, type style, and spacing step lives in Figma as a published variable. Those same tokens drive the code, so the canvas and the build never drift apart.",
+    heading: "A Figma library that keeps growing",
+    lead: "Every color, type style, and spacing step is a published Figma variable, and the components are built from them. The code reads the same tokens, so the file and the build stay in sync.",
     items: [
       {
         icon: Component,
@@ -103,7 +103,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
       {
         icon: RefreshCw,
         title: "Synced with code",
-        desc: "The Figma plugin imports a theme.json, so changing one brand updates design and code together.",
+        desc: "The Figma plugin imports a theme.json, so a brand change lands in the file and in the code at once.",
       },
     ],
     links: [
@@ -114,7 +114,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   tools: {
     title: "Tools",
     heading: "Generators that do the busywork",
-    lead: "A growing gallery of web tools, plus a Figma plugin, that turn the token set into finished, on-brand assets in a few clicks.",
+    lead: "A growing gallery of web tools, plus a Figma plugin. Both work from the token set, so what comes out already matches your brand.",
     items: TOOL_ITEMS,
     links: [
       { label: "Open the tools", href: "/tools", primary: true },
@@ -124,12 +124,12 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   code: {
     title: "Code",
     heading: "Components you can install",
-    lead: "Accessible React components built on Ark UI and themed entirely by the design tokens. Install from npm and ship UI that matches the canvas exactly.",
+    lead: "Accessible React components built on Ark UI and themed by the design tokens. Install from npm and what you ship matches what's in Figma.",
     items: [
       {
         icon: Package,
         title: "@ui-organized/react",
-        desc: "Accessible components: buttons, inputs, navigation, overlays, and more.",
+        desc: "Buttons, inputs, navigation, overlays, and the rest of the primitives.",
         href: LINKS.npmReact,
         external: true,
       },

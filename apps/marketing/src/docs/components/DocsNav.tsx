@@ -214,7 +214,7 @@ export function DocsNav({ onNavigate }: DocsNavProps) {
           </NavProvider>
 
           {sections.length === 0 && (
-            <p className={styles.empty}>No components match “{query}”.</p>
+            <p className={styles.empty}>No components match "{query}".</p>
           )}
         </nav>
       </ScrollArea>

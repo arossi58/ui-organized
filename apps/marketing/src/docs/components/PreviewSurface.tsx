@@ -38,7 +38,7 @@ class PreviewBoundary extends Component<
     if (this.state.error) {
       return (
         <div className={styles.error} role="alert">
-          <p className={styles.errorTitle}>“{this.props.label}” failed to render.</p>
+          <p className={styles.errorTitle}>"{this.props.label}" failed to render.</p>
           <pre className={styles.errorDetail}>{this.state.error.message}</pre>
         </div>
       );

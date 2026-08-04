@@ -125,7 +125,7 @@ export function UsageGuidanceGrid({
               {example && (
                 <ExampleStage
                   pair={pair}
-                  label={`${componentName} — do`}
+                  label={`${componentName}: do`}
                   example={example}
                   render={example.Do}
                 />
@@ -135,7 +135,7 @@ export function UsageGuidanceGrid({
               {example && (
                 <ExampleStage
                   pair={pair}
-                  label={`${componentName} — don't`}
+                  label={`${componentName}: don't`}
                   example={example}
                   render={example.Dont}
                   inert={!example.interactiveDont}

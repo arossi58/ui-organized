@@ -45,7 +45,7 @@ export function PropsTable({ props, typeValues, showPassthrough = true }: PropsT
       <>
         <div className={styles.tableWrap}>
           <p className={styles.noProps}>
-            This component declares no props of its own — it's driven by its children and
+            This component declares no props of its own. It's driven by its children and
             the standard attributes of its underlying element.
           </p>
         </div>

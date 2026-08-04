@@ -109,7 +109,7 @@ export function GetStartedPage() {
           <CodeBlock code={INSTALL} language="sh" />
           <p>
             <code>react</code> and <code>react-dom</code> (&ge;18) are peer dependencies.
-            Icons come from one of three libraries — install whichever set you picked in the{" "}
+            Icons come from one of three libraries. Install whichever set you picked in the{" "}
             <Link to="/tools">Theme Builder</Link>:
           </p>
           <CodeBlock code={INSTALL_ICONS} language="sh" />
@@ -126,18 +126,19 @@ export function GetStartedPage() {
         >
           <CodeBlock code={CLI_APPLY} language="sh" />
           <p>
-            Writes <code>theme.css</code>, <code>fonts.ts</code> and <code>icons.ts</code> where
-            your project keeps them, after checking three things: that the theme defines every
+            The CLI writes <code>theme.css</code>, <code>fonts.ts</code> and{" "}
+            <code>icons.ts</code> where your project keeps them, after checking three things:
+            that the theme defines every
             token the components read, that its typefaces can load, and that nothing in your own
             CSS overrides it. Add <code>--dry-run</code> to see the plan without writing.
           </p>
           <p>
-            It prints the import lines rather than editing your entry module. They’re the next
-            section, and they’re the same either way. Full detail in{" "}
+            It prints the import lines rather than editing your entry module. They're the next
+            section, and they're the same either way. Full detail in{" "}
             <Link to="/docs/theming">Theming</Link>.
           </p>
           <p className={styles.propNote}>
-            Skipping the theme for now is fine — <code>@ui-organized/tokens/variables.css</code>{" "}
+            Skipping the theme for now is fine. <code>@ui-organized/tokens/variables.css</code>{" "}
             is a complete default theme on its own.
           </p>
         </DocsSection>
@@ -162,7 +163,7 @@ export function GetStartedPage() {
                     <span className={styles.propName}>@ui-organized/tokens/variables.css</span>
                   </td>
                   <td>
-                    The token baseline — primitive ramps plus the semantic layer. Already a
+                    The token baseline: primitive ramps plus the semantic layer. Already a
                     dependency of the component library, so it costs nothing new.{" "}
                     <strong>Optional</strong> if your theme file is self-contained.
                   </td>
@@ -173,7 +174,7 @@ export function GetStartedPage() {
                   </td>
                   <td>
                     The component styles. They consume tokens and define almost none, so they
-                    can sit either side of the baseline — but always before your theme.
+                    can sit either side of the baseline, but always before your theme.
                   </td>
                 </tr>
                 <tr>
@@ -197,7 +198,7 @@ export function GetStartedPage() {
                     <span className={styles.propName}>@ui-organized/react/icons/lucide</span>
                   </td>
                   <td>
-                    Not a stylesheet — it registers your icon set. Swap <code>lucide</code>{" "}
+                    Not a stylesheet. It registers your icon set. Swap <code>lucide</code>{" "}
                     for <code>tabler</code> or <code>heroicons</code> to match what you
                     installed. See <a href="#set-up-icons">Set up icons</a>.
                   </td>
@@ -219,8 +220,8 @@ export function GetStartedPage() {
         >
           <p>
             The library ships no icon artwork. Components reference{" "}
-            <strong>canonical names</strong> — <code>chevron-down</code>, <code>refresh</code>,{" "}
-            <code>close</code> — and each supported library maps those names onto its own
+            <strong>canonical names</strong> (<code>chevron-down</code>, <code>refresh</code>,{" "}
+            <code>close</code>), and each supported library maps those names onto its own
             components. So the icon set is a theme decision, not something baked into your
             component code.
           </p>
@@ -246,8 +247,8 @@ export function GetStartedPage() {
                     <span className={styles.propName}>library</span>
                   </td>
                   <td>
-                    Which registered set to draw from. Has to match the subpath you imported —
-                    this field selects, it doesn’t load.
+                    Which registered set to draw from. Has to match the subpath you imported:
+                    this field selects, it doesn't load.
                   </td>
                 </tr>
                 <tr>
@@ -256,7 +257,7 @@ export function GetStartedPage() {
                   </td>
                   <td>
                     <code>outline</code> or <code>solid</code>. Falls back to outline per icon
-                    where a library has no solid cut — Lucide ships none at all.
+                    where a library has no solid cut. Lucide ships none at all.
                   </td>
                 </tr>
                 <tr>
@@ -264,7 +265,7 @@ export function GetStartedPage() {
                     <span className={styles.propName}>strokeAdjustment</span>
                   </td>
                   <td>
-                    Thins the stroke as icons scale up, so a 48px icon doesn’t read heavier
+                    Thins the stroke as icons scale up, so a 48px icon doesn't read heavier
                     than a 16px one. Outline only.
                   </td>
                 </tr>
@@ -276,7 +277,7 @@ export function GetStartedPage() {
                   <td>
                     The reference size and stroke that adjustment is measured from. At{" "}
                     <code>baseSize</code> the stroke is exactly <code>baseStroke</code>.
-                    24 / 2 matches Lucide’s and Tabler’s native weight.
+                    24 / 2 matches Lucide's and Tabler's native weight.
                   </td>
                 </tr>
               </tbody>
@@ -287,14 +288,14 @@ export function GetStartedPage() {
           <p>
             <code>Icon</code> takes a name; components that carry icons take the same names on
             an <code>icon</code> prop. Pass <code>label</code> when the icon carries meaning on
-            its own — without it the icon is treated as decorative and hidden from assistive
+            its own. Without it the icon is treated as decorative and hidden from assistive
             tech, which is what you want beside a text label.
           </p>
           <CodeBlock code={ICON_USAGE} language="tsx" />
           <p>
             There are {CANONICAL_ICON_COUNT} canonical names. For anything outside that set,
-            pass a component straight through — no registration, and only the icons you import
-            ship:
+            pass a component straight through. Nothing needs registering, and only the icons
+            you import ship:
           </p>
           <CodeBlock code={ICON_DIRECT} language="tsx" />
           <p className={styles.propNote}>
@@ -304,8 +305,8 @@ export function GetStartedPage() {
           </p>
           <p>
             Miss the registration import and <code>&lt;Icon&gt;</code> renders nothing rather
-            than guessing. It logs the exact line to add, in production builds too — the case
-            it’s guarding is a bundler tree-shaking the import out of a production build while
+            than guessing. It logs the exact line to add, in production builds too. The case
+            it's guarding is a bundler tree-shaking the import out of a production build while
             development still works.
           </p>
         </DocsSection>
@@ -316,14 +317,14 @@ export function GetStartedPage() {
         >
           <CodeBlock code={INDEX_HTML} language="html" />
           <p>
-            A theme’s <code>:root</code> block is one specific mode. If that isn’t your app’s
-            default, the page paints one frame of the wrong theme before React’s first effect
+            A theme's <code>:root</code> block is one specific mode. If that isn't your app's
+            default, the page paints one frame of the wrong theme before React's first effect
             runs. The attribute removes the flash, with no JavaScript involved.
           </p>
           <p>
             Theme Builder exports let you choose which mode lands on <code>:root</code>,
             including <em>System</em> (follows <code>prefers-color-scheme</code>). Pin the
-            attribute anyway if your app has a fixed default: it’s the only thing that runs
+            attribute anyway if your app has a fixed default: it's the only thing that runs
             before first paint.
           </p>
         </DocsSection>
@@ -334,18 +335,18 @@ export function GetStartedPage() {
         >
           <p>
             A token can say <code>--type-font-heading: 'Inter', sans-serif</code>, but naming a
-            family isn’t loading it. Add the families to your document head:
+            family isn't loading it. Add the families to your document head:
           </p>
           <CodeBlock code={FONT_LINKS} language="html" />
           <p>
-            Skip it and you get the theme’s <em>metrics</em> — every size, weight and
-            line-height exactly right — in whatever fallback the browser picks. That looks
-            deliberate, which is why it ships by accident. Don’t check by eye:{" "}
+            Skip it and you get the theme's <em>metrics</em> (every size, weight and
+            line-height exactly right) in whatever fallback the browser picks. That looks
+            deliberate, which is why it ships by accident. Don't check by eye:{" "}
             <code>document.fonts.size</code> is <code>0</code> when nothing loaded.
           </p>
           <p>
             Theme Builder exports include a <code>fonts.ts</code> with the exact tags for your
-            families, to paste or generate at build time. The theme deliberately doesn’t{" "}
+            families, to paste or generate at build time. The theme deliberately doesn't{" "}
             <code>@import</code> them: that hides the fetch from the preload scanner and bakes
             a CDN into your tokens.
           </p>
@@ -354,11 +355,11 @@ export function GetStartedPage() {
         <DocsSection title="Render something">
           <CodeBlock code={APP_TSX} language="tsx" />
           <p>
-            Switch modes at runtime by setting the attribute — there is nothing to re-import:
+            Switch modes at runtime by setting the attribute. There is nothing to re-import:
           </p>
           <CodeBlock code={TOGGLE} language="ts" />
           <p>
-            That’s a DOM mutation, so nothing re-renders. Components resolve their colours
+            That's a DOM mutation, so nothing re-renders. Components resolve their colours
             through CSS and update immediately; code that reads <em>resolved</em> token values
             needs a <code>MutationObserver</code> on <code>data-theme</code>.
           </p>
@@ -367,11 +368,11 @@ export function GetStartedPage() {
         <DocsSection title="Next">
           <ul>
             <li>
-              <Link to="/docs/theming">Theming</Link> — generate a theme, override tokens by
-              hand, or build them from a config with the Vite plugin.
+              <Link to="/docs/theming">Theming</Link> covers generating a theme, overriding
+              tokens by hand, and building them from a config with the Vite plugin.
             </li>
             <li>
-              <Link to="/docs/foundations/color">Foundations → Color</Link> — the palette and
+              <Link to="/docs/foundations/color">Foundations → Color</Link> is the palette and
               the semantic roles your components actually reference.
             </li>
             <li>
