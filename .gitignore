@@ -45,3 +45,13 @@ apps/marketing/SITE.md
 svg-animations/
 /theme.json
 .wrangler/
+
+# Paused, in-progress projects — removed from the repo until they are finished.
+# Kept on disk locally, and also excluded in pnpm-workspace.yaml: without that
+# exclusion they still match `apps/*` / `tooling/*` on a maintainer machine, so
+# `pnpm install` would re-add their importers to pnpm-lock.yaml and a fresh
+# clone (which has no such directories) would then fail CI's --frozen-lockfile.
+# Full trees: `git checkout archive/paused-projects-2026-08-03 -- <path>`.
+/apps/token-manager/
+/tooling/figma-code-connect-plugin/
+/tooling/figma-component-bridge/
