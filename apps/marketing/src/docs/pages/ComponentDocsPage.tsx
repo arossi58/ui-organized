@@ -87,7 +87,7 @@ export function ComponentDocsPage() {
           {related.length > 0 && (
             <DocsSection
               title="Subcomponents"
-              subtitle={`${component.name} is compound — compose it from these parts rather than looking for props on the root.`}
+              subtitle={`${component.name} is compound. Compose it from these parts rather than looking for props on the root.`}
             >
               {related.map((sub) => (
                 <div key={sub.codeName}>

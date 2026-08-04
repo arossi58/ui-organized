@@ -15,11 +15,11 @@ import styles from "../components/content.module.css";
 
 const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/react", "React component library, built on Ark UI"],
-  ["@ui-organized/tokens", "Design tokens — typed exports + generated CSS variables"],
+  ["@ui-organized/tokens", "Design tokens: typed exports and generated CSS variables"],
   ["@ui-organized/schema", "Zod schema / types for the theme config"],
   ["@ui-organized/utils", "Colour, type-scale, spacing & semantic-token utilities"],
   ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens"],
-  ["@ui-organized/cli", "uiorg — applies a theme bundle and checks it actually works"],
+  ["@ui-organized/cli", "uiorg: applies a theme bundle, then checks it actually works"],
 ];
 
 export function DocsIntroPage() {
@@ -71,33 +71,33 @@ export function DocsIntroPage() {
         <DocsSection title="Tools">
           <ul>
             <li>
-              <strong>Figma plugin</strong> — pushes the same config into Figma as variables,
-              modes and styles, keeping design and code in lockstep.
+              <strong>Figma plugin.</strong> Pushes the same config into Figma as variables,
+              modes and styles, so design and code stay in step.
             </li>
             <li>
-              <strong>Theme builder</strong> — <Link to="/tools">a web tool</Link> to pick a
-              brand + neutral, preview the whole system live, then export the tokens.
+              <strong>Theme builder.</strong> <Link to="/tools">A web tool</Link> to pick a
+              brand and neutral, preview the whole system live, then export the tokens.
             </li>
             <li>
-              <strong>CLI</strong> — <code>npx @ui-organized/cli theme &lt;bundle.zip&gt;</code>{" "}
-              applies an export, after checking that the theme covers every token the components
-              read, that its typefaces load, and that your own CSS doesn't override it. See{" "}
-              <Link to="/docs/theming">Theming</Link>.
+              <strong>CLI.</strong> <code>npx @ui-organized/cli theme &lt;bundle.zip&gt;</code>{" "}
+              applies an export. Before it writes, it checks that the theme covers every token
+              the components read, that its typefaces load, and that your own CSS doesn't
+              override it. See <Link to="/docs/theming">Theming</Link>.
             </li>
             <li>
-              <strong>Storybook</strong> — the interactive playground, with per-story controls
+              <strong>Storybook.</strong> The interactive playground, with per-story controls
               and the visual-regression harness, at{" "}
               <a href={LINKS.storybook}>{LINKS.storybook}</a>.
             </li>
           </ul>
         </DocsSection>
 
-        <DocsSection title="What makes it better">
+        <DocsSection title="Design decisions">
           <ul>
             <li>
               <strong>One source of truth.</strong> Components reference semantic <em>roles</em>,
-              not hexes. Swap the brand or neutral family and every surface, border and control
-              follows. See <Link to="/docs/foundations/color">Foundations → Color</Link>.
+              not hexes. Swap the brand or neutral family and the whole UI follows. See{" "}
+              <Link to="/docs/foundations/color">Foundations → Color</Link>.
             </li>
             <li>
               <strong>Design ↔ code parity.</strong> The Figma plugin emits the <em>same</em>{" "}
@@ -114,7 +114,7 @@ export function DocsIntroPage() {
             </li>
             <li>
               <strong>Built on Ark UI.</strong> Behaviour, focus management and accessibility
-              come from a robust headless layer; the design system owns only the look.
+              come from a headless layer; the design system owns only the look.
             </li>
           </ul>
         </DocsSection>
@@ -123,23 +123,23 @@ export function DocsIntroPage() {
           <ul>
             <li>
               <a href={LINKS.npmReact} target="_blank" rel="noreferrer">
-                npm — @ui-organized packages
+                npm: @ui-organized packages
               </a>
             </li>
             <li>
               <a href={LINKS.figmaLibrary} target="_blank" rel="noreferrer">
-                Figma — design library
+                Figma: design library
               </a>
             </li>
             <li>
               <a href={LINKS.github} target="_blank" rel="noreferrer">
-                GitHub — source &amp; docs
+                GitHub: source &amp; docs
               </a>
             </li>
           </ul>
           <p>
-            New here? <Link to="/docs/get-started">Get started</Link> installs and wires up the
-            stylesheets; <Link to="/docs/theming">Theming</Link> makes it yours.{" "}
+            <Link to="/docs/get-started">Get started</Link> covers installing and wiring up the
+            stylesheets. <Link to="/docs/theming">Theming</Link> covers changing the tokens,{" "}
             <Link to="/docs/foundations/color">Foundations</Link> is the token reference, and
             all {docsComponents.length} components are in the sidebar.
           </p>

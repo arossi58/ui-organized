@@ -27,7 +27,7 @@ const FORMATS: Array<{ id: AiContextFormat; label: string; title: string }> = [
     id: "markdown",
     label: "AI spec",
     title:
-      "Copy the complete verified context — rules, exact import, every prop with its allowed values, and real examples. Paste into Cursor, Claude Code, or any chat.",
+      "Copy the complete verified context: rules, exact import, every prop with its allowed values, and real examples. Paste into Cursor, Claude Code, or any chat.",
   },
   {
     id: "jsx",
@@ -38,7 +38,7 @@ const FORMATS: Array<{ id: AiContextFormat; label: string; title: string }> = [
     id: "prompt-url",
     label: "Prompt + URL",
     title:
-      "Copy a one-line prompt pointing at the published spec — the smallest form, and it can never go stale.",
+      "Copy a one-line prompt pointing at the published spec. It is the smallest form, and it can never go stale.",
   },
 ];
 

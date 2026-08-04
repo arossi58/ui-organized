@@ -12,8 +12,8 @@ export function RoadmapEmpty({ projectUrl = FALLBACK_PROJECT_URL }: { projectUrl
     <div className="roadmap-empty">
       <p className="roadmap-empty__title">Roadmap is syncing</p>
       <p className="roadmap-empty__body">
-        The board updates straight from GitHub Projects. See it live while the next
-        sync lands.
+        This board updates from GitHub Projects, and the next sync hasn&rsquo;t
+        come through yet.
       </p>
       <ButtonLink href={projectUrl} intent="primary" size="md" target="_blank" rel="noreferrer">
         Open the board on GitHub
