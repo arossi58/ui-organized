@@ -114,6 +114,11 @@ const NOTES: Feature[] = [
     desc: "The panel renders inside a shadow root: the host page's CSS can't reach into it, and its own can't leak out.",
   },
   {
+    icon: Keyboard,
+    title: "Keyboard-isolated too",
+    desc: "It binds no shortcuts of its own, and it keeps the keystrokes you type into its fields from reaching the page. Your app's own single-letter shortcuts stay bound everywhere else, but they won't fire, or eat a character, while you're editing a value in the panel.",
+  },
+  {
     icon: FileCode,
     title: "ESM only",
     desc: "Ships as ES modules. Any framework works (React, Vue, Svelte, or plain HTML); it inspects the rendered page, not your component tree.",
@@ -256,17 +261,12 @@ export default function UiInspectGuide() {
             <li className={styles.step}>
               <div className={styles.stepHead}>
                 <span className={styles.stepNum}>3</span>
-                <h3 className={styles.stepTitle}>Press I, then click an element</h3>
+                <h3 className={styles.stepTitle}>Open it, then click an element</h3>
               </div>
               <p className={styles.body}>
-                Run your dev server, then either press{" "}
-                <span className={styles.kbdRow}>
-                  <Icon name={Keyboard} size={14} />
-                  <kbd className={styles.kbd}>I</kbd>
-                </span>{" "}
-                or hit the <strong>Inspect</strong> button the package mounts in the
-                page. Click anything and the panel resolves that element against your
-                token set.
+                Run your dev server and hit the <strong>Inspect</strong> button the
+                package mounts in the page. Click anything and the panel resolves that
+                element against your token set.
               </p>
             </li>
           </ol>

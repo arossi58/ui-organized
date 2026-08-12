@@ -1,12 +1,12 @@
 /**
- * About page sections.
+ * About page.
  *
- * One stylesheet for all four sections rather than the usual one-file-per-
- * component: they are used only by /about and share a single visual treatment.
- * Split this up if any of them is ever reused elsewhere.
+ * The page is a single raised panel — heading, two paragraphs, footnote — so
+ * this is one stylesheet for one component. Split it up if any of this is ever
+ * reused.
  *
- * Section padding, page width, eyebrow and title styling all come from the
- * shared primitives in styles/layout.css — nothing here re-declares them.
+ * Section padding and page width come from the shared primitives in
+ * styles/layout.css — nothing here re-declares them.
  */
 
 /* ---------------------------------------------------------------- hero ---- */
@@ -19,10 +19,9 @@
   /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
   /* Opens right under the in-flow nav, so it needs less lead-in than a section
-     arriving mid-scroll. The tail is trimmed too: the next section brings a full
-     --section-py of its own, and two full rhythms back-to-back on the same
-     surface read as a hole rather than a break. */
-  padding-block: var(--spacing-space-12);
+     arriving mid-scroll. The tail keeps the full rhythm — the footer follows
+     directly, and the panel shouldn't crowd it. */
+  padding-block: var(--spacing-space-12) var(--section-py);
 }
 
 .about-hero__dots {
@@ -30,8 +29,8 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* Fade the lattice out before the section ends, so it dissolves into the next
-     section instead of stopping at a visible horizontal edge. */
+  /* Fade the lattice out before the section ends, so it dissolves into the
+     footer instead of stopping at a visible horizontal edge. */
   -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
@@ -41,149 +40,66 @@
   z-index: 1;
 }
 
+/* The page's one object: a raised panel lifting the copy off the lattice. Same
+   surface + hairline + drop shadow recipe the overview cards on home use, at
+   page scale. */
+.about-hero__panel {
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-06, 16px);
+  padding: clamp(var(--spacing-space-06), 5vw, var(--spacing-space-12));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode — a neutral drop shadow disappears against the dark surface, so the
+   panel loses its edge. Swap it for the brand glow the cards on home use. */
+[data-theme="dark"] .about-hero__panel {
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--site-orange) 20%, transparent);
+}
+
 /* The page's one h1 — Inter, like every other title on the site. Sized a step
    above the shared .section-title so it still reads as the page heading. */
 .about-hero__title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(32px, 4.4vw, 52px);
   line-height: 1.08;
   letter-spacing: -0.02em;
-  margin: 0 0 var(--spacing-space-05);
+  margin: 0 0 var(--spacing-space-08);
   max-width: 20ch;
   color: var(--site-ink);
 }
 
-.about-hero__lede {
-  margin: 0;
-  max-width: 56ch;
-  font-size: var(--type-size-body-large);
-  line-height: 1.5;
-  color: var(--site-ink-soft);
-}
-
-/* -------------------------------------------------------------- origin ---- */
-
-.about-origin {
-  background: var(--color-surface-primary);
-}
-
-/* Narrow measure so the origin story reads as an essay, not a marketing slab. */
-.about-origin__inner {
+/* Narrow measure so the copy reads as an essay, not a marketing slab. */
+.about-hero__body {
   max-width: 62ch;
 }
 
-/* Shared body copy for the two prose sections. */
+/* Full ink, not --site-ink-soft: this is the page's only copy and it carries
+   the whole argument, so it reads at body strength rather than as support text. */
 .about-prose {
   margin: 0 0 var(--spacing-space-05);
   font-size: 18px;
   line-height: 1.65;
-  color: var(--site-ink-soft);
-}
-
-.about-prose:last-child {
-  margin-bottom: 0;
+  color: var(--site-ink);
 }
 
 .about-prose em {
   font-style: italic;
-  color: var(--site-ink);
 }
 
-/* ----------------------------------------------------------------- why ---- */
-
-/* Flat surface, like every other section on the site — the cards supply the
-   only structure this section needs. */
-.about-why {
-  background: var(--color-surface-primary);
+/* Footnote — sits below a hairline so it reads as an aside to the essay rather
+   than a third paragraph of it. */
+.about-hero__note {
+  margin: var(--spacing-space-08) 0 0;
+  padding-top: var(--spacing-space-04);
+  border-top: 1px solid var(--color-border-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: color-mix(in srgb, var(--site-ink) 80%, transparent);
 }
 
-.about-why__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-space-05);
-}
-
-@media (max-width: 860px) {
-  .about-why__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.about-why__cell {
-  display: flex;
-}
-
-/* Surface, hairline and radius come from the DS Card itself; only the panel
-   depth and hover lift are added here, matching the overview cards on home. */
-.about-why__card {
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06);
-  transition:
-    transform 0.22s ease,
-    box-shadow 0.22s ease,
-    border-color 0.22s ease;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .about-why__card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.14);
-  }
-}
-
-/* Dark mode — the neutral drop shadow disappears against the dark section, so
-   the cards lose their edge. Swap it for the brand glow the overview cards use.
-   Outside the motion query so they stay legible under reduced motion. */
-[data-theme="dark"] .about-why__card {
-  box-shadow: 0 6px 24px color-mix(in srgb, var(--site-orange) 22%, transparent);
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-theme="dark"] .about-why__card:hover {
-    box-shadow: 0 14px 48px color-mix(in srgb, var(--site-orange) 45%, transparent);
-  }
-}
-
-
-/* Stagger the reveal within the grid (~80ms apart). */
-@media (prefers-reduced-motion: no-preference) {
-  .about-why__cell:nth-child(2) {
-    transition-delay: 0.08s;
-  }
-  .about-why__cell:nth-child(3) {
-    transition-delay: 0.16s;
-  }
-}
-
-.about-why__title {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 21px;
-  margin: 0 0 var(--spacing-space-02);
-  color: var(--site-ink);
-}
-
-.about-why__body {
-  color: var(--site-ink-soft);
-  font-size: 15.5px;
-  margin: 0;
-}
-
-/* -------------------------------------------------------------- future ---- */
-
-.about-future {
-  background: var(--color-surface-primary);
-}
-
-.about-future__inner {
-  max-width: 62ch;
-}
-
-.about-future__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-space-03);
-  margin-top: var(--spacing-space-08);
+.about-hero__note a {
+  color: var(--color-interactive-primary-default);
+  text-underline-offset: 2px;
 }
