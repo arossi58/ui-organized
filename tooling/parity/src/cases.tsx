@@ -54,6 +54,13 @@ import VueFieldErrorFixture from "./fixtures/vue/FieldErrorFixture.vue";
 import VueSwitchFixture from "./fixtures/vue/SwitchFixture.vue";
 import VueAvatarFixture from "./fixtures/vue/AvatarFixture.vue";
 import VueCheckboxFixture from "./fixtures/vue/CheckboxFixture.vue";
+import VueInputFixture from "./fixtures/vue/InputFixture.vue";
+import VueTextAreaFixture from "./fixtures/vue/TextAreaFixture.vue";
+import VueFieldFixture from "./fixtures/vue/FieldFixture.vue";
+import VueProgressFixture from "./fixtures/vue/ProgressFixture.vue";
+import VueTabsFixture from "./fixtures/vue/TabsFixture.vue";
+import VueAccordionFixture from "./fixtures/vue/AccordionFixture.vue";
+import VueRadioGroupFixture from "./fixtures/vue/RadioGroupFixture.vue";
 import CardFixture from "./fixtures/CardFixture.svelte";
 import DividerFixture from "./fixtures/DividerFixture.svelte";
 import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
@@ -292,6 +299,7 @@ export const SPECS: ParitySpec[] = [
     component: "Input",
     react: (p) => <RInput {...p} />,
     svelte: InputFixture as unknown as ComponentType<any>,
+    vue: VueInputFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "with label", props: { label: "Email" } },
@@ -331,6 +339,7 @@ export const SPECS: ParitySpec[] = [
     component: "Tabs",
     react: (p) => <RTabs {...(p as any)} />,
     svelte: TabsFixture as unknown as ComponentType<any>,
+    vue: VueTabsFixture as unknown as ComponentType<any>,
     stylesheets: ["Tabs/Tabs.css"],
     allow: [
       {
@@ -374,6 +383,7 @@ export const SPECS: ParitySpec[] = [
     component: "TextArea",
     react: (p) => <RTextArea {...p} />,
     svelte: TextAreaFixture as unknown as ComponentType<any>,
+    vue: VueTextAreaFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "with label", props: { label: "Bio" } },
@@ -392,6 +402,7 @@ export const SPECS: ParitySpec[] = [
     component: "Progress",
     react: (p) => <RProgress {...(p as any)} />,
     svelte: ProgressFixture as unknown as ComponentType<any>,
+    vue: VueProgressFixture as unknown as ComponentType<any>,
     cases: [
       { name: "indeterminate (default)" },
       { name: "at 40", props: { value: 40 } },
@@ -413,6 +424,7 @@ export const SPECS: ParitySpec[] = [
     component: "RadioGroup",
     react: (p) => <RRadioGroup {...(p as any)} />,
     svelte: RadioGroupFixture as unknown as ComponentType<any>,
+    vue: VueRadioGroupFixture as unknown as ComponentType<any>,
     cases: (() => {
       const options = [
         { value: "a", label: "Apple" },
@@ -443,6 +455,7 @@ export const SPECS: ParitySpec[] = [
     component: "Accordion",
     react: (p) => <RAccordion {...(p as any)} />,
     svelte: AccordionFixture as unknown as ComponentType<any>,
+    vue: VueAccordionFixture as unknown as ComponentType<any>,
     cases: (() => {
       const items = [
         { value: "one", title: "One", content: "First" },
@@ -581,6 +594,7 @@ export const SPECS: ParitySpec[] = [
       </RField>
     ),
     svelte: FieldFixture as unknown as ComponentType<any>,
+    vue: VueFieldFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "stacked", props: { layout: "stacked" } },
