@@ -37,6 +37,12 @@ import {
   FieldControl as RFieldControl,
   FieldDescription as RFieldDescription,
   FieldErrorMessage as RFieldErrorMessage,
+  Combobox as RCombobox,
+  Menu as RMenu,
+  MenuTrigger as RMenuTrigger,
+  MenuContent as RMenuContent,
+  MenuItem as RMenuItem,
+  MenuSeparator as RMenuSeparator,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -58,6 +64,8 @@ import DialogFixture from "./fixtures/DialogFixture.svelte";
 import TooltipFixture from "./fixtures/TooltipFixture.svelte";
 import SelectFixture from "./fixtures/SelectFixture.svelte";
 import FieldFixture from "./fixtures/FieldFixture.svelte";
+import ComboboxFixture from "./fixtures/ComboboxFixture.svelte";
+import MenuFixture from "./fixtures/MenuFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -561,6 +569,62 @@ export const SPECS: ParitySpec[] = [
       { name: "disabled", props: { disabled: true } },
       { name: "required", props: { required: true } },
       { name: "readOnly", props: { readOnly: true } },
+    ],
+  },
+  {
+    component: "Combobox",
+    react: (p) => <RCombobox {...(p as any)} />,
+    svelte: ComboboxFixture as unknown as ComponentType<any>,
+    exclude: '[data-scope="combobox"][data-part="positioner"]',
+    cases: (() => {
+      const options = [
+        { value: "a", label: "Apple" },
+        { value: "b", label: "Banana" },
+        { value: "c", label: "Cherry", disabled: true },
+      ];
+      return [
+        { name: "default", props: { options } },
+        { name: "with label", props: { options, label: "Fruit" } },
+        { name: "placeholder", props: { options, placeholder: "Search" } },
+        { name: "required", props: { options, label: "Fruit", required: true } },
+        { name: "helper text", props: { options, label: "Fruit", helperText: "Type to filter" } },
+        { name: "error", props: { options, label: "Fruit", error: "Required" } },
+        { name: "selected", props: { options, defaultValue: "b", label: "Fruit" } },
+        { name: "disabled", props: { options, label: "Fruit", disabled: true } },
+        ...SIZES.map((size) => ({ name: `size/${size}`, props: { options, size, label: "F" } })),
+      ];
+    })(),
+  },
+  {
+    component: "Menu",
+    react: ({ contentProps = {}, ...p }) => (
+      <RMenu {...p}>
+        <RMenuTrigger>Open</RMenuTrigger>
+        <RMenuContent {...contentProps}>
+          <RMenuItem value="a">Cut</RMenuItem>
+          <RMenuSeparator />
+          <RMenuItem value="b" destructive>Delete</RMenuItem>
+        </RMenuContent>
+      </RMenu>
+    ),
+    svelte: MenuFixture as unknown as ComponentType<any>,
+    // Both, and the combination matters. `select` narrows to the trigger, but
+    // Ark stamps `data-controls` on it pointing at the menu content — which
+    // React renders inline under SSR and Svelte does not. Without `exclude` that
+    // id normalises to a positional placeholder on one side and stays a machine
+    // reference on the other, on markup that is otherwise identical. Dropping
+    // the portalled subtree first puts both sides in the same position: no
+    // content element, so both fall back to the machine-id normalisation and
+    // agree.
+    exclude: '[data-scope="menu"][data-part="positioner"]',
+    select: '[data-part="trigger"]',
+    cases: [
+      { name: "closed" },
+      ...(["top", "right", "bottom", "left"] as const).map((side) => ({
+        name: `side/${side}`,
+        props: { contentProps: { side } },
+      })),
+      { name: "offsets", props: { contentProps: { sideOffset: 12, alignOffset: 2 } } },
     ],
   },
 ];

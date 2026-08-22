@@ -1,0 +1,47 @@
+import type { ControlSize } from "@ui-organized/core";
+export interface ComboboxOption {
+  value: string;
+  label: string;
+  disabled?: boolean;
+}
+
+export interface ComboboxProps {
+  /** Selectable options. The list filters against each option's `label`. */
+  options: ComboboxOption[];
+  /** Selected value. Bindable: `bind:value`. */
+  value?: string;
+  /** Initial selected value for uncontrolled usage. */
+  defaultValue?: string;
+  /** Called with the selected option's value (empty string when cleared). */
+  onValueChange?: (value: string) => void;
+  /** Open state of the dropdown. Bindable: `bind:open`. */
+  open?: boolean;
+  /** Initial open state for uncontrolled usage. */
+  defaultOpen?: boolean;
+  /** Callback fired when the dropdown opens or closes. */
+  onOpenChange?: (open: boolean) => void;
+  /** Placeholder shown in the search input when nothing is selected. */
+  placeholder?: string;
+  /** Accessible label rendered above the control. */
+  label?: string;
+  /** Helper text rendered below the control. Hidden when an error is shown. */
+  helperText?: string;
+  /**
+   * Error state. Pass a string to show an error message.
+   * Pass `true` to mark the field invalid without a message.
+   */
+  error?: string | boolean;
+  /** Size variant. Defaults to 'md'. */
+  size?: ControlSize;
+  /** Whether the field should ignore user interaction. */
+  disabled?: boolean;
+  /** Name attribute for form submission. */
+  name?: string;
+  /** Whether a value is required for form submission. */
+  required?: boolean;
+  class?: string;
+  /** Message shown when no option matches the query. */
+  emptyMessage?: string;
+  /** DOM element to portal the dropdown into. Defaults to `document.body`. */
+  portalContainer?: HTMLElement | null;
+}
