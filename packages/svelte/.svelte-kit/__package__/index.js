@@ -30,3 +30,4 @@ export { Accordion } from "./components/Accordion/index.js";
 export { Popover, PopoverTrigger, PopoverContent, PopoverTitle, PopoverDescription, PopoverClose, } from "./components/Popover/index.js";
 export { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, DialogFooter, } from "./components/Dialog/index.js";
 export { Tooltip, TooltipProvider } from "./components/Tooltip/index.js";
+export { Select } from "./components/Select/index.js";

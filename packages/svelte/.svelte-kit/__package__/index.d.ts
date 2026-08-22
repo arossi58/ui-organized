@@ -41,4 +41,6 @@ export { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, D
 export type { DialogProps, DialogTriggerProps, DialogContentProps, DialogTitleProps, DialogDescriptionProps, DialogCloseProps, DialogFooterProps, DialogPropsFn, } from "./components/Dialog/index.js";
 export { Tooltip, TooltipProvider } from "./components/Tooltip/index.js";
 export type { TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign, } from "./components/Tooltip/index.js";
+export { Select } from "./components/Select/index.js";
+export type { SelectProps, SelectOption } from "./components/Select/index.js";
 //# sourceMappingURL=index.d.ts.map

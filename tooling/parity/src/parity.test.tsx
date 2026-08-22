@@ -31,7 +31,7 @@ function withoutAllowed(contract: ElementContract[], allowed: string[]): Element
   }));
 }
 
-describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], stylesheets = [], select }) => {
+describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], stylesheets = [], select, exclude }) => {
   const allowed = allow.map((a) => a.attribute);
 
   it.each(cases)("$name", ({ props = {} }) => {
@@ -46,8 +46,8 @@ describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], styleshe
       props: { ...shared, ...(className ? { class: className } : {}) },
     }).body;
 
-    const actual = withoutAllowed(contractOf(svelteHtml, select), allowed);
-    const expected = withoutAllowed(contractOf(reactHtml, select), allowed);
+    const actual = withoutAllowed(contractOf(svelteHtml, select, exclude), allowed);
+    const expected = withoutAllowed(contractOf(reactHtml, select, exclude), allowed);
     // A selector that matches nothing would compare two empty arrays and pass.
     // Only meaningful when a selector is in play — a component can legitimately
     // render nothing (FieldError with an empty message).

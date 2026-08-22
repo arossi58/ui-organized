@@ -124,14 +124,26 @@ function stripComments(root: Element): void {
 }
 
 /**
- * @param select  Optional CSS selector limiting the comparison to one subtree.
- *   Needed for portalled components: see `select` in cases.ts.
+ * @param select   Optional CSS selector limiting the comparison to one subtree.
+ * @param exclude  Optional CSS selector whose matches (and their subtrees) are
+ *   dropped. Both exist for portalled components — see `select` in cases.ts.
+ *   `exclude` is the one to reach for when the portal sits *inside* the subtree
+ *   worth comparing, as it does for Select, where the popup is a descendant of
+ *   the field that holds the label, helper text and hidden native control.
  */
-export function contractOf(html: string, select?: string): ElementContract[] {
+export function contractOf(html: string, select?: string, exclude?: string): ElementContract[] {
   const dom = new JSDOM(`<div id="root">${html}</div>`);
   let root = dom.window.document.getElementById("root")!;
   stripComments(root);
-  // Built before scoping: a selected subtree can reference ids outside itself.
+  // Excluded content is dropped *before* the ids are numbered. The numbering is
+  // positional, so counting elements that one library renders and the other does
+  // not would shift every later placeholder and report identical markup as
+  // different — which is exactly what happened with Select's hidden native
+  // control, numbered #7 against #3 purely because React renders its portalled
+  // popup inline and Svelte does not.
+  if (exclude) for (const el of [...root.querySelectorAll(exclude)]) el.remove();
+  // Still built before *scoping*, though: a selected subtree can legitimately
+  // reference ids outside itself.
   const ids = normalizeIds(root);
   if (select) {
     const scoped = root.querySelector(select);

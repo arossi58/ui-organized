@@ -31,6 +31,7 @@ import {
   DialogDescription as RDialogDescription,
   DialogFooter as RDialogFooter,
   Tooltip as RTooltip,
+  Select as RSelect,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -50,6 +51,7 @@ import AccordionFixture from "./fixtures/AccordionFixture.svelte";
 import PopoverFixture from "./fixtures/PopoverFixture.svelte";
 import DialogFixture from "./fixtures/DialogFixture.svelte";
 import TooltipFixture from "./fixtures/TooltipFixture.svelte";
+import SelectFixture from "./fixtures/SelectFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -115,6 +117,13 @@ export interface ParitySpec {
    * Playwright harness, which opens the overlay in a real browser.
    */
   select?: string;
+  /**
+   * Drop a subtree before comparing. The counterpart to `select`, for when the
+   * portal sits *inside* the part worth comparing — Select's popup is a
+   * descendant of the field that also holds its label, helper text and hidden
+   * native control, so selecting the field cannot exclude the popup.
+   */
+  exclude?: string;
 }
 
 const SIZES = ["sm", "md", "lg"] as const;
@@ -489,5 +498,38 @@ export const SPECS: ParitySpec[] = [
       })),
       { name: "delays", props: { content: "Copy", delay: 200, closeDelay: 100 } },
     ],
+  },
+  {
+    component: "Select",
+    react: (p) => <RSelect {...(p as any)} />,
+    svelte: SelectFixture as unknown as ComponentType<any>,
+    // Everything except the popup: the field chrome, the trigger and the hidden
+    // native select are all rendered in place, and all three carry ARIA that
+    // OMIT_ARIA is responsible for.
+    exclude: '[data-scope="select"][data-part="positioner"]',
+    cases: (() => {
+      const options = [
+        { value: "a", label: "Apple" },
+        { value: "b", label: "Banana" },
+        { value: "c", label: "Cherry", disabled: true },
+      ];
+      return [
+        { name: "default", props: { options } },
+        { name: "with label", props: { options, label: "Fruit" } },
+        // No Label part exists without a label, so Ark's aria-labelledby on the
+        // trigger, listbox and hidden select would all dangle. OMIT_ARIA sheds
+        // them; this is what pins that across three separate elements.
+        { name: "no label", props: { options, placeholder: "Pick one" } },
+        { name: "required", props: { options, label: "Fruit", required: true } },
+        { name: "helper text", props: { options, label: "Fruit", helperText: "Choose" } },
+        { name: "error", props: { options, label: "Fruit", error: "Required" } },
+        { name: "selected", props: { options, defaultValue: "b", label: "Fruit" } },
+        { name: "disabled", props: { options, label: "Fruit", disabled: true } },
+        // Ghost hides the label but still renders it, because three separate
+        // ARIA references point at the Label part.
+        { name: "ghost", props: { options, label: "Fruit", variant: "ghost" } },
+        ...SIZES.map((size) => ({ name: `size/${size}`, props: { options, size, label: "F" } })),
+      ];
+    })(),
   },
 ];

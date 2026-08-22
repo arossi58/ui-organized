@@ -87,3 +87,6 @@ export type {
   TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign,
 } from "./components/Tooltip/index.js";
 
+export { Select } from "./components/Select/index.js";
+export type { SelectProps, SelectOption } from "./components/Select/index.js";
+
