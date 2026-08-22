@@ -48,3 +48,9 @@ export type { FieldErrorProps } from "./components/FieldError/index.js";
 export { Input } from "./components/Input/index.js";
 export type { InputProps } from "./components/Input/index.js";
 
+export { Checkbox } from "./components/Checkbox/index.js";
+export type { CheckboxProps } from "./components/Checkbox/index.js";
+
+export { Tabs } from "./components/Tabs/index.js";
+export type { TabsProps, TabItem } from "./components/Tabs/index.js";
+

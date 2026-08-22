@@ -12,6 +12,8 @@ import {
   Avatar as RAvatar,
   Input as RInput,
   FieldError as RFieldError,
+  Checkbox as RCheckbox,
+  Tabs as RTabs,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -22,6 +24,8 @@ import SwitchFixture from "./fixtures/SwitchFixture.svelte";
 import AvatarFixture from "./fixtures/AvatarFixture.svelte";
 import InputFixture from "./fixtures/InputFixture.svelte";
 import FieldErrorFixture from "./fixtures/FieldErrorFixture.svelte";
+import CheckboxFixture from "./fixtures/CheckboxFixture.svelte";
+import TabsFixture from "./fixtures/TabsFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -40,11 +44,29 @@ export interface ParityCase {
   props?: Record<string, unknown>;
 }
 
+/**
+ * An attribute that legitimately differs between libraries, and why.
+ *
+ * These are not suppressions. Each one is checked against the component's own
+ * stylesheet, and an allowance for an attribute the CSS actually selects on is
+ * itself a failure — so an allowance can never hide the bug this suite exists to
+ * catch. The rule is: if the stylesheet does not read it, the difference is
+ * invisible and can wait; if it does, it is a real defect however plausible the
+ * explanation.
+ */
+export interface ParityAllowance {
+  attribute: string;
+  reason: string;
+}
+
 export interface ParitySpec {
   component: string;
   react: (props: Record<string, any>) => ReactElement;
   svelte: ComponentType<any>;
   cases: ParityCase[];
+  /** Stylesheets in @ui-organized/core this component's contract depends on. */
+  stylesheets?: string[];
+  allow?: ParityAllowance[];
 }
 
 const SIZES = ["sm", "md", "lg"] as const;
@@ -191,5 +213,66 @@ export const SPECS: ParitySpec[] = [
       { name: "placeholder", props: { placeholder: "you@example.com" } },
       { name: "type=email", props: { type: "email" } },
     ],
+  },
+  {
+    component: "Checkbox",
+    react: (p) => <RCheckbox {...p} />,
+    svelte: CheckboxFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "with label", props: { label: "Accept" } },
+      // Same dangling-aria-labelledby case OMIT_ARIA guards on Switch.
+      { name: "no label, aria-label", props: { "aria-label": "Accept" } },
+      { name: "checked", props: { defaultChecked: true, label: "Accept" } },
+      // Ark folds indeterminate into the checked value; the facade keeps it a
+      // separate boolean, and the indicator swaps to a dash.
+      { name: "indeterminate", props: { indeterminate: true, label: "Accept" } },
+      { name: "disabled", props: { disabled: true, label: "Accept" } },
+      { name: "required", props: { required: true, label: "Accept" } },
+      { name: "named", props: { name: "accept", label: "Accept" } },
+    ],
+  },
+  {
+    component: "Tabs",
+    react: (p) => <RTabs {...(p as any)} />,
+    svelte: TabsFixture as unknown as ComponentType<any>,
+    stylesheets: ["Tabs/Tabs.css"],
+    allow: [
+      {
+        attribute: "data-state",
+        reason:
+          "@ark-ui/svelte is on 5.24 while @ark-ui/react is on 5.37, and the " +
+          "tab panel gained data-state=open|closed in between. Tabs.css styles " +
+          "the panel on [hidden] and [data-selected], both of which Svelte does " +
+          "emit, so nothing renders differently. Remove this once the Svelte " +
+          "package catches up — the assertion below fails the moment Tabs.css " +
+          "starts selecting on data-state.",
+      },
+    ],
+    cases: (() => {
+      // String labels and content, because React takes ReactNode here and Svelte
+      // takes a string-or-snippet union; strings are the shape both accept.
+      const tabs = [
+        { value: "one", label: "One", content: "First" },
+        { value: "two", label: "Two", content: "Second" },
+        { value: "three", label: "Three", content: "Third", disabled: true },
+      ];
+      return [
+        { name: "default", props: { tabs } },
+        { name: "second selected", props: { tabs, defaultValue: "two" } },
+        { name: "vertical", props: { tabs, orientation: "vertical" } },
+        { name: "small", props: { tabs, size: "small" } },
+        // Numeric values are coerced at the zag boundary in both libraries.
+        {
+          name: "numeric values",
+          props: {
+            tabs: [
+              { value: 1, label: "One", content: "First" },
+              { value: 2, label: "Two", content: "Second" },
+            ],
+          },
+        },
+      ];
+    })(),
   },
 ];

@@ -21,3 +21,5 @@ export { Switch } from "./components/Switch/index.js";
 export { Avatar } from "./components/Avatar/index.js";
 export { FieldError } from "./components/FieldError/index.js";
 export { Input } from "./components/Input/index.js";
+export { Checkbox } from "./components/Checkbox/index.js";
+export { Tabs } from "./components/Tabs/index.js";
