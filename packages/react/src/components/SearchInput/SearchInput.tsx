@@ -8,8 +8,8 @@ import { FieldError } from "../FieldError/index.js";
 import type { SearchInputProps } from "./SearchInput.types.js";
 // Shares the Input field surface/state styling; InputAffix.css layers on the
 // leading icon and clear button.
-import "../Input/Input.css";
-import "../Input/InputAffix.css";
+import "@ui-organized/core/components/Input/Input.css";
+import "@ui-organized/core/components/Input/InputAffix.css";
 
 export function SearchInput({
   label,

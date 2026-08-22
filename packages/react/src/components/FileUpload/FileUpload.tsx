@@ -6,7 +6,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { fileUploadStyles } from "./FileUpload.styles.js";
 import type { FileUploadProps } from "./FileUpload.types.js";
-import "./FileUpload.css";
+import "@ui-organized/core/components/FileUpload/FileUpload.css";
 
 /** Delete affordance inside a file row — always the small edge, because it sits
  *  inside the row rather than beside it. */

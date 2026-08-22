@@ -11,7 +11,7 @@ import type {
   FieldsetProps,
   FieldsetLegendProps,
 } from "./Field.types.js";
-import "./Field.css";
+import "@ui-organized/core/components/Field/Field.css";
 
 /**
  * Form field wrapper. Associates a label, control, description and error message

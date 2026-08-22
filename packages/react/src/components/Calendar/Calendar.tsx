@@ -20,7 +20,7 @@ import {
   ymdToDate,
   type YMD,
 } from "./dateUtils.js";
-import "./Calendar.css";
+import "@ui-organized/core/components/Calendar/Calendar.css";
 
 export interface CalendarRange {
   start: YMD | null;

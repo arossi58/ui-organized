@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
 import { OMIT_ARIA } from "../../utils/aria.js";
 import type { CheckboxProps } from "./Checkbox.types.js";
-import "./Checkbox.css";
+import "@ui-organized/core/components/Checkbox/Checkbox.css";
 
 export function Checkbox({
   checked,

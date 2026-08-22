@@ -4,7 +4,7 @@ import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { stepsStyles } from "./Steps.styles.js";
 import type { StepsProps } from "./Steps.types.js";
-import "./Steps.css";
+import "@ui-organized/core/components/Steps/Steps.css";
 
 /** The completed tick sits inside the indicator circle at every size — it marks
  *  the step rather than scaling with the surrounding text. */

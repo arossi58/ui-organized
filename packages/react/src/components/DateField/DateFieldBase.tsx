@@ -18,8 +18,8 @@ import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
 import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // Shares the Input field surface/state styling; InputAffix.css supplies the
 // leading calendar button and hides the native picker chrome.
-import "../Input/Input.css";
-import "../Input/InputAffix.css";
+import "@ui-organized/core/components/Input/Input.css";
+import "@ui-organized/core/components/Input/InputAffix.css";
 
 function splitDateTime(value: string): { date: string; time: string } {
   const [date = "", time = ""] = value.split("T");

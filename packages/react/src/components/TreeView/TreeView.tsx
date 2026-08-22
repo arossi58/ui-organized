@@ -5,7 +5,7 @@ import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { treeViewStyles } from "./TreeView.styles.js";
 import type { TreeViewProps, TreeViewNode } from "./TreeView.types.js";
-import "./TreeView.css";
+import "@ui-organized/core/components/TreeView/TreeView.css";
 
 /** Chevron and node icons stay one step below the text size — they mark the row
  *  rather than compete with it. */

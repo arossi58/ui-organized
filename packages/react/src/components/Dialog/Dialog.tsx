@@ -11,7 +11,7 @@ import type {
   DialogCloseProps,
   DialogFooterProps,
 } from "./Dialog.types.js";
-import "./Dialog.css";
+import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { popupControls } from "../../utils/aria.js";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";

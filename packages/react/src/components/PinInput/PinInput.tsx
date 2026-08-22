@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { FieldError } from "../FieldError/index.js";
 import { pinInputStyles } from "./PinInput.styles.js";
 import type { PinInputProps } from "./PinInput.types.js";
-import "./PinInput.css";
+import "@ui-organized/core/components/PinInput/PinInput.css";
 
 const DEFAULT_LENGTH = 4;
 

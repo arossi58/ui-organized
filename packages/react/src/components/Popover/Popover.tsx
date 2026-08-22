@@ -9,7 +9,7 @@ import type {
   PopoverDescriptionProps,
   PopoverCloseProps,
 } from "./Popover.types.js";
-import "./Popover.css";
+import "@ui-organized/core/components/Popover/Popover.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { popupControls } from "../../utils/aria.js";
 import {

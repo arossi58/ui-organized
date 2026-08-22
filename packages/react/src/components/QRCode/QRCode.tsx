@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { qrCodeStyles } from "./QRCode.styles.js";
 import type { QRCodeProps } from "./QRCode.types.js";
-import "./QRCode.css";
+import "@ui-organized/core/components/QRCode/QRCode.css";
 
 const DEFAULT_PIXEL_SIZE = 10;
 

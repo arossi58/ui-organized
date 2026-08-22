@@ -13,7 +13,7 @@ import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { OMIT_ARIA, popupControls } from "../../utils/aria.js";
 import type { SelectProps } from "./Select.types.js";
-import "./Select.css";
+import "@ui-organized/core/components/Select/Select.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 export function Select({

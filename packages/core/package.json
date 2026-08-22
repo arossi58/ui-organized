@@ -32,6 +32,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
     },
+    "./contract": {
+      "types": "./dist/contract.d.ts",
+      "import": "./dist/contract.mjs",
+      "require": "./dist/contract.js"
+    },
     "./components/*": "./dist/components/*",
     "./typography.css": "./dist/typography.css",
     "./styles.css": "./dist/styles.css",
@@ -60,6 +65,7 @@
     "class-variance-authority": "^0.7.0"
   },
   "devDependencies": {
+    "@types/node": "^20.0.0",
     "@ui-organized/tsconfig": "workspace:*",
     "tsup": "^8.0.0",
     "tsx": "^4.0.0",

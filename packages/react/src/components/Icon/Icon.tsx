@@ -4,7 +4,7 @@ import { useIconConfig } from "../../context/IconContext.js";
 import { getIconSet, registeredLibraries, type IconSet } from "../../icons/registry.js";
 import { warnMissingIconSet } from "./warnMissingIconSet.js";
 import type { IconProps } from "./Icon.types.js";
-import "./Icon.css";
+import "@ui-organized/core/components/Icon/Icon.css";
 
 /** The icon libraries (lucide/tabler/heroicons) all render in a 24-unit viewBox. */
 const ICON_VIEWBOX = 24;

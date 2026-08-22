@@ -2,7 +2,7 @@ import * as React from "react";
 import { clsx } from "clsx";
 import { MenubarContext } from "./MenubarContext.js";
 import type { MenubarProps } from "./Menubar.types.js";
-import "./Menubar.css";
+import "@ui-organized/core/components/Menubar/Menubar.css";
 
 /**
  * Horizontal container for a row of menus. Place the existing `Menu` components

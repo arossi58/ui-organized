@@ -5,7 +5,7 @@ import {
   VARIABLES_CSS,
   deriveContract,
   tokenValues,
-} from "../scripts/token-contract";
+} from "./contract.js";
 
 /**
  * Guards the token contract — the set of CSS custom properties this library

@@ -4,7 +4,7 @@ import { buttonStyles } from "./Button.styles.js";
 import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS } from "../controlSize.js";
 import type { ButtonProps } from "./Button.types.js";
-import "./Button.css";
+import "@ui-organized/core/components/Button/Button.css";
 
 export function Button({
   intent,

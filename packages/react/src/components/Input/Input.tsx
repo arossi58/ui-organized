@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { inputFieldStyles } from "./Input.styles.js";
 import { FieldError } from "../FieldError/index.js";
 import type { InputProps } from "./Input.types.js";
-import "./Input.css";
+import "@ui-organized/core/components/Input/Input.css";
 
 export function Input({
   label,

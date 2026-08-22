@@ -6,7 +6,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { colorPickerStyles } from "./ColorPicker.styles.js";
 import type { ColorPickerProps } from "./ColorPicker.types.js";
-import "./ColorPicker.css";
+import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 const DEFAULT_COLOR = "#000000";

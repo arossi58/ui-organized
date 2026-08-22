@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { timerStyles } from "./Timer.styles.js";
 import type { TimerProps, TimerPart } from "./Timer.types.js";
-import "./Timer.css";
+import "@ui-organized/core/components/Timer/Timer.css";
 
 const DEFAULT_PARTS: TimerPart[] = ["hours", "minutes", "seconds"];
 

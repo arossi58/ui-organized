@@ -4,7 +4,7 @@ import { toggleStyles } from "./Toggle.styles.js";
 import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS } from "../controlSize.js";
 import type { ToggleProps, ToggleGroupProps } from "./Toggle.types.js";
-import "./Toggle.css";
+import "@ui-organized/core/components/Toggle/Toggle.css";
 
 /** A two-state button that can be on or off. */
 export function Toggle({

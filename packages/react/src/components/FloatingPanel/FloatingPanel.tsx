@@ -11,7 +11,7 @@ import type {
   FloatingPanelBodyProps,
   FloatingPanelCloseProps,
 } from "./FloatingPanel.types.js";
-import "./FloatingPanel.css";
+import "@ui-organized/core/components/FloatingPanel/FloatingPanel.css";
 import { useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Header affordances stay a fixed small edge — they mark the chrome rather

@@ -5,7 +5,7 @@ import { rangeStyles } from "./Range.styles.js";
 import { FieldError } from "../FieldError/index.js";
 import { OMIT_ARIA } from "../../utils/aria.js";
 import type { RangeProps } from "./Range.types.js";
-import "./Range.css";
+import "@ui-organized/core/components/Range/Range.css";
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);

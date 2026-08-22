@@ -5,7 +5,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { ratingGroupStyles } from "./RatingGroup.styles.js";
 import type { RatingGroupProps } from "./RatingGroup.types.js";
-import "./RatingGroup.css";
+import "@ui-organized/core/components/RatingGroup/RatingGroup.css";
 
 const DEFAULT_COUNT = 5;
 

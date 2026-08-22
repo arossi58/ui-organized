@@ -29,6 +29,13 @@ export default defineConfig({
   // react/react-dom and the icon peers are externalised from peerDependencies
   // automatically; react is named here to match the previous CLI invocation.
   external: ["react"],
+  // Component CSS now lives in @ui-organized/core, but tsup externalises every
+  // dependency by default — which for a stylesheet means the import survives
+  // into the output and \`dist/index.css\` comes out empty, silently breaking the
+  // \`@ui-organized/react/styles\` entry point. Only the CSS subpaths are pulled
+  // back in; the JS API stays external so the variant recipes are not duplicated
+  // into this bundle.
+  noExternal: [/^@ui-organized\/core\/(components\/|typography\.css)/],
   // Shared modules become a chunk both entries import, rather than being inlined
   // twice. The icon registry doesn't depend on this — it's keyed on globalThis
   // precisely because the CJS build can't split — but it keeps the ESM output

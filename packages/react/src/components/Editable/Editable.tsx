@@ -4,7 +4,7 @@ import { Button } from "../Button/index.js";
 import { FieldError } from "../FieldError/index.js";
 import { editableStyles } from "./Editable.styles.js";
 import type { EditableProps } from "./Editable.types.js";
-import "./Editable.css";
+import "@ui-organized/core/components/Editable/Editable.css";
 
 export function Editable({
   label,

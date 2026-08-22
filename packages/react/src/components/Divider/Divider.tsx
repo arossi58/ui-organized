@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import { dividerStyles } from "./Divider.styles.js";
 import type { DividerProps } from "./Divider.types.js";
-import "./Divider.css";
+import "@ui-organized/core/components/Divider/Divider.css";
 
 // A thin visual rule for separating content or controls. Renders in
 // `surface/overlay-tertiary` to match the design-system Divider used inside

@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Menu, MenuTrigger, MenuContent, MenuItem } from "../Menu/index.js";
 import type { PaginationProps } from "./Pagination.types.js";
-import "./Pagination.css";
+import "@ui-organized/core/components/Pagination/Pagination.css";
 
 type Ellipsis = { type: "ellipsis"; pages: number[] };
 type PageItem = number | Ellipsis;

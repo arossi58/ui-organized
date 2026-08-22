@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { avatarStyles } from "./Avatar.styles.js";
 import { Icon } from "../Icon/index.js";
 import type { AvatarProps } from "./Avatar.types.js";
-import "./Avatar.css";
+import "@ui-organized/core/components/Avatar/Avatar.css";
 
 const ICON_SIZE: Record<NonNullable<AvatarProps["size"]>, number> = {
   xs: 14,

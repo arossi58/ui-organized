@@ -6,7 +6,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { datePickerStyles } from "./DatePicker.styles.js";
 import type { DatePickerProps } from "./DatePicker.types.js";
-import "./DatePicker.css";
+import "@ui-organized/core/components/DatePicker/DatePicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Weekday header and navigation glyphs stay one step below the cell text. */

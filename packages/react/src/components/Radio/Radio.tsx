@@ -5,7 +5,7 @@ import { radioGroupStyles } from "./Radio.styles.js";
 import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA } from "../../utils/aria.js";
 import type { RadioGroupProps } from "./Radio.types.js";
-import "./Radio.css";
+import "@ui-organized/core/components/Radio/Radio.css";
 
 export function RadioGroup({
   options,

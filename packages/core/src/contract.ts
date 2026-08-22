@@ -16,7 +16,7 @@
  * same file to assert a generated theme declares every name in it — the check
  * that would have caught the original bug.
  *
- * Run as `pnpm --filter @ui-organized/react gen:contract`. Paths are relative to
+ * Run as `pnpm --filter @ui-organized/core gen:contract`. Paths are relative to
  * the package root, which is the cwd for both that script and vitest.
  */
 
@@ -25,6 +25,13 @@ import { join } from "node:path";
 
 export const SRC_DIR = "src";
 export const CONTRACT_PATH = "token-contract.json";
+/**
+ * `@ui-organized/react` publishes its own copy at `./token-contract.json`, and
+ * `@ui-organized/cli` reads that file out of a consumer's installed package at
+ * runtime. The stylesheets it is derived from live here now, so this script
+ * writes both and the checked-in copies are asserted identical.
+ */
+export const MIRROR_PATHS = ["../react/token-contract.json"];
 export const VARIABLES_CSS = "../tokens/output/variables.css";
 
 /**
@@ -171,15 +178,11 @@ export function writeContract(): string[] {
   const { required } = deriveContract();
   const body = {
     $comment:
-      "GENERATED — do not edit. Every CSS custom property @ui-organized/react consumes but does not define; a theme must supply all of them. Regenerate with `pnpm --filter @ui-organized/react gen:contract`.",
+      "GENERATED — do not edit. Every CSS custom property the ui-organized component stylesheets consume but do not define; a theme must supply all of them. Regenerate with `pnpm --filter @ui-organized/core gen:contract`.",
     tokens: required,
   };
-  writeFileSync(CONTRACT_PATH, JSON.stringify(body, null, 2) + "\n", "utf8");
+  const json = JSON.stringify(body, null, 2) + "\n";
+  for (const path of [CONTRACT_PATH, ...MIRROR_PATHS]) writeFileSync(path, json, "utf8");
   return required;
 }
 
-// Entry point when run directly (`tsx scripts/token-contract.ts`).
-if (process.argv[1]?.endsWith("token-contract.ts")) {
-  const tokens = writeContract();
-  console.log(`✓ ${CONTRACT_PATH} — ${tokens.length} tokens a theme must supply`);
-}

@@ -5,7 +5,7 @@ import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { tourStyles } from "./Tour.styles.js";
 import type { TourProps } from "./Tour.types.js";
-import "./Tour.css";
+import "@ui-organized/core/components/Tour/Tour.css";
 import { useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 const CLOSE_ICON_SIZE = 16;

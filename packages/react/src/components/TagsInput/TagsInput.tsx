@@ -4,7 +4,7 @@ import { Icon } from "../Icon/Icon.js";
 import { FieldError } from "../FieldError/index.js";
 import { tagsInputStyles } from "./TagsInput.styles.js";
 import type { TagsInputProps } from "./TagsInput.types.js";
-import "./TagsInput.css";
+import "@ui-organized/core/components/TagsInput/TagsInput.css";
 
 /** Delete affordance inside a tag — always the small edge, at every control
  *  size, because it sits inside the chip rather than beside it. */

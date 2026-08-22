@@ -5,7 +5,7 @@ import { Icon } from "../Icon/Icon.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { clipboardStyles } from "./Clipboard.styles.js";
 import type { ClipboardProps } from "./Clipboard.types.js";
-import "./Clipboard.css";
+import "@ui-organized/core/components/Clipboard/Clipboard.css";
 
 export function Clipboard({
   value,

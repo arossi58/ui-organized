@@ -21,10 +21,11 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: {
     index: "src/index.ts",
+    contract: "src/contract.ts",
     styles: "src/styles.ts",
   },
   format: ["esm", "cjs"],
-  dts: { entry: "src/index.ts" },
+  dts: { entry: ["src/index.ts", "src/contract.ts"] },
   splitting: false,
   sourcemap: false,
   clean: true,

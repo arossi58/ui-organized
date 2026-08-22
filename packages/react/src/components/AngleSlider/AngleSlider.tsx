@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { FieldError } from "../FieldError/index.js";
 import { angleSliderStyles } from "./AngleSlider.styles.js";
 import type { AngleSliderProps } from "./AngleSlider.types.js";
-import "./AngleSlider.css";
+import "@ui-organized/core/components/AngleSlider/AngleSlider.css";
 
 export function AngleSlider({
   label,

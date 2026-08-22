@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { carouselStyles } from "./Carousel.styles.js";
 import type { CarouselProps } from "./Carousel.types.js";
-import "./Carousel.css";
+import "@ui-organized/core/components/Carousel/Carousel.css";
 
 /**
  * Default gap between slides.

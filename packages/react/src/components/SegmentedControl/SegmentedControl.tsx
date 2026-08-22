@@ -4,7 +4,7 @@ import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA } from "../../utils/aria.js";
 import { segmentedControlStyles } from "./SegmentedControl.styles.js";
 import type { SegmentedControlProps } from "./SegmentedControl.types.js";
-import "./SegmentedControl.css";
+import "@ui-organized/core/components/SegmentedControl/SegmentedControl.css";
 
 /** Leading icons render at 16px across every size. */
 const ICON_SIZE = 16;

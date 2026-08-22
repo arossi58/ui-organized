@@ -12,8 +12,8 @@ import type {
   SheetFooterProps,
 } from "./Sheet.types.js";
 // Reuses the Dialog chrome (backdrop, title/description/footer/close).
-import "../Dialog/Dialog.css";
-import "./Sheet.css";
+import "@ui-organized/core/components/Dialog/Dialog.css";
+import "@ui-organized/core/components/Sheet/Sheet.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { popupControls } from "../../utils/aria.js";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";

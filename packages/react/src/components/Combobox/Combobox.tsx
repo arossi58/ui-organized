@@ -12,7 +12,7 @@ import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { ComboboxProps } from "./Combobox.types.js";
-import "./Combobox.css";
+import "@ui-organized/core/components/Combobox/Combobox.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 // Module-level so `useFilter`'s memo key is stable (it keys on the props object

@@ -4,7 +4,7 @@ import { Button } from "../Button/index.js";
 import { FieldError } from "../FieldError/index.js";
 import { signaturePadStyles } from "./SignaturePad.styles.js";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
-import "./SignaturePad.css";
+import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
 
 const DEFAULT_STROKE_WIDTH = 2;
 
