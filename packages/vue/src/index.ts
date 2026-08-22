@@ -9,6 +9,7 @@ export { Icon } from "./components/Icon/index.js";
 export type { IconComponent, IconProps } from "./components/Icon/index.js";
 
 export { default as IconProvider } from "./context/IconProvider.vue";
+export type { IconProviderProps } from "./context/IconProvider.types.js";
 export { provideIconConfig, useIconConfig } from "./context/iconContext.js";
 export type { IconConfig, IconConfigRef } from "./context/iconContext.js";
 
