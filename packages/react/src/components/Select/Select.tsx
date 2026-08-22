@@ -10,7 +10,7 @@ import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, selectFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { OMIT_ARIA, popupControls } from "../../utils/aria.js";
+import { OMIT_ARIA, popupControls } from "@ui-organized/core";
 import type { SelectProps } from "./Select.types.js";
 import "@ui-organized/core/components/Select/Select.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";

@@ -17,7 +17,7 @@ import type {
 } from "./Menu.types.js";
 import "@ui-organized/core/components/Menu/Menu.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useInMenubar } from "../Menubar/MenubarContext.js";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.

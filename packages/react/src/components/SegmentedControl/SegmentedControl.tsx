@@ -1,7 +1,7 @@
 import { SegmentGroup as ArkSegmentGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { OMIT_ARIA } from "../../utils/aria.js";
+import { OMIT_ARIA } from "@ui-organized/core";
 import { segmentedControlStyles } from "@ui-organized/core";
 import type { SegmentedControlProps } from "./SegmentedControl.types.js";
 import "@ui-organized/core/components/SegmentedControl/SegmentedControl.css";

@@ -13,7 +13,7 @@ import type {
 } from "./Dialog.types.js";
 import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Dialog root — controls open state. */

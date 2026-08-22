@@ -1,7 +1,7 @@
 import { Checkbox as ArkCheckbox } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
-import { OMIT_ARIA } from "../../utils/aria.js";
+import { OMIT_ARIA } from "@ui-organized/core";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
 

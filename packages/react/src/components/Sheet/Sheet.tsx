@@ -15,7 +15,7 @@ import type {
 import "@ui-organized/core/components/Dialog/Dialog.css";
 import "@ui-organized/core/components/Sheet/Sheet.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */

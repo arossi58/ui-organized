@@ -19,6 +19,14 @@
  * `aria-controls` names content that isn't mounted. A dangling IDREF is an ARIA
  * error (axe's `aria-valid-attr-value`) and it costs the control its accessible
  * name, because the reference wins over any `aria-label` beside it.
+ *
+ * This lives here because the *reason* it works is zag's `mergeProps`, which is
+ * shared by every Ark framework package — but the *other* half is the renderer
+ * dropping a `null` attribute, which is a per-framework guarantee. React does.
+ * Vue and Svelte 5 are believed to, and Angular's host bindings are a different
+ * mechanism entirely. Each framework library must assert this with axe before
+ * relying on it: the failure is silent, and it costs a control its accessible
+ * name rather than throwing.
  */
 export const OMIT_ARIA = null as unknown as undefined;
 

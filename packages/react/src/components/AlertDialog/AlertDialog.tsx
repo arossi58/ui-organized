@@ -15,7 +15,7 @@ import type {
 // Reuses the Dialog chrome (backdrop, popup sizing, title/description/footer/close).
 import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** AlertDialog root — a focus-trapping confirm dialog dismissed via its actions. */

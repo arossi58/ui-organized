@@ -3,7 +3,7 @@ import { RadioGroup as ArkRadioGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { radioGroupStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { OMIT_ARIA } from "../../utils/aria.js";
+import { OMIT_ARIA } from "@ui-organized/core";
 import type { RadioGroupProps } from "./Radio.types.js";
 import "@ui-organized/core/components/Radio/Radio.css";
 

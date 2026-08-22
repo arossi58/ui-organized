@@ -11,6 +11,18 @@
 export { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS } from "./controlSize.js";
 export type { ControlSize } from "./controlSize.js";
 
+export { OMIT_ARIA, popupControls } from "./aria.js";
+
+export { getPageItems, range, withEllipsisPages } from "./pagination.js";
+export type { Ellipsis, PageItem } from "./pagination.js";
+
+export {
+  addDays, addMonths, clampYMD, compareYMD, dateToYMD, isSameMonth, isSameYMD,
+  isWithin, monthGrid, monthLabel, monthName, pad2, parseISODate, startOfMonth,
+  toISODate, todayYMD, weekdayLabels, ymdToDate,
+} from "./date/dateUtils.js";
+export type { YMD } from "./date/dateUtils.js";
+
 export { accordionStyles } from "./components/Accordion/Accordion.styles.js";
 export type { AccordionVariants } from "./components/Accordion/Accordion.styles.js";
 export { alertStyles } from "./components/Alert/Alert.styles.js";

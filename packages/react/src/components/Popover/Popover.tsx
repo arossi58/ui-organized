@@ -11,7 +11,7 @@ import type {
 } from "./Popover.types.js";
 import "@ui-organized/core/components/Popover/Popover.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import {
   useContainedPopoverProps,
   useContainedPositioning,

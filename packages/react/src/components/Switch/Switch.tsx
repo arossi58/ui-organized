@@ -1,6 +1,6 @@
 import { Switch as ArkSwitch } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { OMIT_ARIA } from "../../utils/aria.js";
+import { OMIT_ARIA } from "@ui-organized/core";
 import type { SwitchProps } from "./Switch.types.js";
 import "@ui-organized/core/components/Switch/Switch.css";
 
