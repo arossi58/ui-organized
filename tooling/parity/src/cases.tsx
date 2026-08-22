@@ -10,6 +10,8 @@ import {
   Switch as RSwitch,
   Tag as RTag,
   Avatar as RAvatar,
+  Input as RInput,
+  FieldError as RFieldError,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -18,6 +20,8 @@ import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
 import TagFixture from "./fixtures/TagFixture.svelte";
 import SwitchFixture from "./fixtures/SwitchFixture.svelte";
 import AvatarFixture from "./fixtures/AvatarFixture.svelte";
+import InputFixture from "./fixtures/InputFixture.svelte";
+import FieldErrorFixture from "./fixtures/FieldErrorFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -155,6 +159,37 @@ export const SPECS: ParitySpec[] = [
         props: { shape, name: "Ada Lovelace" },
       })),
       { name: "with image", props: { src: "/a.png", name: "Ada Lovelace" } },
+    ],
+  },
+  {
+    component: "FieldError",
+    // React takes the message as children; Svelte takes it as `message`,
+    // because a snippet is opaque and cannot be tested for emptiness.
+    react: ({ message, ...p }) => <RFieldError {...p}>{message}</RFieldError>,
+    svelte: FieldErrorFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "with message", props: { message: "Required" } },
+      { name: "empty renders nothing", props: { message: "" } },
+    ],
+  },
+  {
+    component: "Input",
+    react: (p) => <RInput {...p} />,
+    svelte: InputFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "with label", props: { label: "Email" } },
+      { name: "required", props: { label: "Email", required: true } },
+      { name: "helper text", props: { label: "Email", helperText: "We never share it" } },
+      // The error path replaces the helper text and drives [data-invalid]
+      // through every part of the field.
+      { name: "error message", props: { label: "Email", error: "Required" } },
+      { name: "invalid without message", props: { label: "Email", error: true } },
+      { name: "helper hidden by error", props: { label: "E", helperText: "H", error: "Bad" } },
+      ...(["sm", "md", "lg"] as const).map((size) => ({ name: `size/${size}`, props: { size } })),
+      { name: "disabled", props: { label: "Email", disabled: true } },
+      { name: "placeholder", props: { placeholder: "you@example.com" } },
+      { name: "type=email", props: { type: "email" } },
     ],
   },
 ];

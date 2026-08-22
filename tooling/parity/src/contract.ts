@@ -27,6 +27,19 @@ export interface ElementContract {
   classes: string[];
   /** `aria-*`, `role`, and the `data-*` attributes the stylesheets select on. */
   attributes: Record<string, string>;
+  /**
+   * This element's own text — its direct child text nodes only, collapsed and
+   * trimmed. Not the subtree's, which would fold every descendant's text into
+   * every ancestor and turn one difference into a cascade of failures.
+   *
+   * Per-element is also the only granularity that survives the two renderers'
+   * whitespace habits. JSX strips the newlines around `{label}`; Svelte keeps
+   * them, so the same label is `"Email"` in one and `"\n  Email\n"` in the
+   * other. Neither difference is visible — a browser collapses both — and
+   * trimming each node makes them comparable without hiding a real change to
+   * the text itself.
+   */
+  text: string;
 }
 
 /**
@@ -101,43 +114,19 @@ export function contractOf(html: string): ElementContract[] {
     for (const attr of el.attributes) {
       if (isContractAttribute(attr.name)) attributes[attr.name] = applyIdMap(attr.value, ids);
     }
+    const ownText = [...el.childNodes]
+      .filter((n) => n.nodeType === 3 /* TEXT_NODE */)
+      .map((n) => (n.textContent ?? "").replace(/\s+/g, " ").trim())
+      .filter(Boolean)
+      .join(" ");
+
     out.push({
       tag: el.tagName.toLowerCase(),
       classes: [...el.classList].sort(),
       attributes,
+      text: ownText,
     });
   }
   return out;
 }
 
-/**
- * The visible text, so a dropped label or a missing icon is caught too.
- *
- * Whitespace-only text nodes are removed first. JSX strips the newlines between
- * sibling elements and Svelte keeps them, so `<CardHeader>` / `<CardBody>` /
- * `<CardFooter>` written the same way in both produce "HeaderBodyFooter" in one
- * and "Header Body Footer" in the other. That difference is markup formatting,
- * not content, and the browser collapses it to nothing visible between two block
- * elements anyway.
- *
- * The cost is that a deliberate single space *between two inline elements* would
- * not be compared. Nothing in the library relies on one — spacing between parts
- * is `gap` in the stylesheet, which is exactly the kind of thing the class
- * comparison covers.
- */
-export function textOf(html: string): string {
-  const dom = new JSDOM(`<div id="root">${html}</div>`);
-  const root = dom.window.document.getElementById("root")!;
-  stripComments(root);
-
-  const walker = root.ownerDocument.createTreeWalker(root, 4 /* SHOW_TEXT */);
-  const blank: Text[] = [];
-  let node = walker.nextNode();
-  while (node) {
-    if (!(node.textContent ?? "").trim()) blank.push(node as Text);
-    node = walker.nextNode();
-  }
-  for (const text of blank) text.remove();
-
-  return (root.textContent ?? "").replace(/\s+/g, " ").trim();
-}

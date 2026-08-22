@@ -1,13 +1,7 @@
 import type { HTMLAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
-export interface AvatarProps extends Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children" | "id"> {
-    /**
-     * Narrowed from Svelte's `string | null` because Ark's root props accept only
-     * `string | undefined`, and the rest of these props are spread straight onto
-     * it. Every component in this package that forwards attributes to an Ark part
-     * needs the same narrowing.
-     */
-    id?: string;
+import type { ArkForwardable } from "../../types.js";
+export interface AvatarProps extends ArkForwardable<Omit<HTMLAttributes<HTMLSpanElement>, "class" | "children">> {
     /** Image source URL. When omitted (or it fails to load) the fallback is shown. */
     src?: string;
     /** Alt text for the image. Falls back to `name`. */

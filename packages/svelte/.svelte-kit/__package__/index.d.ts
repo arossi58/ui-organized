@@ -19,4 +19,8 @@ export { Switch } from "./components/Switch/index.js";
 export type { SwitchProps } from "./components/Switch/index.js";
 export { Avatar } from "./components/Avatar/index.js";
 export type { AvatarProps } from "./components/Avatar/index.js";
+export { FieldError } from "./components/FieldError/index.js";
+export type { FieldErrorProps } from "./components/FieldError/index.js";
+export { Input } from "./components/Input/index.js";
+export type { InputProps } from "./components/Input/index.js";
 //# sourceMappingURL=index.d.ts.map

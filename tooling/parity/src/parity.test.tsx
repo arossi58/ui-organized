@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { render as renderSvelte } from "svelte/server";
 import { SPECS } from "./cases.js";
-import { contractOf, textOf } from "./contract.js";
+import { contractOf } from "./contract.js";
 
 /**
  * Same props in, same DOM contract out — across libraries that share one
@@ -28,6 +28,5 @@ describe.each(SPECS)("$component", ({ react, svelte, cases }) => {
     }).body;
 
     expect(contractOf(svelteHtml), "DOM contract").toEqual(contractOf(reactHtml));
-    expect(textOf(svelteHtml), "rendered text").toEqual(textOf(reactHtml));
   });
 });

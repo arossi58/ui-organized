@@ -19,3 +19,5 @@ export { Skeleton } from "./components/Skeleton/index.js";
 export { Tag } from "./components/Tag/index.js";
 export { Switch } from "./components/Switch/index.js";
 export { Avatar } from "./components/Avatar/index.js";
+export { FieldError } from "./components/FieldError/index.js";
+export { Input } from "./components/Input/index.js";
