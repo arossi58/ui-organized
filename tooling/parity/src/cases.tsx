@@ -32,6 +32,11 @@ import {
   DialogFooter as RDialogFooter,
   Tooltip as RTooltip,
   Select as RSelect,
+  Field as RField,
+  FieldLabel as RFieldLabel,
+  FieldControl as RFieldControl,
+  FieldDescription as RFieldDescription,
+  FieldErrorMessage as RFieldErrorMessage,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -52,6 +57,7 @@ import PopoverFixture from "./fixtures/PopoverFixture.svelte";
 import DialogFixture from "./fixtures/DialogFixture.svelte";
 import TooltipFixture from "./fixtures/TooltipFixture.svelte";
 import SelectFixture from "./fixtures/SelectFixture.svelte";
+import FieldFixture from "./fixtures/FieldFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -531,5 +537,30 @@ export const SPECS: ParitySpec[] = [
         ...SIZES.map((size) => ({ name: `size/${size}`, props: { options, size, label: "F" } })),
       ];
     })(),
+  },
+  {
+    component: "Field",
+    react: ({ errorMessage, ...p }) => (
+      <RField {...p}>
+        <RFieldLabel>Email</RFieldLabel>
+        <RFieldControl />
+        <RFieldDescription>Helper</RFieldDescription>
+        {errorMessage ? <RFieldErrorMessage>{errorMessage}</RFieldErrorMessage> : null}
+      </RField>
+    ),
+    svelte: FieldFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "stacked", props: { layout: "stacked" } },
+      { name: "inline", props: { layout: "inline" } },
+      // Validity flows to every part through aria-describedby and [data-invalid],
+      // which is the whole reason the parts go through Ark rather than plain tags.
+      { name: "invalid", props: { invalid: true } },
+      { name: "invalid with message", props: { invalid: true, errorMessage: "Required" } },
+      { name: "error hidden when valid", props: { errorMessage: "Required" } },
+      { name: "disabled", props: { disabled: true } },
+      { name: "required", props: { required: true } },
+      { name: "readOnly", props: { readOnly: true } },
+    ],
   },
 ];
