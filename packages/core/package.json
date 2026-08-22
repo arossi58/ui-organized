@@ -1,0 +1,69 @@
+{
+  "name": "@ui-organized/core",
+  "version": "0.1.0",
+  "description": "Framework-neutral foundation for the ui-organized design system: component stylesheets, variant recipes, and pure helpers shared by the React, Svelte, Vue and Angular libraries.",
+  "keywords": [
+    "design-system",
+    "css",
+    "design-tokens",
+    "variants",
+    "framework-agnostic"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./components/*": "./dist/components/*",
+    "./typography.css": "./dist/typography.css",
+    "./styles.css": "./dist/styles.css",
+    "./styles": "./dist/styles.css",
+    "./token-contract.json": "./token-contract.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "token-contract.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/build-css.mjs",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "gen:contract": "tsx scripts/token-contract.ts",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0"
+  },
+  "devDependencies": {
+    "@ui-organized/tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}
