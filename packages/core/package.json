@@ -62,6 +62,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ui-organized/utils": "workspace:*",
     "class-variance-authority": "^0.7.0"
   },
   "devDependencies": {
