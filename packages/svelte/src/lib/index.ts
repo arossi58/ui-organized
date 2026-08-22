@@ -66,3 +66,11 @@ export type { RadioGroupProps, RadioOption } from "./components/Radio/index.js";
 export { Accordion } from "./components/Accordion/index.js";
 export type { AccordionProps, AccordionItem } from "./components/Accordion/index.js";
 
+export {
+  Popover, PopoverTrigger, PopoverContent, PopoverTitle, PopoverDescription, PopoverClose,
+} from "./components/Popover/index.js";
+export type {
+  PopoverProps, PopoverTriggerProps, PopoverContentProps, PopoverTitleProps,
+  PopoverDescriptionProps, PopoverCloseProps, PopoverSide, PopoverAlign, PopoverPropsFn,
+} from "./components/Popover/index.js";
+

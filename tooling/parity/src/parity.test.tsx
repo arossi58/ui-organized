@@ -31,7 +31,7 @@ function withoutAllowed(contract: ElementContract[], allowed: string[]): Element
   }));
 }
 
-describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], stylesheets = [] }) => {
+describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], stylesheets = [], select }) => {
   const allowed = allow.map((a) => a.attribute);
 
   it.each(cases)("$name", ({ props = {} }) => {
@@ -46,10 +46,16 @@ describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], styleshe
       props: { ...shared, ...(className ? { class: className } : {}) },
     }).body;
 
-    expect(
-      withoutAllowed(contractOf(svelteHtml), allowed),
-      "DOM contract",
-    ).toEqual(withoutAllowed(contractOf(reactHtml), allowed));
+    const actual = withoutAllowed(contractOf(svelteHtml, select), allowed);
+    const expected = withoutAllowed(contractOf(reactHtml, select), allowed);
+    // A selector that matches nothing would compare two empty arrays and pass.
+    // Only meaningful when a selector is in play — a component can legitimately
+    // render nothing (FieldError with an empty message).
+    if (select) {
+      expect(expected.length, `the selector ${select} matched nothing in the React output`)
+        .toBeGreaterThan(0);
+    }
+    expect(actual, "DOM contract").toEqual(expected);
   });
 
   // An allowance is a claim that a difference is invisible. This is what makes

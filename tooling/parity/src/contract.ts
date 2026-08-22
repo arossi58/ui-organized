@@ -63,6 +63,27 @@ function normalizeIds(root: Element): Map<string, string> {
     const id = el.getAttribute("id")!;
     if (!ids.has(id)) ids.set(id, `#${next++}`);
   }
+
+  /**
+   * Zag also stamps its *machine* id onto attributes like `data-ownedby`, and
+   * that id belongs to no element — the root of a portalled component may not
+   * render one at all. Mapping element ids alone therefore leaves those
+   * references looking different when they are not: React's `:R0:` and Svelte's
+   * `s1` name the same machine.
+   *
+   * Every Ark element carries `data-scope` and `data-part`, and its id is
+   * `<scope>:<machine>:<part>`, so the machine id can be recovered by stripping
+   * the two ends off. Collect those and map them too.
+   */
+  let nextMachine = 0;
+  for (const el of root.querySelectorAll("[id][data-scope][data-part]")) {
+    const id = el.getAttribute("id")!;
+    const scope = el.getAttribute("data-scope")!;
+    const part = el.getAttribute("data-part")!;
+    if (!id.startsWith(`${scope}:`) || !id.endsWith(`:${part}`)) continue;
+    const machine = id.slice(scope.length + 1, id.length - part.length - 1);
+    if (machine && !ids.has(machine)) ids.set(machine, `@${nextMachine++}`);
+  }
   return ids;
 }
 
@@ -102,14 +123,25 @@ function stripComments(root: Element): void {
   for (const comment of found) comment.remove();
 }
 
-export function contractOf(html: string): ElementContract[] {
+/**
+ * @param select  Optional CSS selector limiting the comparison to one subtree.
+ *   Needed for portalled components: see `select` in cases.ts.
+ */
+export function contractOf(html: string, select?: string): ElementContract[] {
   const dom = new JSDOM(`<div id="root">${html}</div>`);
-  const root = dom.window.document.getElementById("root")!;
+  let root = dom.window.document.getElementById("root")!;
   stripComments(root);
-
+  // Built before scoping: a selected subtree can reference ids outside itself.
   const ids = normalizeIds(root);
+  if (select) {
+    const scoped = root.querySelector(select);
+    if (!scoped) return [];
+    root = scoped as HTMLElement;
+  }
+
   const out: ElementContract[] = [];
-  for (const el of root.querySelectorAll("*")) {
+  for (const el of [root, ...root.querySelectorAll("*")]) {
+    if (el.id === "root") continue;
     const attributes: Record<string, string> = {};
     for (const attr of el.attributes) {
       if (isContractAttribute(attr.name)) attributes[attr.name] = applyIdMap(attr.value, ids);

@@ -18,6 +18,12 @@ import {
   Progress as RProgress,
   RadioGroup as RRadioGroup,
   Accordion as RAccordion,
+  Popover as RPopover,
+  PopoverTrigger as RPopoverTrigger,
+  PopoverContent as RPopoverContent,
+  PopoverTitle as RPopoverTitle,
+  PopoverDescription as RPopoverDescription,
+  PopoverClose as RPopoverClose,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -34,6 +40,7 @@ import TextAreaFixture from "./fixtures/TextAreaFixture.svelte";
 import ProgressFixture from "./fixtures/ProgressFixture.svelte";
 import RadioGroupFixture from "./fixtures/RadioGroupFixture.svelte";
 import AccordionFixture from "./fixtures/AccordionFixture.svelte";
+import PopoverFixture from "./fixtures/PopoverFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -75,6 +82,30 @@ export interface ParitySpec {
   /** Stylesheets in @ui-organized/core this component's contract depends on. */
   stylesheets?: string[];
   allow?: ParityAllowance[];
+  /**
+   * Limit the comparison to one subtree.
+   *
+   * Only portalled components need this, and they need it for a reason worth
+   * writing down: **the two Ark packages disagree about what a Portal does under
+   * SSR.** Ark React renders portalled content inline — there is no DOM to
+   * portal into on the server — so a closed Popover still emits its positioner,
+   * content, title, description and close button. Ark Svelte renders nothing at
+   * all.
+   *
+   * Neither is wrong and neither is visible: the content is `hidden` with
+   * `data-state="closed"` either way, and it is created by the client before it
+   * can ever be seen. React even warns that its own `useLayoutEffect`
+   * positioning does not run on the server, so the placement it renders is not
+   * the placement a user gets.
+   *
+   * Static rendering therefore cannot say anything true about portalled content,
+   * and pretending otherwise would mean either a permanently red gate or an
+   * allowance broad enough to hide real bugs. What it *can* compare is the part
+   * that is not portalled — the trigger, which is where `aria-controls`,
+   * `aria-expanded` and `data-state` live. The portalled half belongs to the
+   * Playwright harness, which opens the overlay in a real browser.
+   */
+  select?: string;
 }
 
 const SIZES = ["sm", "md", "lg"] as const;
@@ -379,5 +410,40 @@ export const SPECS: ParitySpec[] = [
         },
       ];
     })(),
+  },
+  {
+    component: "Popover",
+    react: ({ contentProps = {}, ...p }) => (
+      <RPopover {...p}>
+        <RPopoverTrigger>Open</RPopoverTrigger>
+        <RPopoverContent {...contentProps}>
+          <RPopoverTitle>Title</RPopoverTitle>
+          <RPopoverDescription>Description</RPopoverDescription>
+          <RPopoverClose>Close</RPopoverClose>
+        </RPopoverContent>
+      </RPopover>
+    ),
+    svelte: PopoverFixture as unknown as ComponentType<any>,
+    // Trigger only — see `select` above for why the portalled half cannot be
+    // compared by static rendering.
+    select: '[data-part="trigger"]',
+    cases: [
+      // Closed is the state that matters most here: the content is unmounted, so
+      // Ark's aria-controls on the trigger would name nothing. popupControls
+      // drops it, and this is what pins that.
+      { name: "closed" },
+      { name: "modal", props: { modal: true } },
+      // The positioning bridge: side/align live on Content but Ark configures
+      // them on Root, so these exercise the context hand-off in both libraries.
+      ...(["top", "right", "bottom", "left"] as const).map((side) => ({
+        name: `side/${side}`,
+        props: { contentProps: { side } },
+      })),
+      ...(["start", "center", "end"] as const).map((align) => ({
+        name: `align/${align}`,
+        props: { contentProps: { align } },
+      })),
+      { name: "offsets", props: { contentProps: { sideOffset: 16, alignOffset: 4 } } },
+    ],
   },
 ];

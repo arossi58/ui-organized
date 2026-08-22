@@ -27,3 +27,4 @@ export { TextArea } from "./components/TextArea/index.js";
 export { Progress } from "./components/Progress/index.js";
 export { RadioGroup } from "./components/Radio/index.js";
 export { Accordion } from "./components/Accordion/index.js";
+export { Popover, PopoverTrigger, PopoverContent, PopoverTitle, PopoverDescription, PopoverClose, } from "./components/Popover/index.js";
