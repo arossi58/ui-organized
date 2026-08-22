@@ -65,6 +65,7 @@
     "@sveltejs/package": "^2.5.8",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@testing-library/svelte": "^5.2.0",
+    "@types/node": "^20.0.0",
     "@ui-organized/tsconfig": "workspace:*",
     "jsdom": "^29.1.1",
     "svelte": "^5.56.0",

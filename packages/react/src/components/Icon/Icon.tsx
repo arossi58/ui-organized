@@ -1,13 +1,15 @@
 import { clsx } from "clsx";
-import { adjustStrokeWidth, shouldAdjustStroke } from "@ui-organized/utils";
+import {
+  resolveIconComponent,
+  resolveIconStroke,
+  resolveIconSvgProps,
+} from "@ui-organized/core";
 import { useIconConfig } from "../../context/IconContext.js";
 import { getIconSet, registeredLibraries, type IconSet } from "../../icons/registry.js";
 import { warnMissingIconSet } from "./warnMissingIconSet.js";
+import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconProps } from "./Icon.types.js";
 import "@ui-organized/core/components/Icon/Icon.css";
-
-/** The icon libraries (lucide/tabler/heroicons) all render in a 24-unit viewBox. */
-const ICON_VIEWBOX = 24;
 
 /**
  * Foundational Icon component — the single interface for rendering icons.
@@ -49,44 +51,14 @@ export function Icon({ name, size = 24, label, className }: IconProps) {
     return null;
   }
 
-  let IconComponent: React.ComponentType<Record<string, unknown>> | undefined;
-  if (supplied) {
-    IconComponent = supplied;
-  } else if (set) {
-    // Fall back to the outline cut when a library has no solid variant for this
-    // name — Lucide ships no solid set at all.
-    IconComponent =
-      (style === "solid" ? set.solid?.[name as keyof typeof set.solid] : undefined) ??
-      set.outline[name as keyof typeof set.outline];
-  }
-
+  const IconComponent = supplied ?? resolveIconComponent(set, name as CanonicalIconName, style);
   if (!IconComponent) return null;
 
-  // Resolve the effective stroke for outline icons.
-  // baseStroke is always applied so users see their chosen weight immediately.
-  // When strokeAdjustment is on, the stroke follows the optical-compensation
-  // curve. `adjustStrokeWidth` returns the desired *visual* (screen-pixel)
-  // stroke, but lucide/tabler/heroicons all render in a 24-unit viewBox and
-  // scale strokeWidth with the rendered size — so we convert back into viewBox
-  // units (× 24 / size). Without this the size scaling is applied twice and
-  // larger icons end up thicker instead of thinner. (Matches the icon-scaler
-  // tool, which does the same screen-pixel → native-units conversion.)
-  let effectiveStroke: number | undefined;
-  if (style === "outline") {
-    if (shouldAdjustStroke(strokeAdjustment, style) && size > 0) {
-      effectiveStroke = (adjustStrokeWidth(size, baseStroke, baseSize) * ICON_VIEWBOX) / size;
-    } else {
-      effectiveStroke = baseStroke;
-    }
-  }
-
-  // Sizing and stroke props are the adapter's business — the libraries disagree
-  // (Lucide `size`/`strokeWidth`, Tabler `size`/`stroke`, Heroicons
-  // `width`/`height`/`strokeWidth`). A directly-supplied component has no
-  // adapter, so it gets the Lucide-shaped props it most likely expects.
-  const svgProps: Record<string, unknown> = set
-    ? set.svgProps(size, effectiveStroke)
-    : { size, ...(effectiveStroke !== undefined ? { strokeWidth: effectiveStroke } : {}) };
+  const svgProps = resolveIconSvgProps(
+    set,
+    size,
+    resolveIconStroke({ style, strokeAdjustment, size, baseStroke, baseSize }),
+  );
 
   return (
     <span

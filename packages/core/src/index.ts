@@ -15,6 +15,10 @@ export { OMIT_ARIA, popupControls } from "./aria.js";
 
 export { createIconRegistry } from "./icons/registry.js";
 export type { IconLibrary, IconNameMap, IconRegistry, IconSet } from "./icons/registry.js";
+export {
+  DEFAULT_ICON_CONFIG, ICON_VIEWBOX, resolveIconComponent, resolveIconStroke, resolveIconSvgProps,
+} from "./icons/resolve.js";
+export type { IconConfig, IconStyle } from "./icons/resolve.js";
 
 export { getPageItems, range, withEllipsisPages } from "./pagination.js";
 export type { Ellipsis, PageItem } from "./pagination.js";
