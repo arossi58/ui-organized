@@ -24,6 +24,13 @@ import {
   PopoverTitle as RPopoverTitle,
   PopoverDescription as RPopoverDescription,
   PopoverClose as RPopoverClose,
+  Dialog as RDialog,
+  DialogTrigger as RDialogTrigger,
+  DialogContent as RDialogContent,
+  DialogTitle as RDialogTitle,
+  DialogDescription as RDialogDescription,
+  DialogFooter as RDialogFooter,
+  Tooltip as RTooltip,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -41,6 +48,8 @@ import ProgressFixture from "./fixtures/ProgressFixture.svelte";
 import RadioGroupFixture from "./fixtures/RadioGroupFixture.svelte";
 import AccordionFixture from "./fixtures/AccordionFixture.svelte";
 import PopoverFixture from "./fixtures/PopoverFixture.svelte";
+import DialogFixture from "./fixtures/DialogFixture.svelte";
+import TooltipFixture from "./fixtures/TooltipFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -444,6 +453,41 @@ export const SPECS: ParitySpec[] = [
         props: { contentProps: { align } },
       })),
       { name: "offsets", props: { contentProps: { sideOffset: 16, alignOffset: 4 } } },
+    ],
+  },
+  {
+    component: "Dialog",
+    react: ({ contentProps = {}, ...p }) => (
+      <RDialog {...p}>
+        <RDialogTrigger>Open</RDialogTrigger>
+        <RDialogContent {...contentProps}>
+          <RDialogTitle>Title</RDialogTitle>
+          <RDialogDescription>Description</RDialogDescription>
+          <RDialogFooter>Footer</RDialogFooter>
+        </RDialogContent>
+      </RDialog>
+    ),
+    svelte: DialogFixture as unknown as ComponentType<any>,
+    // Trigger only — the rest is portalled. See `select` above.
+    select: '[data-part="trigger"]',
+    cases: [
+      { name: "closed" },
+      { name: "modal", props: { modal: true } },
+      { name: "non-modal", props: { modal: false } },
+    ],
+  },
+  {
+    component: "Tooltip",
+    react: (p) => <RTooltip {...(p as any)}>Hover me</RTooltip>,
+    svelte: TooltipFixture as unknown as ComponentType<any>,
+    select: '[data-part="trigger"]',
+    cases: [
+      { name: "default", props: { content: "Copy" } },
+      ...(["top", "right", "bottom", "left"] as const).map((side) => ({
+        name: `side/${side}`,
+        props: { content: "Copy", side },
+      })),
+      { name: "delays", props: { content: "Copy", delay: 200, closeDelay: 100 } },
     ],
   },
 ];

@@ -28,3 +28,5 @@ export { Progress } from "./components/Progress/index.js";
 export { RadioGroup } from "./components/Radio/index.js";
 export { Accordion } from "./components/Accordion/index.js";
 export { Popover, PopoverTrigger, PopoverContent, PopoverTitle, PopoverDescription, PopoverClose, } from "./components/Popover/index.js";
+export { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, DialogFooter, } from "./components/Dialog/index.js";
+export { Tooltip, TooltipProvider } from "./components/Tooltip/index.js";

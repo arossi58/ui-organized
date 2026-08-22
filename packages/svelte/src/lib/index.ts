@@ -74,3 +74,16 @@ export type {
   PopoverDescriptionProps, PopoverCloseProps, PopoverSide, PopoverAlign, PopoverPropsFn,
 } from "./components/Popover/index.js";
 
+export {
+  Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogClose, DialogFooter,
+} from "./components/Dialog/index.js";
+export type {
+  DialogProps, DialogTriggerProps, DialogContentProps, DialogTitleProps,
+  DialogDescriptionProps, DialogCloseProps, DialogFooterProps, DialogPropsFn,
+} from "./components/Dialog/index.js";
+
+export { Tooltip, TooltipProvider } from "./components/Tooltip/index.js";
+export type {
+  TooltipProps, TooltipProviderProps, TooltipSide, TooltipAlign,
+} from "./components/Tooltip/index.js";
+
