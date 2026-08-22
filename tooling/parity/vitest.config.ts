@@ -4,10 +4,16 @@ import { svelte } from "@sveltejs/vite-plugin-svelte";
 export default defineConfig({
   plugins: [svelte({ hot: false })],
   resolve: {
-    // Both libraries are resolved the way a consumer resolves them, through
-    // their published export conditions — the point of this package is to test
-    // what ships, not what is in src/.
-    conditions: ["browser", "svelte", "import"],
+    /**
+     * Deliberately NOT "browser".
+     *
+     * Both sides are rendered server-side here, and forcing the browser
+     * condition makes `svelte` resolve to its client internals — at which point
+     * Ark's `createContext` calls the client `hasContext()` during SSR and
+     * throws `lifecycle_outside_component`. The plain components did not care;
+     * every Ark-backed one does.
+     */
+    conditions: ["svelte", "import", "node"],
   },
   test: {
     environment: "node",

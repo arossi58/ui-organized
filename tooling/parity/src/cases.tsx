@@ -7,13 +7,17 @@ import {
   CardFooter as RCardFooter,
   Divider as RDivider,
   Skeleton as RSkeleton,
+  Switch as RSwitch,
   Tag as RTag,
+  Avatar as RAvatar,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
 import DividerFixture from "./fixtures/DividerFixture.svelte";
 import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
 import TagFixture from "./fixtures/TagFixture.svelte";
+import SwitchFixture from "./fixtures/SwitchFixture.svelte";
+import AvatarFixture from "./fixtures/AvatarFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -117,6 +121,40 @@ export const SPECS: ParitySpec[] = [
       ),
       ...SIZES.map((size) => ({ name: `size/${size}`, props: { size } })),
       { name: "subdued", props: { emphasized: false } },
+    ],
+  },
+  {
+    component: "Switch",
+    react: (p) => <RSwitch {...p} />,
+    svelte: SwitchFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "with label", props: { label: "Wifi" } },
+      // The case OMIT_ARIA exists for: no Label part is rendered, so Ark's
+      // aria-labelledby would name an element that does not exist.
+      { name: "no label, aria-label", props: { "aria-label": "Wifi" } },
+      { name: "checked", props: { defaultChecked: true } },
+      { name: "disabled", props: { disabled: true, label: "Wifi" } },
+      { name: "required", props: { required: true, label: "Wifi" } },
+      { name: "named", props: { name: "wifi", label: "Wifi" } },
+    ],
+  },
+  {
+    component: "Avatar",
+    react: (p) => <RAvatar {...p} />,
+    svelte: AvatarFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "initials from name", props: { name: "Ada Lovelace" } },
+      { name: "single name", props: { name: "Ada" } },
+      ...(["xs", "sm", "md", "lg", "xl"] as const).map((size) => ({
+        name: `size/${size}`,
+        props: { size, name: "Ada Lovelace" },
+      })),
+      ...(["circle", "rounded", "square"] as const).map((shape) => ({
+        name: `shape/${shape}`,
+        props: { shape, name: "Ada Lovelace" },
+      })),
+      { name: "with image", props: { src: "/a.png", name: "Ada Lovelace" } },
     ],
   },
 ];

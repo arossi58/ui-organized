@@ -1,0 +1,3 @@
+export { default as Avatar } from "./Avatar.svelte";
+export type { AvatarProps } from "./Avatar.types.js";
+//# sourceMappingURL=index.d.ts.map

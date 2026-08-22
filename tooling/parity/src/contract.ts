@@ -29,9 +29,42 @@ export interface ElementContract {
   attributes: Record<string, string>;
 }
 
+/**
+ * Replace generated ids with stable positional placeholders.
+ *
+ * Ark asks the framework for unique ids, and the frameworks answer differently —
+ * React 18 produces `switch:r0:input`, Svelte 5 produces `switch:s1:input`. The
+ * literal values are not the contract and never could be. What *is* the contract
+ * is the relationship: that this input's `aria-labelledby` points at that label
+ * and not at something else, or at nothing.
+ *
+ * So every id in the document is numbered in document order, and every reference
+ * to one is rewritten to its number. A dangling reference — the failure
+ * `OMIT_ARIA` exists to prevent — survives this untouched, because it points at
+ * an id that was never issued and so has no placeholder.
+ */
+function normalizeIds(root: Element): Map<string, string> {
+  const ids = new Map<string, string>();
+  let next = 0;
+  for (const el of root.querySelectorAll("[id]")) {
+    const id = el.getAttribute("id")!;
+    if (!ids.has(id)) ids.set(id, `#${next++}`);
+  }
+  return ids;
+}
+
+function applyIdMap(value: string, ids: Map<string, string>): string {
+  // Longest first, so one id that is a prefix of another cannot shadow it.
+  const keys = [...ids.keys()].sort((a, b) => b.length - a.length);
+  let out = value;
+  for (const id of keys) out = out.split(id).join(ids.get(id)!);
+  return out;
+}
+
 /** Attributes that carry meaning for styling or assistive tech. */
 function isContractAttribute(name: string): boolean {
   return (
+    name === "id" ||
     name === "role" ||
     name === "type" ||
     name === "disabled" ||
@@ -61,11 +94,12 @@ export function contractOf(html: string): ElementContract[] {
   const root = dom.window.document.getElementById("root")!;
   stripComments(root);
 
+  const ids = normalizeIds(root);
   const out: ElementContract[] = [];
   for (const el of root.querySelectorAll("*")) {
     const attributes: Record<string, string> = {};
     for (const attr of el.attributes) {
-      if (isContractAttribute(attr.name)) attributes[attr.name] = attr.value;
+      if (isContractAttribute(attr.name)) attributes[attr.name] = applyIdMap(attr.value, ids);
     }
     out.push({
       tag: el.tagName.toLowerCase(),

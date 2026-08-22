@@ -17,3 +17,5 @@ export { Card, CardHeader, CardBody, CardFooter } from "./components/Card/index.
 export { Divider } from "./components/Divider/index.js";
 export { Skeleton } from "./components/Skeleton/index.js";
 export { Tag } from "./components/Tag/index.js";
+export { Switch } from "./components/Switch/index.js";
+export { Avatar } from "./components/Avatar/index.js";

@@ -36,3 +36,9 @@ export type { SkeletonProps } from "./components/Skeleton/index.js";
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";
 
+export { Switch } from "./components/Switch/index.js";
+export type { SwitchProps } from "./components/Switch/index.js";
+
+export { Avatar } from "./components/Avatar/index.js";
+export type { AvatarProps } from "./components/Avatar/index.js";
+
