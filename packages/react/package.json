@@ -106,7 +106,6 @@
     "@ui-organized/core": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0"
   },
   "devDependencies": {

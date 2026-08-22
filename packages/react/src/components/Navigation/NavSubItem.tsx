@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { navSubItemStyles } from "./Navigation.styles.js";
+import { navSubItemStyles } from "@ui-organized/core";
 import { useNavContext } from "./NavContext.js";
 import type { NavSubItemProps } from "./Navigation.types.js";
 import "@ui-organized/core/components/Navigation/Navigation.css";

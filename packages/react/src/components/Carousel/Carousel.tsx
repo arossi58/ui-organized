@@ -1,7 +1,7 @@
 import { Carousel as ArkCarousel } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
-import { carouselStyles } from "./Carousel.styles.js";
+import { carouselStyles } from "@ui-organized/core";
 import type { CarouselProps } from "./Carousel.types.js";
 import "@ui-organized/core/components/Carousel/Carousel.css";
 

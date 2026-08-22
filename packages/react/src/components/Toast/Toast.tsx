@@ -1,7 +1,7 @@
 import { Toast, Toaster, createToaster } from "@ark-ui/react";
 import { Icon } from "../Icon/index.js";
 import type { CanonicalIconName } from "@ui-organized/utils";
-import { toastStyles } from "./Toast.styles.js";
+import { toastStyles } from "@ui-organized/core";
 import type { ToastProviderProps, ToastOptions, ToastStatus } from "./Toast.types.js";
 import "@ui-organized/core/components/Toast/Toast.css";
 

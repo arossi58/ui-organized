@@ -1,6 +1,6 @@
 import { Field as ArkField, Fieldset as ArkFieldset } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { fieldStyles } from "./Field.styles.js";
+import { fieldStyles } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
 import type {
   FieldProps,

@@ -2,7 +2,7 @@ import { Editable as ArkEditable } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { editableStyles } from "./Editable.styles.js";
+import { editableStyles } from "@ui-organized/core";
 import type { EditableProps } from "./Editable.types.js";
 import "@ui-organized/core/components/Editable/Editable.css";
 

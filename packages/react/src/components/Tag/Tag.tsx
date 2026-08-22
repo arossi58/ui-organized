@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
-import { tagStyles } from "./Tag.styles.js";
+import { tagStyles } from "@ui-organized/core";
 import type { TagProps } from "./Tag.types.js";
 import "@ui-organized/core/components/Tag/Tag.css";
 

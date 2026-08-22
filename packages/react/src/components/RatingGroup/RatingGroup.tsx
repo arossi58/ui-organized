@@ -2,8 +2,7 @@ import { RatingGroup as ArkRatingGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { ratingGroupStyles } from "./RatingGroup.styles.js";
+import { CONTROL_ICON_SIZE, ratingGroupStyles, type ControlSize } from "@ui-organized/core";
 import type { RatingGroupProps } from "./RatingGroup.types.js";
 import "@ui-organized/core/components/RatingGroup/RatingGroup.css";
 

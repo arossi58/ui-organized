@@ -1,7 +1,7 @@
 import { FloatingPanel as ArkFloatingPanel, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { floatingPanelStyles } from "./FloatingPanel.styles.js";
+import { floatingPanelStyles } from "@ui-organized/core";
 import type {
   FloatingPanelProps,
   FloatingPanelTriggerProps,

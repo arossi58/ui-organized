@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { Listbox as ArkListbox, createListCollection } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { listboxStyles } from "./Listbox.styles.js";
+import { CONTROL_ICON_SIZE, listboxStyles, type ControlSize } from "@ui-organized/core";
 import type { ListboxProps, ListboxOption } from "./Listbox.types.js";
 import "@ui-organized/core/components/Listbox/Listbox.css";
 

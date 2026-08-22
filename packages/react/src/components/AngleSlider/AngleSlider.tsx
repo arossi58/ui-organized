@@ -1,7 +1,7 @@
 import { AngleSlider as ArkAngleSlider } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { FieldError } from "../FieldError/index.js";
-import { angleSliderStyles } from "./AngleSlider.styles.js";
+import { angleSliderStyles } from "@ui-organized/core";
 import type { AngleSliderProps } from "./AngleSlider.types.js";
 import "@ui-organized/core/components/AngleSlider/AngleSlider.css";
 

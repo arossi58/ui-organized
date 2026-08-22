@@ -3,7 +3,7 @@ import { Tour as ArkTour, useTour, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
-import { tourStyles } from "./Tour.styles.js";
+import { tourStyles } from "@ui-organized/core";
 import type { TourProps } from "./Tour.types.js";
 import "@ui-organized/core/components/Tour/Tour.css";
 import { useOverlayPortal } from "../../preview/useOverlayPortal.js";

@@ -1,6 +1,6 @@
 import { Accordion as ArkAccordion } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { accordionStyles } from "./Accordion.styles.js";
+import { accordionStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AccordionProps } from "./Accordion.types.js";
 import "@ui-organized/core/components/Accordion/Accordion.css";

@@ -1,6 +1,6 @@
 import { Tabs as ArkTabs } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { tabsStyles } from "./Tabs.styles.js";
+import { tabsStyles } from "@ui-organized/core";
 import type { TabsProps } from "./Tabs.types.js";
 import "@ui-organized/core/components/Tabs/Tabs.css";
 

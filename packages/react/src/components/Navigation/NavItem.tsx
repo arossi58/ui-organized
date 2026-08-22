@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { navItemStyles } from "./Navigation.styles.js";
+import { navItemStyles } from "@ui-organized/core";
 import { useNavContext } from "./NavContext.js";
 import type { NavItemProps } from "./Navigation.types.js";
 import "@ui-organized/core/components/Navigation/Navigation.css";

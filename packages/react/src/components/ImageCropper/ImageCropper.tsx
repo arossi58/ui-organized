@@ -1,6 +1,6 @@
 import { ImageCropper as ArkImageCropper } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { imageCropperStyles } from "./ImageCropper.styles.js";
+import { imageCropperStyles } from "@ui-organized/core";
 import type { ImageCropperProps } from "./ImageCropper.types.js";
 import "@ui-organized/core/components/ImageCropper/ImageCropper.css";
 

@@ -2,8 +2,7 @@ import { useMemo } from "react";
 import { TreeView as ArkTreeView, createTreeCollection } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { treeViewStyles } from "./TreeView.styles.js";
+import { CONTROL_ICON_SIZE, treeViewStyles, type ControlSize } from "@ui-organized/core";
 import type { TreeViewProps, TreeViewNode } from "./TreeView.types.js";
 import "@ui-organized/core/components/TreeView/TreeView.css";
 

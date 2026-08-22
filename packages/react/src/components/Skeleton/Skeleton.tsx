@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { skeletonStyles } from "./Skeleton.styles.js";
+import { skeletonStyles } from "@ui-organized/core";
 import type { SkeletonProps } from "./Skeleton.types.js";
 import "@ui-organized/core/components/Skeleton/Skeleton.css";
 

@@ -1,6 +1,6 @@
 import { Marquee as ArkMarquee } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { marqueeStyles } from "./Marquee.styles.js";
+import { marqueeStyles } from "@ui-organized/core";
 import type { MarqueeProps } from "./Marquee.types.js";
 import "@ui-organized/core/components/Marquee/Marquee.css";
 

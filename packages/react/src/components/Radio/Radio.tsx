@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { RadioGroup as ArkRadioGroup } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { radioGroupStyles } from "./Radio.styles.js";
+import { radioGroupStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA } from "../../utils/aria.js";
 import type { RadioGroupProps } from "./Radio.types.js";

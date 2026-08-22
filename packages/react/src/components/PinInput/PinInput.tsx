@@ -1,7 +1,7 @@
 import { PinInput as ArkPinInput } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { FieldError } from "../FieldError/index.js";
-import { pinInputStyles } from "./PinInput.styles.js";
+import { pinInputStyles } from "@ui-organized/core";
 import type { PinInputProps } from "./PinInput.types.js";
 import "@ui-organized/core/components/PinInput/PinInput.css";
 

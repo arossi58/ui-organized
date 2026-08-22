@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { dividerStyles } from "./Divider.styles.js";
+import { dividerStyles } from "@ui-organized/core";
 import type { DividerProps } from "./Divider.types.js";
 import "@ui-organized/core/components/Divider/Divider.css";
 

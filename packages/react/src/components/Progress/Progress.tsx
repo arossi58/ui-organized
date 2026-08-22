@@ -1,6 +1,6 @@
 import { Progress as ArkProgress } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { progressStyles } from "./Progress.styles.js";
+import { progressStyles } from "@ui-organized/core";
 import type { ProgressProps } from "./Progress.types.js";
 import "@ui-organized/core/components/Progress/Progress.css";
 

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { passwordInputFieldStyles } from "./PasswordInput.styles.js";
+import { CONTROL_ICON_SIZE, passwordInputFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { PasswordInputProps } from "./PasswordInput.types.js";
 // Shares the Input field surface/state styling; InputAffix.css layers on the

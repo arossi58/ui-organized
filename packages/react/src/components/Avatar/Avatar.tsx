@@ -1,6 +1,6 @@
 import { Avatar as ArkAvatar } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { avatarStyles } from "./Avatar.styles.js";
+import { avatarStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AvatarProps } from "./Avatar.types.js";
 import "@ui-organized/core/components/Avatar/Avatar.css";

@@ -3,8 +3,7 @@ import { ColorPicker as ArkColorPicker, Portal, parseColor } from "@ark-ui/react
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { colorPickerStyles } from "./ColorPicker.styles.js";
+import { CONTROL_ICON_SIZE, colorPickerStyles, type ControlSize } from "@ui-organized/core";
 import type { ColorPickerProps } from "./ColorPicker.types.js";
 import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";

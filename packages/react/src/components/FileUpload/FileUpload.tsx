@@ -3,8 +3,7 @@ import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { fileUploadStyles } from "./FileUpload.styles.js";
+import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize } from "@ui-organized/core";
 import type { FileUploadProps } from "./FileUpload.types.js";
 import "@ui-organized/core/components/FileUpload/FileUpload.css";
 

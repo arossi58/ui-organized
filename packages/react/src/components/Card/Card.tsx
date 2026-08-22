@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { cardStyles } from "./Card.styles.js";
+import { cardStyles } from "@ui-organized/core";
 import type { CardProps, CardHeaderProps, CardBodyProps, CardFooterProps } from "./Card.types.js";
 import "@ui-organized/core/components/Card/Card.css";
 

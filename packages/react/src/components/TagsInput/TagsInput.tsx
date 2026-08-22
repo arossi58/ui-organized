@@ -2,7 +2,7 @@ import { TagsInput as ArkTagsInput } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/Icon.js";
 import { FieldError } from "../FieldError/index.js";
-import { tagsInputStyles } from "./TagsInput.styles.js";
+import { tagsInputStyles } from "@ui-organized/core";
 import type { TagsInputProps } from "./TagsInput.types.js";
 import "@ui-organized/core/components/TagsInput/TagsInput.css";
 

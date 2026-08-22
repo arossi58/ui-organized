@@ -1,6 +1,6 @@
 import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { dialogStyles } from "./Dialog.styles.js";
+import { dialogStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type {
   DialogProps,

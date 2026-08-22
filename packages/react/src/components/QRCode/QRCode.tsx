@@ -1,7 +1,7 @@
 import { QrCode as ArkQrCode } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
-import { qrCodeStyles } from "./QRCode.styles.js";
+import { qrCodeStyles } from "@ui-organized/core";
 import type { QRCodeProps } from "./QRCode.types.js";
 import "@ui-organized/core/components/QRCode/QRCode.css";
 

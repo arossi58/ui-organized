@@ -2,7 +2,7 @@ import { SignaturePad as ArkSignaturePad } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { signaturePadStyles } from "./SignaturePad.styles.js";
+import { signaturePadStyles } from "@ui-organized/core";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
 import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
 

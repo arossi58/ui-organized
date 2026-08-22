@@ -2,7 +2,7 @@ import { Steps as ArkSteps } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
-import { stepsStyles } from "./Steps.styles.js";
+import { stepsStyles } from "@ui-organized/core";
 import type { StepsProps } from "./Steps.types.js";
 import "@ui-organized/core/components/Steps/Steps.css";
 

@@ -1,6 +1,6 @@
 import { useId } from "react";
 import { clsx } from "clsx";
-import { meterStyles } from "./Meter.styles.js";
+import { meterStyles } from "@ui-organized/core";
 import type { MeterProps } from "./Meter.types.js";
 import "@ui-organized/core/components/Meter/Meter.css";
 

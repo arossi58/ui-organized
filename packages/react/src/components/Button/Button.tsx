@@ -1,8 +1,7 @@
 import { cloneElement, isValidElement, type ReactElement } from "react";
 import { clsx } from "clsx";
-import { buttonStyles } from "./Button.styles.js";
+import { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS, buttonStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE, CONTROL_TEXT_CLASS } from "../controlSize.js";
 import type { ButtonProps } from "./Button.types.js";
 import "@ui-organized/core/components/Button/Button.css";
 

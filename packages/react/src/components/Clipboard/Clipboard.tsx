@@ -2,8 +2,7 @@ import { Clipboard as ArkClipboard } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/Icon.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { clipboardStyles } from "./Clipboard.styles.js";
+import { CONTROL_ICON_SIZE, clipboardStyles, type ControlSize } from "@ui-organized/core";
 import type { ClipboardProps } from "./Clipboard.types.js";
 import "@ui-organized/core/components/Clipboard/Clipboard.css";
 

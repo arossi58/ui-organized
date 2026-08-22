@@ -1,9 +1,8 @@
 import { useId, useRef, useState, type ChangeEvent, type ReactNode } from "react";
 import { Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { inputFieldStyles } from "../Input/Input.styles.js";
+import { CONTROL_ICON_SIZE, inputFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
 import { parseISODate, toISODate } from "../Calendar/dateUtils.js";

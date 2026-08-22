@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { searchInputFieldStyles } from "./SearchInput.styles.js";
+import { CONTROL_ICON_SIZE, searchInputFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { SearchInputProps } from "./SearchInput.types.js";
 // Shares the Input field surface/state styling; InputAffix.css layers on the

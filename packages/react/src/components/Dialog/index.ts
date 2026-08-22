@@ -16,4 +16,4 @@ export type {
   DialogCloseProps,
   DialogFooterProps,
 } from "./Dialog.types.js";
-export type { DialogVariants } from "./Dialog.styles.js";
+export type { DialogVariants } from "@ui-organized/core";
