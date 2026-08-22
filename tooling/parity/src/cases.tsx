@@ -46,6 +46,14 @@ import {
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import VueButtonFixture from "./fixtures/vue/ButtonFixture.vue";
+import VueDividerFixture from "./fixtures/vue/DividerFixture.vue";
+import VueSkeletonFixture from "./fixtures/vue/SkeletonFixture.vue";
+import VueTagFixture from "./fixtures/vue/TagFixture.vue";
+import VueCardFixture from "./fixtures/vue/CardFixture.vue";
+import VueFieldErrorFixture from "./fixtures/vue/FieldErrorFixture.vue";
+import VueSwitchFixture from "./fixtures/vue/SwitchFixture.vue";
+import VueAvatarFixture from "./fixtures/vue/AvatarFixture.vue";
+import VueCheckboxFixture from "./fixtures/vue/CheckboxFixture.vue";
 import CardFixture from "./fixtures/CardFixture.svelte";
 import DividerFixture from "./fixtures/DividerFixture.svelte";
 import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
@@ -170,6 +178,7 @@ export const SPECS: ParitySpec[] = [
     component: "Divider",
     react: (p) => <RDivider {...p} />,
     svelte: DividerFixture as unknown as ComponentType<any>,
+    vue: VueDividerFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "vertical", props: { orientation: "vertical" } },
@@ -183,6 +192,7 @@ export const SPECS: ParitySpec[] = [
     component: "Skeleton",
     react: (p) => <RSkeleton {...p} />,
     svelte: SkeletonFixture as unknown as ComponentType<any>,
+    vue: VueSkeletonFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       ...(["text", "circle", "rect", "rounded"] as const).map((variant) => ({
@@ -206,6 +216,7 @@ export const SPECS: ParitySpec[] = [
       </RCard>
     ),
     svelte: CardFixture as unknown as ComponentType<any>,
+    vue: VueCardFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "elevated", props: { variant: "elevated" } },
@@ -219,6 +230,7 @@ export const SPECS: ParitySpec[] = [
     component: "Tag",
     react: (p) => <RTag {...p}>Label</RTag>,
     svelte: TagFixture as unknown as ComponentType<any>,
+    vue: VueTagFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       ...(["success", "info", "info-secondary", "caution", "warning", "error"] as const).map(
@@ -232,6 +244,7 @@ export const SPECS: ParitySpec[] = [
     component: "Switch",
     react: (p) => <RSwitch {...p} />,
     svelte: SwitchFixture as unknown as ComponentType<any>,
+    vue: VueSwitchFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "with label", props: { label: "Wifi" } },
@@ -248,6 +261,7 @@ export const SPECS: ParitySpec[] = [
     component: "Avatar",
     react: (p) => <RAvatar {...p} />,
     svelte: AvatarFixture as unknown as ComponentType<any>,
+    vue: VueAvatarFixture as unknown as ComponentType<any>,
     cases: [
       { name: "initials from name", props: { name: "Ada Lovelace" } },
       { name: "single name", props: { name: "Ada" } },
@@ -268,6 +282,7 @@ export const SPECS: ParitySpec[] = [
     // because a snippet is opaque and cannot be tested for emptiness.
     react: ({ message, ...p }) => <RFieldError {...p}>{message}</RFieldError>,
     svelte: FieldErrorFixture as unknown as ComponentType<any>,
+    vue: VueFieldErrorFixture as unknown as ComponentType<any>,
     cases: [
       { name: "with message", props: { message: "Required" } },
       { name: "empty renders nothing", props: { message: "" } },
@@ -297,6 +312,7 @@ export const SPECS: ParitySpec[] = [
     component: "Checkbox",
     react: (p) => <RCheckbox {...p} />,
     svelte: CheckboxFixture as unknown as ComponentType<any>,
+    vue: VueCheckboxFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       { name: "with label", props: { label: "Accept" } },
