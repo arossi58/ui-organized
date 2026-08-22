@@ -1,8 +1,9 @@
 import { defineConfig } from "vitest/config";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
+import vue from "@vitejs/plugin-vue";
 
 export default defineConfig({
-  plugins: [svelte({ hot: false })],
+  plugins: [svelte({ hot: false }), vue()],
   resolve: {
     /**
      * Deliberately NOT "browser".

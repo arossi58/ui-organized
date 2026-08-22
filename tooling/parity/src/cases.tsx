@@ -45,6 +45,7 @@ import {
   MenuSeparator as RMenuSeparator,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
+import VueButtonFixture from "./fixtures/vue/ButtonFixture.vue";
 import CardFixture from "./fixtures/CardFixture.svelte";
 import DividerFixture from "./fixtures/DividerFixture.svelte";
 import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
@@ -103,6 +104,12 @@ export interface ParitySpec {
   component: string;
   react: (props: Record<string, any>) => ReactElement;
   svelte: ComponentType<any>;
+  /**
+   * The Vue fixture. Optional while the Vue port is in progress — a spec without
+   * one is simply not compared against Vue, rather than failing, so React and
+   * Svelte stay covered as Vue catches up.
+   */
+  vue?: ComponentType<any>;
   cases: ParityCase[];
   /** Stylesheets in @ui-organized/core this component's contract depends on. */
   stylesheets?: string[];
@@ -147,6 +154,7 @@ export const SPECS: ParitySpec[] = [
     component: "Button",
     react: (p) => <RButton {...p}>Label</RButton>,
     svelte: ButtonFixture as unknown as ComponentType<any>,
+    vue: VueButtonFixture as unknown as ComponentType<any>,
     cases: [
       { name: "default" },
       ...(["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const).flatMap(

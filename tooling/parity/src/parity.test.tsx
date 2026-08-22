@@ -4,6 +4,8 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { renderToStaticMarkup } from "react-dom/server";
 import { render as renderSvelte } from "svelte/server";
+import { createSSRApp } from "vue";
+import { renderToString as renderVue } from "vue/server-renderer";
 import { SPECS } from "./cases.js";
 import { contractOf, type ElementContract } from "./contract.js";
 
@@ -11,7 +13,10 @@ import { contractOf, type ElementContract } from "./contract.js";
  * Same props in, same DOM contract out — across libraries that share one
  * stylesheet and nothing else.
  *
- * Both sides are rendered server-side to static markup, so this needs no browser
+ * React is the reference: every other library is compared against it rather
+ * than against each other, so a divergence names one culprit instead of two.
+ *
+ * All three are rendered server-side to static markup, so this needs no browser
  * and is cheap enough to run on every commit. It covers the static half of the
  * contract completely; interactive state (`[data-state]` on an open popover,
  * `[data-highlighted]` on a hovered option) is the other half and needs
@@ -31,31 +36,43 @@ function withoutAllowed(contract: ElementContract[], allowed: string[]): Element
   }));
 }
 
-describe.each(SPECS)("$component", ({ react, svelte, cases, allow = [], stylesheets = [], select, exclude }) => {
+describe.each(SPECS)("$component", (spec) => {
+  const { react, svelte, vue, cases, allow = [], stylesheets = [], select, exclude } = spec;
   const allowed = allow.map((a) => a.attribute);
 
-  it.each(cases)("$name", ({ props = {} }) => {
-    // The two libraries spell the class prop differently. Each side is given
-    // only its own spelling, so neither receives a stray unknown attribute.
-    const { className, ...shared } = props as Record<string, any>;
+  const shape = (html: string) =>
+    withoutAllowed(contractOf(html, select, exclude), allowed);
 
-    const reactHtml = renderToStaticMarkup(
-      react({ ...shared, ...(className ? { className } : {}) }),
-    );
-    const svelteHtml = renderSvelte(svelte as any, {
-      props: { ...shared, ...(className ? { class: className } : {}) },
-    }).body;
+  describe.each(
+    [
+      ["svelte", svelte] as const,
+      ...(vue ? ([["vue", vue]] as const) : []),
+    ].filter(([, component]) => Boolean(component)),
+  )("vs %s", (framework, component) => {
+    it.each(cases)("$name", async ({ props = {} }) => {
+      // The libraries spell the class prop differently. Each side is given only
+      // its own spelling, so none receives a stray unknown attribute.
+      const { className, ...shared } = props as Record<string, any>;
+      const ownProps = { ...shared, ...(className ? { class: className } : {}) };
 
-    const actual = withoutAllowed(contractOf(svelteHtml, select, exclude), allowed);
-    const expected = withoutAllowed(contractOf(reactHtml, select, exclude), allowed);
-    // A selector that matches nothing would compare two empty arrays and pass.
-    // Only meaningful when a selector is in play — a component can legitimately
-    // render nothing (FieldError with an empty message).
-    if (select) {
-      expect(expected.length, `the selector ${select} matched nothing in the React output`)
-        .toBeGreaterThan(0);
-    }
-    expect(actual, "DOM contract").toEqual(expected);
+      const reactHtml = renderToStaticMarkup(
+        react({ ...shared, ...(className ? { className } : {}) }),
+      );
+      const otherHtml =
+        framework === "svelte"
+          ? renderSvelte(component as any, { props: ownProps }).body
+          : await renderVue(createSSRApp(component as any, ownProps));
+
+      const expected = shape(reactHtml);
+      // A selector that matches nothing would compare two empty arrays and pass.
+      // Only meaningful when a selector is in play — a component can legitimately
+      // render nothing (FieldError with an empty message).
+      if (select) {
+        expect(expected.length, `the selector ${select} matched nothing in the React output`)
+          .toBeGreaterThan(0);
+      }
+      expect(shape(otherHtml), "DOM contract").toEqual(expected);
+    });
   });
 
   // An allowance is a claim that a difference is invisible. This is what makes
