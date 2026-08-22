@@ -13,3 +13,7 @@ export { getIconConfig, setIconConfig } from "./context/iconContext.svelte.js";
 // optional peers become mandatory again. See ./icons/registry.ts.
 export { getIconSet, registeredLibraries, registerIconSet } from "./icons/registry.js";
 export { Button } from "./components/Button/index.js";
+export { Card, CardHeader, CardBody, CardFooter } from "./components/Card/index.js";
+export { Divider } from "./components/Divider/index.js";
+export { Skeleton } from "./components/Skeleton/index.js";
+export { Tag } from "./components/Tag/index.js";

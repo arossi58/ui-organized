@@ -76,8 +76,34 @@ export function contractOf(html: string): ElementContract[] {
   return out;
 }
 
-/** The visible text, collapsed — so a dropped label or icon is caught too. */
+/**
+ * The visible text, so a dropped label or a missing icon is caught too.
+ *
+ * Whitespace-only text nodes are removed first. JSX strips the newlines between
+ * sibling elements and Svelte keeps them, so `<CardHeader>` / `<CardBody>` /
+ * `<CardFooter>` written the same way in both produce "HeaderBodyFooter" in one
+ * and "Header Body Footer" in the other. That difference is markup formatting,
+ * not content, and the browser collapses it to nothing visible between two block
+ * elements anyway.
+ *
+ * The cost is that a deliberate single space *between two inline elements* would
+ * not be compared. Nothing in the library relies on one — spacing between parts
+ * is `gap` in the stylesheet, which is exactly the kind of thing the class
+ * comparison covers.
+ */
 export function textOf(html: string): string {
   const dom = new JSDOM(`<div id="root">${html}</div>`);
-  return (dom.window.document.getElementById("root")!.textContent ?? "").replace(/\s+/g, " ").trim();
+  const root = dom.window.document.getElementById("root")!;
+  stripComments(root);
+
+  const walker = root.ownerDocument.createTreeWalker(root, 4 /* SHOW_TEXT */);
+  const blank: Text[] = [];
+  let node = walker.nextNode();
+  while (node) {
+    if (!(node.textContent ?? "").trim()) blank.push(node as Text);
+    node = walker.nextNode();
+  }
+  for (const text of blank) text.remove();
+
+  return (root.textContent ?? "").replace(/\s+/g, " ").trim();
 }

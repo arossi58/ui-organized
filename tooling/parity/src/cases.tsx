@@ -1,0 +1,122 @@
+import type { ComponentType, ReactElement } from "react";
+import {
+  Button as RButton,
+  Card as RCard,
+  CardHeader as RCardHeader,
+  CardBody as RCardBody,
+  CardFooter as RCardFooter,
+  Divider as RDivider,
+  Skeleton as RSkeleton,
+  Tag as RTag,
+} from "@ui-organized/react";
+import ButtonFixture from "./fixtures/ButtonFixture.svelte";
+import CardFixture from "./fixtures/CardFixture.svelte";
+import DividerFixture from "./fixtures/DividerFixture.svelte";
+import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
+import TagFixture from "./fixtures/TagFixture.svelte";
+
+/**
+ * One entry per component, one row per state worth pinning.
+ *
+ * `react` builds the element; `svelte` is a fixture component that renders the
+ * Svelte equivalent with the same children. Fixtures exist because snippets
+ * cannot be written by hand outside a component — which is fine, since a fixture
+ * is also exactly what a consumer writes.
+ *
+ * `props` are passed to both. The two libraries spell the class prop
+ * differently, so `className` is rewritten to `class` for the Svelte side rather
+ * than being listed twice in every case.
+ */
+export interface ParityCase {
+  name: string;
+  props?: Record<string, unknown>;
+}
+
+export interface ParitySpec {
+  component: string;
+  react: (props: Record<string, any>) => ReactElement;
+  svelte: ComponentType<any>;
+  cases: ParityCase[];
+}
+
+const SIZES = ["sm", "md", "lg"] as const;
+
+export const SPECS: ParitySpec[] = [
+  {
+    component: "Button",
+    react: (p) => <RButton {...p}>Label</RButton>,
+    svelte: ButtonFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      ...(["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const).flatMap(
+        (intent) => SIZES.map((size) => ({ name: `${intent}/${size}`, props: { intent, size } })),
+      ),
+      { name: "disabled", props: { disabled: true } },
+      { name: "submit", props: { type: "submit" } },
+      { name: "custom class", props: { className: "mine" } },
+      { name: "aria-label", props: { "aria-label": "Save" } },
+    ],
+  },
+  {
+    component: "Divider",
+    react: (p) => <RDivider {...p} />,
+    svelte: DividerFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "vertical", props: { orientation: "vertical" } },
+      ...(["none", "sm", "md", "lg"] as const).map((spacing) => ({
+        name: `spacing/${spacing}`,
+        props: { spacing },
+      })),
+    ],
+  },
+  {
+    component: "Skeleton",
+    react: (p) => <RSkeleton {...p} />,
+    svelte: SkeletonFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      ...(["text", "circle", "rect", "rounded"] as const).map((variant) => ({
+        name: `variant/${variant}`,
+        props: { variant },
+      })),
+      { name: "not animated", props: { animated: false } },
+      { name: "sized (number)", props: { width: 120, height: 16 } },
+      { name: "sized (string)", props: { width: "50%", height: "1rem" } },
+      { name: "multi-line", props: { lines: 3 } },
+      { name: "multi-line sized", props: { lines: 4, width: 200 } },
+    ],
+  },
+  {
+    component: "Card",
+    react: (p) => (
+      <RCard {...p}>
+        <RCardHeader>Header</RCardHeader>
+        <RCardBody>Body</RCardBody>
+        <RCardFooter>Footer</RCardFooter>
+      </RCard>
+    ),
+    svelte: CardFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "elevated", props: { variant: "elevated" } },
+      ...(["none", "sm", "md", "lg"] as const).map((padding) => ({
+        name: `padding/${padding}`,
+        props: { padding },
+      })),
+    ],
+  },
+  {
+    component: "Tag",
+    react: (p) => <RTag {...p}>Label</RTag>,
+    svelte: TagFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      ...(["success", "info", "info-secondary", "caution", "warning", "error"] as const).map(
+        (variant) => ({ name: `variant/${variant}`, props: { variant } }),
+      ),
+      ...SIZES.map((size) => ({ name: `size/${size}`, props: { size } })),
+      { name: "subdued", props: { emphasized: false } },
+    ],
+  },
+];
