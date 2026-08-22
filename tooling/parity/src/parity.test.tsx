@@ -7,7 +7,7 @@ import { render as renderSvelte } from "svelte/server";
 import { createSSRApp } from "vue";
 import { renderToString as renderVue } from "vue/server-renderer";
 import { SPECS } from "./cases.js";
-import { contractOf, type ElementContract } from "./contract.js";
+import { contractOf, hiddenFromAssistiveTech, type ElementContract } from "./contract.js";
 
 /**
  * Same props in, same DOM contract out — across libraries that share one
@@ -37,11 +37,14 @@ function withoutAllowed(contract: ElementContract[], allowed: string[]): Element
 }
 
 describe.each(SPECS)("$component", (spec) => {
-  const { react, svelte, vue, cases, allow = [], stylesheets = [], select, exclude } = spec;
+  const {
+    react, svelte, vue, cases, allow = [], allowTextIn = [], stylesheets = [], select, exclude,
+  } = spec;
   const allowed = allow.map((a) => a.attribute);
+  const textAllowed = allowTextIn.map((a) => a.selector);
 
   const shape = (html: string) =>
-    withoutAllowed(contractOf(html, select, exclude), allowed);
+    withoutAllowed(contractOf(html, select, exclude, textAllowed), allowed);
 
   describe.each(
     [
@@ -74,6 +77,17 @@ describe.each(SPECS)("$component", (spec) => {
       expect(shape(otherHtml), "DOM contract").toEqual(expected);
     });
   });
+
+  // A text allowance claims the element carrying the difference is hidden from
+  // assistive technology. That is checkable, so it is checked.
+  for (const { selector, reason } of allowTextIn) {
+    it(`allowing text in ${selector} is safe: it is aria-hidden`, () => {
+      const html = renderToStaticMarkup(react(cases[0]?.props ?? {}));
+      const visible = hiddenFromAssistiveTech(html, selector);
+      expect(visible, `${selector} is readable by assistive tech, so this text difference is NOT invisible. ${reason}`)
+        .toEqual([]);
+    });
+  }
 
   // An allowance is a claim that a difference is invisible. This is what makes
   // that claim checkable rather than a comment someone has to trust.

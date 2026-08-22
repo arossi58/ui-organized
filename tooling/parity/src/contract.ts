@@ -125,13 +125,20 @@ function stripComments(root: Element): void {
 
 /**
  * @param select   Optional CSS selector limiting the comparison to one subtree.
+ * @param blankText Optional selectors whose elements' text is not compared. See
+ *   `allowTextIn` in cases.ts — every one is checked to be aria-hidden.
  * @param exclude  Optional CSS selector whose matches (and their subtrees) are
  *   dropped. Both exist for portalled components — see `select` in cases.ts.
  *   `exclude` is the one to reach for when the portal sits *inside* the subtree
  *   worth comparing, as it does for Select, where the popup is a descendant of
  *   the field that holds the label, helper text and hidden native control.
  */
-export function contractOf(html: string, select?: string, exclude?: string): ElementContract[] {
+export function contractOf(
+  html: string,
+  select?: string,
+  exclude?: string,
+  blankText: string[] = [],
+): ElementContract[] {
   const dom = new JSDOM(`<div id="root">${html}</div>`);
   let root = dom.window.document.getElementById("root")!;
   stripComments(root);
@@ -168,9 +175,25 @@ export function contractOf(html: string, select?: string, exclude?: string): Ele
       tag: el.tagName.toLowerCase(),
       classes: [...el.classList].sort(),
       attributes,
-      text: ownText,
+      text: blankText.some((sel) => el.matches(sel)) ? "" : ownText,
     });
   }
   return out;
 }
 
+
+/**
+ * Elements matching `selector` that are NOT hidden from assistive technology.
+ *
+ * Backs the text-allowance check: a text difference is only invisible if nothing
+ * can read it, so an allowance is valid exactly when this returns nothing.
+ */
+export function hiddenFromAssistiveTech(html: string, selector: string): string[] {
+  const dom = new JSDOM(`<div id="root">${html}</div>`);
+  const root = dom.window.document.getElementById("root")!;
+  const readable: string[] = [];
+  for (const el of root.querySelectorAll(selector)) {
+    if (!el.closest('[aria-hidden="true"]')) readable.push(el.outerHTML.slice(0, 120));
+  }
+  return readable;
+}

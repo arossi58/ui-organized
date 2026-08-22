@@ -61,6 +61,12 @@ import VueProgressFixture from "./fixtures/vue/ProgressFixture.vue";
 import VueTabsFixture from "./fixtures/vue/TabsFixture.vue";
 import VueAccordionFixture from "./fixtures/vue/AccordionFixture.vue";
 import VueRadioGroupFixture from "./fixtures/vue/RadioGroupFixture.vue";
+import VueSelectFixture from "./fixtures/vue/SelectFixture.vue";
+import VueComboboxFixture from "./fixtures/vue/ComboboxFixture.vue";
+import VuePopoverFixture from "./fixtures/vue/PopoverFixture.vue";
+import VueDialogFixture from "./fixtures/vue/DialogFixture.vue";
+import VueTooltipFixture from "./fixtures/vue/TooltipFixture.vue";
+import VueMenuFixture from "./fixtures/vue/MenuFixture.vue";
 import CardFixture from "./fixtures/CardFixture.svelte";
 import DividerFixture from "./fixtures/DividerFixture.svelte";
 import SkeletonFixture from "./fixtures/SkeletonFixture.svelte";
@@ -115,6 +121,20 @@ export interface ParityAllowance {
   reason: string;
 }
 
+/**
+ * A *text* difference that cannot reach a user, because the element carrying it
+ * is hidden from assistive technology.
+ *
+ * Held to the same standard as an attribute allowance: the claim is checked, not
+ * trusted. Every element the selector matches must carry `aria-hidden="true"` in
+ * the reference output, and the assertion fails if one does not. Text a screen
+ * reader can read is not covered by this and never should be.
+ */
+export interface ParityTextAllowance {
+  selector: string;
+  reason: string;
+}
+
 export interface ParitySpec {
   component: string;
   react: (props: Record<string, any>) => ReactElement;
@@ -129,6 +149,7 @@ export interface ParitySpec {
   /** Stylesheets in @ui-organized/core this component's contract depends on. */
   stylesheets?: string[];
   allow?: ParityAllowance[];
+  allowTextIn?: ParityTextAllowance[];
   /**
    * Limit the comparison to one subtree.
    *
@@ -493,6 +514,7 @@ export const SPECS: ParitySpec[] = [
       </RPopover>
     ),
     svelte: PopoverFixture as unknown as ComponentType<any>,
+    vue: VuePopoverFixture as unknown as ComponentType<any>,
     // Trigger only — see `select` above for why the portalled half cannot be
     // compared by static rendering.
     select: '[data-part="trigger"]',
@@ -528,6 +550,7 @@ export const SPECS: ParitySpec[] = [
       </RDialog>
     ),
     svelte: DialogFixture as unknown as ComponentType<any>,
+    vue: VueDialogFixture as unknown as ComponentType<any>,
     // Trigger only — the rest is portalled. See `select` above.
     select: '[data-part="trigger"]',
     cases: [
@@ -540,6 +563,7 @@ export const SPECS: ParitySpec[] = [
     component: "Tooltip",
     react: (p) => <RTooltip {...(p as any)}>Hover me</RTooltip>,
     svelte: TooltipFixture as unknown as ComponentType<any>,
+    vue: VueTooltipFixture as unknown as ComponentType<any>,
     select: '[data-part="trigger"]',
     cases: [
       { name: "default", props: { content: "Copy" } },
@@ -554,10 +578,24 @@ export const SPECS: ParitySpec[] = [
     component: "Select",
     react: (p) => <RSelect {...(p as any)} />,
     svelte: SelectFixture as unknown as ComponentType<any>,
+    vue: VueSelectFixture as unknown as ComponentType<any>,
     // Everything except the popup: the field chrome, the trigger and the hidden
     // native select are all rendered in place, and all three carry ARIA that
     // OMIT_ARIA is responsible for.
     exclude: '[data-scope="select"][data-part="positioner"]',
+    allowTextIn: [
+      {
+        selector: "select option",
+        reason:
+          "Ark Vue's HiddenSelect renders an option's text as \"Apple > \" where " +
+          "Ark React renders \"Apple\" — it stringifies through the collection's " +
+          "path join. The element is the hidden native select, which exists only " +
+          "so the value is submitted with a form: it is aria-hidden and visually " +
+          "hidden, the submitted value is the option's `value` rather than its " +
+          "text, and no user or screen reader ever encounters the difference. " +
+          "The assertion below fails if that element ever stops being aria-hidden.",
+      },
+    ],
     cases: (() => {
       const options = [
         { value: "a", label: "Apple" },
@@ -613,6 +651,7 @@ export const SPECS: ParitySpec[] = [
     component: "Combobox",
     react: (p) => <RCombobox {...(p as any)} />,
     svelte: ComboboxFixture as unknown as ComponentType<any>,
+    vue: VueComboboxFixture as unknown as ComponentType<any>,
     exclude: '[data-scope="combobox"][data-part="positioner"]',
     cases: (() => {
       const options = [
@@ -646,6 +685,7 @@ export const SPECS: ParitySpec[] = [
       </RMenu>
     ),
     svelte: MenuFixture as unknown as ComponentType<any>,
+    vue: VueMenuFixture as unknown as ComponentType<any>,
     // Both, and the combination matters. `select` narrows to the trigger, but
     // Ark stamps `data-controls` on it pointing at the menu content — which
     // React renders inline under SSR and Svelte does not. Without `exclude` that
