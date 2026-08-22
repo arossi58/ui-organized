@@ -1,0 +1,31 @@
+{
+  "name": "@ui-organized/parity",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Asserts that every ui-organized framework library renders the same DOM contract.",
+  "type": "module",
+  "scripts": {
+    "pretest": "pnpm --filter @ui-organized/core --filter @ui-organized/react --filter @ui-organized/svelte build",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ui-organized/core": "workspace:*",
+    "@ui-organized/react": "workspace:*",
+    "@ui-organized/svelte": "workspace:*"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "svelte": "^5.56.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}
