@@ -23,3 +23,7 @@ export { FieldError } from "./components/FieldError/index.js";
 export { Input } from "./components/Input/index.js";
 export { Checkbox } from "./components/Checkbox/index.js";
 export { Tabs } from "./components/Tabs/index.js";
+export { TextArea } from "./components/TextArea/index.js";
+export { Progress } from "./components/Progress/index.js";
+export { RadioGroup } from "./components/Radio/index.js";
+export { Accordion } from "./components/Accordion/index.js";

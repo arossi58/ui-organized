@@ -54,3 +54,15 @@ export type { CheckboxProps } from "./components/Checkbox/index.js";
 export { Tabs } from "./components/Tabs/index.js";
 export type { TabsProps, TabItem } from "./components/Tabs/index.js";
 
+export { TextArea } from "./components/TextArea/index.js";
+export type { TextAreaProps } from "./components/TextArea/index.js";
+
+export { Progress } from "./components/Progress/index.js";
+export type { ProgressProps } from "./components/Progress/index.js";
+
+export { RadioGroup } from "./components/Radio/index.js";
+export type { RadioGroupProps, RadioOption } from "./components/Radio/index.js";
+
+export { Accordion } from "./components/Accordion/index.js";
+export type { AccordionProps, AccordionItem } from "./components/Accordion/index.js";
+

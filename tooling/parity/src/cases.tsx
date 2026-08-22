@@ -14,6 +14,10 @@ import {
   FieldError as RFieldError,
   Checkbox as RCheckbox,
   Tabs as RTabs,
+  TextArea as RTextArea,
+  Progress as RProgress,
+  RadioGroup as RRadioGroup,
+  Accordion as RAccordion,
 } from "@ui-organized/react";
 import ButtonFixture from "./fixtures/ButtonFixture.svelte";
 import CardFixture from "./fixtures/CardFixture.svelte";
@@ -26,6 +30,10 @@ import InputFixture from "./fixtures/InputFixture.svelte";
 import FieldErrorFixture from "./fixtures/FieldErrorFixture.svelte";
 import CheckboxFixture from "./fixtures/CheckboxFixture.svelte";
 import TabsFixture from "./fixtures/TabsFixture.svelte";
+import TextAreaFixture from "./fixtures/TextAreaFixture.svelte";
+import ProgressFixture from "./fixtures/ProgressFixture.svelte";
+import RadioGroupFixture from "./fixtures/RadioGroupFixture.svelte";
+import AccordionFixture from "./fixtures/AccordionFixture.svelte";
 
 /**
  * One entry per component, one row per state worth pinning.
@@ -271,6 +279,103 @@ export const SPECS: ParitySpec[] = [
               { value: 2, label: "Two", content: "Second" },
             ],
           },
+        },
+      ];
+    })(),
+  },
+  {
+    component: "TextArea",
+    react: (p) => <RTextArea {...p} />,
+    svelte: TextAreaFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "default" },
+      { name: "with label", props: { label: "Bio" } },
+      { name: "required", props: { label: "Bio", required: true } },
+      { name: "helper text", props: { label: "Bio", helperText: "Characters 0/500" } },
+      { name: "error message", props: { label: "Bio", error: "Too long" } },
+      ...(["none", "vertical", "horizontal", "both"] as const).map((resize) => ({
+        name: `resize/${resize}`,
+        props: { resize },
+      })),
+      ...SIZES.map((size) => ({ name: `size/${size}`, props: { size } })),
+      { name: "rows", props: { rows: 6 } },
+    ],
+  },
+  {
+    component: "Progress",
+    react: (p) => <RProgress {...(p as any)} />,
+    svelte: ProgressFixture as unknown as ComponentType<any>,
+    cases: [
+      { name: "indeterminate (default)" },
+      { name: "at 40", props: { value: 40 } },
+      { name: "custom max", props: { value: 3, max: 5 } },
+      { name: "with label", props: { value: 40, label: "Uploading" } },
+      { name: "show value", props: { value: 40, showValue: true } },
+      { name: "label and value", props: { value: 40, label: "Uploading", showValue: true } },
+      // A ring puts the value inside itself rather than in the header.
+      { name: "circular", props: { value: 40, shape: "circular" } },
+      { name: "circular with value", props: { value: 40, shape: "circular", showValue: true } },
+      ...(["default", "success", "warning", "error"] as const).map((variant) => ({
+        name: `variant/${variant}`,
+        props: { value: 40, variant },
+      })),
+      ...SIZES.map((size) => ({ name: `size/${size}`, props: { value: 40, size } })),
+    ],
+  },
+  {
+    component: "RadioGroup",
+    react: (p) => <RRadioGroup {...(p as any)} />,
+    svelte: RadioGroupFixture as unknown as ComponentType<any>,
+    cases: (() => {
+      const options = [
+        { value: "a", label: "Apple" },
+        { value: "b", label: "Banana" },
+        { value: "c", label: "Cherry", disabled: true },
+      ];
+      return [
+        { name: "default", props: { options } },
+        // The group label is a sibling of Ark's Root, so its id is handed to
+        // Ark explicitly; without a label the reference is dropped instead.
+        { name: "with label", props: { options, label: "Fruit" } },
+        { name: "no label, aria-label", props: { options, "aria-label": "Fruit" } },
+        { name: "selected", props: { options, defaultValue: "b" } },
+        { name: "horizontal", props: { options, orientation: "horizontal" } },
+        { name: "group disabled", props: { options, disabled: true, label: "Fruit" } },
+        { name: "named", props: { options, name: "fruit", label: "Fruit" } },
+        {
+          name: "option error",
+          props: {
+            options: [{ value: "a", label: "Apple", error: "Out of stock" }],
+            label: "Fruit",
+          },
+        },
+      ];
+    })(),
+  },
+  {
+    component: "Accordion",
+    react: (p) => <RAccordion {...(p as any)} />,
+    svelte: AccordionFixture as unknown as ComponentType<any>,
+    cases: (() => {
+      const items = [
+        { value: "one", title: "One", content: "First" },
+        { value: "two", title: "Two", content: "Second" },
+        { value: "three", title: "Three", content: "Third", disabled: true },
+      ];
+      return [
+        { name: "default" , props: { items } },
+        { name: "single mode", props: { items, multiple: false } },
+        { name: "open by default", props: { items, defaultValue: ["one"] } },
+        { name: "two open", props: { items, defaultValue: ["one", "two"] } },
+        { name: "all disabled", props: { items, disabled: true } },
+        ...(["default", "bordered", "separated"] as const).map((variant) => ({
+          name: `variant/${variant}`,
+          props: { items, variant },
+        })),
+        ...SIZES.map((size) => ({ name: `size/${size}`, props: { items, size } })),
+        {
+          name: "numeric values",
+          props: { items: [{ value: 1, title: "One", content: "First" }] },
         },
       ];
     })(),
