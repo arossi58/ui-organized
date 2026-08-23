@@ -5,17 +5,24 @@
   "description": "Asserts that every ui-organized framework library renders the same DOM contract.",
   "type": "module",
   "scripts": {
-    "pretest": "pnpm --filter @ui-organized/core --filter @ui-organized/react --filter @ui-organized/svelte --filter @ui-organized/vue build",
+    "build:deps": "pnpm --filter @ui-organized/core --filter @ui-organized/react --filter @ui-organized/svelte --filter @ui-organized/vue build",
+    "pretest": "pnpm build:deps",
     "test": "vitest run",
+    "pretest:browser": "pnpm build:deps",
+    "test:browser": "playwright test",
+    "test:browser:run": "playwright test",
+    "harness": "vite --config browser/vite.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@ui-organized/core": "workspace:*",
     "@ui-organized/react": "workspace:*",
     "@ui-organized/svelte": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
     "@ui-organized/vue": "workspace:*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^20.0.0",

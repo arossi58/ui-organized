@@ -10,8 +10,15 @@ import type { ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
 
 defineOptions({ inheritAttrs: false });
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
 const props = withDefaults(defineProps<ComboboxProps>(), {
   emptyMessage: "No results found.",
+  open: undefined,
+  defaultOpen: undefined,
+  disabled: undefined,
+  required: undefined,
 });
 const emit = defineEmits<{
   "update:modelValue": [value: string];

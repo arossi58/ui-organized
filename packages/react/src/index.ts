@@ -209,7 +209,15 @@ export type {
 } from "./components/Menu/index.js";
 
 export { ToastProvider, useToastManager } from "./components/Toast/index.js";
-export type { ToastProviderProps, ToastStatus, ToastVariants } from "./components/Toast/index.js";
+// `ToastOptions` is the argument to `toast.add()` — the whole imperative API —
+// and was the one part of it a consumer could not name. The Svelte and Vue
+// packages have always exported it.
+export type {
+  ToastProviderProps,
+  ToastOptions,
+  ToastStatus,
+  ToastVariants,
+} from "./components/Toast/index.js";
 
 export { Combobox } from "./components/Combobox/index.js";
 export type { ComboboxProps, ComboboxOption, ComboboxVariants } from "./components/Combobox/index.js";

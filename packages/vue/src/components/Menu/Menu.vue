@@ -17,7 +17,13 @@ import "@ui-organized/core/components/Menu/Menu.css";
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
 import "@ui-organized/core/components/Radio/Radio.css";
 
-const props = defineProps<MenuProps>();
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<MenuProps>(), {
+  open: undefined,
+  defaultOpen: undefined,
+});
 const emit = defineEmits<{ "update:open": [open: boolean]; openChange: [open: boolean] }>();
 
 const positioning = providePositioning({ placement: "bottom-start", gutter: 4 });

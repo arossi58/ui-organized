@@ -22,7 +22,13 @@
  *
  * Note the limit: this helper cannot rescue a Boolean prop that Vue has already
  * cast to `false`, because by then the information that it was absent is gone.
- * That has to be fixed at the declaration.
+ * That has to be fixed at the declaration, and it is a rule rather than a
+ * judgement call: **every boolean this helper forwards declares a default of
+ * `undefined`**. Reasoning case by case about which ones matter does not work —
+ * `disabled: false` is harmless because Ark's default is also false, while
+ * `open: false` means "controlled and closed" and pins a popover shut forever.
+ * The second was shipped in five components until a browser test noticed that
+ * clicking a Vue popover's trigger did nothing at all.
  *
  * ```vue
  * <ArkSwitch.Root v-bind="definedOnly({ checked, name, id })" />

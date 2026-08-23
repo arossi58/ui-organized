@@ -9,7 +9,13 @@ import type { AccordionProps } from "./Accordion.types.js";
 import "@ui-organized/core/components/Accordion/Accordion.css";
 
 defineOptions({ inheritAttrs: false });
-const props = withDefaults(defineProps<AccordionProps>(), { multiple: true });
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<AccordionProps>(), {
+  multiple: true,
+  disabled: undefined,
+});
 const emit = defineEmits<{
   "update:modelValue": [value: string[]];
   valueChange: [value: string[]];

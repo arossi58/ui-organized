@@ -9,7 +9,15 @@ import type { CheckboxProps } from "./Checkbox.types.js";
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
 
 defineOptions({ inheritAttrs: false });
-const props = withDefaults(defineProps<CheckboxProps>(), { checked: undefined });
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<CheckboxProps>(), {
+  checked: undefined,
+  defaultChecked: undefined,
+  disabled: undefined,
+  required: undefined,
+});
 /**
  * `checked` is a plain prop plus an `update:checked` emit rather than
  * `defineModel`, and its `undefined` default is load-bearing.

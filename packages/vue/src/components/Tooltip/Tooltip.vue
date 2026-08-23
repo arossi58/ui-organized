@@ -17,10 +17,16 @@ import { toPlacement } from "../Popover/positioning.js";
 import type { TooltipProps } from "./Tooltip.types.js";
 import "@ui-organized/core/components/Tooltip/Tooltip.css";
 
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
 const props = withDefaults(defineProps<TooltipProps>(), {
   side: "top",
   align: "center",
   sideOffset: 6,
+  open: undefined,
+  defaultOpen: undefined,
+  disabled: undefined,
 });
 const emit = defineEmits<{ "update:open": [open: boolean]; openChange: [open: boolean] }>();
 

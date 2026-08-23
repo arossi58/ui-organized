@@ -11,7 +11,15 @@ import type { SelectProps } from "./Select.types.js";
 import "@ui-organized/core/components/Select/Select.css";
 
 defineOptions({ inheritAttrs: false });
-const props = defineProps<SelectProps>();
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<SelectProps>(), {
+  open: undefined,
+  defaultOpen: undefined,
+  disabled: undefined,
+  required: undefined,
+});
 const emit = defineEmits<{
   "update:modelValue": [value: string];
   valueChange: [value: string];

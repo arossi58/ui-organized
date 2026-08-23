@@ -9,7 +9,13 @@ import type { InputProps } from "./Input.types.js";
 import "@ui-organized/core/components/Input/Input.css";
 
 defineOptions({ inheritAttrs: false });
-const props = defineProps<InputProps>();
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<InputProps>(), {
+  required: undefined,
+  disabled: undefined,
+});
 const emit = defineEmits<{ "update:modelValue": [value: string] }>();
 
 const attrs = useAttrs();

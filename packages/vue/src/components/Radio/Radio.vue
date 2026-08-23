@@ -9,7 +9,13 @@ import type { RadioGroupProps } from "./Radio.types.js";
 import "@ui-organized/core/components/Radio/Radio.css";
 
 defineOptions({ inheritAttrs: false });
-const props = withDefaults(defineProps<RadioGroupProps>(), { orientation: "vertical" });
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<RadioGroupProps>(), {
+  orientation: "vertical",
+  disabled: undefined,
+});
 const emit = defineEmits<{
   "update:modelValue": [value: string];
   valueChange: [value: string];

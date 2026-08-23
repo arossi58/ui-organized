@@ -8,7 +8,15 @@ import type { SwitchProps } from "./Switch.types.js";
 import "@ui-organized/core/components/Switch/Switch.css";
 
 defineOptions({ inheritAttrs: false });
-const props = withDefaults(defineProps<SwitchProps>(), { checked: undefined });
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<SwitchProps>(), {
+  checked: undefined,
+  defaultChecked: undefined,
+  disabled: undefined,
+  required: undefined,
+});
 
 /**
  * `v-model` for the checked state, plus the same `onCheckedChange` the React

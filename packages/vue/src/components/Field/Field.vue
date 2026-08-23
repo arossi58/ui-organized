@@ -13,7 +13,15 @@ import type { FieldProps } from "./Field.types.js";
 import "@ui-organized/core/components/Field/Field.css";
 
 defineOptions({ inheritAttrs: false });
-const props = defineProps<FieldProps>();
+// Every boolean forwarded to Ark below must default to `undefined`. Vue casts
+// an absent Boolean prop to `false`, and `definedOnly` then forwards that as a
+// deliberate choice — see ../../props.ts.
+const props = withDefaults(defineProps<FieldProps>(), {
+  invalid: undefined,
+  disabled: undefined,
+  required: undefined,
+  readOnly: undefined,
+});
 const attrs = useAttrs();
 const rootClass = computed(() => clsx(fieldStyles({ layout: props.layout }), attrs.class as string));
 const rootProps = computed(() =>
