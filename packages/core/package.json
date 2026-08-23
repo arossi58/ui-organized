@@ -42,13 +42,15 @@
     "./styles.css": "./dist/styles.css",
     "./styles": "./dist/styles.css",
     "./token-contract.json": "./token-contract.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./state-contract.json": "./state-contract.json"
   },
   "files": [
-    "dist",
-    "token-contract.json",
+    "LICENSE",
     "README.md",
-    "LICENSE"
+    "dist",
+    "state-contract.json",
+    "token-contract.json"
   ],
   "publishConfig": {
     "access": "public"
@@ -58,6 +60,7 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "gen:contract": "tsx scripts/token-contract.ts",
+    "gen:state-contract": "tsx scripts/state-contract.ts",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },

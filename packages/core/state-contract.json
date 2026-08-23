@@ -1,0 +1,1299 @@
+{
+  "$comment": "GENERATED — do not edit. Per component: the attributes its stylesheet selects on, the classes it defines, and the runtime-written custom properties it reads. A library that does not emit these renders unstyled in states nothing tests. Regenerate with `pnpm --filter @ui-organized/core gen:state-contract`.",
+  "components": {
+    "Accordion": {
+      "attributes": {
+        "data-disabled": [],
+        "data-state": [
+          "open"
+        ]
+      },
+      "classes": [
+        "accordion",
+        "accordion--bordered",
+        "accordion--default",
+        "accordion--lg",
+        "accordion--md",
+        "accordion--separated",
+        "accordion--sm",
+        "accordion__content",
+        "accordion__header",
+        "accordion__icon",
+        "accordion__item",
+        "accordion__panel",
+        "accordion__title",
+        "accordion__trigger"
+      ],
+      "runtime": []
+    },
+    "Alert": {
+      "attributes": {},
+      "classes": [
+        "alert",
+        "alert--error",
+        "alert--info",
+        "alert--success",
+        "alert--warning",
+        "alert__body",
+        "alert__dismiss",
+        "alert__icon"
+      ],
+      "runtime": []
+    },
+    "AngleSlider": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": [],
+        "data-readonly": []
+      },
+      "classes": [
+        "angle-slider--lg",
+        "angle-slider--md",
+        "angle-slider--sm",
+        "angle-slider__control",
+        "angle-slider__header",
+        "angle-slider__marker",
+        "angle-slider__markers",
+        "angle-slider__thumb",
+        "angle-slider__value"
+      ],
+      "runtime": []
+    },
+    "Avatar": {
+      "attributes": {
+        "hidden": []
+      },
+      "classes": [
+        "avatar",
+        "avatar--circle",
+        "avatar--lg",
+        "avatar--md",
+        "avatar--rounded",
+        "avatar--sm",
+        "avatar--square",
+        "avatar--xl",
+        "avatar--xs",
+        "avatar__fallback",
+        "avatar__image"
+      ],
+      "runtime": []
+    },
+    "Breadcrumb": {
+      "attributes": {},
+      "classes": [
+        "breadcrumb__current",
+        "breadcrumb__icon",
+        "breadcrumb__item",
+        "breadcrumb__link",
+        "breadcrumb__list",
+        "breadcrumb__separator"
+      ],
+      "runtime": []
+    },
+    "Button": {
+      "attributes": {
+        "data-disabled": []
+      },
+      "classes": [
+        "btn",
+        "btn--destructive",
+        "btn--destructive-ghost",
+        "btn--ghost",
+        "btn--icon-only",
+        "btn--lg",
+        "btn--md",
+        "btn--primary",
+        "btn--secondary",
+        "btn--sm",
+        "btn--tertiary"
+      ],
+      "runtime": []
+    },
+    "Calendar": {
+      "attributes": {
+        "data-in-range": [],
+        "data-outside": [],
+        "data-range-hi": [],
+        "data-range-lo": [],
+        "data-selected": [],
+        "data-today": []
+      },
+      "classes": [
+        "calendar",
+        "calendar__day",
+        "calendar__day-label",
+        "calendar__header",
+        "calendar__label",
+        "calendar__labels",
+        "calendar__month",
+        "calendar__month-name",
+        "calendar__months",
+        "calendar__nav",
+        "calendar__week",
+        "calendar__weekday",
+        "calendar__weekdays"
+      ],
+      "runtime": []
+    },
+    "Card": {
+      "attributes": {},
+      "classes": [
+        "card",
+        "card--default",
+        "card--elevated",
+        "card--padding-lg",
+        "card--padding-md",
+        "card--padding-none",
+        "card--padding-sm",
+        "card__footer",
+        "card__header"
+      ],
+      "runtime": []
+    },
+    "Carousel": {
+      "attributes": {
+        "data-current": [],
+        "data-orientation": [
+          "vertical"
+        ]
+      },
+      "classes": [
+        "carousel",
+        "carousel--lg",
+        "carousel--sm",
+        "carousel__control",
+        "carousel__indicator",
+        "carousel__indicators",
+        "carousel__item",
+        "carousel__items"
+      ],
+      "runtime": [
+        "--slide-item-size",
+        "--slide-spacing"
+      ]
+    },
+    "Checkbox": {
+      "attributes": {
+        "data-disabled": [],
+        "data-focus-visible": [],
+        "data-state": [
+          "checked",
+          "indeterminate"
+        ]
+      },
+      "classes": [
+        "checkbox",
+        "checkbox__check",
+        "checkbox__control",
+        "checkbox__indicator",
+        "checkbox__indicator--indeterminate",
+        "checkbox__label"
+      ],
+      "runtime": []
+    },
+    "Clipboard": {
+      "attributes": {},
+      "classes": [
+        "clipboard--input",
+        "clipboard--lg",
+        "clipboard--sm",
+        "clipboard__control",
+        "clipboard__indicator",
+        "clipboard__input"
+      ],
+      "runtime": []
+    },
+    "Collapsible": {
+      "attributes": {
+        "data-disabled": [],
+        "data-state": [
+          "closed",
+          "open"
+        ]
+      },
+      "classes": [
+        "collapsible",
+        "collapsible__content",
+        "collapsible__panel",
+        "collapsible__trigger"
+      ],
+      "runtime": [
+        "--height"
+      ]
+    },
+    "ColorPicker": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "color-picker--lg",
+        "color-picker--sm",
+        "color-picker__area",
+        "color-picker__area-bg",
+        "color-picker__channel-slider",
+        "color-picker__channel-track",
+        "color-picker__control",
+        "color-picker__eyedropper",
+        "color-picker__grid",
+        "color-picker__popup",
+        "color-picker__slider-row",
+        "color-picker__sliders",
+        "color-picker__swatch",
+        "color-picker__swatch-trigger",
+        "color-picker__swatch-well",
+        "color-picker__swatches",
+        "color-picker__thumb",
+        "color-picker__trigger",
+        "color-picker__value-swatch",
+        "color-picker__value-text"
+      ],
+      "runtime": []
+    },
+    "Combobox": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-invalid": [],
+        "data-state": [
+          "checked",
+          "closed",
+          "open"
+        ]
+      },
+      "classes": [
+        "combobox-field__control",
+        "combobox-field__input",
+        "combobox-field__root",
+        "combobox-field__trigger",
+        "combobox-popup",
+        "combobox-popup__empty",
+        "combobox-popup__item",
+        "combobox-popup__item-indicator",
+        "combobox-popup__item-label",
+        "field",
+        "field--lg",
+        "field--sm",
+        "icon"
+      ],
+      "runtime": [
+        "--reference-width"
+      ]
+    },
+    "ContextMenu": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-state": [
+          "checked",
+          "closed"
+        ]
+      },
+      "classes": [
+        "checkbox__control",
+        "checkbox__indicator",
+        "context-menu__control",
+        "context-menu__group-label",
+        "context-menu__item",
+        "context-menu__item--check",
+        "context-menu__item--destructive",
+        "context-menu__item-icon",
+        "context-menu__item-label",
+        "context-menu__popup",
+        "context-menu__separator",
+        "radio-item__control",
+        "radio-item__indicator"
+      ],
+      "runtime": []
+    },
+    "DateField": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "date-popover",
+        "date-popover__done",
+        "date-popover__footer",
+        "date-popover__time"
+      ],
+      "runtime": []
+    },
+    "DatePicker": {
+      "attributes": {
+        "data-disabled": [],
+        "data-in-range": [],
+        "data-invalid": [],
+        "data-outside-range": [],
+        "data-selected": [],
+        "data-today": [],
+        "data-unavailable": []
+      },
+      "classes": [
+        "date-picker--ghost",
+        "date-picker--lg",
+        "date-picker--sm",
+        "date-picker__cell",
+        "date-picker__control",
+        "date-picker__day",
+        "date-picker__input",
+        "date-picker__nav",
+        "date-picker__popup",
+        "date-picker__table",
+        "date-picker__trigger",
+        "date-picker__view-control",
+        "date-picker__view-trigger",
+        "date-picker__weekday"
+      ],
+      "runtime": []
+    },
+    "DateRangeInput": {
+      "attributes": {
+        "data-disabled": []
+      },
+      "classes": [
+        "date-range",
+        "date-range__field",
+        "date-range__row",
+        "date-range__separator"
+      ],
+      "runtime": []
+    },
+    "Dialog": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "dialog__backdrop",
+        "dialog__close",
+        "dialog__description",
+        "dialog__footer",
+        "dialog__popup",
+        "dialog__popup--fullscreen",
+        "dialog__popup--lg",
+        "dialog__popup--md",
+        "dialog__popup--sm",
+        "dialog__positioner",
+        "dialog__title"
+      ],
+      "runtime": []
+    },
+    "Divider": {
+      "attributes": {},
+      "classes": [
+        "divider",
+        "divider--horizontal",
+        "divider--spacing-lg",
+        "divider--spacing-md",
+        "divider--spacing-sm",
+        "divider--vertical"
+      ],
+      "runtime": []
+    },
+    "Editable": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": [],
+        "data-placeholder-shown": [],
+        "data-readonly": []
+      },
+      "classes": [
+        "editable--lg",
+        "editable--sm",
+        "editable__area",
+        "editable__control",
+        "editable__input",
+        "editable__preview"
+      ],
+      "runtime": []
+    },
+    "Field": {
+      "attributes": {
+        "data-disabled": [],
+        "data-empty": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "combobox-field__input",
+        "field",
+        "field--inline",
+        "field--lg",
+        "field--sm",
+        "field__control",
+        "field__description",
+        "field__label",
+        "field__required",
+        "fieldset",
+        "fieldset__legend",
+        "number-field__input",
+        "textarea-field__control"
+      ],
+      "runtime": []
+    },
+    "FieldError": {
+      "attributes": {},
+      "classes": [
+        "field-error",
+        "field-error__icon"
+      ],
+      "runtime": []
+    },
+    "FileUpload": {
+      "attributes": {
+        "data-disabled": [],
+        "data-dragging": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "file-upload--compact",
+        "file-upload--lg",
+        "file-upload--sm",
+        "file-upload__dropzone",
+        "file-upload__dropzone-icon",
+        "file-upload__dropzone-text",
+        "file-upload__item",
+        "file-upload__item-delete",
+        "file-upload__item-image",
+        "file-upload__item-meta",
+        "file-upload__item-name",
+        "file-upload__item-preview",
+        "file-upload__item-size",
+        "file-upload__items"
+      ],
+      "runtime": []
+    },
+    "FloatingPanel": {
+      "attributes": {
+        "data-dragging": []
+      },
+      "classes": [
+        "floating-panel__body",
+        "floating-panel__close",
+        "floating-panel__content",
+        "floating-panel__content--elevated",
+        "floating-panel__content--lg",
+        "floating-panel__content--md",
+        "floating-panel__content--sm",
+        "floating-panel__drag",
+        "floating-panel__header",
+        "floating-panel__resize",
+        "floating-panel__resize--e",
+        "floating-panel__resize--n",
+        "floating-panel__resize--ne",
+        "floating-panel__resize--nw",
+        "floating-panel__resize--s",
+        "floating-panel__resize--se",
+        "floating-panel__resize--sw",
+        "floating-panel__resize--w",
+        "floating-panel__title"
+      ],
+      "runtime": []
+    },
+    "HoverCard": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "hover-card__popup"
+      ],
+      "runtime": []
+    },
+    "Icon": {
+      "attributes": {},
+      "classes": [
+        "icon"
+      ],
+      "runtime": []
+    },
+    "ImageCropper": {
+      "attributes": {
+        "data-axis": [
+          "horizontal",
+          "vertical"
+        ]
+      },
+      "classes": [
+        "image-cropper--circle",
+        "image-cropper--lg",
+        "image-cropper--md",
+        "image-cropper--rectangle",
+        "image-cropper--sm",
+        "image-cropper__grid",
+        "image-cropper__handle",
+        "image-cropper__handle--e",
+        "image-cropper__handle--n",
+        "image-cropper__handle--ne",
+        "image-cropper__handle--nw",
+        "image-cropper__handle--s",
+        "image-cropper__handle--se",
+        "image-cropper__handle--sw",
+        "image-cropper__handle--w",
+        "image-cropper__image",
+        "image-cropper__selection",
+        "image-cropper__viewport"
+      ],
+      "runtime": []
+    },
+    "Input": {
+      "attributes": {
+        "data-disabled": [],
+        "type": [
+          "date",
+          "datetime-local",
+          "search"
+        ]
+      },
+      "classes": [
+        "field--lg",
+        "field--sm",
+        "field__control",
+        "field__control--affix-end",
+        "field__control--affix-start",
+        "input-affix",
+        "input-affix__action",
+        "input-affix__adornment",
+        "input-affix__adornment--end",
+        "input-affix__adornment--start"
+      ],
+      "runtime": []
+    },
+    "Listbox": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-state": [
+          "checked"
+        ]
+      },
+      "classes": [
+        "listbox",
+        "listbox--bordered",
+        "listbox--lg",
+        "listbox--sm",
+        "listbox__content",
+        "listbox__empty",
+        "listbox__group",
+        "listbox__group-label",
+        "listbox__item",
+        "listbox__item-indicator",
+        "listbox__item-text",
+        "listbox__label"
+      ],
+      "runtime": []
+    },
+    "Marquee": {
+      "attributes": {
+        "data-paused": [],
+        "data-side": [
+          "end"
+        ]
+      },
+      "classes": [
+        "marquee",
+        "marquee--vertical",
+        "marquee__content",
+        "marquee__edge",
+        "marquee__item",
+        "marquee__viewport"
+      ],
+      "runtime": [
+        "--marquee-delay",
+        "--marquee-duration",
+        "--marquee-loop-count",
+        "--marquee-spacing",
+        "--marquee-translate"
+      ]
+    },
+    "Menu": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-state": [
+          "checked",
+          "closed"
+        ]
+      },
+      "classes": [
+        "checkbox__control",
+        "checkbox__indicator",
+        "menu__control",
+        "menu__group-label",
+        "menu__item",
+        "menu__item--check",
+        "menu__item--destructive",
+        "menu__item-icon",
+        "menu__item-label",
+        "menu__popup",
+        "menu__separator",
+        "radio-item__control",
+        "radio-item__indicator"
+      ],
+      "runtime": []
+    },
+    "Menubar": {
+      "attributes": {
+        "data-orientation": [
+          "vertical"
+        ],
+        "data-state": [
+          "open"
+        ]
+      },
+      "classes": [
+        "menubar",
+        "menubar__trigger"
+      ],
+      "runtime": []
+    },
+    "Meter": {
+      "attributes": {},
+      "classes": [
+        "meter",
+        "meter--error",
+        "meter--lg",
+        "meter--md",
+        "meter--sm",
+        "meter--success",
+        "meter--warning",
+        "meter__header",
+        "meter__indicator",
+        "meter__label",
+        "meter__track",
+        "meter__value"
+      ],
+      "runtime": []
+    },
+    "Navigation": {
+      "attributes": {},
+      "classes": [
+        "nav-item",
+        "nav-item--collapsed",
+        "nav-item--expanded",
+        "nav-item__content",
+        "nav-item__label",
+        "nav-item__sub-list",
+        "nav-item__sub-list-inner",
+        "nav-item__trigger",
+        "nav-item__trigger--expandable",
+        "nav-item__trigger--selected",
+        "nav-sub-item",
+        "nav-sub-item--collapsed",
+        "nav-sub-item--selected",
+        "nav-sub-item__label",
+        "sidebar",
+        "sidebar--collapsed",
+        "sidebar__footer",
+        "sidebar__logo",
+        "sidebar__nav",
+        "sidebar__toggle",
+        "sidebar__toggle-label"
+      ],
+      "runtime": []
+    },
+    "NumberField": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "field",
+        "field--lg",
+        "field--sm",
+        "number-field__group",
+        "number-field__input",
+        "number-field__stepper"
+      ],
+      "runtime": []
+    },
+    "Pagination": {
+      "attributes": {
+        "aria-current": [
+          "page"
+        ],
+        "data-state": [
+          "open"
+        ]
+      },
+      "classes": [
+        "pagination__ellipsis",
+        "pagination__ellipsis-menu",
+        "pagination__list",
+        "pagination__page"
+      ],
+      "runtime": []
+    },
+    "PinInput": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "pin-input--lg",
+        "pin-input--md",
+        "pin-input--sm",
+        "pin-input--underline",
+        "pin-input__cell",
+        "pin-input__control"
+      ],
+      "runtime": []
+    },
+    "Popover": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "popover__description",
+        "popover__popup",
+        "popover__title"
+      ],
+      "runtime": []
+    },
+    "Progress": {
+      "attributes": {
+        "data-state": [
+          "indeterminate"
+        ]
+      },
+      "classes": [
+        "progress",
+        "progress--circular",
+        "progress--error",
+        "progress--lg",
+        "progress--md",
+        "progress--sm",
+        "progress--success",
+        "progress--warning",
+        "progress__circle",
+        "progress__circle-range",
+        "progress__circle-track",
+        "progress__circle-value",
+        "progress__circle-wrap",
+        "progress__header",
+        "progress__indicator",
+        "progress__label",
+        "progress__track",
+        "progress__value"
+      ],
+      "runtime": []
+    },
+    "QRCode": {
+      "attributes": {},
+      "classes": [
+        "qr-code",
+        "qr-code--framed",
+        "qr-code--lg",
+        "qr-code--md",
+        "qr-code--sm",
+        "qr-code__frame",
+        "qr-code__overlay",
+        "qr-code__pattern"
+      ],
+      "runtime": []
+    },
+    "Radio": {
+      "attributes": {
+        "data-focus-visible": [],
+        "data-state": [
+          "checked"
+        ]
+      },
+      "classes": [
+        "icon",
+        "radio-group",
+        "radio-group--horizontal",
+        "radio-group__items",
+        "radio-group__label",
+        "radio-item",
+        "radio-item--disabled",
+        "radio-item--error",
+        "radio-item-wrap",
+        "radio-item__control",
+        "radio-item__error-message",
+        "radio-item__error-text",
+        "radio-item__indicator",
+        "radio-item__label"
+      ],
+      "runtime": []
+    },
+    "Range": {
+      "attributes": {
+        "data-disabled": [],
+        "data-dragging": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "range",
+        "range--lg",
+        "range--md",
+        "range--sm",
+        "range__control",
+        "range__header",
+        "range__indicator",
+        "range__label",
+        "range__range-label",
+        "range__row",
+        "range__slider",
+        "range__thumb",
+        "range__track",
+        "range__value"
+      ],
+      "runtime": []
+    },
+    "RatingGroup": {
+      "attributes": {
+        "data-disabled": [],
+        "data-half": [],
+        "data-highlighted": [],
+        "data-readonly": []
+      },
+      "classes": [
+        "rating-group--warning",
+        "rating-group__control",
+        "rating-group__half",
+        "rating-group__item",
+        "rating-group__star"
+      ],
+      "runtime": []
+    },
+    "ScrollArea": {
+      "attributes": {
+        "data-hover": [],
+        "data-orientation": [
+          "horizontal",
+          "vertical"
+        ],
+        "data-scrolling": []
+      },
+      "classes": [
+        "scroll-area",
+        "scroll-area__corner",
+        "scroll-area__scrollbar",
+        "scroll-area__thumb",
+        "scroll-area__viewport"
+      ],
+      "runtime": []
+    },
+    "SegmentedControl": {
+      "attributes": {
+        "data-disabled": [],
+        "data-focus-visible": [],
+        "data-hover": [],
+        "data-state": [
+          "checked"
+        ]
+      },
+      "classes": [
+        "segmented",
+        "segmented--lg",
+        "segmented--md",
+        "segmented--sm",
+        "segmented__indicator",
+        "segmented__item",
+        "segmented__item-icon",
+        "segmented__item-text"
+      ],
+      "runtime": [
+        "--height",
+        "--top",
+        "--width"
+      ]
+    },
+    "Select": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-invalid": [],
+        "data-placeholder-shown": [],
+        "data-state": [
+          "checked",
+          "closed",
+          "open"
+        ]
+      },
+      "classes": [
+        "icon",
+        "select-field",
+        "select-field--ghost",
+        "select-field--lg",
+        "select-field--sm",
+        "select-field__control",
+        "select-field__icon",
+        "select-field__label--hidden",
+        "select-field__trigger",
+        "select-field__value",
+        "select-popup",
+        "select-popup--ghost",
+        "select-popup__item",
+        "select-popup__item-indicator"
+      ],
+      "runtime": [
+        "--reference-width"
+      ]
+    },
+    "Sheet": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "sheet__footer",
+        "sheet__popup",
+        "sheet__popup--bottom",
+        "sheet__popup--left",
+        "sheet__popup--lg",
+        "sheet__popup--md",
+        "sheet__popup--right",
+        "sheet__popup--sm",
+        "sheet__popup--top",
+        "sheet__positioner"
+      ],
+      "runtime": []
+    },
+    "SignaturePad": {
+      "attributes": {
+        "data-disabled": [],
+        "data-invalid": [],
+        "data-readonly": []
+      },
+      "classes": [
+        "signature-pad--bordered",
+        "signature-pad--lg",
+        "signature-pad--md",
+        "signature-pad--sm",
+        "signature-pad__control",
+        "signature-pad__guide",
+        "signature-pad__segment"
+      ],
+      "runtime": []
+    },
+    "Skeleton": {
+      "attributes": {},
+      "classes": [
+        "skeleton",
+        "skeleton--animated",
+        "skeleton--circle",
+        "skeleton--rect",
+        "skeleton--rounded",
+        "skeleton--text",
+        "skeleton-group"
+      ],
+      "runtime": []
+    },
+    "Splitter": {
+      "attributes": {
+        "data-disabled": [],
+        "data-dragging": [],
+        "data-focus": []
+      },
+      "classes": [
+        "splitter",
+        "splitter--horizontal",
+        "splitter--subtle",
+        "splitter--vertical",
+        "splitter__grip",
+        "splitter__panel",
+        "splitter__trigger"
+      ],
+      "runtime": []
+    },
+    "Steps": {
+      "attributes": {
+        "data-complete": [],
+        "data-current": []
+      },
+      "classes": [
+        "steps",
+        "steps--dotted",
+        "steps--lg",
+        "steps--numbered",
+        "steps--sm",
+        "steps--vertical",
+        "steps__actions",
+        "steps__content",
+        "steps__description",
+        "steps__indicator",
+        "steps__indicator-check",
+        "steps__indicator-number",
+        "steps__item",
+        "steps__list",
+        "steps__separator",
+        "steps__text",
+        "steps__title",
+        "steps__trigger"
+      ],
+      "runtime": []
+    },
+    "Switch": {
+      "attributes": {
+        "data-disabled": [],
+        "data-focus-visible": [],
+        "data-state": [
+          "checked"
+        ]
+      },
+      "classes": [
+        "switch",
+        "switch__label",
+        "switch__thumb",
+        "switch__track"
+      ],
+      "runtime": []
+    },
+    "Tabs": {
+      "attributes": {
+        "data-disabled": [],
+        "data-selected": []
+      },
+      "classes": [
+        "tabs",
+        "tabs--small",
+        "tabs--vertical",
+        "tabs__list",
+        "tabs__panel",
+        "tabs__panels",
+        "tabs__tab"
+      ],
+      "runtime": []
+    },
+    "Tag": {
+      "attributes": {},
+      "classes": [
+        "tag",
+        "tag--caution",
+        "tag--error",
+        "tag--info",
+        "tag--info-secondary",
+        "tag--lg",
+        "tag--md",
+        "tag--sm",
+        "tag--subdued",
+        "tag--success",
+        "tag--warning",
+        "tag__icon",
+        "tag__label"
+      ],
+      "runtime": []
+    },
+    "TagsInput": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": [],
+        "data-invalid": []
+      },
+      "classes": [
+        "tags-input--lg",
+        "tags-input--sm",
+        "tags-input__control",
+        "tags-input__entry",
+        "tags-input__tag",
+        "tags-input__tag-delete",
+        "tags-input__tag-input",
+        "tags-input__tag-label"
+      ],
+      "runtime": []
+    },
+    "TextArea": {
+      "attributes": {
+        "data-resize": [
+          "both",
+          "horizontal",
+          "none"
+        ]
+      },
+      "classes": [
+        "field--lg",
+        "textarea-field__control"
+      ],
+      "runtime": []
+    },
+    "Timer": {
+      "attributes": {},
+      "classes": [
+        "timer",
+        "timer--boxed",
+        "timer--lg",
+        "timer--sm",
+        "timer__area",
+        "timer__control",
+        "timer__label",
+        "timer__segment",
+        "timer__separator",
+        "timer__value"
+      ],
+      "runtime": []
+    },
+    "Toast": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "toast__action",
+        "toast__close",
+        "toast__content",
+        "toast__description",
+        "toast__icon",
+        "toast__root",
+        "toast__root--error",
+        "toast__root--info",
+        "toast__root--success",
+        "toast__root--warning",
+        "toast__title",
+        "toast__viewport"
+      ],
+      "runtime": []
+    },
+    "Toggle": {
+      "attributes": {
+        "data-disabled": [],
+        "data-orientation": [
+          "vertical"
+        ],
+        "data-state": [
+          "on"
+        ]
+      },
+      "classes": [
+        "toggle",
+        "toggle--icon-only",
+        "toggle--lg",
+        "toggle--md",
+        "toggle--sm",
+        "toggle-group"
+      ],
+      "runtime": []
+    },
+    "Toolbar": {
+      "attributes": {
+        "data-orientation": [
+          "vertical"
+        ]
+      },
+      "classes": [
+        "toolbar",
+        "toolbar__group"
+      ],
+      "runtime": []
+    },
+    "Tooltip": {
+      "attributes": {
+        "data-state": [
+          "closed"
+        ]
+      },
+      "classes": [
+        "tooltip__popup",
+        "tooltip__trigger"
+      ],
+      "runtime": []
+    },
+    "Tour": {
+      "attributes": {},
+      "classes": [
+        "tour__actions",
+        "tour__arrow",
+        "tour__arrow-tip",
+        "tour__backdrop",
+        "tour__close",
+        "tour__content",
+        "tour__content--compact",
+        "tour__content--default",
+        "tour__content--lg",
+        "tour__content--md",
+        "tour__content--sm",
+        "tour__description",
+        "tour__footer",
+        "tour__header",
+        "tour__progress",
+        "tour__spotlight",
+        "tour__title"
+      ],
+      "runtime": [
+        "--tour-layer"
+      ]
+    },
+    "TreeView": {
+      "attributes": {
+        "data-disabled": [],
+        "data-focus": [],
+        "data-selected": [],
+        "data-state": [
+          "open"
+        ]
+      },
+      "classes": [
+        "tree-view",
+        "tree-view--bordered",
+        "tree-view--lg",
+        "tree-view--sm",
+        "tree-view__branch-content",
+        "tree-view__branch-control",
+        "tree-view__branch-indicator",
+        "tree-view__indent-guide",
+        "tree-view__item",
+        "tree-view__label",
+        "tree-view__node-icon",
+        "tree-view__node-text",
+        "tree-view__tree"
+      ],
+      "runtime": [
+        "--depth"
+      ]
+    },
+    "typography": {
+      "attributes": {},
+      "classes": [
+        "text-default-body-large",
+        "text-default-body-medium",
+        "text-default-body-small",
+        "text-default-caption",
+        "text-default-display-large",
+        "text-default-display-medium",
+        "text-default-display-xlarge",
+        "text-default-heading-large",
+        "text-default-heading-medium",
+        "text-default-heading-small",
+        "text-emphasis-body-large",
+        "text-emphasis-body-medium",
+        "text-emphasis-body-small",
+        "text-emphasis-caption",
+        "text-emphasis-display-large",
+        "text-emphasis-display-medium",
+        "text-emphasis-display-xlarge",
+        "text-emphasis-heading-large",
+        "text-emphasis-heading-medium",
+        "text-emphasis-heading-small",
+        "text-heavy-body-large",
+        "text-heavy-body-medium",
+        "text-heavy-body-small",
+        "text-heavy-caption",
+        "text-heavy-display-large",
+        "text-heavy-display-medium",
+        "text-heavy-display-xlarge",
+        "text-heavy-heading-large",
+        "text-heavy-heading-medium",
+        "text-heavy-heading-small",
+        "text-strong-body-large",
+        "text-strong-body-medium",
+        "text-strong-body-small",
+        "text-strong-caption",
+        "text-strong-display-large",
+        "text-strong-display-medium",
+        "text-strong-display-xlarge",
+        "text-strong-heading-large",
+        "text-strong-heading-medium",
+        "text-strong-heading-small"
+      ],
+      "runtime": []
+    }
+  }
+}

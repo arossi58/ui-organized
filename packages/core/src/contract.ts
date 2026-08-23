@@ -186,3 +186,10 @@ export function writeContract(): string[] {
   return required;
 }
 
+
+/**
+ * The state contract — what a library must *emit*, as opposed to what a theme
+ * must supply. Re-exported here so `@ui-organized/core/contract` stays the one
+ * Node-only entry point.
+ */
+export * from "./stateContract.js";
