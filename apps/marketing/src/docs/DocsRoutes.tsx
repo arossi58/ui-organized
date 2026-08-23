@@ -9,6 +9,7 @@
 import { useRef, type RefObject } from "react";
 import { Route, Routes } from "react-router-dom";
 import { DocsLayout } from "./components";
+import { DocsFrameworkProvider } from "./frameworks";
 import { DocsIntroPage } from "./pages/DocsIntroPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
 import { ThemingPage } from "./pages/ThemingPage";
@@ -24,22 +25,26 @@ export default function DocsRoutes() {
   const overlayHost = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="docs-page">
-      {/* Same flat-surface dot lattice the home hero sits on, behind the frame. */}
-      <div className="docs-page__dots dot-grid" aria-hidden="true" />
-      <div className="docs-page__stage">
-        <div className="docs-page__frame">
-          <DocsRouteTree overlayHost={overlayHost} />
+    // Above everything, so the selected framework survives navigating between
+    // component pages rather than resetting on each one.
+    <DocsFrameworkProvider>
+      <div className="docs-page">
+        {/* Same flat-surface dot lattice the home hero sits on, behind the frame. */}
+        <div className="docs-page__dots dot-grid" aria-hidden="true" />
+        <div className="docs-page__stage">
+          <div className="docs-page__frame">
+            <DocsRouteTree overlayHost={overlayHost} />
+          </div>
         </div>
+        {/* Zero-height; it exists only to give the compact nav sheet somewhere to
+            portal to. Inside `.docs-page`, whose `isolation: isolate` scopes the
+            sheet's z-index below the site nav's — so the nav pill stays on top and
+            the docs nav never takes the primary navigation's place. Outside the
+            frame and the stage, because both clip, and a preview surface deeper in
+            uses `contain: paint` (which does trap `position: fixed`). */}
+        <div className="docs-page__overlays" ref={overlayHost} />
       </div>
-      {/* Zero-height; it exists only to give the compact nav sheet somewhere to
-          portal to. Inside `.docs-page`, whose `isolation: isolate` scopes the
-          sheet's z-index below the site nav's — so the nav pill stays on top and
-          the docs nav never takes the primary navigation's place. Outside the
-          frame and the stage, because both clip, and a preview surface deeper in
-          uses `contain: paint` (which does trap `position: fixed`). */}
-      <div className="docs-page__overlays" ref={overlayHost} />
-    </div>
+    </DocsFrameworkProvider>
   );
 }
 

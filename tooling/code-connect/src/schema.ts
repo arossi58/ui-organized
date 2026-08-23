@@ -13,7 +13,12 @@
 /** Bump on any removal/rename of a field. Additive changes keep the same version. */
 export const MANIFEST_VERSION = 1 as const;
 
-export type Framework = "react" | "angular" | "swiftui" | "compose";
+/**
+ * Frameworks a mapping can target. `react`, `svelte`, `vue` and `angular` are the
+ * ones the docs site can render a code sample for — see `DOC_FRAMEWORKS` in
+ * frameworks.ts, which is checked against this union at compile time.
+ */
+export type Framework = "react" | "svelte" | "vue" | "angular" | "swiftui" | "compose";
 
 /** Lifecycle of a code component's mapping entry. */
 export type ComponentStatus = "active" | "deprecated" | "draft";

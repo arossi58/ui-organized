@@ -69,7 +69,7 @@ export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): 
         "similarity score — treat low scores as unconfirmed.",
       inputSchema: {
         query: z.string().describe("Name or path fragment to search for"),
-        framework: z.enum(["react", "angular", "swiftui", "compose"]).optional(),
+        framework: z.enum(["react", "svelte", "vue", "angular", "swiftui", "compose"]).optional(),
         status: z.enum(["active", "deprecated", "draft"]).optional(),
       },
     },

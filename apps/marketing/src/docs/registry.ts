@@ -103,6 +103,16 @@ export interface DocsStory {
    * React remounts cleanly when you switch stories.
    */
   Story: ComponentType<{ args: Args }>;
+  /**
+   * True when Storybook renders `meta.component` with `args` and nothing else —
+   * no `render` function, no hand-written composition.
+   *
+   * It is the only case where a snippet built from the args is provably the
+   * whole example rather than a fragment of it, which is what the non-React
+   * framework samples are derived from. A story that composes five buttons and
+   * an args-derived Svelte snippet showing one of them is a caption that lies.
+   */
+  argsOnly: boolean;
 }
 
 export interface DocsComponent {
@@ -300,6 +310,7 @@ export function buildRegistry(
         // Storybook hides every story in these files except the one that re-adds
         // the `dev` tag — that one is the canonical single instance.
         isInspect: exportName === "Inspect" || (story.tags?.includes("dev") ?? false),
+        argsOnly: !renderFn && Boolean(Component),
         Story,
       });
     }
