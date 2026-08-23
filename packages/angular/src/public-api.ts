@@ -1,6 +1,10 @@
 export { UioPart, stateFlag, UIO_PART_ATTRIBUTES } from "./lib/part.js";
 export { UioAlert, type AlertVariant } from "./lib/alert/alert.js";
 export { UioButton, type ButtonIntent } from "./lib/button/button.js";
+export { UioFieldError } from "./lib/field-error/field-error.js";
+export { HostPresence } from "./lib/host-presence.js";
+export { UioSwitch } from "./lib/switch/switch.js";
+export { VISUALLY_HIDDEN_INPUT, nextMachineId } from "./lib/part-ids.js";
 export {
   UioCard,
   UioCardHeader,

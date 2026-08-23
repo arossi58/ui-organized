@@ -101,7 +101,9 @@ export const ANGULAR_COMPONENTS = new Set([
   "Icon",
   "Card",
   "Divider",
+  "FieldError",
   "Skeleton",
+  "Switch",
   "Tag",
 ]);
 
@@ -228,6 +230,24 @@ export const SCENARIOS: BrowserScenario[] = [
       name: "provider/solid has no stroke",
       props: { name: "check", provider: { style: "solid", strokeAdjustment: true } },
     },
+  ]),
+  ...staticScenarios("FieldError", [
+    { name: "with message", props: { message: "Required" } },
+    // Renders nothing at all — not an empty pill, which carries layout and a
+    // background colour.
+    { name: "empty renders nothing", props: { message: "" } },
+  ]),
+  ...staticScenarios("Switch", [
+    { name: "default" },
+    { name: "with label", props: { label: "Wifi" } },
+    // The case OMIT_ARIA exists for in the other three: with no label part
+    // there is nothing for aria-labelledby to name, and a dangling IDREF
+    // outranks aria-label.
+    { name: "no label, aria-label", props: { "aria-label": "Wifi" } },
+    { name: "checked", props: { defaultChecked: true } },
+    { name: "disabled", props: { disabled: true, label: "Wifi" } },
+    { name: "required", props: { required: true, label: "Wifi" } },
+    { name: "named", props: { name: "wifi", label: "Wifi" } },
   ]),
   ...staticScenarios("Card", [
     { name: "default" },

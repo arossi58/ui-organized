@@ -1,4 +1,5 @@
-import { Directive, ElementRef, computed, effect, inject, input, type OnInit } from "@angular/core";
+import { Directive, ElementRef, computed, effect, inject, input } from "@angular/core";
+import { HostPresence } from "../host-presence.js";
 import {
   resolveIconComponent,
   resolveIconStroke,
@@ -85,18 +86,16 @@ export function applySvgProps(
  * `Icon` renders **nothing** when it cannot resolve a name — no set registered,
  * or a name the set does not have. In React that is a `return null` and no
  * element exists. A directive cannot decline to render the element the caller
- * wrote, so it takes the element out instead. An empty `<span class="icon">`
- * would not be invisible: `.icon` is `display: inline-flex` with its own
- * layout, and it would hold space in a flex row that has no icon in the other
- * three libraries.
- *
- * That decision is made once, at init, because it is a misconfiguration rather
- * than a state — registering an icon set after the first render is not a case
- * this supports, in any of the four libraries.
+ * wrote, so `HostPresence` takes the element out instead, reversibly: a name
+ * bound to a signal can become resolvable later, and the span has to come back
+ * where it was. An empty `<span class="icon">` is not a substitute — `.icon` is
+ * `display: inline-flex` with its own layout, and it would hold space in a flex
+ * row that has no icon in the other three libraries.
  */
 @Directive({
   selector: "span[uioIcon]",
   standalone: true,
+  providers: [HostPresence],
   host: {
     class: "icon",
     "[attr.aria-label]": "label() ?? null",
@@ -104,7 +103,7 @@ export function applySvgProps(
     "[attr.role]": "label() ? 'img' : null",
   },
 })
-export class UioIcon implements OnInit {
+export class UioIcon {
   /** A canonical name from the design system's set. */
   readonly name = input<CanonicalIconName | undefined>(undefined);
   /**
@@ -126,6 +125,7 @@ export class UioIcon implements OnInit {
 
   private readonly config = injectIconConfig();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly presence = inject(HostPresence);
 
   private readonly set = computed<IconSet | undefined>(() => {
     if (this.svg()) return undefined;
@@ -163,7 +163,6 @@ export class UioIcon implements OnInit {
     return resolveIconSvgProps(this.set(), this.size(), stroke);
   });
 
-  private removed = false;
   private drawn?: { markup: string; element: SVGElement };
   private applied: ReadonlySet<string> = new Set();
 
@@ -171,18 +170,17 @@ export class UioIcon implements OnInit {
     effect(() => {
       const markup = this.markup();
       const props = this.svgProps();
-      if (this.removed || !markup) return;
+      this.presence.set(!!markup);
+      if (!markup) {
+        // Once per library, globally — see the warning's own note on why it
+        // fires in production too.
+        if (!this.svg() && !this.set()) {
+          warnMissingIconSet(this.config().library, registeredLibraries());
+        }
+        return;
+      }
       this.draw(markup, props);
     });
-  }
-
-  ngOnInit(): void {
-    if (this.markup()) return;
-    if (!this.svg() && !this.set()) {
-      warnMissingIconSet(this.config().library, registeredLibraries());
-    }
-    this.host.nativeElement.remove();
-    this.removed = true;
   }
 
   private draw(markup: string, props: Record<string, unknown>): void {

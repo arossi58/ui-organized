@@ -3,7 +3,9 @@ import { AlertFixture } from "./alert.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
 import { CardFixture } from "./card.fixture.js";
 import { DividerFixture } from "./divider.fixture.js";
+import { FieldErrorFixture } from "./field-error.fixture.js";
 import { IconFixture } from "./icon.fixture.js";
+import { SwitchFixture } from "./switch.fixture.js";
 import { SkeletonFixture } from "./skeleton.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
 import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
@@ -23,7 +25,9 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Button: ButtonFixture,
   Card: CardFixture,
   Divider: DividerFixture,
+  FieldError: FieldErrorFixture,
   Icon: IconFixture,
+  Switch: SwitchFixture,
   Skeleton: SkeletonFixture,
   Tag: TagFixture,
   // Not a component in the library yet — see the fixture for what it proves.

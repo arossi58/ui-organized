@@ -54,3 +54,6 @@ apps/marketing/SITE.md
 svg-animations/
 /theme.json
 .wrangler/
+
+# Scratch harness drivers, written while debugging a scenario
+tooling/parity/dbg*.mjs
