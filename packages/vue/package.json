@@ -12,7 +12,7 @@
     "directory": "packages/vue"
   },
   "bugs": { "url": "https://github.com/arossi58/ui-organized/issues" },
-  "sideEffects": ["**/*.css"],
+  "sideEffects": ["**/*.css", "./dist/icons/*.js"],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -21,6 +21,18 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./icons/lucide": {
+      "types": "./dist/icons/entry-lucide.d.ts",
+      "import": "./dist/icons/entry-lucide.js"
+    },
+    "./icons/tabler": {
+      "types": "./dist/icons/entry-tabler.d.ts",
+      "import": "./dist/icons/entry-tabler.js"
+    },
+    "./icons/heroicons": {
+      "types": "./dist/icons/entry-heroicons.d.ts",
+      "import": "./dist/icons/entry-heroicons.js"
     },
     "./styles": "./dist/styles.css",
     "./styles.css": "./dist/styles.css",
@@ -33,10 +45,25 @@
     "dev": "vite build --watch",
     "test": "vitest run --passWithNoTests",
     "lint": "eslint src/",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test:smoke": "node scripts/smoke-icons.mjs"
   },
   "peerDependencies": {
+    "@heroicons/vue": ">=2.0.0",
+    "@lucide/vue": ">=1.0.0",
+    "@tabler/icons-vue": ">=3.0.0",
     "vue": ">=3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@lucide/vue": {
+      "optional": true
+    },
+    "@tabler/icons-vue": {
+      "optional": true
+    },
+    "@heroicons/vue": {
+      "optional": true
+    }
   },
   "dependencies": {
     "@ark-ui/vue": "^5.39.0",
@@ -45,6 +72,9 @@
     "clsx": "^2.1.0"
   },
   "devDependencies": {
+    "@heroicons/vue": "^2.2.0",
+    "@lucide/vue": "^1.33.0",
+    "@tabler/icons-vue": "^3.46.0",
     "@types/node": "^20.0.0",
     "@ui-organized/tsconfig": "workspace:*",
     "@vitejs/plugin-vue": "^5.2.0",

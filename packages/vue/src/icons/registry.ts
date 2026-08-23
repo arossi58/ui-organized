@@ -17,7 +17,7 @@ import {
 
 export type { IconLibrary } from "@ui-organized/core";
 
-/** An icon component supplied directly — e.g. from lucide-vue-next. */
+/** An icon component supplied directly — e.g. `Image` from `@lucide/vue`. */
 export type IconComponent = Component;
 
 /** Canonical name → Vue component, for one library in one style. */

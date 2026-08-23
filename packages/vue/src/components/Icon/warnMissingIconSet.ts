@@ -21,7 +21,8 @@ type GlobalWithWarned = typeof globalThis & { [WARNED_KEY]?: Set<string> };
 const warned: Set<string> = ((globalThis as GlobalWithWarned)[WARNED_KEY] ??= new Set());
 
 const PACKAGE_FOR: Record<IconLibrary, string> = {
-  lucide: "lucide-vue-next",
+  // `lucide-vue-next` is deprecated on npm in favour of this one.
+  lucide: "@lucide/vue",
   tabler: "@tabler/icons-vue",
   heroicons: "@heroicons/vue",
 };
