@@ -166,3 +166,29 @@ export type {
 
 export { Clipboard } from "./components/Clipboard/index.js";
 export type { ClipboardProps, ClipboardVariants } from "./components/Clipboard/index.js";
+
+export { Alert } from "./components/Alert/index.js";
+export type { AlertProps, AlertVariants } from "./components/Alert/index.js";
+
+export { Breadcrumb } from "./components/Breadcrumb/index.js";
+export type { BreadcrumbProps, BreadcrumbItem } from "./components/Breadcrumb/index.js";
+
+export { Meter } from "./components/Meter/index.js";
+export type { MeterProps, MeterVariants } from "./components/Meter/index.js";
+
+export { Toolbar, ToolbarGroup } from "./components/Toolbar/index.js";
+export type { ToolbarProps } from "./components/Toolbar/index.js";
+
+export { Menubar, useInMenubar } from "./components/Menubar/index.js";
+export type { MenubarProps } from "./components/Menubar/index.js";
+
+export { Pagination } from "./components/Pagination/index.js";
+export type { PaginationProps } from "./components/Pagination/index.js";
+
+export {
+  Sidebar, NavItem, NavSubItem, NavProvider, provideNavContext, useNavContext,
+} from "./components/Navigation/index.js";
+export type {
+  SidebarProps, NavItemProps, NavSubItemProps, NavProviderProps,
+  NavContextValue, NavContextRef, NavItemVariants, NavSubItemVariants,
+} from "./components/Navigation/index.js";

@@ -121,3 +121,23 @@ export {
   type SelectSize,
   type SelectVariant,
 } from "./lib/select/select.js";
+export {
+  UioTabs,
+  type TabItem,
+  type TabsOrientation,
+  type TabsSize,
+} from "./lib/tabs/tabs.js";
+export {
+  UioAccordion,
+  type AccordionItem,
+  type AccordionSize,
+  type AccordionVariant,
+} from "./lib/accordion/accordion.js";
+export {
+  UioToaster,
+  UioToastRegion,
+  type ToastAction,
+  type ToastOptions,
+  type ToastRecord,
+  type ToastStatus,
+} from "./lib/toast/toast.js";

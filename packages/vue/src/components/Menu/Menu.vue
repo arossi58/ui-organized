@@ -1,10 +1,9 @@
 <!--
   Menu root — controls open state.
 
-  Unlike the React package this does not integrate with Menubar: Menubar is not
-  part of the tier-1 set, so the trigger never needs to become one of a bar's
-  menuitems. When Menubar lands, the trigger gains the same role and
-  data-menubar-item treatment.
+  A menu placed inside a `Menubar` needs no special spelling here: the bar
+  announces itself on provide/inject and `MenuTrigger` reads it, so the trigger
+  becomes one of the bar's menuitems on its own.
 -->
 <script setup lang="ts">
 import { computed } from "vue";

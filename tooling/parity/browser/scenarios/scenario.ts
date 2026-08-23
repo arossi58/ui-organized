@@ -105,6 +105,7 @@ export interface BrowserScenario {
  * having the fourth library in the comparison.
  */
 export const ANGULAR_COMPONENTS = new Set([
+  "Accordion",
   "Alert",
   "Button",
   "Checkbox",
@@ -122,8 +123,10 @@ export const ANGULAR_COMPONENTS = new Set([
   "SelectInDialog",
   "Skeleton",
   "Switch",
+  "Tabs",
   "Tag",
   "TextArea",
+  "Toast",
   "Tooltip",
 ]);
 

@@ -1,4 +1,5 @@
 import type { Type } from "@angular/core";
+import { AccordionFixture } from "./accordion.fixture.js";
 import { AlertFixture } from "./alert.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
 import { CardFixture } from "./card.fixture.js";
@@ -17,8 +18,10 @@ import { SwitchFixture } from "./switch.fixture.js";
 import { SelectFixture } from "./select.fixture.js";
 import { SelectInDialogFixture } from "./select-in-dialog.fixture.js";
 import { SkeletonFixture } from "./skeleton.fixture.js";
+import { TabsFixture } from "./tabs.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
 import { TextAreaFixture } from "./text-area.fixture.js";
+import { ToastFixture } from "./toast.fixture.js";
 import { TooltipFixture } from "./tooltip.fixture.js";
 
 /**
@@ -32,6 +35,7 @@ import { TooltipFixture } from "./tooltip.fixture.js";
  * matters, in the engine the CSS is written for.
  */
 export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
+  Accordion: AccordionFixture,
   Alert: AlertFixture,
   Button: ButtonFixture,
   Card: CardFixture,
@@ -49,8 +53,10 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Select: SelectFixture,
   SelectInDialog: SelectInDialogFixture,
   Skeleton: SkeletonFixture,
+  Tabs: TabsFixture,
   Tag: TagFixture,
   TextArea: TextAreaFixture,
+  Toast: ToastFixture,
   Tooltip: TooltipFixture,
   /**
    * Not a component — an *arrangement* of two of them, and the one this port was

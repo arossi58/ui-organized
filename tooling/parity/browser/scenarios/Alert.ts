@@ -1,9 +1,13 @@
 import { staticScenarios, type BrowserScenario } from "./scenario.js";
 
 /**
- * Alert is in React's tier-1 and Angular's, and in neither Svelte's nor Vue's
- * — so React is the only side to compare against, and the skip entries say so
- * rather than the scenarios quietly not existing.
+ * Alert is in React's tier-1, Angular's and now Vue's, and still not in
+ * Svelte's — so the skip entry names that one absence rather than the scenarios
+ * quietly not existing.
+ *
+ * The spec these mount is no longer hand-written: `src/cases/Alert.tsx` gives
+ * the component an SSR spec, and `BROWSER_SPECS` derives from `SPECS`, so React
+ * and Vue arrive here for free.
  */
 const scenarios: BrowserScenario[] = staticScenarios(
   "Alert",
@@ -19,10 +23,7 @@ const scenarios: BrowserScenario[] = staticScenarios(
   ).map(({ name, props }) => ({
     name,
     props: props as Record<string, unknown>,
-    skip: [
-      { framework: "svelte", reason: "Alert is not in the Svelte package's tier-1." },
-      { framework: "vue", reason: "Alert is not in the Vue package's tier-1." },
-    ],
+    skip: [{ framework: "svelte", reason: "Alert is not in the Svelte package's tier-1." }],
   })),
 );
 

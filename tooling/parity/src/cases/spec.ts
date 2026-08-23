@@ -22,6 +22,21 @@ import type { ComponentType, ReactElement } from "react";
  */
 export interface ParityCase {
   name: string;
+  /**
+   * Passed to **every** framework, which is what makes the comparison mean
+   * anything — and the one thing that catches people out.
+   *
+   * A default written into the `react` builder (`react: ({ value = 60 }) => …`)
+   * is invisible to the other three: they receive the props object as it is
+   * written here, without it. The symptom is a diff that looks like a port bug
+   * — React rendering `aria-valuetext="60"` against a Vue `NaN` — when what
+   * actually happened is that only one side was given the value. That cost one
+   * wave sixteen failures before it was spotted.
+   *
+   * So a case that needs a value states it here. The builders are for shape —
+   * which children a component gets, how a compound one is assembled — not for
+   * filling in props.
+   */
   props?: Record<string, unknown>;
 }
 
