@@ -2,6 +2,7 @@ import type { ComponentType, ReactElement } from "react";
 import {
   ToastProvider as RToastProvider,
   useToastManager as useReactToastManager,
+  Alert as RAlert,
   Dialog as RDialog,
   DialogTrigger as RDialogTrigger,
   DialogContent as RDialogContent,
@@ -27,8 +28,15 @@ import VueSelectInDialogFixture from "./fixtures/vue/SelectInDialogFixture.vue";
  */
 export interface BrowserSpec {
   react: (props: Record<string, any>) => ReactElement;
-  svelte: ComponentType<any>;
-  vue: ComponentType<any>;
+  /**
+   * Optional, because tier-1 is not the same list in every library. Alert is in
+   * React's and Angular's and in neither Svelte's nor Vue's, so there is nothing
+   * to compare rather than something failing. A scenario for such a component
+   * declares the absence with a `skip` entry, which has to state a reason.
+   */
+  svelte?: ComponentType<any>;
+  vue?: ComponentType<any>;
+  angular?: unknown;
 }
 
 /**
@@ -67,6 +75,20 @@ function ReactSelectInDialogFixture({ options = [] }: { options?: any[] }) {
 }
 
 const EXTRA: Record<string, BrowserSpec> = {
+  // Not in the Svelte or Vue tier-1 lists, so React is the only side to compare
+  // Angular against.
+  Alert: {
+    // `onDismiss` cannot travel through a URL as a function, so the scenario
+    // sends a boolean and the fixture supplies the callback. React renders the
+    // dismiss button on the *presence* of the prop; Angular takes an explicit
+    // `dismissible` input, because an Angular output exists whether or not
+    // anyone subscribed.
+    react: ({ children = "Something happened", onDismiss, ...p }) => (
+      <RAlert {...p} onDismiss={onDismiss ? () => {} : undefined}>
+        {children}
+      </RAlert>
+    ),
+  },
   Toast: {
     react: (p) => <ReactToastFixture {...p} />,
     svelte: ToastFixture as unknown as ComponentType<any>,

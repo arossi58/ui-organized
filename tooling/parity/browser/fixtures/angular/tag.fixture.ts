@@ -12,6 +12,8 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [variant]="p['variant'] ?? 'success'"
       [size]="p['size'] ?? 'md'"
       [emphasized]="p['emphasized'] ?? true"
+      [icon]="p['icon']"
+      [iconPosition]="p['iconPosition'] ?? 'left'"
     >Label</span>
   `,
 })

@@ -13,9 +13,11 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [size]="p['size'] ?? 'md'"
       [type]="p['type'] ?? 'button'"
       [disabled]="!!p['disabled']"
+      [icon]="p['icon']"
+      [iconPosition]="p['iconPosition'] ?? 'left'"
       [class]="p['class'] ?? ''"
       [attr.aria-label]="p['aria-label'] ?? null"
-    >Label</button>
+    >@if (!p['iconOnly']) {Label}</button>
   `,
 })
 export class ButtonFixture {

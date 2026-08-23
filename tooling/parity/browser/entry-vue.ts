@@ -6,7 +6,9 @@ import { specFor } from "./specs.js";
 
 const { component, props } = caseFromUrl();
 const mount = mountPoint();
-createApp(specFor(component).vue as never, props).mount(mount);
+const fixture = specFor(component).vue;
+if (!fixture) throw new Error(`parity harness: Vue has no ${component} — the scenario should skip it`);
+createApp(fixture as never, props).mount(mount);
 
 /**
  * `mount()` stamps `data-v-app` on the element it took over. That marks the

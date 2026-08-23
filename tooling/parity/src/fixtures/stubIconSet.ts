@@ -41,6 +41,13 @@ export function stubSvgProps(size: number, stroke: number | undefined): Record<s
  * Lucide ships no solid set at all, so `resolveIconComponent`'s fall back to
  * outline is the normal path rather than an edge case. `star` is registered in
  * neither, so "this library has no icon for that name" is covered too.
+ *
+ * The four status names are here so that components which pick an icon *for*
+ * you — Alert maps its variant to one — render something rather than matching
+ * two absences. Note what that still does not cover: one stub component serves
+ * every name, so a library mapping `warning` to the wrong glyph looks identical.
+ * Distinguishing names would need a separate stub per name in all four
+ * libraries, since a component cannot know which name resolved to it.
  */
 export function makeStubIconSet<T>(
   outline: T,
@@ -58,7 +65,14 @@ export function makeStubIconSet<T>(
 ): IconSet<T> {
   return {
     library: "lucide",
-    outline: { check: outline, close: outline },
+    outline: {
+      check: outline,
+      close: outline,
+      info: outline,
+      "check-circle": outline,
+      "alert-triangle": outline,
+      "alert-circle": outline,
+    },
     solid: { check: solid },
     svgProps,
   };

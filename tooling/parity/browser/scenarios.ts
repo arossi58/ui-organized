@@ -96,6 +96,7 @@ export interface BrowserScenario {
  * having the fourth library in the comparison.
  */
 export const ANGULAR_COMPONENTS = new Set([
+  "Alert",
   "Button",
   "Icon",
   "Card",
@@ -163,6 +164,13 @@ export const SCENARIOS: BrowserScenario[] = [
     { name: "submit", props: { type: "submit" } },
     { name: "custom class", props: { className: "mine" } },
     { name: "aria-label", props: { "aria-label": "Save" } },
+    { name: "icon left", props: { icon: "check" } },
+    { name: "icon right", props: { icon: "check", iconPosition: "right" } },
+    // Icons scale with the control size, from the shared table.
+    { name: "icon sized", props: { icon: "check", size: "sm" } },
+    // `.btn--icon-only` squares the button so it lines up with a labelled one.
+    // Every library decides it by asking whether it was given children at all.
+    { name: "icon only", props: { icon: "check", iconOnly: true } },
   ]),
   /**
    * Mirrors the SSR gate's Icon spec, because Angular is compared in the browser
@@ -238,7 +246,34 @@ export const SCENARIOS: BrowserScenario[] = [
     { name: "variant/info-secondary", props: { variant: "info-secondary" } },
     { name: "size/sm", props: { size: "sm" } },
     { name: "subdued", props: { emphasized: false } },
+    { name: "icon left", props: { icon: "check" } },
+    { name: "icon right", props: { icon: "check", iconPosition: "right" } },
   ]),
+  /**
+   * Alert is in React's tier-1 and Angular's, and in neither Svelte's nor Vue's
+   * — so React is the only side to compare against, and the skip entries say so
+   * rather than the scenarios quietly not existing.
+   */
+  ...staticScenarios(
+    "Alert",
+    (
+      [
+        { name: "default", props: {} },
+        { name: "variant/success", props: { variant: "success" } },
+        { name: "variant/warning", props: { variant: "warning" } },
+        { name: "variant/error", props: { variant: "error" } },
+        { name: "with title", props: { variant: "error", title: "Upload failed" } },
+        { name: "dismissible", props: { onDismiss: true } },
+      ] as const
+    ).map(({ name, props }) => ({
+      name,
+      props: props as Record<string, unknown>,
+      skip: [
+        { framework: "svelte", reason: "Alert is not in the Svelte package's tier-1." },
+        { framework: "vue", reason: "Alert is not in the Vue package's tier-1." },
+      ],
+    })),
+  ),
   ...staticScenarios("Skeleton", [
     { name: "default" },
     { name: "variant/circle", props: { variant: "circle" } },

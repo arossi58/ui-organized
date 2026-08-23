@@ -290,7 +290,9 @@ export const SPECS: ParitySpec[] = [
   },
   {
     component: "Button",
-    react: (p) => <RButton {...p}>Label</RButton>,
+    // `iconOnly` branches outside the component — see ButtonFixture.svelte.
+    react: ({ iconOnly, ...p }) =>
+      iconOnly ? <RButton {...p} /> : <RButton {...p}>Label</RButton>,
     svelte: ButtonFixture as unknown as ComponentType<any>,
     vue: VueButtonFixture as unknown as ComponentType<any>,
     cases: [

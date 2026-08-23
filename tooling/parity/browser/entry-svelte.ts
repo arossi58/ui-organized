@@ -5,5 +5,7 @@ import { caseFromUrl, mountPoint, signalReady } from "./harness.js";
 import { specFor } from "./specs.js";
 
 const { component, props } = caseFromUrl();
-mount(specFor(component).svelte as never, { target: mountPoint(), props });
+const fixture = specFor(component).svelte;
+if (!fixture) throw new Error(`parity harness: Svelte has no ${component} — the scenario should skip it`);
+mount(fixture as never, { target: mountPoint(), props });
 signalReady();

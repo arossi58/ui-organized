@@ -1,4 +1,5 @@
 import type { Type } from "@angular/core";
+import { AlertFixture } from "./alert.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
 import { CardFixture } from "./card.fixture.js";
 import { DividerFixture } from "./divider.fixture.js";
@@ -18,6 +19,7 @@ import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
  * matters, in the engine the CSS is written for.
  */
 export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
+  Alert: AlertFixture,
   Button: ButtonFixture,
   Card: CardFixture,
   Divider: DividerFixture,
