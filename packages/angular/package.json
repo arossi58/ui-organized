@@ -1,0 +1,68 @@
+{
+  "name": "@ui-organized/angular",
+  "version": "0.1.0",
+  "description": "Angular component library for the ui-organized design system, built on the Angular CDK.",
+  "keywords": [
+    "design-system",
+    "angular",
+    "components",
+    "ui",
+    "cdk",
+    "accessible"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/angular#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/angular"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "private": true,
+  "exports": {
+    "./styles": {
+      "default": "./styles.css"
+    },
+    "./styles.css": {
+      "default": "./styles.css"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json && node scripts/copy-styles.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "@angular/cdk": ">=21",
+    "@angular/common": ">=21",
+    "@angular/core": ">=21",
+    "@angular/forms": ">=21"
+  },
+  "dependencies": {
+    "@ui-organized/core": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
+    "clsx": "^2.1.0",
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/compiler-cli": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/forms": "^21.2.20",
+    "@angular/platform-browser": "^21.2.20",
+    "@types/node": "^20.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
+    "ng-packagr": "^21.2.7",
+    "rxjs": "^7.8.0",
+    "typescript": "^5.9.0",
+    "vitest": "^2.0.0",
+    "zone.js": "^0.15.0"
+  }
+}

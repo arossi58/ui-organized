@@ -19,7 +19,11 @@ export default defineConfig({
   plugins: [svelte({ hot: false }), vue()],
   // Set explicitly rather than inherited from the package's tsconfig, which
   // covers `src` and not this directory.
-  esbuild: { jsx: "automatic", jsxImportSource: "react" },
+  esbuild: {
+    jsx: "automatic",
+    jsxImportSource: "react",
+    tsconfigRaw: { compilerOptions: { experimentalDecorators: true, useDefineForClassFields: false } },
+  },
   server: {
     // Playwright reaches the server over 127.0.0.1; the default `localhost`
     // bind is reachable over IPv6 only on some machines.
