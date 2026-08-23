@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { Range as RRange } from "@ui-organized/react";
 import RangeFixture from "../fixtures/RangeFixture.svelte";
+import VueRangeFixture from "../fixtures/vue/RangeFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "Range",
   react: (p) => <RRange {...p} />,
   svelte: RangeFixture as unknown as ComponentType<any>,
+  vue: VueRangeFixture as unknown as ComponentType<any>,
   cases: [
     // No Label part is rendered — the caption is a Field.Label — so Ark's
     // aria-labelledby on the thumb would name an element that does not exist.

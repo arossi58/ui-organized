@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { PinInput as RPinInput } from "@ui-organized/react";
 import PinInputFixture from "../fixtures/PinInputFixture.svelte";
+import VuePinInputFixture from "../fixtures/vue/PinInputFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "PinInput",
   react: (p) => <RPinInput {...p} />,
   svelte: PinInputFixture as unknown as ComponentType<any>,
+  vue: VuePinInputFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Code" } },

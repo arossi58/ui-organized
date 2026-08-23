@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Pagination as RPagination } from "@ui-organized/react";
+import SveltePaginationFixture from "../fixtures/PaginationFixture.svelte";
 import VuePaginationFixture from "../fixtures/vue/PaginationFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -19,6 +20,7 @@ const spec: ParitySpec = {
   react: ({ page, count, ...p }) => (
     <RPagination page={page} count={count} onPageChange={() => {}} {...p} />
   ),
+  svelte: SveltePaginationFixture as unknown as ComponentType<any>,
   vue: VuePaginationFixture as unknown as ComponentType<any>,
   // Each ellipsis is a real jump menu, and a portalled menu is not comparable
   // under static rendering — see Menu.tsx.

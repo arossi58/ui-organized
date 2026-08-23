@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { RatingGroup as RRatingGroup } from "@ui-organized/react";
 import RatingGroupFixture from "../fixtures/RatingGroupFixture.svelte";
+import VueRatingGroupFixture from "../fixtures/vue/RatingGroupFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "RatingGroup",
   react: (p) => <RRatingGroup {...p} />,
   svelte: RatingGroupFixture as unknown as ComponentType<any>,
+  vue: VueRatingGroupFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Rating" } },

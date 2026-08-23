@@ -192,3 +192,24 @@ export type {
   SidebarProps, NavItemProps, NavSubItemProps, NavProviderProps,
   NavContextValue, NavContextRef, NavItemVariants, NavSubItemVariants,
 } from "./components/Navigation/index.js";
+
+export { PinInput } from "./components/PinInput/index.js";
+export type { PinInputProps, PinInputVariants } from "./components/PinInput/index.js";
+
+export { TagsInput } from "./components/TagsInput/index.js";
+export type { TagsInputProps, TagsInputVariants } from "./components/TagsInput/index.js";
+
+export { RatingGroup } from "./components/RatingGroup/index.js";
+export type { RatingGroupProps, RatingGroupVariants } from "./components/RatingGroup/index.js";
+
+export { Editable } from "./components/Editable/index.js";
+export type { EditableProps, EditableVariants } from "./components/Editable/index.js";
+
+export { FileUpload } from "./components/FileUpload/index.js";
+export type { FileUploadProps, FileUploadVariants } from "./components/FileUpload/index.js";
+
+export { Range } from "./components/Range/index.js";
+export type { RangeProps, RangeVariants } from "./components/Range/index.js";
+
+export { AngleSlider } from "./components/AngleSlider/index.js";
+export type { AngleSliderProps, AngleSliderVariants } from "./components/AngleSlider/index.js";

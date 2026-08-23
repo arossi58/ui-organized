@@ -1,6 +1,7 @@
 import type { Type } from "@angular/core";
 import { AccordionFixture } from "./accordion.fixture.js";
 import { AlertFixture } from "./alert.fixture.js";
+import { BreadcrumbFixture } from "./breadcrumb.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
 import { CardFixture } from "./card.fixture.js";
 import { CheckboxFixture } from "./checkbox.fixture.js";
@@ -11,6 +12,10 @@ import { FieldErrorFixture } from "./field-error.fixture.js";
 import { IconFixture } from "./icon.fixture.js";
 import { InputFixture } from "./input.fixture.js";
 import { MenuFixture } from "./menu.fixture.js";
+import { MenubarFixture } from "./menubar.fixture.js";
+import { MeterFixture } from "./meter.fixture.js";
+import { NavigationFixture } from "./navigation.fixture.js";
+import { PaginationFixture } from "./pagination.fixture.js";
 import { PopoverFixture } from "./popover.fixture.js";
 import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
 import { RadioGroupFixture } from "./radio-group.fixture.js";
@@ -22,6 +27,7 @@ import { TabsFixture } from "./tabs.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
 import { TextAreaFixture } from "./text-area.fixture.js";
 import { ToastFixture } from "./toast.fixture.js";
+import { ToolbarFixture } from "./toolbar.fixture.js";
 import { TooltipFixture } from "./tooltip.fixture.js";
 
 /**
@@ -37,6 +43,7 @@ import { TooltipFixture } from "./tooltip.fixture.js";
 export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Accordion: AccordionFixture,
   Alert: AlertFixture,
+  Breadcrumb: BreadcrumbFixture,
   Button: ButtonFixture,
   Card: CardFixture,
   Checkbox: CheckboxFixture,
@@ -47,6 +54,10 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Icon: IconFixture,
   Input: InputFixture,
   Menu: MenuFixture,
+  Menubar: MenubarFixture,
+  Meter: MeterFixture,
+  Navigation: NavigationFixture,
+  Pagination: PaginationFixture,
   Popover: PopoverFixture,
   RadioGroup: RadioGroupFixture,
   Switch: SwitchFixture,
@@ -57,6 +68,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Tag: TagFixture,
   TextArea: TextAreaFixture,
   Toast: ToastFixture,
+  Toolbar: ToolbarFixture,
   Tooltip: TooltipFixture,
   /**
    * Not a component — an *arrangement* of two of them, and the one this port was

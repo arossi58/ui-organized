@@ -107,6 +107,7 @@ export interface BrowserScenario {
 export const ANGULAR_COMPONENTS = new Set([
   "Accordion",
   "Alert",
+  "Breadcrumb",
   "Button",
   "Checkbox",
   "Dialog",
@@ -117,6 +118,10 @@ export const ANGULAR_COMPONENTS = new Set([
   "FieldError",
   "Input",
   "Menu",
+  "Menubar",
+  "Meter",
+  "Navigation",
+  "Pagination",
   "Popover",
   "RadioGroup",
   "Select",
@@ -127,6 +132,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Tag",
   "TextArea",
   "Toast",
+  "Toolbar",
   "Tooltip",
 ]);
 

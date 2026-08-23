@@ -4,6 +4,7 @@ import {
   NavSubItem as RNavSubItem,
   Sidebar as RSidebar,
 } from "@ui-organized/react";
+import SvelteNavigationFixture from "../fixtures/NavigationFixture.svelte";
 import VueNavigationFixture from "../fixtures/vue/NavigationFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -29,6 +30,7 @@ const spec: ParitySpec = {
       </RNavItem>
     </RSidebar>
   ),
+  svelte: SvelteNavigationFixture as unknown as ComponentType<any>,
   vue: VueNavigationFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },

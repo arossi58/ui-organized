@@ -5,6 +5,7 @@ import {
   Toolbar as RToolbar,
   ToolbarGroup as RToolbarGroup,
 } from "@ui-organized/react";
+import SvelteToolbarFixture from "../fixtures/ToolbarFixture.svelte";
 import VueToolbarFixture from "../fixtures/vue/ToolbarFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -26,6 +27,7 @@ const spec: ParitySpec = {
       <RButton intent="ghost" size="sm">Link</RButton>
     </RToolbar>
   ),
+  svelte: SvelteToolbarFixture as unknown as ComponentType<any>,
   vue: VueToolbarFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },

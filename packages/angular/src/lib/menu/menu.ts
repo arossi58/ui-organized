@@ -29,6 +29,7 @@ import { dividerStyles } from "@ui-organized/core";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
+import { UioMenubarContext } from "../menubar/menubar-context.js";
 import { HostPresence } from "../host-presence.js";
 import { UioIcon } from "../icons/icon.js";
 import { AnchoredSurface } from "../overlay/anchored.js";
@@ -96,7 +97,7 @@ interface MenuItemHandle {
         [id]="partId('popper')"
       >
         <div
-          class="menu__popup"
+          [class]="popupClass()"
           data-scope="menu"
           data-part="content"
           role="menu"
@@ -122,6 +123,18 @@ export class UioMenu implements OnInit, OnDestroy {
   readonly align = input<OverlayAlign>("start");
   readonly sideOffset = input(4);
   readonly alignOffset = input(0);
+  /**
+   * Extra classes for the popup surface.
+   *
+   * The surface is portalled, so a `class` written on `<uio-menu>` would land on
+   * a host element that is removed from the DOM before anything is painted (see
+   * `HostPresence` below) — it cannot reach the popup the way React's
+   * `<MenuContent className>` does. This is the input that can. `UioPagination`
+   * is the caller that needs it: its jump menus carry
+   * `pagination__ellipsis-menu`, which is what caps a long hidden range to a
+   * scrollable height.
+   */
+  readonly contentClass = input<string | undefined>(undefined);
   /** The value of the item that was chosen. */
   readonly select = output<string>();
 
@@ -132,6 +145,7 @@ export class UioMenu implements OnInit, OnDestroy {
   readonly highlighted = signal<string | null>(null);
 
   protected readonly state = computed(() => (this.open() ? "open" : "closed"));
+  protected readonly popupClass = computed(() => clsx("menu__popup", this.contentClass()));
   protected readonly activeDescendant = computed(() => {
     const value = this.highlighted();
     return value === null ? null : this.itemId(value);
@@ -362,6 +376,8 @@ export class UioMenu implements OnInit, OnDestroy {
     "[attr.aria-controls]": "isOpen() ? menu!.partId('content') : null",
     "[attr.data-placement]": "menu?.anchored?.placement() ?? null",
     "[attr.data-side]": "menu?.anchored?.side() ?? null",
+    "[attr.role]": "inMenubar ? 'menuitem' : null",
+    "[attr.data-menubar-item]": "flag(inMenubar)",
     "(click)": "activate()",
     "(keydown)": "onKeydown($event)",
   },
@@ -374,6 +390,21 @@ export class UioMenuTrigger extends UioPart implements OnInit {
   @Input("menu") menu?: UioMenu;
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  /**
+   * Inside a menubar the trigger stops being a button and becomes one of the
+   * bar's menuitems — `role="menubar"` admits no other children — and the data
+   * attribute is how the bar finds its own triggers for the roving tabindex.
+   *
+   * Read from an optional provider rather than passed down: `UioMenu` is an
+   * independent overlay and the bar has no handle on the triggers inside it, so
+   * the bar announces itself and the trigger asks. Outside a bar both attributes
+   * are absent, which is what React renders for a plain menu trigger.
+   *
+   * A plain field, not a signal: a bar does not appear or disappear around a
+   * trigger that is already mounted.
+   */
+  protected readonly inMenubar = !!inject(UioMenubarContext, { optional: true });
 
   protected readonly isOpen: Signal<boolean> = computed(() => !!this.menu?.open());
   override readonly state = computed(() => (this.isOpen() ? "open" : "closed"));

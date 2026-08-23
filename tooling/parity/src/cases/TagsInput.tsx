@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { TagsInput as RTagsInput } from "@ui-organized/react";
 import TagsInputFixture from "../fixtures/TagsInputFixture.svelte";
+import VueTagsInputFixture from "../fixtures/vue/TagsInputFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const tags = ["design", "system"];
@@ -9,6 +10,7 @@ const spec: ParitySpec = {
   component: "TagsInput",
   react: (p) => <RTagsInput {...p} />,
   svelte: TagsInputFixture as unknown as ComponentType<any>,
+  vue: VueTagsInputFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Tags" } },

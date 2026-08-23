@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Breadcrumb as RBreadcrumb } from "@ui-organized/react";
+import SvelteBreadcrumbFixture from "../fixtures/BreadcrumbFixture.svelte";
 import VueBreadcrumbFixture from "../fixtures/vue/BreadcrumbFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -15,6 +16,7 @@ const spec: ParitySpec = {
   // handed the *same* props object, so a default applied on this side only
   // would leave the other rendering an empty `<ol>`. Every case passes its own.
   react: ({ items, ...p }) => <RBreadcrumb items={items} {...p} />,
+  svelte: SvelteBreadcrumbFixture as unknown as ComponentType<any>,
   vue: VueBreadcrumbFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default", props: { items: TRAIL } },

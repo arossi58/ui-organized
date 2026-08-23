@@ -141,3 +141,23 @@ export {
   type ToastRecord,
   type ToastStatus,
 } from "./lib/toast/toast.js";
+export {
+  UioBreadcrumb,
+  type BreadcrumbItem,
+} from "./lib/breadcrumb/breadcrumb.js";
+export { UioMenubarContext } from "./lib/menubar/menubar-context.js";
+export { UioMenubar, type MenubarOrientation } from "./lib/menubar/menubar.js";
+export {
+  UioToolbar,
+  UioToolbarGroup,
+  type ToolbarOrientation,
+} from "./lib/toolbar/toolbar.js";
+export { UioMeter, type MeterSize, type MeterVariant } from "./lib/meter/meter.js";
+export { UioPagination } from "./lib/pagination/pagination.js";
+export { UioNavContext } from "./lib/navigation/nav-context.js";
+export {
+  UioNavItem,
+  UioNavProvider,
+  UioSidebar,
+  type NavSubItem,
+} from "./lib/navigation/navigation.js";

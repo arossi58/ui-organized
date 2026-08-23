@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { Editable as REditable } from "@ui-organized/react";
 import EditableFixture from "../fixtures/EditableFixture.svelte";
+import VueEditableFixture from "../fixtures/vue/EditableFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "Editable",
   react: (p) => <REditable {...p} />,
   svelte: EditableFixture as unknown as ComponentType<any>,
+  vue: VueEditableFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Name" } },

@@ -1,10 +1,10 @@
 <!--
   Menu root — controls open state.
 
-  Unlike the React package this does not integrate with Menubar: Menubar is not
-  part of the Svelte tier-1 set, so the trigger never needs to become one of a
-  bar's menuitems. When Menubar lands, the trigger gains the same role and
-  data-menubar-item treatment.
+  A menu placed inside a `Menubar` gives up its trigger's button role: see
+  MenuTrigger.svelte and ../Menubar/menubarContext.ts. That travels on context
+  rather than through here, so this root knows nothing about the bar and the two
+  components need not import each other.
 -->
 <script lang="ts">
   import { Menu as ArkMenu } from "@ark-ui/svelte";

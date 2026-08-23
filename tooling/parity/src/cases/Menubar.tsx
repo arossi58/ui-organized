@@ -6,6 +6,7 @@ import {
   MenuTrigger as RMenuTrigger,
   Menubar as RMenubar,
 } from "@ui-organized/react";
+import SvelteMenubarFixture from "../fixtures/MenubarFixture.svelte";
 import VueMenubarFixture from "../fixtures/vue/MenubarFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -34,6 +35,7 @@ const spec: ParitySpec = {
       </RMenu>
     </RMenubar>
   ),
+  svelte: SvelteMenubarFixture as unknown as ComponentType<any>,
   vue: VueMenubarFixture as unknown as ComponentType<any>,
   // Ark React renders a portalled menu inline under SSR and Ark Vue teleports
   // it away, so the popups are three different things and none of them is what

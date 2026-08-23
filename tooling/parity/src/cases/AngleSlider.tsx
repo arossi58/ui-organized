@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { AngleSlider as RAngleSlider } from "@ui-organized/react";
 import AngleSliderFixture from "../fixtures/AngleSliderFixture.svelte";
+import VueAngleSliderFixture from "../fixtures/vue/AngleSliderFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "AngleSlider",
   react: (p) => <RAngleSlider {...p} />,
   svelte: AngleSliderFixture as unknown as ComponentType<any>,
+  vue: VueAngleSliderFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Angle" } },

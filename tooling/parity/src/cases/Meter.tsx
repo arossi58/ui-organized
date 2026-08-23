@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Meter as RMeter } from "@ui-organized/react";
+import SvelteMeterFixture from "../fixtures/MeterFixture.svelte";
 import VueMeterFixture from "../fixtures/vue/MeterFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
@@ -14,6 +15,7 @@ const withValue = (props: Record<string, unknown> = {}) => ({ value: 60, ...prop
 const spec: ParitySpec = {
   component: "Meter",
   react: ({ value, ...p }) => <RMeter value={value} {...p} />,
+  svelte: SvelteMeterFixture as unknown as ComponentType<any>,
   vue: VueMeterFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default", props: withValue() },

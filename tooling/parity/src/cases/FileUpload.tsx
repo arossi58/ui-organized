@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { FileUpload as RFileUpload } from "@ui-organized/react";
 import FileUploadFixture from "../fixtures/FileUploadFixture.svelte";
+import VueFileUploadFixture from "../fixtures/vue/FileUploadFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const VARIANTS = ["dropzone", "button", "compact"] as const;
@@ -9,6 +10,7 @@ const spec: ParitySpec = {
   component: "FileUpload",
   react: (p) => <RFileUpload {...p} />,
   svelte: FileUploadFixture as unknown as ComponentType<any>,
+  vue: VueFileUploadFixture as unknown as ComponentType<any>,
   cases: [
     // The chosen-file list is machine state built from real `File` objects,
     // which a static render has none of — so every case here renders the empty
