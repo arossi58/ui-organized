@@ -46,3 +46,32 @@ const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<
 );
 
 export { registerIconSet, getIconSet, registeredLibraries };
+
+/**
+ * The prop mapping every `@ng-icons`-sourced set uses.
+ *
+ * The three React adapters each need their own, because lucide takes
+ * `strokeWidth`, tabler takes `stroke` and heroicons takes `width`/`height`.
+ * Here there is one, because every `@ng-icons` pack ships its icons carrying
+ * `style="stroke-width:var(--ng-icon__stroke-width, 2)"` — so the weight is set
+ * by one custom property regardless of which library drew the glyph.
+ *
+ * The property name belongs to another project and stays as written: it is that
+ * project's published contract, it never reaches a consumer's code, and
+ * rewriting it per icon at registration would buy nothing.
+ *
+ * Exported because a consumer assembling their own set out of `@ng-icons`
+ * markup needs exactly this.
+ */
+export function ngIconsSvgProps(
+  size: number,
+  stroke: number | undefined,
+): Record<string, unknown> {
+  return {
+    width: size,
+    height: size,
+    // Omitted rather than passed as undefined — a solid icon has no stroke, and
+    // the property must not be written at all. See `applySvgProps`.
+    ...(stroke !== undefined ? { "--ng-icon__stroke-width": stroke } : {}),
+  };
+}

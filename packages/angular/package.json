@@ -35,19 +35,35 @@
     },
     "./overlay.css": {
       "default": "./overlay.css"
+    },
+    "./icons/lucide": {
+      "types": "./dist/types/ui-organized-angular-icons-lucide.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-lucide.mjs"
+    },
+    "./icons/tabler": {
+      "types": "./dist/types/ui-organized-angular-icons-tabler.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-tabler.mjs"
+    },
+    "./icons/heroicons": {
+      "types": "./dist/types/ui-organized-angular-icons-heroicons.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-heroicons.mjs"
     }
   },
   "type": "module",
   "scripts": {
     "build": "ng-packagr -p ng-package.json && node scripts/copy-styles.mjs",
     "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:smoke": "node scripts/smoke-icons.mjs"
   },
   "peerDependencies": {
     "@angular/cdk": ">=21",
     "@angular/common": ">=21",
     "@angular/core": ">=21",
-    "@angular/forms": ">=21"
+    "@angular/forms": ">=21",
+    "@ng-icons/heroicons": ">=33",
+    "@ng-icons/lucide": ">=33",
+    "@ng-icons/tabler-icons": ">=33"
   },
   "dependencies": {
     "@ui-organized/core": "workspace:*",
@@ -63,6 +79,9 @@
     "@angular/core": "^21.2.20",
     "@angular/forms": "^21.2.20",
     "@angular/platform-browser": "^21.2.20",
+    "@ng-icons/heroicons": "^34.0.0",
+    "@ng-icons/lucide": "^34.0.0",
+    "@ng-icons/tabler-icons": "^34.0.0",
     "@types/node": "^20.0.0",
     "@ui-organized/tsconfig": "workspace:*",
     "jsdom": "^29.1.1",
@@ -71,5 +90,19 @@
     "typescript": "^5.9.0",
     "vitest": "^2.0.0",
     "zone.js": "^0.15.0"
+  },
+  "sideEffects": [
+    "**/ui-organized-angular-icons-*.mjs"
+  ],
+  "peerDependenciesMeta": {
+    "@ng-icons/heroicons": {
+      "optional": true
+    },
+    "@ng-icons/lucide": {
+      "optional": true
+    },
+    "@ng-icons/tabler-icons": {
+      "optional": true
+    }
   }
 }

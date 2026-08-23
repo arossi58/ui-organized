@@ -24,6 +24,7 @@ export {
   getIconSet,
   registerIconSet,
   registeredLibraries,
+  ngIconsSvgProps,
   type IconLibrary,
   type IconMarkup,
   type IconNameMap,
