@@ -57,12 +57,22 @@ export interface ParityTextAllowance {
 export interface ParitySpec {
   component: string;
   react: (props: Record<string, any>) => ReactElement;
-  svelte: ComponentType<any>;
   /**
-   * The Vue fixture. Optional while the Vue port is in progress — a spec without
-   * one is simply not compared against Vue, rather than failing, so React and
-   * Svelte stay covered as Vue catches up.
+   * The Svelte and Vue fixtures, both optional.
+   *
+   * React is the reference and always present; the other two are absent until
+   * their package ships the component. A spec missing one is simply not compared
+   * against it rather than failing, which is what lets the three libraries reach
+   * 69 components at different rates without the gate going red for work nobody
+   * has started.
+   *
+   * The counts differ and will keep moving while the three libraries catch up,
+   * so they are deliberately not written down here — a number in a comment is
+   * wrong within a wave. `parity.test.tsx` filters on presence, so adding a
+   * fixture here is the whole of what "this component is now covered" means,
+   * and the gate's own case count is the only honest tally.
    */
+  svelte?: ComponentType<any>;
   vue?: ComponentType<any>;
   cases: ParityCase[];
   /** Stylesheets in @ui-organized/core this component's contract depends on. */

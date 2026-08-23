@@ -115,3 +115,30 @@ export type {
   MenuRadioItemProps, MenuSide, MenuAlign, MenuPropsFn,
 } from "./components/Menu/index.js";
 
+export {
+  Collapsible, CollapsibleTrigger, CollapsibleContent,
+} from "./components/Collapsible/index.js";
+export type {
+  CollapsibleProps, CollapsibleTriggerProps, CollapsibleContentProps,
+  CollapsibleTriggerPropsFn, CollapsibleContentPropsFn,
+} from "./components/Collapsible/index.js";
+
+export { Toggle, ToggleGroup } from "./components/Toggle/index.js";
+export type { ToggleProps, ToggleGroupProps } from "./components/Toggle/index.js";
+
+export { NumberField } from "./components/NumberField/index.js";
+export type { NumberFieldProps } from "./components/NumberField/index.js";
+
+export { PasswordInput } from "./components/PasswordInput/index.js";
+export type { PasswordInputProps } from "./components/PasswordInput/index.js";
+
+export { SearchInput } from "./components/SearchInput/index.js";
+export type { SearchInputProps } from "./components/SearchInput/index.js";
+
+export { SegmentedControl } from "./components/SegmentedControl/index.js";
+export type {
+  SegmentedControlProps, SegmentedControlItem,
+} from "./components/SegmentedControl/index.js";
+
+export { Clipboard } from "./components/Clipboard/index.js";
+export type { ClipboardProps } from "./components/Clipboard/index.js";

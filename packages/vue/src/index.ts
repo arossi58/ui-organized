@@ -104,3 +104,40 @@ export type {
 export { ToastProvider, useToastManager } from "./components/Toast/index.js";
 export type { ToastOptions, ToastStatus } from "./components/Toast/index.js";
 
+export {
+  AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogConfirm,
+} from "./components/AlertDialog/index.js";
+export type {
+  AlertDialogProps, AlertDialogContentProps, AlertDialogConfirmProps,
+} from "./components/AlertDialog/index.js";
+
+export {
+  Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription, SheetClose, SheetFooter,
+} from "./components/Sheet/index.js";
+export type { SheetProps, SheetContentProps, SheetVariants } from "./components/Sheet/index.js";
+
+export {
+  HoverCard, HoverCardTrigger, HoverCardContent,
+} from "./components/HoverCard/index.js";
+export type {
+  HoverCardProps, HoverCardContentProps, HoverCardSide, HoverCardAlign,
+} from "./components/HoverCard/index.js";
+
+export {
+  ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator,
+  ContextMenuGroup, ContextMenuGroupLabel, ContextMenuRadioGroup, ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+} from "./components/ContextMenu/index.js";
+export type {
+  ContextMenuProps, ContextMenuContentProps, ContextMenuItemProps,
+  ContextMenuCheckboxItemProps, ContextMenuRadioItemProps, ContextMenuRadioGroupProps,
+} from "./components/ContextMenu/index.js";
+
+export { Listbox } from "./components/Listbox/index.js";
+export type {
+  ListboxProps, ListboxOption, ListboxVariants,
+} from "./components/Listbox/index.js";
+
+export { ScrollArea } from "./components/ScrollArea/index.js";
+export type { ScrollAreaProps } from "./components/ScrollArea/index.js";

@@ -4,6 +4,26 @@ export { UioButton, type ButtonIntent } from "./lib/button/button.js";
 export { UioFieldError } from "./lib/field-error/field-error.js";
 export { HostPresence } from "./lib/host-presence.js";
 export { UioSwitch } from "./lib/switch/switch.js";
+export { UioCheckbox } from "./lib/checkbox/checkbox.js";
+export { UioFieldContext, type FieldDescribedPart } from "./lib/field/field-context.js";
+export {
+  UioField,
+  UioFieldLabel,
+  UioFieldControl,
+  UioFieldDescription,
+  type FieldLayout,
+} from "./lib/field/field.js";
+export { UioInput, type InputSize } from "./lib/input/input.js";
+export {
+  UioTextArea,
+  type TextAreaSize,
+  type TextAreaResize,
+} from "./lib/text-area/text-area.js";
+export {
+  UioRadioGroup,
+  type RadioOption,
+  type RadioOrientation,
+} from "./lib/radio/radio.js";
 export { VISUALLY_HIDDEN_INPUT, nextMachineId } from "./lib/part-ids.js";
 export {
   UioCard,

@@ -107,13 +107,18 @@ export interface BrowserScenario {
 export const ANGULAR_COMPONENTS = new Set([
   "Alert",
   "Button",
+  "Checkbox",
   "Icon",
   "Card",
   "Divider",
+  "Field",
   "FieldError",
+  "Input",
+  "RadioGroup",
   "Skeleton",
   "Switch",
   "Tag",
+  "TextArea",
 ]);
 
 export const FRUIT = [
@@ -158,6 +163,43 @@ export const HIDDEN_SELECT_TEXT: ParityTextAllowance = {
     "is aria-hidden and visually hidden, and exists only so the value is " +
     "submitted with a form. Same allowance as the SSR gate's.",
 };
+
+/**
+ * The one thing the field family cannot compare across all four libraries.
+ *
+ * Ark React folds a field's error text into `aria-describedby`; Ark Svelte and
+ * Ark Vue name it with `aria-errormessage` and leave `aria-describedby` to the
+ * helper text alone. The difference is upstream, not in any port: `@ark-ui/react`,
+ * `@ark-ui/svelte` and `@ark-ui/vue` release independently, and their Field
+ * machines disagree on this one attribute.
+ *
+ * It is not version drift, which is the first explanation to reach for and the
+ * wrong one: Svelte is on Ark 5.24 and Vue on 5.39, and those two agree against
+ * React's 5.37 sitting between them. A version progression cannot produce that.
+ * It is Ark's React Field differing from its Svelte and Vue Fields.
+ *
+ * Nor is "two out of three, so React should move" a safe conclusion. ARIA 1.2
+ * added `aria-errormessage`, but screen-reader support for it is still patchier
+ * than for `aria-describedby`, so changing React could announce *less* to real
+ * users. Whichever way it is settled, it is settled upstream or by overriding
+ * Ark deliberately — not by this file.
+ *
+ * It is browser-only, which is why nothing has seen it before: on the server
+ * none of the three has found the error element yet and all three emit the same
+ * `aria-describedby`. The SSR gate therefore still compares Svelte and Vue for
+ * exactly these cases — what is skipped here is a second, weaker run of them,
+ * not the coverage.
+ */
+const ERROR_TEXT_SKEW =
+  "Ark React folds the error text into aria-describedby; Ark Svelte and Ark Vue " +
+  "use aria-errormessage. The Field machines have drifted apart upstream — no " +
+  "port did this — and the SSR gate still compares all three for this same " +
+  "case, where the difference does not arise.";
+
+export const ARK_ERROR_TEXT_SKEW = [
+  { framework: "svelte", reason: ERROR_TEXT_SKEW },
+  { framework: "vue", reason: ERROR_TEXT_SKEW },
+];
 
 /** Open by clicking the trigger, and wait until the content says it is open. */
 export const openViaTrigger = (scope: string): Step[] => [
