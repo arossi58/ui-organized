@@ -86,13 +86,40 @@ export interface BrowserScenario {
  * covers it for the other three: duplicating a handful of cases is the price of
  * having the fourth library in the comparison.
  */
-export const ANGULAR_COMPONENTS = new Set(["Button"]);
+export const ANGULAR_COMPONENTS = new Set([
+  "Button",
+  "Card",
+  "Divider",
+  "Skeleton",
+  "Tag",
+]);
 
 const FRUIT = [
   { value: "a", label: "Apple" },
   { value: "b", label: "Banana" },
   { value: "c", label: "Cherry", disabled: true },
 ];
+
+/**
+ * A component that renders once and does nothing, compared in every library.
+ *
+ * These duplicate cases the SSR gate already covers for React, Svelte and Vue,
+ * and exist because Angular is compared in the browser only — without them the
+ * fourth library would not be compared at all. Kept to the states that actually
+ * vary rather than the SSR gate's full matrix.
+ */
+function staticScenarios(
+  component: string,
+  cases: readonly { name: string; props?: Record<string, unknown> }[],
+): BrowserScenario[] {
+  return cases.map(({ name, props }) => ({
+    component,
+    name,
+    props: props ?? {},
+    steps: [],
+    regions: ["#mount"],
+  }));
+}
 
 const part = (scope: string, name: string) => `[data-scope="${scope}"][data-part="${name}"]`;
 
@@ -112,24 +139,43 @@ const openViaTrigger = (scope: string): Step[] => [
 ];
 
 export const SCENARIOS: BrowserScenario[] = [
-  ...(
-    [
-      { name: "default", props: {} },
-      { name: "secondary/lg", props: { intent: "secondary", size: "lg" } },
-      { name: "destructive/sm", props: { intent: "destructive", size: "sm" } },
-      { name: "ghost", props: { intent: "ghost" } },
-      { name: "disabled", props: { disabled: true } },
-      { name: "submit", props: { type: "submit" } },
-      { name: "custom class", props: { className: "mine" } },
-      { name: "aria-label", props: { "aria-label": "Save" } },
-    ] as const
-  ).map(({ name, props }) => ({
-    component: "Button",
-    name,
-    props: props as Record<string, unknown>,
-    steps: [],
-    regions: ["#mount"],
-  })),
+  ...staticScenarios("Button", [
+    { name: "default" },
+    { name: "secondary/lg", props: { intent: "secondary", size: "lg" } },
+    { name: "destructive/sm", props: { intent: "destructive", size: "sm" } },
+    { name: "ghost", props: { intent: "ghost" } },
+    { name: "disabled", props: { disabled: true } },
+    { name: "submit", props: { type: "submit" } },
+    { name: "custom class", props: { className: "mine" } },
+    { name: "aria-label", props: { "aria-label": "Save" } },
+  ]),
+  ...staticScenarios("Card", [
+    { name: "default" },
+    { name: "elevated", props: { variant: "elevated" } },
+    { name: "padding/none", props: { padding: "none" } },
+    { name: "padding/lg", props: { padding: "lg" } },
+  ]),
+  ...staticScenarios("Divider", [
+    { name: "default" },
+    { name: "vertical", props: { orientation: "vertical" } },
+    { name: "spacing/lg", props: { spacing: "lg" } },
+  ]),
+  ...staticScenarios("Tag", [
+    { name: "default" },
+    { name: "variant/error", props: { variant: "error" } },
+    { name: "variant/info-secondary", props: { variant: "info-secondary" } },
+    { name: "size/sm", props: { size: "sm" } },
+    { name: "subdued", props: { emphasized: false } },
+  ]),
+  ...staticScenarios("Skeleton", [
+    { name: "default" },
+    { name: "variant/circle", props: { variant: "circle" } },
+    { name: "variant/rounded", props: { variant: "rounded" } },
+    { name: "not animated", props: { animated: false } },
+    { name: "sized", props: { width: 120, height: 16 } },
+    // The shape only Angular renders through a second directive; see its fixture.
+    { name: "multi-line", props: { lines: 3 } },
+  ]),
   {
     component: "Popover",
     name: "open",
