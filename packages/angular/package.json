@@ -23,6 +23,10 @@
   },
   "private": true,
   "exports": {
+    ".": {
+      "types": "./dist/types/ui-organized-angular.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular.mjs"
+    },
     "./styles": {
       "default": "./styles.css"
     },

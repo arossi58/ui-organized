@@ -9,6 +9,9 @@ tokens-update
 storybook-static/
 # svelte-package's intermediate output, one step before packages/svelte/dist
 .svelte-kit/
+# Generated: the Angular package keeps a copy of the shared stylesheet at its
+# root so one exports entry resolves both in the workspace and when published.
+packages/angular/styles.css
 # Playwright run output (the visual gate's and the parity gate's)
 test-results/
 playwright-report/

@@ -1,18 +1,21 @@
 /**
- * Copies the shared stylesheet into `dist/` so consumers can import
- * `@ui-organized/angular/styles.css` rather than reaching into another package.
+ * Copies the shared stylesheet so `@ui-organized/angular/styles.css` resolves,
+ * both in this workspace and in a published install.
  *
- * The same three lines the Svelte and Vue packages run, for the same reason:
- * one stylesheet, four libraries, and a consumer who should not have to know
- * that `@ui-organized/core` exists.
+ * Two copies, one manifest entry. ng-packagr publishes `dist/` as the package
+ * root, so the manifest has to say `./styles.css` — but a workspace consumer
+ * resolves through the symlink to the *package* root, where that same string
+ * has to mean something too. Writing both makes one entry correct in both
+ * places; rewriting the path per environment would not.
  */
 import { copyFileSync, mkdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 
 const require = createRequire(import.meta.url);
-const core = dirname(require.resolve("@ui-organized/core/package.json"));
+const source = join(dirname(require.resolve("@ui-organized/core/package.json")), "dist/styles.css");
 
 mkdirSync("dist", { recursive: true });
-copyFileSync(join(core, "dist/styles.css"), "dist/styles.css");
-console.log("copy-styles: dist/styles.css");
+copyFileSync(source, "styles.css");
+copyFileSync(source, "dist/styles.css");
+console.log("copy-styles: styles.css, dist/styles.css");

@@ -77,6 +77,17 @@ export interface BrowserScenario {
   allowTextIn?: ParityTextAllowance[];
 }
 
+/**
+ * The components the Angular library implements so far.
+ *
+ * Angular is compared in the browser only — see `fixtures/angular/index.ts` —
+ * so a scenario is the *only* way an Angular component gets compared at all.
+ * That is why `Button` has browser scenarios even though the SSR gate already
+ * covers it for the other three: duplicating a handful of cases is the price of
+ * having the fourth library in the comparison.
+ */
+export const ANGULAR_COMPONENTS = new Set(["Button"]);
+
 const FRUIT = [
   { value: "a", label: "Apple" },
   { value: "b", label: "Banana" },
@@ -101,6 +112,24 @@ const openViaTrigger = (scope: string): Step[] => [
 ];
 
 export const SCENARIOS: BrowserScenario[] = [
+  ...(
+    [
+      { name: "default", props: {} },
+      { name: "secondary/lg", props: { intent: "secondary", size: "lg" } },
+      { name: "destructive/sm", props: { intent: "destructive", size: "sm" } },
+      { name: "ghost", props: { intent: "ghost" } },
+      { name: "disabled", props: { disabled: true } },
+      { name: "submit", props: { type: "submit" } },
+      { name: "custom class", props: { className: "mine" } },
+      { name: "aria-label", props: { "aria-label": "Save" } },
+    ] as const
+  ).map(({ name, props }) => ({
+    component: "Button",
+    name,
+    props: props as Record<string, unknown>,
+    steps: [],
+    regions: ["#mount"],
+  })),
   {
     component: "Popover",
     name: "open",
