@@ -213,3 +213,33 @@ export type { RangeProps, RangeVariants } from "./components/Range/index.js";
 
 export { AngleSlider } from "./components/AngleSlider/index.js";
 export type { AngleSliderProps, AngleSliderVariants } from "./components/AngleSlider/index.js";
+
+// The date cluster. `Calendar` and `DateField` are deliberately absent: they are
+// the shared internals these four are built from, with no DOM of their own that
+// a consumer could style or assert against.
+export { DateInput } from "./components/DateInput/index.js";
+export type { DateInputProps, DateInputVariants } from "./components/DateInput/index.js";
+
+export { DateTimeInput } from "./components/DateTimeInput/index.js";
+export type {
+  DateTimeInputProps, DateTimeInputVariants,
+} from "./components/DateTimeInput/index.js";
+
+export { DateRangeInput } from "./components/DateRangeInput/index.js";
+export type {
+  DateRangeInputProps, DateRangeValue, DateRangeInputVariants,
+} from "./components/DateRangeInput/index.js";
+
+export { DatePicker } from "./components/DatePicker/index.js";
+export type { DatePickerProps, DatePickerVariants } from "./components/DatePicker/index.js";
+
+export { TreeView } from "./components/TreeView/index.js";
+export type { TreeViewProps, TreeViewNode, TreeViewVariants } from "./components/TreeView/index.js";
+
+export { Splitter } from "./components/Splitter/index.js";
+export type { SplitterProps, SplitterPanelDef, SplitterVariants } from "./components/Splitter/index.js";
+
+// `TreeNode` is deliberately absent: it is TreeView's own recursion, with no
+// standalone use and no DOM a consumer could target.
+export { Steps } from "./components/Steps/index.js";
+export type { StepsProps, StepItem, StepsVariants } from "./components/Steps/index.js";

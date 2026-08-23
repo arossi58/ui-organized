@@ -94,7 +94,36 @@
       </ArkCombobox.Label>
     {/if}
     <ArkCombobox.Control class="combobox-field__control">
-      <ArkCombobox.Input class="field__control combobox-field__input" {placeholder} />
+      <!--
+        `aria-describedby` is passed in by hand because Ark Svelte's
+        `Combobox.Input` does not read the Field context, where Ark React's does:
+
+            // @ark-ui/react/dist/components/combobox/combobox-input.js
+            const field = useFieldContext();
+            return jsx(ark.input, { "aria-describedby": field?.ariaDescribedby, ...mergedProps });
+
+        Without this the helper text is rendered but associated with nothing, so
+        a screen reader never announces it — the field silently loses half its
+        description. This is a wrapper gap, not a machine one: both zag versions
+        are identical here, and the combobox machine never sets the attribute
+        itself, which is exactly why React needs the Field fallback too.
+
+        Six Ark Svelte parts have this gap. This one is pinned by the browser
+        gate's `Combobox / helper text` scenario; the others are recorded in the
+        roadmap because nothing renders them under a Field yet.
+
+        Delete once Ark Svelte's part reads the context — the merge order makes
+        that safe either way, since the machine supplies no competing value.
+      -->
+      <Field.Context>
+        {#snippet render(field)}
+          <ArkCombobox.Input
+            class="field__control combobox-field__input"
+            {placeholder}
+            aria-describedby={field()?.ariaDescribedby}
+          />
+        {/snippet}
+      </Field.Context>
       <ArkCombobox.Trigger class="combobox-field__trigger" aria-label="Toggle options">
         <Icon name="chevron-down" size={iconSize} />
       </ArkCombobox.Trigger>

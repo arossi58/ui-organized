@@ -161,3 +161,66 @@ export {
   UioSidebar,
   type NavSubItem,
 } from "./lib/navigation/navigation.js";
+export { UioCollapsibleContext, type CollapsiblePhase } from "./lib/collapsible/collapsible-context.js";
+export {
+  UioCollapsible,
+  UioCollapsibleTrigger,
+  UioCollapsibleContent,
+} from "./lib/collapsible/collapsible.js";
+export {
+  UioToggleGroupContext,
+  type ToggleGroupItem,
+} from "./lib/toggle/toggle-group-context.js";
+export {
+  UioToggle,
+  UioToggleGroup,
+  type ToggleSize,
+  type ToggleOrientation,
+} from "./lib/toggle/toggle.js";
+export {
+  UioNumberField,
+  stepValue,
+  type NumberFieldSize,
+} from "./lib/number-field/number-field.js";
+export {
+  UioPasswordInput,
+  type PasswordInputSize,
+} from "./lib/password-input/password-input.js";
+export { UioSearchInput, type SearchInputSize } from "./lib/search-input/search-input.js";
+export {
+  UioSegmentedControl,
+  type SegmentedControlItem,
+  type SegmentedControlSize,
+} from "./lib/segmented-control/segmented-control.js";
+export {
+  UioAvatar,
+  type AvatarSize,
+  type AvatarShape,
+} from "./lib/avatar/avatar.js";
+export {
+  UioProgress,
+  type ProgressVariant,
+  type ProgressSize,
+  type ProgressShape,
+} from "./lib/progress/progress.js";
+export {
+  UioClipboard,
+  type ClipboardSize,
+  type ClipboardVariant,
+} from "./lib/clipboard/clipboard.js";
+export {
+  UioListbox,
+  type ListboxOption,
+  type ListboxSize,
+  type ListboxVariant,
+  type ListboxSelectionMode,
+} from "./lib/listbox/listbox.js";
+export {
+  UioScrollArea,
+  type ScrollAreaOrientation,
+} from "./lib/scroll-area/scroll-area.js";
+export {
+  UioCombobox,
+  type ComboboxOption,
+  type ComboboxSize,
+} from "./lib/combobox/combobox.js";
