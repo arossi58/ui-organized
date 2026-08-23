@@ -9,10 +9,16 @@
  *
  * What is left for `tsc` here is the *test* code, and it treats every fixture
  * the same way — as an opaque component handed straight to a renderer. So the
- * declarations are deliberately loose. Nothing is lost: `cases.tsx` casts each
- * fixture to `ComponentType<any>` regardless, because the three renderers'
- * component types have no common supertype.
+ * declarations are deliberately loose. Nothing is lost: every case module in
+ * `cases/` casts its fixtures to `ComponentType<any>` regardless, because the
+ * three renderers' component types have no common supertype.
  */
+
+/**
+ * And `import.meta.glob`, which `cases/index.ts` uses to collect the case
+ * modules. Vite implements it; `tsc` only knows about it from this reference.
+ */
+/// <reference types="vite/client" />
 
 declare module "*.svelte" {
   const component: import("svelte").Component<Record<string, any>>;

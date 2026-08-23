@@ -12,7 +12,7 @@
   const resolved = $derived(supplied ? StubIcon : name);
 </script>
 
-<!-- The wrapper is load-bearing for one case; see the Icon spec in cases.tsx. -->
+<!-- The wrapper is load-bearing for one case; see the Icon spec in cases/Icon.tsx. -->
 <div class="icon-probe">
   {#if provider}
     <IconProvider

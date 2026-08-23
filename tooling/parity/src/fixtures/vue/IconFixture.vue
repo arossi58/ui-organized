@@ -36,7 +36,7 @@ const providerProps = computed(() => {
 </script>
 
 <template>
-  <!-- The wrapper is load-bearing for one case; see the Icon spec in cases.tsx. -->
+  <!-- The wrapper is load-bearing for one case; see the Icon spec in cases/Icon.tsx. -->
   <div class="icon-probe">
     <IconProvider
       v-if="provider"

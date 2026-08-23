@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { render as renderSvelte } from "svelte/server";
 import { createSSRApp } from "vue";
 import { renderToString as renderVue } from "vue/server-renderer";
-import { SPECS } from "./cases.js";
+import { SPECS } from "./cases/index.js";
 import { contractOf, hiddenFromAssistiveTech, type ElementContract } from "./contract.js";
 
 /**

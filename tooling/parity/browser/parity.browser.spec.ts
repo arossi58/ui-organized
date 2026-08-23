@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { contractOf, hiddenFromAssistiveTech, type ElementContract } from "../src/contract.js";
-import { ANGULAR_COMPONENTS, SCENARIOS, type BrowserScenario } from "./scenarios.js";
+import { ANGULAR_COMPONENTS, SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
 
 /**
  * The browser half of the parity gate.

@@ -1,0 +1,44 @@
+import { openViaTrigger, part, type BrowserScenario } from "./scenario.js";
+
+const scenarios: BrowserScenario[] = [
+  {
+    component: "Dialog",
+    name: "open",
+    // A modal dialog also hides the rest of the page from assistive technology,
+    // and the three libraries do not apply that in the same tick. Waiting for it
+    // is not weakening the assertion — `#mount` is one of the compared regions,
+    // so a library that never applied it would still fail, just here instead of
+    // in a diff that comes and goes.
+    steps: [
+      ...openViaTrigger("dialog"),
+      { do: "wait", target: '#mount[aria-hidden="true"]' },
+    ],
+    regions: [part("dialog", "backdrop"), part("dialog", "positioner"), "#mount"],
+  },
+  {
+    component: "Dialog",
+    name: "dismissed with Escape",
+    steps: [...openViaTrigger("dialog"), { do: "press", key: "Escape" }],
+    regions: ["#mount"],
+    /**
+     * Only that the three agree — because they agree on something wrong, and it
+     * is not theirs.
+     *
+     * `.dialog__popup` sets `display: flex`, which beats the `hidden` attribute
+     * Ark writes when the dialog closes. The popup is invisible (`opacity: 0`)
+     * and cannot be clicked (the positioner is `pointer-events: none`), so
+     * nothing looks broken — but it is still laid out, and therefore still in
+     * the accessibility tree. The dialog's role, heading, description and close
+     * button are announced to a screen reader on any page that mounts a Dialog,
+     * before it has ever been opened. Confirmed identical in all three
+     * libraries, so it is the shared stylesheet rather than any port.
+     *
+     * Not asserted here as `hidden`, because the fix is a change to a published
+     * package's behaviour — `[hidden] { display: none }` also removes the 150ms
+     * exit fade — and that is a decision, not a port bug.
+     */
+    visibilityMatches: [part("dialog", "content")],
+  },
+];
+
+export default scenarios;

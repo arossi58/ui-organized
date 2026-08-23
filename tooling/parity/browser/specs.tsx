@@ -10,7 +10,7 @@ import {
   Select as RSelect,
   type ToastOptions as ReactToastOptions,
 } from "@ui-organized/react";
-import { SPECS } from "../src/cases.js";
+import { SPECS } from "../src/cases/index.js";
 import ToastFixture from "./fixtures/ToastFixture.svelte";
 import VueToastFixture from "./fixtures/vue/ToastFixture.vue";
 import SelectInDialogFixture from "./fixtures/SelectInDialogFixture.svelte";
