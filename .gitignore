@@ -8,6 +8,15 @@ tokens-update
 # Build output / test artifacts
 storybook-static/
 coverage/
+# Playwright's own outputs. These were tracked by accident: a report is a
+# snapshot of one machine's run, so committing it means every test run shows up
+# as a diff. The baselines under visual/__screenshots__/ ARE committed — those
+# are the oracle, not output.
+playwright-report/
+test-results/
+# Per-gate JSON reports; scripts/quality/aggregate.mjs reads them and writes the
+# one file that IS committed, manifest/test-status.json.
+.quality/
 # Assembled Cloudflare Workers deploy directory (scripts/assemble-site.mjs)
 _site/
 
@@ -36,6 +45,8 @@ FIGMA-PARITY.md
 # Internal spec / build-plan docs (kept local, not published)
 tooling/token-editor/
 apps/marketing/SITE.md
+# Anchored, so a future packages/*/TABLE.md readme isn't swallowed too.
+/TABLE.md
 
 # Internal operational docs (kept local, not published).
 # Anchored to the repo root: an unanchored `docs/` also swallows source

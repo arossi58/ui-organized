@@ -56,7 +56,13 @@ export const Inspect: Story = {
         <strong>Card title</strong>
       </CardHeader>
       <CardBody>
-        <p style={{ margin: 0, color: "var(--color-content-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+        <p
+          style={{
+            margin: 0,
+            color: "var(--color-content-secondary)",
+            fontSize: "var(--type-size-body-medium)",
+          }}
+        >
           This is the card body content. It can contain any content you need.
         </p>
       </CardBody>
@@ -104,7 +110,13 @@ export const AllVariants: Story = {
             <strong>{variant}</strong>
           </CardHeader>
           <CardBody>
-            <p style={{ margin: 0, color: "var(--color-content-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--color-content-secondary)",
+                fontSize: "var(--type-size-body-medium)",
+              }}
+            >
               Card with {variant} variant.
             </p>
           </CardBody>
@@ -148,7 +160,13 @@ export const AllPaddingSizes: Story = {
       {(["none", "sm", "md", "lg"] as const).map((padding) => (
         <Card key={padding} padding={padding} style={{ width: "200px" }}>
           <CardBody>
-            <p style={{ margin: 0, color: "var(--color-content-secondary)", fontSize: "var(--type-size-body-small)" }}>
+            <p
+              style={{
+                margin: 0,
+                color: "var(--color-content-secondary)",
+                fontSize: "var(--type-size-body-small)",
+              }}
+            >
               padding="{padding}"
             </p>
           </CardBody>
@@ -167,7 +185,7 @@ export const RichContent: Story = {
   <CardHeader>
     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
       <strong>Subscription</strong>
-      <Tag variant="success" size="sm">Active</Tag>
+      <Tag variant="success" size="sm" emphasized={false}>Active</Tag>
     </div>
   </CardHeader>
   <CardBody>
@@ -189,17 +207,30 @@ export const RichContent: Story = {
       <CardHeader>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <strong>Subscription</strong>
-          <Tag variant="success" size="sm">Active</Tag>
+          {/* `emphasized={false}`: the solid success fill under a 12px light label
+              is the palette's known AA gap (see Tag.css). The subdued variant
+              carries the same meaning and clears the threshold. */}
+          <Tag variant="success" size="sm" emphasized={false}>
+            Active
+          </Tag>
         </div>
       </CardHeader>
       <CardBody>
-        <p style={{ margin: "0 0 12px", color: "var(--color-content-secondary)", fontSize: "var(--type-size-body-medium)" }}>
+        <p
+          style={{
+            margin: "0 0 12px",
+            color: "var(--color-content-secondary)",
+            fontSize: "var(--type-size-body-medium)",
+          }}
+        >
           You are on the Pro plan. Your next billing date is January 1, 2026.
         </p>
       </CardBody>
       <CardFooter>
         <div style={{ display: "flex", gap: "8px" }}>
-          <Button intent="secondary" size="sm">Cancel plan</Button>
+          <Button intent="secondary" size="sm">
+            Cancel plan
+          </Button>
           <Button size="sm">Upgrade</Button>
         </div>
       </CardFooter>

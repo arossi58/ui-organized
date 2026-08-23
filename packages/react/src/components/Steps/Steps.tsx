@@ -2,6 +2,7 @@ import { Steps as ArkSteps } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import { stepsStyles } from "./Steps.styles.js";
 import type { StepsProps } from "./Steps.types.js";
 import "./Steps.css";
@@ -39,25 +40,40 @@ export function Steps({
     >
       <ArkSteps.List className="steps__list">
         {steps.map((item, index) => (
-          <ArkSteps.Item key={item.title} index={index} className="steps__item">
-            <ArkSteps.Trigger className="steps__trigger">
+          <ArkSteps.Item
+            key={item.title}
+            index={index}
+            className="steps__item"
+            // A `tablist` may own only tabs, and each Item is a direct child
+            // div that is neither. Ark already marks it `role="presentation"`,
+            // but presentation is *ignored* on an element carrying a global
+            // ARIA attribute — and Ark also sets `aria-current` here. So the
+            // role collapsed back to generic and the rule fired. Dropping
+            // `aria-current` lets the presentation role hold; nothing is lost,
+            // because the trigger inside already reports `aria-selected`, which
+            // is what a tab is supposed to say.
+            role="presentation"
+            aria-current={OMIT_ARIA}
+          >
+            <ArkSteps.Trigger
+              className="steps__trigger"
+              // Ark names a panel on every trigger, but the panels only exist
+              // when `showContent` is on. Left in place the reference dangles,
+              // which is an ARIA error and costs the trigger its accessible
+              // name — the broken IDREF wins over the text inside it.
+              {...(showContent ? {} : { "aria-controls": OMIT_ARIA })}
+            >
               <ArkSteps.Indicator className="steps__indicator">
                 {/* The tick replaces the number only once the step is complete;
                     CSS hides whichever one does not apply. */}
                 <span className="steps__indicator-number">
                   {variant === "numbered" ? index + 1 : null}
                 </span>
-                <Icon
-                  name="check"
-                  size={COMPLETE_ICON_SIZE}
-                  className="steps__indicator-check"
-                />
+                <Icon name="check" size={COMPLETE_ICON_SIZE} className="steps__indicator-check" />
               </ArkSteps.Indicator>
               <span className="steps__text">
                 <span className="steps__title">{item.title}</span>
-                {item.description && (
-                  <span className="steps__description">{item.description}</span>
-                )}
+                {item.description && <span className="steps__description">{item.description}</span>}
               </span>
             </ArkSteps.Trigger>
             <ArkSteps.Separator className="steps__separator" />

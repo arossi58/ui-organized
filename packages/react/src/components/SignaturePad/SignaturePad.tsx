@@ -59,11 +59,7 @@ export function SignaturePad({
         <ArkSignaturePad.Context>
           {(api) =>
             api.paths.map((path, index) => (
-              <ArkSignaturePad.Segment
-                key={index}
-                path={path}
-                className="signature-pad__segment"
-              />
+              <ArkSignaturePad.Segment key={index} path={path} className="signature-pad__segment" />
             ))
           }
         </ArkSignaturePad.Context>
@@ -78,9 +74,7 @@ export function SignaturePad({
         </ArkSignaturePad.ClearTrigger>
       )}
 
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       {/* The hidden input requires an explicit value, and the machine offers two
           forms: the stroke paths, and a rasterised data URL from

@@ -35,12 +35,8 @@ function TreeNode({ node, indexPath, iconSize, showIndentGuides }: NodeRenderPro
     return (
       <ArkTreeView.NodeProvider node={node} indexPath={indexPath}>
         <ArkTreeView.Item className="tree-view__item">
-          {node.icon && (
-            <Icon name={node.icon} size={iconSize} className="tree-view__node-icon" />
-          )}
-          <ArkTreeView.ItemText className="tree-view__node-text">
-            {node.label}
-          </ArkTreeView.ItemText>
+          {node.icon && <Icon name={node.icon} size={iconSize} className="tree-view__node-icon" />}
+          <ArkTreeView.ItemText className="tree-view__node-text">{node.label}</ArkTreeView.ItemText>
         </ArkTreeView.Item>
       </ArkTreeView.NodeProvider>
     );
@@ -53,11 +49,7 @@ function TreeNode({ node, indexPath, iconSize, showIndentGuides }: NodeRenderPro
           <ArkTreeView.BranchIndicator className="tree-view__branch-indicator">
             <Icon name="chevron-right" size={INDICATOR_SIZE} />
           </ArkTreeView.BranchIndicator>
-          <Icon
-            name={node.icon ?? "folder"}
-            size={iconSize}
-            className="tree-view__node-icon"
-          />
+          <Icon name={node.icon ?? "folder"} size={iconSize} className="tree-view__node-icon" />
           <ArkTreeView.BranchText className="tree-view__node-text">
             {node.label}
           </ArkTreeView.BranchText>

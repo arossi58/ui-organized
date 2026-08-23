@@ -1,8 +1,13 @@
 name: Build and assemble site
 description: >
-  Installs deps, builds the marketing, builder, and Storybook apps, and assembles
-  the static _site/ directory served by Cloudflare Workers. Shared by ci.yml
-  (untrusted) and deploy-staging.yml (manual) so both build the site identically.
+  Builds the marketing, builder, and Storybook apps and assembles the static
+  _site/ directory served by Cloudflare Workers. Shared by ci.yml (untrusted) and
+  deploy-staging.yml (manual) so both build the site identically.
+
+  Assumes ./.github/actions/setup has already run (install + workspace deps).
+  The split exists so CI can run the quality gates in between: they write
+  manifest/test-status.json, which the marketing build imports, so a deployed
+  page shows that run's own results.
 
 # All three inputs are PUBLIC build-time values (they ship in the client bundle),
 # so they are passed as repository *variables*, never secrets. Unset values
@@ -20,31 +25,17 @@ inputs:
     description: Cloudflare Turnstile site key. Empty hides the widget.
     required: false
     default: ""
+  skip-storybook-build:
+    description: >
+      Skip `storybook build` because the caller already built it. CI builds
+      Storybook once for the four browser gates; rebuilding it here would repeat
+      the single most expensive step of the run for no added signal.
+    required: false
+    default: "false"
 
 runs:
   using: composite
   steps:
-    # pnpm version comes from the "packageManager" field in package.json.
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        # wrangler >= 4.112 requires Node 22+; the site build/tests run fine on it too.
-        node-version: 22
-        cache: pnpm
-
-    - name: Install dependencies
-      shell: bash
-      run: pnpm install --frozen-lockfile
-
-    # Build only the workspace deps the apps rely on (@ui-organized/react, tokens,
-    # utils, …). `^...` selects each app's dependencies but not the apps themselves.
-    - name: Build workspace dependencies
-      shell: bash
-      run: pnpm turbo build --filter=@ui-organized/marketing^... --filter=@ui-organized/builder^... --filter=@ui-organized/storybook^...
-
     # Run Vite / Storybook directly rather than each package's `build` script, which
     # also runs `tsc --noEmit`. The apps have pre-existing type errors that would
     # block the build; esbuild bundling does not typecheck. (Type safety is still
@@ -65,6 +56,7 @@ runs:
       run: pnpm --filter @ui-organized/builder exec vite build
 
     - name: Build Storybook (/storybook/)
+      if: inputs.skip-storybook-build != 'true'
       shell: bash
       run: pnpm --filter @ui-organized/storybook exec storybook build
 

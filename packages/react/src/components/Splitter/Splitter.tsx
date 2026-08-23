@@ -50,6 +50,14 @@ export function Splitter({
             <ArkSplitter.ResizeTrigger
               id={`${panel.id}:${panels[index + 1]!.id}`}
               className="splitter__trigger"
+              // The handle is a <button role="separator"> whose only child is a
+              // decorative grip, so it had no accessible name — a keyboard user
+              // landed on an unnamed control with arrow keys that did something
+              // unexplained. Naming it after the two panels it sits between says
+              // what moving it will do.
+              aria-label={`Resize ${panel.label ?? panel.id} and ${
+                panels[index + 1]!.label ?? panels[index + 1]!.id
+              }`}
             >
               <span className="splitter__grip" aria-hidden="true" />
             </ArkSplitter.ResizeTrigger>

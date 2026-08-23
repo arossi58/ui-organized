@@ -2,6 +2,7 @@ import { FileUpload as ArkFileUpload } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
+import { OMIT_ARIA } from "../../utils/aria.js";
 import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
 import { fileUploadStyles } from "./FileUpload.styles.js";
@@ -83,7 +84,20 @@ export function FileUpload({
       {variant === "button" ? (
         trigger
       ) : (
-        <ArkFileUpload.Dropzone className="file-upload__dropzone">
+        <ArkFileUpload.Dropzone
+          className="file-upload__dropzone"
+          // Ark makes the dropzone a focusable `role="button"`, and we put the
+          // real "Choose files" button inside it — two nested controls, so a
+          // screen reader cannot say which one focus is on, and a keyboard user
+          // hits an unnamed outer button before the named inner one.
+          //
+          // The drop area keeps working: dropping is a pointer gesture, and the
+          // button inside is the keyboard and click path. What goes is only the
+          // claim that the div is itself a control.
+          role={OMIT_ARIA}
+          tabIndex={OMIT_ARIA as unknown as number}
+          aria-label={OMIT_ARIA}
+        >
           <Icon name="upload" size={iconSize} className="file-upload__dropzone-icon" />
           <span className="file-upload__dropzone-text">{dropzoneLabel}</span>
           {trigger}
@@ -99,10 +113,7 @@ export function FileUpload({
             api.acceptedFiles.map((file) => (
               <ArkFileUpload.Item key={file.name} file={file} className="file-upload__item">
                 {showPreview && (
-                  <ArkFileUpload.ItemPreview
-                    type="image/*"
-                    className="file-upload__item-preview"
-                  >
+                  <ArkFileUpload.ItemPreview type="image/*" className="file-upload__item-preview">
                     <ArkFileUpload.ItemPreviewImage className="file-upload__item-image" />
                   </ArkFileUpload.ItemPreview>
                 )}
@@ -127,9 +138,7 @@ export function FileUpload({
         </ArkFileUpload.Context>
       </ArkFileUpload.ItemGroup>
 
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       <ArkFileUpload.HiddenInput />
     </ArkFileUpload.Root>

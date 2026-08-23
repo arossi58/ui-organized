@@ -145,14 +145,38 @@
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
 
-.image-cropper__handle--nw { cursor: nwse-resize; }
-.image-cropper__handle--n  { cursor: ns-resize; }
-.image-cropper__handle--ne { cursor: nesw-resize; }
-.image-cropper__handle--e  { cursor: ew-resize; }
-.image-cropper__handle--se { cursor: nwse-resize; }
-.image-cropper__handle--s  { cursor: ns-resize; }
-.image-cropper__handle--sw { cursor: nesw-resize; }
-.image-cropper__handle--w  { cursor: ew-resize; }
+/* The selection box is the crop's only tab stop — the handles are pointer
+   targets, not tab stops — so without this a keyboard user tabbed into the
+   cropper and saw nothing change. It clears the UA outline above and needs its
+   own replacement, exactly as the handles do. */
+.image-cropper__selection:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.image-cropper__handle--nw {
+  cursor: nwse-resize;
+}
+.image-cropper__handle--n {
+  cursor: ns-resize;
+}
+.image-cropper__handle--ne {
+  cursor: nesw-resize;
+}
+.image-cropper__handle--e {
+  cursor: ew-resize;
+}
+.image-cropper__handle--se {
+  cursor: nwse-resize;
+}
+.image-cropper__handle--s {
+  cursor: ns-resize;
+}
+.image-cropper__handle--sw {
+  cursor: nesw-resize;
+}
+.image-cropper__handle--w {
+  cursor: ew-resize;
+}
 
 /* On a rectangle the corners carry the affordance — dots on every edge as well
    would crowd a small crop box. The edge hit areas stay live either way. */

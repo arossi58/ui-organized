@@ -28,9 +28,10 @@ export interface FloatingPanelProps {
   children?: React.ReactNode;
 }
 
-export interface FloatingPanelTriggerProps
-  extends React.ComponentPropsWithRef<"button"> {
+export interface FloatingPanelTriggerProps extends React.ComponentPropsWithRef<"button"> {
   children?: React.ReactNode;
+  /** Project the trigger onto a custom element, e.g. `render={<Button />}`. */
+  render?: React.ReactElement;
 }
 
 export interface FloatingPanelContentProps {
@@ -48,8 +49,7 @@ export interface FloatingPanelHeaderProps extends React.ComponentPropsWithRef<"d
   children?: React.ReactNode;
 }
 
-export interface FloatingPanelTitleProps
-  extends React.ComponentPropsWithRef<"h2"> {
+export interface FloatingPanelTitleProps extends React.ComponentPropsWithRef<"h2"> {
   children?: React.ReactNode;
 }
 
@@ -57,7 +57,6 @@ export interface FloatingPanelBodyProps extends React.ComponentPropsWithRef<"div
   children?: React.ReactNode;
 }
 
-export interface FloatingPanelCloseProps
-  extends React.ComponentPropsWithRef<"button"> {
+export interface FloatingPanelCloseProps extends React.ComponentPropsWithRef<"button"> {
   children?: React.ReactNode;
 }

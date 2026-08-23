@@ -37,12 +37,7 @@ export const Inspect: Story = {
 
 export const WithMarkers: Story = {
   render: () => (
-    <AngleSlider
-      label="Bearing"
-      defaultValue={135}
-      markers={CARDINAL_MARKERS}
-      showValue
-    />
+    <AngleSlider label="Bearing" defaultValue={135} markers={CARDINAL_MARKERS} showValue />
   ),
   parameters: {
     docs: {

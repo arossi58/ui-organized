@@ -13,13 +13,16 @@
 
 /* ─── Trigger ─────────────────────────────────────────────────────────────── */
 
+/* Height and padding come from the same tokens `.btn--{size}` uses, and the type
+   from the same `CONTROL_TEXT_CLASS` map `Button` applies (see the TSX), so a
+   picker sits flush with a button or a select beside it at any size. */
 .color-picker__trigger {
   display: flex;
   align-items: center;
   gap: var(--spacing-space-02);
   box-sizing: border-box;
   height: var(--control-height-md);
-  padding: var(--spacing-space-01) var(--spacing-space-02);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
   background-color: var(--color-interactive-ui-default);
   /* 1px hairline — there is no border-width token family. */
   border: 1px solid var(--color-border-data-entry);
@@ -34,10 +37,36 @@
 
 .color-picker--sm .color-picker__trigger {
   height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
 }
 
 .color-picker--lg .color-picker__trigger {
   height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+/* ─── Swatch-only ─────────────────────────────────────────────────────────────
+   With the value text gone the trigger is a square, the way an icon-only Button
+   is: the side is the shared control height for the size, so a swatch trigger
+   and a labelled one line up in a row instead of the swatch rendering short and
+   wide. Horizontal padding goes, and the well centres in the square. */
+
+.color-picker--swatch-only.color-picker--sm .color-picker__trigger {
+  width: var(--control-height-sm);
+  padding: 0;
+  justify-content: center;
+}
+
+.color-picker--swatch-only.color-picker--md .color-picker__trigger {
+  width: var(--control-height-md);
+  padding: 0;
+  justify-content: center;
+}
+
+.color-picker--swatch-only.color-picker--lg .color-picker__trigger {
+  width: var(--control-height-lg);
+  padding: 0;
+  justify-content: center;
 }
 
 .color-picker__trigger:hover:not([data-disabled]) {
@@ -60,7 +89,10 @@
 }
 
 /* The swatch sits over the checkerboard, so a translucent colour reads as
-   translucent rather than as a darker opaque one. */
+   translucent rather than as a darker opaque one.
+
+   Its edge follows the control icon ramp — 16 / 20 / 24 — so the swatch is to a
+   picker what an icon is to a Button at the same size. */
 .color-picker__swatch-well {
   position: relative;
   display: block;
@@ -71,16 +103,32 @@
   flex-shrink: 0;
 }
 
-.color-picker__value-swatch {
-  position: absolute;
-  inset: 0;
+.color-picker--sm .color-picker__swatch-well {
+  width: var(--spacing-space-04);
+  height: var(--spacing-space-04);
 }
 
+.color-picker--lg .color-picker__swatch-well {
+  width: var(--spacing-space-06);
+  height: var(--spacing-space-06);
+}
+
+/* Sized rather than inset. Ark writes `position: relative` inline on every swatch
+   (it carries the colour as `background` on the same declaration), so an
+   `absolute` + `inset: 0` rule here lost to the inline `relative` and left the
+   swatch in flow at zero height — the well showed its checkerboard and never the
+   colour. Filling the well in flow needs no positioning at all, and the swatch
+   still paints over the grid because it comes second in the DOM. */
+.color-picker__value-swatch {
+  width: 100%;
+  height: 100%;
+}
+
+/* No type of its own: the trigger carries the size's `CONTROL_TEXT_CLASS` and
+   this inherits it, which is what keeps the value in step with a Button's label
+   at the same size rather than fixed at body-medium. Only the colour and the
+   casing — hex codes read better capitalised — belong to the value itself. */
 .color-picker__value-text {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-body-default);
-  line-height: var(--type-leading-body-medium);
   color: var(--color-content-primary);
   text-transform: uppercase;
 }
@@ -92,6 +140,10 @@
    cell size stays raw (see TRANSPARENCY_CELL in the TSX). */
 
 .color-picker__grid {
+  /* The grid is an absolutely-positioned fill, so it takes its corners from
+     whatever it fills — the swatch well's `radius-checkbox`, the alpha slider's
+     pill. Its parents no longer clip it (see the channel slider). */
+  border-radius: inherit;
   background-color: var(--color-surface-primary);
   background-image: conic-gradient(
     var(--color-surface-secondary) 0 25%,
@@ -118,6 +170,17 @@
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+/* Ark keeps a closed popup mounted and hides it with the `hidden` attribute,
+   trusting the UA stylesheet's `[hidden] { display: none }`. An author-level
+   `display` beats a UA rule at any specificity, so the `display: flex` above was
+   keeping the closed picker painted — it stayed on screen after a dismiss (no way
+   to close it) and, with the positioning effect gone with the open state, it
+   froze at its last coordinates instead of following the trigger on scroll.
+   Honor `hidden` explicitly, the same way `.avatar__fallback` has to. */
+.color-picker__popup[hidden] {
+  display: none;
 }
 
 /* ─── Saturation / value area ─────────────────────────────────────────────── */
@@ -152,7 +215,11 @@
   position: relative;
   height: var(--spacing-space-03);
   border-radius: var(--border-radius-full);
-  overflow: hidden;
+  /* Deliberately not `overflow: hidden`. The thumb is a child of this box and
+     sits at `left: 0%` / `left: 100%` at the ends of the range, so clipping here
+     cuts the handle in half — and the alpha handle, which rests at 100% for an
+     opaque colour, disappeared entirely. The pill shape is carried by the track
+     and the transparency grid instead; they are the only children that paint. */
 }
 
 /* `flex` belongs only to the slider sharing a row with the eyedropper, where
@@ -185,6 +252,16 @@
   outline: none;
 }
 
+/* Ark centres the *area* thumb for us — it writes `translate(-50%, -50%)` inline
+   alongside its `left`/`top` percentages. The channel slider thumbs get the same
+   `left: N%; top: 50%` with no transform at all, so an uncentred handle hangs
+   half a handle below the track and runs off its right end. Centring is scoped
+   to those two rather than put on `.color-picker__thumb`, so it can never fight
+   the inline transform the area thumb already carries. */
+.color-picker__channel-slider .color-picker__thumb {
+  transform: translate(-50%, -50%);
+}
+
 .color-picker__thumb:focus-visible {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
 }
@@ -213,6 +290,132 @@
 
 .color-picker__eyedropper:focus-visible {
   box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Notation row ────────────────────────────────────────────────────────────
+   A notation select and the fields that go with it. The popup is narrow, so the
+   row is sized by content rather than by a grid: the numeric fields take equal
+   shares of what is left, and the free-text ones (hex, OKLCH) take all of it.
+   Field abbreviations sit under the inputs the way they do in a spec sheet, so
+   nothing has to be repeated inside the boxes at this size. */
+
+.color-picker__inputs {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-01);
+}
+
+.color-picker__format {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* A native select, so it keeps the platform's own listbox, keyboard handling
+   and screen-reader behaviour — and so the picker never has to open a second
+   overlay inside the one it is already showing. */
+.color-picker__format-select {
+  appearance: none;
+  box-sizing: border-box;
+  height: var(--control-height-sm);
+  padding: 0 var(--spacing-space-04) 0 var(--spacing-space-01);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+.color-picker__format-select:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.color-picker__format-select:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* Drawn rather than left to `appearance: auto` so the caret takes the theme's
+   content colour instead of the platform's. */
+.color-picker__format-caret {
+  position: absolute;
+  right: var(--spacing-space-01);
+  color: var(--color-content-secondary);
+  pointer-events: none;
+}
+
+.color-picker__field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 0;
+  /* The caption line is reserved whether or not this field prints one, so the
+     popup keeps its height as the notation changes under it. */
+  min-height: calc(var(--control-height-sm) + 2px + var(--type-leading-caption));
+}
+
+/* Hex is one field for the whole colour with only alpha beside it, so it takes
+   the share of the row that three numeric channels would have had. (OKLCH needs
+   no such rule: it is the row's only field and already fills it.) */
+.color-picker__inputs[data-format="hex"] .color-picker__field:first-of-type {
+  flex: 4 1 0;
+}
+
+.color-picker__channel-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: var(--control-height-sm);
+  padding: 0 var(--spacing-space-01);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  color: var(--color-content-primary);
+  text-align: center;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.color-picker__channel-input:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.color-picker__channel-input:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* The spinners would take a third of a field this narrow, and the value is
+   already draggable on the area and the sliders above. */
+.color-picker__channel-input::-webkit-outer-spin-button,
+.color-picker__channel-input::-webkit-inner-spin-button {
+  appearance: none;
+  margin: 0;
+}
+
+.color-picker__channel-input[type="number"] {
+  appearance: textfield;
+}
+
+.color-picker__field-label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  color: var(--color-content-tertiary);
 }
 
 /* ─── Swatches ────────────────────────────────────────────────────────────── */

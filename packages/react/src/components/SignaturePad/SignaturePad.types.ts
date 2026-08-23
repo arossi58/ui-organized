@@ -21,7 +21,10 @@ export interface SignaturePadProps {
    */
   onDrawEnd?: (
     paths: string[],
-    getDataUrl: (type: "image/png" | "image/jpeg" | "image/svg+xml", quality?: number) => Promise<string>,
+    getDataUrl: (
+      type: "image/png" | "image/jpeg" | "image/svg+xml",
+      quality?: number,
+    ) => Promise<string>,
   ) => void;
   /**
    * Ink width in device pixels. This is a canvas stroke, not CSS — the ink's

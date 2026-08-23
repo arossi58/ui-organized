@@ -34,7 +34,7 @@ const meta: Meta<typeof ImageCropper> = {
     docs: {
       description: {
         component:
-          "A crop box over an image — avatars, cover art, anything that has to land on a fixed frame. The crop rect, image transform and handle positions are all owned by the machine, so the component supplies only colour, the viewport height and the handles' hit areas.\n\n`cropShape=\"circle\"` masks the preview but still reports a square rect, because that is what a crop actually is.",
+          'A crop box over an image — avatars, cover art, anything that has to land on a fixed frame. The crop rect, image transform and handle positions are all owned by the machine, so the component supplies only colour, the viewport height and the handles\' hit areas.\n\n`cropShape="circle"` masks the preview but still reports a square rect, because that is what a crop actually is.',
       },
     },
   },
@@ -67,12 +67,7 @@ export const Inspect: Story = {
 export const Square: Story = {
   render: () => (
     <div style={{ maxWidth: 480 }}>
-      <ImageCropper
-        src={SAMPLE_IMAGE}
-        alt="Sample gradient"
-        label="Square crop"
-        aspectRatio={1}
-      />
+      <ImageCropper src={SAMPLE_IMAGE} alt="Sample gradient" label="Square crop" aspectRatio={1} />
     </div>
   ),
   parameters: {

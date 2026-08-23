@@ -152,9 +152,7 @@ export function DatePicker({
         </ArkDatePicker.Positioner>
       </Portal>
 
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
     </ArkDatePicker.Root>
   );

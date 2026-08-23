@@ -35,9 +35,15 @@
   border-radius: var(--border-radius-full);
 }
 
-.progress--sm .progress__track { height: 4px; }
-.progress--md .progress__track { height: 8px; }
-.progress--lg .progress__track { height: 12px; }
+.progress--sm .progress__track {
+  height: 4px;
+}
+.progress--md .progress__track {
+  height: 8px;
+}
+.progress--lg .progress__track {
+  height: 12px;
+}
 
 /* ─── Indicator (fill) ────────────────────────────────────────────────────── */
 /* Base UI sets `width: <percent>%` inline; we animate that and color it. */
@@ -49,9 +55,15 @@
   transition: width 200ms ease;
 }
 
-.progress--success .progress__indicator { background-color: var(--color-status-success); }
-.progress--warning .progress__indicator { background-color: var(--color-status-caution); }
-.progress--error   .progress__indicator { background-color: var(--color-status-error); }
+.progress--success .progress__indicator {
+  background-color: var(--color-status-success);
+}
+.progress--warning .progress__indicator {
+  background-color: var(--color-status-caution);
+}
+.progress--error .progress__indicator {
+  background-color: var(--color-status-error);
+}
 
 /* ─── Indeterminate ───────────────────────────────────────────────────────── */
 /* No value → Base UI omits the inline width; we drive a sliding segment. */
@@ -62,8 +74,12 @@
 }
 
 @keyframes progress-indeterminate {
-  0%   { transform: translateX(-110%); }
-  100% { transform: translateX(360%); }
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(360%);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -127,9 +143,15 @@
   transition: stroke-dashoffset 200ms ease;
 }
 
-.progress--success .progress__circle-range { stroke: var(--color-status-success); }
-.progress--warning .progress__circle-range { stroke: var(--color-status-caution); }
-.progress--error   .progress__circle-range { stroke: var(--color-status-error); }
+.progress--success .progress__circle-range {
+  stroke: var(--color-status-success);
+}
+.progress--warning .progress__circle-range {
+  stroke: var(--color-status-caution);
+}
+.progress--error .progress__circle-range {
+  stroke: var(--color-status-error);
+}
 
 .progress__circle-value {
   position: absolute;
@@ -146,7 +168,9 @@
 }
 
 @keyframes progress-circle-spin {
-  100% { transform: rotate(360deg); }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

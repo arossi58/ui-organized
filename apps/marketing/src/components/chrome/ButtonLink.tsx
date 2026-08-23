@@ -8,8 +8,7 @@ import { Button, type ButtonProps } from "@ui-organized/react";
  * component (SITE.md §10). The library `Button` takes a `render` element and
  * clones the button's styling onto it, so the rendered DOM node is an anchor.
  */
-interface ButtonLinkProps
-  extends Omit<ButtonProps, "type" | "value" | "name" | "render"> {
+interface ButtonLinkProps extends Omit<ButtonProps, "type" | "value" | "name" | "render"> {
   href: string;
   target?: string;
   rel?: string;
@@ -17,6 +16,12 @@ interface ButtonLinkProps
 
 export function ButtonLink({ href, target, rel, ...buttonProps }: ButtonLinkProps) {
   return (
-    <Button render={<a href={href} target={target} rel={rel} />} {...buttonProps} />
+    <Button
+      // The anchor is a `render` prop: Button clones it and injects `children`,
+      // so it is never childless at runtime. The rule only sees the literal.
+      // eslint-disable-next-line jsx-a11y/anchor-has-content
+      render={<a href={href} target={target} rel={rel} />}
+      {...buttonProps}
+    />
   );
 }

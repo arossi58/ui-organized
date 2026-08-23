@@ -41,7 +41,9 @@
   background: var(--builder-surface-input);
   color: var(--builder-text-primary);
   cursor: pointer;
-  transition: border-color 0.12s, background 0.12s;
+  transition:
+    border-color 0.12s,
+    background 0.12s;
 }
 
 .pickerTrigger:hover {
@@ -98,7 +100,9 @@
   color: var(--builder-text-secondary);
   cursor: pointer;
   text-align: left;
-  transition: background 0.1s, color 0.1s;
+  transition:
+    background 0.1s,
+    color 0.1s;
 }
 
 .pickerItem:hover {
@@ -165,7 +169,9 @@
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -286,4 +292,44 @@
 .importError {
   color: #f55252;
   word-break: break-word;
+}
+
+/* ── Neutral surface preview ─────────────────────────────────────────────── */
+
+.surfacePreview {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.surfaceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.surfaceRowLabel {
+  width: 38px;
+  flex-shrink: 0;
+  font-size: 11px;
+  color: var(--builder-text-tertiary);
+}
+
+.surfaceSwatches {
+  display: flex;
+  flex: 1;
+  border: 1px solid var(--builder-border);
+  border-radius: 6px;
+  overflow: hidden;
+  height: 36px;
+}
+
+.surfaceSwatch {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 3px;
+  font-size: 9px;
+  letter-spacing: 0.02em;
 }

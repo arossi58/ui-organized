@@ -79,9 +79,7 @@ export function Editable({
           </ArkEditable.CancelTrigger>
         </ArkEditable.Control>
       )}
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
     </ArkEditable.Root>
   );

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-08-02T18:39:22.446Z",
+  "generatedAt": "2026-08-17T16:57:11.422Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -315,7 +315,7 @@
           "name": "label",
           "type": "string",
           "required": false,
-          "description": "Accessible label text rendered above the dial."
+          "description": "Accessible label text rendered inside the dial, under the value."
         },
         {
           "name": "markers",
@@ -351,8 +351,8 @@
           "name": "showValue",
           "type": "boolean",
           "required": false,
-          "defaultValue": "false",
-          "description": "Shows the current angle beside the label."
+          "defaultValue": "true",
+          "description": "Shows the current angle in the middle of the dial."
         },
         {
           "name": "size",
@@ -376,8 +376,8 @@
         }
       ],
       "usageSnippet": "<AngleSlider />",
-      "propSignatureHash": "sha256:f06a87c39b1d2957",
-      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "propSignatureHash": "sha256:ef1fcefb10a0ea3f",
+      "lastSyncedAt": "2026-08-16T16:58:42.070Z",
       "status": "draft"
     },
     {
@@ -1000,10 +1000,10 @@
         },
         {
           "name": "format",
-          "type": "\"rgba\" | \"hsla\" | \"hsba\"",
+          "type": "\"rgba\" | \"hsla\" | \"hsba\" | \"hex\" | \"oklch\"",
           "required": false,
           "defaultValue": "rgba",
-          "description": "Which notation the channel inputs use."
+          "description": "The notation this component *emits* — what `value`, `onValueChange`, `onValueChangeEnd`, the trigger's value text and the hidden form input all use."
         },
         {
           "name": "helperText",
@@ -1067,6 +1067,13 @@
           "description": "Shows the eyedropper button, where the browser supports it."
         },
         {
+          "name": "showFormatInputs",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the notation select and its channel fields — HEX, RGB, HSL, OKLCH — under the sliders."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
@@ -1094,8 +1101,8 @@
         }
       ],
       "usageSnippet": "<ColorPicker />",
-      "propSignatureHash": "sha256:e34276d65935bd10",
-      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "propSignatureHash": "sha256:986a424f729e6c35",
+      "lastSyncedAt": "2026-08-17T16:57:11.422Z",
       "status": "draft"
     },
     {

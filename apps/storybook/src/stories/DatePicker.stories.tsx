@@ -45,7 +45,9 @@ export const Open: Story = {
   ),
   parameters: {
     docs: {
-      source: { code: `<DatePicker label="Start date" defaultValue={["2026-03-14"]} defaultOpen />` },
+      source: {
+        code: `<DatePicker label="Start date" defaultValue={["2026-03-14"]} defaultOpen />`,
+      },
     },
   },
 };

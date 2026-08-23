@@ -32,9 +32,14 @@ export function QRCode({
       value={value}
       pixelSize={pixelSize}
       encoding={errorCorrection ? { ecc: errorCorrection } : undefined}
-      aria-label={label ?? value}
     >
-      <ArkQrCode.Frame className="qr-code__frame">
+      {/* The name lives on the Frame, not the Root.
+          `aria-label` on a div with no role is prohibited — ARIA ignores it, so
+          the code announced as nothing at all — and `role="img"` is what makes
+          it legal. But it has to go on the element that *is* the image: the Root
+          also holds the download button, and an `img` may not contain a
+          control. The Frame is the code itself and owns neither problem. */}
+      <ArkQrCode.Frame className="qr-code__frame" role="img" aria-label={label ?? value}>
         <ArkQrCode.Pattern className="qr-code__pattern" />
       </ArkQrCode.Frame>
       {overlay && <ArkQrCode.Overlay className="qr-code__overlay">{overlay}</ArkQrCode.Overlay>}

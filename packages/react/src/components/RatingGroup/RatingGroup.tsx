@@ -70,9 +70,7 @@ export function RatingGroup({
           }
         </ArkRatingGroup.Context>
       </ArkRatingGroup.Control>
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       <ArkRatingGroup.HiddenInput />
     </ArkRatingGroup.Root>

@@ -45,6 +45,8 @@ const FIXED_LINKS = [
   { to: "/docs/theming", label: "Theming" },
   { to: "/docs/foundations/color", label: "Color" },
   { to: "/docs/foundations/typography", label: "Typography" },
+  { to: "/docs/foundations/changelog", label: "Changelog" },
+  { to: "/docs/foundations/quality", label: "Quality" },
 ] as const;
 
 /**
@@ -213,9 +215,7 @@ export function DocsNav({ onNavigate }: DocsNavProps) {
             ))}
           </NavProvider>
 
-          {sections.length === 0 && (
-            <p className={styles.empty}>No components match “{query}”.</p>
-          )}
+          {sections.length === 0 && <p className={styles.empty}>No components match “{query}”.</p>}
         </nav>
       </ScrollArea>
     </>

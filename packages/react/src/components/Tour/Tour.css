@@ -33,12 +33,23 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
 }
 
-.tour__content--sm { width: var(--dimension-07, 280px); }
-.tour__content--md { width: var(--dimension-08, 320px); }
-.tour__content--lg { width: var(--dimension-10, 400px); }
+.tour__content--sm {
+  width: var(--dimension-07, 280px);
+}
+.tour__content--md {
+  width: var(--dimension-08, 320px);
+}
+.tour__content--lg {
+  width: var(--dimension-10, 400px);
+}
 
-.tour__content--default { padding: var(--spacing-space-04); }
-.tour__content--compact { padding: var(--spacing-space-03); gap: var(--spacing-space-01); }
+.tour__content--default {
+  padding: var(--spacing-space-04);
+}
+.tour__content--compact {
+  padding: var(--spacing-space-03);
+  gap: var(--spacing-space-01);
+}
 
 /* ─── Arrow ───────────────────────────────────────────────────────────────────
    zag positions the arrow and sizes it from its own custom properties; only the

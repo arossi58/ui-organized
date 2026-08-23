@@ -93,13 +93,7 @@ function TourDemo({
         </Card>
       </div>
 
-      <Tour
-        steps={steps}
-        stepId={stepId}
-        onStepChange={setStepId}
-        size={size}
-        variant={variant}
-      />
+      <Tour steps={steps} stepId={stepId} onStepChange={setStepId} size={size} variant={variant} />
     </div>
   );
 }

@@ -39,13 +39,21 @@
 }
 
 @keyframes marquee-scroll-x {
-  from { translate: 0 0; }
-  to   { translate: var(--marquee-translate) 0; }
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: var(--marquee-translate) 0;
+  }
 }
 
 @keyframes marquee-scroll-y {
-  from { translate: 0 0; }
-  to   { translate: 0 var(--marquee-translate); }
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 var(--marquee-translate);
+  }
 }
 
 /* zag flags the paused state on the root; pausing rather than cancelling keeps
@@ -81,37 +89,21 @@
   /* Wide enough to read as a fade rather than a hard mask. */
   width: var(--spacing-space-08);
   height: 100%;
-  background-image: linear-gradient(
-    to right,
-    var(--marquee-edge-color),
-    transparent
-  );
+  background-image: linear-gradient(to right, var(--marquee-edge-color), transparent);
 }
 
 .marquee__edge[data-side="end"] {
-  background-image: linear-gradient(
-    to left,
-    var(--marquee-edge-color),
-    transparent
-  );
+  background-image: linear-gradient(to left, var(--marquee-edge-color), transparent);
 }
 
 .marquee--vertical .marquee__edge {
   width: 100%;
   height: var(--spacing-space-08);
-  background-image: linear-gradient(
-    to bottom,
-    var(--marquee-edge-color),
-    transparent
-  );
+  background-image: linear-gradient(to bottom, var(--marquee-edge-color), transparent);
 }
 
 .marquee--vertical .marquee__edge[data-side="end"] {
-  background-image: linear-gradient(
-    to top,
-    var(--marquee-edge-color),
-    transparent
-  );
+  background-image: linear-gradient(to top, var(--marquee-edge-color), transparent);
 }
 
 /* Continuous motion with no way to stop it is a WCAG 2.2.2 failure, so the

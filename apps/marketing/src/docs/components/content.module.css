@@ -49,6 +49,28 @@
   overflow-wrap: anywhere;
 }
 
+/* Nested bullets inside an entry: tighter than the outer list and with no
+   bottom margin of its own, since the parent `li` already sets the rhythm. */
+.prose li > ul,
+.prose li > ol {
+  margin: var(--spacing-space-02) 0 0;
+}
+
+/* Blockquote in long-form markdown (`MarkdownBlocks`). A rule rather than a
+   tinted panel: quotes here are asides, and a filled box would read as a
+   callout carrying a severity the text doesn't have. */
+.quote {
+  max-width: 74ch;
+  margin: 0 0 var(--spacing-space-04);
+  padding-left: var(--spacing-space-04);
+  border-left: 2px solid var(--color-border-secondary);
+  color: var(--color-content-secondary);
+}
+
+.quote > * {
+  margin: 0;
+}
+
 .section {
   margin-top: var(--spacing-space-09);
   scroll-margin-top: var(--spacing-space-08);
@@ -155,7 +177,10 @@
   font-size: var(--type-size-caption);
   font-weight: var(--type-weight-body-strong);
   cursor: pointer;
-  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .copy:hover {

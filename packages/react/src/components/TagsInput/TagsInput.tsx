@@ -77,9 +77,7 @@ export function TagsInput({
         </ArkTagsInput.Context>
         <ArkTagsInput.Input className="tags-input__entry" placeholder={placeholder} />
       </ArkTagsInput.Control>
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       <ArkTagsInput.HiddenInput />
     </ArkTagsInput.Root>

@@ -1,0 +1,38 @@
+name: Set up the workspace
+description: >
+  pnpm + Node, a frozen-lockfile install, and a build of the workspace packages
+  the apps depend on. Split out of build-site so the quality gates can run
+  BETWEEN the install and the app builds — the gates write
+  manifest/test-status.json, and the marketing app imports it at build time, so
+  the order is load-bearing rather than incidental.
+
+runs:
+  using: composite
+  steps:
+    # pnpm version comes from the "packageManager" field in package.json.
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        # wrangler >= 4.112 requires Node 22; the site build, the gates and the
+        # tests all run fine on it too.
+        node-version: 22
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    # Build only the workspace deps the apps rely on (@ui-organized/react,
+    # tokens, utils, …). `^...` selects each app's dependencies but not the apps
+    # themselves. The apps consume `dist`, never `src`, so this has to happen
+    # before anything renders a component.
+    - name: Build workspace dependencies
+      shell: bash
+      run: >
+        pnpm turbo build
+        --filter=@ui-organized/marketing^...
+        --filter=@ui-organized/builder^...
+        --filter=@ui-organized/storybook^...

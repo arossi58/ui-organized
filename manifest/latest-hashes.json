@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T18:39:22.446Z",
+  "generatedAt": "2026-08-17T16:57:11.422Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -11,7 +11,7 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:f06a87c39b1d2957",
+    "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
     "packages/react/src/components/Button/Button.types.ts::Button": "sha256:f812888fdf6764f8",
@@ -25,7 +25,7 @@
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:e34276d65935bd10",
+    "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:986a424f729e6c35",
     "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:afd52166dcebfe72",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": "sha256:a689780b8ecb2542",
@@ -324,7 +324,7 @@
         "name": "label",
         "type": "string",
         "required": false,
-        "description": "Accessible label text rendered above the dial."
+        "description": "Accessible label text rendered inside the dial, under the value."
       },
       {
         "name": "markers",
@@ -360,8 +360,8 @@
         "name": "showValue",
         "type": "boolean",
         "required": false,
-        "defaultValue": "false",
-        "description": "Shows the current angle beside the label."
+        "defaultValue": "true",
+        "description": "Shows the current angle in the middle of the dial."
       },
       {
         "name": "size",
@@ -803,10 +803,10 @@
       },
       {
         "name": "format",
-        "type": "\"rgba\" | \"hsla\" | \"hsba\"",
+        "type": "\"rgba\" | \"hsla\" | \"hsba\" | \"hex\" | \"oklch\"",
         "required": false,
         "defaultValue": "rgba",
-        "description": "Which notation the channel inputs use."
+        "description": "The notation this component *emits* — what `value`, `onValueChange`, `onValueChangeEnd`, the trigger's value text and the hidden form input all use."
       },
       {
         "name": "helperText",
@@ -868,6 +868,13 @@
         "required": false,
         "defaultValue": "true",
         "description": "Shows the eyedropper button, where the browser supports it."
+      },
+      {
+        "name": "showFormatInputs",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Shows the notation select and its channel fields — HEX, RGB, HSL, OKLCH — under the sliders."
       },
       {
         "name": "size",

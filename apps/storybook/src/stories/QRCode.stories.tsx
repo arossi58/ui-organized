@@ -10,7 +10,7 @@ const meta: Meta<typeof QRCode> = {
     docs: {
       description: {
         component:
-          "A scannable code for a string. `pixelSize` is the edge of one module and must stay an integer — a fractional module produces moiré and can make the code unreadable, which is why the size steps divide cleanly rather than coming from the spacing scale. An `overlay` covers part of the pattern, so pair it with `errorCorrection=\"H\"`.",
+          'A scannable code for a string. `pixelSize` is the edge of one module and must stay an integer — a fractional module produces moiré and can make the code unreadable, which is why the size steps divide cleanly rather than coming from the spacing scale. An `overlay` covers part of the pattern, so pair it with `errorCorrection="H"`.',
       },
     },
   },

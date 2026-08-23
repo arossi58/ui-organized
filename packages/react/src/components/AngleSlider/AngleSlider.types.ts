@@ -1,5 +1,5 @@
 export interface AngleSliderProps {
-  /** Accessible label text rendered above the dial. */
+  /** Accessible label text rendered inside the dial, under the value. */
   label?: string;
   /** Helper text rendered below the dial. Hidden when an error is shown. */
   helperText?: string;
@@ -20,7 +20,7 @@ export interface AngleSliderProps {
   step?: number;
   /** Tick marks in degrees, e.g. `[0, 90, 180, 270]`. */
   markers?: number[];
-  /** Shows the current angle beside the label. Defaults to false. */
+  /** Shows the current angle in the middle of the dial. Defaults to true. */
   showValue?: boolean;
   /** Size variant. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";

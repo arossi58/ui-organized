@@ -112,7 +112,14 @@
   cursor: inherit;
 }
 
-/* Focus — show the inset focus ring on keyboard focus (Figma focus-light). */
+/* Focus — show the inset focus ring on keyboard focus (Figma focus-light).
+   `:focus-visible` on the thumb itself is the rule that actually fires: zag puts
+   `tabindex="0"` on the thumb, so Tab lands there and the nested input never
+   receives focus. With only the `:has()` form the thumb suppressed the UA
+   outline (above) and then painted nothing in its place — a slider with no
+   visible focus at all. The `:has()` form is kept for the case where the input
+   is focused directly, e.g. by a label association. */
+.range__thumb:focus-visible,
 .range__thumb:has(input:focus-visible) {
   border-color: transparent;
   box-shadow:

@@ -9,12 +9,6 @@
    Ark-native option for new work, not a replacement for them. See §7 of
    FIGMA-PARITY.md. */
 
-/* Same local var name as Calendar.css: the cell is a computed square, not a
-   themeable dimension, and both grids must size identically. */
-.date-picker__popup {
-  --calendar-cell: var(--spacing-space-08);
-}
-
 /* ─── Control ─────────────────────────────────────────────────────────────── */
 
 .date-picker__control {
@@ -126,6 +120,10 @@
 /* ─── Popup ───────────────────────────────────────────────────────────────── */
 
 .date-picker__popup {
+  /* Same local var name as Calendar.css: the cell is a computed square, not a
+     themeable dimension, and both grids must size identically. */
+  --calendar-cell: var(--spacing-space-08);
+
   /* Stacking belongs on the popup, never `.date-picker__positioner`: zag writes
      an inline `z-index: var(--z-index)` onto the positioner and fills that
      variable by reading *this* rule. */
@@ -139,6 +137,17 @@
   border: 1px solid var(--color-border-primary);
   border-radius: var(--radius-interactive);
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+/* Ark keeps a closed popup mounted and hides it with the `hidden` attribute,
+   trusting the UA stylesheet's `[hidden] { display: none }`. An author-level
+   `display` beats a UA rule at any specificity, so the `display: flex` above left
+   a dismissed calendar painted on the page and swallowing clicks. The popups that
+   fade out on close (`.select-popup`, `.menu__popup`) hide themselves that way;
+   this one has no exit state, so it has to honor `hidden` — the same fix
+   `.avatar__fallback` needs. */
+.date-picker__popup[hidden] {
+  display: none;
 }
 
 /* ─── View control ────────────────────────────────────────────────────────── */

@@ -31,11 +31,11 @@ import { SRC_DIR, cssFiles } from "../scripts/token-contract";
 const POPPER_LAYERS: Record<string, string> = {
   "select-positioner": "select-popup",
   "combobox-positioner": "combobox-popup",
-  "menu__positioner": "menu__popup",
+  menu__positioner: "menu__popup",
   "context-menu__positioner": "context-menu__popup",
-  "popover__positioner": "popover__popup",
+  popover__positioner: "popover__popup",
   "hover-card__positioner": "hover-card__popup",
-  "tooltip__positioner": "tooltip__popup",
+  tooltip__positioner: "tooltip__popup",
   "date-popover-positioner": "date-popover",
   "color-picker__positioner": "color-picker__popup",
   "date-picker__positioner": "date-picker__popup",
@@ -44,7 +44,7 @@ const POPPER_LAYERS: Record<string, string> = {
   // it is correct either way and strictly safer — declaring on the content works
   // when zag reads it, and when it doesn't the positioner's `z-index: auto`
   // creates no stacking context, so the content competes at the root.
-  "tour__positioner": "tour__content",
+  tour__positioner: "tour__content",
   // FloatingPanel is NOT popper-backed — its positioner carries only the drag
   // position and no inline `z-index`, so a rule there would in fact survive. It
   // is registered anyway rather than added to NON_POPPER_NAMESPACE: one map

@@ -6,7 +6,7 @@ export const progressStyles = cva("progress", {
       default: "progress--default",
       success: "progress--success",
       warning: "progress--warning",
-      error:   "progress--error",
+      error: "progress--error",
     },
     size: {
       sm: "progress--sm",
@@ -14,14 +14,14 @@ export const progressStyles = cva("progress", {
       lg: "progress--lg",
     },
     shape: {
-      linear:   "progress--linear",
+      linear: "progress--linear",
       circular: "progress--circular",
     },
   },
   defaultVariants: {
     variant: "default",
-    size:    "md",
-    shape:   "linear",
+    size: "md",
+    shape: "linear",
   },
 });
 

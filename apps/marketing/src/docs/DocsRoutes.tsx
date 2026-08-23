@@ -14,6 +14,8 @@ import { GetStartedPage } from "./pages/GetStartedPage";
 import { ThemingPage } from "./pages/ThemingPage";
 import { FoundationsColorPage } from "./pages/FoundationsColorPage";
 import { FoundationsTypographyPage } from "./pages/FoundationsTypographyPage";
+import { FoundationsChangelogPage } from "./pages/FoundationsChangelogPage";
+import { FoundationsQualityPage } from "./pages/FoundationsQualityPage";
 import { ComponentDocsPage } from "./pages/ComponentDocsPage";
 import { ComponentInspectPage } from "./pages/ComponentInspectPage";
 import { DocsNotFound } from "./pages/DocsNotFound";
@@ -52,6 +54,8 @@ function DocsRouteTree({ overlayHost }: { overlayHost: RefObject<HTMLDivElement 
         <Route path="theming" element={<ThemingPage />} />
         <Route path="foundations/color" element={<FoundationsColorPage />} />
         <Route path="foundations/typography" element={<FoundationsTypographyPage />} />
+        <Route path="foundations/changelog" element={<FoundationsChangelogPage />} />
+        <Route path="foundations/quality" element={<FoundationsQualityPage />} />
         {/* Both component views are real routes so they're linkable and the
             browser's back button works — the thing the old iframe couldn't do. */}
         <Route path=":slug" element={<ComponentDocsPage />} />

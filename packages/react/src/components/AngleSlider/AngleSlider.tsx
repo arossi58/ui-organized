@@ -15,7 +15,7 @@ export function AngleSlider({
   onValueChangeEnd,
   step,
   markers,
-  showValue = false,
+  showValue = true,
   size,
   disabled,
   readOnly,
@@ -38,36 +38,35 @@ export function AngleSlider({
       readOnly={readOnly}
       name={name}
     >
-      {(label || showValue) && (
-        <div className="angle-slider__header">
-          {label && <ArkAngleSlider.Label className="field__label">{label}</ArkAngleSlider.Label>}
-          {/* Ark's default text is the CSS angle (`135deg`). Supplying children
-              overrides it, so the readout is typeset as a degree rather than
-              spelled like a stylesheet value. */}
-          {showValue && (
-            <ArkAngleSlider.ValueText className="angle-slider__value">
-              <ArkAngleSlider.Context>{(api) => `${api.value}°`}</ArkAngleSlider.Context>
-            </ArkAngleSlider.ValueText>
-          )}
-        </div>
-      )}
       <ArkAngleSlider.Control className="angle-slider__control">
         {markers && markers.length > 0 && (
           <ArkAngleSlider.MarkerGroup className="angle-slider__markers">
             {markers.map((marker) => (
-              <ArkAngleSlider.Marker
-                key={marker}
-                value={marker}
-                className="angle-slider__marker"
-              />
+              <ArkAngleSlider.Marker key={marker} value={marker} className="angle-slider__marker" />
             ))}
           </ArkAngleSlider.MarkerGroup>
         )}
+        {/* The readout sits in the hollow of the ring. It stays inside Control
+            so it is centred on the dial rather than on the field column, and
+            CSS makes it click-through so the dial still tracks a press on it. */}
+        {(showValue || label) && (
+          <div className="angle-slider__readout">
+            {/* Ark's default text is the CSS angle (`135deg`). Supplying children
+                overrides it, so the readout is typeset as a degree rather than
+                spelled like a stylesheet value. */}
+            {showValue && (
+              <ArkAngleSlider.ValueText className="angle-slider__value">
+                <ArkAngleSlider.Context>{(api) => `${api.value}°`}</ArkAngleSlider.Context>
+              </ArkAngleSlider.ValueText>
+            )}
+            {label && (
+              <ArkAngleSlider.Label className="angle-slider__label">{label}</ArkAngleSlider.Label>
+            )}
+          </div>
+        )}
         <ArkAngleSlider.Thumb className="angle-slider__thumb" />
       </ArkAngleSlider.Control>
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       <ArkAngleSlider.HiddenInput />
     </ArkAngleSlider.Root>

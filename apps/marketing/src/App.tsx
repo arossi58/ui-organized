@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Navigate, Routes, Route, useLocation } from "react-router-dom";
 import { Agentation } from "agentation";
 import { HomePage } from "./pages/HomePage";
 import { ToolsPage } from "./pages/ToolsPage";
@@ -60,6 +60,13 @@ function SiteChrome() {
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/tools/:toolId" element={<ToolsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        {/* The dashboard lives in the docs rail now (Foundations → Quality).
+            /quality stays as a redirect because it is part of the deploy-path
+            contract that scripts/assemble-site.mjs reserved, and the CI preview
+            comment links to it. Its static placeholder is gone: a real file at
+            _site/quality/ would shadow this route, since Workers serves a file
+            in preference to the SPA fallback. */}
+        <Route path="/quality" element={<Navigate to="/docs/foundations/quality" replace />} />
         {/* Legal pages — linked from the footer + contact form. */}
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/terms" element={<TermsPage />} />

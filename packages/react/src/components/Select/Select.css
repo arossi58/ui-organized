@@ -178,7 +178,6 @@
   opacity: 1;
 }
 
-
 /* ─── Variant: ghost ──────────────────────────────────────────────────────── */
 /* A borderless, label-less trigger that mirrors the ghost Button's colour
    states (--color-interactive-ghost-*). Size, layout, focus, invalid and
@@ -205,6 +204,7 @@
   background-color: var(--color-interactive-ghost-default);
   border-color: transparent;
   color: var(--color-content-primary);
+  width: fit-content;
 }
 
 .select-field--ghost .select-field__trigger:hover:not(:disabled):not([data-disabled]) {
@@ -220,10 +220,6 @@
 /* Ghost selects hug their contents (value + chevron) instead of filling the
    container — suited to inline / toolbar use. The base trigger is width:100%. */
 .select-field--ghost {
-  width: fit-content;
-}
-
-.select-field--ghost .select-field__trigger {
   width: fit-content;
 }
 

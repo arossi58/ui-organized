@@ -30,9 +30,7 @@ export function Progress({
           )}
           {/* A ring has room inside it, so the value sits in the middle rather
               than in the header — see the circular branch below. */}
-          {showValue && !isCircular && (
-            <ArkProgress.ValueText className="progress__value" />
-          )}
+          {showValue && !isCircular && <ArkProgress.ValueText className="progress__value" />}
         </div>
       )}
       {isCircular ? (

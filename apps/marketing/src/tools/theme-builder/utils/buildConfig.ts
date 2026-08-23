@@ -23,7 +23,12 @@ import {
 import { dimensionTokens } from "@ui-organized/tokens";
 import { listPhrase, normalizeWeights, unservableWeights } from "../hooks/useGoogleFonts";
 import { fontLinkTags, resolveThemeFonts } from "./buildFonts";
-import { resolveSemanticRefs, getCoreFamily, type SemanticRef, type ColorRamp } from "@ui-organized/utils";
+import {
+  resolveSemanticRefs,
+  getCoreFamily,
+  type SemanticRef,
+  type ColorRamp,
+} from "@ui-organized/utils";
 import type { BuilderState, IconLibrary } from "../state/themeState";
 
 // ─── DTCG token primitives ──────────────────────────────────────────────────────
@@ -46,9 +51,7 @@ const ICON_PACKAGES: Record<IconLibrary, string> = {
 
 /** A semantic token's `$value`: a DTCG reference to its primitive, or a raw literal. */
 function refValue(ref: SemanticRef): string {
-  return ref.kind === "alias"
-    ? `{primitive.color.${ref.group}.${ref.step}}`
-    : ref.value;
+  return ref.kind === "alias" ? `{primitive.color.${ref.group}.${ref.step}}` : ref.value;
 }
 
 /**
@@ -224,7 +227,11 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
   // Full ramp per primitive group: brand/neutral track the chosen ramps; every
   // other (functional) group resolves to its fixed core family.
   const rampFor = (group: string): ColorRamp | undefined =>
-    group === "brand" ? state.brandRamp : group === "neutral" ? state.neutralRamp : getCoreFamily(group);
+    group === "brand"
+      ? state.brandRamp
+      : group === "neutral"
+        ? state.neutralRamp
+        : getCoreFamily(group);
 
   return {
     $description: `${state.themeName || "My Theme"} — exported from the Design System Theme Builder`,
@@ -235,14 +242,31 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
           state.brandMode === "custom"
             ? { mode: "custom", hex: state.brandHex, primaryShade: state.brandShade }
             : { mode: "family", family: state.brandFamily, primaryShade: state.brandShade },
-        neutral: { family: state.neutralFamily },
-        typeScale: { base: state.typeScaleBase, ratio: state.typeScaleRatio, mode: state.typeScaleMode },
+        neutral:
+          state.neutralMode === "custom"
+            ? {
+                mode: "custom",
+                hex: state.neutralHex,
+                tint: state.neutralTint,
+                // Kept so a reader that predates tinting still finds a family.
+                family: state.neutralFamily,
+              }
+            : { mode: "family", family: state.neutralFamily, tint: state.neutralTint },
+        typeScale: {
+          base: state.typeScaleBase,
+          ratio: state.typeScaleRatio,
+          mode: state.typeScaleMode,
+        },
         // Parametric inputs the resolved token tree can't fully express — kept so
         // the theme can be loaded *back* into the builder exactly (and survives a
         // Figma round-trip via the plugin, which stashes this whole block). `mode`
         // records whether the scale/leadings are the design-system defaults
         // ("system") or user-customized ("custom").
-        lineHeight: { heading: state.headingLineHeight, body: state.bodyLineHeight, mode: state.lineHeightMode },
+        lineHeight: {
+          heading: state.headingLineHeight,
+          body: state.bodyLineHeight,
+          mode: state.lineHeightMode,
+        },
         radius: { base: state.radiusBase },
         spacing: { baseUnit: state.spacingBaseUnit },
         // Icons are runtime React config (IconProvider), not a CSS/Figma variable
@@ -281,7 +305,10 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
     },
     type: typographyTokens(state),
     spacing: dimensionTokensFromMap(computeSpacingVars(state.spacingScale), "spacing-"),
-    "border-radius": dimensionTokensFromMap(computeRadiusVars(state.borderRadius), "border-radius-"),
+    "border-radius": dimensionTokensFromMap(
+      computeRadiusVars(state.borderRadius),
+      "border-radius-",
+    ),
     component: componentTokens(state),
     // Fixed layout sizes (`--dimension-01…12`). Not builder-controlled, but the
     // component CSS reads them — `--dimension-06` is the sidebar rail — so the
@@ -359,8 +386,16 @@ export function buildReadme(state: BuilderState): string {
   // face, so the browser synthesises it — which is worth saying out loud in the
   // README rather than leaving someone to wonder why their bold looks smeared.
   const synthesised = [
-    { role: "heading", family: state.headingFamily, missing: unservableWeights(Object.values(state.headingWeights), state.headingFontAvailable) },
-    { role: "body", family: state.bodyFamily, missing: unservableWeights(Object.values(state.bodyWeights), state.bodyFontAvailable) },
+    {
+      role: "heading",
+      family: state.headingFamily,
+      missing: unservableWeights(Object.values(state.headingWeights), state.headingFontAvailable),
+    },
+    {
+      role: "body",
+      family: state.bodyFamily,
+      missing: unservableWeights(Object.values(state.bodyWeights), state.bodyFontAvailable),
+    },
   ].filter((f) => f.missing.length > 0);
 
   const mode = state.exportDefaultMode;
@@ -370,10 +405,27 @@ export function buildReadme(state: BuilderState): string {
       ? "`:root` is light and follows `prefers-color-scheme` when no `data-theme` is set."
       : `\`:root\` is **${mode}** — that is what a page renders as before any \`data-theme\` is set.`;
 
+  const brandSummary =
+    state.brandMode === "custom" ? `custom \`${state.brandHex}\`` : `\`${state.brandFamily}\``;
+  const neutralBase =
+    state.neutralMode === "custom"
+      ? `custom \`${state.neutralHex}\``
+      : `\`${state.neutralFamily}\``;
+  const neutralSummary =
+    state.neutralTint > 0
+      ? `${neutralBase}, tinted at a peak chroma of ${state.neutralTint.toFixed(3)}`
+      : `${neutralBase}, untinted`;
+
   return `# ${name}
 
 Exported from the UI Organized Theme Builder. One source of truth — the DTCG
 tokens — plus everything derived from it that code and Figma actually consume.
+
+Brand is ${brandSummary} at shade \`${state.brandShade}\`. The neutral ramp — which
+drives every surface, border and content color — is ${neutralSummary}. Tinted
+neutrals hold the untinted ramp's per-step lightness, giving up at most 0.02 at
+the lightest steps where sRGB is too narrow to hold the tint otherwise, so no
+token pair crosses a WCAG threshold.
 
 ## Files
 
@@ -397,7 +449,14 @@ Point the CLI at this bundle and it files everything where your project keeps
 things — then tells you what's left to do:
 
 \`\`\`sh
-npx @ui-organized/cli theme ${state.themeName ? `${state.themeName.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "")}-theme.zip` : "my-theme.zip"}
+npx @ui-organized/cli theme ${
+    state.themeName
+      ? `${state.themeName
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z0-9-]/g, "")}-theme.zip`
+      : "my-theme.zip"
+  }
 \`\`\`
 
 No install step. Before writing anything it checks that this theme defines every
@@ -473,7 +532,9 @@ ${
           (f) =>
             `${f.family} does not ship weight${f.missing.length > 1 ? "s" : ""} ${listPhrase(f.missing.map(String))}`,
         )
-        .join("; ")}. The browser will synthesise ${synthesised.length > 1 ? "those" : "that"} rather than load a real face, which usually reads heavier and looser than the genuine cut.
+        .join(
+          "; ",
+        )}. The browser will synthesise ${synthesised.length > 1 ? "those" : "that"} rather than load a real face, which usually reads heavier and looser than the genuine cut.
 `
     : ""
 }

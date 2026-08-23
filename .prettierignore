@@ -1,0 +1,25 @@
+# Build output and vendored assets
+node_modules
+dist
+storybook-static
+_site
+coverage
+.turbo
+.wrangler
+.quality
+playwright-report
+test-results
+pnpm-lock.yaml
+packages/tokens/output
+
+# ── Generated data ───────────────────────────────────────────────────────────
+# Prettier and a generator formatting the same file fight forever: the generator
+# writes JSON.stringify's shape, Prettier rewrites it, the next run undoes that,
+# and the lint gate reports a file nobody edited. The generator owns these.
+manifest/*.json
+packages/react/token-contract.json
+apps/storybook/a11y/known-violations.json
+apps/marketing/public/roadmap.json
+
+# Generated report, not source
+FIGMA-PARITY.html

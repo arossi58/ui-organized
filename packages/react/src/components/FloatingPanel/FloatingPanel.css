@@ -21,9 +21,15 @@
   border-radius: var(--border-radius-05);
 }
 
-.floating-panel__content--sm { width: var(--dimension-08, 320px); }
-.floating-panel__content--md { width: var(--dimension-10, 400px); }
-.floating-panel__content--lg { width: var(--dimension-12, 560px); }
+.floating-panel__content--sm {
+  width: var(--dimension-08, 320px);
+}
+.floating-panel__content--md {
+  width: var(--dimension-10, 400px);
+}
+.floating-panel__content--lg {
+  width: var(--dimension-12, 560px);
+}
 
 .floating-panel__content--elevated {
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.16);
@@ -130,8 +136,12 @@
   cursor: ns-resize;
 }
 
-.floating-panel__resize--n { top: 0; }
-.floating-panel__resize--s { bottom: 0; }
+.floating-panel__resize--n {
+  top: 0;
+}
+.floating-panel__resize--s {
+  bottom: 0;
+}
 
 .floating-panel__resize--e,
 .floating-panel__resize--w {
@@ -141,8 +151,12 @@
   cursor: ew-resize;
 }
 
-.floating-panel__resize--e { right: 0; }
-.floating-panel__resize--w { left: 0; }
+.floating-panel__resize--e {
+  right: 0;
+}
+.floating-panel__resize--w {
+  left: 0;
+}
 
 /* Corners sit above the edges so a diagonal drag wins where they overlap. */
 .floating-panel__resize--ne,
@@ -154,7 +168,23 @@
   z-index: 1;
 }
 
-.floating-panel__resize--nw { top: 0; left: 0; cursor: nwse-resize; }
-.floating-panel__resize--ne { top: 0; right: 0; cursor: nesw-resize; }
-.floating-panel__resize--se { bottom: 0; right: 0; cursor: nwse-resize; }
-.floating-panel__resize--sw { bottom: 0; left: 0; cursor: nesw-resize; }
+.floating-panel__resize--nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+.floating-panel__resize--ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+.floating-panel__resize--se {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
+.floating-panel__resize--sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}

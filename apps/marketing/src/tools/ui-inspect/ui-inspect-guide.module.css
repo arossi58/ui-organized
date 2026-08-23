@@ -243,7 +243,6 @@
 
 @media (max-width: 900px) {
   .column {
-    padding: var(--spacing-space-07) var(--spacing-space-05)
-      var(--spacing-space-10);
+    padding: var(--spacing-space-07) var(--spacing-space-05) var(--spacing-space-10);
   }
 }

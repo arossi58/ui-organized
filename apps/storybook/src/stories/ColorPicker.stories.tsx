@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ColorPicker } from "@ui-organized/react";
+import { Button, ColorPicker } from "@ui-organized/react";
 
 const BRAND_SWATCHES = [
   "#2563eb",
@@ -29,7 +29,7 @@ const meta: Meta<typeof ColorPicker> = {
   argTypes: {
     size: { control: "select", options: ["sm", "md", "lg"] },
     variant: { control: "select", options: ["default", "swatch-only"] },
-    format: { control: "select", options: ["rgba", "hsla", "hsba"] },
+    format: { control: "select", options: ["rgba", "hsla", "hsba", "hex", "oklch"] },
   },
 };
 
@@ -110,8 +110,82 @@ export const Controlled: Story = {
   },
 };
 
+export const Formats: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12, minHeight: 460 }}>
+      {/* The notation select under the sliders switches the fields between HEX,
+          RGB, HSL and OKLCH. It is a way of reading the colour, not a property
+          of it: whichever notation is showing, this picker still hands back the
+          `format` it was given. */}
+      <ColorPicker label="Brand colour" defaultValue="#2563eb" format="oklch" defaultOpen />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker label="Brand colour" defaultValue="#2563eb" format="oklch" />`,
+      },
+    },
+  },
+};
+
+export const WithoutFormatInputs: Story = {
+  render: () => (
+    <div style={{ minHeight: 340 }}>
+      <ColorPicker
+        label="Brand colour"
+        defaultValue="#16a34a"
+        showFormatInputs={false}
+        defaultOpen
+      />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker label="Brand colour" defaultValue="#16a34a" showFormatInputs={false} />`,
+      },
+    },
+  },
+};
+
+export const Sizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      {/* Alongside Buttons, because lining up with them is the point of the
+          size ramp: same heights, same padding tokens, same type per size. */}
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <div key={size} style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
+          <ColorPicker size={size} defaultValue="#2563eb" />
+          <ColorPicker size={size} variant="swatch-only" defaultValue="#2563eb" />
+          <Button size={size} intent="secondary">
+            Button
+          </Button>
+        </div>
+      ))}
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<ColorPicker size="sm" defaultValue="#2563eb" />
+<ColorPicker size="md" defaultValue="#2563eb" />
+<ColorPicker size="lg" defaultValue="#2563eb" />`,
+      },
+    },
+  },
+};
+
 export const SwatchOnly: Story = {
-  render: () => <ColorPicker variant="swatch-only" defaultValue="#dc2626" />,
+  render: () => (
+    <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>
+      {/* Without the value text the trigger is a square, the side of it the
+          shared control height — an icon-only Button by another name. */}
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <ColorPicker key={size} size={size} variant="swatch-only" defaultValue="#dc2626" />
+      ))}
+    </div>
+  ),
   parameters: {
     docs: {
       source: { code: `<ColorPicker variant="swatch-only" defaultValue="#dc2626" />` },

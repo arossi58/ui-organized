@@ -73,9 +73,7 @@ export const Empty: Story = {
 };
 
 export const ButtonOnly: Story = {
-  render: () => (
-    <FileUpload variant="button" triggerLabel="Attach a file" maxFiles={1} />
-  ),
+  render: () => <FileUpload variant="button" triggerLabel="Attach a file" maxFiles={1} />,
   parameters: {
     docs: {
       source: {

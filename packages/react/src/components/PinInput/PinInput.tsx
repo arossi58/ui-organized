@@ -71,9 +71,7 @@ export function PinInput({
           <ArkPinInput.Input key={index} index={index} className="pin-input__cell" />
         ))}
       </ArkPinInput.Control>
-      {helperText && !isInvalid && (
-        <span className="field__description">{helperText}</span>
-      )}
+      {helperText && !isInvalid && <span className="field__description">{helperText}</span>}
       {isInvalid && errorMessage && <FieldError>{errorMessage}</FieldError>}
       <ArkPinInput.HiddenInput />
     </ArkPinInput.Root>

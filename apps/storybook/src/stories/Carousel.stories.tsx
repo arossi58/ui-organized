@@ -1,7 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Carousel } from "@ui-organized/react";
 
-const slide = (label: string, tone: string) => (
+/**
+ * Demo slides use the palette's designed `-bg` / `-content` pairs rather than a
+ * solid status fill with light text. The solid fills are tuned for icons and
+ * chips, not for 20px body copy: `status-success` under `content-light` lands at
+ * 3.21:1 and `status-caution` at 2.54:1, both short of AA. The tinted pairs are
+ * built to carry text and clear it comfortably.
+ */
+const slide = (label: string, tone: string, ink: string) => (
   <div
     style={{
       display: "flex",
@@ -9,7 +16,7 @@ const slide = (label: string, tone: string) => (
       justifyContent: "center",
       height: 180,
       background: tone,
-      color: "var(--color-content-light)",
+      color: ink,
       fontFamily: "var(--type-font-body)",
       fontSize: "var(--type-size-heading-small)",
       fontWeight: "var(--type-weight-heading-emphasis)",
@@ -20,10 +27,26 @@ const slide = (label: string, tone: string) => (
 );
 
 const SLIDES = [
-  { id: "1", content: slide("One", "var(--color-interactive-primary-default)") },
-  { id: "2", content: slide("Two", "var(--color-status-info)") },
-  { id: "3", content: slide("Three", "var(--color-status-success)") },
-  { id: "4", content: slide("Four", "var(--color-status-caution)") },
+  {
+    id: "1",
+    content: slide("One", "var(--color-interactive-primary-default)", "var(--color-content-light)"),
+  },
+  {
+    id: "2",
+    content: slide("Two", "var(--color-status-info-bg)", "var(--color-status-info-content)"),
+  },
+  {
+    id: "3",
+    content: slide(
+      "Three",
+      "var(--color-status-success-bg)",
+      "var(--color-status-success-content)",
+    ),
+  },
+  {
+    id: "4",
+    content: slide("Four", "var(--color-status-caution-bg)", "var(--color-status-caution-content)"),
+  },
 ];
 
 const meta: Meta<typeof Carousel> = {

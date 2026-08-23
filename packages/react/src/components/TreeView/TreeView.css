@@ -49,9 +49,7 @@
   align-items: center;
   gap: var(--spacing-space-02);
   padding: var(--spacing-space-01) var(--spacing-space-02);
-  padding-inline-start: calc(
-    var(--spacing-space-02) + var(--depth, 0) * var(--spacing-space-04)
-  );
+  padding-inline-start: calc(var(--spacing-space-02) + var(--depth, 0) * var(--spacing-space-04));
   border-radius: var(--radius-interactive);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-large);
@@ -142,9 +140,7 @@
 .tree-view__indent-guide {
   position: absolute;
   inset-block: 0;
-  inset-inline-start: calc(
-    var(--spacing-space-04) + var(--depth, 0) * var(--spacing-space-04)
-  );
+  inset-inline-start: calc(var(--spacing-space-04) + var(--depth, 0) * var(--spacing-space-04));
   width: 1px;
   background-color: var(--color-border-secondary);
 }

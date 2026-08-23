@@ -17,6 +17,8 @@ import {
   PropsTable,
   StatusBadge,
   StoryExample,
+  TestStatusChip,
+  TestStatusPanel,
 } from "../components";
 import { exampleStories, getDocsComponent, inspectStory } from "../registry";
 import { stalenessFor } from "../staleness";
@@ -73,6 +75,18 @@ export function ComponentDocsPage() {
             </DocsSection>
           )}
 
+          {/* Between the examples and the API: by this point a reader knows
+              what the component looks like, and "is it actually verified?" is
+              the next question they have — before they start writing code
+              against the prop table below. */}
+          <DocsSection
+            title="Quality"
+            subtitle="What automated testing knows about this component. Every gate runs on each pull request."
+            aside={<TestStatusChip slug={component.slug} />}
+          >
+            <TestStatusPanel slug={component.slug} />
+          </DocsSection>
+
           <DocsSection
             title="Props"
             subtitle={
@@ -91,7 +105,10 @@ export function ComponentDocsPage() {
             >
               {related.map((sub) => (
                 <div key={sub.codeName}>
-                  <h3 className={styles.sectionTitle} style={{ fontSize: "var(--type-size-body-large)" }}>
+                  <h3
+                    className={styles.sectionTitle}
+                    style={{ fontSize: "var(--type-size-body-large)" }}
+                  >
                     {sub.codeName}
                   </h3>
                   <PropsTable props={sub.props} showPassthrough={false} />

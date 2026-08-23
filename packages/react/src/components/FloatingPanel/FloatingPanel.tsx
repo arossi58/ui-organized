@@ -1,6 +1,7 @@
 import { FloatingPanel as ArkFloatingPanel, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
+import { projectRender } from "../../utils/projectRender.js";
 import { floatingPanelStyles } from "./FloatingPanel.styles.js";
 import type {
   FloatingPanelProps,
@@ -50,11 +51,24 @@ export function FloatingPanel({
   );
 }
 
-/** Element that opens the panel. */
-export function FloatingPanelTrigger({ children, ...props }: FloatingPanelTriggerProps) {
-  return (
-    <ArkFloatingPanel.Trigger {...props}>{children}</ArkFloatingPanel.Trigger>
-  );
+/**
+ * Element that opens the panel.
+ *
+ * `render` projects the trigger onto your own element instead of nesting inside
+ * Ark's button — the same API DialogTrigger, PopoverTrigger and the rest take.
+ * Without it, `<FloatingPanelTrigger><Button/></FloatingPanelTrigger>` produced a
+ * `<button>` inside a `<button>`: invalid HTML, and axe's `nested-interactive`
+ * flagged it because a screen reader cannot say which of the two it is on.
+ */
+export function FloatingPanelTrigger({ render, children, ...props }: FloatingPanelTriggerProps) {
+  if (render) {
+    return (
+      <ArkFloatingPanel.Trigger asChild {...props}>
+        {projectRender(render, children, "FloatingPanelTrigger")}
+      </ArkFloatingPanel.Trigger>
+    );
+  }
+  return <ArkFloatingPanel.Trigger {...props}>{children}</ArkFloatingPanel.Trigger>;
 }
 
 /**
@@ -106,10 +120,7 @@ export function FloatingPanelContent({
  */
 export function FloatingPanelHeader({ className, children, ...props }: FloatingPanelHeaderProps) {
   return (
-    <ArkFloatingPanel.Header
-      className={clsx("floating-panel__header", className)}
-      {...props}
-    >
+    <ArkFloatingPanel.Header className={clsx("floating-panel__header", className)} {...props}>
       <ArkFloatingPanel.DragTrigger className="floating-panel__drag">
         {children}
       </ArkFloatingPanel.DragTrigger>

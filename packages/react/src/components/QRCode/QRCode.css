@@ -16,9 +16,15 @@
   gap: var(--spacing-space-03);
 }
 
-.qr-code--sm { --qr-size: var(--dimension-03, 120px); }
-.qr-code--md { --qr-size: var(--dimension-05, 200px); }
-.qr-code--lg { --qr-size: var(--dimension-07, 280px); }
+.qr-code--sm {
+  --qr-size: var(--dimension-03, 120px);
+}
+.qr-code--md {
+  --qr-size: var(--dimension-05, 200px);
+}
+.qr-code--lg {
+  --qr-size: var(--dimension-07, 280px);
+}
 
 .qr-code__frame {
   width: var(--qr-size);

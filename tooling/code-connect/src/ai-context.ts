@@ -16,12 +16,7 @@
  * throws. A copy button that explodes is worse than one that copies a thin block.
  */
 
-import type {
-  ComponentManifestEntry,
-  Confidence,
-  PropDefinition,
-  Staleness,
-} from "./schema.js";
+import type { ComponentManifestEntry, Confidence, PropDefinition, Staleness } from "./schema.js";
 import { parseEnumValues } from "./controls-core.js";
 import { contextForEntry } from "./serialize-core.js";
 import {
@@ -251,10 +246,7 @@ function topLevelUnionArms(type: string): string[] {
   return arms.filter(Boolean);
 }
 
-function toContextProp(
-  prop: PropDefinition,
-  typeValues?: Record<string, string[]>,
-): AiContextProp {
+function toContextProp(prop: PropDefinition, typeValues?: Record<string, string[]>): AiContextProp {
   const { values, valuesType } = expandPropType(prop, typeValues);
   return {
     name: prop.name,
@@ -513,9 +505,7 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
   out.push(["```tsx", data.compositionImport ?? data.importStatement, "```"].join("\n"));
   if (input.meta?.setupImports?.length) {
     out.push("Once per app (already done in any existing UI Organized app):");
-    out.push(
-      ["```tsx", ...input.meta.setupImports.map((i) => `import '${i}';`), "```"].join("\n"),
-    );
+    out.push(["```tsx", ...input.meta.setupImports.map((i) => `import '${i}';`), "```"].join("\n"));
     // The icon subpath is the one setup line whose absence fails *silently*:
     // `@ui-organized/react` imports no icon library itself, so without it
     // `<Icon>` renders nothing at all. An agent that copies the block verbatim

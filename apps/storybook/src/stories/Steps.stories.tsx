@@ -72,11 +72,7 @@ export const Dotted: Story = {
 
 export const Linear: Story = {
   render: () => (
-    <Steps
-      steps={CHECKOUT_STEPS}
-      linear
-      completedContent="All done — thanks for your order."
-    />
+    <Steps steps={CHECKOUT_STEPS} linear completedContent="All done — thanks for your order." />
   ),
   parameters: {
     docs: {

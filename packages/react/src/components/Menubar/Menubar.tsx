@@ -81,6 +81,10 @@ export function Menubar({
 
   return (
     <MenubarContext.Provider value>
+      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus --
+          roving tabindex: `rove()` gives exactly one menubar item tabIndex=0
+          and every other -1, which is the APG menubar pattern. The container
+          must stay out of the tab order; the rule can't see the delegation. */}
       <div
         ref={ref}
         role="menubar"

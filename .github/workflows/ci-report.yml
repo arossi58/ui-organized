@@ -79,6 +79,21 @@ jobs:
 
       # Derive the PR from the TRUSTED head SHA (never a fork-controlled value) so
       # the comment can't be redirected onto another PR. Sticky: update in place.
+      # The gate summary rides along with the preview comment rather than
+      # living in ci.yml, because posting to a PR needs write permission and
+      # ci.yml deliberately has none — that separation is the whole point of the
+      # two-workflow split. `continue-on-error` because a missing artifact (a run
+      # that died before aggregating) must not fail the deploy.
+      - name: Download test status
+        id: status
+        continue-on-error: true
+        uses: actions/download-artifact@v4
+        with:
+          name: test-status
+          path: test-status
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
       - name: Comment preview URL on the PR
         uses: actions/github-script@v7
         env:
@@ -96,6 +111,41 @@ jobs:
             const pr = prs.find((p) => p.state === 'open');
             if (!pr) { core.info('No open PR for this commit — skipping comment.'); return; }
             if (!url) { core.warning('No preview URL captured — skipping comment.'); return; }
+            // Gate summary, when the aggregator produced one. Advisory gates
+            // can be failing while CI is green, so the table has to distinguish
+            // "blocked" from "reported" or it contradicts the green check.
+            let quality = [];
+            try {
+              const status = JSON.parse(
+                require('fs').readFileSync('test-status/test-status.json', 'utf8'),
+              );
+              const ICON = { pass: '✅', warn: '⚠️', fail: '❌', 'not-run': '⏸️', none: '➖' };
+              const rows = Object.values(status.gates).map((g) => {
+                const counts =
+                  g.total != null
+                    ? `${g.passed ?? 0}/${g.total}`
+                    : (g.checks ?? []).filter((c) => c.status === 'pass').length +
+                      `/${(g.checks ?? []).length}`;
+                return `| ${ICON[g.status] ?? '❔'} ${g.label} | ${g.status} | ${counts} | ${g.blocking ? 'blocks merge' : 'advisory'} |`;
+              });
+              const debt = Object.values(status.components).reduce(
+                (n, c) => n + (c.a11y.violations?.length ?? 0), 0,
+              );
+              quality = [
+                '',
+                '### 🧪 Quality gates',
+                '',
+                '| Gate | Status | Checks | |',
+                '| --- | --- | --- | --- |',
+                ...rows,
+                '',
+                debt ? `${debt} known accessibility issue(s) recorded — see the preview's Quality page.` : '',
+                `[Full dashboard](${url}/docs/foundations/quality) · [Reports](${process.env.RUN_URL})`,
+              ].filter(Boolean);
+            } catch (error) {
+              core.info(`No test-status artifact to summarise: ${error.message}`);
+            }
+
             const body = [
               marker,
               '### 🔎 Cloudflare preview',
@@ -109,6 +159,8 @@ jobs:
               `| Marketing | ${url}/ |`,
               `| Builder | ${url}/builder/ |`,
               `| Storybook | ${url}/storybook/ |`,
+              `| Quality | ${url}/docs/foundations/quality |`,
+              ...quality,
               '',
               `[CI run & test summary](${process.env.RUN_URL})`,
               '',

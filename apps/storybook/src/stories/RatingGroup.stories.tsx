@@ -36,9 +36,7 @@ export const Inspect: Story = {
 };
 
 export const HalfStars: Story = {
-  render: () => (
-    <RatingGroup label="Overall score" count={5} defaultValue={3.5} allowHalf />
-  ),
+  render: () => <RatingGroup label="Overall score" count={5} defaultValue={3.5} allowHalf />,
   parameters: {
     docs: {
       source: {

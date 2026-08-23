@@ -33,8 +33,8 @@ export const Inspect: Story = {
   render: (args) => (
     <div style={{ minHeight: 360 }}>
       <FloatingPanel {...args}>
-        <FloatingPanelTrigger>
-          <Button intent="secondary">Open panel</Button>
+        <FloatingPanelTrigger render={<Button intent="secondary" />}>
+          Open panel
         </FloatingPanelTrigger>
         <FloatingPanelContent>
           <FloatingPanelHeader>
@@ -59,9 +59,7 @@ export const Sizes: Story = {
   render: () => (
     <div style={{ minHeight: 320 }}>
       <FloatingPanel defaultOpen defaultPosition={{ x: 16, y: 16 }} strategy="absolute">
-        <FloatingPanelTrigger>
-          <Button intent="secondary">Open</Button>
-        </FloatingPanelTrigger>
+        <FloatingPanelTrigger render={<Button intent="secondary" />}>Open</FloatingPanelTrigger>
         <FloatingPanelContent size="sm" variant="elevated">
           <FloatingPanelHeader>
             <FloatingPanelTitle>Small, elevated</FloatingPanelTitle>
@@ -76,9 +74,7 @@ export const Sizes: Story = {
     docs: {
       source: {
         code: `<FloatingPanel defaultOpen>
-  <FloatingPanelTrigger>
-    <Button intent="secondary">Open</Button>
-  </FloatingPanelTrigger>
+  <FloatingPanelTrigger render={<Button intent="secondary" />}>Open</FloatingPanelTrigger>
   <FloatingPanelContent size="sm" variant="elevated">
     <FloatingPanelHeader>
       <FloatingPanelTitle>Small, elevated</FloatingPanelTitle>
@@ -101,9 +97,7 @@ export const NotResizable: Story = {
         defaultPosition={{ x: 16, y: 16 }}
         strategy="absolute"
       >
-        <FloatingPanelTrigger>
-          <Button intent="secondary">Open</Button>
-        </FloatingPanelTrigger>
+        <FloatingPanelTrigger render={<Button intent="secondary" />}>Open</FloatingPanelTrigger>
         <FloatingPanelContent>
           <FloatingPanelHeader>
             <FloatingPanelTitle>Fixed size</FloatingPanelTitle>

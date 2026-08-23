@@ -77,9 +77,7 @@ export const Empty: Story = {
 };
 
 export const ThickInk: Story = {
-  render: () => (
-    <SignaturePad label="Signature" strokeWidth={5} defaultPaths={SAMPLE_PATHS} />
-  ),
+  render: () => <SignaturePad label="Signature" strokeWidth={5} defaultPaths={SAMPLE_PATHS} />,
   parameters: {
     docs: {
       source: { code: `<SignaturePad label="Signature" strokeWidth={5} />` },

@@ -105,7 +105,12 @@ export const Sizes: Story = {
 
 export const Invalid: Story = {
   render: () => (
-    <PinInput label="Verification code" length={4} defaultValue="1234" error="That code has expired." />
+    <PinInput
+      label="Verification code"
+      length={4}
+      defaultValue="1234"
+      error="That code has expired."
+    />
   ),
   parameters: {
     docs: {

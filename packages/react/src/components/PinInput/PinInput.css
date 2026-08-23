@@ -19,6 +19,8 @@
    lines up with an adjacent Input or Button. */
 .pin-input--sm .pin-input__cell {
   --pin-input-cell: var(--control-height-sm);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
 }
 
 .pin-input--md .pin-input__cell {
@@ -49,11 +51,6 @@
     background-color 150ms ease,
     border-color 150ms ease,
     box-shadow 150ms ease;
-}
-
-.pin-input--sm .pin-input__cell {
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
 }
 
 .pin-input__cell::placeholder {

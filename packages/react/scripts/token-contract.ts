@@ -64,6 +64,9 @@ export const RUNTIME_PROVIDED = new Set([
   // the progress circle's stroke geometry.
   "--percent",
   "--value",
+  // The angle slider's current rotation, written on the root beside `--value`.
+  // The dial's arc and its thumb's counter-rotation both read it back.
+  "--angle",
   "--radius",
   "--circumference",
   "--offset",

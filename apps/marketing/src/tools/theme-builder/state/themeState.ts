@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import {
   generateColorRamp,
+  generateNeutralRamp,
+  getNeutralRamp,
+  DEFAULT_NEUTRAL_TINT,
+  MIN_NEUTRAL_TINT,
   parseToOklch,
   getCoreFamily,
   calculateTypeScale,
@@ -31,8 +35,12 @@ export const DEFAULT_LINE_HEIGHT = 1.5;
 // flipping that aspect from "system" to "custom".
 
 const DEFAULT_BRAND_FAMILY = "mars";
-const DEFAULT_BRAND_HEX    = "#bc4900"; // mars.1400
-const DEFAULT_NEUTRAL      = "grey";
+const DEFAULT_BRAND_HEX = "#bc4900"; // mars.1400
+const DEFAULT_NEUTRAL = "grey";
+/** Starting point for the custom neutral picker — a mid grey, i.e. no tint yet. */
+const DEFAULT_NEUTRAL_HEX = "#808080";
+/** Ramp step that stands in for a neutral family in the color input and swatch. */
+const NEUTRAL_HEX_STEP = "1000";
 const DEFAULT_HEADING_FAMILY = typeFontTokens.heading;
 const DEFAULT_BODY_FAMILY = typeFontTokens.body;
 /** Sample strings the typography specs preview shows when the user hasn't typed their own. */
@@ -104,7 +112,7 @@ export function generateRadiusScale(base: number): Record<string, number> {
 }
 
 export type IconLibrary = "lucide" | "tabler" | "heroicons";
-export type IconStyle   = "outline" | "solid";
+export type IconStyle = "outline" | "solid";
 
 export interface IconsConfig {
   library: IconLibrary;
@@ -136,8 +144,14 @@ export interface BuilderState {
   brandRamp: ColorRamp;
   /** Which step of the brand ramp is the primary interactive color. Default "1400". */
   brandShade: string;
-  /** Selected neutral (tinted-grey) core family name. */
+  /** "family" = neutral hue from a named core family; "custom" = from neutralHex. */
+  neutralMode: "family" | "custom";
+  /** Selected neutral core family name when neutralMode === "family". */
   neutralFamily: string;
+  /** Custom tint color when neutralMode === "custom". */
+  neutralHex: string;
+  /** Peak chroma of the neutral ramp. 0 = untinted grey. */
+  neutralTint: number;
   neutralRamp: ColorRamp;
 
   // Typography
@@ -209,6 +223,8 @@ export interface BuilderState {
   setBrandColor: (hex: string) => void;
   setBrandShade: (shade: string) => void;
   setNeutralFamily: (name: string) => void;
+  setNeutralColor: (hex: string) => void;
+  setNeutralTint: (strength: number) => void;
   /** `available` is the family's real weight list; omit to leave it unchanged. */
   setHeadingFont: (family: string, weights: Record<string, number>, available?: number[]) => void;
   setBodyFont: (family: string, weights: Record<string, number>, available?: number[]) => void;
@@ -234,6 +250,39 @@ export interface BuilderState {
   loadFromThemeJson: (theme: unknown) => void;
 }
 
+/**
+ * Resolve the neutral ramp from the tint inputs.
+ *
+ * Both modes go through the same generator so a preset and a hand-picked hex
+ * behave identically: the preset supplies a hue, the custom color supplies a
+ * hue, and `tint` supplies the chroma for either. Every result keeps grey's
+ * per-step lightness, so switching neutral re-colors the UI without
+ * re-lightening it (see docs/theme-test.md for the divergence this avoids).
+ */
+/**
+ * Floor the tint for a selection that is meant to show one.
+ *
+ * The strength control bottoms out at {@link MIN_NEUTRAL_TINT}; below that the
+ * hue is in the numbers but not on the screen. Picking a tinted family or color
+ * while the stored strength sits under that floor would otherwise produce a
+ * selection that looks untinted, so raise it. `grey` is unaffected — it is
+ * achromatic whatever the strength says.
+ */
+function tintForTinted(tint: number): number {
+  return Math.max(tint, MIN_NEUTRAL_TINT);
+}
+
+function computeNeutralRamp(
+  mode: "family" | "custom",
+  family: string,
+  hex: string,
+  tint: number,
+): ColorRamp {
+  return mode === "custom"
+    ? generateNeutralRamp(hex, { strength: tint })
+    : getNeutralRamp(family, tint);
+}
+
 // ─── Store ────────────────────────────────────────────────────────────────────
 
 export const useBuilderStore = create<BuilderState>((set) => ({
@@ -243,7 +292,11 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   brandHex: DEFAULT_BRAND_HEX,
   brandRamp: getCoreFamily(DEFAULT_BRAND_FAMILY),
   brandShade: "1400",
+  neutralMode: "family",
   neutralFamily: DEFAULT_NEUTRAL,
+  neutralHex: DEFAULT_NEUTRAL_HEX,
+  neutralTint: DEFAULT_NEUTRAL_TINT,
+  // `grey` is achromatic, so the default theme is byte-identical to an untinted one.
   neutralRamp: getCoreFamily(DEFAULT_NEUTRAL),
 
   // Typography — defaults mirror the shipped design-system tokens 1:1.
@@ -276,7 +329,13 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   spacingScale: generateSpacingScale(DEFAULT_SPACING_BASE),
 
   // Icons
-  icons: { library: "lucide", style: "outline", strokeAdjustment: false, baseSize: 24, baseStroke: 2 },
+  icons: {
+    library: "lucide",
+    style: "outline",
+    strokeAdjustment: false,
+    baseSize: 24,
+    baseStroke: 2,
+  },
 
   // Export
   // Light, because that is what most apps default to — and because a dark `:root`
@@ -320,9 +379,41 @@ export const useBuilderStore = create<BuilderState>((set) => ({
   setBrandShade: (shade: string) => set(() => ({ brandShade: shade })),
 
   setNeutralFamily: (name: string) =>
-    set(() => ({
-      neutralFamily: name,
-      neutralRamp: getCoreFamily(name),
+    set((state) => {
+      const tint = name === "grey" ? state.neutralTint : tintForTinted(state.neutralTint);
+      const ramp = computeNeutralRamp("family", name, state.neutralHex, tint);
+      return {
+        neutralMode: "family",
+        neutralFamily: name,
+        neutralTint: tint,
+        // Carry the picked family into the custom color too, the way
+        // setBrandFamily does — so the color input shows what is on screen and
+        // nudging it continues from here rather than jumping somewhere unrelated.
+        neutralHex: ramp[NEUTRAL_HEX_STEP]?.hex ?? state.neutralHex,
+        neutralRamp: ramp,
+      };
+    }),
+
+  setNeutralColor: (hex: string) =>
+    set((state) => {
+      const tint = tintForTinted(state.neutralTint);
+      return {
+        neutralMode: "custom",
+        neutralHex: hex,
+        neutralTint: tint,
+        neutralRamp: computeNeutralRamp("custom", state.neutralFamily, hex, tint),
+      };
+    }),
+
+  setNeutralTint: (strength: number) =>
+    set((state) => ({
+      neutralTint: strength,
+      neutralRamp: computeNeutralRamp(
+        state.neutralMode,
+        state.neutralFamily,
+        state.neutralHex,
+        strength,
+      ),
     })),
 
   setHeadingFont: (family, weights, available) =>
@@ -349,7 +440,12 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         typeScaleSteps: sizes,
         // System leadings are fixed px (independent of size); custom leadings
         // track the new sizes via the active multipliers.
-        leadingSteps: resolveLeadings(sizes, state.lineHeightMode, state.headingLineHeight, state.bodyLineHeight),
+        leadingSteps: resolveLeadings(
+          sizes,
+          state.lineHeightMode,
+          state.headingLineHeight,
+          state.bodyLineHeight,
+        ),
       };
     }),
 
@@ -378,7 +474,12 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         typeScaleBase: DEFAULT_TYPE_BASE,
         typeScaleRatio: DEFAULT_TYPE_RATIO,
         typeScaleSteps: sizes,
-        leadingSteps: resolveLeadings(sizes, state.lineHeightMode, state.headingLineHeight, state.bodyLineHeight),
+        leadingSteps: resolveLeadings(
+          sizes,
+          state.lineHeightMode,
+          state.headingLineHeight,
+          state.bodyLineHeight,
+        ),
       };
     }),
 
@@ -387,7 +488,12 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       lineHeightMode: "system",
       headingLineHeight: DEFAULT_LINE_HEIGHT,
       bodyLineHeight: DEFAULT_LINE_HEIGHT,
-      leadingSteps: resolveLeadings(state.typeScaleSteps, "system", DEFAULT_LINE_HEIGHT, DEFAULT_LINE_HEIGHT),
+      leadingSteps: resolveLeadings(
+        state.typeScaleSteps,
+        "system",
+        DEFAULT_LINE_HEIGHT,
+        DEFAULT_LINE_HEIGHT,
+      ),
     })),
 
   setRadiusBase: (base) =>
@@ -402,8 +508,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
       spacingScale: generateSpacingScale(base),
     })),
 
-  setIcons: (config) =>
-    set((state) => ({ icons: { ...state.icons, ...config } })),
+  setIcons: (config) => set((state) => ({ icons: { ...state.icons, ...config } })),
 
   setActivePanel: (panel) => set(() => ({ activePanel: panel })),
 
@@ -435,10 +540,7 @@ function pxToNum(value: unknown, fallback: number): number {
  * Read a DTCG dimension tree (`{ step: { $value: "20px" } }`) into `{ step: px }`,
  * keyed by the canonical step set. Missing steps fall back to `fallback[step]`.
  */
-function readPxTree(
-  tree: unknown,
-  fallback: Record<string, number>,
-): Record<string, number> {
+function readPxTree(tree: unknown, fallback: Record<string, number>): Record<string, number> {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const t = (tree ?? {}) as any;
   const out: Record<string, number> = {};
@@ -471,7 +573,11 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   // Brand — family preset or custom hex.
   let brand: Partial<BuilderState> = {};
   if (ext.brand?.mode === "custom" && typeof ext.brand.hex === "string") {
-    brand = { brandMode: "custom", brandHex: ext.brand.hex, brandRamp: generateColorRamp(ext.brand.hex) };
+    brand = {
+      brandMode: "custom",
+      brandHex: ext.brand.hex,
+      brandRamp: generateColorRamp(ext.brand.hex),
+    };
   } else if (typeof ext.brand?.family === "string") {
     const ramp = getCoreFamily(ext.brand.family);
     brand = {
@@ -483,11 +589,27 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   }
   // Clamp the imported primary to the accessible band for the resolved ramp.
   const brandRamp = brand.brandRamp ?? state.brandRamp;
-  const brandShade: string = pickAccessibleShade(brandRamp, ext.brand?.primaryShade ?? state.brandShade);
+  const brandShade: string = pickAccessibleShade(
+    brandRamp,
+    ext.brand?.primaryShade ?? state.brandShade,
+  );
 
-  // Neutral preset.
+  // Neutral — family preset or custom tint hex, plus the tint strength. A
+  // theme.json written before tinting existed carries only `neutral.family`, so
+  // it loads as an untinted family at the default strength.
+  const neutralMode: "family" | "custom" = ext.neutral?.mode === "custom" ? "custom" : "family";
   const neutralFamily: string = ext.neutral?.family ?? state.neutralFamily;
-  const neutralRamp = getCoreFamily(neutralFamily);
+  const storedTint: number =
+    typeof ext.neutral?.tint === "number" ? ext.neutral.tint : state.neutralTint;
+  const neutralTint: number =
+    neutralMode === "custom" || neutralFamily !== "grey" ? tintForTinted(storedTint) : storedTint;
+  const importedHex: string =
+    typeof ext.neutral?.hex === "string" ? ext.neutral.hex : state.neutralHex;
+  const neutralRamp = computeNeutralRamp(neutralMode, neutralFamily, importedHex, neutralTint);
+  // In family mode the hex mirrors the resolved ramp, as setNeutralFamily does,
+  // so the color input never shows a value unrelated to what is on screen.
+  const neutralHex: string =
+    neutralMode === "custom" ? importedHex : (neutralRamp[NEUTRAL_HEX_STEP]?.hex ?? importedHex);
 
   // Type scale. Prefer the resolved `type.size` tree (authoritative, and present
   // even for hand-built Figma themes); fall back to the canonical tokens. The
@@ -550,15 +672,18 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
         : "custom";
 
   // Radius / spacing base — prefer metadata, else recover the ×1 step from the tree.
-  const radiusBase: number = ext.radius?.base ?? pxToNum(t["border-radius"]?.["02"]?.$value, state.radiusBase);
-  const spacingBaseUnit: number = ext.spacing?.baseUnit ?? pxToNum(t.spacing?.["space-01"]?.$value, state.spacingBaseUnit);
+  const radiusBase: number =
+    ext.radius?.base ?? pxToNum(t["border-radius"]?.["02"]?.$value, state.radiusBase);
+  const spacingBaseUnit: number =
+    ext.spacing?.baseUnit ?? pxToNum(t.spacing?.["space-01"]?.$value, state.spacingBaseUnit);
 
   // Icons (drop the export-only `package` field).
   const ic = ext.icons ?? {};
   const icons: IconsConfig = {
     library: ic.library ?? state.icons.library,
     style: ic.style ?? state.icons.style,
-    strokeAdjustment: typeof ic.strokeAdjustment === "boolean" ? ic.strokeAdjustment : state.icons.strokeAdjustment,
+    strokeAdjustment:
+      typeof ic.strokeAdjustment === "boolean" ? ic.strokeAdjustment : state.icons.strokeAdjustment,
     baseSize: ic.baseSize ?? state.icons.baseSize,
     baseStroke: ic.baseStroke ?? state.icons.baseStroke,
   };
@@ -578,7 +703,10 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   return {
     ...brand,
     brandShade,
+    neutralMode,
     neutralFamily,
+    neutralHex,
+    neutralTint,
     neutralRamp,
     typeScaleBase,
     typeScaleRatio,

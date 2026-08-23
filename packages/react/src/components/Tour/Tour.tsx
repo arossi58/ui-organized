@@ -32,11 +32,21 @@ export function Tour({
 
   /* Steps carry render data our card reads back; the machine only needs the
      shape it defines. Defaults are filled in here so a caller who writes only
-     `{ id, title, description }` still gets a working Back/Next row. */
+     `{ id, title, description }` still gets a working Back/Next row.
+
+     `type` is defaulted for the same reason. TourStep documents it as "inferred
+     from `target` when omitted", but the machine does no such inference — it
+     rejects the step outright ("Step <id> has no target or type. At least one of
+     those is required.") and the tour never opens. Chromium happened to swallow
+     it; Firefox and WebKit surfaced it as a page error, which is how it was
+     found. Doing the inference here is what makes the documented contract true,
+     rather than pushing `type: "dialog"` onto every caller who wants the
+     centred step the docs already promise them. */
   const machineSteps = useMemo(
     () =>
       steps.map((step) => ({
         ...step,
+        type: step.type ?? (step.target ? "tooltip" : ("dialog" as const)),
         actions: step.actions ?? DEFAULT_ACTIONS,
       })),
     [steps],
