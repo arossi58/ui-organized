@@ -20,4 +20,19 @@ export {
   toCssSize,
   type SkeletonVariant,
 } from "./lib/skeleton/skeleton.js";
+export {
+  getIconSet,
+  registerIconSet,
+  registeredLibraries,
+  type IconComponent,
+  type IconLibrary,
+  type IconNameMap,
+  type IconSet,
+} from "./lib/icons/registry.js";
+export {
+  UIO_ICON_CONFIG,
+  injectIconConfig,
+  provideIconConfig,
+  type UioIconConfig,
+} from "./lib/icons/icon-config.js";
 export { UioOverlayStacking, applyOverlayStacking } from "./lib/overlay/stacking.js";
