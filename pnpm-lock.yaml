@@ -990,6 +990,9 @@ importers:
 
   tooling/parity:
     dependencies:
+      '@ui-organized/angular':
+        specifier: workspace:^
+        version: link:../../packages/angular
       '@ui-organized/core':
         specifier: workspace:*
         version: link:../../packages/core

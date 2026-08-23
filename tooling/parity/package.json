@@ -5,7 +5,7 @@
   "description": "Asserts that every ui-organized framework library renders the same DOM contract.",
   "type": "module",
   "scripts": {
-    "build:deps": "pnpm --filter @ui-organized/core --filter @ui-organized/react --filter @ui-organized/svelte --filter @ui-organized/vue build",
+    "build:deps": "node scripts/build-deps.mjs",
     "pretest": "pnpm build:deps",
     "test": "vitest run",
     "pretest:browser": "pnpm build:deps",
@@ -15,6 +15,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ui-organized/angular": "workspace:*",
     "@ui-organized/core": "workspace:*",
     "@ui-organized/react": "workspace:*",
     "@ui-organized/svelte": "workspace:*",
