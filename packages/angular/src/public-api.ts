@@ -24,8 +24,8 @@ export {
   getIconSet,
   registerIconSet,
   registeredLibraries,
-  type IconComponent,
   type IconLibrary,
+  type IconMarkup,
   type IconNameMap,
   type IconSet,
 } from "./lib/icons/registry.js";
@@ -35,4 +35,5 @@ export {
   provideIconConfig,
   type UioIconConfig,
 } from "./lib/icons/icon-config.js";
+export { UioIcon, applySvgProps, parseIconMarkup } from "./lib/icons/icon.js";
 export { UioOverlayStacking, applyOverlayStacking } from "./lib/overlay/stacking.js";

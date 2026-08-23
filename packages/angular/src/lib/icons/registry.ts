@@ -1,4 +1,3 @@
-import type { Type } from "@angular/core";
 import {
   createIconRegistry,
   type IconNameMap as CoreIconNameMap,
@@ -9,44 +8,40 @@ export type { IconLibrary } from "@ui-organized/core";
 
 /**
  * This package's icon-set registry: the shared mechanism from
- * `@ui-organized/core`, bound to Angular component types.
+ * `@ui-organized/core`, bound to **SVG markup** rather than to components.
  *
  * The registry itself — why it exists, why it is keyed on `globalThis`, and why
  * each framework gets its own — is documented in core. All that happens here is
- * fixing the component type, and choosing a key distinct from the other three
- * packages' so none of them can read another's components.
+ * fixing the stored type, and choosing a key distinct from the other three
+ * packages' so none of them can read another's icons.
  *
- * ── Two open questions, and why `Icon` is not here yet ──────────────────────
+ * ── Why an Angular icon is a string ─────────────────────────────────────────
  *
- * **What an Angular icon *is*.** Typed as a component here, to match the other
- * three. But Angular instantiates a component onto an element of its own, so
- * `<span class="icon"><lucide-icon><svg/></lucide-icon></span>` is one element
- * deeper than the `<span class="icon"><svg/></span>` the other libraries render
- * — against a stylesheet that lays `.icon` out in a flex row. Reaching the same
- * DOM means either icon components authored as `svg[…]` and mounted onto an
- * element `Icon` creates, or an icon set that stores SVG data rather than
- * components. Core's registry is generic over the component type precisely so a
- * framework can answer this differently, but the answer changes what an adapter
- * looks like, so it is a decision rather than a detail.
+ * The other three libraries store components, and Angular could too — but
+ * Angular instantiates a component onto an element of its own, so an icon
+ * rendered that way comes out as
+ * `<span class="icon"><ng-icon><svg/></ng-icon></span>` where the others render
+ * `<span class="icon"><svg/></span>`. `.icon` is `display: inline-flex` with
+ * centring, so the intermediate element becomes the flex item and the SVG stops
+ * being what is laid out. One element deeper is a different DOM, and this whole
+ * package exists to produce the same one.
  *
- * **Whether adapters may ship at all.** The other libraries have
- * `@ui-organized/<framework>/icons/lucide` and friends, importing an icon
- * library as an optional peer. Doing the same here runs into the constraint that
- * nothing third-party comes in behind the CDK — optional peers are arguably a
- * different category, but that is the user's call to make.
+ * Core's registry is generic over the stored type precisely so a framework can
+ * answer this differently. Storing markup lets `Icon` create the `<svg>` itself
+ * and put it directly inside the span.
  *
- * Until both are settled a consumer registers their own set, which the registry
- * has always supported:
- *
- * ```ts
- * registerIconSet({ library: "lucide", outline: { check: CheckIcon }, svgProps: … });
- * ```
+ * It also turns out to be the *better* contract for stroke. Every
+ * `@ng-icons/*` pack ships its icons with
+ * `style="stroke-width:var(--ng-icon__stroke-width, 2)"`, so a single custom
+ * property drives the weight for lucide, tabler and heroicons alike — where the
+ * React adapters need three different prop shapes because lucide takes
+ * `strokeWidth`, tabler takes `stroke` and heroicons takes `width`/`height`.
  */
-export type IconComponent = Type<unknown>;
-export type IconNameMap = CoreIconNameMap<IconComponent>;
-export type IconSet = CoreIconSet<IconComponent>;
+export type IconMarkup = string;
+export type IconNameMap = CoreIconNameMap<IconMarkup>;
+export type IconSet = CoreIconSet<IconMarkup>;
 
-const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<IconComponent>(
+const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<IconMarkup>(
   Symbol.for("@ui-organized/angular.iconRegistry"),
 );
 

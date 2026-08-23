@@ -34,7 +34,8 @@ type Framework = (typeof FRAMEWORKS)[number];
 function comparedIn(scenario: BrowserScenario): Framework[] {
   const others: Framework[] = ["svelte", "vue"];
   if (ANGULAR_COMPONENTS.has(scenario.component)) others.push("angular");
-  return others;
+  const skipped = new Set((scenario.skip ?? []).map((entry) => entry.framework));
+  return others.filter((framework) => !skipped.has(framework));
 }
 
 /**

@@ -42,11 +42,24 @@ export function stubSvgProps(size: number, stroke: number | undefined): Record<s
  * outline is the normal path rather than an edge case. `star` is registered in
  * neither, so "this library has no icon for that name" is covered too.
  */
-export function makeStubIconSet<T>(outline: T, solid: T): IconSet<T> {
+export function makeStubIconSet<T>(
+  outline: T,
+  solid: T,
+  /**
+   * Overridden by Angular alone.
+   *
+   * The other three store a stub *component*, which maps `{ size, strokeWidth }`
+   * onto `data-size`/`data-stroke` in its own template. An Angular icon is
+   * markup, so there is no component to do the mapping and it moves into the
+   * adapter — which is exactly where a real Angular adapter puts it too. Same
+   * two numbers, same rendered attributes, one layer further out.
+   */
+  svgProps: IconSet<T>["svgProps"] = stubSvgProps,
+): IconSet<T> {
   return {
     library: "lucide",
     outline: { check: outline, close: outline },
     solid: { check: solid },
-    svgProps: stubSvgProps,
+    svgProps,
   };
 }
