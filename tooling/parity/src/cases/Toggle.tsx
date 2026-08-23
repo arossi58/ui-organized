@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { Toggle as RToggle, ToggleGroup as RToggleGroup } from "@ui-organized/react";
 import ToggleFixture from "../fixtures/ToggleFixture.svelte";
+import VueToggleFixture from "../fixtures/vue/ToggleFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const items = [
@@ -26,6 +27,7 @@ const spec: ParitySpec = {
       <RToggle {...p}>{label}</RToggle>
     ),
   svelte: ToggleFixture as unknown as ComponentType<any>,
+  vue: VueToggleFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default", props: { label: "Bold" } },
     { name: "pressed", props: { label: "Bold", defaultPressed: true } },

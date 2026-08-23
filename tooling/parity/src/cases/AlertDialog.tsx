@@ -9,6 +9,7 @@ import {
   AlertDialogCancel as RAlertDialogCancel,
   AlertDialogConfirm as RAlertDialogConfirm,
 } from "@ui-organized/react";
+import AlertDialogFixture from "../fixtures/AlertDialogFixture.svelte";
 import VueAlertDialogFixture from "../fixtures/vue/AlertDialogFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -27,8 +28,7 @@ const spec: ParitySpec = {
       </RAlertDialogContent>
     </RAlertDialog>
   ),
-  // No Svelte fixture: AlertDialog is not in that package yet, and a spec
-  // missing a library is simply not compared against it.
+  svelte: AlertDialogFixture as unknown as ComponentType<any>,
   vue: VueAlertDialogFixture as unknown as ComponentType<any>,
   // Both, and the combination matters — see Menu.tsx for the same pairing. The
   // portalled half is dropped first so the two sides agree on what ids exist,

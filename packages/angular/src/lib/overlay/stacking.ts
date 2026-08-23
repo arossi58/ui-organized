@@ -49,6 +49,12 @@ import { AfterViewInit, Directive, ElementRef, inject } from "@angular/core";
  * </div>
  * ```
  *
+ * The library's own five overlays call {@link applyOverlayStacking} directly
+ * instead, through `applySurfaceStacking` — they already hold the `OverlayRef`,
+ * and a directive would leave a `uiooverlaystacking` attribute in every
+ * consumer's DOM for nothing. The directive is for anyone building their own CDK
+ * overlay against this stylesheet.
+ *
  * ── One thing it is *not* responsible for ───────────────────────────────────
  *
  * CDK 21 shows every overlay in the browser's **top layer** (`popover="manual"`),
@@ -82,7 +88,21 @@ export function applyOverlayStacking(pane: HTMLElement, positioner: HTMLElement)
   // `auto` everywhere means no rule applies, and writing it onto the pane would
   // clear CDK's own value for no reason.
   if (!declared) return null;
+
+  /**
+   * Both elements, because they answer two different questions.
+   *
+   * The **pane** is what the browser stacks, so it is what makes a popover
+   * actually paint over a dialog. The **positioner** is where the other three
+   * libraries carry the level — zag writes an inline `z-index` onto it — and so
+   * it is what anything comparing the four reads back. Writing only the pane
+   * leaves `.select-positioner` computing `auto` where React reports 1200, and
+   * the four would differ on the one property this exists to keep in step.
+   *
+   * Idempotent: a second run reads back the value it wrote and writes it again.
+   */
   pane.style.zIndex = declared;
+  positioner.style.zIndex = declared;
   return declared;
 }
 

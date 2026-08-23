@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { SegmentedControl as RSegmentedControl } from "@ui-organized/react";
 import SegmentedControlFixture from "../fixtures/SegmentedControlFixture.svelte";
+import VueSegmentedControlFixture from "../fixtures/vue/SegmentedControlFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const items = [
@@ -13,6 +14,7 @@ const spec: ParitySpec = {
   component: "SegmentedControl",
   react: (p) => <RSegmentedControl {...(p as any)} />,
   svelte: SegmentedControlFixture as unknown as ComponentType<any>,
+  vue: VueSegmentedControlFixture as unknown as ComponentType<any>,
   cases: [
     // No Label part is rendered, so Ark's aria-labelledby would name an element
     // that does not exist — the case OMIT_ARIA is here for.

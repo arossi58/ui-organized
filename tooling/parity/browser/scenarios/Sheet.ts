@@ -1,16 +1,11 @@
 import { openViaTrigger, part, type BrowserScenario } from "./scenario.js";
 
-const NOT_IN_SVELTE = [
-  { framework: "svelte", reason: "Sheet is not in the Svelte package's tier-1." },
-];
-
 const scenarios: BrowserScenario[] = [
   {
     component: "Sheet",
     name: "open",
     steps: [...openViaTrigger("dialog"), { do: "wait", target: '#mount[aria-hidden="true"]' }],
     regions: [part("dialog", "backdrop"), part("dialog", "positioner"), "#mount"],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "Sheet",
@@ -21,7 +16,6 @@ const scenarios: BrowserScenario[] = [
     props: { contentProps: { side: "left", size: "lg" } },
     steps: openViaTrigger("dialog"),
     regions: [part("dialog", "positioner")],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "Sheet",
@@ -41,7 +35,6 @@ const scenarios: BrowserScenario[] = [
     // `.sheet__popup` sets `display: flex` for the same reason `.dialog__popup`
     // does, and with the same consequence. See the Dialog scenario.
     visibilityMatches: [part("dialog", "content")],
-    skip: NOT_IN_SVELTE,
   },
 ];
 

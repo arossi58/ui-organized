@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { PasswordInput as RPasswordInput } from "@ui-organized/react";
 import PasswordInputFixture from "../fixtures/PasswordInputFixture.svelte";
+import VuePasswordInputFixture from "../fixtures/vue/PasswordInputFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "PasswordInput",
   react: (p) => <RPasswordInput {...p} />,
   svelte: PasswordInputFixture as unknown as ComponentType<any>,
+  vue: VuePasswordInputFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Password" } },

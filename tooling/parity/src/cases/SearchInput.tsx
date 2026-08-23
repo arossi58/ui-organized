@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { SearchInput as RSearchInput } from "@ui-organized/react";
 import SearchInputFixture from "../fixtures/SearchInputFixture.svelte";
+import VueSearchInputFixture from "../fixtures/vue/SearchInputFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "SearchInput",
   react: (p) => <RSearchInput {...p} />,
   svelte: SearchInputFixture as unknown as ComponentType<any>,
+  vue: VueSearchInputFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Search" } },

@@ -1,12 +1,14 @@
 import type { ComponentType } from "react";
 import { NumberField as RNumberField } from "@ui-organized/react";
 import NumberFieldFixture from "../fixtures/NumberFieldFixture.svelte";
+import VueNumberFieldFixture from "../fixtures/vue/NumberFieldFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "NumberField",
   react: (p) => <RNumberField {...p} />,
   svelte: NumberFieldFixture as unknown as ComponentType<any>,
+  vue: VueNumberFieldFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default" },
     { name: "with label", props: { label: "Quantity" } },

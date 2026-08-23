@@ -4,6 +4,7 @@ import {
   HoverCardTrigger as RHoverCardTrigger,
   HoverCardContent as RHoverCardContent,
 } from "@ui-organized/react";
+import HoverCardFixture from "../fixtures/HoverCardFixture.svelte";
 import VueHoverCardFixture from "../fixtures/vue/HoverCardFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -15,7 +16,7 @@ const spec: ParitySpec = {
       <RHoverCardContent {...contentProps}>Preview</RHoverCardContent>
     </RHoverCard>
   ),
-  // No Svelte fixture: HoverCard is not in that package yet.
+  svelte: HoverCardFixture as unknown as ComponentType<any>,
   vue: VueHoverCardFixture as unknown as ComponentType<any>,
   exclude: '[data-scope="hover-card"][data-part="positioner"]',
   // Trigger only — see `ParitySpec.select` in spec.ts for why the portalled

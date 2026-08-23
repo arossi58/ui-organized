@@ -1,9 +1,5 @@
 import { part, type BrowserScenario } from "./scenario.js";
 
-const NOT_IN_SVELTE = [
-  { framework: "svelte", reason: "ScrollArea is not in the Svelte package's tier-1." },
-];
-
 /**
  * `data-overflow-x` / `data-overflow-y` are the point of these scenarios.
  *
@@ -22,7 +18,6 @@ const scenarios: BrowserScenario[] = [
     props: OVERFLOWING,
     steps: [{ do: "wait", target: `${part("scroll-area", "root")}[data-overflow-y]` }],
     regions: ["#mount"],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "ScrollArea",
@@ -30,7 +25,6 @@ const scenarios: BrowserScenario[] = [
     props: { ...OVERFLOWING, orientation: "both" },
     steps: [{ do: "wait", target: `${part("scroll-area", "root")}[data-overflow-y]` }],
     regions: ["#mount"],
-    skip: NOT_IN_SVELTE,
   },
 ];
 

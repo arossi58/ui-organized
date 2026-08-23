@@ -6,6 +6,7 @@ import {
   ContextMenuItem as RContextMenuItem,
   ContextMenuSeparator as RContextMenuSeparator,
 } from "@ui-organized/react";
+import ContextMenuFixture from "../fixtures/ContextMenuFixture.svelte";
 import VueContextMenuFixture from "../fixtures/vue/ContextMenuFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -21,7 +22,7 @@ const spec: ParitySpec = {
       </RContextMenuContent>
     </RContextMenu>
   ),
-  // No Svelte fixture: ContextMenu is not in that package yet.
+  svelte: ContextMenuFixture as unknown as ComponentType<any>,
   vue: VueContextMenuFixture as unknown as ComponentType<any>,
   // Same pairing as Menu.tsx, and for the same reason: dropping the portalled
   // subtree first puts both sides in the same position before the ids are
@@ -40,9 +41,9 @@ const spec: ParitySpec = {
         "by stripping `<scope>:` and `:<part>` off an element's own id, and " +
         "zag spells this element's id `menu:<machine>:ctx-trigger` while its " +
         "part is `context-trigger`. The two ends do not match, so the id is " +
-        "left as React's `:R0:` against Vue's `v-0` — a difference that is " +
-        "only ever the renderer's id scheme. Nothing selects on it; the " +
-        "assertion below is what keeps that true.",
+        "left as React's `:R0:` against Vue's `v-0` and Svelte's `s1` — a " +
+        "difference that is only ever the renderer's id scheme. Nothing " +
+        "selects on it; the assertion below is what keeps that true.",
     },
   ],
   cases: [

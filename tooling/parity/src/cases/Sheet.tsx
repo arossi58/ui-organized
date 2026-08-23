@@ -8,6 +8,7 @@ import {
   SheetClose as RSheetClose,
   SheetFooter as RSheetFooter,
 } from "@ui-organized/react";
+import SheetFixture from "../fixtures/SheetFixture.svelte";
 import VueSheetFixture from "../fixtures/vue/SheetFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -25,7 +26,7 @@ const spec: ParitySpec = {
       </RSheetContent>
     </RSheet>
   ),
-  // No Svelte fixture: Sheet is not in that package yet.
+  svelte: SheetFixture as unknown as ComponentType<any>,
   vue: VueSheetFixture as unknown as ComponentType<any>,
   exclude: '[data-scope="dialog"][data-part="backdrop"], [data-scope="dialog"][data-part="positioner"]',
   select: '[data-part="trigger"]',

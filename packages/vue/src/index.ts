@@ -141,3 +141,28 @@ export type {
 
 export { ScrollArea } from "./components/ScrollArea/index.js";
 export type { ScrollAreaProps } from "./components/ScrollArea/index.js";
+
+export { Collapsible, CollapsibleTrigger, CollapsibleContent } from "./components/Collapsible/index.js";
+export type {
+  CollapsibleProps, CollapsibleTriggerProps, CollapsibleContentProps,
+} from "./components/Collapsible/index.js";
+
+export { Toggle, ToggleGroup } from "./components/Toggle/index.js";
+export type { ToggleProps, ToggleGroupProps, ToggleVariants } from "./components/Toggle/index.js";
+
+export { NumberField } from "./components/NumberField/index.js";
+export type { NumberFieldProps, NumberFieldVariants } from "./components/NumberField/index.js";
+
+export { PasswordInput } from "./components/PasswordInput/index.js";
+export type { PasswordInputProps, PasswordInputVariants } from "./components/PasswordInput/index.js";
+
+export { SearchInput } from "./components/SearchInput/index.js";
+export type { SearchInputProps, SearchInputVariants } from "./components/SearchInput/index.js";
+
+export { SegmentedControl } from "./components/SegmentedControl/index.js";
+export type {
+  SegmentedControlProps, SegmentedControlItem, SegmentedControlVariants,
+} from "./components/SegmentedControl/index.js";
+
+export { Clipboard } from "./components/Clipboard/index.js";
+export type { ClipboardProps, ClipboardVariants } from "./components/Clipboard/index.js";

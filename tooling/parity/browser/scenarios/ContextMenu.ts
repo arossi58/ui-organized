@@ -1,9 +1,5 @@
 import { part, type BrowserScenario } from "./scenario.js";
 
-const NOT_IN_SVELTE = [
-  { framework: "svelte", reason: "ContextMenu is not in the Svelte package's tier-1." },
-];
-
 /**
  * Opened through `defaultOpen` rather than by right-clicking the trigger.
  *
@@ -20,7 +16,6 @@ const scenarios: BrowserScenario[] = [
     props: { defaultOpen: true },
     steps: [{ do: "wait", target: `${part("menu", "content")}[data-state="open"]` }],
     regions: [part("menu", "positioner"), "#mount"],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "ContextMenu",
@@ -36,7 +31,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${part("menu", "item")}[data-highlighted]` },
     ],
     regions: [part("menu", "positioner")],
-    skip: NOT_IN_SVELTE,
   },
 ];
 

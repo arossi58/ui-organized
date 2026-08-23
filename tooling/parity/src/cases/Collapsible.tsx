@@ -5,6 +5,7 @@ import {
   CollapsibleContent as RCollapsibleContent,
 } from "@ui-organized/react";
 import CollapsibleFixture from "../fixtures/CollapsibleFixture.svelte";
+import VueCollapsibleFixture from "../fixtures/vue/CollapsibleFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
@@ -18,6 +19,7 @@ const spec: ParitySpec = {
     </RCollapsible>
   ),
   svelte: CollapsibleFixture as unknown as ComponentType<any>,
+  vue: VueCollapsibleFixture as unknown as ComponentType<any>,
   cases: [
     // Closed is the interesting one: the panel is still rendered, and it is
     // `hidden` + `data-state="closed"` that keeps it out of the page.

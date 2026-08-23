@@ -63,3 +63,61 @@ export {
 } from "./lib/icons/icon-config.js";
 export { UioIcon, applySvgProps, parseIconMarkup } from "./lib/icons/icon.js";
 export { UioOverlayStacking, applyOverlayStacking } from "./lib/overlay/stacking.js";
+export {
+  createSurface,
+  applySurfaceStacking,
+  raiseSurface,
+  setSurfaceInteractive,
+} from "./lib/overlay/surface.js";
+export {
+  anchoredPositions,
+  toPlacement,
+  sideOf,
+  type OverlaySide,
+  type OverlayAlign,
+  type OverlayPlacement,
+  type AnchoredPosition,
+} from "./lib/overlay/anchor.js";
+export { pushLayer, removeLayer, type DismissibleLayer } from "./lib/overlay/dismiss.js";
+export { hideOthersFrom } from "./lib/overlay/aria-hidden.js";
+export { firstFocusable, focusInside, restoreFocus } from "./lib/overlay/focus.js";
+export { UioDialogContext } from "./lib/dialog/dialog-context.js";
+export {
+  UioDialog,
+  UioDialogTrigger,
+  UioDialogTitle,
+  UioDialogDescription,
+  UioDialogFooter,
+  UioDialogClose,
+  type DialogSize,
+} from "./lib/dialog/dialog.js";
+export { flushNow } from "./lib/overlay/flush.js";
+export { AnchoredSurface } from "./lib/overlay/anchored.js";
+export { UioPopoverContext } from "./lib/popover/popover-context.js";
+export {
+  UioPopover,
+  UioPopoverTrigger,
+  UioPopoverTitle,
+  UioPopoverDescription,
+  UioPopoverClose,
+} from "./lib/popover/popover.js";
+export {
+  UioTooltip,
+  UioTooltipSurface,
+  UioTooltipDelays,
+  provideTooltipDelays,
+  type TooltipSurfaceState,
+} from "./lib/tooltip/tooltip.js";
+export { firstEnabled, moveHighlight, inDomOrder, type Navigable } from "./lib/overlay/roving.js";
+export {
+  UioMenu,
+  UioMenuTrigger,
+  UioMenuItem,
+  UioMenuSeparator,
+} from "./lib/menu/menu.js";
+export {
+  UioSelect,
+  type SelectOption,
+  type SelectSize,
+  type SelectVariant,
+} from "./lib/select/select.js";

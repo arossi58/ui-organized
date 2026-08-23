@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import { Clipboard as RClipboard } from "@ui-organized/react";
 import ClipboardFixture from "../fixtures/ClipboardFixture.svelte";
+import VueClipboardFixture from "../fixtures/vue/ClipboardFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
 const value = "https://ui-organized.dev";
@@ -9,6 +10,7 @@ const spec: ParitySpec = {
   component: "Clipboard",
   react: (p) => <RClipboard {...(p as any)} />,
   svelte: ClipboardFixture as unknown as ComponentType<any>,
+  vue: VueClipboardFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default", props: { value } },
     { name: "with label", props: { value, label: "Share link" } },

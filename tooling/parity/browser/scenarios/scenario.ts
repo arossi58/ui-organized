@@ -108,17 +108,23 @@ export const ANGULAR_COMPONENTS = new Set([
   "Alert",
   "Button",
   "Checkbox",
+  "Dialog",
   "Icon",
   "Card",
   "Divider",
   "Field",
   "FieldError",
   "Input",
+  "Menu",
+  "Popover",
   "RadioGroup",
+  "Select",
+  "SelectInDialog",
   "Skeleton",
   "Switch",
   "Tag",
   "TextArea",
+  "Tooltip",
 ]);
 
 export const FRUIT = [
@@ -173,16 +179,25 @@ export const HIDDEN_SELECT_TEXT: ParityTextAllowance = {
  * `@ark-ui/svelte` and `@ark-ui/vue` release independently, and their Field
  * machines disagree on this one attribute.
  *
- * It is not version drift, which is the first explanation to reach for and the
- * wrong one: Svelte is on Ark 5.24 and Vue on 5.39, and those two agree against
- * React's 5.37 sitting between them. A version progression cannot produce that.
- * It is Ark's React Field differing from its Svelte and Vue Fields.
+ * It *is* version drift, and the Ark version numbers actively mislead about it.
+ * The Field machine lives in zag, not in the Ark wrapper, and the two version
+ * lines do not track each other:
  *
- * Nor is "two out of three, so React should move" a safe conclusion. ARIA 1.2
- * added `aria-errormessage`, but screen-reader support for it is still patchier
- * than for `aria-describedby`, so changing React could announce *less* to real
- * users. Whichever way it is settled, it is settled upstream or by overriding
- * Ark deliberately — not by this file.
+ *     @ark-ui/react  5.37.2  ->  @zag-js  1.41.2
+ *     @ark-ui/svelte 5.24.0  ->  @zag-js  1.43.3
+ *     @ark-ui/vue    5.39.0  ->  @zag-js  1.43.3
+ *
+ * By wrapper, Svelte looks thirteen minors behind React and the split makes no
+ * sense. By machine, Svelte and Vue are both ahead of it and agree — which is
+ * exactly what a progression looks like. Check the zag version before concluding
+ * anything about which side is newer; "Svelte trails" is true of the wrapper and
+ * false of the behaviour.
+ *
+ * So React gets `aria-errormessage` when its Ark bumps zag, and there is nothing
+ * to do in any port. Worth knowing when it lands: ARIA 1.2 added the attribute
+ * but screen-reader support for it is still patchier than for
+ * `aria-describedby`, so the upgrade is not unambiguously an improvement for
+ * real users.
  *
  * It is browser-only, which is why nothing has seen it before: on the server
  * none of the three has found the error element yet and all three emit the same

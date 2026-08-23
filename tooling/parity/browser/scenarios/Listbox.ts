@@ -1,9 +1,5 @@
 import { FRUIT, part, type BrowserScenario } from "./scenario.js";
 
-const NOT_IN_SVELTE = [
-  { framework: "svelte", reason: "Listbox is not in the Svelte package's tier-1." },
-];
-
 /**
  * Nothing here is portalled, so the SSR gate already compares the whole
  * component. What it cannot see is selection and highlight — `aria-selected`,
@@ -20,7 +16,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${part("listbox", "item")}[data-state="checked"]` },
     ],
     regions: ["#mount"],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "Listbox",
@@ -36,7 +31,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${part("listbox", "item")}[data-highlighted]` },
     ],
     regions: ["#mount"],
-    skip: NOT_IN_SVELTE,
   },
 ];
 

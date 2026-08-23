@@ -30,6 +30,19 @@
  * The second was shipped in five components until a browser test noticed that
  * clicking a Vue popover's trigger did nothing at all.
  *
+ * Note where the cast does and does not happen, because the obvious mental model
+ * is wrong in both directions. It is **our own** declaration that casts: most
+ * Ark parts declare their booleans through `mergeDefaults(..., { disabled: void 0 })`,
+ * so handing one an explicit `undefined` is safe and it stays absent. That does
+ * not make this helper redundant — a prop of ours that was already cast to
+ * `false` arrives as a real `false`, and Ark cannot tell that apart from a
+ * deliberate one.
+ *
+ * And Ark is not uniform about it. `SegmentGroup.Item` declares
+ * `disabled: { type: Boolean }` with no defaults object at all, so an absent
+ * value there *is* cast. Check the compiled part rather than assuming; the
+ * pattern holds often enough to be a trap.
+ *
  * ```vue
  * <ArkSwitch.Root v-bind="definedOnly({ checked, name, id })" />
  * ```

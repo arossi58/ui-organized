@@ -1,6 +1,9 @@
-import { openViaTrigger, part, type BrowserScenario } from "./scenario.js";
+import { openViaTrigger, part, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 const scenarios: BrowserScenario[] = [
+  // Closed is the state that matters most on a trigger: Ark's `aria-controls`
+  // would name content that is not mounted, and `popupControls` drops it.
+  ...staticScenarios("Popover", [{ name: "closed" }]),
   {
     component: "Popover",
     name: "open",

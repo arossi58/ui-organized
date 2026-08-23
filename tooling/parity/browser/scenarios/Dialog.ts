@@ -1,6 +1,7 @@
-import { openViaTrigger, part, type BrowserScenario } from "./scenario.js";
+import { openViaTrigger, part, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 const scenarios: BrowserScenario[] = [
+  ...staticScenarios("Dialog", [{ name: "closed" }]),
   {
     component: "Dialog",
     name: "open",
@@ -38,6 +39,22 @@ const scenarios: BrowserScenario[] = [
      * exit fade — and that is a decision, not a port bug.
      */
     visibilityMatches: [part("dialog", "content")],
+  },
+  {
+    component: "Dialog",
+    name: "dismissed with its close button",
+    /**
+     * The other way out, and the one that goes through the dialog's own DOM
+     * rather than through a key handler. It also exercises the page coming back:
+     * `#mount` is compared, and the aria-hidden marks a modal leaves on it have
+     * to be gone.
+     */
+    steps: [
+      ...openViaTrigger("dialog"),
+      { do: "click", target: part("dialog", "close-trigger") },
+      { do: "wait", target: `${part("dialog", "content")}[data-state="closed"]` },
+    ],
+    regions: ["#mount"],
   },
 ];
 

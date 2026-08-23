@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import { Listbox as RListbox } from "@ui-organized/react";
+import ListboxFixture from "../fixtures/ListboxFixture.svelte";
 import VueListboxFixture from "../fixtures/vue/ListboxFixture.vue";
 import { SIZES, type ParitySpec } from "./spec.js";
 
@@ -19,15 +20,16 @@ const GROUPED = [
 const spec: ParitySpec = {
   component: "Listbox",
   react: (p) => <RListbox {...(p as any)} />,
-  // No Svelte fixture: Listbox is not in that package yet.
+  svelte: ListboxFixture as unknown as ComponentType<any>,
   vue: VueListboxFixture as unknown as ComponentType<any>,
   cases: [
     { name: "default", props: { options: OPTIONS } },
     { name: "with label", props: { options: OPTIONS, label: "Fruit" } },
     { name: "selected", props: { options: OPTIONS, defaultValue: ["b"] } },
-    // Controlled, which is the one place the two libraries spell the prop
-    // differently — `value` in React, `modelValue` in Vue, because Ark Vue
-    // renames it. The fixture does the rename; this pins that it happened.
+    // Controlled, which is the one place the libraries spell the prop
+    // differently — `value` in React and Svelte, `modelValue` in Vue, because
+    // Ark Vue renames it and Ark Svelte does not. The Vue fixture does the
+    // rename; this pins that it happened, and that Svelte needed none.
     { name: "controlled", props: { options: OPTIONS, value: ["a"] } },
     { name: "multiple", props: { options: OPTIONS, selectionMode: "multiple" } },
     { name: "extended", props: { options: OPTIONS, selectionMode: "extended" } },

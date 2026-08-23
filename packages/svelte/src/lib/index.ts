@@ -142,3 +142,44 @@ export type {
 
 export { Clipboard } from "./components/Clipboard/index.js";
 export type { ClipboardProps } from "./components/Clipboard/index.js";
+
+export {
+  AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogTitle, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogCancel, AlertDialogConfirm,
+} from "./components/AlertDialog/index.js";
+export type {
+  AlertDialogProps, AlertDialogTriggerProps, AlertDialogContentProps, AlertDialogTitleProps,
+  AlertDialogDescriptionProps, AlertDialogFooterProps, AlertDialogCancelProps,
+  AlertDialogConfirmProps, AlertDialogPropsFn,
+} from "./components/AlertDialog/index.js";
+
+export {
+  Sheet, SheetTrigger, SheetContent, SheetTitle, SheetDescription, SheetClose, SheetFooter,
+} from "./components/Sheet/index.js";
+export type {
+  SheetProps, SheetTriggerProps, SheetContentProps, SheetTitleProps, SheetDescriptionProps,
+  SheetCloseProps, SheetFooterProps, SheetPropsFn, SheetVariants,
+} from "./components/Sheet/index.js";
+
+export { HoverCard, HoverCardTrigger, HoverCardContent } from "./components/HoverCard/index.js";
+export type {
+  HoverCardProps, HoverCardTriggerProps, HoverCardContentProps, HoverCardSide, HoverCardAlign,
+  HoverCardPropsFn,
+} from "./components/HoverCard/index.js";
+
+export {
+  ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuSeparator,
+  ContextMenuGroup, ContextMenuGroupLabel, ContextMenuRadioGroup, ContextMenuCheckboxItem,
+  ContextMenuRadioItem,
+} from "./components/ContextMenu/index.js";
+export type {
+  ContextMenuProps, ContextMenuTriggerProps, ContextMenuContentProps, ContextMenuItemProps,
+  ContextMenuSeparatorProps, ContextMenuGroupProps, ContextMenuGroupLabelProps,
+  ContextMenuRadioGroupProps, ContextMenuCheckboxItemProps, ContextMenuRadioItemProps,
+} from "./components/ContextMenu/index.js";
+
+export { Listbox } from "./components/Listbox/index.js";
+export type { ListboxProps, ListboxOption, ListboxVariants } from "./components/Listbox/index.js";
+
+export { ScrollArea } from "./components/ScrollArea/index.js";
+export type { ScrollAreaProps, StyleValue } from "./components/ScrollArea/index.js";

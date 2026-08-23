@@ -1,14 +1,5 @@
 import { openViaTrigger, part, type BrowserScenario } from "./scenario.js";
 
-/**
- * AlertDialog is in React's tier-1 and Vue's, and not yet in Svelte's — so
- * React is the only side to compare against, and the skip entry says so rather
- * than the scenario quietly not existing.
- */
-const NOT_IN_SVELTE = [
-  { framework: "svelte", reason: "AlertDialog is not in the Svelte package's tier-1." },
-];
-
 const scenarios: BrowserScenario[] = [
   {
     component: "AlertDialog",
@@ -19,7 +10,6 @@ const scenarios: BrowserScenario[] = [
     // as the Dialog scenario, which found the race first.
     steps: [...openViaTrigger("dialog"), { do: "wait", target: '#mount[aria-hidden="true"]' }],
     regions: [part("dialog", "backdrop"), part("dialog", "positioner"), "#mount"],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "AlertDialog",
@@ -29,7 +19,6 @@ const scenarios: BrowserScenario[] = [
     props: { contentProps: { size: "md", showClose: true }, confirmProps: { intent: "destructive" } },
     steps: openViaTrigger("dialog"),
     regions: [part("dialog", "positioner")],
-    skip: NOT_IN_SVELTE,
   },
   {
     component: "AlertDialog",
@@ -55,7 +44,6 @@ const scenarios: BrowserScenario[] = [
      * rather than any port, and AlertDialog reuses that stylesheet.
      */
     visibilityMatches: [part("dialog", "content")],
-    skip: NOT_IN_SVELTE,
   },
 ];
 
