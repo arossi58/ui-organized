@@ -273,3 +273,77 @@ test("a Select inside a Dialog paints above it", async ({ page }) => {
     expect.soft(select, `${framework}: select must paint above dialog`).toBeGreaterThan(dialog);
   }
 });
+
+/**
+ * The same stacking rule, in the one framework with no mechanism for it.
+ *
+ * Zag gives the other three libraries this for free: it writes the positioner's
+ * `z-index` by reading the popup's own rule, so a popover opened inside a dialog
+ * paints over it because `--z-index-popover` beats `--z-index-dialog`. The CDK
+ * has no positioner. It parents every overlay to one container and stacks every
+ * pane identically, so the same arrangement renders the popover *behind* its own
+ * host — silently, with a perfectly correct DOM.
+ *
+ * This was the single largest risk in porting to Angular, and the plan called
+ * for proving it before any component was written. `UioOverlayStacking`
+ * reproduces zag's mechanism on the CDK pane; what follows is whether that is
+ * enough.
+ *
+ * The levels are read from the stylesheet rather than written down here, so the
+ * assertion is about the two surfaces' *relationship* — which is what the design
+ * system actually promises — and moves with the tokens.
+ */
+test("Angular: a popover opened inside a dialog paints above it", async ({ page }) => {
+  const POPOVER = '[data-scope="popover"][data-part="content"]';
+  const DIALOG = '[data-scope="dialog"][data-part="content"]';
+
+  await page.goto("/angular.html?component=PopoverInDialog&props=%7B%7D");
+  await page.waitForSelector("html[data-parity-ready]", { state: "attached" });
+  await page.locator('[data-scope="dialog"][data-part="trigger"]').click();
+  await page.locator(DIALOG).waitFor({ timeout: 5_000 });
+  await page.locator('[data-scope="popover"][data-part="trigger"]').click();
+  await page.locator(POPOVER).waitFor({ timeout: 5_000 });
+
+  const measured = await page.evaluate(
+    ({ popoverSelector, dialogSelector }: { popoverSelector: string; dialogSelector: string }) => {
+      const paneFor = (selector: string) => {
+        const content = document.querySelector(selector);
+        const pane = content?.closest(".cdk-overlay-pane");
+        if (!pane) throw new Error(`no CDK pane around ${selector}`);
+        return pane;
+      };
+      const zIndexOf = (element: Element) => Number(getComputedStyle(element).zIndex);
+      const token = (name: string) =>
+        Number(getComputedStyle(document.documentElement).getPropertyValue(name).trim());
+
+      const popover = document.querySelector(popoverSelector)!;
+      const box = popover.getBoundingClientRect();
+      const topmost = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+
+      return {
+        popoverPane: zIndexOf(paneFor(popoverSelector)),
+        dialogPane: zIndexOf(paneFor(dialogSelector)),
+        popoverToken: token("--z-index-popover"),
+        dialogToken: token("--z-index-dialog"),
+        // The property the user actually experiences, and the only one that
+        // cannot be satisfied by a number that happens to be larger.
+        popoverIsOnTop: !!topmost && popover.contains(topmost),
+        // Recorded because it is *why* the line above holds. CDK 21 shows every
+        // overlay in the browser's top layer, where stacking is by show order
+        // and z-index between them does not apply. If that ever changes, the
+        // levels below become load-bearing rather than merely correct — and
+        // this is the assertion that will say so.
+        topLayerSurfaces: document.querySelectorAll("[popover]").length,
+      };
+    },
+    { popoverSelector: POPOVER, dialogSelector: DIALOG },
+  );
+
+  // Each pane takes the level its own popup's rule computed — no hardcoding, no
+  // second copy of the scale.
+  expect(measured.popoverPane, "popover pane").toBe(measured.popoverToken);
+  expect(measured.dialogPane, "dialog pane").toBe(measured.dialogToken);
+  expect(measured.popoverPane).toBeGreaterThan(measured.dialogPane);
+  expect(measured.popoverIsOnTop, "the popover must be the element under the pointer").toBe(true);
+  expect(measured.topLayerSurfaces, "CDK still shows overlays in the top layer").toBe(2);
+});

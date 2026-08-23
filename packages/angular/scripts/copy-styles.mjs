@@ -18,4 +18,8 @@ const source = join(dirname(require.resolve("@ui-organized/core/package.json")),
 mkdirSync("dist", { recursive: true });
 copyFileSync(source, "styles.css");
 copyFileSync(source, "dist/styles.css");
-console.log("copy-styles: styles.css, dist/styles.css");
+
+// The Angular-only overlay rule ships alongside it, by the same two-copy trick.
+copyFileSync("src/lib/overlay/overlay.css", "overlay.css");
+copyFileSync("src/lib/overlay/overlay.css", "dist/overlay.css");
+console.log("copy-styles: styles.css, overlay.css (package root and dist/)");

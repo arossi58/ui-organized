@@ -1,5 +1,6 @@
 import type { Type } from "@angular/core";
 import { ButtonFixture } from "./button.fixture.js";
+import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
 
 /**
  * Which components the Angular library implements, as far as this gate is
@@ -13,6 +14,8 @@ import { ButtonFixture } from "./button.fixture.js";
  */
 export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Button: ButtonFixture,
+  // Not a component in the library yet — see the fixture for what it proves.
+  PopoverInDialog: PopoverInDialogFixture,
 };
 
 export function angularFixtureFor(component: string): Type<unknown> {

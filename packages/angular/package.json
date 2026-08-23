@@ -32,6 +32,9 @@
     },
     "./styles.css": {
       "default": "./styles.css"
+    },
+    "./overlay.css": {
+      "default": "./overlay.css"
     }
   },
   "type": "module",

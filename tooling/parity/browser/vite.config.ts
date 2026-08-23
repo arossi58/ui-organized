@@ -24,6 +24,16 @@ export default defineConfig({
     jsxImportSource: "react",
     tsconfigRaw: { compilerOptions: { experimentalDecorators: true, useDefineForClassFields: false } },
   },
+  resolve: {
+    /**
+     * `style` is for `@angular/cdk/overlay-prebuilt.css`, which the CDK exports
+     * under that condition alone. Angular's own builder applies it; Vite does
+     * not by default, so the import fails with "no known conditions" rather
+     * than with a missing file. The rest of the list is Vite's default, which
+     * naming any condition at all replaces.
+     */
+    conditions: ["style", "module", "browser", "development|production"],
+  },
   server: {
     // Playwright reaches the server over 127.0.0.1; the default `localhost`
     // bind is reachable over IPv6 only on some machines.
