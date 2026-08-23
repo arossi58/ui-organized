@@ -1,1 +1,0 @@
-{"version":3,"file":"TooltipProvider.svelte.d.ts","sourceRoot":"","sources":["../../../src/lib/components/Tooltip/TooltipProvider.svelte.ts"],"names":[],"mappings":"AAIA,OAAO,KAAK,EAAE,oBAAoB,EAAE,MAAM,oBAAoB,CAAC;AAgB/D,QAAA,MAAM,eAAe,0DAAwC,CAAC;AAC9D,KAAK,eAAe,GAAG,UAAU,CAAC,OAAO,eAAe,CAAC,CAAC;AAC1D,eAAe,eAAe,CAAC"}

@@ -7,6 +7,11 @@ tokens-update
 
 # Build output / test artifacts
 storybook-static/
+# svelte-package's intermediate output, one step before packages/svelte/dist
+.svelte-kit/
+# Playwright run output (the visual gate's and the parity gate's)
+test-results/
+playwright-report/
 coverage/
 # Assembled Cloudflare Workers deploy directory (scripts/assemble-site.mjs)
 _site/
