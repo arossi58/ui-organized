@@ -224,3 +224,94 @@ export {
   type ComboboxOption,
   type ComboboxSize,
 } from "./lib/combobox/combobox.js";
+export {
+  UioAlertDialog,
+  UioAlertDialogTrigger,
+  UioAlertDialogTitle,
+  UioAlertDialogDescription,
+  UioAlertDialogFooter,
+  UioAlertDialogCancel,
+  UioAlertDialogConfirm,
+  type AlertDialogSize,
+  type AlertDialogIntent,
+} from "./lib/alert-dialog/alert-dialog.js";
+export {
+  UioSheet,
+  UioSheetTrigger,
+  UioSheetTitle,
+  UioSheetDescription,
+  UioSheetFooter,
+  UioSheetClose,
+  type SheetSide,
+  type SheetSize,
+} from "./lib/sheet/sheet.js";
+export {
+  UioHoverCard,
+  UioHoverCardTrigger,
+} from "./lib/hover-card/hover-card.js";
+export { PointerSurface, type AnchorPoint } from "./lib/context-menu/pointer-surface.js";
+export {
+  UioContextMenu,
+  UioContextMenuTrigger,
+  UioContextMenuItem,
+  UioContextMenuSeparator,
+  UioContextMenuGroup,
+  UioContextMenuGroupContext,
+  UioContextMenuGroupLabel,
+  UioContextMenuCheckboxItem,
+  UioContextMenuRadioGroup,
+  UioContextMenuRadioContext,
+  UioContextMenuRadioItem,
+} from "./lib/context-menu/context-menu.js";
+export {
+  UioSplitter,
+  resolveSplitterSizes,
+  splitterAriaValues,
+  applySplitterDelta,
+  type SplitterPanelDef,
+  type SplitterAriaValues,
+  type SplitterOrientation,
+  type SplitterVariant,
+} from "./lib/splitter/splitter.js";
+export {
+  UioTreeView,
+  type TreeViewNode,
+  type TreeViewSize,
+  type TreeViewVariant,
+  type TreeViewSelectionMode,
+} from "./lib/tree-view/tree-view.js";
+export {
+  UioPinInput,
+  toCells,
+  type PinInputSize,
+  type PinInputVariant,
+  type PinInputType,
+} from "./lib/pin-input/pin-input.js";
+export { UioTagsInput, type TagsInputSize } from "./lib/tags-input/tags-input.js";
+export {
+  UioRatingGroup,
+  type RatingGroupSize,
+  type RatingGroupVariant,
+} from "./lib/rating-group/rating-group.js";
+export {
+  UioEditable,
+  type EditableSize,
+  type EditableActivationMode,
+  type EditableSubmitMode,
+} from "./lib/editable/editable.js";
+export {
+  UioFileUpload,
+  formatFileSize,
+  acceptsFile,
+  type FileUploadSize,
+  type FileUploadVariant,
+  type FileRejection,
+  type FileRejectionReason,
+} from "./lib/file-upload/file-upload.js";
+export {
+  UioSteps,
+  type StepItem,
+  type StepsSize,
+  type StepsOrientation,
+  type StepsVariant,
+} from "./lib/steps/steps.js";

@@ -13,7 +13,8 @@
   told where its parent sits.
 -->
 <script setup lang="ts">
-import { TreeView as ArkTreeView } from "@ark-ui/vue";
+import { computed } from "vue";
+import { TreeView as ArkTreeView, useTreeViewContext } from "@ark-ui/vue";
 import Icon from "../Icon/Icon.vue";
 import type { TreeViewNode } from "./TreeView.types.js";
 
@@ -24,12 +25,20 @@ const INDICATOR_SIZE = 16;
 // `showIndentGuides` is a Boolean prop, and Vue casts an absent one to `false`
 // rather than `undefined` — see ../../props.ts. It is safe without a default
 // here only because TreeView always passes it; nothing else constructs a node.
-defineProps<{
+const props = defineProps<{
   node: TreeViewNode;
   indexPath: number[];
   iconSize: number;
   showIndentGuides: boolean;
 }>();
+
+/**
+ * Whether this branch is open, read from the machine rather than tracked here.
+ *
+ * Only used to decide the panel's `data-state` — see the template.
+ */
+const treeView = useTreeViewContext();
+const branchOpen = computed(() => treeView.value.expandedValue.includes(props.node.id));
 </script>
 
 <template>
@@ -44,7 +53,32 @@ defineProps<{
           {{ node.label }}
         </ArkTreeView.BranchText>
       </ArkTreeView.BranchControl>
-      <ArkTreeView.BranchContent class="tree-view__branch-content">
+      <!--
+        `data-state="open"` is dropped; `data-state="closed"` is kept.
+
+        zag's collapsible content writes
+        `"data-state": skip ? undefined : open ? "open" : "closed"`, where `skip`
+        is its first-transition guard — and the Ark wrappers disagree about when
+        that guard is set. Clicked open, Ark React leaves the panel with no
+        `data-state` while Ark Vue writes `"open"`; collapsed, all of them write
+        `"closed"`. Angular writes neither, so Svelte and Vue were the odd two out
+        on exactly one value.
+
+        Stripped rather than allowed. The gate refuses the allowance and is right
+        to: `TreeView.css` does select on `[data-state]`, for
+        `.tree-view__branch-indicator`, so an allowance would stop comparing the
+        indicator's open/closed state too — which is the whole point of the
+        scenario that clicks a branch open.
+
+        An explicit `undefined` attribute is a *removal* in Vue, not a no-op —
+        the footgun in ../../props.ts, used here on purpose.
+
+        Delete when Ark Vue and Ark React agree on `skip`.
+      -->
+      <ArkTreeView.BranchContent
+        class="tree-view__branch-content"
+        :data-state="branchOpen ? undefined : 'closed'"
+      >
         <ArkTreeView.BranchIndentGuide v-if="showIndentGuides" class="tree-view__indent-guide" />
         <TreeNode
           v-for="(child, index) in node.children"

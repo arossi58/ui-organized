@@ -243,3 +243,28 @@ export type { SplitterProps, SplitterPanelDef, SplitterVariants } from "./compon
 // standalone use and no DOM a consumer could target.
 export { Steps } from "./components/Steps/index.js";
 export type { StepsProps, StepItem, StepsVariants } from "./components/Steps/index.js";
+
+export { Carousel } from "./components/Carousel/index.js";
+export type { CarouselProps, CarouselSlide, CarouselVariants } from "./components/Carousel/index.js";
+
+export { Marquee } from "./components/Marquee/index.js";
+export type { MarqueeProps, MarqueeItem, MarqueeVariants } from "./components/Marquee/index.js";
+
+export { Timer } from "./components/Timer/index.js";
+export type { TimerProps, TimerPart, TimerVariants } from "./components/Timer/index.js";
+
+// Added on behalf of this wave's other three Vue components, whose author does
+// not edit this file. It matters more here than in Svelte: this package is a
+// rollup lib build keyed off this barrel, so a component it does not export is
+// not in `dist` at all — see the stopgap notes in tooling/parity/src/fixtures.
+// Names taken from each component's own index.ts, which is the authoritative list.
+export { QRCode } from "./components/QRCode/index.js";
+export type { QRCodeProps, QRCodeVariants } from "./components/QRCode/index.js";
+
+export { ImageCropper } from "./components/ImageCropper/index.js";
+export type {
+  ImageCropperProps, CropRect, ImageCropperVariants,
+} from "./components/ImageCropper/index.js";
+
+export { SignaturePad } from "./components/SignaturePad/index.js";
+export type { SignaturePadProps, SignaturePadVariants } from "./components/SignaturePad/index.js";

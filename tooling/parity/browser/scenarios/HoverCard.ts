@@ -1,4 +1,4 @@
-import { part, type BrowserScenario } from "./scenario.js";
+import { part, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 /**
  * `openDelay: 0` in every scenario. Ark's default is 700ms of hover, which the
@@ -7,6 +7,11 @@ import { part, type BrowserScenario } from "./scenario.js";
  * bug when something else breaks.
  */
 const scenarios: BrowserScenario[] = [
+  // Never opened, which is where the sticky placement attributes are pinned by
+  // their absence: `data-placement` and `data-side` appear on a trigger the
+  // first time its card is placed and stay from then on, so a library that
+  // reported the *requested* side up front would differ only here.
+  ...staticScenarios("HoverCard", [{ name: "closed" }]),
   {
     component: "HoverCard",
     name: "shown on hover",

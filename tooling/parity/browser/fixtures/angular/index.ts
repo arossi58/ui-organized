@@ -1,5 +1,6 @@
 import type { Type } from "@angular/core";
 import { AccordionFixture } from "./accordion.fixture.js";
+import { AlertDialogFixture } from "./alert-dialog.fixture.js";
 import { AlertFixture } from "./alert.fixture.js";
 import { AvatarFixture } from "./avatar.fixture.js";
 import { BreadcrumbFixture } from "./breadcrumb.fixture.js";
@@ -9,10 +10,14 @@ import { CheckboxFixture } from "./checkbox.fixture.js";
 import { ClipboardFixture } from "./clipboard.fixture.js";
 import { CollapsibleFixture } from "./collapsible.fixture.js";
 import { ComboboxFixture } from "./combobox.fixture.js";
+import { ContextMenuFixture } from "./context-menu.fixture.js";
 import { DialogFixture } from "./dialog.fixture.js";
 import { DividerFixture } from "./divider.fixture.js";
+import { EditableFixture } from "./editable.fixture.js";
 import { FieldFixture } from "./field.fixture.js";
 import { FieldErrorFixture } from "./field-error.fixture.js";
+import { FileUploadFixture } from "./file-upload.fixture.js";
+import { HoverCardFixture } from "./hover-card.fixture.js";
 import { IconFixture } from "./icon.fixture.js";
 import { InputFixture } from "./input.fixture.js";
 import { ListboxFixture } from "./listbox.fixture.js";
@@ -23,20 +28,27 @@ import { NavigationFixture } from "./navigation.fixture.js";
 import { NumberFieldFixture } from "./number-field.fixture.js";
 import { PaginationFixture } from "./pagination.fixture.js";
 import { PasswordInputFixture } from "./password-input.fixture.js";
+import { PinInputFixture } from "./pin-input.fixture.js";
 import { PopoverFixture } from "./popover.fixture.js";
 import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
 import { ProgressFixture } from "./progress.fixture.js";
 import { RadioGroupFixture } from "./radio-group.fixture.js";
+import { RatingGroupFixture } from "./rating-group.fixture.js";
 import { ScrollAreaFixture } from "./scroll-area.fixture.js";
 import { SearchInputFixture } from "./search-input.fixture.js";
 import { SegmentedControlFixture } from "./segmented-control.fixture.js";
 import { SwitchFixture } from "./switch.fixture.js";
 import { SelectFixture } from "./select.fixture.js";
 import { SelectInDialogFixture } from "./select-in-dialog.fixture.js";
+import { SheetFixture } from "./sheet.fixture.js";
 import { SkeletonFixture } from "./skeleton.fixture.js";
+import { SplitterFixture } from "./splitter.fixture.js";
+import { StepsFixture } from "./steps.fixture.js";
 import { TabsFixture } from "./tabs.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
+import { TagsInputFixture } from "./tags-input.fixture.js";
 import { TextAreaFixture } from "./text-area.fixture.js";
+import { TreeViewFixture } from "./tree-view.fixture.js";
 import { ToastFixture } from "./toast.fixture.js";
 import { ToggleFixture } from "./toggle.fixture.js";
 import { ToolbarFixture } from "./toolbar.fixture.js";
@@ -55,6 +67,7 @@ import { TooltipFixture } from "./tooltip.fixture.js";
 export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Accordion: AccordionFixture,
   Alert: AlertFixture,
+  AlertDialog: AlertDialogFixture,
   Avatar: AvatarFixture,
   Breadcrumb: BreadcrumbFixture,
   Button: ButtonFixture,
@@ -63,10 +76,14 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Clipboard: ClipboardFixture,
   Collapsible: CollapsibleFixture,
   Combobox: ComboboxFixture,
+  ContextMenu: ContextMenuFixture,
   Dialog: DialogFixture,
   Divider: DividerFixture,
+  Editable: EditableFixture,
   Field: FieldFixture,
   FieldError: FieldErrorFixture,
+  FileUpload: FileUploadFixture,
+  HoverCard: HoverCardFixture,
   Icon: IconFixture,
   Input: InputFixture,
   Listbox: ListboxFixture,
@@ -77,22 +94,29 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   NumberField: NumberFieldFixture,
   Pagination: PaginationFixture,
   PasswordInput: PasswordInputFixture,
+  PinInput: PinInputFixture,
   Popover: PopoverFixture,
   Progress: ProgressFixture,
   RadioGroup: RadioGroupFixture,
+  RatingGroup: RatingGroupFixture,
   ScrollArea: ScrollAreaFixture,
   SearchInput: SearchInputFixture,
   SegmentedControl: SegmentedControlFixture,
   Switch: SwitchFixture,
   Select: SelectFixture,
   SelectInDialog: SelectInDialogFixture,
+  Sheet: SheetFixture,
   Skeleton: SkeletonFixture,
+  Splitter: SplitterFixture,
+  Steps: StepsFixture,
   Tabs: TabsFixture,
   Tag: TagFixture,
+  TagsInput: TagsInputFixture,
   TextArea: TextAreaFixture,
   Toast: ToastFixture,
   Toggle: ToggleFixture,
   Toolbar: ToolbarFixture,
+  TreeView: TreeViewFixture,
   Tooltip: TooltipFixture,
   /**
    * Not a component — an *arrangement* of two of them, and the one this port was

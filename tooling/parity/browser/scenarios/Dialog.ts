@@ -18,6 +18,23 @@ const scenarios: BrowserScenario[] = [
   },
   {
     component: "Dialog",
+    /**
+     * The non-modal case, which nothing covered until AlertDialog and Sheet were
+     * built and their author noticed `UioDialog` dropped `aria-modal` entirely
+     * when `modal` was false. zag takes the attribute straight from the prop, so
+     * every other library reports `aria-modal="false"` here; Angular reported
+     * nothing, and no scenario opened a non-modal dialog to say so.
+     *
+     * `#mount` is compared too, because the other half of non-modal is that the
+     * page is NOT hidden from assistive technology.
+     */
+    name: "open and non-modal",
+    props: { modal: false },
+    steps: openViaTrigger("dialog"),
+    regions: [part("dialog", "positioner"), "#mount"],
+  },
+  {
+    component: "Dialog",
     name: "dismissed with Escape",
     steps: [...openViaTrigger("dialog"), { do: "press", key: "Escape" }],
     regions: ["#mount"],

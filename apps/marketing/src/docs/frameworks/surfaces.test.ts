@@ -111,25 +111,42 @@ describe("coverage read from the packages", () => {
   });
 });
 
-describe("a component a framework does not ship", () => {
-  const accordion = getDocsComponent("accordion")!;
-  const story = inspectStory(accordion)!;
+/**
+ * Taken off the live registry, not named.
+ *
+ * This block used to hardcode `accordion` as the component Angular does not
+ * ship. Angular shipped it, and the block then failed for the one reason this
+ * file's header says it must not: the library grew. Picking whatever is still
+ * missing keeps the assertion about the *behaviour* — an uncovered component
+ * resolves to nothing rather than falling back to React — instead of about one
+ * component's status on the day it was written.
+ *
+ * When Angular ships everything there is nothing left to assert and this skips,
+ * which is the right signal rather than a failure.
+ */
+const unshipped = docsComponents.find(
+  (c) => c.codeName && inspectStory(c) && !targetFor("angular", c.codeName),
+);
+
+describe.skipIf(!unshipped)("a component a framework does not ship", () => {
+  const missing = unshipped!;
+  const story = inspectStory(missing)!;
 
   it("resolves to nothing rather than to React", () => {
-    expect(targetFor("angular", accordion.codeName)).toBeUndefined();
+    expect(targetFor("angular", missing.codeName)).toBeUndefined();
   });
 
   it("shows no sample at all — never React's under an Angular label", () => {
     // The whole reason the switcher needs coverage: a mislabelled sample is
     // worse than a missing one, because a reader cannot tell it is wrong.
-    expect(primarySnippet(accordion, story, "angular")).toBeUndefined();
-    for (const example of accordion.stories) {
-      expect(exampleSnippet(accordion, example, "angular")).toBeUndefined();
+    expect(primarySnippet(missing, story, "angular")).toBeUndefined();
+    for (const example of missing.stories) {
+      expect(exampleSnippet(missing, example, "angular")).toBeUndefined();
     }
   });
 
   it("says so, with what the library does cover", () => {
-    const gap = gapFor(accordion, story, "angular")!;
+    const gap = gapFor(missing, story, "angular")!;
     expect(gap.reason).toBe("missing-component");
     expect(gap.packageName).toBe("@ui-organized/angular");
     if (gap.reason !== "missing-component") throw new Error("unreachable");
@@ -137,8 +154,10 @@ describe("a component a framework does not ship", () => {
   });
 
   it("reports no gap where the framework does ship it", () => {
-    expect(gapFor(accordion, story, "svelte")).toBeUndefined();
-    expect(gapFor(accordion, story, "react")).toBeUndefined();
+    const accordion = getDocsComponent("accordion")!;
+    const accordionStory = inspectStory(accordion)!;
+    expect(gapFor(accordion, accordionStory, "svelte")).toBeUndefined();
+    expect(gapFor(accordion, accordionStory, "react")).toBeUndefined();
     const button = getDocsComponent("button")!;
     expect(gapFor(button, inspectStory(button)!, "angular")).toBeUndefined();
   });

@@ -258,3 +258,28 @@ export type { SplitterProps, SplitterPanelDef, SplitterVariants } from "./compon
 // standalone use and no DOM a consumer could target.
 export { Steps } from "./components/Steps/index.js";
 export type { StepsProps, StepItem, StepsVariants } from "./components/Steps/index.js";
+
+export { Carousel } from "./components/Carousel/index.js";
+export type { CarouselProps, CarouselSlide, CarouselVariants } from "./components/Carousel/index.js";
+
+export { Marquee } from "./components/Marquee/index.js";
+export type { MarqueeProps, MarqueeItem, MarqueeVariants } from "./components/Marquee/index.js";
+
+export { Timer } from "./components/Timer/index.js";
+export type { TimerProps, TimerPart, TimerVariants } from "./components/Timer/index.js";
+
+// Added on behalf of this wave's other three Svelte components, whose author does
+// not edit this file — see the stopgap notes in tooling/parity/src/fixtures for
+// why an unexported component takes the whole SSR suite down at collection time
+// rather than failing on its own cases. Names taken from each component's own
+// index.ts, which is the authoritative list.
+export { QRCode } from "./components/QRCode/index.js";
+export type { QRCodeProps, QRCodeVariants } from "./components/QRCode/index.js";
+
+export { ImageCropper } from "./components/ImageCropper/index.js";
+export type {
+  ImageCropperProps, CropRect, ImageCropperVariants,
+} from "./components/ImageCropper/index.js";
+
+export { SignaturePad } from "./components/SignaturePad/index.js";
+export type { SignaturePadProps, SignaturePadVariants } from "./components/SignaturePad/index.js";

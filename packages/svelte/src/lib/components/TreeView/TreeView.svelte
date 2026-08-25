@@ -77,13 +77,39 @@
             {node.label}
           </ArkTreeView.BranchText>
         </ArkTreeView.BranchControl>
-        <ArkTreeView.BranchContent class="tree-view__branch-content">
-          {#if showIndentGuides}
-            <ArkTreeView.BranchIndentGuide class="tree-view__indent-guide" />
-          {/if}
-          {#each node.children as child, index (child.id)}
-            {@render treeNode(child, [...indexPath, index])}
-          {/each}
+        <!--
+          `data-state="open"` is dropped; `data-state="closed"` is kept.
+
+          zag's collapsible content writes
+          `"data-state": skip ? undefined : open ? "open" : "closed"`, where
+          `skip` is its first-transition guard — and the Ark wrappers disagree
+          about when that guard is set. Clicked open, Ark React leaves the panel
+          with no `data-state` while Ark Svelte writes `"open"`; collapsed, all of
+          them write `"closed"`. Angular writes neither, so Svelte and Vue were
+          the odd two out on exactly one value.
+
+          Stripped rather than allowed. The gate refuses the allowance and is
+          right to: `TreeView.css` does select on `[data-state]`, for
+          `.tree-view__branch-indicator`, so an allowance here would stop
+          comparing the indicator's open/closed state too — which is the whole
+          point of the scenario that clicks a branch open.
+
+          Delete when Ark Svelte and Ark React agree on `skip`; the gate reddens
+          on the `expanded branch` cases at that point and says so.
+        -->
+        <ArkTreeView.BranchContent>
+          {#snippet asChild(contentProps)}
+            {@const all = contentProps({ class: "tree-view__branch-content" })}
+            {@const { "data-state": state, ...rest } = all}
+            <div {...rest} data-state={state === "open" ? undefined : state}>
+              {#if showIndentGuides}
+                <ArkTreeView.BranchIndentGuide class="tree-view__indent-guide" />
+              {/if}
+              {#each node.children as child, index (child.id)}
+                {@render treeNode(child, [...indexPath, index])}
+              {/each}
+            </div>
+          {/snippet}
         </ArkTreeView.BranchContent>
       </ArkTreeView.Branch>
     {:else}

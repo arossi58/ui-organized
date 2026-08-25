@@ -133,14 +133,40 @@ function stripComments(root: Element): void {
  *   worth comparing, as it does for Select, where the popup is a descendant of
  *   the field that holds the label, helper text and hidden native control.
  */
+/**
+ * One document, reused for every parse.
+ *
+ * `contractOf` and `hiddenFromAssistiveTech` used to build a `new JSDOM` per
+ * call, and `contractOf` runs twice per case — once for React, once for the
+ * library under comparison. At a few hundred cases that is invisible; past
+ * ~1650 the suite died with `FATAL ERROR: JavaScript heap out of memory`, and
+ * raising the worker heap to 4 GB did not save it, because the cost is thousands
+ * of live `Window` objects rather than anything the cases retain.
+ *
+ * Reuse is safe here and not a shortcut: every call replaces `innerHTML`
+ * outright, both functions are synchronous, and the value that escapes is plain
+ * data — tag names, class lists and attribute strings — so no node outlives the
+ * call that made it. Vitest runs a file's tests one at a time and neither
+ * function awaits, so two parses can never interleave.
+ *
+ * If either function ever becomes async, or the suite starts running cases
+ * concurrently, this has to go back to a document per call.
+ */
+const scratch = new JSDOM("<div id=\"root\"></div>");
+
+function parseIntoRoot(html: string): HTMLElement {
+  const root = scratch.window.document.getElementById("root") as HTMLElement;
+  root.innerHTML = html;
+  return root;
+}
+
 export function contractOf(
   html: string,
   select?: string,
   exclude?: string,
   blankText: string[] = [],
 ): ElementContract[] {
-  const dom = new JSDOM(`<div id="root">${html}</div>`);
-  let root = dom.window.document.getElementById("root")!;
+  let root = parseIntoRoot(html);
   stripComments(root);
   // Excluded content is dropped *before* the ids are numbered. The numbering is
   // positional, so counting elements that one library renders and the other does
@@ -189,8 +215,7 @@ export function contractOf(
  * can read it, so an allowance is valid exactly when this returns nothing.
  */
 export function hiddenFromAssistiveTech(html: string, selector: string): string[] {
-  const dom = new JSDOM(`<div id="root">${html}</div>`);
-  const root = dom.window.document.getElementById("root")!;
+  const root = parseIntoRoot(html);
   const readable: string[] = [];
   for (const el of root.querySelectorAll(selector)) {
     if (!el.closest('[aria-hidden="true"]')) readable.push(el.outerHTML.slice(0, 120));

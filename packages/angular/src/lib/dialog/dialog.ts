@@ -116,6 +116,13 @@ export type DialogSize = NonNullable<DialogVariants["size"]>;
         [id]="dialogContext.partId('positioner')"
         [style.pointer-events]="open() ? null : 'none'"
       >
+        <!--
+          aria-modal is written as both words and never dropped: zag takes it
+          straight from the prop, so a non-modal surface reports
+          aria-modal="false". Dropping it when non-modal is the tidier-looking of
+          the two and is what this component did until the AlertDialog and Sheet
+          work found it — nothing covered a non-modal dialog, so nothing said so.
+        -->
         <div
           [class]="popupClass()"
           data-scope="dialog"
@@ -125,7 +132,7 @@ export type DialogSize = NonNullable<DialogVariants["size"]>;
           [id]="dialogContext.partId('content')"
           [attr.data-state]="state()"
           [attr.hidden]="open() ? null : ''"
-          [attr.aria-modal]="modal() ? 'true' : null"
+          [attr.aria-modal]="modal() ? 'true' : 'false'"
           [attr.aria-labelledby]="dialogContext.labelledBy()"
           [attr.aria-describedby]="dialogContext.describedBy()"
         >

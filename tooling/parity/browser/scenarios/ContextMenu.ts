@@ -1,4 +1,4 @@
-import { part, type BrowserScenario } from "./scenario.js";
+import { part, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 /**
  * Opened through `defaultOpen` rather than by right-clicking the trigger.
@@ -10,6 +10,9 @@ import { part, type BrowserScenario } from "./scenario.js";
  * cursor anchoring it skips is a zag behaviour neither port implements.
  */
 const scenarios: BrowserScenario[] = [
+  // Closed, and never right-clicked: the trigger area carries its identity and
+  // `data-state="closed"` and nothing else.
+  ...staticScenarios("ContextMenu", [{ name: "closed" }]),
   {
     component: "ContextMenu",
     name: "open",

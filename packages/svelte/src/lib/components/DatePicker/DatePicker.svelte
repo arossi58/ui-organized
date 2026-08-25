@@ -133,9 +133,45 @@
                   {#each api().weeks as week, weekIndex (weekIndex)}
                     <ArkDatePicker.TableRow>
                       {#each week as day, dayIndex (dayIndex)}
-                        <ArkDatePicker.TableCell value={day} class="date-picker__cell">
-                          <ArkDatePicker.TableCellTrigger class="date-picker__day">
-                            {day.day}
+                        <!--
+                          The cell props are spread here rather than left to
+                          `TableCell`, which drops them in @ark-ui/svelte 5.24.0.
+                          Its `date-picker-table-cell.svelte` builds them with
+                          `$derived(() => …)` where every sibling wrapper uses
+                          `$derived.by(() => …)`, so what reaches `mergeProps` is
+                          the thunk rather than the object — and a function has
+                          no own enumerable keys, so the merge contributes
+                          nothing. The `<td>` came out with a class and literally
+                          nothing else: no `role="gridcell"`, no `aria-selected`,
+                          no `data-value`, so the grid was not a grid to a screen
+                          reader. Ark React and Ark Vue both call the same
+                          `getDayTableCellProps`, so this restores what they emit
+                          rather than inventing anything; when Ark Svelte fixes
+                          it, `mergeProps` will merge two identical objects and
+                          this spread can go.
+                        -->
+                        <ArkDatePicker.TableCell
+                          value={day}
+                          class="date-picker__cell"
+                          {...api().getDayTableCellProps({ value: day })}
+                        >
+                          <!--
+                            And a `<div>`, because @ark-ui/svelte's
+                            `TableCellTrigger` renders `<Ark as="button">` where
+                            Ark React and Ark Vue render `ark.div`. zag puts
+                            `role="button"` on it either way, so the semantics
+                            are the wrapper's choice — but the shared
+                            `.date-picker__day` rule sets no border, background,
+                            padding or appearance, having been written for a
+                            div. On a real `<button>` the UA styles win: every
+                            day cell rendered with a 2px outset border on
+                            #efefef. Same markup as the other two libraries is
+                            also the only way one stylesheet can style all three.
+                          -->
+                          <ArkDatePicker.TableCellTrigger>
+                            {#snippet asChild(props)}
+                              <div {...props({ class: "date-picker__day" })}>{day.day}</div>
+                            {/snippet}
                           </ArkDatePicker.TableCellTrigger>
                         </ArkDatePicker.TableCell>
                       {/each}

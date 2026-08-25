@@ -19,6 +19,17 @@ const scenarios: BrowserScenario[] = [
   },
   {
     component: "Sheet",
+    // Non-modal, which is the one prop that changes what a sheet *does* rather
+    // than where it sits: no `aria-modal` on the panel and no `aria-hidden`
+    // marks on the page behind it. The absence is the assertion, so `#mount` is
+    // compared rather than waited on.
+    name: "open and non-modal",
+    props: { modal: false },
+    steps: openViaTrigger("dialog"),
+    regions: [part("dialog", "positioner"), "#mount"],
+  },
+  {
+    component: "Sheet",
     name: "dismissed with Escape",
     // Focus is waited on before the keypress, and it is not decoration. Ark
     // React (zag 1.41) and Ark Vue (zag 1.43) register the dismissable layer on
