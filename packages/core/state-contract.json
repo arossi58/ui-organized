@@ -467,7 +467,8 @@
     },
     "FloatingPanel": {
       "attributes": {
-        "data-dragging": []
+        "data-dragging": [],
+        "hidden": []
       },
       "classes": [
         "floating-panel__body",

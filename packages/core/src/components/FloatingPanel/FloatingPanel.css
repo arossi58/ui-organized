@@ -21,6 +21,19 @@
   border-radius: var(--border-radius-05);
 }
 
+/* Ark keeps the panel mounted and toggles the `hidden` attribute, and the
+   `display: flex` above would override [hidden]'s `display: none` — so a
+   *closed* panel stayed painted, floating over the page in all four libraries at
+   once. Found by rendering every component on one page: with a single panel on
+   screen it reads as an open one, and only a closed panel sitting on top of
+   sixty-six other components makes it obvious.
+
+   Same shape as `.avatar__fallback[hidden]` above it in Avatar.css, and the same
+   fix. Honor `hidden` explicitly. */
+.floating-panel__content[hidden] {
+  display: none;
+}
+
 .floating-panel__content--sm { width: var(--dimension-08, 320px); }
 .floating-panel__content--md { width: var(--dimension-10, 400px); }
 .floating-panel__content--lg { width: var(--dimension-12, 560px); }
