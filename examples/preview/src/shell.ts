@@ -40,15 +40,43 @@ export interface CatalogueEntry {
  * Still one case per component rather than all of them: 67 components across
  * every state is a test report, not a preview.
  */
+/**
+ * Props a component needs to survive an actual render, where its gate case does
+ * not need them.
+ *
+ * The gate renders once and statically, so a machine that only validates its
+ * config when it starts never gets the chance to complain. `Tour` is exactly
+ * that: zag rejects a step with neither `target` nor `type` at construction, and
+ * every case in `cases/Tour.tsx` but one uses bare steps — correct there,
+ * because the SSR gate is testing that nothing escapes the portal, and fatal
+ * here, where the machine really runs.
+ *
+ * Overriding rather than changing the case: the case is right for what it
+ * asserts, and this page is the one that renders for real.
+ */
+const LIVE_PROPS: Record<string, Record<string, unknown>> = {
+  Tour: {
+    steps: [
+      { id: "one", title: "One", description: "First step", type: "dialog" },
+      { id: "two", title: "Two", description: "Second step", type: "dialog" },
+    ],
+    // Closed. An open tour is modal: it dims the whole document with a backdrop
+    // and floats its card over everything, so a preview that opened one would
+    // show a tour and hide the other sixty-six components behind it.
+    stepId: null,
+  },
+};
+
 export const CATALOGUE: CatalogueEntry[] = SPECS.map((spec) => {
   const labelled = spec.cases.find(
     (c) => c.props && typeof (c.props as Record<string, unknown>).label === "string",
   );
   const chosen = labelled ?? spec.cases[0];
+  const override = LIVE_PROPS[spec.component];
   return {
     name: spec.component,
-    state: chosen?.name ?? "default",
-    props: (chosen?.props ?? {}) as Record<string, unknown>,
+    state: override ? "live" : (chosen?.name ?? "default"),
+    props: override ?? ((chosen?.props ?? {}) as Record<string, unknown>),
     spec,
   };
 });
