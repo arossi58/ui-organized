@@ -1,0 +1,101 @@
+{
+  "name": "@ui-organized/svelte",
+  "version": "0.1.0",
+  "description": "Svelte component library for the ui-organized design system, built on Ark UI.",
+  "keywords": [
+    "design-system",
+    "svelte",
+    "components",
+    "ui",
+    "ark-ui",
+    "accessible"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/svelte#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/svelte"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": [
+    "**/*.css",
+    "./dist/icons/*.js"
+  ],
+  "type": "module",
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./icons/lucide": {
+      "types": "./dist/icons/entry-lucide.d.ts",
+      "svelte": "./dist/icons/entry-lucide.js",
+      "default": "./dist/icons/entry-lucide.js"
+    },
+    "./icons/tabler": {
+      "types": "./dist/icons/entry-tabler.d.ts",
+      "svelte": "./dist/icons/entry-tabler.js",
+      "default": "./dist/icons/entry-tabler.js"
+    },
+    "./styles": "./dist/styles.css",
+    "./styles.css": "./dist/styles.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "svelte-package -i src/lib -o dist && node scripts/copy-styles.mjs",
+    "dev": "svelte-package -i src/lib -o dist --watch",
+    "test": "vitest run --passWithNoTests",
+    "lint": "eslint src/",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json",
+    "test:smoke": "node scripts/smoke-icons.mjs"
+  },
+  "peerDependencies": {
+    "@lucide/svelte": ">=1.0.0",
+    "@tabler/icons-svelte": ">=3.0.0",
+    "svelte": ">=5.20.0"
+  },
+  "peerDependenciesMeta": {
+    "@lucide/svelte": {
+      "optional": true
+    },
+    "@tabler/icons-svelte": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@ark-ui/svelte": "^5.24.0",
+    "@ui-organized/core": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
+    "clsx": "^2.1.0"
+  },
+  "devDependencies": {
+    "@lucide/svelte": "^1.33.0",
+    "@sveltejs/package": "^2.5.8",
+    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "@tabler/icons-svelte": "^3.46.0",
+    "@testing-library/svelte": "^5.2.0",
+    "@types/node": "^20.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
+    "svelte": "^5.56.0",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vite": "^5.0.0",
+    "vitest": "^2.0.0"
+  }
+}

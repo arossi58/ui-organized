@@ -1,6 +1,6 @@
 import { Popover as ArkPopover, Portal } from "@ark-ui/react";
 import type { ReactNode, RefObject } from "react";
-import "./DatePopover.css";
+import "@ui-organized/core/components/DateField/DatePopover.css";
 import {
   useOverlayPortal,
   type ContainedPositioning,

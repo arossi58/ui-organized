@@ -2,9 +2,9 @@ import { SignaturePad as ArkSignaturePad } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { signaturePadStyles } from "./SignaturePad.styles.js";
+import { signaturePadStyles } from "@ui-organized/core";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
-import "./SignaturePad.css";
+import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
 
 const DEFAULT_STROKE_WIDTH = 2;
 
@@ -54,15 +54,16 @@ export function SignaturePad({
       )}
 
       <ArkSignaturePad.Control className="signature-pad__control">
-        {/* Each committed stroke is its own path element; zag supplies the data
-            and re-renders the set as drawing progresses. */}
-        <ArkSignaturePad.Context>
-          {(api) =>
-            api.paths.map((path, index) => (
-              <ArkSignaturePad.Segment key={index} path={path} className="signature-pad__segment" />
-            ))
-          }
-        </ArkSignaturePad.Context>
+        {/* Ark's `Segment` renders the whole signature: it maps the machine's
+            `paths` itself and appends the in-progress `currentPath`. So it is
+            rendered ONCE.
+
+            It used to be mapped over `api.paths`, which produced one `<svg>` per
+            stroke, each drawing every stroke — N copies stacked exactly on top of
+            one another — and the `path` prop Ark does not read was spread onto the
+            `<svg>` as a stray attribute. It looked right, because the topmost copy
+            is the correct one. */}
+        <ArkSignaturePad.Segment className="signature-pad__segment" />
         {showGuide && <ArkSignaturePad.Guide className="signature-pad__guide" />}
       </ArkSignaturePad.Control>
 

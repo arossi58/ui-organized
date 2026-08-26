@@ -1,9 +1,9 @@
 import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { inputFieldStyles } from "./Input.styles.js";
+import { inputFieldStyles } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
 import type { InputProps } from "./Input.types.js";
-import "./Input.css";
+import "@ui-organized/core/components/Input/Input.css";
 
 export function Input({
   label,

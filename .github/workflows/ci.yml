@@ -168,6 +168,26 @@ jobs:
       - name: Smoke-test the published artifacts
         run: pnpm smoke
 
+      # The other half of the cross-framework parity gate, and the only half not
+      # already covered above. `pnpm test` runs the SSR half through turbo; this
+      # one needs a browser, so it sits outside the task graph and would
+      # otherwise run only when someone remembered to.
+      #
+      # It covers everything static rendering cannot see: portalled overlay
+      # content, `[data-state="open"]` and `[data-highlighted]`, toasts, and the
+      # whole Angular library — which is compared in the browser only, because
+      # putting it in the SSR gate would mean a rendering path no consumer of
+      # that package uses.
+      #
+      # Blocking, unlike the visual gate. A pixel diff is often an intended
+      # redesign; four libraries disagreeing about the DOM they render against
+      # one shared stylesheet never is.
+      - name: Install Chromium for the parity gate
+        run: pnpm --filter @ui-organized/parity exec playwright install --with-deps chromium
+
+      - name: Cross-framework parity (browser)
+        run: pnpm --filter @ui-organized/parity test:browser
+
       # Consumed by ci-report.yml via cross-workflow download. include-hidden-files
       # is required or the assembled _site/.assetsignore (a dotfile) is dropped.
       - name: Upload site artifact

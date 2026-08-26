@@ -3,10 +3,9 @@ import { DatePicker as ArkDatePicker, Portal, parseDate } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { datePickerStyles } from "./DatePicker.styles.js";
+import { CONTROL_ICON_SIZE, datePickerStyles, type ControlSize } from "@ui-organized/core";
 import type { DatePickerProps } from "./DatePicker.types.js";
-import "./DatePicker.css";
+import "@ui-organized/core/components/DatePicker/DatePicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Weekday header and navigation glyphs stay one step below the cell text. */

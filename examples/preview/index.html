@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ui-organized preview</title>
+    <link rel="stylesheet" href="/src/shell.css" />
+  </head>
+  <body class="pv-page">
+    <header class="pv-masthead">
+      <h1>ui-organized</h1>
+      <span class="pv-count">four libraries, one stylesheet</span>
+    </header>
+    <p class="pv-note">
+      One page per framework library, each rendering every component it ships in
+      its plainest state, styled only by <code>@ui-organized/core</code>. Open two
+      in adjacent tabs to compare them by eye.
+    </p>
+    <p class="pv-note">
+      These pages are for looking at. What actually proves the four libraries
+      render the same DOM is the parity gates — an SSR gate over React, Svelte and
+      Vue, and a browser gate over all four. A component a library does not ship
+      yet is shown here as a gap rather than left out.
+    </p>
+    <main class="pv-grid">
+      <section class="pv-card">
+        <div class="pv-card__head"><span class="pv-card__name">React</span></div>
+        <div class="pv-card__body"><a href="/react.html">Open the React preview</a></div>
+      </section>
+      <section class="pv-card">
+        <div class="pv-card__head"><span class="pv-card__name">Svelte</span></div>
+        <div class="pv-card__body"><a href="/svelte.html">Open the Svelte preview</a></div>
+      </section>
+      <section class="pv-card">
+        <div class="pv-card__head"><span class="pv-card__name">Vue</span></div>
+        <div class="pv-card__body"><a href="/vue.html">Open the Vue preview</a></div>
+      </section>
+      <section class="pv-card">
+        <div class="pv-card__head"><span class="pv-card__name">Angular</span></div>
+        <div class="pv-card__body"><a href="/angular.html">Open the Angular preview</a></div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,207 @@
+/* ─── Combobox ──────────────────────────────────────────────────────────────
+   A searchable Select. Composes the shared field chrome (Field.css) for the
+   label/description and the `.field__control` base on the input; the control
+   shell, trigger and popup are new. */
+
+/* Ark's Combobox.Root renders a wrapper element; make it transparent to layout
+   so the label, control and helper stay direct flex children of the field. */
+.combobox-field__root {
+  display: contents;
+}
+
+/* ─── Control (bordered shell: input + chevron trigger) ───────────────────── */
+
+.combobox-field__control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: var(--control-height-md);
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.field--sm .combobox-field__control {
+  height: var(--control-height-sm);
+}
+
+.field--lg .combobox-field__control {
+  height: var(--control-height-lg);
+}
+
+.combobox-field__control:has(:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.field[data-invalid] .combobox-field__control {
+  border-color: var(--color-status-error-message);
+}
+
+.field[data-invalid] .combobox-field__control:has(:focus-visible) {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.field[data-disabled] .combobox-field__control {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* The control box provides the disabled dim; the inner field control (which also
+   matches .field__control's own disabled opacity) must not stack a second dim. */
+.field[data-disabled] .combobox-field__input {
+  opacity: 1;
+}
+
+/* ─── Input (strip field-control border/bg — the shell provides them) ─────── */
+
+.combobox-field__input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Square the input's right corners so its hover/active fill (inherited from
+   .field__control) sits flush against the chevron trigger instead of curving
+   away from it. Scoped under the control to outrank .field__control's radius. */
+.combobox-field__control .combobox-field__input {
+  border-radius: var(--radius-interactive) 0 0 var(--radius-interactive);
+}
+
+.combobox-field__input:focus-visible {
+  box-shadow: none;
+}
+
+/* ─── Chevron trigger ─────────────────────────────────────────────────────── */
+
+.combobox-field__trigger {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  border: none;
+  background: transparent;
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.combobox-field__trigger:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.combobox-field__trigger .icon {
+  transition: transform 150ms ease;
+}
+
+.combobox-field__trigger[data-state="open"] .icon {
+  transform: rotate(180deg);
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+/* The popup is the listbox itself and holds the options directly — see
+   Combobox.tsx on why there is no separate list element between them. */
+.combobox-popup {
+  /* Stacking belongs on the popup, never `.combobox-positioner`: zag writes an
+     inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. See tokens/definitions/globals.ts. */
+  z-index: var(--z-index-popover, 1200);
+  width: var(--reference-width);
+  max-height: 280px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -2px rgba(0, 0, 0, 0.2);
+  outline: none;
+  transform-origin: top;
+  transition:
+    opacity 100ms ease,
+    transform 100ms ease;
+}
+
+/* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
+   above would override [hidden]'s `display: none` and leave a *closed* overlay
+   painted on the page. Same shape as `.avatar__fallback[hidden]`, and the same
+   fix. Honor `hidden` explicitly. */
+.combobox-popup[hidden] {
+  display: none;
+}
+
+.combobox-popup[data-state="closed"] {
+  opacity: 0;
+  transform: scaleY(0.95);
+}
+
+/* ─── Empty state ─────────────────────────────────────────────────────────── */
+
+.combobox-popup__empty {
+  padding: var(--spacing-space-03);
+  color: var(--color-content-tertiary);
+}
+
+/* ─── Items ───────────────────────────────────────────────────────────────── */
+
+.combobox-popup__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border-radius: var(--radius-checkbox);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+  transition: background-color 100ms ease;
+}
+
+.combobox-popup__item[data-highlighted] {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.combobox-popup__item[data-state="checked"] {
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.combobox-popup__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.combobox-popup__item-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.combobox-popup__item-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-content-primary);
+  opacity: 0;
+}
+
+.combobox-popup__item[data-state="checked"] .combobox-popup__item-indicator {
+  opacity: 1;
+}

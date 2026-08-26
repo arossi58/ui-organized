@@ -2,12 +2,11 @@ import { FileUpload as ArkFileUpload } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
-import { OMIT_ARIA } from "../../utils/aria.js";
+import { OMIT_ARIA } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, type ControlSize } from "../controlSize.js";
-import { fileUploadStyles } from "./FileUpload.styles.js";
+import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize } from "@ui-organized/core";
 import type { FileUploadProps } from "./FileUpload.types.js";
-import "./FileUpload.css";
+import "@ui-organized/core/components/FileUpload/FileUpload.css";
 
 /** Delete affordance inside a file row — always the small edge, because it sits
  *  inside the row rather than beside it. */

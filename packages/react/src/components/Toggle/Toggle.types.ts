@@ -1,6 +1,6 @@
 import type * as React from "react";
 import type { CanonicalIconName } from "@ui-organized/utils";
-import type { ToggleVariants } from "./Toggle.styles.js";
+import type { ToggleVariants } from "@ui-organized/core";
 
 export interface ToggleProps
   extends Omit<React.ComponentPropsWithoutRef<"button">, "value"> {

@@ -1,0 +1,23 @@
+/**
+ * The one rule this package adds to the shared stylesheet, and only for Angular.
+ *
+ * `@ui-organized/angular/styles.css` is byte-identical to what the React, Svelte
+ * and Vue packages ship — that is the whole premise, and it is not going to be
+ * quietly forked. This lives beside it because the thing it fixes is an Angular
+ * concept: the CDK parents every overlay to one container and stacks that
+ * container at `z-index: 1000`, below every surface this design system defines.
+ *
+ * Relative order *inside* the container is handled by `UioOverlayStacking`,
+ * which gives each pane the level its own popup declares. This is about the
+ * container as a whole against the rest of the page, so it takes the highest
+ * level the system defines: overlays belong above application content.
+ *
+ * Import it once, next to the CDK's own:
+ *
+ *   @import "@angular/cdk/overlay-prebuilt.css";
+ *   @import "@ui-organized/angular/styles.css";
+ *   @import "@ui-organized/angular/overlay.css";
+ */
+.cdk-overlay-container {
+  z-index: var(--z-index-toast, 1400);
+}

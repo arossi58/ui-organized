@@ -1,9 +1,9 @@
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { navSubItemStyles } from "./Navigation.styles.js";
+import { navSubItemStyles } from "@ui-organized/core";
 import { useNavContext } from "./NavContext.js";
 import type { NavSubItemProps } from "./Navigation.types.js";
-import "./Navigation.css";
+import "@ui-organized/core/components/Navigation/Navigation.css";
 
 const ICON_SIZE = 20;
 

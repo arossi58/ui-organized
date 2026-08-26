@@ -1,8 +1,8 @@
 import { FloatingPanel as ArkFloatingPanel, Portal } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
+import { floatingPanelStyles } from "@ui-organized/core";
 import { projectRender } from "../../utils/projectRender.js";
-import { floatingPanelStyles } from "./FloatingPanel.styles.js";
 import type {
   FloatingPanelProps,
   FloatingPanelTriggerProps,
@@ -12,7 +12,7 @@ import type {
   FloatingPanelBodyProps,
   FloatingPanelCloseProps,
 } from "./FloatingPanel.types.js";
-import "./FloatingPanel.css";
+import "@ui-organized/core/components/FloatingPanel/FloatingPanel.css";
 import { useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Header affordances stay a fixed small edge — they mark the chrome rather

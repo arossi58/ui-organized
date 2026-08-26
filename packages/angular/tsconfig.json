@@ -1,0 +1,18 @@
+{
+  "extends": "@ui-organized/tsconfig/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "types": ["node"]
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true
+  },
+  "include": ["src"]
+}

@@ -1,7 +1,7 @@
 // Global typography utilities (`.text-{weight}-{step}`) — the single source of
 // truth for text styles. Imported first so component CSS can override on source
 // order where needed. See ./typography.css.
-import "./typography.css";
+import "@ui-organized/core/typography.css";
 // Restores `[hidden] { display: none }`, which component-level `display` rules
 // beat by accident. See ./base.css — this is a correctness rule, not styling.
 import "./base.css";
@@ -234,7 +234,15 @@ export type {
 } from "./components/Menu/index.js";
 
 export { ToastProvider, useToastManager } from "./components/Toast/index.js";
-export type { ToastProviderProps, ToastStatus, ToastVariants } from "./components/Toast/index.js";
+// `ToastOptions` is the argument to `toast.add()` — the whole imperative API —
+// and was the one part of it a consumer could not name. The Svelte and Vue
+// packages have always exported it.
+export type {
+  ToastProviderProps,
+  ToastOptions,
+  ToastStatus,
+  ToastVariants,
+} from "./components/Toast/index.js";
 
 export { Combobox } from "./components/Combobox/index.js";
 export type {

@@ -17,7 +17,7 @@ export { MarkdownBlocks, parseBlocks } from "./MarkdownBlocks";
 export { CodeBlock, CopyButton } from "./CodeBlock";
 export { EcosystemDiagram } from "./EcosystemDiagram";
 export { PreviewSurface } from "./PreviewSurface";
-export { PrimaryExample, exampleCode, importStatementFor } from "./PrimaryExample";
+export { PrimaryExample } from "./PrimaryExample";
 export { StoryExample } from "./StoryExample";
 export { PropsTable } from "./PropsTable";
 export { StatusBadge } from "./StatusBadge";

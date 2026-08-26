@@ -1,8 +1,8 @@
 import { ImageCropper as ArkImageCropper } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { imageCropperStyles } from "./ImageCropper.styles.js";
+import { imageCropperStyles } from "@ui-organized/core";
 import type { ImageCropperProps } from "./ImageCropper.types.js";
-import "./ImageCropper.css";
+import "@ui-organized/core/components/ImageCropper/ImageCropper.css";
 
 /** Every corner and edge, in the order zag names them. */
 const HANDLES = ["nw", "n", "ne", "e", "se", "s", "sw", "w"] as const;

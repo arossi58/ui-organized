@@ -2,10 +2,9 @@ import { Steps as ArkSteps } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
-import { OMIT_ARIA } from "../../utils/aria.js";
-import { stepsStyles } from "./Steps.styles.js";
+import { OMIT_ARIA, stepsStyles } from "@ui-organized/core";
 import type { StepsProps } from "./Steps.types.js";
-import "./Steps.css";
+import "@ui-organized/core/components/Steps/Steps.css";
 
 /** The completed tick sits inside the indicator circle at every size — it marks
  *  the step rather than scaling with the surrounding text. */

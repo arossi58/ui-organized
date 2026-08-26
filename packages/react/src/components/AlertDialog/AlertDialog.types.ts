@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type { DialogVariants } from "../Dialog/Dialog.styles.js";
+import type { DialogVariants } from "@ui-organized/core";
 
 export interface AlertDialogProps {
   /** Controlled open state. */

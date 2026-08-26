@@ -7,6 +7,15 @@ tokens-update
 
 # Build output / test artifacts
 storybook-static/
+# svelte-package's intermediate output, one step before packages/svelte/dist
+.svelte-kit/
+# Generated: the Angular package keeps a copy of the shared stylesheet at its
+# root so one exports entry resolves both in the workspace and when published.
+packages/angular/styles.css
+packages/angular/overlay.css
+# Playwright run output (the visual gate's and the parity gate's)
+test-results/
+playwright-report/
 coverage/
 # Playwright's own outputs. These were tracked by accident: a report is a
 # snapshot of one machine's run, so committing it means every test run shows up
@@ -56,3 +65,6 @@ apps/marketing/SITE.md
 svg-animations/
 /theme.json
 .wrangler/
+
+# Scratch harness drivers, written while debugging a scenario
+tooling/parity/dbg*.mjs

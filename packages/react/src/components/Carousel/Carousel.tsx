@@ -1,9 +1,9 @@
 import { Carousel as ArkCarousel } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Button } from "../Button/index.js";
-import { carouselStyles } from "./Carousel.styles.js";
+import { carouselStyles } from "@ui-organized/core";
 import type { CarouselProps } from "./Carousel.types.js";
-import "./Carousel.css";
+import "@ui-organized/core/components/Carousel/Carousel.css";
 
 /**
  * Default gap between slides.

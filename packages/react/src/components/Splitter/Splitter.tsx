@@ -1,9 +1,9 @@
 import { useMemo, Fragment } from "react";
 import { Splitter as ArkSplitter } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { splitterStyles } from "./Splitter.styles.js";
+import { splitterStyles } from "@ui-organized/core";
 import type { SplitterProps } from "./Splitter.types.js";
-import "./Splitter.css";
+import "@ui-organized/core/components/Splitter/Splitter.css";
 
 export function Splitter({
   panels,

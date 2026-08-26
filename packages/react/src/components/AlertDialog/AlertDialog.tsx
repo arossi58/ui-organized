@@ -1,7 +1,6 @@
 import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { dialogStyles } from "../Dialog/Dialog.styles.js";
-import { buttonStyles } from "../Button/Button.styles.js";
+import { buttonStyles, dialogStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type {
   AlertDialogProps,
@@ -14,9 +13,9 @@ import type {
   AlertDialogConfirmProps,
 } from "./AlertDialog.types.js";
 // Reuses the Dialog chrome (backdrop, popup sizing, title/description/footer/close).
-import "../Dialog/Dialog.css";
+import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** AlertDialog root — a focus-trapping confirm dialog dismissed via its actions. */

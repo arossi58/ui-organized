@@ -1,0 +1,108 @@
+{
+  "name": "@ui-organized/angular",
+  "version": "0.1.0",
+  "description": "Angular component library for the ui-organized design system, built on the Angular CDK.",
+  "keywords": [
+    "design-system",
+    "angular",
+    "components",
+    "ui",
+    "cdk",
+    "accessible"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/angular#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/angular"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/types/ui-organized-angular.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular.mjs"
+    },
+    "./styles": {
+      "default": "./styles.css"
+    },
+    "./styles.css": {
+      "default": "./styles.css"
+    },
+    "./overlay.css": {
+      "default": "./overlay.css"
+    },
+    "./icons/lucide": {
+      "types": "./dist/types/ui-organized-angular-icons-lucide.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-lucide.mjs"
+    },
+    "./icons/tabler": {
+      "types": "./dist/types/ui-organized-angular-icons-tabler.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-tabler.mjs"
+    },
+    "./icons/heroicons": {
+      "types": "./dist/types/ui-organized-angular-icons-heroicons.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-icons-heroicons.mjs"
+    }
+  },
+  "type": "module",
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json && node scripts/copy-styles.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:smoke": "node scripts/smoke-icons.mjs"
+  },
+  "peerDependencies": {
+    "@angular/cdk": ">=21",
+    "@angular/common": ">=21",
+    "@angular/core": ">=21",
+    "@angular/forms": ">=21",
+    "@ng-icons/heroicons": ">=33",
+    "@ng-icons/lucide": ">=33",
+    "@ng-icons/tabler-icons": ">=33"
+  },
+  "dependencies": {
+    "@ui-organized/core": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
+    "clsx": "^2.1.0",
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/compiler-cli": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/forms": "^21.2.20",
+    "@angular/platform-browser": "^21.2.20",
+    "@ng-icons/heroicons": "^34.0.0",
+    "@ng-icons/lucide": "^34.0.0",
+    "@ng-icons/tabler-icons": "^34.0.0",
+    "@types/node": "^20.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
+    "ng-packagr": "^21.2.7",
+    "rxjs": "^7.8.0",
+    "typescript": "^5.9.0",
+    "vitest": "^2.0.0",
+    "zone.js": "^0.15.0"
+  },
+  "sideEffects": [
+    "**/ui-organized-angular-icons-*.mjs"
+  ],
+  "peerDependenciesMeta": {
+    "@ng-icons/heroicons": {
+      "optional": true
+    },
+    "@ng-icons/lucide": {
+      "optional": true
+    },
+    "@ng-icons/tabler-icons": {
+      "optional": true
+    }
+  }
+}

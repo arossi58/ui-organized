@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Tooltip as ArkTooltip, Portal } from "@ark-ui/react";
 import type { TooltipProps, TooltipProviderProps } from "./Tooltip.types.js";
-import "./Tooltip.css";
+import "@ui-organized/core/components/Tooltip/Tooltip.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /**

@@ -1,9 +1,9 @@
 import { Toast, Toaster, createToaster } from "@ark-ui/react";
 import { Icon } from "../Icon/index.js";
 import type { CanonicalIconName } from "@ui-organized/utils";
-import { toastStyles } from "./Toast.styles.js";
+import { toastStyles } from "@ui-organized/core";
 import type { ToastProviderProps, ToastOptions, ToastStatus } from "./Toast.types.js";
-import "./Toast.css";
+import "@ui-organized/core/components/Toast/Toast.css";
 
 // Ark uses a standalone toaster instance (not a React context manager). One
 // module-level instance backs both the rendered region and the imperative API.

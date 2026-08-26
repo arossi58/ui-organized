@@ -4,4 +4,4 @@ export { Sidebar } from "./Sidebar.js";
 export { NavProvider, useNavContext } from "./NavContext.js";
 export type { NavItemProps, NavSubItemProps, SidebarProps } from "./Navigation.types.js";
 export type { NavProviderProps, NavContextValue } from "./NavContext.js";
-export type { NavItemVariants, NavSubItemVariants } from "./Navigation.styles.js";
+export type { NavItemVariants, NavSubItemVariants } from "@ui-organized/core";

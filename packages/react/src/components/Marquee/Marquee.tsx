@@ -1,8 +1,8 @@
 import { Marquee as ArkMarquee } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { marqueeStyles } from "./Marquee.styles.js";
+import { marqueeStyles } from "@ui-organized/core";
 import type { MarqueeProps } from "./Marquee.types.js";
-import "./Marquee.css";
+import "@ui-organized/core/components/Marquee/Marquee.css";
 
 /** Authored default gap. zag resolves it into `--marquee-spacing` at runtime,
  *  so the value it computes with is not a token — but the one we author is. */

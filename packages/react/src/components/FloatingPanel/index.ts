@@ -16,4 +16,4 @@ export type {
   FloatingPanelBodyProps,
   FloatingPanelCloseProps,
 } from "./FloatingPanel.types.js";
-export type { FloatingPanelVariants } from "./FloatingPanel.styles.js";
+export type { FloatingPanelVariants } from "@ui-organized/core";

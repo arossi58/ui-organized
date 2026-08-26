@@ -1,7 +1,7 @@
 import { ScrollArea as ArkScrollArea } from "@ark-ui/react";
 import { clsx } from "clsx";
 import type { ScrollAreaProps } from "./ScrollArea.types.js";
-import "./ScrollArea.css";
+import "@ui-organized/core/components/ScrollArea/ScrollArea.css";
 
 /**
  * A scrollable container with a custom, themed scrollbar. Give the Root a bounded

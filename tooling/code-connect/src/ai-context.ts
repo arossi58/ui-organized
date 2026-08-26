@@ -18,6 +18,7 @@
 
 import type { ComponentManifestEntry, Confidence, PropDefinition, Staleness } from "./schema.js";
 import { parseEnumValues } from "./controls-core.js";
+import { jsonValue, layoutElement, normalizeArgs, type MarkupAttr } from "./markup.js";
 import { contextForEntry } from "./serialize-core.js";
 import {
   CLOSING_RULE,
@@ -143,40 +144,6 @@ export function humanizeLabel(name: string): string {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase();
 }
 
-/** Deterministic JSON — sorted keys, React elements and functions elided. */
-function stableJson(value: unknown): string {
-  try {
-    return JSON.stringify(sortDeep(value)) ?? "undefined";
-  } catch {
-    return "/* value */";
-  }
-}
-
-function sortDeep(value: unknown, depth = 0): unknown {
-  if (depth > 8) return "/* … */";
-  if (Array.isArray(value)) return value.map((v) => sortDeep(v, depth + 1));
-  if (value && typeof value === "object") {
-    // React elements are circular and meaningless as JSON.
-    if ("$$typeof" in (value as Record<string, unknown>)) return "/* ReactNode */";
-    const obj = value as Record<string, unknown>;
-    const out: Record<string, unknown> = {};
-    for (const key of Object.keys(obj).sort()) {
-      if (typeof obj[key] === "function") continue;
-      out[key] = sortDeep(obj[key], depth + 1);
-    }
-    return out;
-  }
-  if (typeof value === "function") return undefined;
-  return value;
-}
-
-/** A short stand-in for a value that can't be written literally in JSX. */
-function valueLabel(value: unknown): string {
-  if (Array.isArray(value)) return "array";
-  if (value && typeof value === "object" && "$$typeof" in (value as object)) return "ReactNode";
-  return typeof value;
-}
-
 /** Markdown table cells can't contain a raw pipe or a line break. */
 function cell(text: string): string {
   return text.replace(/\r?\n/g, " ").replace(/\|/g, "\\|").trim();
@@ -261,91 +228,40 @@ function toContextProp(prop: PropDefinition, typeValues?: Record<string, string[
 
 // ─── JSX rendering ───────────────────────────────────────────────────────────
 
-const ONE_LINE_LIMIT = 78;
+/** One arg as a JSX attribute. */
+export function jsxAttr({ name, value }: MarkupAttr): string {
+  if (value === true) return name;
+  if (typeof value === "number") return `${name}={${value}}`;
+  if (typeof value === "string") {
+    return value.includes('"') || value.includes("\n")
+      ? `${name}={${JSON.stringify(value)}}`
+      : `${name}="${value}"`;
+  }
+  return `${name}={${jsonValue(value)}}`;
+}
 
 /**
  * Concrete JSX for a set of arg values — the "copy what I'm looking at" output.
  *
- * Deliberate omissions: `false` and `undefined` props (writing `disabled={false}`
- * teaches nothing), and function args. An emitted `onClick={() => {}}` reads as
- * part of the component's canonical usage and gets copied verbatim into real
- * code as a no-op handler, so we leave a comment instead.
- *
- * `propOrder` (normally the manifest's prop order) makes the output stable across
- * callers whose arg objects were built in different orders.
+ * Which args survive, and in what order, is `normalizeArgs()`; this function is
+ * only the React dialect of it. The Svelte, Vue and Angular samples on the docs
+ * site come off the same normalization (see `frameworks.ts`), so the four can
+ * never disagree about what a component's canonical usage is.
  */
 export function jsxFromArgs(
   codeName: string,
   args: Record<string, unknown>,
   propOrder: string[] = [],
 ): string {
-  const rank = new Map(propOrder.map((name, i) => [name, i]));
-  const names = Object.keys(args ?? {}).sort((a, b) => {
-    const ra = rank.get(a) ?? Number.MAX_SAFE_INTEGER;
-    const rb = rank.get(b) ?? Number.MAX_SAFE_INTEGER;
-    return ra !== rb ? ra - rb : a.localeCompare(b);
+  const { attrs, text, slotLabel, omittedHandlers } = normalizeArgs(args, propOrder);
+  const children = text ?? (slotLabel ? `{/* ${slotLabel} */}` : undefined);
+
+  const jsx = layoutElement({
+    tag: codeName,
+    attrs: attrs.map(jsxAttr),
+    children,
+    selfClose: true,
   });
-
-  const attrs: string[] = [];
-  let children: string | undefined;
-  let omittedHandlers = false;
-
-  for (const name of names) {
-    const value = args[name];
-
-    if (name === "children") {
-      if (typeof value === "string" && value.length > 0) children = value;
-      else if (typeof value === "number") children = String(value);
-      else if (value != null && typeof value !== "boolean") {
-        children = `{/* ${valueLabel(value)} */}`;
-      }
-      continue;
-    }
-    if (typeof value === "function") {
-      omittedHandlers = true;
-      continue;
-    }
-    if (value === undefined || value === null || value === false) continue;
-    if (value === true) {
-      attrs.push(name);
-      continue;
-    }
-    if (typeof value === "number") {
-      attrs.push(`${name}={${value}}`);
-      continue;
-    }
-    if (typeof value === "string") {
-      attrs.push(
-        value.includes('"') || value.includes("\n")
-          ? `${name}={${JSON.stringify(value)}}`
-          : `${name}="${value}"`,
-      );
-      continue;
-    }
-    attrs.push(`${name}={${stableJson(value)}}`);
-  }
-
-  const inlineAttrs = attrs.length ? ` ${attrs.join(" ")}` : "";
-  const oneLine =
-    children !== undefined
-      ? `<${codeName}${inlineAttrs}>${children}</${codeName}>`
-      : `<${codeName}${inlineAttrs} />`;
-
-  let jsx: string;
-  if (oneLine.length <= ONE_LINE_LIMIT && !oneLine.includes("\n")) {
-    jsx = oneLine;
-  } else if (attrs.length === 0) {
-    jsx =
-      children !== undefined
-        ? `<${codeName}>\n  ${children.replace(/\n/g, "\n  ")}\n</${codeName}>`
-        : `<${codeName} />`;
-  } else {
-    const block = attrs.map((a) => `  ${a}`).join("\n");
-    jsx =
-      children !== undefined
-        ? `<${codeName}\n${block}\n>\n  ${children.replace(/\n/g, "\n  ")}\n</${codeName}>`
-        : `<${codeName}\n${block}\n/>`;
-  }
 
   return omittedHandlers ? `${jsx}\n// + your own event handlers` : jsx;
 }
