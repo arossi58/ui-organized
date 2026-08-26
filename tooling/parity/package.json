@@ -4,6 +4,11 @@
   "private": true,
   "description": "Asserts that every ui-organized framework library renders the same DOM contract.",
   "type": "module",
+  "exports": {
+    "./cases": "./src/cases/index.ts",
+    "./angular-fixtures": "./browser/fixtures/angular/index.ts",
+    "./parity-props": "./browser/fixtures/angular/parity-props.ts"
+  },
   "scripts": {
     "build:deps": "node scripts/build-deps.mjs",
     "pretest": "pnpm build:deps",

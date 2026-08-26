@@ -283,3 +283,19 @@ export type {
 
 export { SignaturePad } from "./components/SignaturePad/index.js";
 export type { SignaturePadProps, SignaturePadVariants } from "./components/SignaturePad/index.js";
+
+export { ColorPicker } from "./components/ColorPicker/index.js";
+export type { ColorPickerProps, ColorPickerVariants } from "./components/ColorPicker/index.js";
+
+export {
+  FloatingPanel, FloatingPanelTrigger, FloatingPanelContent, FloatingPanelHeader,
+  FloatingPanelTitle, FloatingPanelBody, FloatingPanelClose,
+} from "./components/FloatingPanel/index.js";
+export type {
+  FloatingPanelProps, FloatingPanelTriggerProps, FloatingPanelContentProps,
+  FloatingPanelHeaderProps, FloatingPanelTitleProps, FloatingPanelBodyProps,
+  FloatingPanelCloseProps, FloatingPanelSize, FloatingPanelPosition, FloatingPanelVariants,
+} from "./components/FloatingPanel/index.js";
+
+export { Tour } from "./components/Tour/index.js";
+export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";

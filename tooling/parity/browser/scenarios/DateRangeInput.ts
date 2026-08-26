@@ -13,11 +13,6 @@ import { HIDDEN_SELECT_TEXT, openViaTrigger, part, type BrowserScenario } from "
  * See DateInput.ts for why the calendar went uncovered at all.
  */
 
-// Angular has no date field components yet — see DateInput.ts.
-const NO_ANGULAR = [
-  { framework: "angular", reason: "Angular has no date field components yet." },
-];
-
 /**
  * Bounds within 2024, which do three things at once: pin the year list to one
  * entry, pin the view to March (the anchor is the start date), and leave both
@@ -66,7 +61,6 @@ const scenarios: BrowserScenario[] = [
     regions: [part("popover", "positioner"), "#mount"],
     // Both year Selects' hidden native controls — see DateInput.ts.
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateRangeInput",
@@ -102,7 +96,6 @@ const scenarios: BrowserScenario[] = [
      */
     regions: [part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateRangeInput",
@@ -126,7 +119,6 @@ const scenarios: BrowserScenario[] = [
     regions: ["#mount"],
     // `data-state="closed"` is not the same claim as gone — see `hidden`.
     hidden: [part("popover", "content")],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateRangeInput",
@@ -149,7 +141,6 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: [part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateRangeInput",
@@ -169,7 +160,6 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: [part("popover", "positioner"), "#mount"],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
 ];
 

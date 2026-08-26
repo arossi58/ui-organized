@@ -315,3 +315,171 @@ export {
   type StepsOrientation,
   type StepsVariant,
 } from "./lib/steps/steps.js";
+export {
+  UioRange,
+  nearestSnapIndex,
+  snapToStep,
+  type RangeSize,
+} from "./lib/range/range.js";
+export {
+  UioAngleSlider,
+  ANGLE_MIN,
+  ANGLE_MAX,
+  clampAngle,
+  constrainAngle,
+  angleAtPoint,
+  snapAngleToStep,
+  type AngleSliderSize,
+} from "./lib/angle-slider/angle-slider.js";
+export {
+  UioTimer,
+  msToTime,
+  formatTimerTime,
+  nextTimerValue,
+  hasReachedTarget,
+  type TimerPart,
+  type TimerTime,
+  type TimerAction,
+  type TimerSize,
+  type TimerVariant,
+} from "./lib/timer/timer.js";
+export {
+  UioQrCode,
+  type QRCodeSize,
+  type QRCodeVariant,
+} from "./lib/qr-code/qr-code.js";
+export {
+  encodeQr,
+  qrPathData,
+  type QrErrorCorrection,
+  type QrMatrix,
+  type QrEncodeOptions,
+} from "./lib/qr-code/qr-encoder.js";
+export { UioDateInput, type DateInputSize } from "./lib/date-input/date-input.js";
+export {
+  UioDateTimeInput,
+  type DateTimeInputSize,
+} from "./lib/date-time-input/date-time-input.js";
+export {
+  UioDateRangeInput,
+  type DateRangeInputSize,
+  type DateRangeValue,
+} from "./lib/date-range-input/date-range-input.js";
+export {
+  UioDatePicker,
+  type DatePickerSize,
+  type DatePickerVariant,
+  type DatePickerSelectionMode,
+} from "./lib/date-picker/date-picker.js";
+export {
+  UioCarousel,
+  carouselSnapPoints,
+  carouselSeedPageCount,
+  type CarouselSlide,
+  type CarouselSize,
+  type CarouselVariant,
+  type CarouselOrientation,
+} from "./lib/carousel/carousel.js";
+export {
+  UioMarquee,
+  marqueeMultiplier,
+  marqueeDuration,
+  marqueeTranslate,
+  type MarqueeItem,
+  type MarqueeOrientation,
+} from "./lib/marquee/marquee.js";
+export {
+  UioSignaturePad,
+  signatureDataUrl,
+  type SignaturePadSize,
+  type SignaturePadVariant,
+  type SignatureImageType,
+  type SignatureDrawEnd,
+} from "./lib/signature-pad/signature-pad.js";
+export {
+  SIGNATURE_STROKE_DEFAULTS,
+  smoothSignaturePoints,
+  signatureRadii,
+  signatureOutline,
+  signaturePathData,
+  signatureStroke,
+  type SignaturePoint,
+  type SignatureStrokeOptions,
+} from "./lib/signature-pad/signature-stroke.js";
+export {
+  UioImageCropper,
+  type ImageCropperSize,
+  type CropShape,
+  type CropRect,
+} from "./lib/image-cropper/image-cropper.js";
+export {
+  CROP_HANDLES,
+  DEFAULT_VIEWPORT_FILL,
+  computeInitialCrop,
+  computeResizeCrop,
+  computeMoveCrop,
+  computeKeyboardCrop,
+  computeDefaultCropDimensions,
+  adjustCropAspectRatio,
+  resolveSizeLimits,
+  resolveCropAspectRatio,
+  getKeyboardMoveDelta,
+  getMaxBounds,
+  centerRect,
+  type HandlePosition,
+  type Rect,
+  type Size,
+  type Point,
+} from "./lib/image-cropper/crop-geometry.js";
+export {
+  UioFloatingPanel,
+  UioFloatingPanelTrigger,
+  UioFloatingPanelTitle,
+  UioFloatingPanelBody,
+  type FloatingPanelSize,
+  type FloatingPanelVariant,
+  type PanelSize,
+  type PanelPosition,
+} from "./lib/floating-panel/floating-panel.js";
+export {
+  UioTour,
+  normalizeTourStep,
+  effectiveTourSteps,
+  tourProgressText,
+  type TourStep,
+  type TourStepAction,
+  type TourStepType,
+  type TourActionKind,
+  type TourSize,
+  type TourVariant,
+} from "./lib/tour/tour.js";
+export {
+  UioColorPicker,
+  type ColorPickerSize,
+  type ColorPickerVariant,
+} from "./lib/color-picker/color-picker.js";
+export {
+  parseColor,
+  colorToString,
+  toColorFormat,
+  rgbToHsb,
+  rgbToHsl,
+  hsbToHsl,
+  hslToHsb,
+  hsbToRgb,
+  hslToRgb,
+  colorChannels,
+  channelValue,
+  channelRange,
+  channelPercent,
+  withChannelValue,
+  isSameColor,
+  roundTo,
+  type ColorValue,
+  type ColorFormat,
+  type ColorNotation,
+  type RgbaColor,
+  type HslaColor,
+  type HsbaColor,
+  type ChannelRange,
+} from "./lib/color-picker/color.js";

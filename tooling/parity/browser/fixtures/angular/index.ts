@@ -2,6 +2,7 @@ import type { Type } from "@angular/core";
 import { AccordionFixture } from "./accordion.fixture.js";
 import { AlertDialogFixture } from "./alert-dialog.fixture.js";
 import { AlertFixture } from "./alert.fixture.js";
+import { AngleSliderFixture } from "./angle-slider.fixture.js";
 import { AvatarFixture } from "./avatar.fixture.js";
 import { BreadcrumbFixture } from "./breadcrumb.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
@@ -32,7 +33,9 @@ import { PinInputFixture } from "./pin-input.fixture.js";
 import { PopoverFixture } from "./popover.fixture.js";
 import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
 import { ProgressFixture } from "./progress.fixture.js";
+import { QRCodeFixture } from "./qr-code.fixture.js";
 import { RadioGroupFixture } from "./radio-group.fixture.js";
+import { RangeFixture } from "./range.fixture.js";
 import { RatingGroupFixture } from "./rating-group.fixture.js";
 import { ScrollAreaFixture } from "./scroll-area.fixture.js";
 import { SearchInputFixture } from "./search-input.fixture.js";
@@ -48,11 +51,23 @@ import { TabsFixture } from "./tabs.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
 import { TagsInputFixture } from "./tags-input.fixture.js";
 import { TextAreaFixture } from "./text-area.fixture.js";
+import { TimerFixture } from "./timer.fixture.js";
 import { TreeViewFixture } from "./tree-view.fixture.js";
 import { ToastFixture } from "./toast.fixture.js";
 import { ToggleFixture } from "./toggle.fixture.js";
 import { ToolbarFixture } from "./toolbar.fixture.js";
 import { TooltipFixture } from "./tooltip.fixture.js";
+import { DateInputFixture } from "./date-input.fixture.js";
+import { DatePickerFixture } from "./date-picker.fixture.js";
+import { DateRangeInputFixture } from "./date-range-input.fixture.js";
+import { DateTimeInputFixture } from "./date-time-input.fixture.js";
+import { CarouselFixture } from "./carousel.fixture.js";
+import { ColorPickerFixture } from "./color-picker.fixture.js";
+import { FloatingPanelFixture } from "./floating-panel.fixture.js";
+import { ImageCropperFixture } from "./image-cropper.fixture.js";
+import { MarqueeFixture } from "./marquee.fixture.js";
+import { SignaturePadFixture } from "./signature-pad.fixture.js";
+import { TourFixture } from "./tour.fixture.js";
 
 /**
  * Which components the Angular library implements, as far as this gate is
@@ -68,6 +83,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Accordion: AccordionFixture,
   Alert: AlertFixture,
   AlertDialog: AlertDialogFixture,
+  AngleSlider: AngleSliderFixture,
   Avatar: AvatarFixture,
   Breadcrumb: BreadcrumbFixture,
   Button: ButtonFixture,
@@ -97,7 +113,9 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   PinInput: PinInputFixture,
   Popover: PopoverFixture,
   Progress: ProgressFixture,
+  QRCode: QRCodeFixture,
   RadioGroup: RadioGroupFixture,
+  Range: RangeFixture,
   RatingGroup: RatingGroupFixture,
   ScrollArea: ScrollAreaFixture,
   SearchInput: SearchInputFixture,
@@ -113,6 +131,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Tag: TagFixture,
   TagsInput: TagsInputFixture,
   TextArea: TextAreaFixture,
+  Timer: TimerFixture,
   Toast: ToastFixture,
   Toggle: ToggleFixture,
   Toolbar: ToolbarFixture,
@@ -124,6 +143,17 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
    * against; what it proves is asserted directly in the browser spec.
    */
   PopoverInDialog: PopoverInDialogFixture,
+  DateInput: DateInputFixture,
+  DatePicker: DatePickerFixture,
+  DateRangeInput: DateRangeInputFixture,
+  DateTimeInput: DateTimeInputFixture,
+  Carousel: CarouselFixture,
+  ColorPicker: ColorPickerFixture,
+  FloatingPanel: FloatingPanelFixture,
+  ImageCropper: ImageCropperFixture,
+  Marquee: MarqueeFixture,
+  SignaturePad: SignaturePadFixture,
+  Tour: TourFixture,
 };
 
 export function angularFixtureFor(component: string): Type<unknown> {

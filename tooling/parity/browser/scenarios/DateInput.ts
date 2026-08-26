@@ -24,19 +24,6 @@ import { HIDDEN_SELECT_TEXT, openViaTrigger, part, type BrowserScenario } from "
  */
 
 /**
- * Angular has no DateInput, DateTimeInput, DateRangeInput or DatePicker yet, so
- * there is nothing to compare rather than something failing.
- *
- * `comparedIn()` already leaves Angular out — the component is not in
- * `ANGULAR_COMPONENTS` — so this entry changes no behaviour. It is here to say
- * which of the two reasons applies: the port does not exist, as opposed to the
- * port existing and being excused.
- */
-const NO_ANGULAR = [
-  { framework: "angular", reason: "Angular has no date field components yet." },
-];
-
-/**
  * A year window wide enough to page through and narrow enough to read.
  *
  * The year `Select` in the calendar header defaults to a 111-year list when no
@@ -94,7 +81,6 @@ const scenarios: BrowserScenario[] = [
     // The year Select's hidden native control, whose option text Ark Vue
     // stringifies as "2026 > ". Same allowance the Select scenarios carry.
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -106,7 +92,6 @@ const scenarios: BrowserScenario[] = [
     // that would still pass if the attribute were written unconditionally.
     regions: [part("popover", "positioner"), "#mount"],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -121,7 +106,6 @@ const scenarios: BrowserScenario[] = [
     steps: openViaTrigger("popover"),
     regions: [part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -142,7 +126,6 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: [part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -172,7 +155,6 @@ const scenarios: BrowserScenario[] = [
      */
     regions: [`.calendar ${part("select", "positioner")}`, part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -192,7 +174,6 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: [part("popover", "positioner")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateInput",
@@ -215,7 +196,6 @@ const scenarios: BrowserScenario[] = [
     regions: ["#mount"],
     // `data-state="closed"` is not the same claim as gone — see `hidden`.
     hidden: [part("popover", "content")],
-    skip: NO_ANGULAR,
   },
 ];
 

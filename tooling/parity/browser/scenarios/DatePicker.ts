@@ -10,12 +10,7 @@ import { part, type BrowserScenario } from "./scenario.js";
  * `data-outside-range`, `data-today`, `data-in-range`, `data-weekend` and
  * `data-disabled` — the attributes DatePicker.css paints with, and the ones a
  * mis-assembled `Table` / `TableBody` / `TableCell` tree would silently drop.
- *
- * Angular has no DatePicker yet — see DateInput.ts.
  */
-const NO_ANGULAR = [
-  { framework: "angular", reason: "Angular has no date field components yet." },
-];
 
 const p = (name: string) => part("date-picker", name);
 
@@ -68,7 +63,6 @@ const scenarios: BrowserScenario[] = [
     // `#mount` as well: the control and its trigger take `data-state="open"`,
     // and the input the machine writes the formatted value into lives there.
     regions: [...POPUP, "#mount"],
-    skip: NO_ANGULAR,
   },
   {
     component: "DatePicker",
@@ -121,7 +115,6 @@ const scenarios: BrowserScenario[] = [
       },
     ],
     stylesheets: ["DatePicker/DatePicker.css"],
-    skip: NO_ANGULAR,
   },
   {
     component: "DatePicker",
@@ -138,7 +131,6 @@ const scenarios: BrowserScenario[] = [
     // The selected day is now off-screen, so the grid has to be right about a
     // month it holds no value for.
     regions: POPUP,
-    skip: NO_ANGULAR,
   },
   {
     component: "DatePicker",
@@ -156,7 +148,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${p("content")}[data-state="open"]` },
     ],
     regions: POPUP,
-    skip: NO_ANGULAR,
   },
 ];
 

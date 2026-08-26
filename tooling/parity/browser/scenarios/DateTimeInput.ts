@@ -13,11 +13,6 @@ import { HIDDEN_SELECT_TEXT, openViaTrigger, part, type BrowserScenario } from "
  * See DateInput.ts for why the calendar went uncovered at all.
  */
 
-// Angular has no date field components yet — see DateInput.ts.
-const NO_ANGULAR = [
-  { framework: "angular", reason: "Angular has no date field components yet." },
-];
-
 /** Bounds keep the year list to three entries. See DateInput.ts. */
 const YEARS = { min: "2023-01-01T00:00", max: "2025-12-31T23:59" };
 
@@ -36,7 +31,6 @@ const scenarios: BrowserScenario[] = [
     regions: [part("popover", "positioner"), "#mount"],
     // The year Select's hidden native control — see DateInput.ts.
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateTimeInput",
@@ -64,7 +58,6 @@ const scenarios: BrowserScenario[] = [
      */
     visibilityMatches: [part("popover", "content")],
     allowTextIn: [HIDDEN_SELECT_TEXT],
-    skip: NO_ANGULAR,
   },
   {
     component: "DateTimeInput",
@@ -79,7 +72,6 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: ["#mount"],
     hidden: [part("popover", "content")],
-    skip: NO_ANGULAR,
   },
 ];
 
