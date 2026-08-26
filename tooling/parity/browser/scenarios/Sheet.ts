@@ -41,6 +41,14 @@ const scenarios: BrowserScenario[] = [
       ...openViaTrigger("dialog"),
       { do: "awaitFocus", target: part("dialog", "content") },
       { do: "press", key: "Escape" },
+      // And focus is waited on *after* it too, which is new. Now that
+      // `[hidden]` really hides, dismissal changes what is painted — so a
+      // capture taken the instant Escape is pressed can sample one library
+      // mid-close and another already settled. Focus returning to the trigger
+      // is the signal that the dismissal finished; before the stylesheet
+      // honored `hidden`, nothing about the popup changed on close and the
+      // timing could not matter.
+      { do: "awaitFocus", target: part("dialog", "trigger") },
     ],
     regions: ["#mount"],
     // `.sheet__popup` sets `display: flex` for the same reason `.dialog__popup`

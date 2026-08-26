@@ -19,6 +19,15 @@
   outline: none;
 }
 
+/* A button given the `hidden` attribute has to disappear: `display: flex` above
+   would override [hidden]'s `display: none`. SignaturePad's clear trigger is
+   the case that found this — Ark keeps it mounted and hides it until there is
+   ink, so an empty pad offered a "Clear" button. General rather than scoped to
+   that component, because any caller can hide a button. */
+.btn[hidden] {
+  display: none;
+}
+
 /* Figma focus is a 2px ring hugging the button (drop-shadow spread 2, offset 0),
    matching the box-shadow focus used across the rest of the design system. */
 .btn:focus-visible {

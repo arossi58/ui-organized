@@ -92,7 +92,8 @@
     },
     "Button": {
       "attributes": {
-        "data-disabled": []
+        "data-disabled": [],
+        "hidden": []
       },
       "classes": [
         "btn",
@@ -224,7 +225,8 @@
     "ColorPicker": {
       "attributes": {
         "data-disabled": [],
-        "data-invalid": []
+        "data-invalid": [],
+        "hidden": []
       },
       "classes": [
         "color-picker--lg",
@@ -259,7 +261,8 @@
           "checked",
           "closed",
           "open"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "combobox-field__control",
@@ -328,7 +331,8 @@
         "data-outside-range": [],
         "data-selected": [],
         "data-today": [],
-        "data-unavailable": []
+        "data-unavailable": [],
+        "hidden": []
       },
       "classes": [
         "date-picker--ghost",
@@ -364,7 +368,8 @@
       "attributes": {
         "data-state": [
           "closed"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "dialog__backdrop",
@@ -569,7 +574,8 @@
         "data-highlighted": [],
         "data-state": [
           "checked"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "listbox",
@@ -916,7 +922,8 @@
           "checked",
           "closed",
           "open"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "icon",
@@ -942,7 +949,8 @@
       "attributes": {
         "data-state": [
           "closed"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "sheet__footer",
@@ -1198,7 +1206,9 @@
       "runtime": []
     },
     "Tour": {
-      "attributes": {},
+      "attributes": {
+        "hidden": []
+      },
       "classes": [
         "tour__actions",
         "tour__arrow",
@@ -1229,7 +1239,8 @@
         "data-selected": [],
         "data-state": [
           "open"
-        ]
+        ],
+        "hidden": []
       },
       "classes": [
         "tree-view",

@@ -38,6 +38,7 @@ import {
   UNPREVIEWABLE,
   card,
   failed,
+  harnessNote,
   missing,
   renderShell,
   unpreviewable,
@@ -74,6 +75,14 @@ for (const entry of CATALOGUE) {
   const fixture = ANGULAR_FIXTURES[entry.name];
   if (!fixture) {
     missing(grid, entry, "angular");
+    continue;
+  }
+
+  const note = harnessNote("angular", entry.name);
+  if (note) {
+    const body = card(grid, entry);
+    (body.parentElement as HTMLElement).classList.add("pv-card--missing");
+    body.textContent = note;
     continue;
   }
 

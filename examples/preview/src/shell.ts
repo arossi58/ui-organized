@@ -100,6 +100,25 @@ export const UNPREVIEWABLE = Object.entries(NO_CASE)
   .filter(([name]) => !SPECS.some((s) => s.component === name))
   .map(([name, reason]) => ({ name, reason }));
 
+/**
+ * Cards where the *harness* is what you are looking at, not the component.
+ *
+ * The catalogue renders the parity fixtures, and one of them deliberately does
+ * not render a real component: Angular's `Icon` fixture provides the gate's stub
+ * icon set through `UIO_ICON_CONFIG`, which takes precedence over the registry
+ * this app fills with Lucide. That is right for the gate — it compares the size
+ * and stroke our adapters compute rather than Lucide's artwork — and it means
+ * this one card draws an empty `<svg>`.
+ *
+ * Said out loud rather than left looking broken. Every other icon on the Angular
+ * page is real Lucide, which is the actual evidence that the component works.
+ */
+const HARNESS_ARTIFACT: Record<string, string> = {
+  "angular:Icon":
+    "the gate's stub icon set is pinned into this fixture, so it draws no artwork — " +
+    "every other icon on this page is real",
+};
+
 const LABELS: Record<Framework, string> = {
   react: "React",
   svelte: "Svelte",
@@ -226,6 +245,11 @@ export function renderShell(framework: Framework, shipped: number): HTMLElement 
 
   document.body.append(masthead, note, grid, empty);
   return grid;
+}
+
+/** A note for a card whose fixture cannot show the real component, or null. */
+export function harnessNote(framework: Framework, name: string): string | null {
+  return HARNESS_ARTIFACT[`${framework}:${name}`] ?? null;
 }
 
 /** One card, with its header already filled in. Returns the body to render into. */

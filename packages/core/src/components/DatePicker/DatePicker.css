@@ -141,6 +141,14 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
 }
 
+/* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
+   above would override [hidden]'s `display: none` and leave a *closed* overlay
+   painted on the page. Same shape as `.avatar__fallback[hidden]`, and the same
+   fix. Honor `hidden` explicitly. */
+.date-picker__popup[hidden] {
+  display: none;
+}
+
 /* ─── View control ────────────────────────────────────────────────────────── */
 
 .date-picker__view-control {

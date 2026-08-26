@@ -36,24 +36,40 @@ const scenarios: BrowserScenario[] = [
   {
     component: "Dialog",
     name: "dismissed with Escape",
-    steps: [...openViaTrigger("dialog"), { do: "press", key: "Escape" }],
+    steps: [
+      ...openViaTrigger("dialog"),
+      { do: "press", key: "Escape" },
+      // Focus is waited on after the keypress, and it is not decoration. Now that
+      // `[hidden]` really hides, dismissal changes what is painted — so a
+      // capture taken the instant Escape is pressed can sample one library
+      // mid-close and another already settled. Focus returning to the trigger
+      // is the signal that the dismissal finished; before the stylesheet
+      // honored `hidden`, nothing about the popup changed on close and the
+      // timing could not matter.
+      { do: "awaitFocus", target: part("dialog", "trigger") },
+    ],
     regions: ["#mount"],
     /**
-     * Only that the three agree — because they agree on something wrong, and it
-     * is not theirs.
+     * That all four agree, and that what they agree on is now correct.
      *
-     * `.dialog__popup` sets `display: flex`, which beats the `hidden` attribute
-     * Ark writes when the dialog closes. The popup is invisible (`opacity: 0`)
-     * and cannot be clicked (the positioner is `pointer-events: none`), so
-     * nothing looks broken — but it is still laid out, and therefore still in
-     * the accessibility tree. The dialog's role, heading, description and close
-     * button are announced to a screen reader on any page that mounts a Dialog,
-     * before it has ever been opened. Confirmed identical in all three
-     * libraries, so it is the shared stylesheet rather than any port.
+     * This used to record a defect instead. `.dialog__popup` set
+     * `display: flex`, which beat the `hidden` attribute Ark writes on close, so
+     * a dismissed dialog stayed laid out — invisible (`opacity: 0`) and
+     * unclickable (`pointer-events: none` on the positioner), but still in the
+     * accessibility tree. Its role, heading, description and close button were
+     * announced on any page that merely mounted a Dialog. Identical in all four
+     * libraries, because it was the shared stylesheet rather than any port.
      *
-     * Not asserted here as `hidden`, because the fix is a change to a published
-     * package's behaviour — `[hidden] { display: none }` also removes the 150ms
-     * exit fade — and that is a decision, not a port bug.
+     * `.dialog__popup[hidden]` now honors it, and the assertion below is what
+     * holds that in place: if the guard is removed, the popup is painted again
+     * and this case says so.
+     *
+     * The cost, which the note here previously predicted: `display: none` also
+     * cancels the 150ms exit fade. That was judged the better trade — a
+     * component announcing itself to a screen reader before it has ever been
+     * opened outranks an exit animation — but it is a real behaviour change, and
+     * restoring the fade means delaying the hide (`visibility: hidden` with a
+     * transition) rather than reverting the guard.
      */
     visibilityMatches: [part("dialog", "content")],
   },

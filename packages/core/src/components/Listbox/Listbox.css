@@ -99,6 +99,14 @@
   color: var(--color-interactive-primary-default);
 }
 
+/* Ark renders the indicator for every option and toggles `hidden` on the ones
+   that are not selected; `display: inline-flex` would override [hidden]'s
+   `display: none` and put a checkmark beside every item, selected or not. Same
+   shape as `.avatar__fallback[hidden]`. */
+.listbox__item-indicator[hidden] {
+  display: none;
+}
+
 /* ─── Group ───────────────────────────────────────────────────────────────── */
 
 .listbox__group {

@@ -49,6 +49,14 @@
     transform 150ms ease;
 }
 
+/* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
+   above would override [hidden]'s `display: none` and leave a *closed* overlay
+   painted on the page. Same shape as `.avatar__fallback[hidden]`, and the same
+   fix. Honor `hidden` explicitly. */
+.dialog__popup[hidden] {
+  display: none;
+}
+
 .dialog__popup[data-state="closed"] {
   opacity: 0;
   transform: scale(0.96);

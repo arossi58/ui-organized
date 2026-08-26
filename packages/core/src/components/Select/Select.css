@@ -127,6 +127,14 @@
     transform 100ms ease;
 }
 
+/* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
+   above would override [hidden]'s `display: none` and leave a *closed* overlay
+   painted on the page. Same shape as `.avatar__fallback[hidden]`, and the same
+   fix. Honor `hidden` explicitly. */
+.select-popup[hidden] {
+  display: none;
+}
+
 .select-popup[data-state="closed"] {
   opacity: 0;
   transform: scaleY(0.95);

@@ -137,6 +137,13 @@
   flex-direction: column;
 }
 
+/* A collapsed branch is `hidden`, and `display: flex` would override
+   [hidden]'s `display: none` — leaving every child listed under a branch that
+   says it is shut. Same shape as `.avatar__fallback[hidden]`. */
+.tree-view__branch-content[hidden] {
+  display: none;
+}
+
 /* The guide is absolutely positioned against the branch content and offset by
    the node's own depth, so it lands under the chevron of the row that owns it. */
 .tree-view__indent-guide {
