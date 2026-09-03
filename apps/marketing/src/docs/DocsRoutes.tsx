@@ -3,7 +3,7 @@
  *
  * Kept as one module so React Router's `/docs/*` route can be a single
  * `React.lazy` boundary: this chunk pulls the 128 KB manifest, the latest-hashes
- * artifact and all 45 story modules (which between them import most of the
+ * artifact and all 68 story modules (which between them import most of the
  * component library), and none of that belongs in the home page's bundle.
  */
 import { useRef, type RefObject } from "react";

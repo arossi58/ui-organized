@@ -3,7 +3,7 @@
  * manifest.
  *
  * Why read the story files directly instead of extracting them at build time —
- * every one of the 45 files in `apps/storybook/src/stories/` imports only `react`
+ * every one of the 68 files in `apps/storybook/src/stories/` imports only `react`
  * and `@ui-organized/react` at runtime (the sole Storybook import is
  * `import type { Meta, StoryObj }`, which is erased). So they are ordinary React
  * modules to this app, and globbing them gives us the component prose, the
@@ -165,7 +165,10 @@ export const CATEGORY_ORDER = [
 
 /** `"Components/Actions/Button"` → `{ category: "Actions", name: "Button" }`. */
 function parseTitle(title: string): { category: string; name: string } {
-  const parts = title.split("/").map((p) => p.trim()).filter(Boolean);
+  const parts = title
+    .split("/")
+    .map((p) => p.trim())
+    .filter(Boolean);
   const name = parts[parts.length - 1] ?? title;
   if (parts.length >= 3 && parts[0] === "Components") {
     return { category: parts[1]!, name };
@@ -262,7 +265,10 @@ export function buildRegistry(
     const meta = mod.default;
     if (!meta?.title) continue;
 
-    const fileBase = path.split("/").pop()!.replace(/\.stories\.tsx?$/, "");
+    const fileBase = path
+      .split("/")
+      .pop()!
+      .replace(/\.stories\.tsx?$/, "");
     const { category, name } = parseTitle(meta.title);
     const { entry, resolvedBy } = resolveEntry(meta, fileBase, name, byCodeName, byEntryId);
 
