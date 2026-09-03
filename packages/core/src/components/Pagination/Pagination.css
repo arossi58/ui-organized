@@ -9,6 +9,15 @@
   padding: 0;
 }
 
+/* The items carry no rhythm of their own: this is a row of controls that happens
+   to be marked up as a list, and a page that styles `li` — a docs site, a CMS
+   article, any reset with list spacing in it — would otherwise push the row's
+   buttons off the line they share with everything beside them. */
+.pagination__list > li {
+  margin: 0;
+  padding: 0;
+}
+
 /* ─── Page controls ───────────────────────────────────────────────────────── */
 
 /* Sized to the shared control height so numbered pages sit flush with the

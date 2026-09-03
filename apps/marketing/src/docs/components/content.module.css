@@ -9,35 +9,43 @@
   line-height: var(--type-leading-body-medium);
 }
 
-.prose p {
+/* Every rule below is guarded with `:not([data-preview-stage] *)`, and that
+   guard is the whole reason these are safe to write as element selectors.
+   A component docs page renders its live examples *inside* this prose, so
+   `.prose li` and `.prose p` reach into the design system's own markup and
+   restyle it — the Pagination row's `<li>`s took a bottom margin from here and
+   sat half a row above the page count beside them. `[data-preview-stage]` is
+   `PreviewSurface`'s stage: prose typography stops at it, and a component
+   renders the way it would in an application. */
+
+.prose p:not([data-preview-stage] *) {
   max-width: 74ch;
   margin: 0 0 var(--spacing-space-04);
   color: var(--color-content-secondary);
 }
 
-.prose a {
+.prose a:not([data-preview-stage] *) {
   color: var(--color-interactive-primary-default);
   text-underline-offset: 0.2em;
 }
 
-.prose ul,
-.prose ol {
+.prose :is(ul, ol):not([data-preview-stage] *) {
   max-width: 74ch;
   margin: 0 0 var(--spacing-space-04);
   padding-left: var(--spacing-space-05);
   color: var(--color-content-secondary);
 }
 
-.prose li {
+.prose li:not([data-preview-stage] *) {
   margin-bottom: var(--spacing-space-02);
 }
 
-.prose strong {
+.prose strong:not([data-preview-stage] *) {
   color: var(--color-content-primary);
   font-weight: var(--type-weight-body-heavy);
 }
 
-.prose code {
+.prose code:not([data-preview-stage] *) {
   padding: 0.1em 0.35em;
   border-radius: var(--border-radius-02);
   background: var(--color-surface-secondary);
@@ -51,8 +59,7 @@
 
 /* Nested bullets inside an entry: tighter than the outer list and with no
    bottom margin of its own, since the parent `li` already sets the rhythm. */
-.prose li > ul,
-.prose li > ol {
+.prose li > :is(ul, ol):not([data-preview-stage] *) {
   margin: var(--spacing-space-02) 0 0;
 }
 

@@ -97,7 +97,13 @@ export function PreviewSurface({
         data-layout={layout}
         style={visionFilter ? { filter: visionFilter } : undefined}
       >
-        <div className={styles.stageInner} ref={stageRef}>
+        {/* `data-preview-stage` is the boundary the page's prose typography
+            stops at (see content.module.css). An example renders inside
+            `DocsProse`, so without it `.prose li`, `.prose p` and friends style
+            the component's own markup — the Pagination row's `<li>`s picked up
+            a bottom margin and lifted the page buttons off the line they share
+            with the row count beside them. */}
+        <div className={styles.stageInner} data-preview-stage ref={stageRef}>
           <PreviewBoundary label={label}>
             <IconProvider library="lucide" style="outline" strokeAdjustment>
               {/* Inside `stageRef`, so a contained overlay lands in the subtree
