@@ -2,10 +2,17 @@
  * The column model: reading our `meta` off a column, and translating the parts
  * of it that TanStack owns (sizing) into the shape TanStack expects.
  */
-import type { Column, ColumnDef, Table } from "@tanstack/table-core";
+import type { ColumnDef, RowData } from "@tanstack/table-core";
 import type { StickyPosition } from "./props.js";
 import { DEFAULT_COLUMN_WIDTH, MAX_COLUMN_WIDTH, MIN_COLUMN_WIDTH } from "./styles.js";
-import type { TableAlign, TableColumn, TableColumnMeta } from "./types.js";
+import type {
+  TableAlign,
+  TableColumn,
+  TableColumnInstance,
+  TableColumnMeta,
+  TableInstance,
+} from "./types.js";
+import type { UioTableFeatures } from "./config.js";
 
 /** The selection checkbox column. Reserved — do not use as a data column id. */
 export const SELECTION_COLUMN_ID = "__select";
@@ -28,7 +35,7 @@ export function isReservedColumn(id: string): boolean {
  * and `meta.filter` produces a filter that matches nothing and offers no
  * values.
  */
-export function columnId<T>(def: TableColumn<T>): string {
+export function columnId<T extends RowData>(def: TableColumn<T>): string {
   const candidate = def as { id?: string; accessorKey?: string | number; header?: unknown };
   if (candidate.id !== undefined) return String(candidate.id);
   if (candidate.accessorKey !== undefined) {
@@ -38,11 +45,15 @@ export function columnId<T>(def: TableColumn<T>): string {
   return typeof candidate.header === "string" ? candidate.header : "";
 }
 
-export function metaOf<T>(def: ColumnDef<T, any> | undefined): TableColumnMeta<T> | undefined {
+export function metaOf<T extends RowData>(
+  def: ColumnDef<UioTableFeatures, T, any> | undefined,
+): TableColumnMeta<T> | undefined {
   return def?.meta as TableColumnMeta<T> | undefined;
 }
 
-export function alignOf<T>(def: ColumnDef<T, any> | undefined): TableAlign {
+export function alignOf<T extends RowData>(
+  def: ColumnDef<UioTableFeatures, T, any> | undefined,
+): TableAlign {
   return metaOf(def)?.align ?? "start";
 }
 
@@ -53,7 +64,9 @@ export function alignOf<T>(def: ColumnDef<T, any> | undefined): TableAlign {
  * renders with a slightly wrong row header is a better failure than a table that
  * does not render.
  */
-export function primaryColumnId<T>(columns: readonly TableColumn<T>[]): string | undefined {
+export function primaryColumnId<T extends RowData>(
+  columns: readonly TableColumn<T>[],
+): string | undefined {
   for (const def of columns) if (metaOf(def)?.primary) return columnId(def);
   return undefined;
 }
@@ -62,7 +75,7 @@ export function primaryColumnId<T>(columns: readonly TableColumn<T>[]): string |
  * Card-mode field order: `meta.priority` ascending, column order as the
  * tiebreak, primary column excluded (it is the card title).
  */
-export function cardFieldOrder<T>(columns: readonly TableColumn<T>[]): string[] {
+export function cardFieldOrder<T extends RowData>(columns: readonly TableColumn<T>[]): string[] {
   const primary = primaryColumnId(columns);
   return columns
     .map((def, index) => ({ id: columnId(def), index, priority: metaOf(def)?.priority }))
@@ -83,7 +96,9 @@ export function cardFieldOrder<T>(columns: readonly TableColumn<T>[]): string[] 
  * resize to work) while everything else about a column is ours. Consumers write
  * one vocabulary; this is where it meets the other.
  */
-export function normalizeColumns<T>(columns: readonly TableColumn<T>[]): TableColumn<T>[] {
+export function normalizeColumns<T extends RowData>(
+  columns: readonly TableColumn<T>[],
+): TableColumn<T>[] {
   return columns.map((def) => {
     const meta = metaOf(def);
     if (!meta) return def;
@@ -98,7 +113,9 @@ export function normalizeColumns<T>(columns: readonly TableColumn<T>[]): TableCo
 }
 
 /** Columns the visibility menu should offer. */
-export function toggleableColumns<T>(columns: readonly Column<T, unknown>[]): Column<T, unknown>[] {
+export function toggleableColumns<T extends RowData>(
+  columns: readonly TableColumnInstance<T>[],
+): TableColumnInstance<T>[] {
   return columns.filter(
     (column) =>
       column.getCanHide() &&
@@ -111,22 +128,31 @@ export function toggleableColumns<T>(columns: readonly Column<T, unknown>[]): Co
  * Where a pinned column sits, and whether it is the one that draws the edge
  * shadow.
  *
- * TanStack reports `getStart("left")` / `getAfter("right")` against the pinned
+ * TanStack reports `getStart("start")` / `getAfter("end")` against the pinned
  * group, which is exactly the sticky offset — no accumulation of our own. The
- * edge is the innermost pinned column: the last on the left, the first on the
- * right.
+ * edge is the innermost pinned column: the last on the start side, the first on
+ * the end side.
+ *
+ * The vocabulary changes here and only here. TanStack v9 pins to `start`/`end`,
+ * which is the right call for a library that has to work in both writing
+ * directions — but this design system's `meta.sticky` says `left`/`right`, and
+ * so does its CSS, because the sticky offsets are physical `left`/`right`
+ * properties. Translating at this boundary keeps one public vocabulary and one
+ * stylesheet; the day the table earns RTL support, this function is where the
+ * two meanings are already separated.
  */
-export function stickyPositionOf<T>(
-  table: Table<T>,
-  column: Column<T, unknown>,
+export function stickyPositionOf<T extends RowData>(
+  table: TableInstance<T>,
+  column: TableColumnInstance<T>,
 ): StickyPosition | undefined {
-  const side = column.getIsPinned();
-  if (side !== "left" && side !== "right") return undefined;
-  const group = side === "left" ? table.getLeftLeafColumns() : table.getRightLeafColumns();
-  const index = group.findIndex((pinned) => pinned.id === column.id);
+  const pinned = column.getIsPinned();
+  if (pinned !== "start" && pinned !== "end") return undefined;
+  const side = pinned === "start" ? "left" : "right";
+  const group = pinned === "start" ? table.getStartLeafColumns() : table.getEndLeafColumns();
+  const index = group.findIndex((other) => other.id === column.id);
   return {
     side,
-    offset: side === "left" ? column.getStart("left") : column.getAfter("right"),
-    last: side === "left" ? index === group.length - 1 : index === 0,
+    offset: pinned === "start" ? column.getStart("start") : column.getAfter("end"),
+    last: pinned === "start" ? index === group.length - 1 : index === 0,
   };
 }

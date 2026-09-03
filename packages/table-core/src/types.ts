@@ -4,7 +4,18 @@
  * legitimately enter — a custom cell or edit renderer — is declared as
  * `unknown`, which each adapter narrows to its own element type.
  */
-import type { ColumnDef, Row, RowData } from "@tanstack/table-core";
+import type {
+  Cell,
+  Column,
+  ColumnDef,
+  Header,
+  HeaderGroup,
+  Row,
+  RowData,
+  Table,
+  TableFeatures,
+} from "@tanstack/table-core";
+import type { UioTableFeatures } from "./config.js";
 import type { TableFilterCondition, TableFilterSetting } from "./filters/types.js";
 
 // ─── Shared axes ─────────────────────────────────────────────────────────────
@@ -118,8 +129,15 @@ export interface TableColumnMeta<T = unknown> {
  * read site — is how `meta` silently drifts out of sync with what reads it.
  */
 declare module "@tanstack/table-core" {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface ColumnMeta<TData extends RowData, TValue> extends TableColumnMeta<TData> {}
+  // v9 carries the feature set in the first parameter; the shape must match
+  // TanStack's own declaration exactly or the merge is rejected outright.
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  interface ColumnMeta<
+    TFeatures extends TableFeatures,
+    TData extends RowData,
+    TValue,
+  > extends TableColumnMeta<TData> {}
+  /* eslint-enable @typescript-eslint/no-unused-vars */
 }
 
 /**
@@ -127,7 +145,9 @@ declare module "@tanstack/table-core" {
  * never appears unaliased in our API and can be swapped without a breaking
  * change to consumers.
  */
-export type TableColumn<T> = ColumnDef<T, any> & { meta?: TableColumnMeta<T> };
+export type TableColumn<T extends RowData> = ColumnDef<UioTableFeatures, T, any> & {
+  meta?: TableColumnMeta<T>;
+};
 
 // ─── Server mode ─────────────────────────────────────────────────────────────
 
@@ -166,8 +186,24 @@ export type TableRowId = string;
 /** What `exportRowsToCsv` / `copyRowsToClipboard` operate on. */
 export type TableRowScope = "view" | "selected" | "all";
 
-/** Re-exported so consumers never have to add a TanStack dependency of their own. */
-export type { Row as TableRowModel, Table as TableInstance } from "@tanstack/table-core";
+/**
+ * The TanStack types, with this design system's feature set already bound.
+ *
+ * v9 carries the registered features in a type parameter, so a bare `Table<T>`
+ * no longer says what a table can do — `getIsPinned` and `getCanHide` exist only
+ * when the pinning and visibility features are declared. Binding `TFeatures`
+ * once, here, is what keeps every other file in this package (and every adapter)
+ * writing `TableInstance<T>` rather than repeating the feature list, and what
+ * makes "the four libraries build the same table" a thing the compiler checks.
+ *
+ * Re-exported so consumers never have to add a TanStack dependency of their own.
+ */
+export type TableInstance<T extends RowData> = Table<UioTableFeatures, T>;
+export type TableRowModel<T extends RowData> = Row<UioTableFeatures, T>;
+export type TableColumnInstance<T extends RowData> = Column<UioTableFeatures, T, any>;
+export type TableCellInstance<T extends RowData> = Cell<UioTableFeatures, T, any>;
+export type TableHeaderInstance<T extends RowData> = Header<UioTableFeatures, T, any>;
+export type TableHeaderGroupInstance<T extends RowData> = HeaderGroup<UioTableFeatures, T>;
 
 /** A row as the table sees it, for callbacks that hand one back. */
-export type TableRowData<T> = Row<T>;
+export type TableRowData<T extends RowData> = Row<UioTableFeatures, T>;

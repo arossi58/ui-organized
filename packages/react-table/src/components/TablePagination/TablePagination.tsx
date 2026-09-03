@@ -15,7 +15,7 @@ export function TablePagination({
   className,
 }: TablePaginationProps) {
   const { table, size, selection } = useTableContext();
-  const { pageIndex, pageSize } = table.getState().pagination;
+  const { pageIndex, pageSize } = table.state.pagination;
   const total = selection.totalMatching;
   const pageCount = Math.max(1, Math.ceil(total / pageSize));
 

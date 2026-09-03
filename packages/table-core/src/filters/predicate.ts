@@ -119,8 +119,8 @@ export function createColumnFilterFn(
   catalogue: FilterOperatorCatalogue,
   type: TableFilterType,
   now: () => number,
-): FilterFn<any> {
-  const filterFn: FilterFn<any> = (row, columnId, prepared) => {
+): FilterFn<any, any> {
+  const filterFn: FilterFn<any, any> = (row, columnId, prepared) => {
     const value = row.getValue(columnId);
     for (const compiled of prepared as CompiledCondition[]) {
       // Conditions on one column are ANDed: "after X" and "before Y" together

@@ -1,5 +1,6 @@
 import { createContext, useContext, type ReactNode } from "react";
 import type { DataTableApi } from "./types.js";
+import type { RowData } from "@ui-organized/table-core";
 
 /**
  * The styled parts are usable on their own — that is the whole point of layer 2
@@ -13,16 +14,16 @@ import type { DataTableApi } from "./types.js";
  */
 const TableContext = createContext<DataTableApi<any> | null>(null);
 
-export interface TableProviderProps<T> {
+export interface TableProviderProps<T extends RowData> {
   value: DataTableApi<T>;
   children?: ReactNode;
 }
 
-export function TableProvider<T>({ value, children }: TableProviderProps<T>) {
+export function TableProvider<T extends RowData>({ value, children }: TableProviderProps<T>) {
   return <TableContext.Provider value={value}>{children}</TableContext.Provider>;
 }
 
-export function useTableContext<T = unknown>(): DataTableApi<T> {
+export function useTableContext<T extends RowData = RowData>(): DataTableApi<T> {
   const context = useContext(TableContext);
   if (!context) {
     throw new Error(
@@ -33,6 +34,6 @@ export function useTableContext<T = unknown>(): DataTableApi<T> {
 }
 
 /** For parts that are legitimately optional inside a table (toolbars reused elsewhere). */
-export function useOptionalTableContext<T = unknown>(): DataTableApi<T> | null {
+export function useOptionalTableContext<T extends RowData = RowData>(): DataTableApi<T> | null {
   return useContext(TableContext) as DataTableApi<T> | null;
 }

@@ -5,7 +5,8 @@
  * into Excel, Sheets and Numbers as cells, while a CSV payload pastes as one
  * column of text.
  */
-import type { Table } from "@tanstack/table-core";
+import type { RowData } from "@tanstack/table-core";
+import type { TableInstance } from "./types.js";
 import { serializeRows, type SerializeOptions } from "./csv.js";
 
 /**
@@ -43,8 +44,8 @@ export async function writeClipboard(text: string): Promise<boolean> {
   }
 }
 
-export async function copyRowsToClipboard<T>(
-  table: Table<T>,
+export async function copyRowsToClipboard<T extends RowData>(
+  table: TableInstance<T>,
   options: SerializeOptions = {},
 ): Promise<boolean> {
   return writeClipboard(serializeRows(table, { delimiter: "\t", ...options }));

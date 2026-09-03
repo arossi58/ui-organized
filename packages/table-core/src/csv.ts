@@ -5,9 +5,9 @@
  * column visibility — because an export that silently returns the unfiltered
  * dataset is worse than no export: it looks like it worked.
  */
-import type { Table } from "@tanstack/table-core";
+import type { RowData } from "@tanstack/table-core";
 import { isReservedColumn, metaOf } from "./columns.js";
-import type { TableRowScope } from "./types.js";
+import type { TableInstance, TableRowScope } from "./types.js";
 
 export interface SerializeOptions {
   /** Which rows: what is on screen, what is ticked, or the whole dataset. */
@@ -18,14 +18,14 @@ export interface SerializeOptions {
   header?: boolean;
 }
 
-function rowsFor<T>(table: Table<T>, scope: TableRowScope) {
+function rowsFor<T extends RowData>(table: TableInstance<T>, scope: TableRowScope) {
   switch (scope) {
     case "selected":
       return table.getSelectedRowModel().rows;
     case "all":
       // Pre-pagination, post-filter: "all" means the whole result set, not the
       // whole database — the rows the client actually has.
-      return table.getPrePaginationRowModel().rows;
+      return table.getPrePaginatedRowModel().rows;
     default:
       return table.getRowModel().rows;
   }
@@ -49,7 +49,10 @@ export function escapeField(value: unknown, delimiter: string): string {
   return text;
 }
 
-export function serializeRows<T>(table: Table<T>, options: SerializeOptions = {}): string {
+export function serializeRows<T extends RowData>(
+  table: TableInstance<T>,
+  options: SerializeOptions = {},
+): string {
   const delimiter = options.delimiter ?? ",";
   const scope = options.scope ?? "view";
   const columns = table.getVisibleLeafColumns().filter((column) => !isReservedColumn(column.id));
@@ -95,7 +98,10 @@ export interface ExportOptions extends SerializeOptions {
  * SSR-guarded: on a server this returns the content and does nothing else, so a
  * component that wires the handler unconditionally still renders.
  */
-export function exportRowsToCsv<T>(table: Table<T>, options: ExportOptions = {}): string {
+export function exportRowsToCsv<T extends RowData>(
+  table: TableInstance<T>,
+  options: ExportOptions = {},
+): string {
   const content = serializeRows(table, { delimiter: ",", ...options });
   if (typeof document === "undefined" || typeof URL.createObjectURL !== "function") return content;
 

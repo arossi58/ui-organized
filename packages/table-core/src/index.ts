@@ -11,7 +11,17 @@ import "./styles/cards.css";
 import "./styles/detail.css";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
+/**
+ * TanStack's row-data constraint, re-exported so an adapter can write
+ * `<T extends RowData>` without taking a TanStack dependency of its own — the
+ * same reason `TableInstance` and friends are re-exported below.
+ */
+export type { RowData } from "@tanstack/table-core";
 export type {
+  TableCellInstance,
+  TableColumnInstance,
+  TableHeaderGroupInstance,
+  TableHeaderInstance,
   DataTableQuery,
   TableAlign,
   TableColumn,
@@ -78,8 +88,13 @@ export {
 } from "./columns.js";
 
 // ─── Table configuration ─────────────────────────────────────────────────────
-export { coreTableOptions, globalTextFilter } from "./config.js";
-export type { CoreTableConfig, SelectionMode, SharedTableOptions } from "./config.js";
+export { TABLE_FEATURES, coreTableOptions, globalTextFilter } from "./config.js";
+export type {
+  CoreTableConfig,
+  SelectionMode,
+  SharedTableOptions,
+  UioTableFeatures,
+} from "./config.js";
 
 // ─── Prop builders ───────────────────────────────────────────────────────────
 export {

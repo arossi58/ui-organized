@@ -9,14 +9,22 @@
  */
 
 export interface SelectionState {
-  /** Explicitly selected row ids. TanStack's `rowSelection` shape. */
-  rows: Record<string, boolean>;
+  /**
+   * Explicitly selected row ids. TanStack's `rowSelection` shape, which since
+   * v9 is `Record<string, true>` — a key is present when the row is selected and
+   * absent when it is not, rather than present-and-false.
+   *
+   * That was always this module's behaviour (every write is `= true` or a
+   * `delete`); the type just used to be wider than the code, which left two
+   * spellings of "not selected" that no reader could tell apart.
+   */
+  rows: Record<string, true>;
   /** The row a shift-range extends from. Null until the first plain click. */
   anchor: string | null;
   /** Every row matching the current filters is selected, loaded or not. */
   allMatching: boolean;
   /** Rows deselected by hand while `allMatching` is on. */
-  excluded: Record<string, boolean>;
+  excluded: Record<string, true>;
 }
 
 export const EMPTY_SELECTION: SelectionState = {

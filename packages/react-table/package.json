@@ -66,7 +66,7 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.21.0",
+    "@tanstack/react-table": "^9.2.4",
     "@tanstack/react-virtual": "^3.10.0",
     "@ui-organized/table-core": "workspace:*",
     "clsx": "^2.1.0"

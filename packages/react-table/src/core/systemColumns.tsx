@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Checkbox } from "@ui-organized/react";
-import { ACTIONS_COLUMN_ID, SELECTION_COLUMN_ID } from "@ui-organized/table-core";
+import { ACTIONS_COLUMN_ID, SELECTION_COLUMN_ID, type RowData } from "@ui-organized/table-core";
 import { TableRowActions } from "../components/TableRowActions/index.js";
 import { useTableContext } from "./TableContext.js";
 import type { TableColumn } from "./types.js";
@@ -66,7 +66,7 @@ function SelectCell({ rowId, rowLabel }: { rowId: string; rowLabel: string }) {
   );
 }
 
-export function selectionColumn<T>(): TableColumn<T> {
+export function selectionColumn<T extends RowData>(): TableColumn<T> {
   return {
     id: SELECTION_COLUMN_ID,
     header: () => <SelectAllCell />,
@@ -89,7 +89,7 @@ export function selectionColumn<T>(): TableColumn<T> {
   };
 }
 
-export function actionsColumn<T>(): TableColumn<T> {
+export function actionsColumn<T extends RowData>(): TableColumn<T> {
   return {
     id: ACTIONS_COLUMN_ID,
     header: () => <span className="data-table__sr-only">Actions</span>,

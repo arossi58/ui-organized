@@ -1,7 +1,7 @@
 import { memo, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import type * as React from "react";
 import { clsx } from "clsx";
-import { flexRender } from "@tanstack/react-table";
+import { flexRender, type RowData } from "@tanstack/react-table";
 import { Icon } from "@ui-organized/react";
 import {
   alignOf,
@@ -134,7 +134,7 @@ export function TableHeader({ className }: TableHeaderProps) {
   );
 }
 
-export function TableHeadCell<T>({ header, index }: TableHeadCellProps<T>) {
+export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCellProps<T>) {
   const { table, interactive, focus } = useTableContext<T>();
   const column = header.column;
   const sortable = column.getCanSort();
@@ -196,7 +196,7 @@ export function TableHeadCell<T>({ header, index }: TableHeadCellProps<T>) {
  * which is what makes the column width something a screen reader can report
  * rather than something only a mouse can discover.
  */
-function ResizeHandle<T>({ header }: { header: TableHeadCellProps<T>["header"] }) {
+function ResizeHandle<T extends RowData>({ header }: { header: TableHeadCellProps<T>["header"] }) {
   const { table } = useTableContext<T>();
   const column = header.column;
   const width = column.getSize();
@@ -332,7 +332,7 @@ export function TableBody({ children }: TableBodyProps) {
 
 // ─── Row and cell ────────────────────────────────────────────────────────────
 
-export function TableCell<T>({
+export function TableCell<T extends RowData>({
   cell,
   index,
   rowIndex,
@@ -412,7 +412,7 @@ function CellEditor({ children }: { children: ReactNode }) {
   );
 }
 
-function TableRowBase<T>({
+function TableRowBase<T extends RowData>({
   row,
   index,
   absoluteIndex,

@@ -7,13 +7,26 @@
  * shared, and an adapter adds only the state binding its framework needs.
  */
 import {
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
+  columnFacetingFeature,
+  columnFilteringFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  createCoreRowModel,
+  createFacetedRowModel,
+  createFacetedUniqueValues,
+  createFilteredRowModel,
+  createPaginatedRowModel,
+  createSortedRowModel,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
   type FilterFn,
+  type RowData,
+  type TableFeatures,
   type TableOptions,
 } from "@tanstack/table-core";
 import { columnId, metaOf, normalizeColumns } from "./columns.js";
@@ -26,7 +39,7 @@ import type { TableColumn } from "./types.js";
 
 export type SelectionMode = "none" | "single" | "multiple";
 
-export interface CoreTableConfig<T> {
+export interface CoreTableConfig<T extends RowData> {
   data: readonly T[];
   columns: readonly TableColumn<T>[];
   /**
@@ -61,12 +74,58 @@ export interface CoreTableConfig<T> {
 }
 
 /**
- * Everything an adapter can share. `Partial` plus the three genuinely required
+ * The features every ui-organized table registers, and the row models that fill
+ * their slots.
+ *
+ * v9 composes a table out of explicit features rather than inferring them from
+ * which options were passed, so this is now the single declaration of what a
+ * table in this design system *is*. Registering the whole set here rather than
+ * per-call keeps every adapter's tables identical — a feature present in React
+ * and absent in Vue would be a divergence no type could catch.
+ *
+ * The row models are attached conditionally in `coreTableOptions`, because each
+ * one is a memoized pass over the data and an unused one still runs.
+ */
+export const TABLE_FEATURES = {
+  columnFacetingFeature,
+  columnFilteringFeature,
+  columnOrderingFeature,
+  columnPinningFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  globalFilteringFeature,
+  rowPaginationFeature,
+  rowSelectionFeature,
+  rowSortingFeature,
+} satisfies TableFeatures;
+
+/**
+ * The feature set, plus the row-model slots that fill it.
+ *
+ * The slots are optional because they are attached conditionally — a table with
+ * sorting off never builds a sorted row model — but they have to be *in* the
+ * type, because `TableOptions` is generic over the whole features object and
+ * would reject them as excess properties otherwise.
+ */
+export type UioTableFeatures = typeof TABLE_FEATURES &
+  Pick<
+    TableFeatures,
+    | "coreRowModel"
+    | "sortedRowModel"
+    | "filteredRowModel"
+    | "paginatedRowModel"
+    | "facetedRowModel"
+    | "facetedUniqueValues"
+  >;
+
+/**
+ * Everything an adapter can share. `Partial` plus the two genuinely required
  * options, so an adapter can spread this straight into its own `useTable` call
  * and still satisfy the required fields.
  */
-export type SharedTableOptions<T> = Partial<TableOptions<T>> &
-  Pick<TableOptions<T>, "data" | "columns" | "getCoreRowModel">;
+export type SharedTableOptions<T extends RowData> = Partial<TableOptions<UioTableFeatures, T>> &
+  Pick<TableOptions<UioTableFeatures, T>, "data" | "columns" | "features">;
 
 /**
  * Global search: substring match against every column's rendered value.
@@ -74,7 +133,7 @@ export type SharedTableOptions<T> = Partial<TableOptions<T>> &
  * TanStack calls a global filter once per column and ORs the results, so this
  * only has to answer for one cell.
  */
-export const globalTextFilter: FilterFn<any> = (row, id, filterValue) => {
+export const globalTextFilter: FilterFn<any, any> = (row, id, filterValue) => {
   const needle = String(filterValue ?? "")
     .trim()
     .toLowerCase();
@@ -100,7 +159,7 @@ export const globalTextFilter: FilterFn<any> = (row, id, filterValue) => {
  * return nothing. The supported escape hatch is a custom operator, which is the
  * right level to extend at.
  */
-function withFilterFns<T>(
+function withFilterFns<T extends RowData>(
   columns: TableColumn<T>[],
   catalogue: FilterOperatorCatalogue,
   filterTypes: Record<string, TableFilterType>,
@@ -121,7 +180,9 @@ function withFilterFns<T>(
   });
 }
 
-export function coreTableOptions<T>(config: CoreTableConfig<T>): SharedTableOptions<T> {
+export function coreTableOptions<T extends RowData>(
+  config: CoreTableConfig<T>,
+): SharedTableOptions<T> {
   const sortable = config.sortable ?? true;
   const filterable = config.filterable ?? true;
   const paginated = config.paginated ?? false;
@@ -142,14 +203,23 @@ export function coreTableOptions<T>(config: CoreTableConfig<T>): SharedTableOpti
       maxSize: MAX_COLUMN_WIDTH,
     },
 
-    getCoreRowModel: getCoreRowModel(),
-    // Row models are only attached when the feature is on: each one is a
-    // memoized pass over the data, and an unused one still runs.
-    getSortedRowModel: sortable && !config.manual ? getSortedRowModel() : undefined,
-    getFilteredRowModel: filterable && !config.manual ? getFilteredRowModel() : undefined,
-    getPaginationRowModel: paginated && !config.manual ? getPaginationRowModel() : undefined,
-    getFacetedRowModel: filterable && !config.manual ? getFacetedRowModel() : undefined,
-    getFacetedUniqueValues: filterable && !config.manual ? getFacetedUniqueValues() : undefined,
+    // Features and their row-model slots, in one object: v9 reads both from
+    // here. Row models are attached only when the feature is on, because each
+    // one is a memoized pass over the data and an unused one still runs — and
+    // in `manual` mode the server has already done the work.
+    features: {
+      ...TABLE_FEATURES,
+      coreRowModel: createCoreRowModel(),
+      ...(sortable && !config.manual ? { sortedRowModel: createSortedRowModel() } : {}),
+      ...(filterable && !config.manual ? { filteredRowModel: createFilteredRowModel() } : {}),
+      ...(paginated && !config.manual ? { paginatedRowModel: createPaginatedRowModel() } : {}),
+      ...(filterable && !config.manual
+        ? {
+            facetedRowModel: createFacetedRowModel(),
+            facetedUniqueValues: createFacetedUniqueValues(),
+          }
+        : {}),
+    },
 
     enableSorting: sortable,
     enableFilters: filterable,

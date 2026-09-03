@@ -5,7 +5,7 @@ import type {
   TableInstance,
   TableRowModel,
 } from "@ui-organized/table-core";
-import type { Cell, Header } from "@tanstack/react-table";
+import type { RowData, TableCellInstance, TableHeaderInstance } from "@ui-organized/table-core";
 
 export interface TableProps {
   children?: ReactNode;
@@ -23,8 +23,8 @@ export interface TableHeaderProps {
   className?: string;
 }
 
-export interface TableHeadCellProps<T> {
-  header: Header<T, unknown>;
+export interface TableHeadCellProps<T extends RowData> {
+  header: TableHeaderInstance<T>;
   /** Index among visible columns — the `aria-colindex` and the cursor column. */
   index: number;
 }
@@ -45,7 +45,7 @@ export interface TableFooterProps {
  * reads context re-renders whenever any table state changes, which is exactly
  * the case memoizing was supposed to avoid.
  */
-export interface TableRowProps<T> {
+export interface TableRowProps<T extends RowData> {
   row: TableRowModel<T>;
   /** Index within the current page — the cursor's row coordinate. */
   index: number;
@@ -71,8 +71,8 @@ export interface TableRowProps<T> {
   measureElement?: (element: HTMLElement | null) => void;
 }
 
-export interface TableCellProps<T> {
-  cell: Cell<T, unknown>;
+export interface TableCellProps<T extends RowData> {
+  cell: TableCellInstance<T>;
   row: TableRowModel<T>;
   /** Index among visible columns. */
   index: number;

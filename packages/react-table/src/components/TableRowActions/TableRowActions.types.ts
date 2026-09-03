@@ -1,6 +1,7 @@
 import type { RowAction } from "../../core/types.js";
+import type { RowData } from "@ui-organized/table-core";
 
-export interface TableRowActionsProps<T> {
+export interface TableRowActionsProps<T extends RowData> {
   /** The row the actions operate on. */
   row: T;
   /**

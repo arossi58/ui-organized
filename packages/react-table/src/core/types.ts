@@ -20,14 +20,16 @@ import type {
   TableFilterCondition,
   TableFilterFacetOption,
   TableFilterType,
-  TableInstance,
   TableMode,
   TableRowModel,
   TableRowScope,
   TableSize,
   TableVariant,
   VirtualConfig,
+  RowData,
 } from "@ui-organized/table-core";
+import type { ReactTable, TableState } from "@tanstack/react-table";
+import type { UioTableFeatures } from "@ui-organized/table-core";
 import type { Virtualizer } from "@tanstack/react-virtual";
 
 /**
@@ -35,9 +37,9 @@ import type { Virtualizer } from "@tanstack/react-virtual";
  * returns a `ReactNode` rather than `unknown` — the one place a framework type
  * legitimately enters, narrowed by the adapter exactly as core intends.
  */
-export type TableColumn<T> = CoreTableColumn<T>;
+export type TableColumn<T extends RowData> = CoreTableColumn<T>;
 
-export type TableEditRenderer<T> = (ctx: TableEditContext<T>) => ReactNode;
+export type TableEditRenderer<T extends RowData> = (ctx: TableEditContext<T>) => ReactNode;
 
 /**
  * A condition a table starts with. `id` is omitted because the table assigns
@@ -93,7 +95,7 @@ export interface FiltersApi {
   announcement: string;
 }
 
-export interface BulkAction<T> {
+export interface BulkAction<T extends RowData> {
   id: string;
   label: string;
   icon?: string;
@@ -128,7 +130,7 @@ export interface TableAction {
   onRun: () => void | Promise<void>;
 }
 
-export interface RowAction<T> {
+export interface RowAction<T extends RowData> {
   id: string;
   label: string;
   icon?: string;
@@ -137,7 +139,7 @@ export interface RowAction<T> {
   onRun: (row: T) => void | Promise<void>;
 }
 
-export interface DetailConfig<T> {
+export interface DetailConfig<T extends RowData> {
   render: (row: T) => ReactNode;
   /** Sheet title. Defaults to the primary column's value. */
   title?: (row: T) => string;
@@ -152,7 +154,7 @@ export interface EmptyStateConfig {
   action?: ReactNode;
 }
 
-export interface UseDataTableOptions<T> {
+export interface UseDataTableOptions<T extends RowData> {
   data: readonly T[];
   columns: readonly TableColumn<T>[];
   /**
@@ -238,7 +240,7 @@ export interface UseDataTableOptions<T> {
   filterOperators?: FilterOperatorDef[];
 }
 
-export interface SelectionApi<T> {
+export interface SelectionApi<T extends RowData> {
   mode: SelectionMode;
   state: SelectionState;
   /** Rows the user believes are selected, including the all-matching case. */
@@ -257,7 +259,7 @@ export interface SelectionApi<T> {
   asBulk: () => BulkSelection;
 }
 
-export interface EditApi<T> {
+export interface EditApi<T extends RowData> {
   enabled: boolean;
   state: EditState;
   isEditing: (rowId: string, columnId: string) => boolean;
@@ -268,7 +270,7 @@ export interface EditApi<T> {
   contextFor: (row: TableRowModel<T>, columnId: string) => TableEditContext<T> | null;
 }
 
-export interface DetailApi<T> {
+export interface DetailApi<T extends RowData> {
   enabled: boolean;
   state: DetailState;
   row: T | null;
@@ -312,13 +314,17 @@ export interface HorizontalScrollApi extends HorizontalScrollState {
   by: (direction: -1 | 1) => void;
 }
 
-export interface DataTableApi<T> {
+export interface DataTableApi<T extends RowData> {
   /**
    * The raw TanStack instance. Exposed deliberately as the escape hatch: every
    * feature the wrapper does not cover is reachable through it, which is what
    * stops a missing prop from being a fork.
+   *
+   * The *React* instance, not core's: since v9 the framework adapter is what
+   * adds `state`, `Subscribe` and `FlexRender` on top of the shared table, and a
+   * React consumer reaching for the escape hatch wants those.
    */
-  table: TableInstance<T>;
+  table: ReactTable<UioTableFeatures, T, TableState<UioTableFeatures>>;
   /** The rows to render — the current page, before virtualization. */
   rows: TableRowModel<T>[];
   /**

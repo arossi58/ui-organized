@@ -2,7 +2,7 @@ import { Fragment, useMemo, type CSSProperties } from "react";
 import { clsx } from "clsx";
 import { flexRender } from "@tanstack/react-table";
 import { Checkbox } from "@ui-organized/react";
-import { cardFieldOrder } from "@ui-organized/table-core";
+import { cardFieldOrder, type RowData } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
 import { TableRowActions } from "../TableRowActions/index.js";
 import { TableEmpty } from "../TableStates/index.js";
@@ -76,7 +76,13 @@ export function TableCards({ className }: TableCardsProps) {
   );
 }
 
-export function TableCard<T>({ row, index, fields, measureElement, className }: TableCardProps<T>) {
+export function TableCard<T extends RowData>({
+  row,
+  index,
+  fields,
+  measureElement,
+  className,
+}: TableCardProps<T>) {
   const api = useTableContext<T>();
   const { selection, primaryColumnId, options, activate, table } = api;
   const selected = selection.isSelected(row.id);

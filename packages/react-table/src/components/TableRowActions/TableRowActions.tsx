@@ -3,6 +3,7 @@ import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/
 import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
 import type { TableRowActionsProps } from "./TableRowActions.types.js";
+import type { RowData } from "@ui-organized/table-core";
 
 /**
  * Per-row actions, as a menu rather than a row of buttons.
@@ -11,7 +12,7 @@ import type { TableRowActionsProps } from "./TableRowActions.types.js";
  * when there are two hundred rows — and it is the only affordance that survives
  * card mode unchanged.
  */
-export function TableRowActions<T>({
+export function TableRowActions<T extends RowData>({
   row,
   actions,
   label = "Row actions",

@@ -13,6 +13,7 @@ import { TablePagination } from "../components/TablePagination/index.js";
 import { TableSelectionBar } from "../components/TableSelectionBar/index.js";
 import { TableToolbar } from "../components/TableToolbar/index.js";
 import type { DataTableProps } from "./DataTable.types.js";
+import type { RowData } from "@ui-organized/table-core";
 
 /**
  * Layer 3: the whole table from a props object.
@@ -21,7 +22,7 @@ import type { DataTableProps } from "./DataTable.types.js";
  * test of whether layer 2 is real. Anything this does that the parts cannot is a
  * gap in the parts, not a feature of the wrapper.
  */
-export function DataTable<T>({ className, ...options }: DataTableProps<T>) {
+export function DataTable<T extends RowData>({ className, ...options }: DataTableProps<T>) {
   const api = useDataTable<T>(options);
 
   return (

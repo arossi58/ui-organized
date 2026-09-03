@@ -15,6 +15,7 @@ import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
 import type { BulkAction } from "../../core/types.js";
 import type { TableSelectionBarProps } from "./TableSelectionBar.types.js";
+import type { RowData } from "@ui-organized/table-core";
 
 /**
  * Appears only while something is selected.
@@ -23,7 +24,10 @@ import type { TableSelectionBarProps } from "./TableSelectionBar.types.js";
  * `role="toolbar"` and its roving focus are for. Destructive actions route
  * through `AlertDialog`; "archive 40,000 rows" is not an undo-able mis-click.
  */
-export function TableSelectionBar<T>({ actions, className }: TableSelectionBarProps<T>) {
+export function TableSelectionBar<T extends RowData>({
+  actions,
+  className,
+}: TableSelectionBarProps<T>) {
   const { selection, size, options } = useTableContext<T>();
   const [confirming, setConfirming] = useState<BulkAction<T> | null>(null);
   const items = actions ?? options.bulkActions ?? [];

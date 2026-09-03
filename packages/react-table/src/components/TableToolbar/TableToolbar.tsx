@@ -152,7 +152,7 @@ export function TableSortMenu({ label = "Sort", className }: TableSortMenuProps)
   const columns = table.getAllLeafColumns().filter((column) => column.getCanSort());
   if (columns.length === 0) return null;
 
-  const [active] = table.getState().sorting;
+  const [active] = table.state.sorting;
   const activeId = active?.id ?? "";
   const direction = active?.desc ? "desc" : "asc";
 

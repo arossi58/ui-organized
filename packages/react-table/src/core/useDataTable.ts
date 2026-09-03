@@ -20,14 +20,16 @@ import {
   type KeyboardEvent as ReactKeyboardEvent,
 } from "react";
 import {
-  useReactTable,
+  useTable,
   type ColumnOrderState,
   type ColumnPinningState,
   type ColumnSizingState,
   type PaginationState,
   type SortingState,
   type Updater,
-  type VisibilityState,
+  type ColumnVisibilityState,
+  type RowData,
+  type TableState,
 } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
@@ -89,6 +91,7 @@ import {
   type TableRowModel,
   type TableRowScope,
   type HorizontalScrollState,
+  type UioTableFeatures,
 } from "@ui-organized/table-core";
 import { useStore } from "./useStore.js";
 import { actionsColumn, selectionColumn } from "./systemColumns.js";
@@ -127,29 +130,51 @@ function readPath(row: unknown, path: string): unknown {
 }
 
 /** A few real values from a column, for type inference. */
-function sampleColumn<T>(data: readonly T[], def: TableColumn<T>, id: string): unknown[] {
+function sampleColumn<T extends RowData>(
+  data: readonly T[],
+  def: TableColumn<T>,
+  id: string,
+): unknown[] {
   const key = (def as { accessorKey?: string }).accessorKey ?? id;
   // Twenty, not one: a leading null should not get to decide the type.
   return data.slice(0, 20).map((row) => readPath(row, key));
 }
 
+/** TanStack's logical pinning positions, in this design system's physical ones. */
+const PINNED_SIDE: Record<string, "left" | "right" | false> = {
+  start: "left",
+  end: "right",
+  false: false,
+  undefined: false,
+};
+
 function applyUpdater<S>(updater: Updater<S>, previous: S): S {
   return typeof updater === "function" ? (updater as (old: S) => S)(previous) : updater;
 }
 
-/** `meta.sticky` is our vocabulary; `columnPinning` is TanStack's. */
-function pinningFromMeta<T>(columns: readonly TableColumn<T>[]): ColumnPinningState {
-  const left: string[] = [];
-  const right: string[] = [];
+/**
+ * `meta.sticky` is our vocabulary; `columnPinning` is TanStack's.
+ *
+ * The two disagree on more than the key name since v9: TanStack pins to
+ * `start`/`end`, which is the correct call for a library that has to work in
+ * both writing directions, while this design system says `left`/`right` because
+ * its sticky offsets are physical CSS properties. `stickyPositionOf` in
+ * table-core translates the other direction; this is the way in.
+ */
+function pinningFromMeta<T extends RowData>(
+  columns: readonly TableColumn<T>[],
+): ColumnPinningState {
+  const start: string[] = [];
+  const end: string[] = [];
   for (const def of columns) {
     const sticky = metaOf<T>(def)?.sticky;
-    if (sticky === "left") left.push(columnIdOf(def));
-    else if (sticky === "right") right.push(columnIdOf(def));
+    if (sticky === "left") start.push(columnIdOf(def));
+    else if (sticky === "right") end.push(columnIdOf(def));
   }
-  return { left, right };
+  return { start, end };
 }
 
-export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T> {
+export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>): DataTableApi<T> {
   const {
     data,
     columns,
@@ -214,7 +239,7 @@ export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T
   const columnFilters = useMemo(() => toColumnFilters(deferredConditions), [deferredConditions]);
   const [search, setSearch] = useState("");
   const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize });
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibilityState>(
     defaultColumnVisibility ?? {},
   );
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
@@ -325,7 +350,7 @@ export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T
     ],
   );
 
-  const table = useReactTable<T>({
+  const table = useTable<UioTableFeatures, T, TableState<UioTableFeatures>>({
     ...tableOptions,
     state: {
       sorting,
@@ -372,7 +397,10 @@ export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T
     visibleColumns.map((column) => ({
       id: column.id,
       size: column.getSize(),
-      pinned: column.getIsPinned(),
+      // TanStack pins to `start`/`end`; `layoutColumns` speaks the design
+      // system's `left`/`right`, which is what the sticky offsets are written
+      // in. Same translation `stickyPositionOf` makes on the way out.
+      pinned: PINNED_SIDE[String(column.getIsPinned())] ?? false,
     })),
     mode === "table" ? viewportWidth : null,
   );
@@ -380,7 +408,7 @@ export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T
   // `aria-rowcount` reports.
   const totalMatching = manual
     ? (rowCount ?? rows.length)
-    : table.getPrePaginationRowModel().rows.length;
+    : table.getPrePaginatedRowModel().rows.length;
   const rowOffset = paginated && !manual ? pagination.pageIndex * pagination.pageSize : 0;
 
   // ── Virtualization ────────────────────────────────────────────────────────
@@ -525,8 +553,8 @@ export function useDataTable<T>(options: UseDataTableOptions<T>): DataTableApi<T
       // The loaded rows are materialised as well as the flag, so
       // `getSelectedRowModel()` — and therefore CSV export and any bulk action
       // over real row objects — still works for the rows the client has.
-      const rowsState: Record<string, boolean> = {};
-      for (const row of table.getPrePaginationRowModel().rows) rowsState[row.id] = true;
+      const rowsState: Record<string, true> = {};
+      for (const row of table.getPrePaginatedRowModel().rows) rowsState[row.id] = true;
       return { ...next, rows: rowsState };
     });
   }, [table]);
