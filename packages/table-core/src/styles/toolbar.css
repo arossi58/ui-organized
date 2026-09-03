@@ -1,0 +1,145 @@
+/* ─── Toolbar, filters, pagination and the selection bar ─────────────────────
+   These are layout only. Every control inside them is a real design-system
+   component — Button, Input, Select, Menu, Checkbox — so this file owns where
+   they sit and nothing about how they look. */
+
+.data-table__toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  flex-wrap: wrap;
+}
+
+.data-table__toolbar-spacer {
+  flex: 1 1 auto;
+  min-width: var(--spacing-space-04);
+}
+
+/* ─── The header's right-hand cluster ─────────────────────────────────────────
+   The developer's own actions, then a rule, then the table's chrome: filter,
+   sort, export, columns. The rule is what says those two groups are different
+   kinds of thing — one belongs to the page, one to the table. */
+
+.data-table__toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  flex-wrap: wrap;
+}
+
+/* The toolbar is `align-items: center`, so a vertical Divider's `align-self:
+   stretch` has nothing to stretch to and collapses to its 1em minimum. Pinning
+   it to the control height makes it the same height as the buttons it sits
+   between. */
+.data-table__toolbar-divider {
+  height: var(--control-height-md);
+  margin-inline: var(--spacing-space-01);
+}
+
+.data-table__search {
+  flex: 0 1 var(--dimension-07);
+  min-width: var(--dimension-05);
+}
+
+/* ─── Horizontal scroll buttons ──────────────────────────────────────────────
+   Rendered only while the viewport is hiding columns. Gapped tighter than the
+   toolbar itself so the pair reads as one control with two ends, rather than as
+   two more unrelated buttons at the end of the row. */
+
+.data-table__scroll-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+}
+
+/* ─── Pagination row ────────────────────────────────────────────────────────── */
+
+.data-table__pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-03);
+  flex-wrap: wrap;
+}
+
+.data-table__pagination-status {
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+.data-table__page-size {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+/* ─── Selection bar ──────────────────────────────────────────────────────────
+   Appears only when the selection is non-empty. It is a `Toolbar`, so it comes
+   with the library's own surface; this only positions it and states the count. */
+
+.data-table__selection-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.data-table__selection-count {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  white-space: nowrap;
+}
+
+/* "Select all 40,000 matching" — the offer to escape page-scoped selection.
+   Inline in the bar rather than a separate banner, because it is only ever
+   relevant while a selection exists. */
+.data-table__selection-all {
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+.data-table__selection-link {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--color-interactive-primary-default);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.data-table__selection-link:hover {
+  color: var(--color-interactive-primary-hover);
+}
+
+.data-table__selection-link:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-01);
+}
+
+/* ─── Selection and row-action columns ────────────────────────────────────────
+   Both hold a control where every other cell holds text, and that is the whole
+   reason they opt out of the shared cell's truncation. `text-overflow: ellipsis`
+   paints a "…" the moment a cell's inline box overflows by a pixel — which an
+   inline-flex button in a 56px column does — and a "…" beside a row's action
+   menu reads as a value that was cut off rather than as a control. `visible`
+   also stops a focus ring being clipped by the cell it is drawn inside. */
+
+.data-table__select-cell,
+.data-table__actions-cell {
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* The checkbox has a closed prop API — no ref, no onClick, no data-* — so a
+   shift-click range needs a wrapper that can see the modifier key before the
+   change event fires. This is that wrapper. */
+.data-table__select-hit {
+  display: inline-flex;
+  align-items: center;
+}

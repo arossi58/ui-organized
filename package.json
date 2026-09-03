@@ -16,7 +16,7 @@
     "generate:release-dates": "node scripts/sync-release-dates.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke",
+    "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/react-table test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke",
     "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish",
     "quality": "node scripts/quality/run.mjs",
     "quality:lint": "node scripts/quality/lint.mjs",

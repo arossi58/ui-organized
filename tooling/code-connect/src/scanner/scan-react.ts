@@ -35,8 +35,24 @@ export interface ScannedComponent {
   usageSnippet: string;
 }
 
-const PKG = "@ui-organized/react";
-const INDEX = "packages/react/src/index.ts";
+/**
+ * The export barrels to scan, and the package each one is imported from.
+ *
+ * There is more than one now because the data table ships as its own package —
+ * a table engine plus a virtualizer is a transitive dependency every consumer of
+ * `Button` would otherwise pay for at install time (TABLE.md).
+ *
+ * They are scanned in ONE pass, deliberately. `reconcile()` deprecates anything
+ * absent from the scan it is given, so scanning the roots separately would mark
+ * the entire React library deprecated on the react-table pass and vice versa.
+ *
+ * `@ui-organized/table-core` is not a root: it exports types, prop builders and
+ * behaviours, and not a single component.
+ */
+export const ROOTS: { pkg: string; index: string }[] = [
+  { pkg: "@ui-organized/react", index: "packages/react/src/index.ts" },
+  { pkg: "@ui-organized/react-table", index: "packages/react-table/src/index.ts" },
+];
 
 /** Members that are never part of the meaningful public API surface. */
 const SKIP_NAMES = new Set(["ref", "key", "asChild", "render"]);
@@ -116,16 +132,112 @@ interface FoundProps {
   file: string;
 }
 
+/** Nearest ancestor directory holding a package.json — the package's root. */
+function packageRootOf(dir: string): string {
+  let current = dir;
+  while (!existsSync(join(current, "package.json"))) {
+    const parent = dirname(current);
+    if (parent === current) return dir;
+    current = parent;
+  }
+  return current;
+}
+
+function sourceFilesUnder(dir: string): string[] {
+  const out: string[] = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === "node_modules" || entry.name === "dist") continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) out.push(...sourceFilesUnder(full));
+    else if (isSourceFile(entry.name)) out.push(full);
+  }
+  return out;
+}
+
+/**
+ * Every interface declared in a package, by name.
+ *
+ * Built once per package and cached, because resolving a heritage clause means
+ * looking outside the component's own directory: `DateInputProps extends
+ * DateFieldProps` crosses from `DateInput/` to `DateField/`, and
+ * `DataTableProps extends UseDataTableOptions` crosses from `DataTable/` to
+ * `core/`.
+ */
+const interfaceIndexCache = new Map<string, Map<string, { decl: ts.InterfaceDeclaration; sf: ts.SourceFile }>>();
+
+function interfaceIndex(packageRoot: string) {
+  const cached = interfaceIndexCache.get(packageRoot);
+  if (cached) return cached;
+  const index = new Map<string, { decl: ts.InterfaceDeclaration; sf: ts.SourceFile }>();
+  const srcDir = join(packageRoot, "src");
+  if (existsSync(srcDir)) {
+    for (const file of sourceFilesUnder(srcDir)) {
+      const sf = parse(file);
+      for (const stmt of sf.statements) {
+        if (ts.isInterfaceDeclaration(stmt) && !index.has(stmt.name.text)) {
+          index.set(stmt.name.text, { decl: stmt, sf });
+        }
+      }
+    }
+  }
+  interfaceIndexCache.set(packageRoot, index);
+  return index;
+}
+
+/**
+ * An interface's own members, plus the members of any base interface declared in
+ * the same package.
+ *
+ * Inherited DOM attributes stay excluded — `extends React.ComponentPropsWithRef`
+ * and `extends Omit<…>` name no local interface, so they resolve to nothing,
+ * which is exactly the existing behaviour and the reason a component's entry
+ * lists its meaningful props rather than two hundred HTML attributes. What this
+ * adds is the case where the meaningful props ARE the inherited ones:
+ * `DataTableProps extends UseDataTableOptions` would otherwise document a single
+ * `className` for the largest component in the system.
+ *
+ * A derived member wins over a base member of the same name — that is what
+ * narrowing a prop in a subtype means.
+ */
+function membersWithHeritage(
+  decl: ts.InterfaceDeclaration,
+  sf: ts.SourceFile,
+  packageRoot: string,
+  seen = new Set<string>(),
+): PropDefinition[] {
+  const own = extractProps(decl.members, sf);
+  if (seen.has(decl.name.text)) return own;
+  seen.add(decl.name.text);
+
+  const inherited: PropDefinition[] = [];
+  for (const clause of decl.heritageClauses ?? []) {
+    if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
+    for (const type of clause.types) {
+      // Only a bare identifier: `React.X` is a property access and `Omit<…>`
+      // names a utility type, neither of which is a local interface.
+      if (!ts.isIdentifier(type.expression)) continue;
+      const base = interfaceIndex(packageRoot).get(type.expression.text);
+      if (!base) continue;
+      inherited.push(...membersWithHeritage(base.decl, base.sf, packageRoot, seen));
+    }
+  }
+
+  const byName = new Map<string, PropDefinition>();
+  for (const prop of [...inherited, ...own]) byName.set(prop.name, prop);
+  return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
 /** Locate the `${propsName}` declaration within a directory's source files. */
 function findPropsDecl(searchDir: string, propsName: string): FoundProps | null {
   if (!existsSync(searchDir)) return null;
+  const packageRoot = packageRootOf(searchDir);
   const files = readdirSync(searchDir).filter(isSourceFile);
   for (const file of files) {
     const full = join(searchDir, file);
     const sf = parse(full);
     for (const stmt of sf.statements) {
       if (ts.isInterfaceDeclaration(stmt) && stmt.name.text === propsName) {
-        return { props: extractProps(stmt.members, sf), file: full };
+        return { props: membersWithHeritage(stmt, sf, packageRoot), file: full };
       }
       if (ts.isTypeAliasDeclaration(stmt) && stmt.name.text === propsName) {
         // `type XProps = { ... }` → read the literal; alias to HTMLAttributes → no
@@ -139,6 +251,8 @@ function findPropsDecl(searchDir: string, propsName: string): FoundProps | null 
 }
 
 interface ExportModule {
+  /** The package this module's exports are imported from. */
+  pkg: string;
   /** Directory to search for prop declarations (from the module specifier). */
   searchDir: string;
   /** Exported value symbols (e.g. `Button`, `CardHeader`). */
@@ -147,9 +261,10 @@ interface ExportModule {
   types: Set<string>;
 }
 
-/** Parse index.ts into per-module value/type export sets. */
-function parseIndex(repoRoot: string): ExportModule[] {
-  const indexPath = resolve(repoRoot, INDEX);
+/** Parse one export barrel into per-module value/type export sets. */
+function parseIndex(repoRoot: string, root: { pkg: string; index: string }): ExportModule[] {
+  const indexPath = resolve(repoRoot, root.index);
+  if (!existsSync(indexPath)) return [];
   const indexDir = dirname(indexPath);
   const sf = parse(indexPath);
   const byModule = new Map<string, ExportModule>();
@@ -164,7 +279,7 @@ function parseIndex(repoRoot: string): ExportModule[] {
     const searchDir = dirname(resolve(indexDir, spec)); // .../Button/index.js → .../Button
     let mod = byModule.get(searchDir);
     if (!mod) {
-      mod = { searchDir, values: [], types: new Set() };
+      mod = { pkg: root.pkg, searchDir, values: [], types: new Set() };
       byModule.set(searchDir, mod);
     }
 
@@ -189,11 +304,11 @@ function usageSeed(name: string, props: PropDefinition[]): string {
 }
 
 /**
- * Scan `@ui-organized/react`'s public exports for mappable components.
+ * Scan every root's public exports for mappable components, in one pass.
  * @param repoRoot absolute path to the monorepo root.
  */
 export function scanReact(repoRoot: string): ScannedComponent[] {
-  const modules = parseIndex(repoRoot);
+  const modules = ROOTS.flatMap((root) => parseIndex(repoRoot, root));
   const scanned: ScannedComponent[] = [];
 
   for (const mod of modules) {
@@ -208,7 +323,7 @@ export function scanReact(repoRoot: string): ScannedComponent[] {
         codeName,
         codePath: relative(repoRoot, found.file),
         framework: "react",
-        importStatement: `import { ${codeName} } from '${PKG}';`,
+        importStatement: `import { ${codeName} } from '${mod.pkg}';`,
         props: found.props,
         propSignatureHash: hashProps(found.props),
         usageSnippet: usageSeed(codeName, found.props),

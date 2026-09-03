@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@ui-organized/react": "workspace:*",
+    "@ui-organized/react-table": "workspace:*",
     "@ui-organized/storybook-inspector": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T16:57:11.422Z",
+  "generatedAt": "2026-08-27T18:15:20.632Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -21,6 +21,7 @@
     "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
+    "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:19545bed9418f849",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
@@ -37,10 +38,11 @@
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioItem": "sha256:b868f7539ba601cd",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:4f53cda18c2baa0c",
+    "packages/react-table/src/DataTable/DataTable.types.ts::DataTable": "sha256:ab7e8f66ad90b0b9",
+    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
-    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": "sha256:c5b2bf0497293634",
@@ -117,11 +119,40 @@
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": "sha256:0341f1edb917c622",
-    "packages/react/src/components/SignaturePad/SignaturePad.types.ts::SignaturePad": "sha256:5d7550266d4b805e",
+    "packages/react/src/components/SignaturePad/SignaturePad.types.ts::SignaturePad": "sha256:b7fbad87145c2b47",
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
     "packages/react/src/components/Splitter/Splitter.types.ts::Splitter": "sha256:333d3414459f7252",
     "packages/react/src/components/Steps/Steps.types.ts::Steps": "sha256:ba967994bcab4048",
     "packages/react/src/components/Switch/Switch.types.ts::Switch": "sha256:42ffb8903433d9dc",
+    "packages/react-table/src/components/Table/Table.types.ts::Table": "sha256:2f00c389ec961ef4",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableActions": "sha256:b512149875b19a53",
+    "packages/react-table/src/components/Table/Table.types.ts::TableBody": "sha256:4e1d72ca83b62efd",
+    "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCard": "sha256:47f0145b02dfeb5d",
+    "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCards": "sha256:1d83a9eaf1f23632",
+    "packages/react-table/src/components/Table/Table.types.ts::TableCell": "sha256:1019fa022d35b9f9",
+    "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts::TableDetailSheet": "sha256:4d40b2c45bf5c087",
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": "sha256:0c9cebf01d0d18eb",
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableError": "sha256:b2511e333bc5e979",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableExportMenu": "sha256:cfb165bf50cb1789",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterAdd": "sha256:fde2af977ec00d75",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterChip": "sha256:2957cc9efe245da9",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterEditor": "sha256:c7a723631f4e59c2",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilters": "sha256:1d83a9eaf1f23632",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterValueEditor": "sha256:8410efe385c8c430",
+    "packages/react-table/src/components/Table/Table.types.ts::TableFooter": "sha256:2f00c389ec961ef4",
+    "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": "sha256:e91a4591a00cee55",
+    "packages/react-table/src/components/Table/Table.types.ts::TableHeader": "sha256:1d83a9eaf1f23632",
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableLoading": "sha256:4f8b36fe1aff7433",
+    "packages/react-table/src/components/TablePagination/TablePagination.types.ts::TablePagination": "sha256:14711ae142cd3385",
+    "packages/react-table/src/core/TableContext.tsx::TableProvider": "sha256:1df0f2ad5f9cd57e",
+    "packages/react-table/src/components/Table/Table.types.ts::TableRow": "sha256:8db392154501e9a6",
+    "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts::TableRowActions": "sha256:4a089adf1b634630",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": "sha256:94cab4cb15698d5d",
+    "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts::TableSelectionBar": "sha256:8ac9e9cad8f9dda2",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": "sha256:c6a930f97323ee0d",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": "sha256:2f00c389ec961ef4",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
+    "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
     "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:e022f7c3635671e2",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
@@ -670,6 +701,85 @@
         "description": "Whether the checkbox is required for form submission."
       }
     ],
+    "packages/react/src/components/Chip/Chip.types.ts::Chip": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The value half."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false,
+        "description": "Class for the chip's wrapper."
+      },
+      {
+        "name": "detail",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The quiet middle."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "dropdown",
+        "type": "boolean",
+        "required": false,
+        "description": "Draws a trailing chevron, for a chip that opens a menu or popover."
+      },
+      {
+        "name": "icon",
+        "type": "CanonicalIconName | IconComponent",
+        "required": false,
+        "description": "Leading icon — a canonical name, or a library icon component."
+      },
+      {
+        "name": "incomplete",
+        "type": "boolean",
+        "required": false,
+        "description": "The chip exists but does not yet stand for anything — a filter with no value chosen."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The emphasized half — what the chip is *about*."
+      },
+      {
+        "name": "onRemove",
+        "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+        "required": false,
+        "description": "Renders a dismiss button as a **sibling** of the chip's body."
+      },
+      {
+        "name": "operator",
+        "type": "ComparisonIconName",
+        "required": false,
+        "description": "The relation between label and value, **drawn**: one of the design system's six comparison glyphs."
+      },
+      {
+        "name": "operatorLabel",
+        "type": "string",
+        "required": false,
+        "description": "The glyph's accessible name — \"contains\"."
+      },
+      {
+        "name": "removeLabel",
+        "type": "string",
+        "required": false,
+        "description": "The dismiss button's accessible name."
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": false,
+        "description": "Its popover is open, or it is toggled on."
+      }
+    ],
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": [
       {
         "name": "className",
@@ -1147,7 +1257,249 @@
     ],
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": [],
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": [],
-    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": [],
+    "packages/react-table/src/DataTable/DataTable.types.ts::DataTable": [
+      {
+        "name": "actions",
+        "type": "TableAction[]",
+        "required": false,
+        "description": "The table's own actions, rendered in the header row."
+      },
+      {
+        "name": "bulkActions",
+        "type": "BulkAction<T>[]",
+        "required": false
+      },
+      {
+        "name": "captionVisible",
+        "type": "boolean",
+        "required": false,
+        "description": "Show the caption instead of hiding it visually."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "readonly TableColumn<T>[]",
+        "required": true
+      },
+      {
+        "name": "data",
+        "type": "readonly T[]",
+        "required": true
+      },
+      {
+        "name": "defaultColumnVisibility",
+        "type": "Record<string, boolean>",
+        "required": false
+      },
+      {
+        "name": "defaultFilters",
+        "type": "TableFilterInput[]",
+        "required": false,
+        "description": "Conditions the table starts with."
+      },
+      {
+        "name": "defaultSorting",
+        "type": "{ id: string; desc: boolean }[]",
+        "required": false
+      },
+      {
+        "name": "detail",
+        "type": "DetailConfig<T>",
+        "required": false
+      },
+      {
+        "name": "empty",
+        "type": "EmptyStateConfig",
+        "required": false
+      },
+      {
+        "name": "error",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "exportable",
+        "type": "boolean",
+        "required": false,
+        "description": "Offer CSV download and clipboard copy in the toolbar."
+      },
+      {
+        "name": "filterable",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "filterOperators",
+        "type": "FilterOperatorDef[]",
+        "required": false,
+        "description": "Extra or replacement operators."
+      },
+      {
+        "name": "getRowId",
+        "type": "(row: T, index: number) => string",
+        "required": false,
+        "description": "Stable row identity."
+      },
+      {
+        "name": "hideableColumns",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true,
+        "description": "The table's accessible name."
+      },
+      {
+        "name": "loading",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "manual",
+        "type": "boolean",
+        "required": false,
+        "description": "Server-driven mode."
+      },
+      {
+        "name": "maxHeight",
+        "type": "number | string",
+        "required": false,
+        "description": "Caps the scroll viewport."
+      },
+      {
+        "name": "onEdit",
+        "type": "(patch: TableEditPatch<T>) => void | Promise<void>",
+        "required": false
+      },
+      {
+        "name": "onLoadMore",
+        "type": "() => void",
+        "required": false,
+        "description": "Infinite scroll: fires as the viewport approaches the end of the rows."
+      },
+      {
+        "name": "onQueryChange",
+        "type": "(query: DataTableQuery) => void",
+        "required": false
+      },
+      {
+        "name": "onRowClick",
+        "type": "(row: T) => void",
+        "required": false
+      },
+      {
+        "name": "pageSize",
+        "type": "number",
+        "required": false
+      },
+      {
+        "name": "paginated",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "reorderable",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "resizable",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "responsive",
+        "type": "ResponsiveConfig",
+        "required": false
+      },
+      {
+        "name": "rowActions",
+        "type": "RowAction<T>[]",
+        "required": false
+      },
+      {
+        "name": "rowCount",
+        "type": "number",
+        "required": false,
+        "description": "Total matching rows."
+      },
+      {
+        "name": "searchable",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "selection",
+        "type": "SelectionMode",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "TableSize",
+        "required": false
+      },
+      {
+        "name": "sortable",
+        "type": "boolean",
+        "required": false
+      },
+      {
+        "name": "sortMenu",
+        "type": "boolean",
+        "required": false,
+        "description": "The header's sort button."
+      },
+      {
+        "name": "variant",
+        "type": "TableVariant",
+        "required": false
+      },
+      {
+        "name": "virtual",
+        "type": "boolean | VirtualConfig",
+        "required": false,
+        "description": "Row virtualization."
+      }
+    ],
+    "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": [
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the calendar popover into."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": [
       {
         "name": "className",
@@ -1406,7 +1758,39 @@
         "description": "Controlled value."
       }
     ],
-    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": [],
+    "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": [
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "Error state."
+      },
+      {
+        "name": "helperText",
+        "type": "string",
+        "required": false,
+        "description": "Helper text rendered below the control."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible label text rendered above the control."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the calendar popover into."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size variant."
+      }
+    ],
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": [
       {
         "name": "children",
@@ -3869,7 +4253,7 @@
       },
       {
         "name": "onDrawEnd",
-        "type": "( paths: string[], getDataUrl: (type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number) => Promise<string>, ) => void",
+        "type": "( paths: string[], getDataUrl: ( type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number, ) => Promise<string>, ) => void",
         "required": false,
         "description": "Called when a stroke finishes."
       },
@@ -4152,6 +4536,553 @@
         "type": "boolean",
         "required": false,
         "description": "Whether the switch is required for form submission."
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::Table": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableActions": [
+      {
+        "name": "actions",
+        "type": "TableAction[]",
+        "required": false,
+        "description": "Overrides `options.actions`."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableBody": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCard": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "fields",
+        "type": "string[]",
+        "required": true,
+        "description": "Column ids to show as fields, already ordered by `meta.priority`."
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": true,
+        "description": "Index within the current page."
+      },
+      {
+        "name": "measureElement",
+        "type": "(element: HTMLElement | null) => void",
+        "required": false
+      },
+      {
+        "name": "row",
+        "type": "TableRowModel<T>",
+        "required": true
+      }
+    ],
+    "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCards": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableCell": [
+      {
+        "name": "cell",
+        "type": "Cell<T, unknown>",
+        "required": true
+      },
+      {
+        "name": "editContext",
+        "type": "TableEditContext<T> | null",
+        "required": true,
+        "description": "The row's open editor, if it has one."
+      },
+      {
+        "name": "focused",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": true,
+        "description": "Index among visible columns."
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "onFocusCell",
+        "type": "(cursor: GridCursor) => void",
+        "required": true
+      },
+      {
+        "name": "onStartEdit",
+        "type": "(row: TableRowModel<T>, columnId: string) => void",
+        "required": false
+      },
+      {
+        "name": "primary",
+        "type": "boolean",
+        "required": true,
+        "description": "This is the identifying column, so the cell is a `<th scope=\"row\">`."
+      },
+      {
+        "name": "row",
+        "type": "TableRowModel<T>",
+        "required": true
+      },
+      {
+        "name": "rowIndex",
+        "type": "number",
+        "required": true,
+        "description": "The row's index within the current page — half of the cursor coordinate."
+      },
+      {
+        "name": "table",
+        "type": "TableInstance<T>",
+        "required": true
+      }
+    ],
+    "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts::TableDetailSheet": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Panel width."
+      }
+    ],
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": [
+      {
+        "name": "action",
+        "type": "ReactNode",
+        "required": false,
+        "description": "A call to action — \"Add the first row\", \"Clear filters\"."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableError": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableExportMenu": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterAdd": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "iconOnly",
+        "type": "boolean",
+        "required": false,
+        "description": "Render as the header's icon-only funnel rather than the bar's \"＋ Add\"."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "The trigger's label — shown beside the icon in the filter bar, and used as the accessible name of the header's icon-only button."
+      }
+    ],
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterChip": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "condition",
+        "type": "TableFilterCondition",
+        "required": true
+      }
+    ],
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterEditor": [
+      {
+        "name": "condition",
+        "type": "TableFilterCondition",
+        "required": true
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": true,
+        "description": "The element a portalled popup must land inside."
+      }
+    ],
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilters": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterValueEditor": [
+      {
+        "name": "arity",
+        "type": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "required": true,
+        "description": "How many operands the current operator takes."
+      },
+      {
+        "name": "condition",
+        "type": "TableFilterCondition",
+        "required": true
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": true,
+        "description": "The element a portalled popup must land inside."
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableFooter": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": [
+      {
+        "name": "header",
+        "type": "Header<T, unknown>",
+        "required": true
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": true,
+        "description": "Index among visible columns — the `aria-colindex` and the cursor column."
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableHeader": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableLoading": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "rows",
+        "type": "number",
+        "required": false,
+        "defaultValue": "8",
+        "description": "Skeleton rows to render."
+      }
+    ],
+    "packages/react-table/src/components/TablePagination/TablePagination.types.ts::TablePagination": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "pageSizes",
+        "type": "number[]",
+        "required": false,
+        "description": "Page sizes to offer."
+      },
+      {
+        "name": "showPageSize",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Offer a page-size control."
+      }
+    ],
+    "packages/react-table/src/core/TableContext.tsx::TableProvider": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "value",
+        "type": "DataTableApi<T>",
+        "required": true
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableRow": [
+      {
+        "name": "absoluteIndex",
+        "type": "number",
+        "required": true,
+        "description": "Index within the whole dataset — what `aria-rowindex` reports."
+      },
+      {
+        "name": "clickable",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "editContext",
+        "type": "TableEditContext<T> | null",
+        "required": true,
+        "description": "Non-null only for the row that has a cell open for editing."
+      },
+      {
+        "name": "editing",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "focusedCol",
+        "type": "number | null",
+        "required": true,
+        "description": "Cursor column when the cursor is on this row, else null."
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": true,
+        "description": "Index within the current page — the cursor's row coordinate."
+      },
+      {
+        "name": "interactive",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "measureElement",
+        "type": "(element: HTMLElement | null) => void",
+        "required": false,
+        "description": "The virtualizer's measurement hook."
+      },
+      {
+        "name": "onActivate",
+        "type": "(row: TableRowModel<T>) => void",
+        "required": false,
+        "description": "Row activation — opens the detail sheet, or calls `onRowClick`."
+      },
+      {
+        "name": "onFocusCell",
+        "type": "(cursor: GridCursor) => void",
+        "required": true
+      },
+      {
+        "name": "onStartEdit",
+        "type": "(row: TableRowModel<T>, columnId: string) => void",
+        "required": false
+      },
+      {
+        "name": "primaryColumnId",
+        "type": "string | undefined",
+        "required": true
+      },
+      {
+        "name": "row",
+        "type": "TableRowModel<T>",
+        "required": true
+      },
+      {
+        "name": "selectable",
+        "type": "boolean",
+        "required": true,
+        "description": "Row selection is enabled at all — gates `aria-selected`."
+      },
+      {
+        "name": "selected",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "table",
+        "type": "TableInstance<T>",
+        "required": true
+      }
+    ],
+    "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts::TableRowActions": [
+      {
+        "name": "actions",
+        "type": "RowAction<T>[]",
+        "required": false,
+        "description": "Overrides the table's own `rowActions`."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Row",
+        "description": "Accessible name for the trigger."
+      },
+      {
+        "name": "row",
+        "type": "T",
+        "required": true,
+        "description": "The row the actions operate on."
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Search",
+        "description": "Accessible name."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts::TableSelectionBar": [
+      {
+        "name": "actions",
+        "type": "BulkAction<T>[]",
+        "required": false,
+        "description": "Overrides the table's own `bulkActions`."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Sort",
+        "description": "Accessible name for the icon-only trigger."
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "Replaces the default arrangement entirely."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/Table/Table.types.ts::TableViewport": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "maxHeight",
+        "type": "number | string",
+        "required": false,
+        "description": "Caps the scroll height."
       }
     ],
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": [

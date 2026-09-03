@@ -19,7 +19,16 @@ mkdirSync(QUALITY, { recursive: true });
 
 // Packages whose vitest results are worth attributing. The rest still run under
 // `pnpm test`; they just have no component to attach to.
-const PACKAGES = ["@ui-organized/react", "@ui-organized/marketing"];
+const PACKAGES = [
+  "@ui-organized/react",
+  // The table ships as two packages of its own (see TABLE.md): the framework-free
+  // engine and the React adapter. Both are attributed to the Data Table's docs
+  // page, and core's suite includes the framework-purity assertion — the check
+  // that keeps a second framework adapter possible.
+  "@ui-organized/table-core",
+  "@ui-organized/react-table",
+  "@ui-organized/marketing",
+];
 
 const tests = [];
 let failed = false;

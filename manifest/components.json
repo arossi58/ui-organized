@@ -1,7 +1,1167 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-08-17T16:57:11.422Z",
+  "generatedAt": "2026-08-27T18:15:20.632Z",
   "components": [
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Table",
+      "codeName": "Table",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { Table } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<Table>…</Table>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableBody",
+      "codeName": "TableBody",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableBody } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableBody>…</TableBody>",
+      "propSignatureHash": "sha256:4e1d72ca83b62efd",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCell",
+      "codeName": "TableCell",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCell } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "cell",
+          "type": "Cell<T, unknown>",
+          "required": true
+        },
+        {
+          "name": "editContext",
+          "type": "TableEditContext<T> | null",
+          "required": true,
+          "description": "The row's open editor, if it has one."
+        },
+        {
+          "name": "focused",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index among visible columns."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onFocusCell",
+          "type": "(cursor: GridCursor) => void",
+          "required": true
+        },
+        {
+          "name": "onStartEdit",
+          "type": "(row: TableRowModel<T>, columnId: string) => void",
+          "required": false
+        },
+        {
+          "name": "primary",
+          "type": "boolean",
+          "required": true,
+          "description": "This is the identifying column, so the cell is a `<th scope=\"row\">`."
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        },
+        {
+          "name": "rowIndex",
+          "type": "number",
+          "required": true,
+          "description": "The row's index within the current page — half of the cursor coordinate."
+        },
+        {
+          "name": "table",
+          "type": "TableInstance<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableCell cell={/* Cell<T, unknown> */} editContext={/* TableEditContext<T> | null */} focused={/* boolean */} index={/* number */} interactive={/* boolean */} primary={/* boolean */} row={/* TableRowModel<T> */} rowIndex={/* number */} table={/* TableInstance<T> */} />",
+      "propSignatureHash": "sha256:1019fa022d35b9f9",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFooter",
+      "codeName": "TableFooter",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFooter } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFooter>…</TableFooter>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableHeadCell",
+      "codeName": "TableHeadCell",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableHeadCell } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "header",
+          "type": "Header<T, unknown>",
+          "required": true
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index among visible columns — the `aria-colindex` and the cursor column."
+        }
+      ],
+      "usageSnippet": "<TableHeadCell header={/* Header<T, unknown> */} index={/* number */} />",
+      "propSignatureHash": "sha256:e91a4591a00cee55",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableHeader",
+      "codeName": "TableHeader",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableHeader } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableHeader />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableRow",
+      "codeName": "TableRow",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableRow } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "absoluteIndex",
+          "type": "number",
+          "required": true,
+          "description": "Index within the whole dataset — what `aria-rowindex` reports."
+        },
+        {
+          "name": "clickable",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "editContext",
+          "type": "TableEditContext<T> | null",
+          "required": true,
+          "description": "Non-null only for the row that has a cell open for editing."
+        },
+        {
+          "name": "editing",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "focusedCol",
+          "type": "number | null",
+          "required": true,
+          "description": "Cursor column when the cursor is on this row, else null."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index within the current page — the cursor's row coordinate."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "measureElement",
+          "type": "(element: HTMLElement | null) => void",
+          "required": false,
+          "description": "The virtualizer's measurement hook."
+        },
+        {
+          "name": "onActivate",
+          "type": "(row: TableRowModel<T>) => void",
+          "required": false,
+          "description": "Row activation — opens the detail sheet, or calls `onRowClick`."
+        },
+        {
+          "name": "onFocusCell",
+          "type": "(cursor: GridCursor) => void",
+          "required": true
+        },
+        {
+          "name": "onStartEdit",
+          "type": "(row: TableRowModel<T>, columnId: string) => void",
+          "required": false
+        },
+        {
+          "name": "primaryColumnId",
+          "type": "string | undefined",
+          "required": true
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": true,
+          "description": "Row selection is enabled at all — gates `aria-selected`."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "table",
+          "type": "TableInstance<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableRow absoluteIndex={/* number */} clickable={/* boolean */} editContext={/* TableEditContext<T> | null */} editing={/* boolean */} focusedCol={/* number | null */} index={/* number */} interactive={/* boolean */} primaryColumnId={/* string | undefined */} row={/* TableRowModel<T> */} selectable={/* boolean */} selected={/* boolean */} table={/* TableInstance<T> */} />",
+      "propSignatureHash": "sha256:8db392154501e9a6",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableViewport",
+      "codeName": "TableViewport",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableViewport } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "required": false,
+          "description": "Caps the scroll height."
+        }
+      ],
+      "usageSnippet": "<TableViewport>…</TableViewport>",
+      "propSignatureHash": "sha256:b002972530fec3c2",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCard",
+      "codeName": "TableCard",
+      "codePath": "packages/react-table/src/components/TableCards/TableCards.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCard } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "fields",
+          "type": "string[]",
+          "required": true,
+          "description": "Column ids to show as fields, already ordered by `meta.priority`."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index within the current page."
+        },
+        {
+          "name": "measureElement",
+          "type": "(element: HTMLElement | null) => void",
+          "required": false
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableCard fields={/* string[] */} index={/* number */} row={/* TableRowModel<T> */} />",
+      "propSignatureHash": "sha256:47f0145b02dfeb5d",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCards",
+      "codeName": "TableCards",
+      "codePath": "packages/react-table/src/components/TableCards/TableCards.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCards } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableCards />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableDetailSheet",
+      "codeName": "TableDetailSheet",
+      "codePath": "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableDetailSheet } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Panel width."
+        }
+      ],
+      "usageSnippet": "<TableDetailSheet />",
+      "propSignatureHash": "sha256:4d40b2c45bf5c087",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilter",
+      "codeName": "TableFilter",
+      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilter } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "column",
+          "type": "Column<T, unknown>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableFilter column={/* Column<T, unknown> */} />",
+      "propSignatureHash": "sha256:c66004775e5d7ab7",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "deprecated"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterBar",
+      "codeName": "TableFilterBar",
+      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterBar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFilterBar />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "deprecated"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterAdd",
+      "codeName": "TableFilterAdd",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterAdd } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "iconOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the header's icon-only funnel rather than the bar's \"＋ Add\"."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The trigger's label — shown beside the icon in the filter bar, and used as the accessible name of the header's icon-only button."
+        }
+      ],
+      "usageSnippet": "<TableFilterAdd />",
+      "propSignatureHash": "sha256:fde2af977ec00d75",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterChip",
+      "codeName": "TableFilterChip",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterChip } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableFilterChip condition={/* TableFilterCondition */} />",
+      "propSignatureHash": "sha256:2957cc9efe245da9",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterEditor",
+      "codeName": "TableFilterEditor",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterEditor } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": true,
+          "description": "The element a portalled popup must land inside."
+        }
+      ],
+      "usageSnippet": "<TableFilterEditor condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
+      "propSignatureHash": "sha256:c7a723631f4e59c2",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilters",
+      "codeName": "TableFilters",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilters } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFilters />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterValueEditor",
+      "codeName": "TableFilterValueEditor",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterValueEditor } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "arity",
+          "type": "\"none\" | \"one\" | \"two\" | \"many\"",
+          "required": true,
+          "description": "How many operands the current operator takes."
+        },
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": true,
+          "description": "The element a portalled popup must land inside."
+        }
+      ],
+      "usageSnippet": "<TableFilterValueEditor arity={/* \"none\" | \"one\" | \"two\" | \"many\" */} condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
+      "propSignatureHash": "sha256:8410efe385c8c430",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TablePagination",
+      "codeName": "TablePagination",
+      "codePath": "packages/react-table/src/components/TablePagination/TablePagination.types.ts",
+      "framework": "react",
+      "importStatement": "import { TablePagination } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "pageSizes",
+          "type": "number[]",
+          "required": false,
+          "description": "Page sizes to offer."
+        },
+        {
+          "name": "showPageSize",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Offer a page-size control."
+        }
+      ],
+      "usageSnippet": "<TablePagination />",
+      "propSignatureHash": "sha256:14711ae142cd3385",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableRowActions",
+      "codeName": "TableRowActions",
+      "codePath": "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableRowActions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "RowAction<T>[]",
+          "required": false,
+          "description": "Overrides the table's own `rowActions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Row",
+          "description": "Accessible name for the trigger."
+        },
+        {
+          "name": "row",
+          "type": "T",
+          "required": true,
+          "description": "The row the actions operate on."
+        }
+      ],
+      "usageSnippet": "<TableRowActions row={/* T */} />",
+      "propSignatureHash": "sha256:4a089adf1b634630",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSelectionBar",
+      "codeName": "TableSelectionBar",
+      "codePath": "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSelectionBar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "BulkAction<T>[]",
+          "required": false,
+          "description": "Overrides the table's own `bulkActions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSelectionBar />",
+      "propSignatureHash": "sha256:8ac9e9cad8f9dda2",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableEmpty",
+      "codeName": "TableEmpty",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableEmpty } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "description": "A call to action — \"Add the first row\", \"Clear filters\"."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableEmpty />",
+      "propSignatureHash": "sha256:0c9cebf01d0d18eb",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableError",
+      "codeName": "TableError",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableError } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableError>…</TableError>",
+      "propSignatureHash": "sha256:b2511e333bc5e979",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableLoading",
+      "codeName": "TableLoading",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableLoading } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "Skeleton rows to render."
+        }
+      ],
+      "usageSnippet": "<TableLoading />",
+      "propSignatureHash": "sha256:4f8b36fe1aff7433",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableActions",
+      "codeName": "TableActions",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableActions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "TableAction[]",
+          "required": false,
+          "description": "Overrides `options.actions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableActions />",
+      "propSignatureHash": "sha256:b512149875b19a53",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableExportMenu",
+      "codeName": "TableExportMenu",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableExportMenu } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableExportMenu />",
+      "propSignatureHash": "sha256:cfb165bf50cb1789",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSearch",
+      "codeName": "TableSearch",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSearch } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Search",
+          "description": "Accessible name."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSearch />",
+      "propSignatureHash": "sha256:94cab4cb15698d5d",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSortMenu",
+      "codeName": "TableSortMenu",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSortMenu } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Sort",
+          "description": "Accessible name for the icon-only trigger."
+        }
+      ],
+      "usageSnippet": "<TableSortMenu />",
+      "propSignatureHash": "sha256:c6a930f97323ee0d",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableToolbar",
+      "codeName": "TableToolbar",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableToolbar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Replaces the default arrangement entirely."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableToolbar>…</TableToolbar>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableViewOptions",
+      "codeName": "TableViewOptions",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableViewOptions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableViewOptions />",
+      "propSignatureHash": "sha256:cfb165bf50cb1789",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableProvider",
+      "codeName": "TableProvider",
+      "codePath": "packages/react-table/src/core/TableContext.tsx",
+      "framework": "react",
+      "importStatement": "import { TableProvider } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "DataTableApi<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableProvider value={/* DataTableApi<T> */}>…</TableProvider>",
+      "propSignatureHash": "sha256:1df0f2ad5f9cd57e",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DataTable",
+      "codeName": "DataTable",
+      "codePath": "packages/react-table/src/DataTable/DataTable.types.ts",
+      "framework": "react",
+      "importStatement": "import { DataTable } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "TableAction[]",
+          "required": false,
+          "description": "The table's own actions, rendered in the header row."
+        },
+        {
+          "name": "bulkActions",
+          "type": "BulkAction<T>[]",
+          "required": false
+        },
+        {
+          "name": "captionVisible",
+          "type": "boolean",
+          "required": false,
+          "description": "Show the caption instead of hiding it visually."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "readonly TableColumn<T>[]",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "readonly T[]",
+          "required": true
+        },
+        {
+          "name": "defaultColumnVisibility",
+          "type": "Record<string, boolean>",
+          "required": false
+        },
+        {
+          "name": "defaultFilters",
+          "type": "TableFilterInput[]",
+          "required": false,
+          "description": "Conditions the table starts with."
+        },
+        {
+          "name": "defaultSorting",
+          "type": "{ id: string; desc: boolean }[]",
+          "required": false
+        },
+        {
+          "name": "detail",
+          "type": "DetailConfig<T>",
+          "required": false
+        },
+        {
+          "name": "empty",
+          "type": "EmptyStateConfig",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "exportable",
+          "type": "boolean",
+          "required": false,
+          "description": "Offer CSV download and clipboard copy in the toolbar."
+        },
+        {
+          "name": "filterable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "filterOperators",
+          "type": "FilterOperatorDef[]",
+          "required": false,
+          "description": "Extra or replacement operators."
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: T, index: number) => string",
+          "required": false,
+          "description": "Stable row identity."
+        },
+        {
+          "name": "hideableColumns",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "The table's accessible name."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "manual",
+          "type": "boolean",
+          "required": false,
+          "description": "Server-driven mode."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "required": false,
+          "description": "Caps the scroll viewport."
+        },
+        {
+          "name": "onEdit",
+          "type": "(patch: TableEditPatch<T>) => void | Promise<void>",
+          "required": false
+        },
+        {
+          "name": "onLoadMore",
+          "type": "() => void",
+          "required": false,
+          "description": "Infinite scroll: fires as the viewport approaches the end of the rows."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: DataTableQuery) => void",
+          "required": false
+        },
+        {
+          "name": "onRowClick",
+          "type": "(row: T) => void",
+          "required": false
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "paginated",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "reorderable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "resizable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "responsive",
+          "type": "ResponsiveConfig",
+          "required": false
+        },
+        {
+          "name": "rowActions",
+          "type": "RowAction<T>[]",
+          "required": false
+        },
+        {
+          "name": "rowCount",
+          "type": "number",
+          "required": false,
+          "description": "Total matching rows."
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selection",
+          "type": "SelectionMode",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "TableSize",
+          "required": false
+        },
+        {
+          "name": "sortable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "sortMenu",
+          "type": "boolean",
+          "required": false,
+          "description": "The header's sort button."
+        },
+        {
+          "name": "variant",
+          "type": "TableVariant",
+          "required": false
+        },
+        {
+          "name": "virtual",
+          "type": "boolean | VirtualConfig",
+          "required": false,
+          "description": "Row virtualization."
+        }
+      ],
+      "usageSnippet": "<DataTable />",
+      "propSignatureHash": "sha256:ab7e8f66ad90b0b9",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
     {
       "figmaComponentKey": "",
       "figmaComponentName": "Accordion",
@@ -814,6 +1974,97 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Chip",
+      "codeName": "Chip",
+      "codePath": "packages/react/src/components/Chip/Chip.types.ts",
+      "framework": "react",
+      "importStatement": "import { Chip } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The value half."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Class for the chip's wrapper."
+        },
+        {
+          "name": "detail",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The quiet middle."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "dropdown",
+          "type": "boolean",
+          "required": false,
+          "description": "Draws a trailing chevron, for a chip that opens a menu or popover."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName | IconComponent",
+          "required": false,
+          "description": "Leading icon — a canonical name, or a library icon component."
+        },
+        {
+          "name": "incomplete",
+          "type": "boolean",
+          "required": false,
+          "description": "The chip exists but does not yet stand for anything — a filter with no value chosen."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The emphasized half — what the chip is *about*."
+        },
+        {
+          "name": "onRemove",
+          "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+          "required": false,
+          "description": "Renders a dismiss button as a **sibling** of the chip's body."
+        },
+        {
+          "name": "operator",
+          "type": "ComparisonIconName",
+          "required": false,
+          "description": "The relation between label and value, **drawn**: one of the design system's six comparison glyphs."
+        },
+        {
+          "name": "operatorLabel",
+          "type": "string",
+          "required": false,
+          "description": "The glyph's accessible name — \"contains\"."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "required": false,
+          "description": "The dismiss button's accessible name."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "description": "Its popover is open, or it is toggled on."
+        }
+      ],
+      "usageSnippet": "<Chip>…</Chip>",
+      "propSignatureHash": "sha256:19545bed9418f849",
+      "lastSyncedAt": "2026-08-27T17:09:40.870Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Clipboard",
       "codeName": "Clipboard",
       "codePath": "packages/react/src/components/Clipboard/Clipboard.types.ts",
@@ -1488,10 +2739,42 @@
       "codePath": "packages/react/src/components/DateInput/DateInput.types.ts",
       "framework": "react",
       "importStatement": "import { DateInput } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the calendar popover into."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
       "usageSnippet": "<DateInput />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:be543467ad5a668c",
+      "lastSyncedAt": "2026-08-26T18:21:11.562Z",
       "status": "draft"
     },
     {
@@ -1783,10 +3066,42 @@
       "codePath": "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts",
       "framework": "react",
       "importStatement": "import { DateTimeInput } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the calendar popover into."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
       "usageSnippet": "<DateTimeInput />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:be543467ad5a668c",
+      "lastSyncedAt": "2026-08-26T18:21:11.562Z",
       "status": "draft"
     },
     {
@@ -5205,7 +6520,7 @@
         },
         {
           "name": "onDrawEnd",
-          "type": "( paths: string[], getDataUrl: (type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number) => Promise<string>, ) => void",
+          "type": "( paths: string[], getDataUrl: ( type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number, ) => Promise<string>, ) => void",
           "required": false,
           "description": "Called when a stroke finishes."
         },
@@ -5264,8 +6579,8 @@
         }
       ],
       "usageSnippet": "<SignaturePad />",
-      "propSignatureHash": "sha256:5d7550266d4b805e",
-      "lastSyncedAt": "2026-08-02T18:39:22.446Z",
+      "propSignatureHash": "sha256:b7fbad87145c2b47",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
       "status": "draft"
     },
     {
