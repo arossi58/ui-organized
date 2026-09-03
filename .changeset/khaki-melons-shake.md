@@ -4,7 +4,7 @@
 
 First release of `@ui-organized/vue`: the design system's components for Vue 3.5, built on Ark UI.
 
-The same twenty-four components as the React and Svelte packages — Accordion, Avatar, Button, Card, Checkbox, Combobox, Dialog, Divider, Field, FieldError, Icon, Input, Menu, Popover, Progress, RadioGroup, Select, Skeleton, Switch, Tabs, Tag, TextArea, Toast and Tooltip — sharing their stylesheets, variant recipes and token contract through `@ui-organized/core`. Same class names, same `data-*` state attributes, same rendered ARIA, verified by a suite that renders all three libraries and compares the resulting DOM.
+**All 68 components** the React and Svelte packages ship, sharing their stylesheets, variant recipes and token contract through `@ui-organized/core`. Same class names, same `data-*` state attributes, same rendered ARIA, verified by a gate that renders every library and diffs the resulting DOM — 1,812 static comparisons and 848 in a browser, on every run.
 
 Controlled props use `v-model` (`v-model`, `v-model:open`, `v-model:checked`), and the `onValueChange`-style callbacks the React package exposes are emitted alongside them, so either style works.
 

@@ -21,7 +21,16 @@
   "bugs": {
     "url": "https://github.com/arossi58/ui-organized/issues"
   },
-  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "styles.css",
+    "overlay.css",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/ui-organized-angular.d.ts",

@@ -64,7 +64,7 @@ import "@ui-organized/tokens/variables.css";
 import "@ui-organized/table-core/styles";
 ```
 
-Every value is a token reference; `token-contract.json` lists the 48 custom
+Every value is a token reference; `token-contract.json` lists the 47 custom
 properties a theme must supply, all of which the component library already
 requires. Class names are global and BEM-ish, so a second adapter renders the
 same markup and inherits the same look for free.

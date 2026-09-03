@@ -4,7 +4,7 @@
 
 First release of `@ui-organized/svelte`: the design system's components for Svelte 5, built on Ark UI.
 
-Twenty-four components — Accordion, Avatar, Button, Card, Checkbox, Combobox, Dialog, Divider, Field, FieldError, Icon, Input, Menu, Popover, Progress, RadioGroup, Select, Skeleton, Switch, Tabs, Tag, TextArea, Toast and Tooltip — sharing the React package's stylesheets, variant recipes and token contract through `@ui-organized/core`. Same class names, same `data-*` state attributes, same rendered ARIA, verified by a suite that renders both libraries and compares the resulting DOM.
+**All 68 components** the React package ships, sharing its stylesheets, variant recipes and token contract through `@ui-organized/core`. Same class names, same `data-*` state attributes, same rendered ARIA, verified by a gate that renders every library and diffs the resulting DOM — 1,812 static comparisons and 848 in a browser, on every run.
 
 Where Svelte idiom and API parity pulled in different directions, both are supported rather than one being chosen: controlled props (`value`, `open`, `checked`) are `$bindable`, so `bind:value` works, and the `onValueChange`-style callbacks the React package exposes fire alongside them.
 
