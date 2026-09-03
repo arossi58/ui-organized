@@ -9,7 +9,13 @@
 import { computed, ref, useAttrs } from "vue";
 import { ColorPicker as ArkColorPicker, parseColor } from "@ark-ui/vue";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, colorPickerStyles, type ColorNotation } from "@ui-organized/core";
+import {
+  CONTROL_ICON_SIZE,
+  CONTROL_TEXT_CLASS,
+  MACHINE_FORMAT,
+  colorPickerStyles,
+  type ColorNotation,
+} from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
@@ -44,6 +50,10 @@ defineOptions({ inheritAttrs: false });
 // and pins the picker shut forever. See ../../props.ts.
 const props = withDefaults(defineProps<ColorPickerProps>(), {
   defaultValue: DEFAULT_COLOR,
+  // Defaulted, as in the React library. Left undefined the machine picks its own
+  // format from the value, so a picker handed `hsl(...)` announced and submitted
+  // in a notation the caller never asked for.
+  format: "rgba",
   showEyeDropper: true,
   showFormatInputs: true,
   size: "md",
@@ -67,7 +77,7 @@ const errorMessage = computed(() => (typeof props.error === "string" ? props.err
 const iconSize = computed(() => CONTROL_ICON_SIZE[props.size]);
 /* Which notation the picker's fields are showing. Local, because it is a way
    of reading the colour rather than a property of it — see `format`. */
-const inputFormat = ref<ColorNotation>(INITIAL_INPUT_FORMAT[props.format ?? "rgba"]);
+const inputFormat = ref<ColorNotation>(INITIAL_INPUT_FORMAT[props.format]);
 
 const rootClass = computed(() =>
   clsx(colorPickerStyles({ size: props.size, variant: props.variant }), attrs.class as string),
@@ -80,7 +90,7 @@ const rootProps = computed(() =>
   definedOnly({
     modelValue: props.modelValue != null ? parseColor(props.modelValue) : undefined,
     defaultValue: parseColor(props.defaultValue),
-    format: props.format,
+    format: MACHINE_FORMAT[props.format],
     open: props.open,
     defaultOpen: props.defaultOpen,
     required: props.required,
@@ -105,7 +115,7 @@ function onValueChangeEnd(details: { valueAsString: string }) {
  */
 function commitField(api: { setValue: (next: ColorLike) => void }, next: ColorLike) {
   api.setValue(next);
-  emit("valueChangeEnd", next.toString(props.format ?? "rgba"));
+  emit("valueChangeEnd", next.toString(props.format));
 }
 
 function onOpenChange(details: { open: boolean }) {
@@ -130,12 +140,9 @@ function onOpenChange(details: { open: boolean }) {
     </ArkColorPicker.Label>
 
     <ArkColorPicker.Control class="color-picker__control">
-      <ArkColorPicker.Trigger class="color-picker__trigger">
+      <ArkColorPicker.Trigger :class="[CONTROL_TEXT_CLASS[props.size], 'color-picker__trigger']">
         <span class="color-picker__swatch-well">
-          <ArkColorPicker.TransparencyGrid
-            :size="TRANSPARENCY_CELL"
-            class="color-picker__grid"
-          />
+          <ArkColorPicker.TransparencyGrid :size="TRANSPARENCY_CELL" class="color-picker__grid" />
           <ArkColorPicker.ValueSwatch class="color-picker__value-swatch" />
         </span>
         <ArkColorPicker.ValueText
@@ -197,7 +204,7 @@ function onOpenChange(details: { open: boolean }) {
           <ArkColorPicker.Context v-if="showFormatInputs" v-slot="api">
             <FormatInputs
               :format="inputFormat"
-              :color="(api.value as ColorLike)"
+              :color="api.value as ColorLike"
               :disabled="disabled"
               :read-only="readOnly"
               :container="container"
@@ -225,6 +232,8 @@ function onOpenChange(details: { open: boolean }) {
 
     <span v-if="helperText && !isInvalid" class="field__description">{{ helperText }}</span>
     <FieldError v-if="isInvalid && errorMessage" :message="errorMessage" />
-    <ArkColorPicker.HiddenInput />
+    <!-- The input is the form value and carries no visible label of its own, so
+         without a name it is announced as an unlabelled textbox. -->
+    <ArkColorPicker.HiddenInput :aria-label="label ?? 'Color'" />
   </ArkColorPicker.Root>
 </template>

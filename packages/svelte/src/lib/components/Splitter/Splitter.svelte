@@ -52,9 +52,17 @@
       zag identifies it by the literal "before:after" pair of ids.
     -->
     {#if index < panels.length - 1}
+      <!-- The handle is a <button role="separator"> whose only child is a
+           decorative grip, so it had no accessible name — a keyboard user landed
+           on an unnamed control with arrow keys that did something unexplained.
+           Naming it after the two panels it sits between says what moving it
+           will do. Same name as the React library's. -->
       <ArkSplitter.ResizeTrigger
         id={`${panel.id}:${panels[index + 1]!.id}`}
         class="splitter__trigger"
+        aria-label={`Resize ${panel.label ?? panel.id} and ${
+          panels[index + 1]!.label ?? panels[index + 1]!.id
+        }`}
       >
         <span class="splitter__grip" aria-hidden="true"></span>
       </ArkSplitter.ResizeTrigger>

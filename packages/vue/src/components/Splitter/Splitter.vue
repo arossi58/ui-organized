@@ -37,9 +37,7 @@ const panelData = computed(() =>
   })),
 );
 
-const rootProps = computed(() =>
-  definedOnly({ size: props.size, defaultSize: props.defaultSize }),
-);
+const rootProps = computed(() => definedOnly({ size: props.size, defaultSize: props.defaultSize }));
 
 // Written here rather than inline: a Vue template expression cannot carry an
 // object type annotation, and the handlers' details argument needs one.
@@ -71,10 +69,18 @@ const isString = (v: unknown) => typeof v === "string";
         A handle sits between adjacent panels, so the last panel has none.
         zag identifies it by the literal "before:after" pair of ids.
       -->
+      <!-- The handle is a <button role="separator"> whose only child is a
+           decorative grip, so it had no accessible name — a keyboard user landed
+           on an unnamed control with arrow keys that did something unexplained.
+           Naming it after the two panels it sits between says what moving it
+           will do. Same name as the React library's. -->
       <ArkSplitter.ResizeTrigger
         v-if="index < panels.length - 1"
         :id="`${panel.id}:${panels[index + 1]!.id}`"
         class="splitter__trigger"
+        :aria-label="`Resize ${panel.label ?? panel.id} and ${
+          panels[index + 1]!.label ?? panels[index + 1]!.id
+        }`"
       >
         <span class="splitter__grip" aria-hidden="true" />
       </ArkSplitter.ResizeTrigger>

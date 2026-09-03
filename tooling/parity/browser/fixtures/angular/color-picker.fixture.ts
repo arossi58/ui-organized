@@ -7,8 +7,9 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
  * each: a `model()` is uncontrolled until something binds it, so the fork React
  * implements by hand does not arise — the arrangement `UioSwitch` describes.
  *
- * `format` is passed through `undefined` and all. The machine defaults it to the
- * *value's own* space, so turning an absent format into `"rgba"` here would
+ * `format` is passed through `undefined` and all — the component turns that into
+ * `"rgba"` itself, as every other library's parameter default does, so filling it
+ * in here would
  * quietly rewrite `hsl(221, 83%, 53%)` as rgb.
  */
 @Component({

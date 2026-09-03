@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Steps as ArkSteps } from "@ark-ui/svelte";
   import { clsx } from "clsx";
-  import { stepsStyles } from "@ui-organized/core";
+  import { stepsStyles, OMIT_ARIA } from "@ui-organized/core";
   import Button from "../Button/Button.svelte";
   import Icon from "../Icon/Icon.svelte";
   import type { StepsProps } from "./Steps.types.js";
@@ -53,8 +53,25 @@
     {#snippet asChild(listProps)}
       <div {...listProps({ class: "steps__list" })}>
         {#each steps as item, index (item.title)}
-          <ArkSteps.Item {index} class="steps__item">
-            <ArkSteps.Trigger class="steps__trigger">
+          <!--
+            A `tablist` may own only tabs, and each Item is a direct child div
+            that is neither. Ark already marks it `role="presentation"`, but
+            presentation is *ignored* on an element carrying a global ARIA
+            attribute — and Ark also sets `aria-current` here. Dropping
+            `aria-current` lets the presentation role hold; nothing is lost,
+            because the trigger inside already reports `aria-selected`. Same fix,
+            and same sentinel, as the React library.
+          -->
+          <ArkSteps.Item {index} class="steps__item" role="presentation" aria-current={OMIT_ARIA}>
+            <!--
+              Ark names a panel on every trigger, but the panels only exist when
+              `showContent` is on. Left in place the reference dangles, which is
+              an ARIA error and costs the trigger its accessible name.
+            -->
+            <ArkSteps.Trigger
+              class="steps__trigger"
+              {...showContent ? {} : { "aria-controls": OMIT_ARIA }}
+            >
               <ArkSteps.Indicator class="steps__indicator">
                 <!--
                   The tick replaces the number only once the step is complete;

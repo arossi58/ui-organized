@@ -25,6 +25,7 @@ import {
   COLOR_NOTATIONS,
   COLOR_NOTATION_FIELDS,
   CONTROL_ICON_SIZE,
+  CONTROL_TEXT_CLASS,
   colorPickerStyles,
   type ColorField,
   type ColorNotation,
@@ -133,8 +134,11 @@ const HUE_TRACK =
         [attr.data-required]="flag(required())"
         [attr.data-focus]="flag(focused())"
         (click)="onLabelClick($event)"
-        >{{ text }}@if (required()) {<span class="field__required" aria-hidden="true"></span>}</label
-      >
+        >{{ text }}
+        @if (required()) {
+          <span class="field__required" aria-hidden="true"></span>
+        }
+      </label>
     }
 
     <div
@@ -150,7 +154,7 @@ const HUE_TRACK =
     >
       <button
         #trigger
-        class="color-picker__trigger"
+        [class]="triggerClass()"
         data-scope="color-picker"
         data-part="trigger"
         type="button"
@@ -216,6 +220,7 @@ const HUE_TRACK =
       type="text"
       tabindex="-1"
       [id]="partId('hidden-input')"
+      [attr.aria-label]="label() ?? 'Color'"
       [attr.name]="name()"
       [attr.disabled]="disabled() ? '' : null"
       [attr.readonly]="readOnly() ? '' : null"
@@ -521,7 +526,19 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   /** Fired once the interaction ends. */
   readonly valueChangeEnd = output<string>();
   /** Which notation the value is printed in. Defaults to the value's own. */
-  readonly format = input<ColorFormat | undefined>(undefined);
+  /**
+   * Defaulted, as the other three libraries default it. Left undefined the
+   * picker falls back to the value's own space (zag's `defaultFormat`), so a
+   * picker handed `hsl(...)` announced and submitted in a notation the caller
+   * never asked for.
+   */
+  readonly format = input<ColorFormat, ColorFormat | undefined>("rgba", {
+    // A transform, not just a default: Angular applies an `input()` default only
+    // when the input is *unbound*, so `[format]="undefined"` would otherwise set
+    // undefined where the other three libraries' `format = "rgba"` parameter
+    // default applies. This makes an explicit undefined mean the same thing.
+    transform: (value) => value ?? "rgba",
+  });
   readonly swatches = input<string[]>([]);
   readonly showEyeDropper = input(true, { transform: booleanAttribute });
   /**
@@ -552,6 +569,15 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   protected partId(part: string): string {
     return `${this.rootId}:${part}`;
   }
+
+  /**
+   * The trigger carries the control's type scale, as every other library's does
+   * — it is a button with a swatch and a value in it, and without the class its
+   * text is a size adrift from the Input beside it.
+   */
+  protected readonly triggerClass = computed(
+    () => `${CONTROL_TEXT_CLASS[this.size()]} color-picker__trigger`,
+  );
 
   override readonly invalid = computed(() => !!this.error());
   protected readonly errorMessage = computed(() =>
@@ -592,7 +618,20 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   protected readonly iconSize = computed(() => CONTROL_ICON_SIZE[this.size()]);
 
   /** The value, parsed. A bad string is the caller's, not something to hide. */
-  protected readonly color = computed<ColorValue>(() => parseColor(this.value()));
+  /**
+   * The value, in the format the *machine* runs on.
+   *
+   * The conversion is not cosmetic. zag holds its colour in the machine's format
+   * from the moment it parses one, so an `hsl(221, 83%, 53%)` handed to a picker
+   * running on rgba is rounded to `rgb(36, 99, 235)` first and every derived
+   * number — the area's saturation and brightness, the hue thumb's
+   * `aria-valuenow` — is computed from *that*. Parsing into the value's own
+   * space instead kept a precision the other three libraries never have, and the
+   * parity gate reported the thumbs a hundredth apart.
+   */
+  protected readonly color = computed<ColorValue>(() =>
+    toColorFormat(parseColor(this.value()), this.resolvedFormat()),
+  );
 
   /* ─── The notation row ────────────────────────────────────────────────────
      Which notations exist and which fields each one shows come from
@@ -668,10 +707,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
     }
   }
 
-  /** `format ?? the value's own space` — zag's `defaultFormat`. */
-  private readonly resolvedFormat = computed<ColorFormat>(
-    () => this.format() ?? this.color().format,
-  );
+  private readonly resolvedFormat = computed<ColorFormat>(() => this.format());
 
   protected readonly valueAsString = computed(() =>
     colorToString(this.color(), this.resolvedFormat()),
@@ -882,8 +918,9 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
 
   private contentElement(): HTMLElement | null {
     return (
-      this.anchored.overlayRef?.overlayElement.querySelector<HTMLElement>('[data-part="content"]') ??
-      null
+      this.anchored.overlayRef?.overlayElement.querySelector<HTMLElement>(
+        '[data-part="content"]',
+      ) ?? null
     );
   }
 

@@ -104,7 +104,25 @@ function onValueChange(details: { value: string[] }) {
         -->
         <ListboxOptions v-else :items="groupItems" :icon-size="iconSize" />
       </template>
-      <ArkListbox.Empty class="listbox__empty">{{ emptyMessage }}</ArkListbox.Empty>
+      <!-- A `listbox` must own `option` or `group` children, and with no items it
+           had neither — axe rates that critical, because a screen reader entering
+           the list is told it is a listbox and then finds nothing in it. A
+           disabled option is the conventional answer: the list is never childless,
+           and what the user hears ("No results, dimmed") is true.
+
+           Written out rather than using `ArkListbox.Empty`, which hard-codes
+           `role="presentation"` and ignores a `role` prop — the element it
+           produces is exactly the child the rule rejects. Same reasoning, and same
+           markup, as the React library. -->
+      <div
+        v-if="props.options.length === 0"
+        role="option"
+        aria-disabled="true"
+        aria-selected="false"
+        class="listbox__empty"
+      >
+        {{ emptyMessage }}
+      </div>
     </ArkListbox.Content>
   </ArkListbox.Root>
 </template>

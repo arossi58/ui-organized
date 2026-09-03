@@ -2,7 +2,7 @@
 import { computed, useAttrs } from "vue";
 import { FileUpload as ArkFileUpload } from "@ark-ui/vue";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, fileUploadStyles } from "@ui-organized/core";
+import { CONTROL_ICON_SIZE, fileUploadStyles, OMIT_ARIA } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
@@ -93,7 +93,23 @@ function onFileReject(details: { files: unknown[] }) {
 
     <!-- `button` drops the dropzone entirely and leaves the trigger alone. -->
     <FileUploadTrigger v-if="variant === 'button'" :label="triggerLabel" :size="size" />
-    <ArkFileUpload.Dropzone v-else class="file-upload__dropzone">
+    <!--
+      Ark makes the dropzone a focusable `role="button"`, and the real
+      "Choose files" button sits inside it — two nested controls, so a screen
+      reader cannot say which one focus is on, and a keyboard user hits an
+      unnamed outer button before the named inner one.
+
+      The drop area keeps working: dropping is a pointer gesture, and the button
+      inside is the keyboard and click path. What goes is only the claim that the
+      div is itself a control. Same suppression as the React library.
+    -->
+    <ArkFileUpload.Dropzone
+      v-else
+      class="file-upload__dropzone"
+      :role="OMIT_ARIA"
+      :tabindex="OMIT_ARIA"
+      :aria-label="OMIT_ARIA"
+    >
       <Icon name="upload" :size="iconSize" class="file-upload__dropzone-icon" />
       <span class="file-upload__dropzone-text">{{ dropzoneLabel }}</span>
       <FileUploadTrigger :label="triggerLabel" :size="size" />

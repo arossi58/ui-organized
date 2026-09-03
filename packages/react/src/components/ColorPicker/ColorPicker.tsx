@@ -7,6 +7,7 @@ import {
   CONTROL_ICON_SIZE,
   CONTROL_TEXT_CLASS,
   colorPickerStyles,
+  MACHINE_FORMAT,
   formatOklch,
   type ControlSize,
 } from "@ui-organized/core";
@@ -16,24 +17,6 @@ import { useContainedPositioning, useOverlayPortal } from "../../preview/useOver
 import { FormatInputs, toRgba, type ColorLike, type InputFormat } from "./channelFields.js";
 
 const DEFAULT_COLOR = "#000000";
-
-/**
- * The machine models `rgba`/`hsla`/`hsba` and nothing else, so the two notations
- * it cannot hold — hex, which is a rendering of rgba, and OKLCH, which is a
- * different colour space entirely — run on rgba underneath and are converted for
- * display. Keeping the machine's format tied to the `format` prop rather than to
- * the picker's notation select is deliberate: the machine's format is also what
- * decides the hidden input's form value and whether the picker area is
- * saturation×brightness or saturation×lightness, and a display control has no
- * business moving either.
- */
-const MACHINE_FORMAT = {
-  rgba: "rgba",
-  hex: "rgba",
-  oklch: "rgba",
-  hsla: "hsla",
-  hsba: "hsba",
-} as const;
 
 /** Which notation the picker's inputs open on, given what the field emits. */
 const INITIAL_INPUT_FORMAT = {

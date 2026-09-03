@@ -3,6 +3,12 @@ import type { Component } from "vue";
 export interface SplitterPanelDef {
   /** Unique id across the splitter. Resize triggers are derived from adjacent ids. */
   id: string;
+  /**
+   * Human name for the panel, used to label the resize handles beside it
+   * ("Resize sidebar and main"). Defaults to `id`, which is fine when ids read
+   * as words and worth setting when they don't.
+   */
+  label?: string;
   /** Panel contents. A string, or a component for anything richer. */
   content?: string | Component;
   /** Smallest size, as a percentage of the group. */

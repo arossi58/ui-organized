@@ -37,6 +37,35 @@ export const COLOR_NOTATIONS: ColorNotationOption[] = [
   { value: "oklch", label: "OKLCH" },
 ];
 
+/**
+ * The format the colour *machine* runs on, given the format a caller asked for.
+ *
+ * The machine models `rgba`/`hsla`/`hsba` and nothing else, so the two notations
+ * it cannot hold — hex, which is a rendering of rgba, and OKLCH, which is a
+ * different colour space entirely — run on rgba underneath and are converted for
+ * display.
+ *
+ * Framework-neutral because the consequence is: the machine's format decides the
+ * hidden input's form value and whether the picker area is saturation×brightness
+ * or saturation×lightness. Four libraries deciding that separately is four
+ * chances to decide it differently — and three of them had already dropped the
+ * mapping, so a picker given `format="hsl"` announced its trigger in a notation
+ * React's never used.
+ */
+export const MACHINE_FORMAT = {
+  rgba: "rgba",
+  hex: "rgba",
+  oklch: "rgba",
+  hsla: "hsla",
+  hsba: "hsba",
+} as const;
+
+/**
+ * What a caller may ask the picker to hand back — a superset of the three the
+ * machine runs on, which is why the name is not `ColorFormat`.
+ */
+export type ColorPickerFormat = keyof typeof MACHINE_FORMAT;
+
 /** The channels a numeric field can address, across both spaces plus alpha. */
 export type ColorChannelName =
   | "red"

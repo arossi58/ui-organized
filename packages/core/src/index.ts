@@ -43,6 +43,7 @@ export type { Oklch, Rgba } from "./color/oklch.js";
 export {
   COLOR_NOTATIONS,
   COLOR_NOTATION_FIELDS,
+  MACHINE_FORMAT,
   formatChannel,
   normalizeHex,
   readChannelInput,
@@ -53,6 +54,7 @@ export type {
   ColorField,
   ColorNotation,
   ColorNotationOption,
+  ColorPickerFormat,
   ColorTextField,
 } from "./color/notation.js";
 

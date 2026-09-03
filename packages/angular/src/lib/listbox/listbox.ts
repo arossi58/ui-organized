@@ -136,7 +136,10 @@ interface OptionGroup {
       @for (group of groups(); track group.id) {
         @if (group.key === null) {
           @for (option of group.options; track option.value) {
-            <ng-container [ngTemplateOutlet]="item" [ngTemplateOutletContext]="{ $implicit: option }" />
+            <ng-container
+              [ngTemplateOutlet]="item"
+              [ngTemplateOutletContext]="{ $implicit: option }"
+            />
           }
         } @else {
           <div
@@ -169,7 +172,15 @@ interface OptionGroup {
       }
       <!-- Ark renders the Empty part only when the collection has no items. -->
       @if (!options().length) {
-        <div class="listbox__empty" data-scope="listbox" data-part="empty" role="presentation">
+        <!--
+          A listbox must own "option" or "group" children, and with no items it
+          has neither — axe rates that critical, because a screen reader entering
+          the list is told it is a listbox and then finds nothing in it. A
+          disabled option is the conventional answer: the list is never
+          childless, and what the user hears ("No results, dimmed") is true.
+          Same markup as the other three libraries.
+        -->
+        <div class="listbox__empty" role="option" aria-disabled="true" aria-selected="false">
           {{ emptyMessage() }}
         </div>
       }

@@ -4,6 +4,12 @@ export interface SplitterPanelDef {
   /** Unique id across the splitter. Resize triggers are derived from adjacent ids. */
   id: string;
   /**
+   * Human name for the panel, used to label the resize handles beside it
+   * ("Resize sidebar and main"). Defaults to `id`, which is fine when ids read
+   * as words and worth setting when they don't.
+   */
+  label?: string;
+  /**
    * Panel contents. A string, or a snippet for anything richer.
    *
    * React takes a ReactNode here, which can be either. Svelte has no single type

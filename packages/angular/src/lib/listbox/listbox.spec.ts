@@ -166,10 +166,18 @@ describe("UioListbox", () => {
     expect(host.querySelector('[data-part="item"]')!.getAttribute("aria-disabled")).toBe("true");
   });
 
-  it("renders Ark's Empty part, and only when there is nothing to list", () => {
+  it("stands a disabled option in for an empty list, and only when it is empty", () => {
+    // Not Ark's Empty part, which is a `role="presentation"` div: a listbox must
+    // own "option" or "group" children, and axe rates a childless one critical.
+    // A disabled option keeps the list non-empty and says something true. All
+    // four libraries render this same element — the parity gate holds them to it.
     const { host } = render({ options: [], emptyMessage: "Nothing here" });
     const content = host.querySelector('[data-part="content"]')!;
     expect(content.getAttribute("data-empty")).toBe("");
-    expect(host.querySelector('[data-part="empty"]')!.textContent?.trim()).toBe("Nothing here");
+
+    const empty = host.querySelector(".listbox__empty")!;
+    expect(empty.textContent?.trim()).toBe("Nothing here");
+    expect(empty.getAttribute("role")).toBe("option");
+    expect(empty.getAttribute("aria-disabled")).toBe("true");
   });
 });

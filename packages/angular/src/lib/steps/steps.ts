@@ -75,13 +75,27 @@ const COMPLETE_ICON_SIZE = 16;
       [attr.data-orientation]="orientation()"
     >
       @for (item of steps(); track $index) {
+        <!--
+          A "tablist" may own only tabs, and each item is a direct child div that
+          is neither. "role="presentation"" is what stops the rule firing — but
+          presentation is *ignored* on an element carrying a global ARIA
+          attribute, so "aria-current" cannot be here as well. Nothing is lost:
+          the trigger inside already reports "aria-selected", which is what a tab
+          is supposed to say. Same decision as the other three libraries.
+        -->
         <div
           class="steps__item"
           data-scope="steps"
           data-part="item"
-          [attr.aria-current]="$index === step() ? 'step' : null"
+          role="presentation"
           [attr.data-orientation]="orientation()"
         >
+          <!--
+            The panel a trigger names only exists while "showContent" is on.
+            Left in place the reference dangles, which is an ARIA error
+            (axe's "aria-valid-attr-value") and costs the trigger its accessible
+            name — the broken IDREF wins over the text inside it.
+          -->
           <button
             class="steps__trigger"
             data-scope="steps"
@@ -91,7 +105,7 @@ const COMPLETE_ICON_SIZE = 16;
             [id]="partId('trigger:' + $index)"
             [attr.tabindex]="!linear() || $index === step() ? 0 : -1"
             [attr.aria-selected]="$index === step()"
-            [attr.aria-controls]="partId('content:' + $index)"
+            [attr.aria-controls]="showContent() ? partId('content:' + $index) : null"
             [attr.data-state]="$index === step() ? 'open' : 'closed'"
             [attr.data-orientation]="orientation()"
             [attr.data-complete]="flag($index < step())"
@@ -156,8 +170,9 @@ const COMPLETE_ICON_SIZE = 16;
           [attr.data-state]="$index === step() ? 'open' : 'closed'"
           [attr.data-orientation]="orientation()"
           [attr.aria-labelledby]="partId('trigger:' + $index)"
-          >{{ panel }}</div
         >
+          {{ panel }}
+        </div>
       }
       <div class="steps__actions">
         <button

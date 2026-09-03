@@ -145,21 +145,31 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
         [attr.for]="partId('input')"
         [attr.data-disabled]="flag(isDisabled())"
         [attr.data-required]="flag(required())"
-        >{{ text }}@if (required()) {<span class="field__required" aria-hidden="true"></span>}</label
-      >
+        >{{ text }}
+        @if (required()) {
+          <span class="field__required" aria-hidden="true"></span>
+        }
+      </label>
     }
 
     @if (variant() === "button") {
       <ng-container [ngTemplateOutlet]="triggerTemplate"></ng-container>
     } @else {
+      <!--
+        Not a control. Making the dropzone a focusable role="button" puts the
+        real "Choose files" button inside another one — two nested controls, so a
+        screen reader cannot say which one focus is on, and a keyboard user hits
+        an unnamed outer button before the named inner one.
+
+        The drop area keeps working: dropping is a pointer gesture, and the
+        button inside is the keyboard and click path. Same decision as the other
+        three libraries.
+      -->
       <div
         class="file-upload__dropzone"
         data-scope="file-upload"
         data-part="dropzone"
-        role="button"
-        aria-label="dropzone"
         [id]="partId('dropzone')"
-        [attr.tabindex]="interactive() ? 0 : null"
         [attr.aria-disabled]="interactive() ? null : 'true'"
         [attr.data-invalid]="flag(isInvalid())"
         [attr.data-disabled]="flag(isDisabled())"
@@ -170,12 +180,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
         (dragleave)="onDragLeave($event)"
         (drop)="onDrop($event)"
       >
-        <span
-          uioIcon
-          name="upload"
-          class="file-upload__dropzone-icon"
-          [size]="iconSize()"
-        ></span>
+        <span uioIcon name="upload" class="file-upload__dropzone-icon" [size]="iconSize()"></span>
         <span class="file-upload__dropzone-text">{{ dropzoneLabel() }}</span>
         <ng-container [ngTemplateOutlet]="triggerTemplate"></ng-container>
       </div>
@@ -252,14 +257,18 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
               data-part="item-name"
               data-type="accepted"
               [id]="partId('item-name:' + $index)"
-            >{{ file.name }}</div>
+            >
+              {{ file.name }}
+            </div>
             <div
               class="file-upload__item-size"
               data-scope="file-upload"
               data-part="item-size-text"
               data-type="accepted"
               [id]="partId('item-size:' + $index)"
-            >{{ sizeOf(file) }}</div>
+            >
+              {{ sizeOf(file) }}
+            </div>
           </span>
           <button
             class="file-upload__item-delete"

@@ -102,28 +102,6 @@ export function snapAngleToStep(value: number, step: number): number {
   exportAs: "uioAngleSlider",
   imports: [UioFieldError],
   template: `
-    @if (label() || showValue()) {
-      <div class="angle-slider__header">
-        @if (label(); as text) {
-          <label
-            class="field__label"
-            data-scope="angle-slider"
-            data-part="label"
-            [id]="partId('label')"
-            [attr.for]="partId('input')"
-            [attr.data-disabled]="flag(disabled())"
-            [attr.data-invalid]="flag(invalid())"
-            [attr.data-readonly]="flag(readOnly())"
-            (click)="focusThumb($event)"
-            >{{ text }}</label
-          >
-        }
-        @if (showValue()) {
-          <div class="angle-slider__value">{{ current() }}°</div>
-        }
-      </div>
-    }
-
     <div
       class="angle-slider__control"
       data-scope="angle-slider"
@@ -151,6 +129,35 @@ export function snapAngleToStep(value: number, step: number): number {
               [style.--marker-display-value]="marker"
               [style.rotate]="'calc(var(--marker-display-value) * 1deg)'"
             ></div>
+          }
+        </div>
+      }
+      <!--
+        The readout sits in the hollow of the ring. It stays inside the control
+        so it is centred on the dial rather than on the field column, and CSS
+        makes it click-through so the dial still tracks a press on it. Same
+        placement as the other three libraries — ".angle-slider__readout" is the
+        shared rule that positions it, and the header this used to render had no
+        rule at all.
+      -->
+      @if (showValue() || label()) {
+        <div class="angle-slider__readout">
+          @if (showValue()) {
+            <div class="angle-slider__value">{{ current() }}°</div>
+          }
+          @if (label(); as text) {
+            <label
+              class="angle-slider__label"
+              data-scope="angle-slider"
+              data-part="label"
+              [id]="partId('label')"
+              [attr.for]="partId('input')"
+              [attr.data-disabled]="flag(disabled())"
+              [attr.data-invalid]="flag(invalid())"
+              [attr.data-readonly]="flag(readOnly())"
+              (click)="focusThumb($event)"
+              >{{ text }}</label
+            >
           }
         </div>
       }
@@ -198,7 +205,17 @@ export class UioAngleSlider extends UioPart {
   readonly value = model(0);
   readonly step = input(1);
   readonly markers = input<readonly number[]>([]);
-  readonly showValue = input(false, { transform: booleanAttribute });
+  /**
+   * Shown by default, as in the other three libraries: the dial's whole readout
+   * is the angle, and a ring with no number in it says nothing.
+   */
+  readonly showValue = input<boolean, unknown>(true, {
+    // Angular applies an `input()` default only when the input is *unbound*, so
+    // `[showValue]="undefined"` would set undefined where the other three
+    // libraries' parameter default applies. This makes an explicit undefined
+    // mean the same thing, and leaves every other value to `booleanAttribute`.
+    transform: (value) => (value === undefined ? true : booleanAttribute(value)),
+  });
   readonly size = input<AngleSliderSize>("md");
   override readonly disabled = input(false, { transform: booleanAttribute });
   override readonly readOnly = input(false, { transform: booleanAttribute });

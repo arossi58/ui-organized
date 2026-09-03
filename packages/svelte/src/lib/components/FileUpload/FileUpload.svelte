@@ -1,7 +1,7 @@
 <script lang="ts">
   import { FileUpload as ArkFileUpload } from "@ark-ui/svelte";
   import { clsx } from "clsx";
-  import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize } from "@ui-organized/core";
+  import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize, OMIT_ARIA } from "@ui-organized/core";
   import Button from "../Button/Button.svelte";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
@@ -119,7 +119,22 @@
   {#if variant === "button"}
     {@render trigger()}
   {:else}
-    <ArkFileUpload.Dropzone class="file-upload__dropzone">
+    <!--
+      Ark makes the dropzone a focusable `role="button"`, and the real
+      "Choose files" button sits inside it — two nested controls, so a screen
+      reader cannot say which one focus is on, and a keyboard user hits an
+      unnamed outer button before the named inner one.
+
+      The drop area keeps working: dropping is a pointer gesture, and the button
+      inside is the keyboard and click path. What goes is only the claim that the
+      div is itself a control. Same suppression as the React library.
+    -->
+    <ArkFileUpload.Dropzone
+      class="file-upload__dropzone"
+      role={OMIT_ARIA}
+      tabindex={OMIT_ARIA}
+      aria-label={OMIT_ARIA}
+    >
       <Icon name="upload" size={iconSize} class="file-upload__dropzone-icon" />
       <span class="file-upload__dropzone-text">{dropzoneLabel}</span>
       {@render trigger()}

@@ -2,7 +2,7 @@
 import { computed, useAttrs } from "vue";
 import { Steps as ArkSteps } from "@ark-ui/vue";
 import { clsx } from "clsx";
-import { stepsStyles } from "@ui-organized/core";
+import { stepsStyles, OMIT_ARIA } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import Icon from "../Icon/Icon.vue";
@@ -74,13 +74,31 @@ const isString = (v: unknown) => typeof v === "string";
     @step-complete="emit('stepComplete')"
   >
     <ArkSteps.List class="steps__list">
+      <!--
+        A `tablist` may own only tabs, and each Item is a direct child div that
+        is neither. Ark already marks it `role="presentation"`, but presentation
+        is *ignored* on an element carrying a global ARIA attribute — and Ark
+        also sets `aria-current` here. Dropping `aria-current` lets the
+        presentation role hold; nothing is lost, because the trigger inside
+        already reports `aria-selected`. Same fix as the React library.
+      -->
       <ArkSteps.Item
         v-for="(item, index) in steps"
         :key="item.title"
         :index="index"
         class="steps__item"
+        role="presentation"
+        :aria-current="OMIT_ARIA"
       >
-        <ArkSteps.Trigger class="steps__trigger">
+        <!--
+          Ark names a panel on every trigger, but the panels only exist when
+          `showContent` is on. Left in place the reference dangles, which is an
+          ARIA error and costs the trigger its accessible name.
+        -->
+        <ArkSteps.Trigger
+          class="steps__trigger"
+          v-bind="props.showContent ? {} : { 'aria-controls': OMIT_ARIA }"
+        >
           <ArkSteps.Indicator class="steps__indicator">
             <!--
               The tick replaces the number only once the step is complete;

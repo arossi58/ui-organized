@@ -64,8 +64,14 @@ const hasOverlay = computed(() => Boolean(slots.overlay));
 </script>
 
 <template>
-  <ArkQrCode.Root :class="rootClass" :aria-label="label ?? value" v-bind="rootProps">
-    <ArkQrCode.Frame class="qr-code__frame">
+  <ArkQrCode.Root :class="rootClass" v-bind="rootProps">
+    <!-- The name lives on the Frame, not the Root. `aria-label` on a div with no
+         role is prohibited — ARIA ignores it, so the code is announced as nothing
+         at all — and `role="img"` is what makes it legal. But it has to go on the
+         element that *is* the image: the Root also holds the download button, and
+         an `img` may not contain a control. The Frame is the code itself and owns
+         neither problem. Same reasoning as the React library. -->
+    <ArkQrCode.Frame class="qr-code__frame" role="img" :aria-label="label ?? value">
       <ArkQrCode.Pattern class="qr-code__pattern" />
     </ArkQrCode.Frame>
     <ArkQrCode.Overlay v-if="hasOverlay" class="qr-code__overlay">

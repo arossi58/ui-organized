@@ -61,12 +61,22 @@ const DEFAULT_PIXEL_SIZE = 10;
   exportAs: "uioQrCode",
   imports: [NgTemplateOutlet, UioButton],
   template: `
+    <!--
+      The name lives on the frame, not the host. "aria-label" on an element with
+      no role is prohibited — ARIA ignores it, so the code is announced as
+      nothing at all — and the img role is what makes it legal. But it has to go
+      on the element that *is* the image: the host also holds the download
+      button, and an "img" may not contain a control. Same placement as the
+      other three libraries.
+    -->
     <svg
       data-scope="qr-code"
       data-part="frame"
       class="qr-code__frame"
       xmlns="http://www.w3.org/2000/svg"
+      role="img"
       [id]="partId('frame')"
+      [attr.aria-label]="label() ?? value()"
       [attr.viewBox]="viewBox()"
     >
       <path data-scope="qr-code" data-part="pattern" class="qr-code__pattern" [attr.d]="path()" />
@@ -105,7 +115,6 @@ const DEFAULT_PIXEL_SIZE = 10;
   host: {
     "[class]": "hostClass()",
     "[id]": "rootId",
-    "[attr.aria-label]": "label() ?? value()",
     "[attr.style]": "rootStyle()",
   },
 })

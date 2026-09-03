@@ -16,7 +16,9 @@
     onValueChangeEnd,
     step,
     markers,
-    showValue = false,
+    // Shown by default, as in the React library: the dial's whole readout is
+    // the angle, and a ring with no number in it says nothing.
+    showValue = true,
     size,
     disabled,
     readOnly,
@@ -43,49 +45,6 @@
   {readOnly}
   {name}
 >
-  {#if label || showValue}
-    <div class="angle-slider__header">
-      {#if label}
-        <ArkAngleSlider.Label class="field__label">{label}</ArkAngleSlider.Label>
-      {/if}
-      <!--
-        Ark's default text is the CSS angle (`135deg`). Supplying children
-        overrides it, so the readout is typeset as a degree rather than spelled
-        like a stylesheet value.
-
-        ── Why the projected props are dropped ─────────────────────────────────
-
-        Two things differ here, and the same asChild snippet settles both.
-
-        The element: `@ark-ui/svelte` renders a <span>, `@ark-ui/react` a <div>,
-        and inline vs block moves the readout inside a header both libraries lay
-        out with one shared stylesheet.
-
-        The attributes: `@ark-ui/react@5.37` never calls `getValueTextProps()` —
-        it renders the caller's props and the degree text and nothing else — so
-        its readout carries no `id`, `data-scope` or `data-part` at all. This is
-        the wrapper, not the machine: both zag versions expose the getter. Ark
-        Svelte does call it, so spreading here would give this library three
-        attributes React's has none of, and an extra `id` shifts every later
-        element's placeholder in the parity gate.
-
-        So the div is written out in full rather than projected. When Ark React
-        starts calling the getter, spread `props({ class: … })` instead — the
-        gate goes red at that point, which is how you will find out.
-      -->
-      {#if showValue}
-        <ArkAngleSlider.ValueText>
-          {#snippet asChild()}
-            <div class="angle-slider__value">
-              <ArkAngleSlider.Context>
-                {#snippet render(api)}{`${api().value}°`}{/snippet}
-              </ArkAngleSlider.Context>
-            </div>
-          {/snippet}
-        </ArkAngleSlider.ValueText>
-      {/if}
-    </div>
-  {/if}
   <ArkAngleSlider.Control class="angle-slider__control">
     {#if markers && markers.length > 0}
       <ArkAngleSlider.MarkerGroup class="angle-slider__markers">
@@ -105,6 +64,50 @@
           </ArkAngleSlider.Marker>
         {/each}
       </ArkAngleSlider.MarkerGroup>
+    {/if}
+    <!--
+      The readout sits in the hollow of the ring. It stays inside Control so it
+      is centred on the dial rather than on the field column, and CSS makes it
+      click-through so the dial still tracks a press on it. Same placement as the
+      React library — `.angle-slider__readout` is the shared rule that positions
+      it, and the header this used to render had no rule at all.
+    -->
+    {#if showValue || label}
+      <div class="angle-slider__readout">
+        <!--
+          Ark's default text is the CSS angle (`135deg`). Supplying children
+          overrides it, so the readout is typeset as a degree rather than spelled
+          like a stylesheet value.
+
+          ── Why the projected props are dropped ───────────────────────────────
+
+          `@ark-ui/react@5.37` never calls `getValueTextProps()` — it renders the
+          caller's props and the degree text and nothing else — so its readout
+          carries no `id`, `data-scope` or `data-part` at all. This is the
+          wrapper, not the machine: both zag versions expose the getter. Ark
+          Svelte does call it, so spreading here would give this library three
+          attributes React's has none of, and an extra `id` shifts every later
+          element's placeholder in the parity gate.
+
+          So the element is written out in full rather than projected. When Ark
+          React starts calling the getter, spread `props({ class: … })` instead —
+          the gate goes red at that point, which is how you will find out.
+        -->
+        {#if showValue}
+          <ArkAngleSlider.ValueText>
+            {#snippet asChild()}
+              <div class="angle-slider__value">
+                <ArkAngleSlider.Context>
+                  {#snippet render(api)}{`${api().value}°`}{/snippet}
+                </ArkAngleSlider.Context>
+              </div>
+            {/snippet}
+          </ArkAngleSlider.ValueText>
+        {/if}
+        {#if label}
+          <ArkAngleSlider.Label class="angle-slider__label">{label}</ArkAngleSlider.Label>
+        {/if}
+      </div>
     {/if}
     <ArkAngleSlider.Thumb class="angle-slider__thumb" />
   </ArkAngleSlider.Control>

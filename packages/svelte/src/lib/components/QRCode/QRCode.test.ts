@@ -60,15 +60,21 @@ describe("QRCode", () => {
     expect(patternOf(high.container).length).toBeGreaterThan(patternOf(low.container).length);
   });
 
-  it("labels the code with its value unless a label is given", () => {
+  it("labels the code with its value unless a label is given, on the frame", () => {
+    // The name is on the frame, not the root: `aria-label` on an element with no
+    // role is prohibited and silently ignored, and the img role that makes it
+    // legal cannot go on the root because the root also holds the download
+    // button. Every library places it the same way; the parity gate holds them
+    // to it.
     const { container } = render(QRCode, { props: { value: "https://example.com" } });
-    expect(container.querySelector('[data-part="root"]')!.getAttribute("aria-label")).toBe(
-      "https://example.com",
-    );
+    const frame = container.querySelector('[data-part="frame"]')!;
+    expect(frame.getAttribute("role")).toBe("img");
+    expect(frame.getAttribute("aria-label")).toBe("https://example.com");
+    expect(container.querySelector('[data-part="root"]')!.hasAttribute("aria-label")).toBe(false);
 
     const labelled = render(QRCode, { props: { value: "https://example.com", label: "Ticket" } });
     expect(
-      labelled.container.querySelector('[data-part="root"]')!.getAttribute("aria-label"),
+      labelled.container.querySelector('[data-part="frame"]')!.getAttribute("aria-label"),
     ).toBe("Ticket");
   });
 });

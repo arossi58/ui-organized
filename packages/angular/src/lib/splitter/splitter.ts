@@ -23,6 +23,12 @@ export interface SplitterPanelDef {
   /** Unique across the splitter. Handle ids are derived from adjacent pairs. */
   id: string;
   /**
+   * Human name for the panel, used to label the resize handles beside it
+   * ("Resize sidebar and main"). Defaults to `id`, which is fine when ids read
+   * as words and worth setting when they don't.
+   */
+  label?: string;
+  /**
    * A string, or a template for anything richer.
    *
    * The other three libraries take a node here, which Angular has no equivalent
@@ -326,6 +332,7 @@ function releasePointer(element: HTMLElement, pointerId: number): void {
           [attr.aria-valuemin]="aria(index).valueMin"
           [attr.aria-valuemax]="aria(index).valueMax"
           [attr.aria-controls]="controls(index)"
+          [attr.aria-label]="handleLabel(index)"
           [attr.data-focus]="focused() === index ? '' : null"
           [attr.data-dragging]="dragging() === index ? '' : null"
           [style.touch-action]="'none'"
@@ -410,6 +417,18 @@ export class UioSplitter extends UioPart {
   /** Zag identifies a handle by the literal `before:after` pair of panel ids. */
   protected handleId(index: number): string {
     return `${this.panels()[index]?.id}:${this.panels()[index + 1]?.id}`;
+  }
+  /**
+   * The handle is a `<button role="separator">` whose only child is a decorative
+   * grip, so it had no accessible name — a keyboard user landed on an unnamed
+   * control with arrow keys that did something unexplained. Naming it after the
+   * two panels it sits between says what moving it will do. Same name as the
+   * other three libraries render.
+   */
+  protected handleLabel(index: number): string {
+    const before = this.panels()[index];
+    const after = this.panels()[index + 1];
+    return `Resize ${before?.label ?? before?.id} and ${after?.label ?? after?.id}`;
   }
   protected triggerId(index: number): string {
     return `${this.rootId}:splitter:${this.handleId(index)}`;

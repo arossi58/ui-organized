@@ -17,6 +17,9 @@ defineOptions({ inheritAttrs: false });
 const props = withDefaults(defineProps<AngleSliderProps>(), {
   disabled: undefined,
   readOnly: undefined,
+  // Shown by default, as in the React library: the dial's whole readout is the
+  // angle, and a ring with no number in it says nothing.
+  showValue: true,
 });
 const emit = defineEmits<{
   "update:modelValue": [value: number];
@@ -62,17 +65,15 @@ function onValueChangeEnd(details: { value: number }) {
     @value-change="onValueChange"
     @value-change-end="onValueChangeEnd"
   >
-    <!-- The header exists only when there is something to put in it. -->
-    <div v-if="label || showValue" class="angle-slider__header">
-      <ArkAngleSlider.Label v-if="label" class="field__label">{{ label }}</ArkAngleSlider.Label>
-      <AngleSliderValue v-if="showValue" />
-    </div>
     <ArkAngleSlider.Control class="angle-slider__control">
       <!--
         Markers are positioned from an inline custom property Ark computes, so
         the value goes to the part rather than to a style of ours.
       -->
-      <ArkAngleSlider.MarkerGroup v-if="markers && markers.length > 0" class="angle-slider__markers">
+      <ArkAngleSlider.MarkerGroup
+        v-if="markers && markers.length > 0"
+        class="angle-slider__markers"
+      >
         <ArkAngleSlider.Marker
           v-for="marker in markers"
           :key="marker"
@@ -80,6 +81,19 @@ function onValueChangeEnd(details: { value: number }) {
           class="angle-slider__marker"
         />
       </ArkAngleSlider.MarkerGroup>
+      <!--
+        The readout sits in the hollow of the ring. It stays inside Control so it
+        is centred on the dial rather than on the field column, and CSS makes it
+        click-through so the dial still tracks a press on it. Same placement as
+        the React library — `.angle-slider__readout` is the shared rule that
+        positions it, and the header this used to render had no rule at all.
+      -->
+      <div v-if="showValue || label" class="angle-slider__readout">
+        <AngleSliderValue v-if="showValue" />
+        <ArkAngleSlider.Label v-if="label" class="angle-slider__label">{{
+          label
+        }}</ArkAngleSlider.Label>
+      </div>
       <ArkAngleSlider.Thumb class="angle-slider__thumb" />
     </ArkAngleSlider.Control>
     <span v-if="helperText && !isInvalid" class="field__description">{{ helperText }}</span>

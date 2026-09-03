@@ -15,7 +15,7 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [value]="p['value'] ?? p['defaultValue'] ?? 0"
       [step]="p['step'] ?? 1"
       [markers]="markers"
-      [showValue]="!!p['showValue']"
+      [showValue]="p['showValue']"
       [size]="p['size'] ?? 'md'"
       [disabled]="!!p['disabled']"
       [readOnly]="!!p['readOnly']"

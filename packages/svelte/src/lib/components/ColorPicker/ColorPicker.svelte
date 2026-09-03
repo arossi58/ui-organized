@@ -9,7 +9,13 @@
   import { untrack } from "svelte";
   import { ColorPicker as ArkColorPicker, Portal, parseColor } from "@ark-ui/svelte";
   import { clsx } from "clsx";
-  import { CONTROL_ICON_SIZE, colorPickerStyles, type ColorNotation } from "@ui-organized/core";
+  import {
+    CONTROL_ICON_SIZE,
+    CONTROL_TEXT_CLASS,
+    MACHINE_FORMAT,
+    colorPickerStyles,
+    type ColorNotation,
+  } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import FormatInputs from "./FormatInputs.svelte";
@@ -44,7 +50,10 @@
     defaultValue = DEFAULT_COLOR,
     onValueChange,
     onValueChangeEnd,
-    format,
+    // Defaulted, as in the React library. Left undefined the machine picks its
+    // own format from the value, so a picker handed `hsl(...)` announced and
+    // submitted in a notation the caller never asked for.
+    format = "rgba",
     swatches,
     showEyeDropper = true,
     showFormatInputs = true,
@@ -76,7 +85,7 @@
   let inputFormat = $state<ColorNotation>(
     /* Read once: which notation the fields *open* on. A later change to `format`
        must not yank the row out from under a reader who has switched it. */
-    untrack(() => INITIAL_INPUT_FORMAT[format ?? "rgba"]),
+    untrack(() => INITIAL_INPUT_FORMAT[format]),
   );
 
   /**
@@ -87,7 +96,7 @@
    */
   function commitField(api: { setValue: (next: ColorLike) => void }, next: ColorLike) {
     api.setValue(next);
-    onValueChangeEnd?.(next.toString(format ?? "rgba"));
+    onValueChangeEnd?.(next.toString(format));
   }
 </script>
 
@@ -100,7 +109,7 @@
     onValueChange?.(details.valueAsString);
   }}
   onValueChangeEnd={(details) => onValueChangeEnd?.(details.valueAsString)}
-  {format}
+  format={MACHINE_FORMAT[format]}
   {open}
   {defaultOpen}
   onOpenChange={(details) => {
@@ -122,7 +131,7 @@
   {/if}
 
   <ArkColorPicker.Control class="color-picker__control">
-    <ArkColorPicker.Trigger class="color-picker__trigger">
+    <ArkColorPicker.Trigger class={clsx(CONTROL_TEXT_CLASS[size], "color-picker__trigger")}>
       <span class="color-picker__swatch-well">
         <ArkColorPicker.TransparencyGrid size={TRANSPARENCY_CELL} class="color-picker__grid" />
         <ArkColorPicker.ValueSwatch class="color-picker__value-swatch" />
@@ -209,5 +218,7 @@
   {#if isInvalid && errorMessage}
     <FieldError message={errorMessage} />
   {/if}
-  <ArkColorPicker.HiddenInput />
+  <!-- The input is the form value and carries no visible label of its own, so
+       without a name it is announced as an unlabelled textbox. -->
+  <ArkColorPicker.HiddenInput aria-label={label ?? "Color"} />
 </ArkColorPicker.Root>
