@@ -21,6 +21,9 @@ beforeAll(() => {
     unobserve() {}
     disconnect() {}
   } as unknown as typeof ResizeObserver;
+  // jsdom implements no scrolling at all, and zag's select scrolls its list to
+  // the top as it opens.
+  Element.prototype.scrollTo ??= function scrollTo() {};
   globalThis.matchMedia ??= ((query: string) => ({
     matches: false,
     media: query,
@@ -53,7 +56,6 @@ const picker = (props: Partial<ColorPickerProps> = {}) => (
 );
 
 const trigger = () => document.querySelector<HTMLElement>(".color-picker__value-text");
-const select = () => document.querySelector<HTMLSelectElement>(".color-picker__format-select")!;
 const fields = () =>
   [...document.querySelectorAll<HTMLElement>(".color-picker__field")].map((field) => [
     field.querySelector<HTMLInputElement>("input")!.getAttribute("aria-label"),
@@ -62,11 +64,40 @@ const fields = () =>
 const submitted = (name: string) =>
   [...document.querySelectorAll<HTMLInputElement>(`input[name="${name}"]`)].map((el) => el.value);
 
-const setFormat = (value: string) => {
-  const el = select();
-  act(() => {
-    el.value = value;
-    el.dispatchEvent(new Event("change", { bubbles: true }));
+/**
+ * The notation the select is currently showing.
+ *
+ * Read off the trigger's value text rather than a `<select>`'s `value`: the
+ * notation control is the library's own `Select`, whose native element exists
+ * only to carry a form value.
+ */
+const format = () =>
+  document
+    .querySelector<HTMLElement>(".color-picker__format .select-field__value")
+    ?.textContent?.trim();
+
+/**
+ * Switches notation the way a reader does — open the list, choose a label.
+ *
+ * `pointerdown` before the click on the item: zag's select commits a choice on
+ * pointer-up when the pointer opened the list, and a bare `click()` in jsdom
+ * arrives without the pointer sequence it is watching for.
+ */
+const setFormat = async (label: string) => {
+  const control = document.querySelector<HTMLElement>(
+    ".color-picker__format .select-field__trigger",
+  )!;
+  await act(async () => {
+    control.dispatchEvent(new PointerEvent("pointerdown", { bubbles: true, button: 0 }));
+    control.dispatchEvent(new PointerEvent("pointerup", { bubbles: true, button: 0 }));
+    control.click();
+  });
+  const option = [...document.querySelectorAll<HTMLElement>(".select-popup__item")].find(
+    (item) => item.textContent?.trim() === label,
+  )!;
+  await act(async () => {
+    option.dispatchEvent(new PointerEvent("pointermove", { bubbles: true }));
+    option.click();
   });
 };
 
@@ -111,12 +142,12 @@ describe("format", () => {
 
   it("opens the fields on the notation it emits", () => {
     mount(picker({ format: "oklch" }));
-    expect(select().value).toBe("oklch");
+    expect(format()).toBe("OKLCH");
   });
 });
 
 describe("the notation select", () => {
-  it("reads the same colour in every notation", () => {
+  it("reads the same colour in every notation", async () => {
     mount(picker());
 
     expect(fields()).toEqual([
@@ -126,13 +157,13 @@ describe("the notation select", () => {
       ["A", "1"],
     ]);
 
-    setFormat("hex");
+    await setFormat("HEX");
     expect(fields()).toEqual([
       ["HEX", "#2563EB"],
       ["A", "1"],
     ]);
 
-    setFormat("hsl");
+    await setFormat("HSL");
     expect(fields()).toEqual([
       ["H", "221"],
       ["S", "83"],
@@ -140,7 +171,7 @@ describe("the notation select", () => {
       ["A", "1"],
     ]);
 
-    setFormat("oklch");
+    await setFormat("OKLCH");
     expect(fields()).toEqual([["OKLCH", "0.54615 0.21521 262.881"]]);
   });
 
@@ -151,7 +182,7 @@ describe("the notation select", () => {
     const changes: string[] = [];
     mount(picker({ format: "hex", name: "brand", onValueChangeEnd: (v) => changes.push(v) }));
 
-    setFormat("oklch");
+    await setFormat("OKLCH");
     expect(trigger()?.textContent).toBe("#2563EB");
     expect(submitted("brand")).toEqual(["#2563EB"]);
 
@@ -170,7 +201,7 @@ describe("editing a field", () => {
     // The machine is in rgba here, so `lightness` only exists after conversion.
     mount(picker({ onValueChangeEnd: (v) => changes.push(v) }));
 
-    setFormat("hsl");
+    await setFormat("HSL");
     const [, , lightness] = document.querySelectorAll<HTMLInputElement>(
       ".color-picker__field input",
     );
@@ -193,7 +224,7 @@ describe("editing a field", () => {
   it("leaves alpha alone when a six-digit hex is typed, since the field beside it owns alpha", async () => {
     mount(picker({ defaultValue: "rgba(37, 99, 235, 0.4)" }));
 
-    setFormat("hex");
+    await setFormat("HEX");
     const [hex, alpha] = document.querySelectorAll<HTMLInputElement>(".color-picker__field input");
     await type(hex!, "#ff0000");
 

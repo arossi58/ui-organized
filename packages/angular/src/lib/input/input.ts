@@ -5,6 +5,7 @@ import {
   forwardRef,
   inject,
   input,
+  model,
   signal,
   type Signal,
 } from "@angular/core";
@@ -70,8 +71,14 @@ export type InputSize = NonNullable<InputVariants["size"]>;
       [attr.name]="name()"
       [attr.placeholder]="placeholder()"
       [attr.autocomplete]="autocomplete()"
+      [attr.aria-label]="ariaLabel()"
+      [attr.inputmode]="inputMode()"
+      [attr.spellcheck]="spellcheck()"
+      [attr.min]="min()"
+      [attr.max]="max()"
+      [attr.step]="step()"
       [attr.required]="required() ? '' : null"
-      [attr.readonly]="readOnly() ? '' : null"
+      [attr.readonly]="readOnlyInput() ? '' : null"
       [attr.aria-invalid]="invalid() ? 'true' : null"
       [attr.aria-describedby]="field.describedBy()"
       [attr.data-invalid]="flag(invalid())"
@@ -116,11 +123,43 @@ export class UioInput extends UioPart implements ControlValueAccessor {
   readonly error = input<string | boolean | undefined>(undefined);
   readonly size = input<InputSize>("md");
   readonly required = input(false, { transform: booleanAttribute });
-  readonly readOnly = input(false, { transform: booleanAttribute });
+  /**
+   * Read-only, on the control rather than on the field — so the root reports no
+   * `data-readonly`, for the reason the note above gives for `data-disabled`:
+   * Ark's `Field.Root` is never told about a read-only *input* either, and the
+   * `readonly` attribute is already on the element the stylesheet selects.
+   * Mark the whole field read-only with `<div uioField readOnly>`.
+   */
+  protected readonly readOnlyInput = input(false, {
+    alias: "readOnly",
+    transform: booleanAttribute,
+  });
   readonly type = input<string | undefined>(undefined);
   readonly name = input<string | undefined>(undefined);
   readonly placeholder = input<string | undefined>(undefined);
   readonly autocomplete = input<string | undefined>(undefined);
+  /**
+   * The control's text.
+   *
+   * A `model()`, so it is uncontrolled until something binds it — the
+   * arrangement `UioSwitch` describes — and a reactive form can keep driving it
+   * through the value accessor either way. React, Svelte and Vue reach the same
+   * place by spreading `value` onto their `Field.Input`; Angular has no spread,
+   * so it is declared.
+   */
+  readonly value = model<string>("");
+  /**
+   * A name for a control the design does not print a label above — a channel
+   * field inside the colour picker, say. Prefer `label`: a visible one names
+   * the control for everyone rather than only for a screen reader.
+   */
+  readonly ariaLabel = input<string | undefined>(undefined, { alias: "aria-label" });
+  readonly inputMode = input<string | undefined>(undefined);
+  readonly spellcheck = input<boolean | undefined>(undefined);
+  /* The numeric attributes. Declared rather than spread, for the reason above. */
+  readonly min = input<number | undefined>(undefined);
+  readonly max = input<number | undefined>(undefined);
+  readonly step = input<number | undefined>(undefined);
 
   /** `disabled` comes from the caller *or* from a reactive form's disabled state. */
   protected readonly disabledInput = input(false, {
@@ -139,7 +178,6 @@ export class UioInput extends UioPart implements ControlValueAccessor {
 
   protected readonly field = inject(UioFieldContext);
   protected readonly hostClass = computed(() => inputFieldStyles({ size: this.size() }));
-  protected readonly value = signal("");
 
   constructor() {
     super();

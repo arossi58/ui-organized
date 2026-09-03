@@ -1,5 +1,5 @@
 import { SIZES, type ParityAllowance } from "../../src/cases/spec.js";
-import { part, type BrowserScenario, type Step } from "./scenario.js";
+import { HIDDEN_SELECT_TEXT, part, type BrowserScenario, type Step } from "./scenario.js";
 
 /**
  * The picker surface, and the arithmetic behind it.
@@ -109,6 +109,7 @@ const picker = (name: string, props: Record<string, unknown>): BrowserScenario =
   regions: ["#mount", surface],
   stylesheets: ["ColorPicker/ColorPicker.css"],
   allow: [SWATCH_STATE_SKEW],
+  allowTextIn: [HIDDEN_SELECT_TEXT],
 });
 
 const scenarios: BrowserScenario[] = [
@@ -177,6 +178,7 @@ const scenarios: BrowserScenario[] = [
     regions: ["#mount", surface],
     stylesheets: ["ColorPicker/ColorPicker.css"],
     allow: [SWATCH_STATE_SKEW],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
     skip: VUE_SWATCH_GROUP_ROLE,
   },
   {
@@ -195,6 +197,7 @@ const scenarios: BrowserScenario[] = [
     regions: ["#mount", surface],
     stylesheets: ["ColorPicker/ColorPicker.css"],
     allow: [SWATCH_STATE_SKEW],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
     /**
      * `visibilityMatches`, not `hidden`.
      *
@@ -228,6 +231,7 @@ const scenarios: BrowserScenario[] = [
     regions: ["#mount", surface],
     stylesheets: ["ColorPicker/ColorPicker.css"],
     allow: [SWATCH_STATE_SKEW],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
     skip: VUE_SWATCH_GROUP_ROLE,
   },
 ];

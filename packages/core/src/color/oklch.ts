@@ -1,11 +1,12 @@
 /**
  * OKLCH ⇄ sRGB.
  *
- * The colour machine underneath this component models `rgba`/`hsla`/`hsba` and
- * its parser rejects `oklch(...)` outright, so OKLCH cannot be a machine format
- * the way RGB and HSL are — it has to be converted at the edge. Everything here
- * is arithmetic on plain numbers: no DOM, no `Color` objects, nothing imported
- * from the library, so it is testable on its own and cannot drift with it.
+ * The colour machines the four libraries drive model `rgba`/`hsla`/`hsba` and
+ * their parsers reject `oklch(...)` outright, so OKLCH cannot be a machine
+ * format the way RGB and HSL are — it has to be converted at the edge.
+ * Everything here is arithmetic on plain numbers: no DOM, no `Color` objects,
+ * nothing imported from any framework, which is what lets one copy sit in core
+ * and serve React, Svelte, Vue and Angular rather than four copies drifting.
  *
  * The transform is Björn Ottosson's OKLab, which is what CSS Color 4 defines
  * `oklch()` against: https://bottosson.github.io/posts/oklab/

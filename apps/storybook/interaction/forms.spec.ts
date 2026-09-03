@@ -196,3 +196,63 @@ test.describe("TagsInput", () => {
     },
   );
 });
+
+// ── ColorPicker ──────────────────────────────────────────────────────────────
+/**
+ * The notation row, which is the one place in the system where a Select opens
+ * *inside* another surface.
+ *
+ * The picker's popup is a dismissable layer and so is the select's listbox, so
+ * everything here turns on the layer stack getting the nesting right: a click
+ * that lands in the listbox is outside the picker, and an Escape has two
+ * surfaces it could mean. Both are the kind of thing that looks fine in a
+ * screenshot and is broken the moment anyone uses it.
+ */
+test.describe("ColorPicker", () => {
+  const popup = part("color-picker", "content");
+  const notation = `.color-picker__format ${part("select", "trigger")}`;
+  const fieldLabels = ".color-picker__field-label";
+
+  storyTest(
+    "components-forms-colorpicker--open",
+    "switches notation without closing the picker",
+    async (page) => {
+      await expect(page.locator(popup)).toBeVisible();
+      await expect(page.locator(fieldLabels)).toHaveText(["R", "G", "B", "A"]);
+
+      await page.click(notation);
+      const content = page.locator(part("select", "content"));
+      await expectSettledOpen(page, part("select", "content"));
+      // The listbox is a layer above the picker, not a click outside it.
+      await expect(page.locator(popup)).toBeVisible();
+
+      await content.locator(part("select", "item"), { hasText: "HSL" }).click();
+      await expect(content).toBeHidden();
+      // Choosing an option is a click outside the picker too, and must not
+      // dismiss it either — the whole row would be unusable if it did.
+      await expect(page.locator(popup)).toBeVisible();
+      await expect(page.locator(fieldLabels)).toHaveText(["H", "S", "L", "A"]);
+    },
+  );
+
+  storyTest(
+    "components-forms-colorpicker--open",
+    "Escape in the notation list closes the list, not the picker",
+    async (page) => {
+      await page.click(notation);
+      await expectSettledOpen(page, part("select", "content"));
+      await expectFocusWithin(page, part("select", "content"));
+      await page.keyboard.press("Escape");
+
+      await expect(page.locator(part("select", "content"))).toBeHidden();
+      await expect(page.locator(popup)).toBeVisible();
+    },
+  );
+
+  storyTest("components-forms-colorpicker--open", "commits a typed channel", async (page) => {
+    const red = page.locator(".color-picker__field input").first();
+    await red.fill("255");
+    await red.press("Enter");
+    await expect(page.locator(part("color-picker", "value-text"))).toContainText("255");
+  });
+});

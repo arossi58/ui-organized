@@ -6,13 +6,15 @@
   colour-specific.
 -->
 <script setup lang="ts">
-import { computed, useAttrs } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { ColorPicker as ArkColorPicker, parseColor } from "@ark-ui/vue";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, colorPickerStyles } from "@ui-organized/core";
+import { CONTROL_ICON_SIZE, colorPickerStyles, type ColorNotation } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
+import FormatInputs from "./FormatInputs.vue";
+import type { ColorLike } from "./channelFields.js";
 import type { ColorPickerProps } from "./ColorPicker.types.js";
 import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
 
@@ -28,6 +30,13 @@ const DEFAULT_COLOR = "#000000";
  */
 const TRANSPARENCY_CELL = "12px";
 
+/** Which notation the picker's fields open on, given the machine's format. */
+const INITIAL_INPUT_FORMAT = {
+  rgba: "rgb",
+  hsla: "hsl",
+  hsba: "rgb",
+} as const;
+
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts an
 // absent Boolean prop to `false`, and `definedOnly` then forwards that as a
@@ -36,6 +45,7 @@ defineOptions({ inheritAttrs: false });
 const props = withDefaults(defineProps<ColorPickerProps>(), {
   defaultValue: DEFAULT_COLOR,
   showEyeDropper: true,
+  showFormatInputs: true,
   size: "md",
   open: undefined,
   defaultOpen: undefined,
@@ -55,6 +65,10 @@ const attrs = useAttrs();
 const isInvalid = computed(() => !!props.error);
 const errorMessage = computed(() => (typeof props.error === "string" ? props.error : undefined));
 const iconSize = computed(() => CONTROL_ICON_SIZE[props.size]);
+/* Which notation the picker's fields are showing. Local, because it is a way
+   of reading the colour rather than a property of it — see `format`. */
+const inputFormat = ref<ColorNotation>(INITIAL_INPUT_FORMAT[props.format ?? "rgba"]);
+
 const rootClass = computed(() =>
   clsx(colorPickerStyles({ size: props.size, variant: props.variant }), attrs.class as string),
 );
@@ -83,6 +97,17 @@ function onValueChange(details: { valueAsString: string }) {
 function onValueChangeEnd(details: { valueAsString: string }) {
   emit("valueChangeEnd", details.valueAsString);
 }
+/**
+ * A typed edit, which is a finished interaction: it reports an end as well as a
+ * change — unlike a drag, which reports many changes and one end when the
+ * pointer lifts. The change itself comes from the machine, which emits
+ * `value-change` when `setValue` moves it.
+ */
+function commitField(api: { setValue: (next: ColorLike) => void }, next: ColorLike) {
+  api.setValue(next);
+  emit("valueChangeEnd", next.toString(props.format ?? "rgba"));
+}
+
 function onOpenChange(details: { open: boolean }) {
   emit("update:open", details.open);
   emit("openChange", details.open);
@@ -131,7 +156,15 @@ function onOpenChange(details: { open: boolean }) {
         unregisters the layer. Conditional classes go on the popup.
       -->
       <ArkColorPicker.Positioner class="color-picker__positioner">
-        <ArkColorPicker.Content class="color-picker__popup">
+        <!--
+          Ark gives the content role="dialog", which needs a name, and this
+          popup has no title to take one from. Without this it reaches a screen
+          reader as an unnamed dialog (axe aria-dialog-name).
+        -->
+        <ArkColorPicker.Content
+          class="color-picker__popup"
+          :aria-label="label ? `${label} colour picker` : 'Colour picker'"
+        >
           <ArkColorPicker.Area class="color-picker__area">
             <ArkColorPicker.AreaBackground class="color-picker__area-bg" />
             <ArkColorPicker.AreaThumb class="color-picker__thumb" />
@@ -160,6 +193,18 @@ function onOpenChange(details: { open: boolean }) {
               <ArkColorPicker.ChannelSliderThumb class="color-picker__thumb" />
             </ArkColorPicker.ChannelSlider>
           </div>
+
+          <ArkColorPicker.Context v-if="showFormatInputs" v-slot="api">
+            <FormatInputs
+              :format="inputFormat"
+              :color="(api.value as ColorLike)"
+              :disabled="disabled"
+              :read-only="readOnly"
+              :container="container"
+              @format-change="inputFormat = $event"
+              @commit="(next) => commitField(api, next)"
+            />
+          </ArkColorPicker.Context>
 
           <ArkColorPicker.SwatchGroup
             v-if="swatches && swatches.length > 0"

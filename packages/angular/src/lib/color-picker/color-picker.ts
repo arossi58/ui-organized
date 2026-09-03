@@ -22,14 +22,20 @@ import {
   untracked,
 } from "@angular/core";
 import {
+  COLOR_NOTATIONS,
+  COLOR_NOTATION_FIELDS,
   CONTROL_ICON_SIZE,
   colorPickerStyles,
+  type ColorField,
+  type ColorNotation,
   type ColorPickerVariants,
   type ControlSize,
 } from "@ui-organized/core";
 import { UioPart, stateFlag } from "../part.js";
 import { UioFieldError } from "../field-error/field-error.js";
 import { UioIcon } from "../icons/icon.js";
+import { UioInput } from "../input/input.js";
+import { UioSelect } from "../select/select.js";
 import { nextMachineId, VISUALLY_HIDDEN_INPUT } from "../part-ids.js";
 import { AnchoredSurface } from "../overlay/anchored.js";
 import { anchoredPositions } from "../overlay/anchor.js";
@@ -37,6 +43,7 @@ import { pushLayer, removeLayer, type DismissibleLayer } from "../overlay/dismis
 import { flushNow } from "../overlay/flush.js";
 import { focusInside, restoreFocus } from "../overlay/focus.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { readField, writeField } from "./channel-fields.js";
 import {
   channelPercent,
   channelRange,
@@ -111,7 +118,7 @@ const HUE_TRACK =
   selector: "div[uioColorPicker]",
   standalone: true,
   exportAs: "uioColorPicker",
-  imports: [UioFieldError, UioIcon],
+  imports: [UioFieldError, UioIcon, UioInput, UioSelect],
   template: `
     @if (label(); as text) {
       <label
@@ -232,6 +239,7 @@ const HUE_TRACK =
           role="dialog"
           tabindex="-1"
           [id]="partId('content')"
+          [attr.aria-label]="contentLabel()"
           [attr.data-state]="openState()"
           [attr.hidden]="open() ? null : ''"
           [attr.data-placement]="anchored.placement()"
@@ -391,6 +399,68 @@ const HUE_TRACK =
             </div>
           </div>
 
+          @if (showFormatInputs()) {
+            <div class="color-picker__notation">
+              <!--
+                The label is rendered and hidden in CSS rather than left off:
+                the trigger, the listbox and the hidden control are all named
+                after it, so an absent label leaves dangling references behind.
+              -->
+              <div
+                uioSelect
+                class="color-picker__format"
+                size="sm"
+                label="Colour notation"
+                [options]="notations"
+                [value]="inputFormat()"
+                [disabled]="disabled()"
+                (valueChange)="onFormatChange($event)"
+              ></div>
+
+              <div class="color-picker__inputs" [attr.data-format]="inputFormat()">
+                @for (field of notationFields(); track field.key) {
+                  <div class="color-picker__field">
+                    <!--
+                      focusin / focusout rather than focus / blur: UioInput
+                      renders the control, so what this element can hear is what
+                      bubbles up to it, and the plain two do not bubble.
+                    -->
+                    <div
+                      uioInput
+                      size="sm"
+                      [type]="field.kind === 'channel' ? 'number' : 'text'"
+                      [inputMode]="field.kind === 'channel' ? 'decimal' : 'text'"
+                      [aria-label]="field.label"
+                      [spellcheck]="false"
+                      autocomplete="off"
+                      [disabled]="disabled()"
+                      [readOnly]="readOnly()"
+                      [min]="field.kind === 'channel' ? field.min : undefined"
+                      [max]="field.kind === 'channel' ? field.max : undefined"
+                      [step]="field.kind === 'channel' ? field.step : undefined"
+                      [value]="shownField(field)"
+                      (valueChange)="onFieldInput(field, $event)"
+                      (focusin)="onFieldFocus($event)"
+                      (focusout)="commitField(field)"
+                      (keydown)="onFieldKeydown($event, field)"
+                    ></div>
+                    <!--
+                      Only the numeric channels are abbreviated. A HEX caption
+                      under a hex field would only repeat the select above it —
+                      but the line stays reserved in CSS, so switching notation
+                      cannot resize the popup out from under the pointer.
+                    -->
+                    @if (field.kind === "channel") {
+                      <span class="color-picker__field-label" aria-hidden="true">{{
+                        field.label
+                      }}</span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+          }
+
           @if (swatches().length) {
             <div
               class="color-picker__swatches"
@@ -454,6 +524,12 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   readonly format = input<ColorFormat | undefined>(undefined);
   readonly swatches = input<string[]>([]);
   readonly showEyeDropper = input(true, { transform: booleanAttribute });
+  /**
+   * Shows the notation select and its channel fields — HEX, RGB, HSL, OKLCH —
+   * under the sliders. Defaults to true. Turn it off for a picker meant to be
+   * driven by eye rather than by number.
+   */
+  readonly showFormatInputs = input(true, { transform: booleanAttribute });
   readonly open = model(false);
   readonly openChange = output<boolean>();
   readonly size = input<ColorPickerSize>("md");
@@ -518,6 +594,80 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   /** The value, parsed. A bad string is the caller's, not something to hide. */
   protected readonly color = computed<ColorValue>(() => parseColor(this.value()));
 
+  /* ─── The notation row ────────────────────────────────────────────────────
+     Which notations exist and which fields each one shows come from
+     `COLOR_NOTATIONS` / `COLOR_NOTATION_FIELDS` in `@ui-organized/core`, shared
+     with the React, Svelte and Vue pickers so all four offer the same row. */
+
+  protected readonly notations = COLOR_NOTATIONS;
+
+  /**
+   * Which notation the fields are showing.
+   *
+   * Local, and initialised from the *machine's* format once rather than derived
+   * from it: it is a way of reading the colour rather than a property of it, so
+   * switching it must not move the value string, the form value or which pair
+   * of channels the area is — and a later change to `format` must not yank the
+   * row out from under a reader who has switched it.
+   */
+  protected readonly inputFormat = signal<ColorNotation>("rgb");
+
+  protected readonly notationFields = computed<ColorField[]>(
+    () => COLOR_NOTATION_FIELDS[this.inputFormat()],
+  );
+
+  /**
+   * The field being typed into, and what has been typed.
+   *
+   * `null` means every field shows the colour. While a field is mid-edit the
+   * colour must not overwrite what is being typed — which it otherwise would on
+   * every pointer move over the area behind the field.
+   */
+  private readonly draft = signal<{ key: string; text: string } | null>(null);
+
+  protected shownField(field: ColorField): string {
+    const draft = this.draft();
+    return draft?.key === field.key ? draft.text : readField(field, this.color());
+  }
+
+  protected onFormatChange(next: string): void {
+    this.draft.set(null);
+    this.inputFormat.set(next as ColorNotation);
+  }
+
+  protected onFieldInput(field: ColorField, text: string): void {
+    this.draft.set({ key: field.key, text });
+  }
+
+  protected onFieldFocus(event: FocusEvent): void {
+    (event.target as HTMLInputElement | null)?.select?.();
+  }
+
+  /**
+   * Applies a typed edit, which is a finished interaction — so it reports an
+   * end as well as a change, unlike a drag, which reports many changes and one
+   * end when the pointer lifts. An unreadable edit is dropped and the field
+   * falls back to the colour it was showing.
+   */
+  protected commitField(field: ColorField): void {
+    const draft = this.draft();
+    if (draft?.key !== field.key) return;
+    this.draft.set(null);
+    const next = writeField(field, draft.text, this.color());
+    if (next) this.commit(toColorFormat(next, this.resolvedFormat()), true);
+  }
+
+  protected onFieldKeydown(event: KeyboardEvent, field: ColorField): void {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      this.commitField(field);
+    } else if (event.key === "Escape") {
+      // Abandon the edit without closing the picker under it.
+      event.stopPropagation();
+      this.draft.set(null);
+    }
+  }
+
   /** `format ?? the value's own space` — zag's `defaultFormat`. */
   private readonly resolvedFormat = computed<ColorFormat>(
     () => this.format() ?? this.color().format,
@@ -530,6 +680,16 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   protected readonly triggerLabel = computed(
     () => `select color. current color is ${this.valueAsString()}`,
   );
+
+  /**
+   * The popup is a `role="dialog"` with no title to take a name from — the same
+   * trap `UioPopoverTitle` exists to close. Without this it reaches a screen
+   * reader as an unnamed dialog (axe `aria-dialog-name`).
+   */
+  protected readonly contentLabel = computed(() => {
+    const text = this.label();
+    return text ? `${text} colour picker` : "Colour picker";
+  });
 
   /**
    * The colour the area and the sliders work in.
@@ -677,6 +837,11 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
 
   /** `ngOnInit`, not `ngAfterViewInit` — see the note in `UioDialog`. */
   ngOnInit(): void {
+    /* Seeded here rather than where it is declared: a field initialiser runs
+       before Angular has set the inputs, so `format()` would still be undefined
+       and every picker would open on RGB. Set once, not derived — see the note
+       on `inputFormat`. */
+    this.inputFormat.set(this.format() === "hsla" ? "hsl" : "rgb");
     const ref = this.anchored.create(
       this.trigger.nativeElement,
       // zag's positioning for this component: below the trigger, left edges

@@ -7,13 +7,13 @@ import {
   CONTROL_ICON_SIZE,
   CONTROL_TEXT_CLASS,
   colorPickerStyles,
+  formatOklch,
   type ControlSize,
 } from "@ui-organized/core";
 import type { ColorPickerProps } from "./ColorPicker.types.js";
 import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 import { FormatInputs, toRgba, type ColorLike, type InputFormat } from "./channelFields.js";
-import { formatOklch } from "./oklch.js";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -226,6 +226,7 @@ export function ColorPicker({
                     }}
                     disabled={disabled}
                     readOnly={readOnly}
+                    container={container}
                   />
                 )}
               </ArkColorPicker.Context>

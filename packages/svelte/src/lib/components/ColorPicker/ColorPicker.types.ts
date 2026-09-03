@@ -28,12 +28,25 @@ export interface ColorPickerProps {
   onValueChange?: (value: string) => void;
   /** Called once the interaction ends. */
   onValueChangeEnd?: (value: string) => void;
-  /** Which notation the channel inputs use. Defaults to 'rgba'. */
+  /**
+   * The notation the colour is held and printed in — the value string, the
+   * trigger's value text and the hidden form input. Defaults to 'rgba'.
+   *
+   * It also picks which notation the picker's fields open on. It does not pin
+   * them there: a reader can switch the fields to any notation without changing
+   * what this component hands back, which stays whatever this names.
+   */
   format?: "rgba" | "hsla" | "hsba";
   /** Preset swatches offered under the picker area. */
   swatches?: string[];
   /** Shows the eyedropper button, where the browser supports it. Defaults to true. */
   showEyeDropper?: boolean;
+  /**
+   * Shows the notation select and its channel fields — HEX, RGB, HSL, OKLCH —
+   * under the sliders. Defaults to true. Turn it off for a picker meant to be
+   * driven by eye rather than by number.
+   */
+  showFormatInputs?: boolean;
   /** Open state of the picker. Bindable: `bind:open`. */
   open?: boolean;
   /** Initial open state for the uncontrolled case. */

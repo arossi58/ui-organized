@@ -1,23 +1,53 @@
 /**
- * The notation row under the picker: a format select and the fields that go
- * with the notation it names.
+ * The notation row under the picker: a format select on a row of its own, and
+ * the fields that go with the notation it names underneath it.
  *
- * These are the library's own inputs rather than Ark's `ChannelInput`, for one
- * reason. Ark writes a channel by converting the colour to the *machine's*
- * format first, so an HSL field only works while the machine is in `hsla` —
- * which would mean the notation select had to reformat the machine, and the
- * machine's format is what decides the value string, the hidden input's form
- * value and whether the picker area is saturation×brightness or
- * saturation×lightness. Flipping a display control must not move any of those,
- * so the fields convert on their own and leave the machine alone. Reads and
- * writes both go through `toFormat`, so every notation works from any machine
- * format, and OKLCH — which the machine cannot represent at all — is just one
- * more entry in the same table.
+ * ── Why the select and the fields are the library's own components ──────────
+ *
+ * They are `Select` and `Input`, not a bare `<select>` and `<input>` styled to
+ * resemble them. Two controls that live inside a popup are still controls, and
+ * a picker whose fields drift from the rest of the form chrome — a different
+ * focus ring, a different disabled treatment, a different height at `sm` — is a
+ * picker that has to be re-fixed every time the field chrome moves. The cost is
+ * that the notation select opens a second surface above the one the picker is
+ * already showing; the dismissable-layer stack under all four libraries is
+ * built for exactly that (a select inside a dialog closes itself and leaves the
+ * dialog alone), so the picker stays open while the notation list is up.
+ *
+ * ── Why not Ark's ChannelInput ──────────────────────────────────────────────
+ *
+ * Ark writes a channel by converting the colour to the *machine's* format
+ * first, so an HSL field only works while the machine is in `hsla` — which
+ * would mean the notation select had to reformat the machine, and the machine's
+ * format is what decides the value string, the hidden input's form value and
+ * whether the picker area is saturation×brightness or saturation×lightness.
+ * Flipping a display control must not move any of those, so the fields convert
+ * on their own and leave the machine alone. Reads and writes both go through
+ * `toFormat`, so every notation works from any machine format, and OKLCH —
+ * which the machine cannot represent at all — is just one more entry in the
+ * same table.
+ *
+ * That table is `COLOR_NOTATION_FIELDS` in `@ui-organized/core`, shared with
+ * the Svelte, Vue and Angular pickers so all four offer the same notations with
+ * the same channels in the same order.
  */
-import { useState } from "react";
+import { useState, type RefObject } from "react";
 import { parseColor, type Color } from "@ark-ui/react";
-import { Icon } from "../Icon/index.js";
-import { formatOklchComponents, parseOklch, type Rgba } from "./oklch.js";
+import {
+  COLOR_NOTATIONS,
+  COLOR_NOTATION_FIELDS,
+  formatChannel,
+  formatOklchComponents,
+  normalizeHex,
+  parseOklch,
+  readChannelInput,
+  type ColorChannelField,
+  type ColorField,
+  type ColorNotation,
+  type Rgba,
+} from "@ui-organized/core";
+import { Input } from "../Input/index.js";
+import { Select } from "../Select/index.js";
 
 /**
  * The parsed colour the machine holds. Named here rather than in the public
@@ -26,17 +56,10 @@ import { formatOklchComponents, parseOklch, type Rgba } from "./oklch.js";
  */
 export type ColorLike = Color;
 
-/** Which notation the row is showing. Not the same set as the `format` prop,
- *  which names an *output* notation and includes `hsba`. */
-export type InputFormat = "hex" | "rgb" | "hsl" | "oklch";
+/** Re-exported under the name the picker uses for it. */
+export type InputFormat = ColorNotation;
 
-/** The notations the select offers, in the order it offers them. */
-export const INPUT_FORMATS: { value: InputFormat; label: string }[] = [
-  { value: "hex", label: "HEX" },
-  { value: "rgb", label: "RGB" },
-  { value: "hsl", label: "HSL" },
-  { value: "oklch", label: "OKLCH" },
-];
+export const INPUT_FORMATS = COLOR_NOTATIONS;
 
 const round = (n: number, places = 0) => Number(n.toFixed(places));
 
@@ -50,139 +73,81 @@ export function toRgba(color: ColorLike): Rgba {
   };
 }
 
-/**
- * One field's contract: how to read the current colour into text, and how to
- * read text back into a colour. `write` returning `null` rejects the edit, and
- * the field falls back to the colour it was showing.
- */
-interface FieldSpec {
-  key: string;
-  /** Accessible name; also the abbreviation under the field. */
-  label: string;
-  read: (color: ColorLike) => string;
-  write: (text: string, color: ColorLike) => ColorLike | null;
-  /** Absent for the free-text fields (hex, oklch), which fill the row instead. */
-  numeric?: { min: number; max: number; step: number };
+/* ─── Reading and writing one field ─────────────────────────────────────────
+   The half of a field the shared table cannot describe, because it needs a
+   colour object and the four libraries do not share one. `write` returning
+   `null` rejects the edit, and the field falls back to the colour it was
+   showing rather than guessing at what was meant. */
+
+/** `space: null` is alpha — the one channel that survives a conversion. */
+const inSpace = (color: ColorLike, field: ColorChannelField) =>
+  field.space ? color.toFormat(field.space) : color;
+
+function readField(field: ColorField, color: ColorLike): string {
+  if (field.kind === "channel") {
+    return formatChannel(inSpace(color, field).getChannelValue(field.channel), field);
+  }
+  return field.key === "hex" ? color.toString("hex") : formatOklchComponents(toRgba(color));
 }
 
-/** A numeric channel read and written in `space`, whatever the machine holds. */
-function channel(
-  key: string,
-  label: string,
-  space: "rgba" | "hsla",
-  name: "red" | "green" | "blue" | "hue" | "saturation" | "lightness",
-  max: number,
-): FieldSpec {
-  return {
-    key,
-    label,
-    numeric: { min: 0, max, step: 1 },
-    read: (color) => String(round(color.toFormat(space).getChannelValue(name))),
-    write: (text, color) => {
-      const n = Number(text);
-      if (text.trim() === "" || Number.isNaN(n)) return null;
-      const clamped = Math.min(max, Math.max(0, n));
-      return color.toFormat(space).withChannelValue(name, clamped);
-    },
-  };
-}
+function writeField(field: ColorField, text: string, color: ColorLike): ColorLike | null {
+  if (field.kind === "channel") {
+    const value = readChannelInput(text, field);
+    if (value === null) return null;
+    return inSpace(color, field).withChannelValue(field.channel, value);
+  }
 
-/* Alpha is the one channel every notation shares, and the only one that needs
-   no conversion — it survives `toFormat` untouched. */
-const ALPHA: FieldSpec = {
-  key: "alpha",
-  label: "A",
-  numeric: { min: 0, max: 1, step: 0.01 },
-  read: (color) => String(round(color.getChannelValue("alpha"), 2)),
-  write: (text, color) => {
-    const n = Number(text);
-    if (text.trim() === "" || Number.isNaN(n)) return null;
-    return color.withChannelValue("alpha", Math.min(1, Math.max(0, n)));
-  },
-};
-
-const HEX: FieldSpec = {
-  key: "hex",
-  label: "HEX",
-  read: (color) => color.toString("hex"),
-  /* Alpha deliberately survives a hex edit rather than being reset to opaque by
-     a six-digit string. The field beside this one owns alpha; typing a colour
-     is not a statement about transparency. */
-  write: (text, color) => {
-    const trimmed = text.trim();
-    const hex = trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
-    if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex)) return null;
+  if (field.key === "hex") {
+    const hex = normalizeHex(text);
+    if (!hex) return null;
+    /* Alpha deliberately survives a hex edit rather than being reset to opaque
+       by a six-digit string. The field beside this one owns alpha; typing a
+       colour is not a statement about transparency. */
     return parseColor(hex).withChannelValue("alpha", color.getChannelValue("alpha"));
-  },
-};
+  }
 
-/* The only notation that carries its own alpha — `L C H / A` reads and writes
-   it — so it is the only one without a field beside it, and it takes the whole
-   row it would otherwise have shared. At this width it needs it. */
-const OKLCH: FieldSpec = {
-  key: "oklch",
-  label: "OKLCH",
-  read: (color) => formatOklchComponents(toRgba(color)),
-  write: (text) => {
-    const parsed = parseOklch(text);
-    if (!parsed) return null;
-    return parseColor(`rgba(${parsed.r}, ${parsed.g}, ${parsed.b}, ${parsed.a})`);
-  },
-};
-
-const FIELDS: Record<InputFormat, FieldSpec[]> = {
-  hex: [HEX, ALPHA],
-  rgb: [
-    channel("r", "R", "rgba", "red", 255),
-    channel("g", "G", "rgba", "green", 255),
-    channel("b", "B", "rgba", "blue", 255),
-    ALPHA,
-  ],
-  hsl: [
-    channel("h", "H", "hsla", "hue", 360),
-    channel("s", "S", "hsla", "saturation", 100),
-    channel("l", "L", "hsla", "lightness", 100),
-    ALPHA,
-  ],
-  oklch: [OKLCH],
-};
+  const parsed = parseOklch(text);
+  if (!parsed) return null;
+  return parseColor(`rgba(${parsed.r}, ${parsed.g}, ${parsed.b}, ${parsed.a})`);
+}
 
 interface ChannelFieldProps {
-  spec: FieldSpec;
+  field: ColorField;
   color: ColorLike;
   onCommit: (next: ColorLike) => void;
   disabled?: boolean;
   readOnly?: boolean;
 }
 
-function ChannelField({ spec, color, onCommit, disabled, readOnly }: ChannelFieldProps) {
+function ChannelField({ field, color, onCommit, disabled, readOnly }: ChannelFieldProps) {
   /* `null` means "show the colour". A string means the reader is mid-edit, and
      the colour must not overwrite what they are typing — which it otherwise
      would on every pointer move over the area behind the field. */
   const [draft, setDraft] = useState<string | null>(null);
+  const numeric = field.kind === "channel";
 
   const commit = () => {
     if (draft === null) return;
-    const next = spec.write(draft, color);
+    const next = writeField(field, draft, color);
     setDraft(null);
     if (next) onCommit(next);
   };
 
   return (
-    <label className="color-picker__field">
-      <input
-        className="color-picker__channel-input"
-        type={spec.numeric ? "number" : "text"}
-        inputMode={spec.numeric ? "decimal" : "text"}
-        aria-label={spec.label}
+    <div className="color-picker__field">
+      <Input
+        size="sm"
+        type={numeric ? "number" : "text"}
+        inputMode={numeric ? "decimal" : "text"}
+        aria-label={field.label}
         spellCheck={false}
         autoComplete="off"
         disabled={disabled}
         readOnly={readOnly}
-        min={spec.numeric?.min}
-        max={spec.numeric?.max}
-        step={spec.numeric?.step}
-        value={draft ?? spec.read(color)}
+        min={numeric ? field.min : undefined}
+        max={numeric ? field.max : undefined}
+        step={numeric ? field.step : undefined}
+        value={draft ?? readField(field, color)}
         onChange={(event) => setDraft(event.target.value)}
         onFocus={(event) => event.currentTarget.select()}
         onBlur={commit}
@@ -198,15 +163,15 @@ function ChannelField({ spec, color, onCommit, disabled, readOnly }: ChannelFiel
         }}
       />
       {/* Only the numeric channels are abbreviated. A `HEX` caption under a hex
-          field would only repeat the select sitting next to it — but the line
-          stays reserved in CSS, so switching notation cannot resize the popup
-          out from under the pointer. */}
-      {spec.numeric && (
+          field would only repeat the select above it — but the line stays
+          reserved in CSS, so switching notation cannot resize the popup out
+          from under the pointer. */}
+      {numeric && (
         <span className="color-picker__field-label" aria-hidden="true">
-          {spec.label}
+          {field.label}
         </span>
       )}
-    </label>
+    </div>
   );
 }
 
@@ -217,6 +182,8 @@ export interface FormatInputsProps {
   onCommit: (next: ColorLike) => void;
   disabled?: boolean;
   readOnly?: boolean;
+  /** The picker's own portal target, so the notation list lands beside it. */
+  container?: RefObject<HTMLElement | null>;
 }
 
 export function FormatInputs({
@@ -226,36 +193,36 @@ export function FormatInputs({
   onCommit,
   disabled,
   readOnly,
+  container,
 }: FormatInputsProps) {
   return (
-    <div className="color-picker__inputs" data-format={format}>
-      <span className="color-picker__format">
-        <select
-          className="color-picker__format-select"
-          aria-label="Colour notation"
-          value={format}
-          disabled={disabled}
-          onChange={(event) => onFormatChange(event.target.value as InputFormat)}
-        >
-          {INPUT_FORMATS.map(({ value, label }) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
-        </select>
-        <Icon name="chevron-down" size={12} className="color-picker__format-caret" />
-      </span>
+    <div className="color-picker__notation">
+      <Select
+        className="color-picker__format"
+        size="sm"
+        /* Rendered and hidden in CSS rather than left off: Ark names the
+           trigger, the listbox and the hidden `<select>` after the Label part,
+           so an absent label leaves three dangling references behind. */
+        label="Colour notation"
+        options={INPUT_FORMATS}
+        value={format}
+        onValueChange={(value) => onFormatChange(value as InputFormat)}
+        disabled={disabled}
+        portalContainer={container?.current ?? undefined}
+      />
 
-      {FIELDS[format].map((spec) => (
-        <ChannelField
-          key={spec.key}
-          spec={spec}
-          color={color}
-          onCommit={onCommit}
-          disabled={disabled}
-          readOnly={readOnly}
-        />
-      ))}
+      <div className="color-picker__inputs" data-format={format}>
+        {COLOR_NOTATION_FIELDS[format].map((field) => (
+          <ChannelField
+            key={field.key}
+            field={field}
+            color={color}
+            onCommit={onCommit}
+            disabled={disabled}
+            readOnly={readOnly}
+          />
+        ))}
+      </div>
     </div>
   );
 }
