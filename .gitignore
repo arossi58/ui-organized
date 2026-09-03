@@ -68,3 +68,11 @@ svg-animations/
 
 # Scratch harness drivers, written while debugging a scenario
 tooling/parity/dbg*.mjs
+
+# Vitest/Vite writes a transient config next to the real one while it runs; one
+# was committed once and its `var` was the repo's only ESLint error.
+*.timestamp-*.mjs
+
+# Local agent config and the knowledge-graph artifact it builds (34 MB).
+.claude/
+graphify-out/
