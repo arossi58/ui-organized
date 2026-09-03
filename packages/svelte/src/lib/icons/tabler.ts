@@ -40,7 +40,7 @@ import {
   IconLockFilled, IconMailFilled, IconPencilFilled, IconPhoneFilled,
   IconPlayerPauseFilled, IconPlayerPlayFilled,
   IconPlusFilled, IconSearchFilled, IconSettingsFilled,
-  IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled,
+  IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled, IconArrowsSort, IconRotate,
 } from "@tabler/icons-svelte";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -70,6 +70,7 @@ const outline = {
   "sort-asc":       IconSortAscending,
   "sort-desc":      IconSortDescending,
   "filter":         IconFilter,
+  "sort":           IconArrowsSort,
   "check-circle":   IconCircleCheck,
   "alert-circle":   IconAlertCircle,
   "alert-triangle": IconAlertTriangle,
@@ -101,6 +102,7 @@ const outline = {
   "clock":          IconClock,
   "pipette":        IconColorPicker,
   "rotate-cw":      IconRotateClockwise,
+  "rotate-ccw":     IconRotate,
 } satisfies Record<CanonicalIconName, unknown>;
 
 /**

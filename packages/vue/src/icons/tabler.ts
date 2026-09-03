@@ -25,7 +25,7 @@ import {
   IconLockFilled, IconMailFilled, IconPencilFilled, IconPhoneFilled,
   IconPlayerPauseFilled, IconPlayerPlayFilled,
   IconPlusFilled, IconSearchFilled, IconSettingsFilled,
-  IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled,
+  IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled, IconArrowsSort, IconRotate,
 } from "@tabler/icons-vue";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -55,6 +55,7 @@ export const tablerIconSet: Record<CanonicalIconName, IconComponent> = {
   "sort-asc":       IconSortAscending,
   "sort-desc":      IconSortDescending,
   "filter":         IconFilter,
+  "sort":           IconArrowsSort,
   "check-circle":   IconCircleCheck,
   "alert-circle":   IconAlertCircle,
   "alert-triangle": IconAlertTriangle,
@@ -86,6 +87,7 @@ export const tablerIconSet: Record<CanonicalIconName, IconComponent> = {
   "clock":          IconClock,
   "pipette":        IconColorPicker,
   "rotate-cw":      IconRotateClockwise,
+  "rotate-ccw":     IconRotate,
 };
 
 /**

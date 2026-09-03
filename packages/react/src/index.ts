@@ -98,6 +98,9 @@ export type {
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps, TagVariants } from "./components/Tag/index.js";
 
+export { Chip } from "./components/Chip/index.js";
+export type { ChipProps, ChipVariants, ComparisonIconName } from "./components/Chip/index.js";
+
 export { Alert } from "./components/Alert/index.js";
 export type { AlertProps, AlertVariants } from "./components/Alert/index.js";
 

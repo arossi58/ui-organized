@@ -24,7 +24,7 @@ import {
   Grid2x2, Heart, House, Info, List, LoaderCircle, Lock, LockOpen,
   Mail, Menu, Minus, Pause, Pencil, Phone, Pipette, Play, Plus,
   Redo2, RefreshCw, RotateCw,
-  Search, Settings, Star, Tag, Trash2, TriangleAlert, Undo2, Upload, User, Users, X,
+  Search, Settings, Star, Tag, Trash2, TriangleAlert, Undo2, Upload, User, Users, X, ListFilter, RotateCcw,
 } from "@lucide/svelte";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -54,6 +54,7 @@ export const lucideIconSet: Record<CanonicalIconName, IconComponent> = {
   "sort-asc":       ArrowUpAZ,
   "sort-desc":      ArrowDownAZ,
   "filter":         Funnel,
+  "sort":           ListFilter,
   "check-circle":   CircleCheckBig,
   "alert-circle":   CircleAlert,
   "alert-triangle": TriangleAlert,
@@ -85,4 +86,5 @@ export const lucideIconSet: Record<CanonicalIconName, IconComponent> = {
   "clock":          Clock,
   "pipette":        Pipette,
   "rotate-cw":      RotateCw,
+  "rotate-ccw":     RotateCcw,
 };

@@ -148,6 +148,7 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, ComponentType<any>> 
   "sort-asc": SortAscOutline,
   "sort-desc": SortDescOutline,
   filter: FilterOutline,
+  sort: SortDescOutline,
   "check-circle": CheckCircleOutline,
   "alert-circle": AlertCircleOutline,
   "alert-triangle": AlertTriangleOutline,
@@ -181,6 +182,7 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, ComponentType<any>> 
   // Heroicons ships no clockwise-rotate glyph; ArrowPathIcon is the closest,
   // and already backs "refresh" and "loader" here for the same reason.
   "rotate-cw": RefreshOutline,
+  "rotate-ccw": UndoOutline,
 };
 
 export const heroiconsSolidSet: Record<CanonicalIconName, ComponentType<any>> = {
@@ -208,6 +210,7 @@ export const heroiconsSolidSet: Record<CanonicalIconName, ComponentType<any>> = 
   "sort-asc": SortAscSolid,
   "sort-desc": SortDescSolid,
   filter: FilterSolid,
+  sort: SortDescSolid,
   "check-circle": CheckCircleSolid,
   "alert-circle": AlertCircleSolid,
   "alert-triangle": AlertTriangleSolid,
@@ -239,4 +242,5 @@ export const heroiconsSolidSet: Record<CanonicalIconName, ComponentType<any>> = 
   clock: ClockSolid,
   pipette: PipetteSolid,
   "rotate-cw": RefreshSolid,
+  "rotate-ccw": UndoSolid,
 };

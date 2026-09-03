@@ -68,6 +68,7 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, string> = {
   "redo":           heroArrowUturnRight,
   "sort-asc":       heroBarsArrowUp,
   "sort-desc":      heroBarsArrowDown,
+  "sort":           heroBarsArrowDown,
   "filter":         heroFunnel,
   "check-circle":   heroCheckCircle,
   "alert-circle":   heroExclamationCircle,
@@ -100,6 +101,7 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, string> = {
   "clock":          heroClock,
   "pipette":        heroEyeDropper,
   "rotate-cw":      heroArrowPath,
+  "rotate-ccw":     heroArrowUturnLeft,
 };
 
 export const heroiconsSolidSet: Record<CanonicalIconName, string> = {
@@ -126,6 +128,7 @@ export const heroiconsSolidSet: Record<CanonicalIconName, string> = {
   "redo":           heroArrowUturnRightSolid,
   "sort-asc":       heroBarsArrowUpSolid,
   "sort-desc":      heroBarsArrowDownSolid,
+  "sort":           heroBarsArrowDownSolid,
   "filter":         heroFunnelSolid,
   "check-circle":   heroCheckCircleSolid,
   "alert-circle":   heroExclamationCircleSolid,
@@ -158,4 +161,5 @@ export const heroiconsSolidSet: Record<CanonicalIconName, string> = {
   "clock":          heroClockSolid,
   "pipette":        heroEyeDropperSolid,
   "rotate-cw":      heroArrowPathSolid,
+  "rotate-ccw":     heroArrowUturnLeftSolid,
 };

@@ -21,7 +21,7 @@ import {
   tablerPhone, tablerPlayerPause, tablerPlayerPlay, tablerPlus, tablerRefresh,
   tablerRotateClockwise, tablerSearch, tablerSettings, tablerSortAscending,
   tablerSortDescending, tablerStar, tablerTag, tablerTrash, tablerUpload, tablerUser,
-  tablerUsers, tablerX,
+  tablerUsers, tablerX, tablerArrowsSort, tablerRotate,
 } from "@ng-icons/tabler-icons";
 import {
   tablerAlertCircleFill, tablerAlertTriangleFill, tablerBookmarkFill, tablerCalendarFill,
@@ -58,6 +58,7 @@ export const tablerIconSet: Record<CanonicalIconName, string> = {
   "sort-asc":       tablerSortAscending,
   "sort-desc":      tablerSortDescending,
   "filter":         tablerFilter,
+  "sort":           tablerArrowsSort,
   "check-circle":   tablerCircleCheck,
   "alert-circle":   tablerAlertCircle,
   "alert-triangle": tablerAlertTriangle,
@@ -89,6 +90,7 @@ export const tablerIconSet: Record<CanonicalIconName, string> = {
   "clock":          tablerClock,
   "pipette":        tablerColorPicker,
   "rotate-cw":      tablerRotateClockwise,
+  "rotate-ccw":     tablerRotate,
 };
 
 /**

@@ -36,6 +36,9 @@ export type { SkeletonProps } from "./components/Skeleton/index.js";
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";
 
+export { Chip } from "./components/Chip/index.js";
+export type { ChipProps } from "./components/Chip/index.js";
+
 export { Switch } from "./components/Switch/index.js";
 export type { SwitchProps } from "./components/Switch/index.js";
 

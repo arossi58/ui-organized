@@ -18,17 +18,66 @@ export { initials } from "./initials.js";
 export { createIconRegistry } from "./icons/registry.js";
 export type { IconLibrary, IconNameMap, IconRegistry, IconSet } from "./icons/registry.js";
 export {
-  DEFAULT_ICON_CONFIG, ICON_VIEWBOX, resolveIconComponent, resolveIconStroke, resolveIconSvgProps,
+  DEFAULT_ICON_CONFIG,
+  ICON_VIEWBOX,
+  resolveIconComponent,
+  resolveIconStroke,
+  resolveIconSvgProps,
 } from "./icons/resolve.js";
+export {
+  COMPARISON_ICONS,
+  COMPARISON_ICON_NAMES,
+  COMPARISON_ICON_VIEWBOX,
+} from "./icons/comparisonIcons.js";
+export type { ComparisonIconName } from "./icons/comparisonIcons.js";
 export type { IconConfig, IconStyle } from "./icons/resolve.js";
+
+export {
+  formatOklch,
+  formatOklchComponents,
+  oklchToRgba,
+  parseOklch,
+  rgbaToOklch,
+} from "./color/oklch.js";
+export type { Oklch, Rgba } from "./color/oklch.js";
+export {
+  COLOR_NOTATIONS,
+  COLOR_NOTATION_FIELDS,
+  formatChannel,
+  normalizeHex,
+  readChannelInput,
+} from "./color/notation.js";
+export type {
+  ColorChannelField,
+  ColorChannelName,
+  ColorField,
+  ColorNotation,
+  ColorNotationOption,
+  ColorTextField,
+} from "./color/notation.js";
 
 export { getPageItems, range, withEllipsisPages } from "./pagination.js";
 export type { Ellipsis, PageItem } from "./pagination.js";
 
 export {
-  addDays, addMonths, clampYMD, compareYMD, dateToYMD, isSameMonth, isSameYMD,
-  isWithin, monthGrid, monthLabel, monthName, pad2, parseISODate, startOfMonth,
-  toISODate, todayYMD, weekdayLabels, ymdToDate,
+  addDays,
+  addMonths,
+  clampYMD,
+  compareYMD,
+  dateToYMD,
+  isSameMonth,
+  isSameYMD,
+  isWithin,
+  monthGrid,
+  monthLabel,
+  monthName,
+  pad2,
+  parseISODate,
+  startOfMonth,
+  toISODate,
+  todayYMD,
+  weekdayLabels,
+  ymdToDate,
 } from "./date/dateUtils.js";
 export type { YMD } from "./date/dateUtils.js";
 
@@ -47,6 +96,8 @@ export type { CardVariants } from "./components/Card/Card.styles.js";
 export { carouselStyles } from "./components/Carousel/Carousel.styles.js";
 export type { CarouselVariants } from "./components/Carousel/Carousel.styles.js";
 export { checkboxBaseClass } from "./components/Checkbox/Checkbox.styles.js";
+export { chipStyles } from "./components/Chip/Chip.styles.js";
+export type { ChipVariants } from "./components/Chip/Chip.styles.js";
 export { clipboardStyles } from "./components/Clipboard/Clipboard.styles.js";
 export type { ClipboardVariants } from "./components/Clipboard/Clipboard.styles.js";
 export { colorPickerStyles } from "./components/ColorPicker/ColorPicker.styles.js";
@@ -85,7 +136,10 @@ export type { MarqueeVariants } from "./components/Marquee/Marquee.styles.js";
 export { meterStyles } from "./components/Meter/Meter.styles.js";
 export type { MeterVariants } from "./components/Meter/Meter.styles.js";
 export { navItemStyles, navSubItemStyles } from "./components/Navigation/Navigation.styles.js";
-export type { NavItemVariants, NavSubItemVariants } from "./components/Navigation/Navigation.styles.js";
+export type {
+  NavItemVariants,
+  NavSubItemVariants,
+} from "./components/Navigation/Navigation.styles.js";
 export { numberFieldStyles } from "./components/NumberField/NumberField.styles.js";
 export type { NumberFieldVariants } from "./components/NumberField/NumberField.styles.js";
 export { passwordInputFieldStyles } from "./components/PasswordInput/PasswordInput.styles.js";

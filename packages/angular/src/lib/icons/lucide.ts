@@ -19,7 +19,7 @@ import {
   lucideList, lucideLoader2, lucideLock, lucideLockOpen, lucideMail, lucideMenu, lucideMinus,
   lucidePause, lucidePencil, lucidePhone, lucidePipette, lucidePlay, lucidePlus, lucideRedo2,
   lucideRefreshCw, lucideRotateCw, lucideSearch, lucideSettings, lucideStar, lucideTag,
-  lucideTrash2, lucideUndo2, lucideUpload, lucideUser, lucideUsers, lucideX,
+  lucideTrash2, lucideUndo2, lucideUpload, lucideUser, lucideUsers, lucideX, lucideListFilter, lucideRotateCcw,
 } from "@ng-icons/lucide";
 import type { CanonicalIconName } from "@ui-organized/utils";
 
@@ -48,6 +48,7 @@ export const lucideIconSet: Record<CanonicalIconName, string> = {
   "sort-asc":       lucideArrowUpAZ,
   "sort-desc":      lucideArrowDownAZ,
   "filter":         lucideFilter,
+  "sort":           lucideListFilter,
   "check-circle":   lucideCheckCircle,
   "alert-circle":   lucideAlertCircle,
   "alert-triangle": lucideAlertTriangle,
@@ -79,4 +80,5 @@ export const lucideIconSet: Record<CanonicalIconName, string> = {
   "clock":          lucideClock,
   "pipette":        lucidePipette,
   "rotate-cw":      lucideRotateCw,
+  "rotate-ccw":     lucideRotateCcw,
 };

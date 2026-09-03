@@ -196,6 +196,29 @@
       ],
       "runtime": []
     },
+    "Chip": {
+      "attributes": {},
+      "classes": [
+        "chip",
+        "chip--disabled",
+        "chip--incomplete",
+        "chip--lg",
+        "chip--md",
+        "chip--outline",
+        "chip--selected",
+        "chip--sm",
+        "chip--subtle",
+        "chip__body",
+        "chip__caret",
+        "chip__detail",
+        "chip__icon",
+        "chip__label",
+        "chip__operator",
+        "chip__remove",
+        "chip__value"
+      ],
+      "runtime": []
+    },
     "Clipboard": {
       "attributes": {},
       "classes": [
@@ -245,7 +268,6 @@
         "color-picker--swatch-only",
         "color-picker__area",
         "color-picker__area-bg",
-        "color-picker__channel-input",
         "color-picker__channel-slider",
         "color-picker__channel-track",
         "color-picker__control",
@@ -253,10 +275,9 @@
         "color-picker__field",
         "color-picker__field-label",
         "color-picker__format",
-        "color-picker__format-caret",
-        "color-picker__format-select",
         "color-picker__grid",
         "color-picker__inputs",
+        "color-picker__notation",
         "color-picker__popup",
         "color-picker__slider-row",
         "color-picker__sliders",
@@ -267,7 +288,9 @@
         "color-picker__thumb",
         "color-picker__trigger",
         "color-picker__value-swatch",
-        "color-picker__value-text"
+        "color-picker__value-text",
+        "field",
+        "field__label"
       ],
       "runtime": []
     },

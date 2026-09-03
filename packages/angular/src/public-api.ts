@@ -39,6 +39,7 @@ export {
   type DividerSpacing,
 } from "./lib/divider/divider.js";
 export { UioTag, type TagVariant, type TagSize } from "./lib/tag/tag.js";
+export { UioChip, type ChipVariant, type ChipSize } from "./lib/chip/chip.js";
 export {
   UioSkeleton,
   UioSkeletonGroup,

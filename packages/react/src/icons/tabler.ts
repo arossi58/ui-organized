@@ -91,7 +91,7 @@ import {
   IconStarFilled,
   IconTagFilled,
   IconTrashFilled,
-  IconUserFilled,
+  IconUserFilled, IconArrowsSort, IconRotate,
 } from "@tabler/icons-react";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
@@ -121,6 +121,7 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "sort-asc": IconSortAscending,
   "sort-desc": IconSortDescending,
   filter: IconFilter,
+  sort: IconArrowsSort,
   "check-circle": IconCircleCheck,
   "alert-circle": IconAlertCircle,
   "alert-triangle": IconAlertTriangle,
@@ -152,6 +153,7 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   clock: IconClock,
   pipette: IconColorPicker,
   "rotate-cw": IconRotateClockwise,
+  "rotate-ccw": IconRotate,
 };
 
 /**

@@ -37,6 +37,7 @@ export const CANONICAL_ICON_NAMES = [
   "redo",
   "sort-asc",
   "sort-desc",
+  "sort",
   "filter",
   // Status / feedback
   "check-circle",
@@ -75,6 +76,7 @@ export const CANONICAL_ICON_NAMES = [
   "clock",
   "pipette",
   "rotate-cw",
+  "rotate-ccw",
 ] as const;
 
 export type CanonicalIconName = (typeof CANONICAL_ICON_NAMES)[number];
@@ -136,6 +138,10 @@ export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
     tabler: "IconSortDescending",
     heroicons: "BarsArrowDownIcon",
   },
+  // A direction-neutral sort affordance, for the control that *opens* sorting
+  // rather than expressing a direction. Heroicons has no neutral glyph, so it
+  // reuses the one behind "sort-desc".
+  sort: { lucide: "ListFilter", tabler: "IconArrowsSort", heroicons: "BarsArrowDownIcon" },
   filter: { lucide: "Filter", tabler: "IconFilter", heroicons: "FunnelIcon" },
   // Status / feedback
   "check-circle": {
@@ -189,6 +195,9 @@ export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
   // closest true equivalents, and ArrowPathIcon already backs "refresh".
   pipette: { lucide: "Pipette", tabler: "IconColorPicker", heroicons: "EyeDropperIcon" },
   "rotate-cw": { lucide: "RotateCw", tabler: "IconRotateClockwise", heroicons: "ArrowPathIcon" },
+  // The counter-clockwise pair — "put it back". Heroicons reuses the glyph
+  // behind "undo", which is the same gesture.
+  "rotate-ccw": { lucide: "RotateCcw", tabler: "IconRotate", heroicons: "ArrowUturnLeftIcon" },
 };
 
 // ─── Name resolution ──────────────────────────────────────────────────────────

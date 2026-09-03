@@ -65,7 +65,7 @@ import {
   User,
   Users,
   X,
-  ArrowUpAZ,
+  ArrowUpAZ, ListFilter, RotateCcw,
 } from "lucide-react";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
@@ -95,6 +95,7 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "sort-asc": ArrowUpAZ,
   "sort-desc": ArrowDownAZ,
   filter: Filter,
+  sort: ListFilter,
   "check-circle": CheckCircle,
   "alert-circle": AlertCircle,
   "alert-triangle": AlertTriangle,
@@ -126,4 +127,5 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   clock: Clock,
   pipette: Pipette,
   "rotate-cw": RotateCw,
+  "rotate-ccw": RotateCcw,
 };
