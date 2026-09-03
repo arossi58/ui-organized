@@ -48,6 +48,7 @@ import { SkeletonFixture } from "./skeleton.fixture.js";
 import { SplitterFixture } from "./splitter.fixture.js";
 import { StepsFixture } from "./steps.fixture.js";
 import { TabsFixture } from "./tabs.fixture.js";
+import { ChipFixture } from "./chip.fixture.js";
 import { TagFixture } from "./tag.fixture.js";
 import { TagsInputFixture } from "./tags-input.fixture.js";
 import { TextAreaFixture } from "./text-area.fixture.js";
@@ -129,6 +130,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Steps: StepsFixture,
   Tabs: TabsFixture,
   Tag: TagFixture,
+  Chip: ChipFixture,
   TagsInput: TagsInputFixture,
   TextArea: TextAreaFixture,
   Timer: TimerFixture,

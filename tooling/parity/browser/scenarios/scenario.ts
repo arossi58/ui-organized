@@ -115,6 +115,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Card",
   "Carousel",
   "Checkbox",
+  "Chip",
   "Clipboard",
   "Collapsible",
   "ColorPicker",
@@ -213,7 +214,7 @@ export const part = (scope: string, name: string) => `[data-scope="${scope}"][da
 export const HIDDEN_SELECT_TEXT: ParityTextAllowance = {
   selector: "select option",
   reason:
-    'Ark Vue\'s HiddenSelect renders an option\'s text as "Apple > ". The element ' +
+    "Ark Vue's HiddenSelect renders an option's text as \"Apple > \". The element " +
     "is aria-hidden and visually hidden, and exists only so the value is " +
     "submitted with a form. Same allowance as the SSR gate's.",
 };

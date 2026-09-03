@@ -6,7 +6,23 @@ import { SIZES, type ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "Chip",
-  react: (p) => <RChip {...p}>Admin</RChip>,
+  /**
+   * `removable` is translated, not passed. React decides to render the dismiss
+   * control from `onRemove` — a *handler*, which cannot cross a props object the
+   * harness serializes into a URL — while the three ports expose the same
+   * decision as a boolean. Without the bridge the browser scenario compares a
+   * React chip that has no remove button against three that do, and reports a
+   * divergence the libraries do not actually have.
+   *
+   * The button it renders is a sibling of the body, never nested: a button
+   * inside a button is invalid HTML and an axe `nested-interactive` violation.
+   * That is a claim about tree shape, and worth four libraries agreeing on it.
+   */
+  react: ({ removable, ...p }) => (
+    <RChip {...p} onRemove={removable ? () => {} : undefined}>
+      Admin
+    </RChip>
+  ),
   svelte: ChipFixture as unknown as ComponentType<any>,
   vue: VueChipFixture as unknown as ComponentType<any>,
   stylesheets: ["Chip/Chip.css"],
