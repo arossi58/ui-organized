@@ -134,9 +134,54 @@ describe("reading a package's public surface", () => {
       UioCardHeader: { element: "div", attribute: "uioCardHeader" },
     });
   });
+
+  it("reads a component that is its own element, and gives it no attribute", () => {
+    // The overlays are written this way — they own the host that projects their
+    // content. Rejecting the form made nine shipped, parity-tested components
+    // read as "not available in Angular" on their own docs pages.
+    const source = `
+      @Component({ selector: "uio-dialog", standalone: true })
+      export class UioDialog {}
+
+      @Component({ selector: "uio-toast-region", standalone: true })
+      export class UioToastRegion {}
+    `;
+    expect(parseAngularSelectors([source])).toEqual({
+      UioDialog: { element: "uio-dialog" },
+      UioToastRegion: { element: "uio-toast-region" },
+    });
+  });
 });
 
 describe("coverage", () => {
+  it("matches an Angular export that differs only in the casing of an initialism", () => {
+    // Angular's style guide capitalises an initialism as a word, so `QRCode` is
+    // `UioQrCode`. Treating that as absent printed "not available in Angular"
+    // over a component the parity gate compares against React on every run.
+    const surface: FrameworkSurface = {
+      exports: ["UioQrCode"],
+      selectors: { UioQrCode: { element: "div", attribute: "uioQrCode" } },
+    };
+    expect(resolveTarget("angular", "QRCode", surface)?.symbol).toBe("UioQrCode");
+  });
+
+  it("follows the alias for a component Angular composes differently", () => {
+    // `ToastProvider` has no Angular counterpart by design: the provider is a
+    // root-injected service, and what a template writes is the region.
+    const surface: FrameworkSurface = {
+      exports: ["UioToaster", "UioToastRegion"],
+      selectors: { UioToastRegion: { element: "uio-toast-region" } },
+    };
+    expect(resolveTarget("angular", "ToastProvider", surface)?.symbol).toBe("UioToastRegion");
+  });
+
+  it("still reports a class with no selector as unavailable", () => {
+    // A service, a context or a token — something no template ever writes, so
+    // there is no sample to generate for it.
+    const surface: FrameworkSurface = { exports: ["UioToaster"], selectors: {} };
+    expect(resolveTarget("angular", "Toaster", surface)).toBeUndefined();
+  });
+
   it("prefixes Angular symbols and leaves the others alone", () => {
     expect(frameworkSymbol("angular", "Button")).toBe("UioButton");
     expect(frameworkSymbol("svelte", "Button")).toBe("Button");

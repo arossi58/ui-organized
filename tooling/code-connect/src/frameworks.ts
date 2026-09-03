@@ -91,21 +91,33 @@ export function parseBarrelExports(source: string): string[] {
 
 /** Where an Angular directive attaches, and under what attribute. */
 export interface AngularSelector {
-  /** Host element the caller writes, e.g. `button` in `<button uioButton>`. */
+  /**
+   * Host element the caller writes — `button` in `<button uioButton>`, and the
+   * element itself for a component with an element selector: `uio-dialog`.
+   */
   element: string;
-  /** The directive's attribute, e.g. `uioButton`. */
-  attribute: string;
+  /**
+   * The directive's attribute, e.g. `uioButton`. Absent for a component that
+   * *is* its own element — the overlays are all written that way.
+   */
+  attribute?: string;
 }
 
 /**
  * `@Directive({ selector: "button[uioButton], a[uioButton]" })` → the element and
  * attribute a caller actually types, keyed by the exported class name.
  *
- * Angular's components in this repo are attribute directives on the caller's own
+ * Most of Angular's components here are attribute directives on the caller's own
  * element, not custom elements. Getting that wrong is the single worst thing a
  * generated Angular sample can do — `<uio-button>` is not a tag that exists, and
  * nothing about it fails loudly — so the element name is read from the real
  * selector rather than guessed from the class name.
+ *
+ * The overlays are the other kind: `uio-dialog`, `uio-popover`, `uio-menu`,
+ * `uio-sheet` and friends are element selectors, because they own the host that
+ * projects their content. Rejecting those — which this did — made nine shipped,
+ * parity-tested components read as "not available in Angular" on their own docs
+ * pages. An element selector yields an `element` with no `attribute`.
  */
 export function parseAngularSelectors(sources: Iterable<string>): Record<string, AngularSelector> {
   const out: Record<string, AngularSelector> = {};
@@ -116,14 +128,20 @@ export function parseAngularSelectors(sources: Iterable<string>): Record<string,
   for (const source of sources) {
     for (let m = decorated.exec(source); m; m = decorated.exec(source)) {
       const first = (m[1] ?? "").split(",")[0]!.trim();
-      const parsed = /^([a-zA-Z][\w-]*)?\[([\w-]+)\]$/.exec(first);
-      if (!parsed) continue;
-      out[m[2]!] = {
-        // A bare `[uioCard]` matches any element; `div` is the neutral choice and
-        // the one the library's own docs use.
-        element: parsed[1] || "div",
-        attribute: parsed[2]!,
-      };
+      const attributeForm = /^([a-zA-Z][\w-]*)?\[([\w-]+)\]$/.exec(first);
+      if (attributeForm) {
+        out[m[2]!] = {
+          // A bare `[uioCard]` matches any element; `div` is the neutral choice and
+          // the one the library's own docs use.
+          element: attributeForm[1] || "div",
+          attribute: attributeForm[2]!,
+        };
+        continue;
+      }
+      // An element selector — `uio-dialog`. Kebab-case with a hyphen, which is
+      // what separates it from a bare tag name a directive might target.
+      const elementForm = /^([a-z][\w]*-[\w-]+)$/.exec(first);
+      if (elementForm) out[m[2]!] = { element: elementForm[1]! };
     }
   }
 
@@ -207,6 +225,35 @@ export function frameworkSymbol(framework: DocFramework, codeName: string): stri
 }
 
 /**
+ * The handful of components Angular spells differently. Neither of these is a
+ * missing component, and both used to read as one on the docs site.
+ *
+ * `ToastProvider` has no Angular counterpart by design: the provider is a
+ * root-injected service, and the thing a template writes is the region.
+ */
+const ANGULAR_ALIASES: Record<string, string> = {
+  UioToastProvider: "UioToastRegion",
+};
+
+/**
+ * The name Angular actually exports for a symbol, or `undefined` when it ships
+ * no such thing.
+ *
+ * The case-insensitive pass exists for exactly one class of mismatch: Angular's
+ * style guide capitalises an initialism as a word, so `QRCode` is `UioQrCode`.
+ * A fold that matches is the same export under a different convention — treating
+ * it as absent printed "not available in Angular" over a component that ships
+ * and is compared against React by the parity gate on every run.
+ */
+function angularExport(symbol: string, exports: readonly string[]): string | undefined {
+  if (exports.includes(symbol)) return symbol;
+  const alias = ANGULAR_ALIASES[symbol];
+  if (alias && exports.includes(alias)) return alias;
+  const folded = symbol.toLowerCase();
+  return exports.find((name) => name.toLowerCase() === folded);
+}
+
+/**
  * The target for a component, or `undefined` when the framework does not ship
  * it. Never falls back to another framework: a page that says "not available in
  * Angular" is right, and a React sample under an Angular heading is a bug
@@ -217,10 +264,18 @@ export function resolveTarget(
   codeName: string,
   surface: FrameworkSurface,
 ): FrameworkTarget | undefined {
-  const symbol = frameworkSymbol(framework, codeName);
-  if (!surface.exports.includes(symbol)) return undefined;
+  const wanted = frameworkSymbol(framework, codeName);
+  const symbol =
+    framework === "angular"
+      ? angularExport(wanted, surface.exports)
+      : surface.exports.includes(wanted)
+        ? wanted
+        : undefined;
+  if (!symbol) return undefined;
 
   const selector = surface.selectors?.[symbol];
+  // A class with no selector is a service, a context or a token — something a
+  // template never writes — so there is no sample to generate for it.
   if (framework === "angular" && !selector) return undefined;
 
   const inputs = surface.inputs?.[symbol];
@@ -289,10 +344,7 @@ function propName(target: FrameworkTarget, name: string): string {
 
 /** Escape a value that goes inside a double-quoted HTML attribute. */
 function htmlAttrValue(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/"/g, "&quot;")
-    .replace(/\n/g, "&#10;");
+  return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/\n/g, "&#10;");
 }
 
 function svelteAttr(name: string, value: unknown): string {
@@ -359,8 +411,7 @@ export function frameworkUsage(
   // stay byte-identical for `react` — the invariant that keeps the React docs
   // unchanged by the switcher.
   const slot = react ? slotLabel : slotLabel === "ReactNode" ? "content" : slotLabel;
-  const children =
-    text ?? (slot ? (react ? `{/* ${slot} */}` : `<!-- ${slot} -->`) : undefined);
+  const children = text ?? (slot ? (react ? `{/* ${slot} */}` : `<!-- ${slot} -->`) : undefined);
 
   // An arg the component does not declare would render as an ordinary HTML
   // attribute — inert, and silent about it. Better a thinner sample than one
@@ -371,11 +422,14 @@ export function frameworkUsage(
     : attrs;
   const formatted = supported.map((attr) => attrFor(target, attr));
 
+  const angularAttribute = angular ? target.selector!.attribute : undefined;
   const markup = layoutElement({
     tag: angular ? target.selector!.element : target.symbol,
     // The directive attribute leads, so the element reads as "a button that is a
-    // uioButton" rather than the attribute being lost among the props.
-    attrs: angular ? [target.selector!.attribute, ...formatted] : formatted,
+    // uioButton" rather than the attribute being lost among the props. A
+    // component with an element selector has none — `<uio-dialog>` is already
+    // named by its tag.
+    attrs: angular && angularAttribute ? [angularAttribute, ...formatted] : formatted,
     children,
     // An Angular directive sits on a real HTML element, and `<span uioTag />` is
     // parsed as an unclosed `<span>` that swallows the rest of the template.

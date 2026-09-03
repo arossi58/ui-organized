@@ -1,9 +1,10 @@
 /**
  * Which framework ships which component — read out of the packages themselves.
  *
- * The four libraries are at different stages: React has every component, Svelte
- * and Vue have a couple of dozen, Angular fewer still. That is the fact the docs
- * site has to be honest about, and it moves every week.
+ * The four libraries move at different rates, and the docs site has to be honest
+ * about where each one is this week — Svelte and Vue reached React's component
+ * set in the wave-7 port, Angular ships all of them too, and the data table is
+ * React-only for now.
  *
  * So nothing here is a list of component names. Each package's own public barrel
  * is read as source and its value exports are the coverage set: add `Meter` to
@@ -65,7 +66,18 @@ function exportsOf(modules: Record<string, string>): string[] {
 export const frameworkSurfaces: Record<DocFramework, FrameworkSurface> = {
   // React's surface is the manifest — the scanned record of what the package
   // really exports, which is the same evidence every other page element uses.
-  react: { exports: manifest.components.map((c) => c.codeName) },
+  //
+  // Minus the deprecated entries. The manifest keeps a renamed or withdrawn
+  // component so its docs page can say so, and `reconcile()` marks it rather
+  // than dropping it; unfiltered, that made the switcher claim React "ships"
+  // `Badge`, `Separator`, `ToolbarButton` and the two old filter names. The
+  // other three surfaces read live barrels and cannot make that mistake, so
+  // React was the one framework whose coverage was not honest.
+  react: {
+    exports: manifest.components
+      .filter((component) => component.status !== "deprecated")
+      .map((component) => component.codeName),
+  },
   svelte: { exports: exportsOf(svelteBarrel) },
   vue: { exports: exportsOf(vueBarrel) },
   angular: {
