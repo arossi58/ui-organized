@@ -11,8 +11,13 @@
    * DOM as an unknown attribute, so the dialect is spelled out per framework and
    * the value stays in the case.
    */
-  let { triggerProps = {}, triggerClass, contentProps = {}, ...props }: Record<string, any> =
-    $props();
+  let {
+    triggerProps = {},
+    triggerClass,
+    contentProps = {},
+    bodyClose,
+    ...props
+  }: Record<string, any> = $props();
 </script>
 
 <FloatingPanel {...props}>
@@ -22,6 +27,9 @@
       <FloatingPanelTitle>Title</FloatingPanelTitle>
       <FloatingPanelClose />
     </FloatingPanelHeader>
-    <FloatingPanelBody>Body</FloatingPanelBody>
+    <FloatingPanelBody>
+      Body
+      {#if bodyClose}<FloatingPanelClose>Done</FloatingPanelClose>{/if}
+    </FloatingPanelBody>
   </FloatingPanelContent>
 </FloatingPanel>

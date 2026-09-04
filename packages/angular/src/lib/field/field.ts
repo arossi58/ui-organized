@@ -16,6 +16,7 @@ import { fieldStyles, type FieldVariants } from "@ui-organized/core";
 import { UioPart } from "../part.js";
 import { HostPresence } from "../host-presence.js";
 import { UioFieldContext } from "./field-context.js";
+import { withFieldsetDisabled } from "./fieldset.js";
 
 export type FieldLayout = NonNullable<FieldVariants["layout"]>;
 
@@ -62,9 +63,21 @@ export class UioField extends UioPart {
 
   readonly layout = input<FieldLayout>("stacked");
   override readonly invalid = input(false, { transform: booleanAttribute });
-  override readonly disabled = input(false, { transform: booleanAttribute });
   override readonly readOnly = input(false, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
+
+  /**
+   * Disabled if the caller says so, **or** if an enclosing `UioFieldset` is.
+   *
+   * Declared before `disabled` because field initialisers run in order and the
+   * computed below reads this one. See `withFieldsetDisabled` for why the
+   * inheritance matters rather than merely being tidy.
+   */
+  protected readonly disabledInput = input(false, {
+    alias: "disabled",
+    transform: booleanAttribute,
+  });
+  override readonly disabled: Signal<boolean> = withFieldsetDisabled(this.disabledInput);
 
   protected readonly field = inject(UioFieldContext);
   protected readonly hostClass = computed(() => fieldStyles({ layout: this.layout() }));
@@ -112,10 +125,25 @@ export class UioFieldLabel extends UioPart {
   override readonly readOnly: Signal<boolean> = this.field.readOnly;
 }
 
+/** The three tags `uioFieldControl` may decorate. */
+type FieldControlElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
 /**
- * The field's text box.
+ * The field's control.
  *
- * ── Two things worth knowing ────────────────────────────────────────────────
+ * ── Three things worth knowing ──────────────────────────────────────────────
+ *
+ * The selector takes all three native form controls, not `input` alone. React's
+ * `FieldControl` is Ark's `Field.Input`, which is polymorphic through `asChild`
+ * — a `select` or a `textarea` can stand in and still be the field's control —
+ * and the parts of this that matter are the same for all three: one id for the
+ * label to point at, one `aria-describedby`, and a value the accessor reads off
+ * `.value`. `data-part` stays `"input"` whichever tag it lands on, because that
+ * is what Ark writes and what the shared stylesheet reads.
+ *
+ * A bare `[uioFieldControl]` would be the fuller translation of `asChild` and is
+ * deliberately not the selector: on a `div` the value accessor has nothing to
+ * read and `[disabled]` nothing to set, so the failure would be silent.
  *
  * It reports `data-invalid`, `data-readonly` and `data-required` but **never**
  * `data-disabled` — Ark does not put one on the control either, because a real
@@ -129,7 +157,7 @@ export class UioFieldLabel extends UioPart {
  * value out of the form.
  */
 @Directive({
-  selector: "input[uioFieldControl]",
+  selector: "input[uioFieldControl], select[uioFieldControl], textarea[uioFieldControl]",
   standalone: true,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => UioFieldControl), multi: true },
@@ -143,6 +171,8 @@ export class UioFieldLabel extends UioPart {
     "[disabled]": "isDisabled()",
     "[attr.required]": "field.required() || requiredInput() ? '' : null",
     "[attr.readonly]": "field.readOnly() || readOnlyInput() ? '' : null",
+    // `input` rather than `change`, and it covers a `select` too: picking an
+    // option fires `input` before `change` in every current browser.
     "(input)": "write($event)",
     "(blur)": "onTouched()",
   },
@@ -180,13 +210,13 @@ export class UioFieldControl extends UioPart implements ControlValueAccessor {
     () => this.field.disabled() || this.disabledInput() || this.formDisabled(),
   );
 
-  private readonly host = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private readonly host = inject<ElementRef<FieldControlElement>>(ElementRef);
 
   protected onTouched: () => void = () => {};
   private onChange: (value: string) => void = () => {};
 
   protected write(event: Event): void {
-    this.onChange((event.target as HTMLInputElement).value);
+    this.onChange((event.target as FieldControlElement).value);
   }
 
   /**

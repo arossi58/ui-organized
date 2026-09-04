@@ -19,6 +19,7 @@ import { part, type BrowserScenario, type Step } from "./scenario.js";
  */
 const surface = part("floating-panel", "positioner");
 const content = part("floating-panel", "content");
+const CLOSE = part("floating-panel", "close-trigger");
 
 /**
  * The one attribute the four libraries cannot agree on after a panel closes.
@@ -74,6 +75,9 @@ const scenarios: BrowserScenario[] = [
   ...(["default", "elevated"] as const).map((variant) =>
     both(`variant/${variant}`, { defaultOpen: true, contentProps: { variant } }),
   ),
+  // The placed close button, sitting still: its class, part and label compared
+  // against the header's own before anything is clicked.
+  both("close button in the body", { defaultOpen: true, bodyClose: true }),
   // Neither prop removes anything: zag keeps the drag handle and all eight
   // resize triggers in the DOM and refuses the gesture instead, so the panel
   // keeps its shape.
@@ -103,7 +107,7 @@ const scenarios: BrowserScenario[] = [
     name: "closed with its own button",
     props: { defaultOpen: true },
     steps: [
-      { do: "click", target: part("floating-panel", "close-trigger") },
+      { do: "click", target: CLOSE },
       // `[hidden]` as well as the state: Svelte applies the two attributes in
       // separate writes, and waiting on the state alone caught it between them.
       { do: "wait", target: `${content}[data-state="closed"][hidden]` },
@@ -128,6 +132,33 @@ const scenarios: BrowserScenario[] = [
      * assert it — but the four still have to agree, and an Angular panel that
      * stayed painted where React's did not would fail here.
      */
+    visibilityMatches: [content],
+  },
+  {
+    component: "FloatingPanel",
+    /**
+     * A close button the *caller* placed, in the body rather than the header.
+     *
+     * The header's own button is rendered by the component in all four
+     * libraries; this one is written by hand, which is the whole reason the part
+     * is exported separately. Two things are worth pinning: that it is the same
+     * button — same class, same part, same `aria-label` — with the caller's
+     * label instead of the icon, and that it closes the panel from outside the
+     * drag handle, where no pointerdown is competing with it.
+     */
+    name: "closed with a button in the body",
+    props: { defaultOpen: true, bodyClose: true },
+    steps: [
+      { do: "click", target: `${part("floating-panel", "body")} ${CLOSE}` },
+      // `[hidden]` as well as the state — see the header's close case.
+      { do: "wait", target: `${content}[data-state="closed"][hidden]` },
+    ],
+    regions: ["#mount", surface],
+    stylesheets: ["FloatingPanel/FloatingPanel.css"],
+    allow: [
+      { attribute: "data-topmost", reason: TOPMOST_SKEW },
+      { attribute: "data-behind", reason: TOPMOST_SKEW },
+    ],
     visibilityMatches: [content],
   },
   {

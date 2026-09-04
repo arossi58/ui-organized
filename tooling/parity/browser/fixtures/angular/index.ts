@@ -17,6 +17,7 @@ import { DividerFixture } from "./divider.fixture.js";
 import { EditableFixture } from "./editable.fixture.js";
 import { FieldFixture } from "./field.fixture.js";
 import { FieldErrorFixture } from "./field-error.fixture.js";
+import { FieldsetFixture } from "./fieldset.fixture.js";
 import { FileUploadFixture } from "./file-upload.fixture.js";
 import { HoverCardFixture } from "./hover-card.fixture.js";
 import { IconFixture } from "./icon.fixture.js";
@@ -27,6 +28,7 @@ import { MenuOptionsFixture } from "./menu-options.fixture.js";
 import { MenubarFixture } from "./menubar.fixture.js";
 import { MeterFixture } from "./meter.fixture.js";
 import { NavigationFixture } from "./navigation.fixture.js";
+import { NavSubItemFixture } from "./nav-sub-item.fixture.js";
 import { NumberFieldFixture } from "./number-field.fixture.js";
 import { PaginationFixture } from "./pagination.fixture.js";
 import { PasswordInputFixture } from "./password-input.fixture.js";
@@ -100,6 +102,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Editable: EditableFixture,
   Field: FieldFixture,
   FieldError: FieldErrorFixture,
+  Fieldset: FieldsetFixture,
   FileUpload: FileUploadFixture,
   HoverCard: HoverCardFixture,
   Icon: IconFixture,
@@ -110,6 +113,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Menubar: MenubarFixture,
   Meter: MeterFixture,
   Navigation: NavigationFixture,
+  NavSubItem: NavSubItemFixture,
   NumberField: NumberFieldFixture,
   Pagination: PaginationFixture,
   PasswordInput: PasswordInputFixture,

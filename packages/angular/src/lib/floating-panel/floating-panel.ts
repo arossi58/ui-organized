@@ -23,7 +23,11 @@ import {
   untracked,
   type Signal,
 } from "@angular/core";
-import { floatingPanelStyles, type ControlSize, type FloatingPanelVariants } from "@ui-organized/core";
+import {
+  floatingPanelStyles,
+  type ControlSize,
+  type FloatingPanelVariants,
+} from "@ui-organized/core";
 import { UioPart, stateFlag } from "../part.js";
 import { HostPresence } from "../host-presence.js";
 import { UioIcon } from "../icons/icon.js";
@@ -68,6 +72,40 @@ const RESIZE_STYLES: Record<ResizeAxis, string> = {
 };
 
 const clamp = (value: number, low: number, high: number) => Math.min(Math.max(value, low), high);
+
+/**
+ * Closes the panel.
+ *
+ * ```html
+ * <button uioFloatingPanelClose>Done</button>
+ * ```
+ *
+ * The panel renders one of these in its own header — see `showClose` — and this
+ * is the same button, so a second one placed in the body is not a lookalike. It
+ * exists because React's `FloatingPanelClose` can be written anywhere inside the
+ * content, and a "Done" button at the foot of a panel is the ordinary reason to
+ * want that.
+ *
+ * Declared above `UioFloatingPanel` because the component imports it for its own
+ * header; the `inject` below still resolves, since it runs at construction and
+ * both classes exist by then.
+ */
+@Directive({
+  selector: "button[uioFloatingPanelClose]",
+  standalone: true,
+  host: {
+    type: "button",
+    class: "floating-panel__close",
+    "aria-label": "Close panel",
+    "[disabled]": "panel.disabled()",
+    "(click)": "panel.hide()",
+  },
+})
+export class UioFloatingPanelClose extends UioPart {
+  readonly scope = "floating-panel";
+  readonly part = "close-trigger";
+  protected readonly panel = inject(UioFloatingPanel);
+}
 
 /**
  * A draggable, resizable panel that floats over the page.
@@ -116,7 +154,7 @@ const clamp = (value: number, low: number, high: number) => Math.min(Math.max(va
   standalone: true,
   exportAs: "uioFloatingPanel",
   providers: [HostPresence],
-  imports: [UioIcon],
+  imports: [UioIcon, UioFloatingPanelClose],
   template: `
     <!--
       The portal's view container is anchored here, inside the component's own
@@ -172,15 +210,12 @@ const clamp = (value: number, low: number, high: number) => Math.min(Math.max(va
             >
               <ng-content select="[uioFloatingPanelTitle]" />
               @if (showClose()) {
-                <button
-                  class="floating-panel__close"
-                  data-scope="floating-panel"
-                  data-part="close-trigger"
-                  type="button"
-                  aria-label="Close panel"
-                  [disabled]="disabled()"
-                  (click)="hide()"
-                >
+                <!--
+                  Through the directive rather than repeating its attributes, so
+                  the header's close button and one the caller places in the body
+                  cannot drift apart.
+                -->
+                <button uioFloatingPanelClose>
                   <span uioIcon name="close" [size]="HEADER_ICON_SIZE"></span>
                 </button>
               }

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import {
-  FloatingPanel, FloatingPanelTrigger, FloatingPanelContent, FloatingPanelHeader,
-  FloatingPanelTitle, FloatingPanelBody, FloatingPanelClose,
+  FloatingPanel,
+  FloatingPanelTrigger,
+  FloatingPanelContent,
+  FloatingPanelHeader,
+  FloatingPanelTitle,
+  FloatingPanelBody,
+  FloatingPanelClose,
 } from "@ui-organized/vue";
 
 /** `triggerClass` rather than a nested className — see FloatingPanelFixture.svelte. */
@@ -9,6 +14,7 @@ defineProps<{
   triggerProps?: Record<string, unknown>;
   triggerClass?: string;
   contentProps?: Record<string, unknown>;
+  bodyClose?: boolean;
 }>();
 </script>
 
@@ -20,7 +26,10 @@ defineProps<{
         <FloatingPanelTitle>Title</FloatingPanelTitle>
         <FloatingPanelClose />
       </FloatingPanelHeader>
-      <FloatingPanelBody>Body</FloatingPanelBody>
+      <FloatingPanelBody>
+        Body
+        <FloatingPanelClose v-if="bodyClose">Done</FloatingPanelClose>
+      </FloatingPanelBody>
     </FloatingPanelContent>
   </FloatingPanel>
 </template>

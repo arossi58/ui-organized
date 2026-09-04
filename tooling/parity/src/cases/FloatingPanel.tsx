@@ -34,7 +34,7 @@ import { SIZES, type ParitySpec } from "./spec.js";
  */
 const spec: ParitySpec = {
   component: "FloatingPanel",
-  react: ({ triggerProps = {}, triggerClass, contentProps = {}, ...p }) => (
+  react: ({ triggerProps = {}, triggerClass, contentProps = {}, bodyClose, ...p }) => (
     <RFloatingPanel {...p}>
       <RFloatingPanelTrigger className={triggerClass} {...triggerProps}>
         Open
@@ -44,7 +44,12 @@ const spec: ParitySpec = {
           <RFloatingPanelTitle>Title</RFloatingPanelTitle>
           <RFloatingPanelClose />
         </RFloatingPanelHeader>
-        <RFloatingPanelBody>Body</RFloatingPanelBody>
+        <RFloatingPanelBody>
+          Body
+          {/* A close button outside the header — the reason the part is
+              exported separately rather than only rendered by the header. */}
+          {bodyClose ? <RFloatingPanelClose>Done</RFloatingPanelClose> : null}
+        </RFloatingPanelBody>
       </RFloatingPanelContent>
     </RFloatingPanel>
   ),

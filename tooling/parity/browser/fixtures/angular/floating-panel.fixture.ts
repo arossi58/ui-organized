@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import {
   UioFloatingPanel,
   UioFloatingPanelBody,
+  UioFloatingPanelClose,
   UioFloatingPanelTitle,
   UioFloatingPanelTrigger,
 } from "@ui-organized/angular";
@@ -15,14 +16,22 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
  * `open` and `defaultOpen` collapse into one binding — a `model()` is
  * uncontrolled until something binds it, the fork `UioSwitch` describes.
  *
- * The close button is the component's own rather than a projected element, which
- * is what `UioDialog` does and for the same reason: React's `FloatingPanelClose`
- * supplies its own icon, and an Angular directive cannot.
+ * The header's close button is the component's own rather than a projected
+ * element, which is what `UioDialog` does and for the same reason: React's
+ * `FloatingPanelClose` supplies its own icon, and an Angular directive cannot.
+ * The `bodyClose` case places one by hand, where the caller supplies the label —
+ * that is the part React exports separately, and the two are the same button.
  */
 @Component({
   selector: ANGULAR_ROOT,
   standalone: true,
-  imports: [UioFloatingPanel, UioFloatingPanelTrigger, UioFloatingPanelTitle, UioFloatingPanelBody],
+  imports: [
+    UioFloatingPanel,
+    UioFloatingPanelTrigger,
+    UioFloatingPanelTitle,
+    UioFloatingPanelBody,
+    UioFloatingPanelClose,
+  ],
   template: `
     <button
       uioFloatingPanelTrigger
@@ -46,7 +55,13 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [strategy]="p['strategy'] ?? 'fixed'"
     >
       <h2 uioFloatingPanelTitle>Title</h2>
-      <div uioFloatingPanelBody>Body</div>
+      <div uioFloatingPanelBody>
+        Body
+        <!-- A close button outside the header — see UioFloatingPanelClose. -->
+        @if (p['bodyClose']) {
+          <button uioFloatingPanelClose>Done</button>
+        }
+      </div>
     </uio-floating-panel>
   `,
 })
