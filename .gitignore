@@ -46,6 +46,8 @@ Thumbs.db
 .env.*.local
 # Internal docs kept local, not published
 RELEASING.md
+# Working log for the 6.0.0 release; see also ~/.claude/plans/.
+RELEASE-6.md
 Connect.md
 COMPONENT-PLUGIN.md
 MIGRATION.md
