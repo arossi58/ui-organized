@@ -349,22 +349,32 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
    * its column tree on the array's *reference* — so building it inline would
    * rebuild every column, and everything downstream, on every dependency change.
    */
+  /**
+   * The controlled state, in one place.
+   *
+   * Also handed back on the api, because `table.state` is a *React*-adapter
+   * convenience — the Vue adapter exposes `atoms` instead. Reading it off the
+   * engine would be the wrong direction anyway: the table is controlled, so
+   * these refs are the source of truth and the engine is downstream of them.
+   */
+  const state = computed<Partial<TableState<UioTableFeatures>>>(() => ({
+    sorting: sorting.value,
+    columnFilters: columnFilters.value,
+    globalFilter: deferredSearch.value,
+    pagination: pagination.value,
+    columnVisibility: columnVisibility.value,
+    columnOrder: columnOrder.value,
+    columnSizing: columnSizing.value,
+    columnPinning: basePinning.value,
+    rowSelection: selection.value.rows,
+  }));
+
   const table = useTable<UioTableFeatures, T>({
     ...(tableOptions.value as object),
     data: computed(() => tableOptions.value.data),
     columns: computed(() => tableOptions.value.columns),
     features: computed(() => tableOptions.value.features),
-    state: computed<Partial<TableState<UioTableFeatures>>>(() => ({
-      sorting: sorting.value,
-      columnFilters: columnFilters.value,
-      globalFilter: deferredSearch.value,
-      pagination: pagination.value,
-      columnVisibility: columnVisibility.value,
-      columnOrder: columnOrder.value,
-      columnSizing: columnSizing.value,
-      columnPinning: basePinning.value,
-      rowSelection: selection.value.rows,
-    })),
+    state,
     onSortingChange: (updater: Updater<SortingState>) => {
       sorting.value = applyUpdater(updater, sorting.value);
     },
@@ -972,6 +982,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
 
   return {
     table,
+    state,
     rows,
     renderRows,
     chrome,

@@ -85,6 +85,13 @@ export interface RadioOption {
             child shown by [data-state="checked"] in CSS rather than an
             element that comes and goes.
           -->
+          <!--
+            Hover and focus are tracked per item rather than per group: a group
+            has N of each, so the shared UioInteractionState host directive —
+            which reports one — cannot serve it. Same attributes, same reason:
+            Radio.css draws its focus ring from [data-focus-visible], and the
+            element that takes the focus is the visually-hidden input beside it.
+          -->
           <label
             [class]="itemClass(option)"
             data-scope="radio-group"
@@ -94,6 +101,11 @@ export interface RadioOption {
             [attr.data-state]="itemState(option.value)"
             [attr.data-disabled]="flag(isDisabled(option))"
             [attr.data-orientation]="orientation()"
+            [attr.data-hover]="flag(hovered() === option.value)"
+            [attr.data-focus]="flag(focused() === option.value)"
+            [attr.data-focus-visible]="flag(focusVisible() === option.value)"
+            (mouseenter)="hovered.set(option.value)"
+            (mouseleave)="hovered.set(null)"
           >
             <div
               class="radio-item__control"
@@ -104,6 +116,9 @@ export interface RadioOption {
               [attr.data-state]="itemState(option.value)"
               [attr.data-disabled]="flag(isDisabled(option))"
               [attr.data-orientation]="orientation()"
+              [attr.data-hover]="flag(hovered() === option.value)"
+              [attr.data-focus]="flag(focused() === option.value)"
+              [attr.data-focus-visible]="flag(focusVisible() === option.value)"
             >
               <span class="radio-item__indicator"></span>
             </div>
@@ -115,7 +130,11 @@ export interface RadioOption {
               [attr.data-state]="itemState(option.value)"
               [attr.data-disabled]="flag(isDisabled(option))"
               [attr.data-orientation]="orientation()"
-            >{{ option.label }}</span>
+              [attr.data-hover]="flag(hovered() === option.value)"
+              [attr.data-focus]="flag(focused() === option.value)"
+              [attr.data-focus-visible]="flag(focusVisible() === option.value)"
+              >{{ option.label }}</span
+            >
             <input
               type="radio"
               [id]="inputId(option.value)"
@@ -127,7 +146,8 @@ export interface RadioOption {
               [checked]="value() === option.value"
               [disabled]="isDisabled(option)"
               (change)="select(option.value)"
-              (blur)="onTouched()"
+              (focus)="onItemFocus(option.value, $event)"
+              (blur)="onItemBlur()"
             />
           </label>
           @if (option.error; as message) {
@@ -143,6 +163,11 @@ export interface RadioOption {
   host: { "[class]": "hostClass()" },
 })
 export class UioRadioGroup implements ControlValueAccessor {
+  /** Which item the pointer is over, and which one holds focus. */
+  protected readonly hovered = signal<string | null>(null);
+  protected readonly focused = signal<string | null>(null);
+  protected readonly focusVisible = signal<string | null>(null);
+
   readonly options = input<readonly RadioOption[]>([]);
   readonly value = model<string | undefined>(undefined);
   readonly label = input<string | undefined>(undefined);
@@ -180,6 +205,23 @@ export class UioRadioGroup implements ControlValueAccessor {
   protected itemTextId(value: string): string {
     return this.partId(`radio:label:${value}`);
   }
+  protected onItemFocus(value: string, event: FocusEvent): void {
+    this.focused.set(value);
+    const target = event.target as Element | null;
+    // Guarded exactly as UioInteractionState is, and for the same reason.
+    try {
+      this.focusVisible.set(target?.matches(":focus-visible") ? value : null);
+    } catch {
+      this.focusVisible.set(null);
+    }
+  }
+
+  protected onItemBlur(): void {
+    this.focused.set(null);
+    this.focusVisible.set(null);
+    this.onTouched();
+  }
+
   protected inputId(value: string): string {
     return this.partId(`radio:input:${value}`);
   }

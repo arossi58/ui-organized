@@ -1304,6 +1304,9 @@ importers:
       '@ui-organized/vue':
         specifier: workspace:*
         version: link:../../packages/vue
+      '@ui-organized/vue-table':
+        specifier: workspace:*
+        version: link:../../packages/vue-table
     devDependencies:
       '@angular/cdk':
         specifier: ^21.2.14

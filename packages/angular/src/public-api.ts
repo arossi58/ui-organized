@@ -3,6 +3,7 @@ export { UioAlert, type AlertVariant } from "./lib/alert/alert.js";
 export { UioButton, type ButtonIntent } from "./lib/button/button.js";
 export { UioFieldError } from "./lib/field-error/field-error.js";
 export { HostPresence } from "./lib/host-presence.js";
+export { UioInteractionState } from "./lib/interaction-state.js";
 export { UioSwitch } from "./lib/switch/switch.js";
 export { UioCheckbox } from "./lib/checkbox/checkbox.js";
 export { UioFieldContext, type FieldDescribedPart } from "./lib/field/field-context.js";

@@ -2,6 +2,7 @@ import {
   Component,
   computed,
   forwardRef,
+  inject,
   input,
   model,
   output,
@@ -9,6 +10,7 @@ import {
   type Signal,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { UioInteractionState } from "../interaction-state.js";
 import { UioPart, stateFlag } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 
@@ -43,6 +45,9 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 @Component({
   selector: "label[uioSwitch]",
   standalone: true,
+  // Reports hover and focus so the shared stylesheet can draw a focus ring —
+  // see UioInteractionState.
+  hostDirectives: [UioInteractionState],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => UioSwitch), multi: true },
   ],
@@ -56,6 +61,9 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
       [attr.data-state]="state()"
       [attr.data-disabled]="flag(disabled())"
       [attr.data-required]="flag(required())"
+      [attr.data-hover]="flag(hover())"
+      [attr.data-focus]="flag(focus())"
+      [attr.data-focus-visible]="flag(focusVisible())"
     >
       <span
         class="switch__thumb"
@@ -66,6 +74,9 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
         [attr.data-state]="state()"
         [attr.data-disabled]="flag(disabled())"
         [attr.data-required]="flag(required())"
+        [attr.data-hover]="flag(hover())"
+        [attr.data-focus]="flag(focus())"
+        [attr.data-focus-visible]="flag(focusVisible())"
       ></span>
     </span>
     @if (label(); as text) {
@@ -77,7 +88,11 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
         [attr.data-state]="state()"
         [attr.data-disabled]="flag(disabled())"
         [attr.data-required]="flag(required())"
-      >{{ text }}</span>
+        [attr.data-hover]="flag(hover())"
+        [attr.data-focus]="flag(focus())"
+        [attr.data-focus-visible]="flag(focusVisible())"
+        >{{ text }}</span
+      >
     }
     <!--
       The input is what actually takes focus and what a form submits; the track
@@ -118,6 +133,11 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
   },
 })
 export class UioSwitch extends UioPart implements ControlValueAccessor {
+  private readonly interaction = inject(UioInteractionState);
+  override readonly hover: Signal<boolean> = this.interaction.hover;
+  override readonly focus: Signal<boolean> = this.interaction.focus;
+  override readonly focusVisible: Signal<boolean> = this.interaction.focusVisible;
+
   readonly scope = "switch";
   readonly part = "root";
 

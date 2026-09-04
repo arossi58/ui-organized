@@ -1,3 +1,4 @@
+import type { ComponentType } from "react";
 import { DataTable as RDataTable, type TableColumn } from "@ui-organized/react-table";
 import {
   MEMBERS,
@@ -6,6 +7,7 @@ import {
   type ColumnSet,
   type Member,
 } from "../fixtures/tableFixture.js";
+import VueDataTableFixture from "../fixtures/vue/DataTableFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
 /**
@@ -55,6 +57,42 @@ const spec: ParitySpec = {
       {...p}
     />
   ),
+  vue: VueDataTableFixture as unknown as ComponentType<any>,
+  /**
+   * Every portalled surface the table's chrome puts on the page.
+   *
+   * The same reason `Menu`'s case excludes its positioner, multiplied by the six
+   * overlays a toolbar contains: React renders portalled content inline under
+   * SSR and Vue teleports, so a menu's content element exists on one side and
+   * not the other. `exclude` runs *before* the ids are numbered, which is what
+   * makes both sides agree — with the content gone, each falls back to the
+   * machine-id normalisation and the trigger's `data-controls` matches.
+   *
+   * What is dropped is unreachable statically anyway: none of it renders open,
+   * and the browser scenarios are where an opened menu is compared.
+   */
+  exclude: [
+    '[data-scope="menu"][data-part="positioner"]',
+    '[data-scope="popover"][data-part="positioner"]',
+    '[data-scope="select"][data-part="positioner"]',
+    '[data-scope="dialog"][data-part="positioner"]',
+    '[data-scope="dialog"][data-part="backdrop"]',
+  ].join(", "),
+  allowTextIn: [
+    {
+      selector: "select option",
+      reason:
+        "The pagination row's page-size Select. Ark Vue's HiddenSelect renders " +
+        'an option\'s text as "25 > " where Ark React renders "25" — it ' +
+        "stringifies through the collection's path join. The element is the " +
+        "hidden native select, which exists only so the value is submitted with " +
+        "a form: it is aria-hidden and visually hidden, the submitted value is " +
+        "the option's `value` rather than its text, and no user or screen reader " +
+        "ever encounters the difference. Same allowance the Select case carries, " +
+        "and the assertion below fails if that element ever stops being " +
+        "aria-hidden.",
+    },
+  ],
   cases: [
     { name: "default" },
     { name: "size/sm", props: { size: "sm" } },

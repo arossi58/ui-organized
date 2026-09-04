@@ -37,10 +37,14 @@ export interface MenuItemProps {
 export interface MenuCheckboxItemProps {
   value?: string;
   checked?: boolean;
+  /** Disable the item. */
+  disabled?: boolean;
 }
 
 export interface MenuRadioItemProps {
   value: string;
+  /** Disable the item. */
+  disabled?: boolean;
 }
 
 export interface MenuRadioGroupProps {

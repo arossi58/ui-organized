@@ -3,6 +3,7 @@ import {
   booleanAttribute,
   computed,
   forwardRef,
+  inject,
   input,
   model,
   output,
@@ -11,6 +12,7 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { clsx } from "clsx";
+import { UioInteractionState } from "../interaction-state.js";
 import { UioPart } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
@@ -48,6 +50,9 @@ import { UioIcon } from "../icons/icon.js";
   selector: "label[uioCheckbox]",
   standalone: true,
   imports: [UioIcon],
+  // Reports hover and focus so the shared stylesheet can draw a focus ring —
+  // see UioInteractionState for why it is a host directive rather than a base.
+  hostDirectives: [UioInteractionState],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => UioCheckbox), multi: true },
   ],
@@ -61,6 +66,9 @@ import { UioIcon } from "../icons/icon.js";
       [attr.data-state]="state()"
       [attr.data-disabled]="flag(disabled())"
       [attr.data-required]="flag(required())"
+      [attr.data-hover]="flag(hover())"
+      [attr.data-focus]="flag(focus())"
+      [attr.data-focus-visible]="flag(focusVisible())"
     >
       <div
         class="checkbox__indicator"
@@ -69,6 +77,9 @@ import { UioIcon } from "../icons/icon.js";
         [attr.data-state]="state()"
         [attr.data-disabled]="flag(disabled())"
         [attr.data-required]="flag(required())"
+        [attr.data-hover]="flag(hover())"
+        [attr.data-focus]="flag(focus())"
+        [attr.data-focus-visible]="flag(focusVisible())"
         [attr.hidden]="state() === 'checked' ? null : ''"
       >
         @if (indeterminate()) {
@@ -87,7 +98,11 @@ import { UioIcon } from "../icons/icon.js";
         [attr.data-state]="state()"
         [attr.data-disabled]="flag(disabled())"
         [attr.data-required]="flag(required())"
-      >{{ text }}</span>
+        [attr.data-hover]="flag(hover())"
+        [attr.data-focus]="flag(focus())"
+        [attr.data-focus-visible]="flag(focusVisible())"
+        >{{ text }}</span
+      >
     }
     <!--
       Ark points the input at the Label part unconditionally. With no label
@@ -124,6 +139,11 @@ import { UioIcon } from "../icons/icon.js";
 export class UioCheckbox extends UioPart implements ControlValueAccessor {
   readonly scope = "checkbox";
   readonly part = "root";
+
+  private readonly interaction = inject(UioInteractionState);
+  override readonly hover: Signal<boolean> = this.interaction.hover;
+  override readonly focus: Signal<boolean> = this.interaction.focus;
+  override readonly focusVisible: Signal<boolean> = this.interaction.focusVisible;
 
   readonly checked = model(false);
   readonly indeterminate = input(false, { transform: booleanAttribute });

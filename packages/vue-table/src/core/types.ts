@@ -29,7 +29,7 @@ import type {
   RowData,
   UioTableFeatures,
 } from "@ui-organized/table-core";
-import type { VueTable } from "@tanstack/vue-table";
+import type { TableState, VueTable } from "@tanstack/vue-table";
 import type { Virtualizer } from "@tanstack/vue-virtual";
 
 /**
@@ -338,6 +338,16 @@ export interface DataTableApi<T extends RowData> {
    * its reactivity lives in the atoms it holds.
    */
   table: VueTable<UioTableFeatures, T>;
+  /**
+   * The controlled state — sorting, pagination, visibility, selection.
+   *
+   * React's adapter hangs a `state` getter off the table instance; Vue's exposes
+   * reactive `atoms` instead, so the parts would have no equivalent to read. It
+   * is handed back here rather than reached for on the engine because the table
+   * is controlled: these values are the source of truth and the engine is
+   * downstream of them.
+   */
+  state: ComputedRef<Partial<TableState<UioTableFeatures>>>;
   /** The rows to render — the current page, before virtualization. */
   rows: ComputedRef<TableRowModel<T>[]>;
   /** The rows actually rendered, which under virtualization is a window. */

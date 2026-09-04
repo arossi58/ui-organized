@@ -59,7 +59,10 @@ describe("useDataTable", () => {
       ...overrides,
     }) as Parameters<typeof useDataTable<Member>>[0];
     const api = scope.run(() => useDataTable<Member>(options))! as DataTableApi<Member>;
-    return { api, options: options as Record<string, unknown> };
+    // The options bag is written to by these tests to prove the composable
+    // follows it, which its own type does not allow — it describes what a caller
+    // passes in, not a mutable record.
+    return { api, options: options as unknown as Record<string, unknown> };
   }
 
   it("builds a table from the options it was given", () => {

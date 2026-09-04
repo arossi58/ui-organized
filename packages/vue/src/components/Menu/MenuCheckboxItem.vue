@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { computed, useId } from "vue";
 import { Menu as ArkMenu } from "@ark-ui/vue";
+import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import type { MenuCheckboxItemProps } from "./Menu.types.js";
 
-const props = withDefaults(defineProps<MenuCheckboxItemProps>(), { checked: undefined });
+const props = withDefaults(defineProps<MenuCheckboxItemProps>(), {
+  checked: undefined,
+  disabled: undefined,
+});
+const itemProps = computed(() => definedOnly({ disabled: props.disabled }));
 const emit = defineEmits<{
   "update:checked": [checked: boolean];
   checkedChange: [checked: boolean];
@@ -23,6 +28,7 @@ const isChecked = computed(() => props.checked ?? false);
   <ArkMenu.CheckboxItem
     :value="value ?? generatedId"
     :checked="isChecked"
+    v-bind="itemProps"
     class="menu__item menu__item--check"
     @update:checked="
       (next: boolean) => {
