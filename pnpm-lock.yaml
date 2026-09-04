@@ -1243,9 +1243,15 @@ importers:
       '@ui-organized/react':
         specifier: workspace:*
         version: link:../../packages/react
+      '@ui-organized/react-table':
+        specifier: workspace:*
+        version: link:../../packages/react-table
       '@ui-organized/svelte':
         specifier: workspace:*
         version: link:../../packages/svelte
+      '@ui-organized/table-core':
+        specifier: workspace:*
+        version: link:../../packages/table-core
       '@ui-organized/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens

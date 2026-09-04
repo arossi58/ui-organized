@@ -146,11 +146,20 @@ const EXTRA: Record<string, BrowserSpec> = {
   },
 };
 
+/**
+ * Every SSR spec, whether or not the other libraries have caught up with it.
+ *
+ * The filter that used to sit here — only specs with a Vue fixture — made the
+ * browser harness unable to mount anything React had first, which is the state
+ * every component passes through. `BrowserSpec.svelte` and `.vue` are optional
+ * for exactly this reason, and the entry pages already throw a message naming
+ * the fix ("the scenario should skip it") when a fixture is missing.
+ */
 export const BROWSER_SPECS: Record<string, BrowserSpec> = {
   ...Object.fromEntries(
-    SPECS.filter((s) => s.vue).map((s) => [
+    SPECS.map((s) => [
       s.component,
-      { react: s.react, svelte: s.svelte, vue: s.vue! } satisfies BrowserSpec,
+      { react: s.react, svelte: s.svelte, vue: s.vue } satisfies BrowserSpec,
     ]),
   ),
   ...EXTRA,

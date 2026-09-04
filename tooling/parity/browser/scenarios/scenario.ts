@@ -35,6 +35,16 @@ export type Step =
   | { do: "press"; key: string }
   | { do: "wait"; target: string }
   /**
+   * Put focus on an element, without clicking it.
+   *
+   * Clicking is not a substitute. A roving-tabindex grid is *one tab stop* whose
+   * cursor moves with focus, and reaching it the way a keyboard user does — Tab
+   * into the grid, then arrows — is the only way to exercise that. A click also
+   * fires the row's own activation handler, so a cursor scenario driven by
+   * clicking would be testing two things and reporting one.
+   */
+  | { do: "focus"; target: string }
+  /**
    * Wait until focus is inside `target`.
    *
    * The precondition every keyboard step actually needs, and the one
@@ -84,10 +94,19 @@ export interface BrowserScenario {
   /**
    * Libraries this scenario does not apply to, with the reason.
    *
-   * Not a suppression: the entry has to name a difference that is real rather
-   * than a bug. There is exactly one so far — the directly-supplied icon, where
-   * React hands `Icon` a component that maps its own props and Angular hands it
-   * markup, so the two cannot render the same attributes by construction.
+   * Not a suppression. An entry has to name one of exactly two things:
+   *
+   *  - **A real difference.** The directly-supplied icon, where React hands
+   *    `Icon` a component that maps its own props and Angular hands it markup,
+   *    so the two cannot render the same attributes by construction.
+   *  - **A library that does not have the component yet.** The SSR gate says
+   *    this by leaving `ParitySpec.svelte`/`.vue` unset; the browser gate has no
+   *    such switch, because a scenario names a component rather than carrying
+   *    its fixtures. `notYetIn` below is the spelling, and it exists so a
+   *    component can land in React first — which every component does — without
+   *    the gate going red for work nobody has started.
+   *
+   * What it must never mean is "this fails and we would rather it did not".
    */
   skip?: { framework: string; reason: string }[];
   stylesheets?: string[];
@@ -212,6 +231,27 @@ export function staticScenarios(
 }
 
 export const part = (scope: string, name: string) => `[data-scope="${scope}"][data-part="${name}"]`;
+
+/**
+ * "These libraries do not ship this component yet."
+ *
+ * A `skip` entry per framework, with a reason that says so plainly rather than
+ * dressing an absence up as a difference. Delete the framework from the call
+ * when its package lands, and every scenario using it starts comparing — which
+ * is the point: the switch is one word per library, in one place per component.
+ */
+export function notYetIn(
+  component: string,
+  ...frameworks: string[]
+): { framework: string; reason: string }[] {
+  return frameworks.map((framework) => ({
+    framework,
+    reason:
+      `@ui-organized/${framework}-table does not exist yet, so there is no ${component} ` +
+      `to compare. Not a difference and not a bug — remove this framework from the ` +
+      `notYetIn() call when the package lands and the comparison starts on its own.`,
+  }));
+}
 
 /** Shared by every scenario that renders a Select. Checked, like the SSR gate's. */
 export const HIDDEN_SELECT_TEXT: ParityTextAllowance = {

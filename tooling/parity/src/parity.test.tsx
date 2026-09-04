@@ -78,6 +78,27 @@ describe.each(SPECS)("$component", (spec) => {
     });
   });
 
+  /**
+   * A spec no other library has a fixture for yet.
+   *
+   * `svelte` and `vue` are optional so a component can land in React first and
+   * the gate can stay green while the ports catch up — but an outer suite with
+   * nothing in it is a vitest error, and worse, it would read as coverage.
+   *
+   * So the reference asserts what it can about itself: that every state the case
+   * list names renders *something*. That is a real check — it catches a case
+   * whose props throw, a builder wired to the wrong component, and a state that
+   * silently renders nothing — and it is exactly as much as one library can
+   * claim on its own. The moment a fixture appears above, this stops running and
+   * the real comparison takes over.
+   */
+  if (!svelte && !vue) {
+    it.each(cases)("React alone renders $name", ({ props = {} }) => {
+      const html = renderToStaticMarkup(react(props as Record<string, any>));
+      expect(shape(html).length, "the React output was empty").toBeGreaterThan(0);
+    });
+  }
+
   // A text allowance claims the element carrying the difference is hidden from
   // assistive technology. That is checkable, so it is checked.
   for (const { selector, reason } of allowTextIn) {

@@ -23,6 +23,8 @@
     "@ui-organized/angular": "workspace:*",
     "@ui-organized/core": "workspace:*",
     "@ui-organized/react": "workspace:*",
+    "@ui-organized/react-table": "workspace:*",
+    "@ui-organized/table-core": "workspace:*",
     "@ui-organized/svelte": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/vue": "workspace:*"

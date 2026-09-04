@@ -20,7 +20,10 @@ import { ANGULAR_COMPONENTS, SCENARIOS, type BrowserScenario } from "./scenarios
  */
 
 const require = createRequire(import.meta.url);
-const CORE_SRC = join(dirname(require.resolve("@ui-organized/core/package.json")), "src/components");
+const CORE_SRC = join(
+  dirname(require.resolve("@ui-organized/core/package.json")),
+  "src/components",
+);
 
 const FRAMEWORKS = ["react", "svelte", "vue", "angular"] as const;
 type Framework = (typeof FRAMEWORKS)[number];
@@ -47,10 +50,7 @@ function comparedIn(scenario: BrowserScenario): Framework[] {
  * gate does, and for the same reason: each side should receive only its own
  * spelling, so none of them gets a stray unknown prop.
  */
-function inDialect(
-  props: Record<string, unknown>,
-  framework: Framework,
-): Record<string, unknown> {
+function inDialect(props: Record<string, unknown>, framework: Framework): Record<string, unknown> {
   if (framework === "react" || !("className" in props)) return props;
   const { className, ...rest } = props;
   return { ...rest, class: className };
@@ -103,7 +103,10 @@ async function run(page: Page, framework: Framework, scenario: BrowserScenario):
     // which of the three it was means running them by hand.
     try {
       if (step.do === "click") await page.locator(step.target).first().click({ timeout: 5_000 });
-      else if (step.do === "hover") await page.locator(step.target).first().hover({ timeout: 5_000 });
+      else if (step.do === "focus")
+        await page.locator(step.target).first().focus({ timeout: 5_000 });
+      else if (step.do === "hover")
+        await page.locator(step.target).first().hover({ timeout: 5_000 });
       else if (step.do === "press") await page.keyboard.press(step.key);
       else if (step.do === "awaitFocus")
         await page.waitForFunction(
@@ -118,10 +121,7 @@ async function run(page: Page, framework: Framework, scenario: BrowserScenario):
       // the whole test running out of time 25 seconds later.
       else await page.locator(step.target).first().waitFor({ state: "attached", timeout: 5_000 });
     } catch (cause) {
-      throw new Error(
-        `${framework}: step ${JSON.stringify(step)} did not complete`,
-        { cause },
-      );
+      throw new Error(`${framework}: step ${JSON.stringify(step)} did not complete`, { cause });
     }
   }
 
@@ -265,9 +265,13 @@ test("a Select inside a Dialog paints above it", async ({ page }) => {
       const pair = { select: z(selectors.select), dialog: z(selectors.dialog) };
       return Number.isFinite(pair.select) && Number.isFinite(pair.dialog) ? pair : null;
     };
-    const handle = await page.waitForFunction(settled, { select: SELECT, dialog: DIALOG }, {
-      timeout: 5_000,
-    });
+    const handle = await page.waitForFunction(
+      settled,
+      { select: SELECT, dialog: DIALOG },
+      {
+        timeout: 5_000,
+      },
+    );
     const { select, dialog } = (await handle.jsonValue())!;
 
     expect(select, `${framework}: select z-index`).toBeGreaterThan(0);
