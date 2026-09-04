@@ -14,16 +14,8 @@ export {
   type FieldLayout,
 } from "./lib/field/field.js";
 export { UioInput, type InputSize } from "./lib/input/input.js";
-export {
-  UioTextArea,
-  type TextAreaSize,
-  type TextAreaResize,
-} from "./lib/text-area/text-area.js";
-export {
-  UioRadioGroup,
-  type RadioOption,
-  type RadioOrientation,
-} from "./lib/radio/radio.js";
+export { UioTextArea, type TextAreaSize, type TextAreaResize } from "./lib/text-area/text-area.js";
+export { UioRadioGroup, type RadioOption, type RadioOrientation } from "./lib/radio/radio.js";
 export { VISUALLY_HIDDEN_INPUT, nextMachineId } from "./lib/part-ids.js";
 export {
   UioCard,
@@ -33,11 +25,7 @@ export {
   type CardVariant,
   type CardPadding,
 } from "./lib/card/card.js";
-export {
-  UioDivider,
-  type DividerOrientation,
-  type DividerSpacing,
-} from "./lib/divider/divider.js";
+export { UioDivider, type DividerOrientation, type DividerSpacing } from "./lib/divider/divider.js";
 export { UioTag, type TagVariant, type TagSize } from "./lib/tag/tag.js";
 export { UioChip, type ChipVariant, type ChipSize } from "./lib/chip/chip.js";
 export {
@@ -115,6 +103,11 @@ export {
   UioMenuTrigger,
   UioMenuItem,
   UioMenuSeparator,
+  UioMenuGroup,
+  UioMenuGroupLabel,
+  UioMenuCheckboxItem,
+  UioMenuRadioGroup,
+  UioMenuRadioItem,
 } from "./lib/menu/menu.js";
 export {
   UioSelect,
@@ -122,12 +115,7 @@ export {
   type SelectSize,
   type SelectVariant,
 } from "./lib/select/select.js";
-export {
-  UioTabs,
-  type TabItem,
-  type TabsOrientation,
-  type TabsSize,
-} from "./lib/tabs/tabs.js";
+export { UioTabs, type TabItem, type TabsOrientation, type TabsSize } from "./lib/tabs/tabs.js";
 export {
   UioAccordion,
   type AccordionItem,
@@ -142,17 +130,10 @@ export {
   type ToastRecord,
   type ToastStatus,
 } from "./lib/toast/toast.js";
-export {
-  UioBreadcrumb,
-  type BreadcrumbItem,
-} from "./lib/breadcrumb/breadcrumb.js";
+export { UioBreadcrumb, type BreadcrumbItem } from "./lib/breadcrumb/breadcrumb.js";
 export { UioMenubarContext } from "./lib/menubar/menubar-context.js";
 export { UioMenubar, type MenubarOrientation } from "./lib/menubar/menubar.js";
-export {
-  UioToolbar,
-  UioToolbarGroup,
-  type ToolbarOrientation,
-} from "./lib/toolbar/toolbar.js";
+export { UioToolbar, UioToolbarGroup, type ToolbarOrientation } from "./lib/toolbar/toolbar.js";
 export { UioMeter, type MeterSize, type MeterVariant } from "./lib/meter/meter.js";
 export { UioPagination } from "./lib/pagination/pagination.js";
 export { UioNavContext } from "./lib/navigation/nav-context.js";
@@ -162,16 +143,16 @@ export {
   UioSidebar,
   type NavSubItem,
 } from "./lib/navigation/navigation.js";
-export { UioCollapsibleContext, type CollapsiblePhase } from "./lib/collapsible/collapsible-context.js";
+export {
+  UioCollapsibleContext,
+  type CollapsiblePhase,
+} from "./lib/collapsible/collapsible-context.js";
 export {
   UioCollapsible,
   UioCollapsibleTrigger,
   UioCollapsibleContent,
 } from "./lib/collapsible/collapsible.js";
-export {
-  UioToggleGroupContext,
-  type ToggleGroupItem,
-} from "./lib/toggle/toggle-group-context.js";
+export { UioToggleGroupContext, type ToggleGroupItem } from "./lib/toggle/toggle-group-context.js";
 export {
   UioToggle,
   UioToggleGroup,
@@ -183,21 +164,14 @@ export {
   stepValue,
   type NumberFieldSize,
 } from "./lib/number-field/number-field.js";
-export {
-  UioPasswordInput,
-  type PasswordInputSize,
-} from "./lib/password-input/password-input.js";
+export { UioPasswordInput, type PasswordInputSize } from "./lib/password-input/password-input.js";
 export { UioSearchInput, type SearchInputSize } from "./lib/search-input/search-input.js";
 export {
   UioSegmentedControl,
   type SegmentedControlItem,
   type SegmentedControlSize,
 } from "./lib/segmented-control/segmented-control.js";
-export {
-  UioAvatar,
-  type AvatarSize,
-  type AvatarShape,
-} from "./lib/avatar/avatar.js";
+export { UioAvatar, type AvatarSize, type AvatarShape } from "./lib/avatar/avatar.js";
 export {
   UioProgress,
   type ProgressVariant,
@@ -216,15 +190,8 @@ export {
   type ListboxVariant,
   type ListboxSelectionMode,
 } from "./lib/listbox/listbox.js";
-export {
-  UioScrollArea,
-  type ScrollAreaOrientation,
-} from "./lib/scroll-area/scroll-area.js";
-export {
-  UioCombobox,
-  type ComboboxOption,
-  type ComboboxSize,
-} from "./lib/combobox/combobox.js";
+export { UioScrollArea, type ScrollAreaOrientation } from "./lib/scroll-area/scroll-area.js";
+export { UioCombobox, type ComboboxOption, type ComboboxSize } from "./lib/combobox/combobox.js";
 export {
   UioAlertDialog,
   UioAlertDialogTrigger,
@@ -246,10 +213,7 @@ export {
   type SheetSide,
   type SheetSize,
 } from "./lib/sheet/sheet.js";
-export {
-  UioHoverCard,
-  UioHoverCardTrigger,
-} from "./lib/hover-card/hover-card.js";
+export { UioHoverCard, UioHoverCardTrigger } from "./lib/hover-card/hover-card.js";
 export { PointerSurface, type AnchorPoint } from "./lib/context-menu/pointer-surface.js";
 export {
   UioContextMenu,
@@ -316,12 +280,7 @@ export {
   type StepsOrientation,
   type StepsVariant,
 } from "./lib/steps/steps.js";
-export {
-  UioRange,
-  nearestSnapIndex,
-  snapToStep,
-  type RangeSize,
-} from "./lib/range/range.js";
+export { UioRange, nearestSnapIndex, snapToStep, type RangeSize } from "./lib/range/range.js";
 export {
   UioAngleSlider,
   ANGLE_MIN,
@@ -344,11 +303,7 @@ export {
   type TimerSize,
   type TimerVariant,
 } from "./lib/timer/timer.js";
-export {
-  UioQrCode,
-  type QRCodeSize,
-  type QRCodeVariant,
-} from "./lib/qr-code/qr-code.js";
+export { UioQrCode, type QRCodeSize, type QRCodeVariant } from "./lib/qr-code/qr-code.js";
 export {
   encodeQr,
   qrPathData,
@@ -357,10 +312,7 @@ export {
   type QrEncodeOptions,
 } from "./lib/qr-code/qr-encoder.js";
 export { UioDateInput, type DateInputSize } from "./lib/date-input/date-input.js";
-export {
-  UioDateTimeInput,
-  type DateTimeInputSize,
-} from "./lib/date-time-input/date-time-input.js";
+export { UioDateTimeInput, type DateTimeInputSize } from "./lib/date-time-input/date-time-input.js";
 export {
   UioDateRangeInput,
   type DateRangeInputSize,

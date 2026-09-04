@@ -7,6 +7,7 @@ import {
   Directive,
   ElementRef,
   EmbeddedViewRef,
+  Injectable,
   Input,
   OnDestroy,
   OnInit,
@@ -47,6 +48,9 @@ import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../ov
  * state: an item registers once, and its `value` and `disabled` are signals that
  * can change under it afterwards.
  */
+/** The check glyph matches the standalone Checkbox. */
+const CHECK_ICON_SIZE = 16;
+
 interface MenuItemHandle {
   readonly element: HTMLElement;
   value(): string;
@@ -266,8 +270,9 @@ export class UioMenu implements OnInit, OnDestroy {
 
   private contentElement(): HTMLElement | null {
     return (
-      this.anchored.overlayRef?.overlayElement.querySelector<HTMLElement>('[data-part="content"]') ??
-      null
+      this.anchored.overlayRef?.overlayElement.querySelector<HTMLElement>(
+        '[data-part="content"]',
+      ) ?? null
     );
   }
 
@@ -547,4 +552,259 @@ export class UioMenuSeparator extends UioPart {
     dividerStyles({ orientation: "horizontal", spacing: "none" }),
     "menu__separator",
   );
+}
+
+/**
+ * The ids a group and its label share.
+ *
+ * Provided per group so each one gets its own pair. Note the label id is
+ * emitted whether or not a label exists — that is Ark's own behaviour rather
+ * than an oversight copied here: zag builds both ids from the same key and never
+ * checks that the label is there, so a group with no label ships a dangling
+ * reference in all four libraries alike, and the fix belongs upstream.
+ */
+@Injectable()
+export class UioMenuGroupContext {
+  private readonly menu = inject(UioMenu);
+  private readonly key = nextMachineId();
+
+  get groupId(): string {
+    return this.menu.partId(`group:${this.key}`);
+  }
+  get labelId(): string {
+    return this.menu.partId(`group-label:${this.key}`);
+  }
+}
+
+/** A named set of related items. */
+@Directive({
+  selector: "[uioMenuGroup]",
+  standalone: true,
+  providers: [UioMenuGroupContext],
+  host: {
+    class: "menu__group",
+    role: "group",
+    "[id]": "group.groupId",
+    "[attr.aria-labelledby]": "group.labelId",
+  },
+})
+export class UioMenuGroup extends UioPart {
+  readonly scope = "menu";
+  readonly part = "item-group";
+  protected readonly group = inject(UioMenuGroupContext);
+}
+
+/** Names the group above it. */
+@Directive({
+  selector: "[uioMenuGroupLabel]",
+  standalone: true,
+  host: {
+    class: "menu__group-label text-strong-body-small",
+    "[id]": "group.labelId",
+  },
+})
+export class UioMenuGroupLabel extends UioPart {
+  readonly scope = "menu";
+  readonly part = "item-group-label";
+  protected readonly group = inject(UioMenuGroupContext);
+}
+
+/**
+ * A togglable action, drawn with the design system's checkbox control.
+ *
+ * The check is driven by the *item's* `data-state`, not by the control's own —
+ * `.menu__item--check[data-state="checked"] .checkbox__indicator` is the rule,
+ * which is why the control below is inert markup rather than a `UioCheckbox`. A
+ * real checkbox inside a `role="menu"` would bring an input, its own focus, and
+ * a second thing to tab to.
+ */
+@Component({
+  selector: "[uioMenuCheckboxItem]",
+  standalone: true,
+  imports: [UioIcon],
+  template: `
+    <span class="checkbox__control menu__control">
+      <span class="checkbox__indicator">
+        <span uioIcon class="checkbox__check" name="check" [size]="CHECK_SIZE"></span>
+      </span>
+    </span>
+    <span class="menu__item-label"><ng-content /></span>
+  `,
+  host: {
+    class: "menu__item menu__item--check",
+    "data-type": "checkbox",
+    role: "menuitemcheckbox",
+    "[id]": "menu.itemId(itemValue())",
+    "[attr.data-ownedby]": "menu.partId('content')",
+    "[attr.data-value]": "itemValue()",
+    "[attr.data-valuetext]": "itemValue()",
+    "[attr.aria-checked]": "checked()",
+    "[attr.aria-disabled]": "disabled() ? 'true' : null",
+    "(click)": "toggle()",
+    "(pointermove)": "menu.highlight(disabled() ? null : itemValue())",
+    "(pointerleave)": "menu.highlight(null)",
+  },
+})
+export class UioMenuCheckboxItem extends UioPart implements OnInit, OnDestroy {
+  readonly scope = "menu";
+  readonly part = "item";
+
+  readonly value = input<string | undefined>(undefined);
+  readonly checked = model(false);
+  readonly checkedChange = output<boolean>();
+  override readonly disabled = input(false, { transform: booleanAttribute });
+
+  protected readonly menu = inject(UioMenu);
+  protected readonly CHECK_SIZE = CHECK_ICON_SIZE;
+
+  private readonly generated = nextMachineId();
+  protected readonly itemValue = computed(() => this.value() ?? this.generated);
+
+  /** `checked`/`unchecked` rather than `open`/`closed` — zag's spelling for an option item. */
+  override readonly state = computed(() => (this.checked() ? "checked" : "unchecked"));
+  override readonly highlighted = computed(() => this.menu.highlighted() === this.itemValue());
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  private readonly handle: MenuItemHandle = {
+    element: this.host.nativeElement,
+    value: () => this.itemValue(),
+    disabled: () => this.disabled(),
+    choose: () => this.toggle(),
+  };
+
+  ngOnInit(): void {
+    this.menu.register(this.handle);
+  }
+  ngOnDestroy(): void {
+    this.menu.unregister(this.handle);
+  }
+
+  protected toggle(): void {
+    if (this.disabled()) return;
+    const next = !this.checked();
+    this.checked.set(next);
+    this.checkedChange.emit(next);
+    // Closes, like every other item. Toggling several columns without the menu
+    // shutting each time is the better behaviour and the one this originally
+    // had — but Ark's menu has no `closeOnSelect` (only Combobox and DatePicker
+    // do), so React, Svelte and Vue cannot reproduce it. A menu that stays open
+    // in one library of four is a divergence, not a feature; the place to fix
+    // this is upstream, and all four move together when it lands.
+    this.menu.choose(this.itemValue());
+  }
+}
+
+/** One choice at a time, shared by the radio items inside it. */
+@Injectable()
+export class UioMenuRadioContext {
+  readonly value = signal<string | null>(null);
+  choose: (value: string) => void = () => {};
+}
+
+/**
+ * A set of mutually exclusive choices.
+ *
+ * Not an Ark part in its own right — `RadioItemGroup` renders the same
+ * `item-group` element a plain group does — so this carries the group's identity
+ * and, additionally, the selected value its items read.
+ */
+@Directive({
+  selector: "[uioMenuRadioGroup]",
+  standalone: true,
+  providers: [UioMenuGroupContext, UioMenuRadioContext],
+  host: {
+    // No `menu__group`, matching React — where `MenuGroup` adds the class and
+    // `MenuRadioGroup` renders the bare part. The class styles nothing in the
+    // shared sheet (only `.menu__group-label` has a rule), so the asymmetry is
+    // cosmetic in the markup and invisible on the page.
+    role: "group",
+    "[id]": "group.groupId",
+    "[attr.aria-labelledby]": "group.labelId",
+  },
+})
+export class UioMenuRadioGroup extends UioPart {
+  readonly scope = "menu";
+  readonly part = "item-group";
+
+  readonly value = model<string | null>(null);
+  readonly valueChange = output<string>();
+
+  protected readonly group = inject(UioMenuGroupContext);
+  private readonly radio = inject(UioMenuRadioContext);
+
+  constructor() {
+    super();
+    this.radio.choose = (value) => {
+      this.value.set(value);
+      this.valueChange.emit(value);
+    };
+    // The context holds a plain signal rather than the model itself, so that a
+    // spec replacing the input after construction — which is the only way a JIT
+    // fixture can set one — still reaches the items.
+    effect(() => this.radio.value.set(this.value()));
+  }
+}
+
+/** One choice, drawn with the design system's radio control. */
+@Component({
+  selector: "[uioMenuRadioItem]",
+  standalone: true,
+  template: `
+    <span class="radio-item__control menu__control">
+      <span class="radio-item__indicator"></span>
+    </span>
+    <span class="menu__item-label"><ng-content /></span>
+  `,
+  host: {
+    class: "menu__item menu__item--check",
+    "data-type": "radio",
+    role: "menuitemradio",
+    "[id]": "menu.itemId(value())",
+    "[attr.data-ownedby]": "menu.partId('content')",
+    "[attr.data-value]": "value()",
+    "[attr.data-valuetext]": "value()",
+    "[attr.aria-checked]": "isChecked()",
+    "[attr.aria-disabled]": "disabled() ? 'true' : null",
+    "(click)": "choose()",
+    "(pointermove)": "menu.highlight(disabled() ? null : value())",
+    "(pointerleave)": "menu.highlight(null)",
+  },
+})
+export class UioMenuRadioItem extends UioPart implements OnInit, OnDestroy {
+  readonly scope = "menu";
+  readonly part = "item";
+
+  /** Required: a radio item is identified by the value it selects. */
+  readonly value = input.required<string>();
+  override readonly disabled = input(false, { transform: booleanAttribute });
+
+  protected readonly menu = inject(UioMenu);
+  private readonly radio = inject(UioMenuRadioContext);
+
+  protected readonly isChecked = computed(() => this.radio.value() === this.value());
+  override readonly state = computed(() => (this.isChecked() ? "checked" : "unchecked"));
+  override readonly highlighted = computed(() => this.menu.highlighted() === this.value());
+
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+
+  private readonly handle: MenuItemHandle = {
+    element: this.host.nativeElement,
+    value: () => this.value(),
+    disabled: () => this.disabled(),
+    choose: () => this.choose(),
+  };
+
+  ngOnInit(): void {
+    this.menu.register(this.handle);
+  }
+  ngOnDestroy(): void {
+    this.menu.unregister(this.handle);
+  }
+
+  protected choose(): void {
+    if (this.disabled()) return;
+    this.radio.choose(this.value());
+    this.menu.choose(this.value());
+  }
 }

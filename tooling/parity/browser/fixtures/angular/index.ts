@@ -23,6 +23,7 @@ import { IconFixture } from "./icon.fixture.js";
 import { InputFixture } from "./input.fixture.js";
 import { ListboxFixture } from "./listbox.fixture.js";
 import { MenuFixture } from "./menu.fixture.js";
+import { MenuOptionsFixture } from "./menu-options.fixture.js";
 import { MenubarFixture } from "./menubar.fixture.js";
 import { MeterFixture } from "./meter.fixture.js";
 import { NavigationFixture } from "./navigation.fixture.js";
@@ -105,6 +106,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Input: InputFixture,
   Listbox: ListboxFixture,
   Menu: MenuFixture,
+  MenuOptions: MenuOptionsFixture,
   Menubar: MenubarFixture,
   Meter: MeterFixture,
   Navigation: NavigationFixture,

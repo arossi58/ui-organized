@@ -1,5 +1,14 @@
+import { useState } from "react";
 import type { ComponentType, ReactElement } from "react";
 import {
+  Menu as RMenu,
+  MenuTrigger as RMenuTrigger,
+  MenuContent as RMenuContent,
+  MenuGroup as RMenuGroup,
+  MenuGroupLabel as RMenuGroupLabel,
+  MenuCheckboxItem as RMenuCheckboxItem,
+  MenuRadioGroup as RMenuRadioGroup,
+  MenuRadioItem as RMenuRadioItem,
   ToastProvider as RToastProvider,
   useToastManager as useReactToastManager,
   Dialog as RDialog,
@@ -14,6 +23,8 @@ import ToastFixture from "./fixtures/ToastFixture.svelte";
 import VueToastFixture from "./fixtures/vue/ToastFixture.vue";
 import SelectInDialogFixture from "./fixtures/SelectInDialogFixture.svelte";
 import VueSelectInDialogFixture from "./fixtures/vue/SelectInDialogFixture.vue";
+import MenuOptionsFixture from "./fixtures/MenuOptionsFixture.svelte";
+import VueMenuOptionsFixture from "./fixtures/vue/MenuOptionsFixture.vue";
 
 /**
  * What the harness pages can mount.
@@ -74,7 +85,55 @@ function ReactSelectInDialogFixture({ options = [] }: { options?: any[] }) {
   );
 }
 
+/**
+ * The parts that make a menu a *view options* or *sort* menu: a named group,
+ * checkbox items, and a radio group with a chosen item.
+ *
+ * Its own key rather than an addition to the `Menu` case, because every existing
+ * Menu scenario compares that fixture's markup and folding four more parts into
+ * it would rewrite all of them. Angular had none of these until now, which is
+ * why the table's toolbar could not be ported.
+ */
+function ReactMenuOptionsFixture() {
+  // Stateful, because React's checkbox item is controlled: without a handler it
+  // is pinned to whatever it was given and a click changes nothing. The other
+  // three libraries hold this state internally, so the fixtures differ here in
+  // exactly the way the libraries do.
+  const [columns, setColumns] = useState<Record<string, boolean>>({ name: true, email: false });
+  const [direction, setDirection] = useState("asc");
+  return (
+    <RMenu>
+      <RMenuTrigger>Open</RMenuTrigger>
+      <RMenuContent>
+        <RMenuGroup>
+          <RMenuGroupLabel>Columns</RMenuGroupLabel>
+          {["name", "email"].map((id) => (
+            <RMenuCheckboxItem
+              key={id}
+              value={id}
+              checked={columns[id] ?? false}
+              onCheckedChange={(checked) => setColumns((prev) => ({ ...prev, [id]: checked }))}
+            >
+              {id === "name" ? "Name" : "Email"}
+            </RMenuCheckboxItem>
+          ))}
+        </RMenuGroup>
+        <RMenuRadioGroup value={direction} onValueChange={setDirection}>
+          <RMenuGroupLabel>Direction</RMenuGroupLabel>
+          <RMenuRadioItem value="asc">Ascending</RMenuRadioItem>
+          <RMenuRadioItem value="desc">Descending</RMenuRadioItem>
+        </RMenuRadioGroup>
+      </RMenuContent>
+    </RMenu>
+  );
+}
+
 const EXTRA: Record<string, BrowserSpec> = {
+  MenuOptions: {
+    react: () => <ReactMenuOptionsFixture />,
+    svelte: MenuOptionsFixture as unknown as ComponentType<any>,
+    vue: VueMenuOptionsFixture as unknown as ComponentType<any>,
+  },
   Toast: {
     react: (p) => <ReactToastFixture {...p} />,
     svelte: ToastFixture as unknown as ComponentType<any>,

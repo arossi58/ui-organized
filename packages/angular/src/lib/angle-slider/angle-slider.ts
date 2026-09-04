@@ -60,7 +60,7 @@ export function angleAtPoint(
 /** Zag's `snapValueToStep` against the dial's own bounds. */
 export function snapAngleToStep(value: number, step: number): number {
   const remainder = (value - ANGLE_MIN) % step;
-  let snapped =
+  const snapped =
     Math.abs(remainder) * 2 >= step
       ? value + Math.sign(remainder) * (step - Math.abs(remainder))
       : value - remainder;

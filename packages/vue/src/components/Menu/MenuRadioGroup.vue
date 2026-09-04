@@ -6,18 +6,25 @@ import type { MenuRadioGroupProps } from "./Menu.types.js";
 
 const props = defineProps<MenuRadioGroupProps>();
 const emit = defineEmits<{ "update:modelValue": [value: string]; valueChange: [value: string] }>();
-const groupProps = computed(() => definedOnly({ value: props.modelValue }));
+/**
+ * `modelValue`, not `value`.
+ *
+ * Ark's Vue radio group is `v-model`-shaped where its React counterpart takes
+ * `value` + `onValueChange(details)` — so this passes `modelValue` through and
+ * listens for `update:modelValue`, which hands back a plain string rather than a
+ * details object. Passing `value` here, as this did, meant the chosen item never
+ * reached Ark and no change ever came back: the group rendered but did nothing.
+ */
+const groupProps = computed(() => definedOnly({ modelValue: props.modelValue }));
 
-// Written here rather than inline: a Vue template expression cannot carry an
-// object type annotation, and the handler's details argument needs one.
-function onValueChange(details: { value: string }) {
-  emit("update:modelValue", details.value);
-  emit("valueChange", details.value);
+function onValueChange(value: string) {
+  emit("update:modelValue", value);
+  emit("valueChange", value);
 }
 </script>
 
 <template>
-  <ArkMenu.RadioItemGroup v-bind="groupProps" @value-change="onValueChange">
+  <ArkMenu.RadioItemGroup v-bind="groupProps" @update:model-value="onValueChange">
     <slot />
   </ArkMenu.RadioItemGroup>
 </template>

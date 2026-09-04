@@ -9,6 +9,12 @@ export { default as MenuRadioGroup } from "./MenuRadioGroup.vue";
 export { default as MenuCheckboxItem } from "./MenuCheckboxItem.vue";
 export { default as MenuRadioItem } from "./MenuRadioItem.vue";
 export type {
-  MenuProps, MenuContentProps, MenuItemProps, MenuCheckboxItemProps,
-  MenuRadioItemProps, MenuRadioGroupProps, MenuSide, MenuAlign,
+  MenuProps,
+  MenuContentProps,
+  MenuItemProps,
+  MenuCheckboxItemProps,
+  MenuRadioItemProps,
+  MenuRadioGroupProps,
+  MenuSide,
+  MenuAlign,
 } from "./Menu.types.js";

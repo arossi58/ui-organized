@@ -139,6 +139,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Listbox",
   "Marquee",
   "Menu",
+  "MenuOptions",
   "Menubar",
   "Meter",
   "Navigation",

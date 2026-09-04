@@ -11,6 +11,12 @@ const emit = defineEmits<{
 }>();
 const generatedId = useId();
 const isChecked = computed(() => props.checked ?? false);
+/*
+ * Ark's Vue checkbox item reports through `update:checked` — its `v-model`
+ * spelling — where the React one takes `onCheckedChange`. Listening for
+ * `checked-change`, as this did, meant a click toggled nothing: the item is
+ * controlled, and the change it reported never arrived.
+ */
 </script>
 
 <template>
@@ -18,7 +24,7 @@ const isChecked = computed(() => props.checked ?? false);
     :value="value ?? generatedId"
     :checked="isChecked"
     class="menu__item menu__item--check"
-    @checked-change="
+    @update:checked="
       (next: boolean) => {
         emit('update:checked', next);
         emit('checkedChange', next);

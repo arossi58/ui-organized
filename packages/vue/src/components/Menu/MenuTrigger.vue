@@ -20,5 +20,7 @@ const menubarProps = inMenubar ? ({ role: "menuitem", "data-menubar-item": "" } 
 </script>
 
 <template>
-  <ArkMenu.Trigger :as-child="asChild" v-bind="{ ...controls, ...menubarProps }"><slot /></ArkMenu.Trigger>
+  <ArkMenu.Trigger :as-child="asChild" v-bind="{ ...controls, ...menubarProps }"
+    ><slot
+  /></ArkMenu.Trigger>
 </template>
