@@ -30,6 +30,8 @@ export interface MenuItemProps {
   destructive?: boolean;
   /** Stable value for the item. Generated when omitted. */
   value?: string;
+  /** Disable the item. */
+  disabled?: boolean;
 }
 
 export interface MenuCheckboxItemProps {

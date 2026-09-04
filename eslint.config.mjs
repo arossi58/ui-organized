@@ -95,12 +95,35 @@ export default [
               message:
                 "Core pairs with @tanstack/virtual-core; each adapter pairs with its own TanStack adapter.",
             },
+            // Named once a Vue adapter existed. The list is not "React things"
+            // — it is every framework with an adapter, and leaving Vue off it
+            // after `@ui-organized/vue-table` landed would make the rule read as
+            // "no React" rather than "no framework".
+            {
+              name: "vue",
+              message:
+                "table-core is framework-free: it is the half every adapter reuses. Put anything that needs Vue in packages/vue-table.",
+            },
+            {
+              name: "@ui-organized/vue",
+              message:
+                "table-core must not depend on a framework's component library — composing with Button/Checkbox/Menu is the adapter's job.",
+            },
+            {
+              name: "@tanstack/vue-table",
+              message:
+                "Core pairs with @tanstack/table-core; each adapter pairs with its own TanStack adapter.",
+            },
+            {
+              name: "@tanstack/vue-virtual",
+              message:
+                "Core pairs with @tanstack/virtual-core; each adapter pairs with its own TanStack adapter.",
+            },
           ],
           patterns: [
             {
-              group: ["react/*", "react-dom/*", "@ui-organized/react/*"],
-              message:
-                "table-core is framework-free: it is the half a Vue/Svelte adapter reuses.",
+              group: ["react/*", "react-dom/*", "@ui-organized/react/*", "@ui-organized/vue/*"],
+              message: "table-core is framework-free: it is the half every adapter reuses.",
             },
           ],
         },
