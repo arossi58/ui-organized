@@ -26,6 +26,7 @@
     "@ui-organized/react-table": "workspace:*",
     "@ui-organized/table-core": "workspace:*",
     "@ui-organized/svelte": "workspace:*",
+    "@ui-organized/svelte-table": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/vue": "workspace:*",
     "@ui-organized/vue-table": "workspace:*"

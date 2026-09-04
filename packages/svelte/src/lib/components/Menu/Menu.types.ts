@@ -19,16 +19,18 @@ export interface MenuProps {
   children?: Snippet;
 }
 
-export interface MenuTriggerProps
-  extends ArkForwardable<Omit<HTMLButtonAttributes, "class" | "value">> {
+export interface MenuTriggerProps extends ArkForwardable<
+  Omit<HTMLButtonAttributes, "class" | "value">
+> {
   class?: string;
   children?: Snippet;
   /** Project the trigger onto a custom element instead of rendering a button. */
   asChild?: Snippet<[MenuPropsFn]>;
 }
 
-export interface MenuContentProps
-  extends ArkForwardable<Omit<HTMLAttributes<HTMLDivElement>, "class">> {
+export interface MenuContentProps extends ArkForwardable<
+  Omit<HTMLAttributes<HTMLDivElement>, "class">
+> {
   /** Side of the trigger to position against. Defaults to 'bottom'. */
   side?: MenuSide;
   /** Alignment along the chosen side. Defaults to 'start'. */
@@ -43,14 +45,24 @@ export interface MenuContentProps
   children?: Snippet;
 }
 
-export interface MenuItemProps
-  extends ArkForwardable<Omit<HTMLAttributes<HTMLDivElement>, "class">> {
+export interface MenuItemProps extends ArkForwardable<
+  Omit<HTMLAttributes<HTMLDivElement>, "class">
+> {
   /** Icon rendered before the label. */
   icon?: CanonicalIconName;
   /** Renders the item in the destructive colour. */
   destructive?: boolean;
   /** Stable value for the item. Generated when omitted. */
   value?: string;
+  /**
+   * Disable the item.
+   *
+   * Declared explicitly rather than inherited: these props extend a `<div>`'s
+   * attributes, which have no `disabled`, so it reached Ark through the rest
+   * spread at runtime and was a type error to write. React's `MenuItemProps`
+   * names it, and the surfaces should agree.
+   */
+  disabled?: boolean;
   onSelect?: () => void;
   class?: string;
   children?: Snippet;
@@ -73,18 +85,24 @@ export interface MenuRadioGroupProps {
   children?: Snippet;
 }
 
-export interface MenuCheckboxItemProps
-  extends ArkForwardable<Omit<HTMLAttributes<HTMLDivElement>, "class">> {
+export interface MenuCheckboxItemProps extends ArkForwardable<
+  Omit<HTMLAttributes<HTMLDivElement>, "class">
+> {
   value?: string;
   checked?: boolean;
+  /** Disable the item. See `MenuItemProps.disabled`. */
+  disabled?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   class?: string;
   children?: Snippet;
 }
 
-export interface MenuRadioItemProps
-  extends ArkForwardable<Omit<HTMLAttributes<HTMLDivElement>, "class">> {
+export interface MenuRadioItemProps extends ArkForwardable<
+  Omit<HTMLAttributes<HTMLDivElement>, "class">
+> {
   value: string;
+  /** Disable the item. See `MenuItemProps.disabled`. */
+  disabled?: boolean;
   class?: string;
   children?: Snippet;
 }

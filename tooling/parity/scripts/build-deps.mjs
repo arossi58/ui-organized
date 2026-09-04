@@ -25,7 +25,24 @@ if (process.env.TURBO_HASH) {
   process.exit(0);
 }
 
-const packages = ["core", "react", "svelte", "vue", "angular"];
+/**
+ * The table packages are in the list because the gate compares them: a
+ * `DataTable` scenario resolves `@ui-organized/react-table` and its two ports
+ * through their published export conditions, so a stale `dist` there is exactly
+ * the failure this script exists to prevent — it was just less visible while the
+ * table was outside the harness.
+ */
+const packages = [
+  "core",
+  "react",
+  "svelte",
+  "vue",
+  "angular",
+  "table-core",
+  "react-table",
+  "vue-table",
+  "svelte-table",
+];
 const args = ["--filter", ...packages.flatMap((name) => [`@ui-organized/${name}`, "--filter"])];
 args.pop();
 const { status } = spawnSync("pnpm", [...args, "build"], { stdio: "inherit" });

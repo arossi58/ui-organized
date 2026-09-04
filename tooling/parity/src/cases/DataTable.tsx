@@ -7,6 +7,7 @@ import {
   type ColumnSet,
   type Member,
 } from "../fixtures/tableFixture.js";
+import SvelteDataTableFixture from "../fixtures/DataTableFixture.svelte";
 import VueDataTableFixture from "../fixtures/vue/DataTableFixture.vue";
 import type { ParitySpec } from "./spec.js";
 
@@ -57,6 +58,7 @@ const spec: ParitySpec = {
       {...p}
     />
   ),
+  svelte: SvelteDataTableFixture as unknown as ComponentType<any>,
   vue: VueDataTableFixture as unknown as ComponentType<any>,
   /**
    * Every portalled surface the table's chrome puts on the page.

@@ -22,7 +22,9 @@ export default defineConfig({
   esbuild: {
     jsx: "automatic",
     jsxImportSource: "react",
-    tsconfigRaw: { compilerOptions: { experimentalDecorators: true, useDefineForClassFields: false } },
+    tsconfigRaw: {
+      compilerOptions: { experimentalDecorators: true, useDefineForClassFields: false },
+    },
   },
   resolve: {
     /**
@@ -31,8 +33,14 @@ export default defineConfig({
      * not by default, so the import fails with "no known conditions" rather
      * than with a missing file. The rest of the list is Vite's default, which
      * naming any condition at all replaces.
+     *
+     * `svelte` is named too, now that a package in this repo ships **runes as
+     * source** — `@ui-organized/svelte-table`'s `dist` carries `.svelte.js`
+     * files, which is what `svelte-package` emits for `.svelte.ts`. It is the
+     * condition `vite-plugin-svelte` uses to recognise a Svelte library, and
+     * leaving it to the `default` fallback works only by accident.
      */
-    conditions: ["style", "module", "browser", "development|production"],
+    conditions: ["svelte", "style", "module", "browser", "development|production"],
   },
   server: {
     // Playwright reaches the server over 127.0.0.1; the default `localhost`

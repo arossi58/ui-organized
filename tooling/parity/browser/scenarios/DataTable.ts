@@ -20,16 +20,15 @@ import { HIDDEN_SELECT_TEXT, notYetIn, type BrowserScenario, type Step } from ".
  * against React alone — is what makes them a specification rather than a
  * post-hoc description of whatever the port happened to do.
  *
- * ── While two libraries are missing ─────────────────────────────────────────
+ * ── While one library is missing ────────────────────────────────────────────
  *
- * Vue is compared. Svelte and Angular are skipped through `notYetIn`, so the
- * gate stays green and still runs every step against the two that exist —
- * remove a framework from the call when its package lands and the whole file
- * starts comparing it.
+ * React, Svelte and Vue are compared. Angular is skipped through `notYetIn`, so
+ * the gate stays green and still runs every step against the three that exist —
+ * remove it from the call when `@ui-organized/angular-table` lands and the whole
+ * file starts comparing it too.
  */
-const UNPORTED = notYetIn("DataTable", "svelte", "angular");
+const UNPORTED = notYetIn("DataTable", "angular");
 
-const TABLE = ".data-table__table";
 const HEAD_CELL = ".data-table__head-cell";
 const ROW = ".data-table__body .data-table__row";
 const CELL = ".data-table [data-cell]";
@@ -275,7 +274,11 @@ const scenarios: BrowserScenario[] = [
     props: { paginated: true, pageSize: 3 },
     steps: [
       { do: "click", target: '.data-table__pagination button[aria-label="Next page"]' },
-      { do: "wait", target: TABLE },
+      // Waiting on the *outcome*, not on the table element, which was already
+      // there. Each library flushes on its own schedule — React synchronously
+      // around the click, Svelte on a microtask — so a wait that is already
+      // satisfied captures whichever of them had not caught up yet.
+      { do: "wait", target: '.pagination__page[aria-label="Go to page 2"][aria-current="page"]' },
     ],
     regions: REGIONS,
     skip: UNPORTED,
