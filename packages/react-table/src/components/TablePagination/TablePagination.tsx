@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import { Pagination, Select } from "@ui-organized/react";
-import { PAGE_SIZE_OPTIONS } from "@ui-organized/table-core";
+import { PAGE_SIZE_OPTIONS, pageSizeOptions } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
 import type { TablePaginationProps } from "./TablePagination.types.js";
 
@@ -43,7 +43,10 @@ export function TablePagination({
             variant="ghost"
             label="Rows per page"
             value={String(pageSize)}
-            options={pageSizes.map((entry) => ({ value: String(entry), label: String(entry) }))}
+            options={pageSizeOptions(pageSizes, pageSize).map((entry) => ({
+              value: String(entry),
+              label: String(entry),
+            }))}
             onValueChange={(next) => table.setPageSize(Number(next))}
           />
         </div>

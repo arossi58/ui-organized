@@ -42,6 +42,7 @@ const packages = [
   "react-table",
   "vue-table",
   "svelte-table",
+  "angular-table",
 ];
 const args = ["--filter", ...packages.flatMap((name) => [`@ui-organized/${name}`, "--filter"])];
 args.pop();

@@ -13,6 +13,7 @@ storybook-static/
 # root so one exports entry resolves both in the workspace and when published.
 packages/angular/styles.css
 packages/angular/overlay.css
+packages/angular-table/styles.css
 # Playwright run output (the visual gate's and the parity gate's)
 test-results/
 playwright-report/

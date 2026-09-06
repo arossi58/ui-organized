@@ -561,6 +561,64 @@ importers:
         specifier: ^0.15.0
         version: 0.15.1
 
+  packages/angular-table:
+    dependencies:
+      '@tanstack/angular-table':
+        specifier: ^9.2.4
+        version: 9.2.4(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@tanstack/angular-virtual':
+        specifier: ^6.0.3
+        version: 6.0.3(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@ui-organized/table-core':
+        specifier: workspace:*
+        version: link:../table-core
+      '@ui-organized/utils':
+        specifier: workspace:*
+        version: link:../utils
+      clsx:
+        specifier: ^2.1.0
+        version: 2.1.1
+      tslib:
+        specifier: ^2.6.0
+        version: 2.8.1
+    devDependencies:
+      '@angular/cdk':
+        specifier: ^21.2.14
+        version: 21.2.14(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.21(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      '@angular/common':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/compiler':
+        specifier: ^21.2.20
+        version: 21.2.21
+      '@angular/core':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/platform-browser':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
+      '@ui-organized/angular':
+        specifier: workspace:*
+        version: link:../angular
+      '@ui-organized/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/tsconfig
+      jsdom:
+        specifier: ^29.1.1
+        version: 29.1.1
+      ng-packagr:
+        specifier: ^21.0.0
+        version: 21.2.7(@angular/compiler-cli@21.2.21(@angular/compiler@21.2.21)(typescript@5.9.3))(tslib@2.8.1)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@20.19.39)(jsdom@29.1.1)(less@4.9.0)(sass@1.103.1)
+
   packages/cli:
     devDependencies:
       '@types/node':
@@ -1332,6 +1390,9 @@ importers:
       '@ui-organized/angular':
         specifier: workspace:*
         version: link:../../packages/angular
+      '@ui-organized/angular-table':
+        specifier: workspace:*
+        version: link:../../packages/angular-table
       '@ui-organized/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -4060,6 +4121,23 @@ packages:
 
   '@tabler/icons@3.46.0':
     resolution: {integrity: sha512-f2RYFl3fzPwj5WO82x6en0dmkjefxEfOm16D1ByM6cj/McNiwOkL4VaPUoP9VVIrXAD9WnTSVFr70px703b//A==}
+
+  '@tanstack/angular-store@0.11.1':
+    resolution: {integrity: sha512-bQxr/YhTnF8BJi+uv+F4NNafrApmDk5n3ongglmZ0h+sOhwwyZLpLZF+Rt4852AEkkkPkRBvhb7zMSPPkHjqQg==}
+    peerDependencies:
+      '@angular/common': '>=19.0.0'
+      '@angular/core': '>=19.0.0'
+
+  '@tanstack/angular-table@9.2.4':
+    resolution: {integrity: sha512-736o7ByVnRez0zYLSoOAHMcSAwi3z/FRQ52wNbOQylE3dN0Z/m2DZWSOwCfZxtAqtwDWBE+FLgXZcl4vYJ6yfQ==}
+    engines: {node: '>=20'}
+    peerDependencies:
+      '@angular/core': '>=19'
+
+  '@tanstack/angular-virtual@6.0.3':
+    resolution: {integrity: sha512-FIYtUG/EewDi//ISz4GX2/h4WcjcclM+FKh7mhgj/2xV3ATLWK+ZrrGICdsfAeAeVVdOBmSCKybWIbAG7Hljrw==}
+    peerDependencies:
+      '@angular/core': '>=20.0.0'
 
   '@tanstack/react-store@0.11.1':
     resolution: {integrity: sha512-HaIGKI3YLmjBYIvy5DFDY23oNaYZIsTZfngey07Uh5iLVJgM3bIGCnZeOFOqzjFld9JHWcaHJnasD/bKoGKwJQ==}
@@ -10384,6 +10462,26 @@ snapshots:
   '@tabler/icons@3.41.1': {}
 
   '@tabler/icons@3.46.0': {}
+
+  '@tanstack/angular-store@0.11.1(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/core': 21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@tanstack/store': 0.11.1
+
+  '@tanstack/angular-table@9.2.4(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/core': 21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@tanstack/angular-store': 0.11.1(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@tanstack/table-core': 9.2.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@angular/common'
+
+  '@tanstack/angular-virtual@6.0.3(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/core': 21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@tanstack/virtual-core': 3.17.8
 
   '@tanstack/react-store@0.11.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:

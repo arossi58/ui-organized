@@ -1,21 +1,21 @@
 # @ui-organized/vue-table
 
-> **In progress — not published yet.** This package is marked `private` until its
-> styled parts and `<DataTable>` wrapper land. What is here is layer 1: the
-> `useDataTable` composable, complete and tested. See `RELEASE-6.md` §D.
+> **Not published yet.** Marked `private` until §H's checklist — a changeset, a
+> smoke app, and a line in the root `smoke` script. The code is complete and at
+> parity with React; the packaging is not done.
 
 The Vue data table for the ui-organized design system, built on
 [`@ui-organized/table-core`](../table-core) — the same framework-free engine the
-React table uses. Same class names, same stylesheet, same token contract, no fork
+React, Svelte and Angular tables use. Same class names, same stylesheet, same token contract, no fork
 of the logic.
 
 ## Three layers
 
-| Layer        | What it is                                          | State |
-| ------------ | --------------------------------------------------- | ----- |
-| 1 — headless | `useDataTable(options)` — the composable            | ✅    |
-| 2 — parts    | `TableHeader`, `TableRow`, `TableToolbar`, …        | ⬜    |
-| 3 — wrapper  | `<DataTable>` — the whole table from a props object | ⬜    |
+| Layer        | What it is                                                   |
+| ------------ | ------------------------------------------------------------ |
+| 1 — headless | `useDataTable(options)` — the composable                     |
+| 2 — parts    | `TableHeader`, `TableRow`, `TableToolbar`, `TableFilters`, … |
+| 3 — wrapper  | `<DataTable>` — the whole table from a props object          |
 
 ## The composable
 

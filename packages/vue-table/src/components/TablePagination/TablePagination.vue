@@ -7,7 +7,7 @@
 import { computed } from "vue";
 import { clsx } from "clsx";
 import { Pagination, Select } from "@ui-organized/vue";
-import { PAGE_SIZE_OPTIONS } from "@ui-organized/table-core";
+import { PAGE_SIZE_OPTIONS, pageSizeOptions } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 
 const props = withDefaults(
@@ -28,7 +28,10 @@ const status = computed(() =>
   total.value === 0 ? "No rows" : `${first.value}–${last.value} of ${total.value}`,
 );
 const sizeOptions = computed(() =>
-  props.pageSizes.map((entry) => ({ value: String(entry), label: String(entry) })),
+  pageSizeOptions(props.pageSizes, pageSize.value).map((entry) => ({
+    value: String(entry),
+    label: String(entry),
+  })),
 );
 </script>
 

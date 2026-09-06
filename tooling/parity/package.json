@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@ui-organized/angular": "workspace:*",
+    "@ui-organized/angular-table": "workspace:*",
     "@ui-organized/core": "workspace:*",
     "@ui-organized/react": "workspace:*",
     "@ui-organized/react-table": "workspace:*",

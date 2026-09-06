@@ -63,8 +63,11 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
   template: `
     @if (label(); as text) {
       <label uioFieldLabel
-        >{{ text }}@if (required()) {<span class="field__required" aria-hidden="true"></span>}</label
-      >
+        >{{ text }}
+        @if (required()) {
+          <span class="field__required" aria-hidden="true"></span>
+        }
+      </label>
     }
     <div class="input-affix">
       <span class="input-affix__adornment input-affix__adornment--start" aria-hidden="true">
@@ -78,6 +81,7 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
         [id]="field.controlId"
         [attr.name]="name()"
         [attr.placeholder]="placeholder()"
+        [attr.aria-label]="ariaLabel()"
         [attr.required]="required() ? '' : null"
         [attr.aria-invalid]="invalid() ? 'true' : null"
         [attr.aria-describedby]="field.describedBy()"
@@ -105,7 +109,8 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
         data-scope="field"
         data-part="helper-text"
         [id]="field.partId('helper-text')"
-      >{{ helperText() }}</span>
+        >{{ helperText() }}</span
+      >
     }
     <span uioFieldError [message]="errorMessage()"></span>
   `,
@@ -133,6 +138,15 @@ export class UioSearchInput extends UioPart implements ControlValueAccessor {
   readonly required = input(false, { transform: booleanAttribute });
   readonly name = input<string | undefined>(undefined);
   readonly placeholder = input<string | undefined>(undefined);
+  /**
+   * Names the control when there is no visible `label`.
+   *
+   * Aliased to `aria-label` and bound to the **input**, not the root: the field
+   * root is a `role="group"`, and a name on the group leaves the search box
+   * itself unnamed. React, Svelte and Vue all forward it to the input through
+   * their rest props; Angular has to say so.
+   */
+  readonly ariaLabel = input<string | undefined>(undefined, { alias: "aria-label" });
   readonly clearable = input(true, { transform: booleanAttribute });
 
   /** `disabled` comes from the caller *or* from a reactive form's disabled state. */

@@ -1,4 +1,4 @@
-import { HIDDEN_SELECT_TEXT, notYetIn, type BrowserScenario, type Step } from "./scenario.js";
+import { HIDDEN_SELECT_TEXT, type BrowserScenario, type Step } from "./scenario.js";
 
 /**
  * The data table, driven the way a keyboard and a pointer drive it.
@@ -20,17 +20,58 @@ import { HIDDEN_SELECT_TEXT, notYetIn, type BrowserScenario, type Step } from ".
  * against React alone — is what makes them a specification rather than a
  * post-hoc description of whatever the port happened to do.
  *
- * ── While one library is missing ────────────────────────────────────────────
+ * ── All four ────────────────────────────────────────────────────────────────
  *
- * React, Svelte and Vue are compared. Angular is skipped through `notYetIn`, so
- * the gate stays green and still runs every step against the three that exist —
- * remove it from the call when `@ui-organized/angular-table` lands and the whole
- * file starts comparing it too.
+ * Every scenario runs against all four libraries, with nothing skipped. That is
+ * the whole point of the file: `notYetIn` carried it while the three ports were
+ * written, and once the last one landed there was nothing left for it to carry.
+ * The helper stays in `scenario.ts` for the next component that lands in React
+ * first.
  */
-const UNPORTED = notYetIn("DataTable", "angular");
-
 const HEAD_CELL = ".data-table__head-cell";
 const ROW = ".data-table__body .data-table__row";
+
+/**
+ * The checkbox internals, and the bulk-action confirmation dialog.
+ *
+ * `[data-scope="checkbox"]` is the older of the two: React and Vue disagree on
+ * `data-focus-visible` after a *pointer* click, and React's answer is the worse
+ * one — clicking a checkbox should not draw a focus ring. `Checkbox.css` selects
+ * on that attribute, which rules out an `allow`.
+ *
+ * `[data-scope="dialog"]` is the selection bar's `AlertDialog`, which mounts as
+ * soon as anything is selected and is never opened by these scenarios. It is
+ * excluded for the reason `contract.ts` gives for doing the exclusion *before*
+ * the ids are numbered: React portals it ahead of the menu surfaces and Angular's
+ * CDK overlay container appends it behind them, so its six ids shift every later
+ * placeholder by six and report identical markup as different. Where a framework
+ * puts its overlay container is that framework's decision, not this design
+ * system's contract — and the dialog's own markup is compared by `AlertDialog`'s
+ * scenarios, where it is the subject rather than a bystander.
+ */
+const SELECTION_NOISE = '[data-scope="checkbox"], [data-scope="dialog"]';
+
+/**
+ * The portalled surfaces the toolbar puts on the page but never opens.
+ *
+ * The same list `src/cases/DataTable.tsx` excludes under SSR, for the same
+ * reason one step further on: the four libraries disagree about *when* a closed
+ * overlay is mounted, not about what it contains. Ark Angular's CDK overlay
+ * renders the page-size `Select`'s popup eagerly and ahead of the menu surfaces;
+ * Ark React mounts it only on open. Six ids appear on one side and not the
+ * other, and since the numbering is positional every later placeholder shifts —
+ * so two `data-controls` values that name the same element compare as different.
+ *
+ * Only for scenarios that open nothing. A scenario that opens a menu compares
+ * that menu, which is the whole point of it being a browser scenario.
+ */
+const CLOSED_SURFACES = [
+  '[data-scope="menu"][data-part="positioner"]',
+  '[data-scope="popover"][data-part="positioner"]',
+  '[data-scope="select"][data-part="positioner"]',
+  '[data-scope="dialog"][data-part="positioner"]',
+  '[data-scope="dialog"][data-part="backdrop"]',
+].join(", ");
 const CELL = ".data-table [data-cell]";
 /** The one cell in the grid that is a tab stop — the roving cursor. */
 const CURSOR = `${CELL}[tabindex="0"]`;
@@ -57,7 +98,6 @@ const table = (
   props,
   steps,
   regions: REGIONS,
-  skip: UNPORTED,
   allowTextIn: [HIDDEN_SELECT_TEXT],
 });
 
@@ -78,7 +118,6 @@ const scenarios: BrowserScenario[] = [
     props: { columnSet: "wide", maxHeight: 320 },
     steps: [{ do: "wait", target: ".data-table__scroll-buttons" }],
     regions: REGIONS,
-    skip: UNPORTED,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 
@@ -100,7 +139,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${HEAD_CELL}[aria-sort="ascending"]` },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
   {
@@ -114,7 +152,6 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${HEAD_CELL}[aria-sort="descending"]` },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 
@@ -155,7 +192,7 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `.data-table [data-cell="1:1"][tabindex="0"]` },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
+    exclude: SELECTION_NOISE,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
   {
@@ -176,7 +213,7 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `.data-table [data-cell="-1:1"][tabindex="0"]` },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
+    exclude: SELECTION_NOISE,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 
@@ -220,8 +257,7 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: `${ROW}[data-selected]` },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
-    exclude: '[data-scope="checkbox"]',
+    exclude: SELECTION_NOISE,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
   {
@@ -239,8 +275,7 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: ".data-table__selection-bar" },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
-    exclude: '[data-scope="checkbox"]',
+    exclude: SELECTION_NOISE,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 
@@ -265,7 +300,6 @@ const scenarios: BrowserScenario[] = [
       { do: "awaitFocus", target: '.data-table__toolbar input[type="search"]' },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
   {
@@ -281,7 +315,7 @@ const scenarios: BrowserScenario[] = [
       { do: "wait", target: '.pagination__page[aria-label="Go to page 2"][aria-current="page"]' },
     ],
     regions: REGIONS,
-    skip: UNPORTED,
+    exclude: CLOSED_SURFACES,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 
@@ -300,7 +334,6 @@ const scenarios: BrowserScenario[] = [
     props: { columnSet: "pinned-wide", maxHeight: 320 },
     steps: [{ do: "wait", target: ".data-table__cell--sticky" }],
     regions: REGIONS,
-    skip: UNPORTED,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 ];

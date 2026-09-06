@@ -141,6 +141,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Combobox",
   "ContextMenu",
   "DateInput",
+  "DataTable",
   "DatePicker",
   "DateRangeInput",
   "DateTimeInput",

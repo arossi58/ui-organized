@@ -98,6 +98,28 @@ export const DEFAULT_PAGE_SIZE = 25;
 
 export const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
+/**
+ * The page sizes to offer, guaranteed to contain the one in effect.
+ *
+ * A picker whose value is not one of its own options has no correct thing to
+ * render, and the four libraries each pick a different wrong answer: a native
+ * `<select>` falls back to its first option, so React's showed "10" while the
+ * table paged by 3, and Ark Angular shows its placeholder instead. Neither tells
+ * the truth, and the first is worse for being plausible.
+ *
+ * So the current size is folded in rather than assumed present. `pageSize` comes
+ * from `defaultPageSize`, a controlled `pagination` state or a restored URL, none
+ * of which is obliged to be one of the four offered — and a size that came from
+ * somewhere real is exactly the one a picker must be able to show.
+ */
+export function pageSizeOptions(
+  offered: readonly number[] = PAGE_SIZE_OPTIONS,
+  current?: number,
+): number[] {
+  if (current === undefined || offered.includes(current)) return [...offered];
+  return [...offered, current].sort((a, b) => a - b);
+}
+
 /** Default column width when neither the column nor the consumer sets one. */
 export const DEFAULT_COLUMN_WIDTH = 160;
 export const MIN_COLUMN_WIDTH = 64;

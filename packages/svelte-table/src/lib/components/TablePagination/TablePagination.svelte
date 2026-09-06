@@ -6,7 +6,7 @@
 <script lang="ts">
   import { clsx } from "clsx";
   import { Pagination, Select } from "@ui-organized/svelte";
-  import { PAGE_SIZE_OPTIONS } from "@ui-organized/table-core";
+  import { PAGE_SIZE_OPTIONS, pageSizeOptions } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
 
   let {
@@ -26,7 +26,10 @@
   const last = $derived(Math.min(total, (pageIndex + 1) * pageSize));
   const status = $derived(total === 0 ? "No rows" : `${first}–${last} of ${total}`);
   const sizeOptions = $derived(
-    pageSizes.map((entry) => ({ value: String(entry), label: String(entry) })),
+    pageSizeOptions(pageSizes, pageSize).map((entry) => ({
+      value: String(entry),
+      label: String(entry),
+    })),
   );
 </script>
 

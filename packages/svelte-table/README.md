@@ -6,7 +6,7 @@
 
 The Svelte data table for the ui-organized design system, built on
 [`@ui-organized/table-core`](../table-core) — the same framework-free engine the
-React and Vue tables use. Same class names, same stylesheet, same token contract,
+React, Vue and Angular tables use. Same class names, same stylesheet, same token contract,
 no fork of the logic.
 
 ## Three layers
