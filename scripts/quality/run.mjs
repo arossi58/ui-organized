@@ -77,6 +77,12 @@ gate("Accessibility (blocking)", "a11y");
 gate("Accessibility · svelte/vue/angular (blocking)", "a11y:frameworks");
 gate("Interaction (blocking)", "interaction");
 gate("Visual regression (advisory)", "visual");
+/**
+ * And whether the other three still *look* like React. Advisory for the same
+ * reason as the gate above: antialiasing at a subpixel boundary is not a defect,
+ * and a gate that blocks a merge over one teaches people to ignore it.
+ */
+gate("Visual · svelte/vue/angular (advisory)", "visual:frameworks");
 gate("Cross-browser smoke (advisory)", "browsers");
 
 rule("Aggregating");
@@ -91,7 +97,11 @@ const blocking = {
   interaction: results.interaction,
 };
 const failed = Object.entries(blocking).filter(([, code]) => code !== 0);
-const advisory = Object.entries({ visual: results.visual, browsers: results.browsers })
+const advisory = Object.entries({
+  visual: results.visual,
+  "visual:frameworks": results["visual:frameworks"],
+  browsers: results.browsers,
+})
   .filter(([, code]) => code !== 0)
   .map(([name]) => name);
 

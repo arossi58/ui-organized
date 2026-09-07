@@ -29,3 +29,29 @@ declare module "*.vue" {
   const component: import("vue").Component;
   export default component;
 }
+
+/**
+ * `pixelmatch` v6 ships no type declarations and has no `@types` package on the
+ * v6 line — only v5 does, and downgrading a comparator to get a `.d.ts` is the
+ * wrong trade. The signature below is the whole of its public API, taken from
+ * its README, and it is used in exactly one place: the visual gate in
+ * `browser/visual.browser.spec.ts`.
+ */
+declare module "pixelmatch" {
+  export default function pixelmatch(
+    img1: Uint8Array | Uint8ClampedArray,
+    img2: Uint8Array | Uint8ClampedArray,
+    output: Uint8Array | Uint8ClampedArray | null,
+    width: number,
+    height: number,
+    options?: {
+      threshold?: number;
+      includeAA?: boolean;
+      alpha?: number;
+      aaColor?: [number, number, number];
+      diffColor?: [number, number, number];
+      diffColorAlt?: [number, number, number];
+      diffMask?: boolean;
+    },
+  ): number;
+}

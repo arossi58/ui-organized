@@ -82,6 +82,8 @@ export interface ComponentTestStatus {
    * library trips and React does not — the only ones this gate blames on a port.
    */
   frameworkA11y: GateResult;
+  /** Whether the three ports still look like React's. Advisory. */
+  frameworkVisual: GateResult;
   tokens: GateResult;
   crossBrowser: GateResult;
 }
@@ -119,6 +121,7 @@ export type GateKey =
   | "interaction"
   | "a11y"
   | "frameworkA11y"
+  | "frameworkVisual"
   | "tokens"
   | "crossBrowser";
 
@@ -128,6 +131,7 @@ export const GATE_ORDER: GateKey[] = [
   "interaction",
   "a11y",
   "frameworkA11y",
+  "frameworkVisual",
   "tokens",
   "crossBrowser",
 ];
@@ -137,6 +141,7 @@ export const GATE_LABELS: Record<GateKey, string> = {
   interaction: "Interaction",
   a11y: "Accessibility",
   frameworkA11y: "Accessibility · Svelte/Vue/Angular",
+  frameworkVisual: "Visual · Svelte/Vue/Angular",
   tokens: "Tokens & lint",
   crossBrowser: "Cross-browser",
 };

@@ -44,6 +44,7 @@ const GATES = {
   interaction: { blocking: true, label: "Interaction" },
   a11y: { blocking: true, label: "Accessibility" },
   frameworkA11y: { blocking: true, label: "Accessibility · Svelte/Vue/Angular" },
+  frameworkVisual: { blocking: false, label: "Visual · Svelte/Vue/Angular" },
   tokens: { blocking: true, label: "Tokens & lint" },
   crossBrowser: { blocking: false, label: "Cross-browser" },
 };
@@ -74,6 +75,7 @@ for (const [gate, file] of [
   ["interaction", "interaction"],
   ["a11y", "a11y"],
   ["frameworkA11y", "a11y-frameworks"],
+  ["frameworkVisual", "visual-frameworks"],
   ["crossBrowser", "browsers"],
 ]) {
   const rows = readPlaywrightReport(Q(file));
@@ -282,6 +284,28 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
    * those apart is the one that lets coverage quietly rot.
    */
   const found = byGate.frameworkA11y === null ? undefined : frameworkA11y.get(slug);
+
+  /**
+   * Whether the ports still *look* like React's, per component.
+   *
+   * Rows are `<Component> / <scenario>` like the a11y gate's, so the same
+   * `kebab` mapping files them; the pass/fail is the row's own, since one test
+   * covers every library and names the culprits in its message.
+   */
+  const visualRows = (byGate.frameworkVisual ?? []).filter(
+    (row) => kebab(row.title.split(" / ")[0] ?? "") === slug,
+  );
+  const frameworkVisual =
+    byGate.frameworkVisual === null
+      ? { status: "not-run" }
+      : visualRows.length === 0
+        ? { status: "none" }
+        : {
+            status: visualRows.some((row) => row.status === "fail") ? "fail" : "pass",
+            total: visualRows.length,
+            passed: visualRows.filter((row) => row.status === "pass").length,
+            failed: visualRows.filter((row) => row.status === "fail").length,
+          };
   const frameworkA11yCell = !found
     ? { status: byGate.frameworkA11y === null ? "not-run" : "none" }
     : {
@@ -310,6 +334,7 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
     interaction,
     a11y,
     frameworkA11y: frameworkA11yCell,
+    frameworkVisual,
     tokens,
     crossBrowser,
   };

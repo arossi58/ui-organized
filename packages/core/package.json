@@ -39,6 +39,7 @@
     },
     "./components/*": "./dist/components/*",
     "./typography.css": "./dist/typography.css",
+    "./base.css": "./dist/base.css",
     "./styles.css": "./dist/styles.css",
     "./styles": "./dist/styles.css",
     "./token-contract.json": "./token-contract.json",

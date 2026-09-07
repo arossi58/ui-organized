@@ -74,3 +74,10 @@ import "./components/FileUpload/FileUpload.css";
 import "./components/ImageCropper/ImageCropper.css";
 import "./components/SignaturePad/SignaturePad.css";
 import "./components/QRCode/QRCode.css";
+/**
+ * Last, and not a component: the `[hidden]` invariant. It lived in
+ * `@ui-organized/react/src/base.css` and so reached React alone, which meant
+ * the other three libraries shipped without the one rule that stops a
+ * component `display` from silently out-ranking the UA default. See the file.
+ */
+import "./base.css";

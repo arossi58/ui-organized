@@ -1,7 +1,7 @@
 import AxeBuilder from "@axe-core/playwright";
 import { test, expect, type Page } from "@playwright/test";
-import { SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
-import { comparedIn, mountScenario, type Framework } from "./mount.js";
+import { type BrowserScenario } from "./scenarios/index.js";
+import { audited, comparedIn, mountScenario, type Framework } from "./mount.js";
 
 /**
  * Accessibility, for the three libraries nothing else audits.
@@ -94,34 +94,6 @@ const PAGE_LEVEL_RULES = [
   "bypass",
 ];
 
-/**
- * Two scenarios per component: the plain mount, and the richest end state.
- *
- * Ties go to the earlier scenario, so the choice is stable as scenarios are
- * added — a subset that silently reshuffles when someone appends a scenario is
- * one whose results stop being comparable run to run.
- */
-function audited(): BrowserScenario[] {
-  const byComponent = new Map<string, BrowserScenario[]>();
-  for (const scenario of SCENARIOS) {
-    const list = byComponent.get(scenario.component) ?? [];
-    list.push(scenario);
-    byComponent.set(scenario.component, list);
-  }
-
-  const picked: BrowserScenario[] = [];
-  for (const list of byComponent.values()) {
-    const first = list[0]!;
-    let richest = first;
-    for (const scenario of list) {
-      if ((scenario.steps?.length ?? 0) > (richest.steps?.length ?? 0)) richest = scenario;
-    }
-    picked.push(first);
-    if (richest !== first) picked.push(richest);
-  }
-  return picked;
-}
-
 interface Finding {
   id: string;
   impact: string | null | undefined;
@@ -142,10 +114,10 @@ interface Finding {
  * `Steps` and `Toggle`. Probed directly, all of them were clean.
  *
  * A transition's midpoint is not a state anyone reads text in, so measuring it
- * is measuring nothing. `reducedMotion: "reduce"` in the config asks the design
- * system to stand still; this makes sure of it for the libraries and third-party
- * styles that do not honour the preference, and the extra frame gives the
- * browser time to paint the settled result.
+ * is measuring nothing. `!important` rather than `prefers-reduced-motion`
+ * because the preference is advisory — a rule that does not consult it keeps
+ * animating — and this has to hold for third-party styles too. The extra frame
+ * gives the browser time to paint the settled result.
  */
 async function settle(page: Page): Promise<void> {
   await page.addStyleTag({

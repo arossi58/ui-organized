@@ -3,8 +3,12 @@
 // order where needed. See ./typography.css.
 import "@ui-organized/core/typography.css";
 // Restores `[hidden] { display: none }`, which component-level `display` rules
-// beat by accident. See ./base.css — this is a correctness rule, not styling.
-import "./base.css";
+// beat by accident. This is a correctness rule, not styling — see core's
+// base.css. It lived in this package and so reached React alone, which is how
+// three libraries came to ship without it; it is core's now, and React imports
+// it explicitly because this package bundles core's stylesheets file by file
+// rather than through core's own `styles.ts` entry.
+import "@ui-organized/core/base.css";
 
 export { Icon } from "./components/Icon/index.js";
 export type { IconProps } from "./components/Icon/index.js";

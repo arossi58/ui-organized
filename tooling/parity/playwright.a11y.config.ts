@@ -28,10 +28,6 @@ export default defineConfig({
     baseURL: "http://127.0.0.1:5199",
     viewport: { width: 1280, height: 800 },
     colorScheme: "light",
-    // Ask the design system to hold still. `settle()` in the spec enforces it for
-    // whatever does not honour the preference — see its header for what a
-    // mid-transition measurement did to this gate.
-    reducedMotion: "reduce",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {

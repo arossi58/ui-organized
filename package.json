@@ -22,6 +22,7 @@
     "quality:lint": "node scripts/quality/lint.mjs",
     "quality:unit": "node scripts/quality/unit.mjs",
     "quality:visual": "pnpm --filter @ui-organized/storybook test:visual",
+    "quality:visual:frameworks": "pnpm --filter @ui-organized/parity test:visual",
     "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish",
     "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/react-table test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke && pnpm --filter @ui-organized/vue-table test:smoke && pnpm --filter @ui-organized/svelte-table test:smoke && pnpm --filter @ui-organized/angular-table test:smoke",
     "test": "turbo test",

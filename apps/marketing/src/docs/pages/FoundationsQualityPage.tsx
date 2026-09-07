@@ -146,6 +146,11 @@ function summarise(gate: GateKey, result: GateResult): string {
         `accessibility at the same scenario.${shared}`
       );
     }
+    case "frameworkVisual":
+      return (
+        `${ran} scenario${ran === 1 ? "" : "s"} screenshotted in each library and ` +
+        `compared against React's in the same run.`
+      );
     case "crossBrowser":
       return `${ran} story render${ran === 1 ? "" : "s"} checked for console errors on Firefox and WebKit.`;
     case "tokens":

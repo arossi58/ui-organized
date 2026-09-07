@@ -535,10 +535,18 @@ export class UioToastRegion {
    * What is *not* reproduced is Zag's stacking choreography: it positions every
    * toast absolutely and drives `--y`, `--offset` and `--index` from measured
    * heights, and none of those variables appear anywhere in `Toast.css`. A flex
-   * column with the stylesheet's own `--gap` produces the same bottom-end stack
+   * column with the stylesheet's own `--gap` puts the toasts in the same corner
    * out of the layout engine instead of out of a `ResizeObserver`.
    * `column-reverse` because the list is newest-first, and the newest toast
    * belongs nearest the corner.
+   *
+   * It is the same *placement*, not the same *picture*, and this comment used to
+   * claim otherwise. The parity harness's visual gate measured it: with two
+   * toasts up, React collapses the stack — both at the same `y`, the front one
+   * covering the rest — and this lays them out in flow, 187px apart. Reproducing
+   * the collapse means reproducing the measured-height choreography, which is
+   * real work and is recorded as accepted drift in
+   * `tooling/parity/browser/visual.browser.spec.ts` rather than pretended away.
    */
   protected readonly GROUP_STYLE =
     "position: fixed; display: flex; flex-direction: column-reverse; " +

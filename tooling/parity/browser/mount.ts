@@ -1,5 +1,5 @@
 import { type Page } from "@playwright/test";
-import { ANGULAR_COMPONENTS, type BrowserScenario } from "./scenarios/index.js";
+import { ANGULAR_COMPONENTS, SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
 
 /**
  * Mounting a scenario, shared by every gate that drives one.
@@ -98,4 +98,32 @@ export async function mountScenario(
       throw new Error(`${framework}: step ${JSON.stringify(step)} did not complete`, { cause });
     }
   }
+}
+
+/**
+ * Two scenarios per component: the plain mount, and the richest end state.
+ *
+ * Ties go to the earlier scenario, so the choice is stable as scenarios are
+ * added — a subset that silently reshuffles when someone appends a scenario is
+ * one whose results stop being comparable run to run.
+ */
+export function audited(): BrowserScenario[] {
+  const byComponent = new Map<string, BrowserScenario[]>();
+  for (const scenario of SCENARIOS) {
+    const list = byComponent.get(scenario.component) ?? [];
+    list.push(scenario);
+    byComponent.set(scenario.component, list);
+  }
+
+  const picked: BrowserScenario[] = [];
+  for (const list of byComponent.values()) {
+    const first = list[0]!;
+    let richest = first;
+    for (const scenario of list) {
+      if ((scenario.steps?.length ?? 0) > (richest.steps?.length ?? 0)) richest = scenario;
+    }
+    picked.push(first);
+    if (richest !== first) picked.push(richest);
+  }
+  return picked;
 }

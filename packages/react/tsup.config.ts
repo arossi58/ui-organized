@@ -35,7 +35,13 @@ export default defineConfig({
   // \`@ui-organized/react/styles\` entry point. Only the CSS subpaths are pulled
   // back in; the JS API stays external so the variant recipes are not duplicated
   // into this bundle.
-  noExternal: [/^@ui-organized\/core\/(components\/|typography\.css)/],
+  //
+  // Every CSS subpath has to be named here. `base.css` was missed when it moved
+  // into core, and the failure is silent in exactly the way this comment warns
+  // about: the import survives into the output, the rule never reaches
+  // `dist/index.css`, and nothing fails until someone notices a `hidden` part
+  // still taking up space.
+  noExternal: [/^@ui-organized\/core\/(components\/|typography\.css|base\.css)/],
   // Shared modules become a chunk both entries import, rather than being inlined
   // twice. The icon registry doesn't depend on this — it's keyed on globalThis
   // precisely because the CJS build can't split — but it keeps the ESM output

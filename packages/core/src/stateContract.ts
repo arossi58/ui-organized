@@ -135,9 +135,24 @@ export function componentOf(file: string): string {
   return name;
 }
 
+/**
+ * Stylesheets that are not a component and must not become an entry.
+ *
+ * `base.css` restores `[hidden] { display: none }` for the whole library. It has
+ * no class of its own, so `componentOf` would file it as a component called
+ * "base" with an empty class list — which is exactly what the "covers the whole
+ * library" assertion is there to catch, and it would be catching the scanner
+ * rather than a gap in the design system.
+ *
+ * `typography.css` is deliberately absent from this list: its `.text-*` classes
+ * *are* part of the contract a theme has to satisfy.
+ */
+const NOT_COMPONENTS = new Set(["base.css"]);
+
 export function deriveStateContract(dir: string = SRC_DIR): StateContract {
   const contract: StateContract = {};
   for (const file of cssFiles(dir)) {
+    if (NOT_COMPONENTS.has(basename(file))) continue;
     // Comments first, for the same reason the token contract strips them: the
     // overlay-stacking rules explain zag's mechanism by quoting selectors, and
     // prose is not a dependency.

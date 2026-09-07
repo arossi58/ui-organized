@@ -6,6 +6,12 @@ import "./harness.css";
 import "@angular/cdk/overlay-prebuilt.css";
 import "@ui-organized/angular/styles.css";
 import "@ui-organized/angular/overlay.css";
+// The table ships its stylesheet separately, the way a consumer imports it:
+// tokens, then the component library, then the table. Without this the
+// DataTable scenarios were compared *unstyled* — which the DOM gate could not
+// notice, since it captures `data-` and `aria-` attributes and not `style`,
+// and the virtualizer's spacer heights live in inline styles.
+import "@ui-organized/angular-table/styles";
 import { caseFromUrl, mountPoint, signalReady } from "./harness.js";
 import { PARITY_PROPS } from "./fixtures/angular/parity-props.js";
 import { angularFixtureFor } from "./fixtures/angular/index.js";

@@ -15,6 +15,20 @@ export default [
   ...react,
 
   {
+    /**
+     * Vite writes `<config>.timestamp-<n>.mjs` beside a config it has to
+     * transpile, and deletes it when the run ends — unless the run is
+     * interrupted, which leaves one behind. It is gitignored (`.gitignore:77`),
+     * but flat config does not read `.gitignore`, so ESLint linted it anyway and
+     * the blocking lint gate went red over a temp file's `var`.
+     *
+     * This has cost a red gate twice: once from a copy that got committed, and
+     * once from a stray one on disk. Ignoring the pattern fixes both shapes.
+     */
+    ignores: ["**/*.timestamp-*.mjs"],
+  },
+
+  {
     // Storybook CSF files carry one hard constraint: they must stay importable
     // as plain React modules, because apps/marketing/src/docs/registry.ts globs
     // them with `import.meta.glob(..., { eager: true })` to build the docs site.
