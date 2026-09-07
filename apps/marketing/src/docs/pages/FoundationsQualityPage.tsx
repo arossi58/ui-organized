@@ -151,6 +151,12 @@ function summarise(gate: GateKey, result: GateResult): string {
         `${ran} scenario${ran === 1 ? "" : "s"} screenshotted in each library and ` +
         `compared against React's in the same run.`
       );
+    case "frameworkInteraction":
+      return (
+        `${ran} scenario${ran === 1 ? "" : "s"} held to the keyboard contract in ` +
+        `every library: hidden parts stay unrendered, interactive parts are reachable, ` +
+        `and a focused control looks focused.`
+      );
     case "crossBrowser":
       return `${ran} story render${ran === 1 ? "" : "s"} checked for console errors on Firefox and WebKit.`;
     case "tokens":

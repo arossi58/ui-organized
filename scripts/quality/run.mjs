@@ -76,6 +76,12 @@ gate("Accessibility (blocking)", "a11y");
  */
 gate("Accessibility · svelte/vue/angular (blocking)", "a11y:frameworks");
 gate("Interaction (blocking)", "interaction");
+/**
+ * The keyboard contract, in the three libraries Storybook cannot reach. Blocking
+ * for the same reason: a component that cannot be reached or seen from the
+ * keyboard is broken for a whole class of users.
+ */
+gate("Interaction · svelte/vue/angular (blocking)", "interaction:frameworks");
 gate("Visual regression (advisory)", "visual");
 /**
  * And whether the other three still *look* like React. Advisory for the same
@@ -95,6 +101,7 @@ const blocking = {
   a11y: results.a11y,
   "a11y:frameworks": results["a11y:frameworks"],
   interaction: results.interaction,
+  "interaction:frameworks": results["interaction:frameworks"],
 };
 const failed = Object.entries(blocking).filter(([, code]) => code !== 0);
 const advisory = Object.entries({

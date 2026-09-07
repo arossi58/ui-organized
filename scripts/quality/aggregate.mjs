@@ -45,6 +45,7 @@ const GATES = {
   a11y: { blocking: true, label: "Accessibility" },
   frameworkA11y: { blocking: true, label: "Accessibility · Svelte/Vue/Angular" },
   frameworkVisual: { blocking: false, label: "Visual · Svelte/Vue/Angular" },
+  frameworkInteraction: { blocking: true, label: "Keyboard · Svelte/Vue/Angular" },
   tokens: { blocking: true, label: "Tokens & lint" },
   crossBrowser: { blocking: false, label: "Cross-browser" },
 };
@@ -76,6 +77,7 @@ for (const [gate, file] of [
   ["a11y", "a11y"],
   ["frameworkA11y", "a11y-frameworks"],
   ["frameworkVisual", "visual-frameworks"],
+  ["frameworkInteraction", "interaction-frameworks"],
   ["crossBrowser", "browsers"],
 ]) {
   const rows = readPlaywrightReport(Q(file));
@@ -292,6 +294,21 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
    * `kebab` mapping files them; the pass/fail is the row's own, since one test
    * covers every library and names the culprits in its message.
    */
+  const keyboardRows = (byGate.frameworkInteraction ?? []).filter(
+    (row) => kebab(row.title.split(" / ")[0] ?? "") === slug,
+  );
+  const frameworkInteraction =
+    byGate.frameworkInteraction === null
+      ? { status: "not-run" }
+      : keyboardRows.length === 0
+        ? { status: "none" }
+        : {
+            status: keyboardRows.some((row) => row.status === "fail") ? "fail" : "pass",
+            total: keyboardRows.length,
+            passed: keyboardRows.filter((row) => row.status === "pass").length,
+            failed: keyboardRows.filter((row) => row.status === "fail").length,
+          };
+
   const visualRows = (byGate.frameworkVisual ?? []).filter(
     (row) => kebab(row.title.split(" / ")[0] ?? "") === slug,
   );
@@ -335,6 +352,7 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
     a11y,
     frameworkA11y: frameworkA11yCell,
     frameworkVisual,
+    frameworkInteraction,
     tokens,
     crossBrowser,
   };

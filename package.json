@@ -19,6 +19,7 @@
     "quality:aggregate": "node scripts/quality/aggregate.mjs",
     "quality:browsers": "pnpm --filter @ui-organized/storybook test:browsers",
     "quality:interaction": "pnpm --filter @ui-organized/storybook test:interaction",
+    "quality:interaction:frameworks": "pnpm --filter @ui-organized/parity test:interaction",
     "quality:lint": "node scripts/quality/lint.mjs",
     "quality:unit": "node scripts/quality/unit.mjs",
     "quality:visual": "pnpm --filter @ui-organized/storybook test:visual",

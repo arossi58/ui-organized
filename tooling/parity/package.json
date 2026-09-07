@@ -15,11 +15,13 @@
     "pretest": "pnpm build:deps",
     "pretest:a11y": "pnpm build:deps",
     "pretest:browser": "pnpm build:deps",
+    "pretest:interaction": "pnpm build:deps",
     "pretest:visual": "pnpm build:deps",
     "test": "vitest run",
     "test:a11y": "playwright test --config playwright.a11y.config.ts",
     "test:browser": "playwright test",
     "test:browser:run": "playwright test",
+    "test:interaction": "playwright test --config playwright.interaction.config.ts",
     "test:visual": "playwright test --config playwright.visual.config.ts",
     "typecheck": "tsc --noEmit"
   },

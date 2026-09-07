@@ -84,6 +84,8 @@ export interface ComponentTestStatus {
   frameworkA11y: GateResult;
   /** Whether the three ports still look like React's. Advisory. */
   frameworkVisual: GateResult;
+  /** The keyboard contract, in the three libraries Storybook cannot reach. */
+  frameworkInteraction: GateResult;
   tokens: GateResult;
   crossBrowser: GateResult;
 }
@@ -122,6 +124,7 @@ export type GateKey =
   | "a11y"
   | "frameworkA11y"
   | "frameworkVisual"
+  | "frameworkInteraction"
   | "tokens"
   | "crossBrowser";
 
@@ -132,6 +135,7 @@ export const GATE_ORDER: GateKey[] = [
   "a11y",
   "frameworkA11y",
   "frameworkVisual",
+  "frameworkInteraction",
   "tokens",
   "crossBrowser",
 ];
@@ -142,6 +146,7 @@ export const GATE_LABELS: Record<GateKey, string> = {
   a11y: "Accessibility",
   frameworkA11y: "Accessibility · Svelte/Vue/Angular",
   frameworkVisual: "Visual · Svelte/Vue/Angular",
+  frameworkInteraction: "Keyboard · Svelte/Vue/Angular",
   tokens: "Tokens & lint",
   crossBrowser: "Cross-browser",
 };
