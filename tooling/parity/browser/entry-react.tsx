@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client";
 import "@ui-organized/tokens/variables.css";
+import "./harness.css";
 // Each page loads its *own* package's stylesheet rather than a shared one, so a
 // package that fails to emit one is a failing gate rather than a silent
 // fallback onto another framework's copy.

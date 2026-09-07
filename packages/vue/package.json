@@ -2,7 +2,14 @@
   "name": "@ui-organized/vue",
   "version": "0.1.0",
   "description": "Vue component library for the ui-organized design system, built on Ark UI.",
-  "keywords": ["design-system", "vue", "components", "ui", "ark-ui", "accessible"],
+  "keywords": [
+    "design-system",
+    "vue",
+    "components",
+    "ui",
+    "ark-ui",
+    "accessible"
+  ],
   "license": "Apache-2.0",
   "author": "arossi58 <arossi5861@gmail.com>",
   "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/vue#readme",
@@ -11,8 +18,13 @@
     "url": "git+https://github.com/arossi58/ui-organized.git",
     "directory": "packages/vue"
   },
-  "bugs": { "url": "https://github.com/arossi58/ui-organized/issues" },
-  "sideEffects": ["**/*.css", "./dist/icons/*.js"],
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": [
+    "**/*.css",
+    "./dist/icons/*.js"
+  ],
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -38,12 +50,18 @@
     "./styles.css": "./dist/styles.css",
     "./package.json": "./package.json"
   },
-  "files": ["dist", "README.md", "LICENSE"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build && vue-tsc -p tsconfig.build.json && node scripts/copy-styles.mjs",
     "dev": "vite build --watch",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "vue-tsc --noEmit",
     "test:smoke": "node scripts/smoke-icons.mjs"

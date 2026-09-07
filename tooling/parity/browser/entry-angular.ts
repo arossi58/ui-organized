@@ -2,6 +2,7 @@ import "@angular/compiler";
 import { provideZonelessChangeDetection } from "@angular/core";
 import { bootstrapApplication } from "@angular/platform-browser";
 import "@ui-organized/tokens/variables.css";
+import "./harness.css";
 import "@angular/cdk/overlay-prebuilt.css";
 import "@ui-organized/angular/styles.css";
 import "@ui-organized/angular/overlay.css";

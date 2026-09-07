@@ -19,14 +19,33 @@ mkdirSync(QUALITY, { recursive: true });
 
 // Packages whose vitest results are worth attributing. The rest still run under
 // `pnpm test`; they just have no component to attach to.
+/**
+ * Every package with a unit suite, not just React's.
+ *
+ * This list was four entries while React was the only framework, and stayed four
+ * after three more shipped — so `@ui-organized/core`'s 50 tests, Angular's 529,
+ * Svelte's and Vue's 49 each and the three table adapters' all ran under `turbo
+ * test` and reached the dashboard as nothing at all. A gate nobody can see the
+ * result of is not reporting, and the quality page read as though the design
+ * system were still one framework wide.
+ *
+ * `@ui-organized/core` earns its place twice over: it holds the framework-purity
+ * assertion, the check that keeps a fifth adapter possible.
+ */
 const PACKAGES = [
+  "@ui-organized/core",
   "@ui-organized/react",
-  // The table ships as two packages of its own (see TABLE.md): the framework-free
-  // engine and the React adapter. Both are attributed to the Data Table's docs
-  // page, and core's suite includes the framework-purity assertion — the check
-  // that keeps a second framework adapter possible.
+  "@ui-organized/svelte",
+  "@ui-organized/vue",
+  "@ui-organized/angular",
+  // The table ships as its own packages (see TABLE.md): the framework-free
+  // engine and one adapter per framework, all attributed to the Data Table's
+  // docs page.
   "@ui-organized/table-core",
   "@ui-organized/react-table",
+  "@ui-organized/vue-table",
+  "@ui-organized/svelte-table",
+  "@ui-organized/angular-table",
   "@ui-organized/marketing",
 ];
 

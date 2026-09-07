@@ -67,6 +67,14 @@ const gate = (label, script) => {
 };
 
 gate("Accessibility (blocking)", "a11y");
+/**
+ * The other three libraries' accessibility, which the Storybook gate above
+ * cannot reach: it depends on `@ui-organized/react` alone. This one runs on the
+ * parity harness and compares Svelte, Vue and Angular against React's own axe
+ * result at the same scenario — see `tooling/parity/browser/a11y.browser.spec.ts`
+ * for why comparing beats scoring here. Blocking, like its React counterpart.
+ */
+gate("Accessibility · svelte/vue/angular (blocking)", "a11y:frameworks");
 gate("Interaction (blocking)", "interaction");
 gate("Visual regression (advisory)", "visual");
 gate("Cross-browser smoke (advisory)", "browsers");
@@ -79,6 +87,7 @@ const blocking = {
   lint: results.lint,
   unit: results.unit,
   a11y: results.a11y,
+  "a11y:frameworks": results["a11y:frameworks"],
   interaction: results.interaction,
 };
 const failed = Object.entries(blocking).filter(([, code]) => code !== 0);

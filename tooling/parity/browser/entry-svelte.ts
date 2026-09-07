@@ -1,5 +1,6 @@
 import { mount } from "svelte";
 import "@ui-organized/tokens/variables.css";
+import "./harness.css";
 import "@ui-organized/svelte/styles.css";
 import { caseFromUrl, mountPoint, signalReady } from "./harness.js";
 import { specFor } from "./specs.js";

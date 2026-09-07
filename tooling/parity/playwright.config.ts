@@ -13,7 +13,11 @@ import { defineConfig, devices } from "@playwright/test";
  */
 export default defineConfig({
   testDir: "./browser",
-  testMatch: "**/*.spec.ts",
+  // The parity spec alone. The a11y gate lives beside it in the same directory
+  // and shares the same harness, but it is a different gate with a different
+  // config — folding it in here would add ~250 axe runs to every parity run and
+  // report two different kinds of failure under one name.
+  testMatch: "**/parity.browser.spec.ts",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,

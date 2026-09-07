@@ -60,6 +60,11 @@ export interface GateResult {
   warnings?: number;
   messages?: { source: string; rule?: string; line?: number; text: string }[];
   note?: string;
+  /**
+   * Violations React has too, so not any one port's doing. Only the
+   * per-framework accessibility cell sets it.
+   */
+  shared?: number;
 }
 
 export interface ComponentTestStatus {
@@ -68,6 +73,15 @@ export interface ComponentTestStatus {
   visual: GateResult;
   interaction: GateResult;
   a11y: GateResult;
+  /**
+   * Svelte, Vue and Angular, one `check` each.
+   *
+   * `none` rather than `pass` when the parity harness has no scenario for this
+   * component: a component nothing audited has not passed, and collapsing the
+   * two is how coverage rots unnoticed. A check's `detail` names the rules that
+   * library trips and React does not — the only ones this gate blames on a port.
+   */
+  frameworkA11y: GateResult;
   tokens: GateResult;
   crossBrowser: GateResult;
 }
@@ -100,15 +114,29 @@ export interface TestStatus {
   components: Record<string, ComponentTestStatus>;
 }
 
-export type GateKey = "visual" | "interaction" | "a11y" | "tokens" | "crossBrowser";
+export type GateKey =
+  | "visual"
+  | "interaction"
+  | "a11y"
+  | "frameworkA11y"
+  | "tokens"
+  | "crossBrowser";
 
 /** Display order on the docs panel and the dashboard — cheapest signal first. */
-export const GATE_ORDER: GateKey[] = ["visual", "interaction", "a11y", "tokens", "crossBrowser"];
+export const GATE_ORDER: GateKey[] = [
+  "visual",
+  "interaction",
+  "a11y",
+  "frameworkA11y",
+  "tokens",
+  "crossBrowser",
+];
 
 export const GATE_LABELS: Record<GateKey, string> = {
   visual: "Visual",
   interaction: "Interaction",
   a11y: "Accessibility",
+  frameworkA11y: "Accessibility · Svelte/Vue/Angular",
   tokens: "Tokens & lint",
   crossBrowser: "Cross-browser",
 };

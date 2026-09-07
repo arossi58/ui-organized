@@ -132,6 +132,20 @@ function summarise(gate: GateKey, result: GateResult): string {
       return `${ran} behaviour check${ran === 1 ? "" : "s"} driven through a real browser.`;
     case "a11y":
       return `${ran} story scan${ran === 1 ? "" : "s"} with axe-core.`;
+    case "frameworkA11y": {
+      // The count is libraries, not scans: this gate audits each of Svelte, Vue
+      // and Angular against React's own axe result at the same scenario, so what
+      // a reader wants is how many libraries were checked and whether any of
+      // them introduced something React does not have.
+      const libraries = result.checks?.length ?? 0;
+      const shared = result.shared
+        ? ` ${result.shared} violation${result.shared === 1 ? "" : "s"} React has too are counted separately.`
+        : "";
+      return (
+        `${libraries} librar${libraries === 1 ? "y" : "ies"} compared against React's ` +
+        `accessibility at the same scenario.${shared}`
+      );
+    }
     case "crossBrowser":
       return `${ran} story render${ran === 1 ? "" : "s"} checked for console errors on Firefox and WebKit.`;
     case "tokens":

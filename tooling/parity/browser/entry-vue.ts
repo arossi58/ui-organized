@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import "@ui-organized/tokens/variables.css";
+import "./harness.css";
 import "@ui-organized/vue/styles.css";
 import { caseFromUrl, mountPoint, signalReady } from "./harness.js";
 import { specFor } from "./specs.js";

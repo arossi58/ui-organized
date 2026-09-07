@@ -59,7 +59,7 @@
   "scripts": {
     "build": "svelte-package -i src/lib -o dist && node scripts/copy-styles.mjs",
     "dev": "svelte-package -i src/lib -o dist --watch",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "svelte-check --tsconfig ./tsconfig.json",
     "test:smoke": "node scripts/smoke-icons.mjs"

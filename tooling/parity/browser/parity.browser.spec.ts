@@ -3,7 +3,8 @@ import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { contractOf, hiddenFromAssistiveTech, type ElementContract } from "../src/contract.js";
-import { ANGULAR_COMPONENTS, SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
+import { SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
+import { FRAMEWORKS, comparedIn, mountScenario, type Framework } from "./mount.js";
 
 /**
  * The browser half of the parity gate.
@@ -24,37 +25,6 @@ const CORE_SRC = join(
   dirname(require.resolve("@ui-organized/core/package.json")),
   "src/components",
 );
-
-const FRAMEWORKS = ["react", "svelte", "vue", "angular"] as const;
-type Framework = (typeof FRAMEWORKS)[number];
-
-/**
- * React is the reference; every other library is compared against it rather
- * than against each other, so a divergence names one culprit instead of two.
- * Angular joins the comparison only for what it has implemented — a scenario it
- * cannot render yet is compared across the other three rather than skipped.
- */
-function comparedIn(scenario: BrowserScenario): Framework[] {
-  const others: Framework[] = ["svelte", "vue"];
-  if (ANGULAR_COMPONENTS.has(scenario.component)) others.push("angular");
-  const skipped = new Set((scenario.skip ?? []).map((entry) => entry.framework));
-  return others.filter((framework) => !skipped.has(framework));
-}
-
-/**
- * React spells the class prop `className`; every other library spells it
- * `class`.
- *
- * Scenarios are written in React's spelling because React is the reference, so
- * the rename happens here rather than in the pages — the same rename the SSR
- * gate does, and for the same reason: each side should receive only its own
- * spelling, so none of them gets a stray unknown prop.
- */
-function inDialect(props: Record<string, unknown>, framework: Framework): Record<string, unknown> {
-  if (framework === "react" || !("className" in props)) return props;
-  const { className, ...rest } = props;
-  return { ...rest, class: className };
-}
 
 function withoutAllowed(contract: ElementContract[], allowed: string[]): ElementContract[] {
   if (!allowed.length) return contract;
@@ -87,43 +57,7 @@ async function run(page: Page, framework: Framework, scenario: BrowserScenario):
   const onError = (error: Error) => errors.push(error);
   page.on("pageerror", onError);
 
-  const props = encodeURIComponent(JSON.stringify(inDialect(scenario.props ?? {}, framework)));
-  await page.goto(`/${framework}.html?component=${scenario.component}&props=${props}`);
-  try {
-    await page.waitForSelector("html[data-parity-ready]", { state: "attached", timeout: 10_000 });
-  } catch (cause) {
-    // Without the framework in the message this reads as "the harness is
-    // broken" when it means "one of four pages did not mount".
-    throw new Error(`${framework}: ${scenario.component} never finished mounting`, { cause });
-  }
-
-  for (const step of scenario.steps) {
-    // Every failure here names the framework. Without it a step that only one
-    // library fails to reach reports as an anonymous timeout, and finding out
-    // which of the three it was means running them by hand.
-    try {
-      if (step.do === "click") await page.locator(step.target).first().click({ timeout: 5_000 });
-      else if (step.do === "focus")
-        await page.locator(step.target).first().focus({ timeout: 5_000 });
-      else if (step.do === "hover")
-        await page.locator(step.target).first().hover({ timeout: 5_000 });
-      else if (step.do === "press") await page.keyboard.press(step.key);
-      else if (step.do === "awaitFocus")
-        await page.waitForFunction(
-          (selector) => {
-            const active = document.activeElement;
-            return !!active && (active.matches(selector) || !!active.closest(selector));
-          },
-          step.target,
-          { timeout: 5_000 },
-        );
-      // Short, so a state that never arrives reports as itself rather than as
-      // the whole test running out of time 25 seconds later.
-      else await page.locator(step.target).first().waitFor({ state: "attached", timeout: 5_000 });
-    } catch (cause) {
-      throw new Error(`${framework}: step ${JSON.stringify(step)} did not complete`, { cause });
-    }
-  }
+  await mountScenario(page, framework, scenario);
 
   for (const selector of scenario.hidden ?? []) {
     await expect

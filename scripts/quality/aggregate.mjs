@@ -19,7 +19,13 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { knownComponents, slugForTestTitle, slugForFilePath, storyNameForTitle } from "./slug.mjs";
+import {
+  kebab,
+  knownComponents,
+  slugForTestTitle,
+  slugForFilePath,
+  storyNameForTitle,
+} from "./slug.mjs";
 import { readPlaywrightReport, readAttachment, rollUp } from "./report.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -37,6 +43,7 @@ const GATES = {
   visual: { blocking: false, label: "Visual regression" },
   interaction: { blocking: true, label: "Interaction" },
   a11y: { blocking: true, label: "Accessibility" },
+  frameworkA11y: { blocking: true, label: "Accessibility · Svelte/Vue/Angular" },
   tokens: { blocking: true, label: "Tokens & lint" },
   crossBrowser: { blocking: false, label: "Cross-browser" },
 };
@@ -66,6 +73,7 @@ for (const [gate, file] of [
   ["visual", "visual"],
   ["interaction", "interaction"],
   ["a11y", "a11y"],
+  ["frameworkA11y", "a11y-frameworks"],
   ["crossBrowser", "browsers"],
 ]) {
   const rows = readPlaywrightReport(Q(file));
@@ -134,6 +142,46 @@ function describeChecks(gate, rows) {
     }));
 }
 
+
+/**
+ * The per-framework accessibility picture, from the parity harness's gate.
+ *
+ * Its rows are `<Component> / <scenario>` and the framework lives in the
+ * attachment rather than the title, because one test audits all four libraries
+ * at once — React as the reference, the others compared against it. So this
+ * cannot go through `fileRow`'s title parsing and reads the attachments instead.
+ *
+ * A library's status for a component is the worst across that component's
+ * scenarios: `fail` if it introduced a violation React does not have, `pass`
+ * otherwise. Violations all four share are counted separately and do not colour
+ * a library — they are not that port's doing, and the gate's own header explains
+ * why blaming one for them would be wrong.
+ */
+function frameworkA11yByComponent(rows) {
+  const byComponent = new Map();
+  for (const row of rows ?? []) {
+    const payload = readAttachment(row.attachments ?? [], "axe");
+    if (!payload) continue;
+    const slug = kebab(payload.component);
+    const entry = byComponent.get(slug) ?? { frameworks: {}, shared: 0 };
+
+    for (const framework of payload.frameworks ?? []) {
+      const introduced = payload.introduced?.[framework] ?? [];
+      const current = entry.frameworks[framework];
+      const next = {
+        status: introduced.length ? "fail" : (current?.status ?? "pass"),
+        violations: [...(current?.violations ?? []), ...introduced.map((v) => v.id)],
+      };
+      // A failure anywhere in the component's scenarios is a failure for it.
+      if (current?.status === "fail") next.status = "fail";
+      entry.frameworks[framework] = next;
+    }
+    entry.shared += (payload.shared ?? []).length;
+    byComponent.set(slug, entry);
+  }
+  return byComponent;
+}
+
 // ── a11y detail ──────────────────────────────────────────────────────────────
 // The axe attachment carries the violations themselves, so the docs page can
 // name what is wrong rather than just colouring a chip red.
@@ -160,6 +208,8 @@ function a11yDetail(rows) {
 
 // ── Per-component ────────────────────────────────────────────────────────────
 const out = {};
+const frameworkA11y = frameworkA11yByComponent(byGate.frameworkA11y);
+
 for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b))) {
   const rows = perComponent.get(slug);
 
@@ -224,12 +274,42 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
   }
   if (Object.keys(browsers).length) crossBrowser.browsers = browsers;
 
+  /**
+   * What Svelte, Vue and Angular look like for this component.
+   *
+   * Absent rather than "pass" when the parity harness has no scenario for it: a
+   * component nothing audited has not passed, and a dashboard that cannot tell
+   * those apart is the one that lets coverage quietly rot.
+   */
+  const found = byGate.frameworkA11y === null ? undefined : frameworkA11y.get(slug);
+  const frameworkA11yCell = !found
+    ? { status: byGate.frameworkA11y === null ? "not-run" : "none" }
+    : {
+        status: Object.values(found.frameworks).some((f) => f.status === "fail")
+          ? "fail"
+          : "pass",
+        // One check per library, so the docs panel reads the same way every other
+        // gate's does — and names which of the three is at fault rather than
+        // colouring the whole cell red.
+        checks: ["svelte", "vue", "angular"]
+          .filter((framework) => found.frameworks[framework])
+          .map((framework) => ({
+            name: framework,
+            status: found.frameworks[framework].status,
+            ...(found.frameworks[framework].violations.length
+              ? { detail: found.frameworks[framework].violations.join(", ") }
+              : {}),
+          })),
+        ...(found.shared ? { shared: found.shared } : {}),
+      };
+
   out[slug] = {
     name: meta.name,
     category: meta.category,
     visual,
     interaction,
     a11y,
+    frameworkA11y: frameworkA11yCell,
     tokens,
     crossBrowser,
   };

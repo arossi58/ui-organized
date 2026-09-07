@@ -11,12 +11,14 @@
   },
   "scripts": {
     "build:deps": "node scripts/build-deps.mjs",
+    "harness": "vite --config browser/vite.config.ts",
     "pretest": "pnpm build:deps",
-    "test": "vitest run",
+    "pretest:a11y": "pnpm build:deps",
     "pretest:browser": "pnpm build:deps",
+    "test": "vitest run",
+    "test:a11y": "playwright test --config playwright.a11y.config.ts",
     "test:browser": "playwright test",
     "test:browser:run": "playwright test",
-    "harness": "vite --config browser/vite.config.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -38,6 +40,7 @@
     "@angular/compiler": "^21.2.20",
     "@angular/core": "^21.2.20",
     "@angular/platform-browser": "^21.2.20",
+    "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.61.0",
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
     "@types/jsdom": "^30.0.0",
