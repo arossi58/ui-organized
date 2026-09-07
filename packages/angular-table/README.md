@@ -1,8 +1,5 @@
 # @ui-organized/angular-table
 
-> **Not published yet.** Marked `private` until §H's checklist — a changeset, a
-> smoke app, and a line in the root `smoke` script.
-
 The Angular data table for the ui-organized design system, built on
 [`@ui-organized/table-core`](../table-core) — the same framework-free engine the
 React, Vue and Svelte tables use. Same class names, same stylesheet, same token

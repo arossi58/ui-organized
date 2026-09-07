@@ -1,9 +1,5 @@
 # @ui-organized/vue-table
 
-> **Not published yet.** Marked `private` until §H's checklist — a changeset, a
-> smoke app, and a line in the root `smoke` script. The code is complete and at
-> parity with React; the packaging is not done.
-
 The Vue data table for the ui-organized design system, built on
 [`@ui-organized/table-core`](../table-core) — the same framework-free engine the
 React, Svelte and Angular tables use. Same class names, same stylesheet, same token contract, no fork
