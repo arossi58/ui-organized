@@ -58,7 +58,7 @@
     "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
-    "test:smoke": "node scripts/smoke-table.mjs"
+    "test:smoke": "node ../../scripts/smoke-table.mjs react"
   },
   "peerDependencies": {
     "@ui-organized/react": ">=5.0.0",

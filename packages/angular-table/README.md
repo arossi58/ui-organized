@@ -99,10 +99,22 @@ Angular has set the required inputs, and reading one there is NG0950.
 **`table-props-host.ts`** exists because a component cannot bind a host directive's
 input to itself. Parts that need their own prop bag applied extend it instead.
 
+## Scope
+
+**Not in v1:** grouping and aggregation, expandable sub-rows, URL or
+localStorage state persistence. Everything else the table does is listed under
+[`@ui-organized/table-core`'s scope](../table-core#scope) — the behaviour lives
+in the engine, so it is identical across all four adapters.
+
 ## Peer dependencies
 
 `@angular/core >= 21`, `@angular/common >= 21`, `@angular/cdk >= 21`,
 `@ui-organized/angular >= 0.1.0`.
+
+If you build with Vite rather than the Angular CLI, you need the `style` resolve
+condition for the CDK's overlay stylesheet — see
+[`@ui-organized/angular`'s README](../angular#if-you-build-with-vite-rather-than-the-angular-cli).
+`examples/angular-table-smoke` is a working consumer of exactly that setup.
 
 ## License
 

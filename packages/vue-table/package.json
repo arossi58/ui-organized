@@ -10,7 +10,6 @@
     "virtualization",
     "accessible"
   ],
-  "private": true,
   "license": "Apache-2.0",
   "author": "arossi58 <arossi5861@gmail.com>",
   "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/vue-table#readme",
@@ -51,7 +50,8 @@
     "dev": "vite build --watch",
     "test": "vitest run",
     "lint": "eslint src/",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test:smoke": "node ../../scripts/smoke-table.mjs vue"
   },
   "peerDependencies": {
     "@ui-organized/vue": ">=0.1.0",

@@ -16,7 +16,7 @@
     "generate:release-dates": "node scripts/sync-release-dates.mjs",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/react-table test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke",
+    "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/react-table test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke && pnpm --filter @ui-organized/vue-table test:smoke && pnpm --filter @ui-organized/svelte-table test:smoke && pnpm --filter @ui-organized/angular-table test:smoke",
     "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish",
     "quality": "node scripts/quality/run.mjs",
     "quality:lint": "node scripts/quality/lint.mjs",
@@ -25,7 +25,8 @@
     "quality:interaction": "pnpm --filter @ui-organized/storybook test:interaction",
     "quality:a11y": "pnpm --filter @ui-organized/storybook test:a11y",
     "quality:browsers": "pnpm --filter @ui-organized/storybook test:browsers",
-    "quality:aggregate": "node scripts/quality/aggregate.mjs"
+    "quality:aggregate": "node scripts/quality/aggregate.mjs",
+    "check:tarballs": "node scripts/check-tarballs.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",

@@ -24,6 +24,21 @@ npm install @ui-organized/angular @ui-organized/tokens @angular/cdk
 are peer dependencies. Every component is standalone — there is no NgModule to
 import.
 
+### If you build with Vite rather than the Angular CLI
+
+`@angular/cdk/overlay-prebuilt.css` is exported under the `style` condition
+alone. Angular's own builder applies it; Vite does not by default, and the error
+it raises — "No known conditions for ./overlay-prebuilt.css" — reads like a
+broken import rather than a missing resolve condition. Naming any condition
+replaces Vite's whole default list, so restore it alongside:
+
+```js
+// vite.config.js
+export default {
+  resolve: { conditions: ["style", "module", "browser", "development|production"] },
+};
+```
+
 ## Icons
 
 Icon packs are **optional** peers, and genuinely so: this package imports none of

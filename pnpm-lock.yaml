@@ -353,6 +353,46 @@ importers:
         specifier: ^2.0.0
         version: 2.1.9(@types/node@20.19.39)(jsdom@29.1.1)(less@4.9.0)(sass@1.103.1)
 
+  examples/angular-table-smoke:
+    dependencies:
+      '@angular/cdk':
+        specifier: ^21.2.14
+        version: 21.2.14(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(@angular/platform-browser@21.2.21(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)))(rxjs@7.8.2)
+      '@angular/common':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2)
+      '@angular/compiler':
+        specifier: ^21.2.20
+        version: 21.2.21
+      '@angular/core':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1)
+      '@angular/platform-browser':
+        specifier: ^21.2.20
+        version: 21.2.21(@angular/common@21.2.21(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))(rxjs@7.8.2))(@angular/core@21.2.21(@angular/compiler@21.2.21)(rxjs@7.8.2)(zone.js@0.15.1))
+      '@ng-icons/lucide':
+        specifier: ^34.0.0
+        version: 34.0.0
+      '@ui-organized/angular':
+        specifier: workspace:*
+        version: link:../../packages/angular
+      '@ui-organized/angular-table':
+        specifier: workspace:*
+        version: link:../../packages/angular-table
+      '@ui-organized/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      rxjs:
+        specifier: ^7.8.0
+        version: 7.8.2
+    devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1)
+
   examples/icon-smoke:
     dependencies:
       '@ui-organized/react':
@@ -463,6 +503,31 @@ importers:
         specifier: ^0.15.0
         version: 0.15.1
 
+  examples/svelte-table-smoke:
+    dependencies:
+      '@lucide/svelte':
+        specifier: ^1.33.0
+        version: 1.33.0(svelte@5.56.10(@typescript-eslint/types@8.58.0))
+      '@ui-organized/svelte':
+        specifier: workspace:*
+        version: link:../../packages/svelte
+      '@ui-organized/svelte-table':
+        specifier: workspace:*
+        version: link:../../packages/svelte-table
+      '@ui-organized/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      svelte:
+        specifier: ^5.56.0
+        version: 5.56.10(@typescript-eslint/types@8.58.0)
+    devDependencies:
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^4.0.4
+        version: 4.0.4(svelte@5.56.10(@typescript-eslint/types@8.58.0))(vite@5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1))
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1)
+
   examples/table-smoke:
     dependencies:
       '@ui-organized/react':
@@ -487,6 +552,31 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^4.3.0
         version: 4.7.0(vite@5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1))
+      vite:
+        specifier: ^5.4.0
+        version: 5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1)
+
+  examples/vue-table-smoke:
+    dependencies:
+      '@lucide/vue':
+        specifier: ^1.33.0
+        version: 1.33.0(vue@3.5.41(typescript@5.9.3))
+      '@ui-organized/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
+      '@ui-organized/vue':
+        specifier: workspace:*
+        version: link:../../packages/vue
+      '@ui-organized/vue-table':
+        specifier: workspace:*
+        version: link:../../packages/vue-table
+      vue:
+        specifier: ^3.5.0
+        version: 3.5.41(typescript@5.9.3)
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^5.2.0
+        version: 5.2.4(vite@5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1))(vue@3.5.41(typescript@5.9.3))
       vite:
         specifier: ^5.4.0
         version: 5.4.21(@types/node@20.19.39)(less@4.9.0)(sass@1.103.1)

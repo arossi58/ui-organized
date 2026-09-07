@@ -75,6 +75,13 @@ debounce.
 `onScopeDispose`, which is exactly what `table-core`'s `state.ts` predicted when
 it chose that store shape.
 
+## Scope
+
+**Not in v1:** grouping and aggregation, expandable sub-rows, URL or
+localStorage state persistence. Everything else the table does is listed under
+[`@ui-organized/table-core`'s scope](../table-core#scope) — the behaviour lives
+in the engine, so it is identical across all four adapters.
+
 ## Peer dependencies
 
 `vue >= 3.5`, `@ui-organized/vue >= 0.1.0`.

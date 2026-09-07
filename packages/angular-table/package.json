@@ -1,9 +1,15 @@
 {
   "name": "@ui-organized/angular-table",
   "version": "0.1.0",
-  "private": true,
   "description": "Angular data table for the ui-organized design system: headless signals, styled directives, and a batteries-included <uio-data-table>, built on @ui-organized/table-core.",
-  "keywords": ["design-system", "angular", "data-table", "table", "virtualization", "accessible"],
+  "keywords": [
+    "design-system",
+    "angular",
+    "data-table",
+    "table",
+    "virtualization",
+    "accessible"
+  ],
   "license": "Apache-2.0",
   "author": "arossi58 <arossi5861@gmail.com>",
   "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/angular-table#readme",
@@ -12,22 +18,36 @@
     "url": "git+https://github.com/arossi58/ui-organized.git",
     "directory": "packages/angular-table"
   },
-  "bugs": { "url": "https://github.com/arossi58/ui-organized/issues" },
-  "publishConfig": { "access": "public" },
-  "files": ["dist", "styles.css", "README.md", "LICENSE"],
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "styles.css",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/types/ui-organized-angular-table.d.ts",
       "default": "./dist/fesm2022/ui-organized-angular-table.mjs"
     },
-    "./styles": { "default": "./styles.css" },
-    "./styles.css": { "default": "./styles.css" }
+    "./styles": {
+      "default": "./styles.css"
+    },
+    "./styles.css": {
+      "default": "./styles.css"
+    }
   },
   "scripts": {
     "build": "ng-packagr -p ng-package.json && node scripts/copy-styles.mjs",
     "test": "vitest run",
     "lint": "eslint src/",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:smoke": "node ../../scripts/smoke-table.mjs angular"
   },
   "peerDependencies": {
     "@angular/cdk": ">=21.0.0",

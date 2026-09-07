@@ -61,6 +61,16 @@ export default defineConfig({
   },
 
   build: {
+    /**
+     * es2022 for top-level await, which `entry-angular.ts` uses: `createApplication`
+     * is async and the page has nothing to do until it resolves. Vite's default
+     * target is es2020, where the failure is a build error naming five browsers
+     * rather than anything about the code — and wrapping the entry in an async IIFE
+     * to satisfy a target this app has no reason to hold to would be the wrong way
+     * round. Every browser this design system supports has had top-level await
+     * since 2021.
+     */
+    target: "es2022",
     rollupOptions: {
       input: {
         index: "index.html",

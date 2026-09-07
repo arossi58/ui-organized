@@ -1,27 +1,44 @@
 #!/usr/bin/env node
 /**
- * Release gate: does the table survive a **production** build, and does its
- * stylesheet come with it?
+ * Release gate for all four data tables: does the table survive a **production**
+ * build, and does its stylesheet come with it?
  *
- * Two things can break here in a way that no unit test and no `vite dev` will
- * ever see, because both are consequences of bundling:
+ * Usage: `node scripts/smoke-table.mjs <framework>` where framework is one of
+ * `react`, `vue`, `svelte`, `angular`.
  *
- * 1. **The JS.** The table is two packages — a framework-free engine and a React
+ * ── What only a build can break ─────────────────────────────────────────────
+ *
+ * Two things fail here in a way that no unit test and no `vite dev` will ever
+ * see, because both are consequences of bundling:
+ *
+ * 1. **The JS.** Each table is two packages — a framework-free engine and an
  *    adapter that re-exports from it. A wrong `sideEffects` or `exports` entry
  *    lets a bundler drop or fail to resolve half of it, and the build stays
  *    green while the component renders nothing.
  *
- * 2. **The CSS.** `@ui-organized/react-table/styles` resolves, through the
+ * 2. **The CSS.** `@ui-organized/<fw>-table/styles` resolves, through the
  *    adapter's `exports` map, to a file that physically lives in
  *    `@ui-organized/table-core/dist`. That indirection exists so a consumer
  *    imports one path rather than two — and it is exactly the kind of thing that
  *    silently resolves to an empty file. An unstyled table still renders, still
  *    passes every assertion about its markup, and is completely unusable.
  *
- * So: build `examples/table-smoke` — a real workspace app using the documented
- * setup and nothing else — then execute the built bundle and count what it
- * actually renders, and read the emitted stylesheet for rules that could only
- * have come from table-core.
+ * So: build `examples/<fw>-table-smoke` — a real workspace app using the
+ * documented setup and nothing else — then execute the built bundle and count
+ * what it actually renders, and read the emitted stylesheet for rules that could
+ * only have come from table-core.
+ *
+ * ── One runner, four frameworks ─────────────────────────────────────────────
+ *
+ * Everything above is framework-agnostic *once the app is built*: the bundle
+ * mounts itself, and what this script then does is read a DOM. So the four gates
+ * are one file with a small table of differences rather than four copies of two
+ * hundred lines — the same argument `table-core` itself makes.
+ *
+ * The four example apps stay separate, though, and deliberately. A consumer
+ * building a Vue app has no React in their dependency tree, and one combined app
+ * would put all four frameworks in a single closure — weakening precisely what
+ * this gate tests, which is that each adapter resolves *on its own*.
  *
  * jsdom rather than a real browser, for the same reason
  * `packages/react/scripts/smoke-icons.mjs` uses it: the failure under test
@@ -32,15 +49,59 @@
 import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
+import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-const pkgRoot = dirname(dirname(fileURLToPath(import.meta.url)));
-const repoRoot = dirname(dirname(pkgRoot));
-const exampleDir = join(repoRoot, "examples", "table-smoke");
-const distDir = join(exampleDir, "dist");
+const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** How many rows `src/main.jsx` renders. Kept in step deliberately. */
+/**
+ * What differs between the four.
+ *
+ * `adapterDist` is the built entry to assert exists — each toolchain names it
+ * differently, and checking the wrong path would make this gate pass on a
+ * package that never built.
+ */
+const FRAMEWORKS = {
+  react: {
+    example: "table-smoke",
+    pkg: "packages/react-table",
+    adapterDist: "dist/index.mjs",
+  },
+  vue: {
+    example: "vue-table-smoke",
+    pkg: "packages/vue-table",
+    adapterDist: "dist/index.js",
+  },
+  svelte: {
+    example: "svelte-table-smoke",
+    pkg: "packages/svelte-table",
+    adapterDist: "dist/index.js",
+  },
+  angular: {
+    example: "angular-table-smoke",
+    pkg: "packages/angular-table",
+    adapterDist: "dist/fesm2022/ui-organized-angular-table.mjs",
+    // Angular's own host element, rather than a `<div id="root">` the entry
+    // looks up. `bootstrapApplication` finds it by the component's selector.
+    mountHtml: "<app-root></app-root>",
+  },
+};
+
+const framework = process.argv[2];
+const config = FRAMEWORKS[framework];
+if (!config) {
+  process.stderr.write(
+    `\n✗ Usage: node scripts/smoke-table.mjs <${Object.keys(FRAMEWORKS).join("|")}>\n\n`,
+  );
+  process.exit(1);
+}
+
+const exampleDir = join(repoRoot, "examples", config.example);
+const distDir = join(exampleDir, "dist");
+const exampleName = `@ui-organized/example-${config.example}`;
+
+/** How many rows each example's source renders. Kept in step deliberately. */
 const EXPECTED_ROWS = 4;
 
 let failures = 0;
@@ -49,14 +110,14 @@ const check = (name, ok, detail = "") => {
   if (!ok) failures++;
 };
 
-process.stdout.write("\nBuilding examples/table-smoke and everything it depends on…\n");
+process.stdout.write(`\nBuilding examples/${config.example} and everything it depends on…\n`);
 
 // The trailing `...` selects the example app *and its dependency closure* —
 // both table packages, the component library, tokens and utils. Building only
 // the app assumes something else already built those, and a gate that assumes
 // another step ran first isn't a gate.
 try {
-  execFileSync("pnpm", ["--filter", "@ui-organized/example-table-smoke...", "build"], {
+  execFileSync("pnpm", ["--filter", `${exampleName}...`, "build"], {
     cwd: repoRoot,
     stdio: ["ignore", "pipe", "pipe"],
     encoding: "utf8",
@@ -68,7 +129,7 @@ try {
   process.exit(1);
 }
 
-check("the adapter built", existsSync(join(pkgRoot, "dist", "index.mjs")));
+check("the adapter built", existsSync(join(repoRoot, config.pkg, config.adapterDist)));
 check("the example app builds", existsSync(join(distDir, "index.html")));
 
 const html = await readFile(join(distDir, "index.html"), "utf8");
@@ -86,7 +147,7 @@ check("a stylesheet is emitted", cssFiles.length > 0, `${cssFiles.length} file(s
 check(
   "the table's own rules are in it",
   css.includes(".data-table__viewport") && css.includes(".data-table__head-cell"),
-  "`@ui-organized/react-table/styles` must resolve through to table-core's dist/index.css",
+  `\`@ui-organized/${framework}-table/styles\` must resolve through to table-core's dist/index.css`,
 );
 check(
   "and they are token-driven, not baked",
@@ -101,11 +162,21 @@ if (!entry) {
   process.exit(1);
 }
 
-const { JSDOM } = await import("jsdom");
-const dom = new JSDOM(`<!doctype html><html><body><div id="root"></div></body></html>`, {
-  url: "http://localhost/",
-  pretendToBeVisual: true,
-});
+/**
+ * Resolved from the *calling package*, not from here.
+ *
+ * Every other script in `scripts/` imports `node:` builtins only, and jsdom is
+ * genuinely a per-adapter test dependency — each table package declares it. Under
+ * pnpm's strict layout a bare `import("jsdom")` in a root-level file resolves
+ * against the repo root, which does not have it and should not grow it for one
+ * script. `process.cwd()` is the package directory when pnpm runs the script.
+ */
+const requireFromPackage = createRequire(join(process.cwd(), "package.json"));
+const { JSDOM } = await import(pathToFileURL(requireFromPackage.resolve("jsdom")).href);
+const dom = new JSDOM(
+  `<!doctype html><html><body>${config.mountHtml ?? '<div id="root"></div>'}</body></html>`,
+  { url: "http://localhost/", pretendToBeVisual: true },
+);
 
 const noise = [];
 // `defineProperty` rather than assignment: Node >= 21 defines a getter-only
@@ -150,7 +221,12 @@ try {
   check("every row survives", rows === EXPECTED_ROWS, `${rows} of ${EXPECTED_ROWS}`);
   check(
     "it is a real table with a name",
-    doc.querySelector("caption")?.textContent === "Team members",
+    // Trimmed, the way `tooling/parity`'s DOM contract normalises text. Angular's
+    // template interpolation leaves the surrounding newlines in the caption, and
+    // HTML collapses them — " Team members " and "Team members" render and are
+    // announced identically. Asserting the raw string here would fail one
+    // framework over whitespace the browser has already thrown away.
+    doc.querySelector("caption")?.textContent?.trim() === "Team members",
   );
   check(
     "row headers survive",
@@ -164,7 +240,7 @@ try {
   check(
     "the selection column composes with the component library",
     doc.querySelectorAll('tbody input[type="checkbox"]').length === EXPECTED_ROWS,
-    "a dropped @ui-organized/react peer shows up here first",
+    `a dropped @ui-organized/${framework} peer shows up here first`,
   );
 } catch (error) {
   console.warn = realWarn;
@@ -183,7 +259,7 @@ if (noise.length) {
 
 process.stdout.write(
   failures === 0
-    ? "\n✓ table smoke passed\n\n"
-    : `\n✗ table smoke failed — ${failures} check(s)\n\n`,
+    ? `\n✓ ${framework} table smoke passed\n\n`
+    : `\n✗ ${framework} table smoke failed — ${failures} check(s)\n\n`,
 );
 process.exit(failures === 0 ? 0 : 1);

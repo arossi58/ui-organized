@@ -1,0 +1,27 @@
+{
+  "name": "@ui-organized/example-angular-table-smoke",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "The smallest Angular app that uses the documented data-table setup. Built and rendered by the angular-table smoke gate.",
+  "scripts": {
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/platform-browser": "^21.2.20",
+    "@ng-icons/lucide": "^34.0.0",
+    "@ui-organized/angular": "workspace:*",
+    "@ui-organized/angular-table": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "rxjs": "^7.8.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "vite": "^5.4.0"
+  }
+}

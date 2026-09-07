@@ -359,6 +359,13 @@ than "row 4 of 30". The identifying column (`meta.primary`) is a real
 `<th scope="row">`, and the `<caption>` is always present, visually hidden unless
 `captionVisible` is set.
 
+## Scope
+
+**Not in v1:** grouping and aggregation, expandable sub-rows, URL or
+localStorage state persistence. Everything else the table does is listed under
+[`@ui-organized/table-core`'s scope](../table-core#scope) — the behaviour lives
+in the engine, so it is identical across all four adapters.
+
 ## Licence
 
 Apache-2.0

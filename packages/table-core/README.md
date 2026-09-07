@@ -34,13 +34,13 @@ this package. Reach for it directly when you are writing one:
 
 ```ts
 import {
-  coreTableOptions,   // the shared TanStack options
-  getCellProps,       // the markup contract
-  gridKeyDown,        // behaviours, as pure functions
+  coreTableOptions, // the shared TanStack options
+  getCellProps, // the markup contract
+  gridKeyDown, // behaviours, as pure functions
   rangeSelect,
-  evaluateCondition,  // the filter predicate — identifier + relative + value
-  describeCondition,  // and the words a chip renders, so adapters cannot diverge
-  createEditStore,    // state machines, as { getState, subscribe, dispatch }
+  evaluateCondition, // the filter predicate — identifier + relative + value
+  describeCondition, // and the words a chip renders, so adapters cannot diverge
+  createEditStore, // state machines, as { getState, subscribe, dispatch }
   serializeRows,
 } from "@ui-organized/table-core";
 ```
@@ -56,6 +56,22 @@ The three shapes an adapter binds to:
 - **Stores** are `{ getState, subscribe, dispatch }` — the exact shape React's
   `useSyncExternalStore` wants, and the one Vue binds with `shallowRef` +
   `onScopeDispose`.
+
+## Scope
+
+**In v1:** sorting, client and server filtering, global search, pagination,
+sticky header, pinned columns, toolbar scroll buttons when the columns run off
+the edge, row and range selection including "select all N matching", bulk
+actions, row actions, column resize / reorder / visibility, inline editing with
+optimistic rollback, a row detail sheet with a dirty guard, card mode below the
+breakpoint, CSV export and TSV clipboard copy, loading / empty / error states,
+and `manual` server mode with infinite scroll.
+
+**Not in v1:** grouping and aggregation, expandable sub-rows, URL or
+localStorage state persistence.
+
+This is the engine's scope, so it is the same for all four adapters — the
+behaviour lives here and none of them forks it.
 
 ## The stylesheet
 
