@@ -1,10 +1,19 @@
 /**
  * Run the visual gate inside the pinned Playwright container.
  *
- * Screenshot baselines are Linux-only. Font rasterisation differs between macOS,
+ * Screenshot baselines are per-platform: Playwright suffixes each one with the
+ * platform that rendered it (`snapshotPathTemplate` in
+ * apps/storybook/playwright.config.ts). Font rasterisation differs between macOS,
  * a bare ubuntu-latest runner and the Playwright image, so a baseline only means
  * something if everyone renders it the same way - which means everyone renders
  * it in this container.
+ *
+ * As things stand the committed set is 334 `-darwin` files and no `-linux` ones,
+ * so CI has no oracle for the platform it actually renders on. That is what this
+ * script is for: run it once with `--update-snapshots` and commit the `-linux`
+ * set. Until then the gate reports those baselines as "not yet recorded" rather
+ * than as diffs, which the aggregator distinguishes deliberately - "we have never
+ * measured this" and "this changed" are different facts.
  *
  * Regenerate baselines after an intended visual change:
  *   pnpm --filter @ui-organized/storybook run test:visual:docker -- --update-snapshots

@@ -71,13 +71,23 @@ Every workspace package is `@ui-organized/<dir>`, except `apps/figma-plugin` =
 ```
 pnpm build | test | typecheck        # turbo, all workspaces
 pnpm lint                            # eslint over the whole repo, direct (turbo lint runs per-package)
-pnpm quality                         # all five gates + aggregate report
-pnpm quality:unit|visual|a11y|interaction|browsers    # one gate
+pnpm quality                         # all eight gates + aggregate report
+pnpm quality:unit|visual|a11y|interaction|browsers    # one gate, React via Storybook
+pnpm quality:a11y:frameworks|interaction:frameworks|visual:frameworks   # the other three libraries
 pnpm quality --skip-build            # reuse existing Storybook build; much faster
-pnpm smoke                           # packed-tarball smoke: cli/react/react-table/svelte/vue/angular
+pnpm check:tarballs                  # pack every publishable package, assert its exports resolve inside
+pnpm smoke                           # packed-tarball smoke, 9 suites: cli + react/svelte/vue/angular + the four tables
 ```
 
-Lint, unit and a11y gates block; visual and cross-browser are advisory (they report but never fail).
+Lint, unit, a11y and interaction block — including the `:frameworks` pair, which
+run Svelte/Vue/Angular on the parity harness because Storybook depends on
+`@ui-organized/react` alone. Visual (both) and cross-browser are advisory: they
+report but never fail.
+
+**A gate added to `scripts/quality/run.mjs` is not a gate until it is also added
+to `.github/workflows/ci.yml`.** CI invokes the individual `quality:*` scripts
+and never bare `pnpm quality`, so the three framework gates above shipped running
+on nobody's machine but their author's.
 
 ## Gotchas that waste tokens if forgotten
 

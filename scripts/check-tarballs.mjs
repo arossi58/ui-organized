@@ -30,7 +30,7 @@
  */
 
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readdirSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -38,22 +38,40 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-/** Every package that goes to npm. `private: true` ones are not listed. */
-const PACKAGES = [
-  "core",
-  "react",
-  "svelte",
-  "vue",
-  "angular",
-  "table-core",
-  "react-table",
-  "vue-table",
-  "svelte-table",
-  "angular-table",
-  "tokens",
-  "utils",
-  "cli",
-];
+/**
+ * Every package that goes to npm — **derived, not listed**.
+ *
+ * This was a hardcoded array of thirteen, and it drifted: five publishable
+ * packages (`export`, `react-vite`, `resolver`, `schema`, `token-io`) were
+ * missing from it while its own comment claimed the omissions were private. They
+ * are not private, so `changeset publish` will publish them the moment anything
+ * bumps them — and the gate that exists to stop a package shipping broken was
+ * silently not looking at them.
+ *
+ * A list that has to be kept in step with the filesystem is a list that will
+ * fall out of step with it again, so this reads the filesystem. `private: true`
+ * is the only thing that keeps a package out, which is exactly the rule npm
+ * itself applies.
+ */
+function publishablePackages() {
+  const dir = join(repoRoot, "packages");
+  const names = [];
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const manifest = join(dir, entry.name, "package.json");
+    if (!existsSync(manifest)) continue;
+    try {
+      if (JSON.parse(readFileSync(manifest, "utf8")).private) continue;
+    } catch {
+      // An unparseable manifest is a real problem, but not this gate's to
+      // diagnose — include it and let `pnpm pack` fail with a better message.
+    }
+    names.push(entry.name);
+  }
+  return names.sort();
+}
+
+const PACKAGES = publishablePackages();
 
 /** Every file path an `exports` map points at, at any depth. */
 function exportTargets(node, out = new Set()) {
@@ -95,12 +113,6 @@ try {
       failures++;
       continue;
     }
-    if (manifest.private) {
-      process.stdout.write(`  ✗ ${name.padEnd(15)} still marked private\n`);
-      failures++;
-      continue;
-    }
-
     try {
       execFileSync("pnpm", ["pack", "--pack-destination", outDir], {
         cwd: pkgDir,

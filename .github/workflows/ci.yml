@@ -65,12 +65,20 @@ jobs:
       - name: Set up workspace
         uses: ./.github/actions/setup
 
-      # ── The five gates ────────────────────────────────────────────────────
+      # ── The eight gates ───────────────────────────────────────────────────
       # Ordered cheapest-and-blocking first, and deliberately run BEFORE the
       # site build: each gate writes a report into .quality/, the aggregator
       # turns those into manifest/test-status.json, and the marketing app
       # imports that file at build time. Build the site first and every deployed
       # docs page shows the results of the *previous* run.
+      #
+      # Five of these measure React through Storybook, which depends on
+      # `@ui-organized/react` alone. The three `· svelte/vue/angular` gates below
+      # measure the other libraries, on the parity harness. They are listed
+      # individually here rather than run through `pnpm quality`, matching how
+      # the rest of this job invokes them — but that means a gate added to
+      # `scripts/quality/run.mjs` and not added *here* runs on nobody's machine
+      # but its author's, which is how these three first shipped.
       #
       # Gate 4 — lint, stylelint, prettier (advisory), the derived token
       # contract, typecheck, and orphaned visual baselines.
@@ -91,10 +99,25 @@ jobs:
       - name: Accessibility
         run: pnpm quality:a11y
 
+      # The same question for Svelte, Vue and Angular, which Storybook cannot
+      # reach. Compared against React's own axe result at the same scenario
+      # rather than scored absolutely — a violation all four share belongs to the
+      # fixture or the shared CSS, and blaming a port for it would be wrong.
+      # Blocking, like its React counterpart.
+      - name: Accessibility · svelte/vue/angular
+        run: pnpm quality:a11y:frameworks
+
       # Gate 2 — the keyboard contract on every component, plus hand-written
       # behaviour specs, across all three engines. Blocking.
       - name: Interaction
         run: pnpm quality:interaction
+
+      # The keyboard contract in the other three libraries: hidden parts stay
+      # unrendered, interactive parts are reachable, a focused control looks
+      # focused. Absolute rather than compared — a port that broke one of these
+      # the same way React did would still be broken. Blocking.
+      - name: Interaction · svelte/vue/angular
+        run: pnpm quality:interaction:frameworks
 
       # Gate 1 — pixel diffs against the committed Linux baselines.
       #
@@ -122,6 +145,16 @@ jobs:
           else
             pnpm quality:visual
           fi
+
+      # Whether the three ports still *look* like React's. Advisory for the same
+      # reason as the gate above — but note it needs no baselines at all: it
+      # screenshots each library and React in the same run, in the same browser,
+      # so a difference is unambiguously the stylesheet rather than the platform.
+      # That is also why it is unaffected by the missing Linux baselines above.
+      - name: Visual · svelte/vue/angular
+        id: visual-frameworks
+        continue-on-error: true
+        run: pnpm quality:visual:frameworks
 
       # Gate 5 — every story renders on Firefox and WebKit with no console
       # errors. Advisory for the same reason: engine-specific console noise from

@@ -74,7 +74,10 @@ test.describe("keyboard contract", () => {
      *
      * That bug shipped across Dialog, Sheet, Select, Combobox, Tour, TreeView
      * and Button before this check existed. `[hidden]` is now forced in
-     * packages/react/src/base.css; this is what keeps it that way.
+     * packages/core/src/base.css; this is what keeps it that way — for React.
+     * `tooling/parity/browser/interaction.browser.spec.ts` asserts the same
+     * invariant for the other three, which is how the rule was found to be
+     * reaching React alone in the first place.
      */
     test(`${story.id} › hidden parts are not rendered`, async ({ page }) => {
       const laidOut = await gotoStory(page, story.id);

@@ -53,7 +53,11 @@ export default {
   overrides: [
     {
       // base.css exists specifically to out-rank component CSS. See its header.
-      files: ["packages/react/src/base.css"],
+      // It lives in `core` now, not `react` — every library needs the rule, and
+      // it reached React alone while it sat there. The glob followed it: left
+      // pointing at the old path, the one deliberate `!important` in the repo
+      // started emitting the warning this override exists to suppress.
+      files: ["packages/core/src/base.css"],
       rules: { "declaration-no-important": null },
     },
   ],
