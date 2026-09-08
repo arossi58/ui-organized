@@ -69,6 +69,7 @@
     "@tanstack/react-table": "^9.2.4",
     "@tanstack/react-virtual": "^3.10.0",
     "@ui-organized/table-core": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
     "clsx": "^2.1.0"
   },
   "devDependencies": {

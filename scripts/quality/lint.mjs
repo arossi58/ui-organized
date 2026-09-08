@@ -11,7 +11,7 @@
  * blocks a merge.
  */
 import { spawnSync } from "node:child_process";
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, globSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { slugForFilePath } from "./slug.mjs";
@@ -183,7 +183,70 @@ const typecheck = run("pnpm", ["run", "typecheck:packages"]);
 if (typecheck.status !== 0) console.log(typecheck.stdout ?? "");
 record("typecheck", typecheck.status === 0, "packages/* and tooling/* must typecheck");
 
-// ── 6. Orphaned visual baselines ─────────────────────────────────────────────
+// ── 6. Undeclared workspace imports ──────────────────────────────────────────
+/**
+ * Every `@ui-organized/*` a package imports must be in its own manifest.
+ *
+ * This has now broken the build four times, always the same way and never
+ * locally. pnpm hoists a copy into the workspace root, so an undeclared import
+ * resolves fine on a developer's machine; in a clean CI checkout it does not,
+ * and — worse — turbo has no dependency edge to order the builds by, so the
+ * failure is a *race*. `@ui-organized/react-table` imported a type from
+ * `@ui-organized/utils` without declaring it and built green here for months
+ * before CI happened to schedule its `.d.ts` emit first:
+ *
+ *     error TS2307: Cannot find module '@ui-organized/utils'
+ *
+ * It is also a published-package bug. The emitted `.d.ts` references the type,
+ * so a consumer type-checking against the package needs it installed — and
+ * nothing in the tarball gate catches that, because the *files* are all present.
+ *
+ * Type-only imports count. `import type` is erased from the JavaScript but not
+ * from the declarations, which is exactly the case that shipped.
+ */
+const undeclared = [];
+for (const manifestPath of globSync("packages/*/package.json", { cwd: root })) {
+  const dir = resolve(root, dirname(manifestPath));
+  let manifest;
+  try {
+    manifest = JSON.parse(readFileSync(resolve(root, manifestPath), "utf8"));
+  } catch {
+    continue;
+  }
+  const declared = new Set([
+    ...Object.keys(manifest.dependencies ?? {}),
+    ...Object.keys(manifest.peerDependencies ?? {}),
+    ...Object.keys(manifest.devDependencies ?? {}),
+  ]);
+  const sources = globSync("src/**/*.{ts,tsx,mts,svelte,vue}", { cwd: dir });
+  const used = new Set();
+  for (const file of sources) {
+    const text = readFileSync(resolve(dir, file), "utf8");
+    // Only real import/export statements — `@ui-organized/react` appears in
+    // `@ui-organized/cli`'s prose a dozen times, and the CLI resolves the
+    // *user's* copy at runtime rather than importing its own.
+    for (const m of text.matchAll(
+      /(?:^|\n)\s*(?:import|export)\s[^;]*?from\s*["'](@ui-organized\/[a-z0-9-]+)/g,
+    )) {
+      used.add(m[1]);
+    }
+    for (const m of text.matchAll(/(?:^|\n)\s*import\s*["'](@ui-organized\/[a-z0-9-]+)/g)) {
+      used.add(m[1]);
+    }
+  }
+  for (const name of used) {
+    if (name !== manifest.name && !declared.has(name)) {
+      undeclared.push(`${manifest.name} imports ${name}`);
+    }
+  }
+}
+record(
+  "declared-deps",
+  undeclared.length === 0,
+  undeclared.length ? undeclared.join("; ") : undefined,
+);
+
+// ── 7. Orphaned visual baselines ─────────────────────────────────────────────
 // Only meaningful once Storybook has been built; skipped rather than failed
 // otherwise, so `pnpm quality:lint` works standalone.
 if (existsSync(resolve(root, "apps/storybook/storybook-static/index.json"))) {
