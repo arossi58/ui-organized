@@ -94,6 +94,17 @@ jobs:
       - name: Build Storybook
         run: pnpm --filter @ui-organized/storybook exec storybook build --quiet
 
+      # Before any browser gate, not just the parity one at the end.
+      #
+      # The container ships the browsers and `@playwright/test` matches its
+      # version, which is why the Storybook gates have always worked without
+      # this. It sat at the bottom next to the parity gate anyway — and when the
+      # three `· svelte/vue/angular` gates landed *above* it, they became the
+      # first Playwright steps in the job with nothing guaranteeing a browser.
+      # Cheap insurance, and it now covers every gate rather than the last one.
+      - name: Install Chromium for the browser gates
+        run: pnpm --filter @ui-organized/parity exec playwright install --with-deps chromium
+
       # Gate 3 — axe-core over every story on Chromium, and each component's
       # canonical story on Firefox and WebKit. Blocking.
       - name: Accessibility
@@ -232,9 +243,6 @@ jobs:
       # Blocking, unlike the visual gate. A pixel diff is often an intended
       # redesign; four libraries disagreeing about the DOM they render against
       # one shared stylesheet never is.
-      - name: Install Chromium for the parity gate
-        run: pnpm --filter @ui-organized/parity exec playwright install --with-deps chromium
-
       - name: Cross-framework parity (browser)
         run: pnpm --filter @ui-organized/parity test:browser
 
