@@ -91,6 +91,12 @@ on nobody's machine but their author's.
 
 ## Gotchas that waste tokens if forgotten
 
+- **A CI failure at `quality:aggregate` is almost never about the aggregator.**
+  That step is `if: always()`, so it runs even when an earlier step failed —
+  "No Storybook build at …/storybook-static/index.json" means `Build Storybook`
+  was *skipped* because something before it failed. Read the first red step, not
+  the last. (`.github/actions/setup` builds `./packages/*` plus each app's
+  dependency closure; a gate that reaches further than that is the usual cause.)
 - **Apps consume `dist`, not `src`.** `packages/react`'s `exports` map points only at `dist/`
   with no source condition, so Storybook and marketing load the *built* package. Rebuild the
   package (and restart Storybook) before believing any browser check or screenshot.
