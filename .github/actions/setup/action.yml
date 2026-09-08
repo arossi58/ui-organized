@@ -42,8 +42,11 @@ runs:
     # reason `check-tarballs.mjs` derives its list: one that has to be kept in step
     # with the gates is one that will fall out of step with them again.
     #
-    # The quotes are load-bearing: unquoted, the shell expands the glob to the
-    # directory list and turbo gets `--filter=./packages/angular` alone.
+    # Quoted for clarity only. `--filter=./packages/*` is one word starting with
+    # `--filter=`, so it matches no path and bash leaves it alone either way —
+    # which is why `typecheck:packages` in package.json has carried it unquoted
+    # for as long as it has existed. (zsh is the one that errors on an unmatched
+    # glob, which is what made this look load-bearing while testing by hand.)
     - name: Build workspace dependencies
       shell: bash
       run: >
