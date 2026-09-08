@@ -2,7 +2,20 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
   "changelog": "@changesets/cli/changelog",
   "commit": false,
-  "fixed": [],
+  "fixed": [
+    [
+      "@ui-organized/core",
+      "@ui-organized/react",
+      "@ui-organized/svelte",
+      "@ui-organized/vue",
+      "@ui-organized/angular",
+      "@ui-organized/table-core",
+      "@ui-organized/react-table",
+      "@ui-organized/vue-table",
+      "@ui-organized/svelte-table",
+      "@ui-organized/angular-table"
+    ]
+  ],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
