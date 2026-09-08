@@ -3,7 +3,6 @@ import { RoadmapBoard } from "../roadmap/RoadmapBoard";
 import { SyncStatus } from "../roadmap/SyncStatus";
 import { useRoadmap } from "../../hooks/useRoadmap";
 import { isRoadmapEmpty } from "../../lib/roadmap";
-import { LINKS } from "../../lib/links";
 import "./roadmap-section.css";
 
 /**
@@ -25,15 +24,11 @@ export function RoadmapSection() {
             <div className="roadmap-section__intro">
               <h2 className="section-title roadmap-section__title">What we’re working on</h2>
               <p className="roadmap-section__lede">
-                A live look at what&rsquo;s in progress. See something you&rsquo;d
-                like to help with?{" "}
-                <a className="roadmap-section__link" href={LINKS.githubProject}>
-                  Learn how to contribute.
-                </a>
-                <br />
-                Have an idea to share?{" "}
+                What we have in progress, pulled from our GitHub board. If you
+                want to help with something here, or have an idea that
+                isn&rsquo;t on it,{" "}
                 <a className="roadmap-section__link" href="#contact">
-                  Submit it below.
+                  tell us below.
                 </a>
               </p>
             </div>

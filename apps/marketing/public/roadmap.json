@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-06-19T01:45:06.481Z",
+  "syncedAt": "2026-09-07T18:41:33.326Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -8,17 +8,30 @@
       "title": "Backlog",
       "items": [
         {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgvuCfw",
-          "title": "Update color palette tool with new UI",
-          "type": "design",
-          "url": "https://github.com/arossi58/ui-organized/issues/1",
-          "labels": []
-        },
-        {
           "id": "PVTI_lAHOAd2RT84BaZqpzgwNd-A",
           "title": "Data Visualization",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/3",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeYE",
+          "title": "Class manager and MCP Plugin",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/5",
+          "labels": []
+        }
+      ]
+    },
+    {
+      "id": "in-progress",
+      "title": "In progress",
+      "items": [
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfho",
+          "title": "Additional Components",
+          "type": "design",
+          "url": "https://github.com/arossi58/ui-organized/issues/11",
           "labels": []
         },
         {
@@ -29,24 +42,10 @@
           "labels": []
         },
         {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeYE",
-          "title": "Class manager and MCP Plugin",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/5",
-          "labels": []
-        },
-        {
           "id": "PVTI_lAHOAd2RT84BaZqpzgwNec0",
           "title": "Vue Support",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/6",
-          "labels": []
-        },
-        {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
-          "title": "Svelte Support",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/7",
           "labels": []
         },
         {
@@ -57,17 +56,17 @@
           "labels": []
         },
         {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfE4",
-          "title": "Example Pages",
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
+          "title": "Svelte Support",
           "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/10",
+          "url": "https://github.com/arossi58/ui-organized/issues/7",
           "labels": []
         }
       ]
     },
     {
-      "id": "in-progress",
-      "title": "In progress",
+      "id": "done",
+      "title": "Done",
       "items": [
         {
           "id": "PVTI_lAHOAd2RT84BaZqpzgwNewM",
@@ -77,18 +76,20 @@
           "labels": []
         },
         {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfho",
-          "title": "Additional Components",
+          "id": "PVTI_lAHOAd2RT84BaZqpzgvuCfw",
+          "title": "Update color palette tool with new UI",
           "type": "design",
-          "url": "https://github.com/arossi58/ui-organized/issues/11",
+          "url": "https://github.com/arossi58/ui-organized/issues/1",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfE4",
+          "title": "Example Pages",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/10",
           "labels": []
         }
       ]
-    },
-    {
-      "id": "done",
-      "title": "Done",
-      "items": []
     }
   ]
 }

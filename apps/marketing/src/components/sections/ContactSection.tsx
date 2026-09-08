@@ -115,16 +115,16 @@ export function ContactSection() {
         <header className="contact-section__header">
           <h2 className="contact-section__title">We&rsquo;d like to hear from you</h2>
           <p className="contact-section__sub">
-            Feedback and ideas are always welcome, and they help make UI
-            Organized better. We&rsquo;re also looking for designers, developers,
-            and anyone who wants to help make design easier for everyone.
+            Feedback and ideas are welcome, and they shape what gets built next.
+            We&rsquo;re also looking for designers and developers who want to
+            help.
           </p>
         </header>
 
         <form className="contact-form" onSubmit={handleSubmit} noValidate>
           {status === "success" && (
             <Alert variant="success" title="Thanks for reaching out">
-              Your message is on its way. We&rsquo;ll be in touch soon.
+              Your message came through. We&rsquo;ll get back to you.
             </Alert>
           )}
           {status === "error" && formError && (
@@ -176,7 +176,7 @@ export function ContactSection() {
             required
             name="name"
             autoComplete="name"
-            placeholder="Your Name"
+            placeholder="Your name"
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
             error={errors.name}
@@ -187,7 +187,7 @@ export function ContactSection() {
             type="email"
             name="email"
             autoComplete="email"
-            placeholder="Your Email"
+            placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.currentTarget.value)}
             error={errors.email}
@@ -196,7 +196,7 @@ export function ContactSection() {
             label="Message"
             required
             name="message"
-            placeholder="Your input"
+            placeholder="Your message"
             resize="vertical"
             className="contact-form__message"
             value={message}

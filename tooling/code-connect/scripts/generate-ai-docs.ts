@@ -23,6 +23,7 @@ import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildAiContext } from "../src/ai-context.js";
+import { usageGuideForCodeName } from "../src/usage/index.js";
 import { computeStalenessCore } from "../src/staleness-core.js";
 import { entryId } from "../src/schema.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
@@ -87,11 +88,16 @@ for (const entry of manifest.components) {
     (sibling) => sibling.codeName !== entry.codeName,
   );
 
+  // Subcomponents have no guide of their own — guidance is written per docs
+  // page, and a page covers the whole compound family.
+  const usage = usageGuideForCodeName(entry.codeName);
+
   const { text } = buildAiContext({
     entry,
     related,
     staleness,
     confidence: "exact",
+    usage,
     meta: {
       packageVersion: reactPkg.version,
       setupImports: [
@@ -101,7 +107,10 @@ for (const entry of manifest.components) {
         // the library imports no icon package itself.
         "@ui-organized/react/icons/lucide",
       ],
-      siteUrl: `${SITE_ORIGIN}/docs/${kebab(entry.codeName)}`,
+      // The guide carries the real docs slug where one exists — `kebab()` of a
+      // codeName is right for all but the components whose page is named after
+      // the family rather than the export (`NavItem` → `/docs/navigation`).
+      siteUrl: `${SITE_ORIGIN}/docs/${usage?.slug ?? kebab(entry.codeName)}`,
       docUrl: `${SITE_ORIGIN}/ai/${entry.codeName}.md`,
       indexUrl: `${SITE_ORIGIN}/llms.txt`,
       componentCount: manifest.components.length,

@@ -375,7 +375,7 @@ export function EcosystemDiagram() {
       >
         <title id="eco-title">How the packages fit together</title>
         <desc id="eco-desc">
-          A single theme config — validated by @ui-organized/schema — feeds the design
+          A single theme config, validated by @ui-organized/schema, feeds the design
           tokens in @ui-organized/tokens. The tokens feed the generation utils in
           @ui-organized/utils, which feed the React components in @ui-organized/react,
           built on Ark UI. The same tokens also feed three tools: the Figma plugin, the

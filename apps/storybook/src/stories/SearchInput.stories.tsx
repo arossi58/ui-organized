@@ -11,7 +11,7 @@ const meta: Meta<typeof SearchInput> = {
     docs: {
       description: {
         component:
-          "A single-line search field built on `Input` — adds a leading search icon and, while the field has a value, a clear button (toggle with `clearable`). Supports the same `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
+          "A single-line search field built on `Input`, adding a leading search icon and, while the field has a value, a clear button (toggle with `clearable`). Supports the same `label`, `helperText`, `error`, `size`, and `required` / `disabled` props.",
       },
     },
   },

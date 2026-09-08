@@ -18,6 +18,7 @@ import {
   humanizeLabel,
   packageFromImport,
 } from "../src/ai-context.js";
+import { USAGE_GUIDES } from "../src/usage/index.js";
 import type { ComponentManifest, ComponentManifestEntry } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -339,6 +340,43 @@ describe("formats", () => {
   it("prompt-url degrades to the import when no URL is known", () => {
     const { text } = buildAiContext({ entry }, "prompt-url");
     expect(text).toContain(entry.importStatement);
+  });
+});
+
+describe("usage guidance", () => {
+  const entry = byName("Button");
+  const guide = USAGE_GUIDES.button!;
+
+  it("has a guide to render", () => {
+    expect(guide).toBeDefined();
+  });
+
+  it("carries the boundaries the prop table can't express", () => {
+    const { text, data } = buildAiContext({ entry, usage: guide, meta: META });
+    expect(text).toContain("## When to use");
+    expect(text).toContain("## When NOT to use: pick a different component");
+    expect(text).toContain("## Accessibility obligations");
+    expect(text).toContain(guide.useWhen[0]);
+    expect(data.usage).toBe(guide);
+  });
+
+  it("names the replacement component, not its slug", () => {
+    const { text } = buildAiContext({ entry, usage: guide, meta: META });
+    // `instead: ["switch", "toggle"]` has to read as the symbols you'd import.
+    expect(text).toContain("`Switch`");
+    expect(text).not.toContain("radio-group");
+  });
+
+  it("places the guidance before the props, where it can still change the choice", () => {
+    const { text } = buildAiContext({ entry, usage: guide, meta: META });
+    expect(text.indexOf("## When NOT to use")).toBeLessThan(text.indexOf("## Props"));
+  });
+
+  it("changes nothing for an entry with no guide", () => {
+    const before = buildAiContext({ entry, meta: META }).text;
+    const after = buildAiContext({ entry, usage: undefined, meta: META }).text;
+    expect(after).toBe(before);
+    expect(before).not.toContain("## When to use");
   });
 });
 

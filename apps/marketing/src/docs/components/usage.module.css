@@ -1,0 +1,105 @@
+/* The Usage tab: the guide's summary, and the do/don't pairs.
+   Everything else on the page is prose, which `content.module.css` already
+   styles through `.prose`. */
+
+/* Slightly larger than the body copy under it: the summary is the line someone
+   choosing between two components reads, and it should win that glance. */
+.summary {
+  max-width: 68ch;
+  margin: 0 0 var(--spacing-space-05);
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.related {
+  list-style: none;
+  padding-left: 0;
+}
+
+/* ── Do / don't pairs ─────────────────────────────────────────────────────── */
+
+.pairs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-06);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-space-04);
+  align-items: stretch;
+}
+
+/* Side by side is the whole point of a pair, so this holds on longer than the
+   prose tiers do — but a live example needs more width than a bullet, and below
+   the docs shell's compact breakpoint two of them stop being readable.
+   Keep in sync with DOCS_COMPACT_QUERY (DocsNav.tsx). */
+@media (max-width: 900px) {
+  .pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--spacing-space-03);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  margin: 0;
+  padding: var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-left-width: 2px;
+  border-radius: var(--border-radius-05);
+  /* The card keeps the page's own surface rather than a status tint: those
+     tokens are tuned for badge-sized areas, and this site is themeable, so a
+     full-width wash is the first thing to look wrong under a consumer theme.
+     The accent edge and the caption carry the signal instead. */
+  background: var(--color-surface-primary);
+}
+
+.card[data-kind="do"] {
+  border-left-color: var(--color-status-success);
+}
+
+.card[data-kind="dont"] {
+  border-left-color: var(--color-status-error);
+}
+
+.cardKind {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  margin: 0;
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.card[data-kind="do"] .cardKind {
+  color: var(--color-status-success-content);
+}
+
+.card[data-kind="dont"] .cardKind {
+  color: var(--color-status-error-content);
+}
+
+.cardText {
+  margin: 0;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* The stage is a plain wrapper — `PreviewSurface` brings its own frame. It
+   exists so `inert` has a node to sit on that covers the whole example. */
+.stage {
+  min-width: 0;
+}
+
+/* A wrong arrangement shouldn't invite a click that does nothing. */
+.stage[inert] {
+  cursor: default;
+}

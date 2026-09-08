@@ -40,11 +40,20 @@
   z-index: 1;
 }
 
-/* The page's one object: a raised panel lifting the copy off the lattice. Same
-   surface + hairline + drop shadow recipe the overview cards on home use, at
-   page scale. */
+/* The page's one object: a raised panel lifting the copy off the lattice. On the
+   page surface rather than a tinted one, so the hairline and the drop shadow are
+   what separate it, not a change of tone.
+
+   `fit-content` makes it hug the copy instead of stretching to the full 1040px
+   wrap: the body's 62ch measure sets the width, and the panel stops there. The
+   `max-width` is what keeps that from overflowing once 62ch plus the padding
+   exceeds the viewport, and `margin-inline: auto` centres what's left over in
+   the wrap — without it a hugging block sits hard against the left edge. */
 .about-hero__panel {
-  background: var(--color-surface-secondary);
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  background: var(--color-surface-primary);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-06, 16px);
   padding: clamp(var(--spacing-space-06), 5vw, var(--spacing-space-12));
@@ -88,18 +97,16 @@
   font-style: italic;
 }
 
-/* Footnote — sits below a hairline so it reads as an aside to the essay rather
-   than a third paragraph of it. */
-.about-hero__note {
+/* Sign-off. No rule above it: this closes the letter rather than annotating it,
+   so it just gets air and the same body size as the prose it follows. */
+.about-hero__sign {
   margin: var(--spacing-space-08) 0 0;
-  padding-top: var(--spacing-space-04);
-  border-top: 1px solid var(--color-border-secondary);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: color-mix(in srgb, var(--site-ink) 80%, transparent);
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--site-ink);
 }
 
-.about-hero__note a {
+.about-hero__sign a {
   color: var(--color-interactive-primary-default);
   text-underline-offset: 2px;
 }

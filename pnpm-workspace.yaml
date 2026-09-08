@@ -7,3 +7,10 @@ packages:
   # rendered output is asserted, which is the only way to catch tree-shaking
   # regressions that unit tests and `vite dev` both miss.
   - 'examples/*'
+  # Paused, in-progress projects (see .gitignore). They are not in the repo, but
+  # they do still exist on maintainer machines where they match the globs above.
+  # Excluding them keeps a local `pnpm install` from writing importers into
+  # pnpm-lock.yaml that a fresh clone cannot satisfy under --frozen-lockfile.
+  - '!apps/token-manager'
+  - '!tooling/figma-code-connect-plugin'
+  - '!tooling/figma-component-bridge'

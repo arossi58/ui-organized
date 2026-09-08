@@ -10,6 +10,7 @@
   "exports": {
     "./browser": "./src/browser.ts",
     "./schema": "./src/schema.ts",
+    "./usage": "./src/usage/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {

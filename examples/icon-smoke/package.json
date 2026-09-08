@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-icon-smoke",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "description": "The smallest app that uses the documented icon setup. Built and rendered by the icon smoke gate.",

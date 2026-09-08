@@ -20,6 +20,13 @@ export { PreviewSurface } from "./PreviewSurface";
 export { PrimaryExample } from "./PrimaryExample";
 export { StoryExample } from "./StoryExample";
 export { PropsTable } from "./PropsTable";
+export {
+  UsageSummary,
+  UsageList,
+  UsageAvoidList,
+  UsageRelatedList,
+  UsageGuidanceGrid,
+} from "./UsageGuidance";
 export { StatusBadge } from "./StatusBadge";
 export { StatusIcon } from "./StatusIcon";
 export { TestStatusPanel, TestStatusChip } from "./TestStatusPanel";
