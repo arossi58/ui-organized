@@ -25,14 +25,30 @@ runs:
       shell: bash
       run: pnpm install --frozen-lockfile
 
-    # Build only the workspace deps the apps rely on (@ui-organized/react,
-    # tokens, utils, …). `^...` selects each app's dependencies but not the apps
-    # themselves. The apps consume `dist`, never `src`, so this has to happen
-    # before anything renders a component.
+    # Every package, plus the tooling the apps pull in. `^...` selects each app's
+    # dependencies but not the app itself; `./packages/*` covers the rest.
+    #
+    # The app-dependency filters alone were not enough, and the way that failed is
+    # worth recording. They build what the *apps* consume — which is React's half
+    # of the design system. The quality gates consume more: `quality:unit` runs
+    # vitest in eleven packages, and the three table adapters import
+    # `@ui-organized/{svelte,vue,angular}` by package name, which resolves to
+    # `dist`. With only the app closure built, that is
+    # `Failed to resolve entry for package "@ui-organized/angular"` — the unit
+    # gate fails, `Build Storybook` never runs, and the aggregator (which is
+    # `if: always()`) reports the confusing symptom instead: "No Storybook build".
+    #
+    # `./packages/*` rather than a list of the six that were missing, for the same
+    # reason `check-tarballs.mjs` derives its list: one that has to be kept in step
+    # with the gates is one that will fall out of step with them again.
+    #
+    # The quotes are load-bearing: unquoted, the shell expands the glob to the
+    # directory list and turbo gets `--filter=./packages/angular` alone.
     - name: Build workspace dependencies
       shell: bash
       run: >
         pnpm turbo build
+        --filter='./packages/*'
         --filter=@ui-organized/marketing^...
         --filter=@ui-organized/builder^...
         --filter=@ui-organized/storybook^...
