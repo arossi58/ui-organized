@@ -168,9 +168,26 @@ jobs:
       # point of the docs surface is to say what failed. The aggregator reads the
       # JSON reports rather than exit codes, which is what keeps the advisory
       # gates' failures visible above rather than swallowed by continue-on-error.
+      #
+      # The `hashFiles` guard is there because `always()` has a failure mode of
+      # its own. If a step *before* `Build Storybook` fails, that build is skipped
+      # — and this step still runs, then dies with "No Storybook build at
+      # storybook-static/index.json", which reads as a broken aggregator and sends
+      # you looking in the wrong place. It has done exactly that twice. With the
+      # guard the step is skipped instead, and the only red step in the run is the
+      # one that actually failed.
       - name: Aggregate test results
-        if: always()
+        if: always() && hashFiles('apps/storybook/storybook-static/index.json') != ''
         run: pnpm quality:aggregate
+
+      # Say so out loud, rather than leaving a silently-skipped step above as the
+      # only clue.
+      - name: Explain a skipped aggregation
+        if: always() && hashFiles('apps/storybook/storybook-static/index.json') == ''
+        run: |
+          echo "::warning::Aggregation skipped — there is no Storybook build, which"
+          echo "::warning::means a step before 'Build Storybook' failed. The first red"
+          echo "::warning::step in this run is the real failure; this one is downstream."
 
       # ── Site ──────────────────────────────────────────────────────────────
       # Storybook is already built, so it is not rebuilt here. The marketing
