@@ -168,11 +168,28 @@ const contractDiff = run("git", [
   "packages/table-core/token-contract.json",
 ]);
 if (contractDiff.status !== 0) console.log(contractDiff.stdout ?? "");
-record(
-  "token-contract",
-  contractDiff.status === 0,
-  "token-contract.json is out of date — commit the regenerated file",
-);
+/**
+ * `git diff --exit-code` has three outcomes, not two: 0 is clean, 1 is a real
+ * difference, and anything above that is git itself failing. Collapsing them
+ * reported "token-contract.json is out of date" in CI when git had actually
+ * refused to read the repository at all ("dubious ownership", because the job
+ * runs in a container) — a message that sends you to regenerate a file that was
+ * never wrong. The setup action now configures `safe.directory`; this makes the
+ * failure legible if git ever fails for some other reason.
+ */
+if (contractDiff.status > 1) {
+  record(
+    "token-contract",
+    false,
+    `git could not diff the contracts (exit ${contractDiff.status}): ${(contractDiff.stderr ?? "").trim().split("\n")[0] || "no stderr"}`,
+  );
+} else {
+  record(
+    "token-contract",
+    contractDiff.status === 0,
+    "token-contract.json is out of date — commit the regenerated file",
+  );
+}
 
 // ── 5. Typecheck (packages only) ─────────────────────────────────────────────
 // Scoped to packages and tooling on purpose: the apps have pre-existing type

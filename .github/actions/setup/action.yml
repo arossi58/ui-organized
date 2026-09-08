@@ -9,6 +9,21 @@ description: >
 runs:
   using: composite
   steps:
+    # The job runs in a container, so the checkout is owned by a different uid
+    # than the one running the steps, and git refuses to touch it:
+    #
+    #   fatal: detected dubious ownership in repository at '/__w/...'
+    #
+    # Everything that shells out to git then fails, and not always loudly. turbo
+    # degrades to a warning and carries on; `quality:lint`'s prettier check finds
+    # no merge base and skips itself; and its token-contract check runs
+    # `git diff --exit-code`, which exits 128 on an error and 1 on a real
+    # difference — read as "the contract is out of date" when git had simply
+    # refused to run. That combination cost a full CI round trip.
+    - name: Trust the checkout
+      shell: bash
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
     # pnpm version comes from the "packageManager" field in package.json.
     - name: Install pnpm
       uses: pnpm/action-setup@v4
