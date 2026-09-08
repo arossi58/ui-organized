@@ -91,6 +91,14 @@ on nobody's machine but their author's.
 
 ## Gotchas that waste tokens if forgotten
 
+- **CI runs steps as root inside the Playwright container, but `$HOME`
+  (`/github/home`) belongs to `pwuser`.** That uid mismatch has broken two
+  unrelated things, and the errors named neither: git refused the checkout
+  ("dubious ownership"), which made `quality:lint` report the token contract as
+  stale because `git diff --exit-code` exits 128 on failure and 1 on a diff; and
+  Firefox and WebKit refuse to launch at all. Fixed by `safe.directory` in
+  `.github/actions/setup` and `HOME: /root` on the browser steps. If something
+  else in CI fails in a way that makes no sense locally, check this third.
 - **A CI failure at `quality:aggregate` is almost never about the aggregator.**
   That step is `if: always()`, so it runs even when an earlier step failed —
   "No Storybook build at …/storybook-static/index.json" means `Build Storybook`
