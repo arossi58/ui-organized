@@ -1,0 +1,37 @@
+/* ─── Base invariants ─────────────────────────────────────────────────────────
+   Rules that restore browser behaviour the component stylesheets would
+   otherwise break. Nothing decorative belongs here. ── */
+
+/* Ark keeps a closed or inactive part MOUNTED and hides it with the `hidden`
+   attribute, trusting the UA stylesheet's `[hidden] { display: none }`. But an
+   author-level `display` beats a UA rule at any specificity, so every component
+   that set `display` on a part Ark hides was leaving that part rendered:
+
+     · closed Dialog, Sheet, Select, Combobox and Tour popups stayed in layout
+       and in the accessibility tree, so a screen-reader user could still reach
+       the contents — and the buttons — of a dialog nobody had opened;
+     · collapsed TreeView branches kept exposing their children;
+     · a `hidden` <Button> (Timer's controls, Editable's submit/cancel) stayed
+       visible and clickable.
+
+   None of it was visible to a sighted mouse user, which is why it survived: the
+   popups also carry `opacity: 0` and `pointer-events: none`, so the bug only
+   showed up to assistive technology and to the keyboard.
+
+   ColorPicker fixed this for itself (`.color-picker__popup[hidden]`), and
+   `.avatar__fallback` before it. Doing it per-component means every new
+   component with a `display` on a hidden part reintroduces the bug silently, so
+   the invariant is restored once, here, for the whole package.
+
+   `!important` is deliberate and is what this rule is for: the entire failure
+   mode is author CSS out-ranking the UA default by accident. Overriding
+   `[hidden]` on purpose is not a thing anyone should be doing.
+
+   `hidden="until-found"` is excluded — that value is *meant* to stay
+   find-in-page reachable, and forcing `display: none` would defeat it.
+
+   Guarded permanently by the `hidden parts are not rendered` contract test in
+   apps/storybook/interaction/contract.spec.ts. */
+[hidden]:not([hidden="until-found"]) {
+  display: none !important;
+}

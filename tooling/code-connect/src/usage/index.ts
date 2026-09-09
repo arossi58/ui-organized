@@ -3,18 +3,19 @@
  *
  * Explicit imports rather than a glob: the glob would save a line per component
  * and cost the one thing that makes authoring forty-five of these tractable —
- * typed totality. Annotated as a `Record<ComponentSlug, UsageGuide>`, TypeScript
+ * typed totality. Annotated as a `Record<WrittenUsageSlug, UsageGuide>`, TypeScript
  * names the components that still have no guide, and a mistyped cross-reference
  * fails at the keystroke. A glob keyed by file path can do neither, and would
  * make this module bundler-only when `generate-ai-docs.ts` has to read it from
  * plain Node.
  *
- * The record is total: every component the docs site publishes has a guide, and
- * a forty-sixth component fails `typecheck` here until someone writes its
- * guidance. That is the point. Guidance is the one thing on a docs page nothing
+ * The record is total over `WrittenUsageSlug` — every component the docs site
+ * publishes *except* the ones `slugs.ts` lists as pending — so a sixty-ninth
+ * component fails `typecheck` here until someone either writes its guidance or
+ * adds it to that list deliberately. That is the point. Guidance is the one thing on a docs page nothing
  * can generate, so nothing but a human writing it will do.
  */
-import { pascalFromSlug, type ComponentSlug } from "./slugs.js";
+import { pascalFromSlug, type ComponentSlug, type WrittenUsageSlug } from "./slugs.js";
 import type { UsageGuide } from "./types.js";
 import { buttonUsage } from "./guides/button.js";
 import { meterUsage } from "./guides/meter.js";
@@ -62,7 +63,13 @@ import { scrollAreaUsage } from "./guides/scroll-area.js";
 import { avatarUsage } from "./guides/avatar.js";
 import { iconUsage } from "./guides/icon.js";
 
-export const USAGE_GUIDES: Record<ComponentSlug, UsageGuide> = {
+/**
+ * Keyed on `WrittenUsageSlug`, not `ComponentSlug` — every component that has a
+ * page *except* the ones listed as pending in `slugs.ts`. That is what keeps
+ * "you added a component and forgot its guide" a compile error while 23 known
+ * gaps sit in an explicit, reviewed list rather than behind a `Partial`.
+ */
+export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   button: buttonUsage,
   meter: meterUsage,
   tag: tagUsage,
@@ -111,7 +118,9 @@ export const USAGE_GUIDES: Record<ComponentSlug, UsageGuide> = {
 };
 
 export function getUsageGuide(slug: string | undefined): UsageGuide | undefined {
-  return slug ? USAGE_GUIDES[slug as ComponentSlug] : undefined;
+  // `WrittenUsageSlug`, not `ComponentSlug`: a pending component has a page but
+  // no entry here, and the `undefined` this returns is what gates its Usage tab.
+  return slug ? USAGE_GUIDES[slug as WrittenUsageSlug] : undefined;
 }
 
 export function hasUsageGuide(slug: string): boolean {
@@ -135,5 +144,12 @@ export function usageReferenceName(slug: string): string {
   return getUsageGuide(slug)?.codeName ?? pascalFromSlug(slug);
 }
 
-export { COMPONENT_SLUGS, pascalFromSlug, type ComponentSlug } from "./slugs.js";
+export {
+  COMPONENT_SLUGS,
+  PENDING_USAGE_SLUGS,
+  pascalFromSlug,
+  type ComponentSlug,
+  type PendingUsageSlug,
+  type WrittenUsageSlug,
+} from "./slugs.js";
 export type { UsageGuide, UsageAvoid, UsageContrast, UsageAlternative } from "./types.js";

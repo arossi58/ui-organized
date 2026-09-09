@@ -1,0 +1,31 @@
+/**
+ * What a real consumer's page provides, and the harness did not.
+ *
+ * The token set's `:root` is the **dark** palette — `--color-content-primary`
+ * resolves to `--grey-100`, near-white — and `[data-theme="light"]` is the
+ * override. So an unstamped page painted near-white text onto a `<body>` with no
+ * background at all, which the browser composites over its default white.
+ *
+ * The parity gate never noticed, because it compares markup and this changes
+ * none: `data-theme` sits on `<html>`, outside the captured `<body>` children,
+ * and a background is a computed style. The a11y gate noticed immediately —
+ * 236 contrast violations spread evenly across all four libraries, which is the
+ * signature of a harness fault rather than a component one, since four
+ * independent implementations do not fail identically by coincidence.
+ *
+ * Every page stamps `data-theme="light"` to match the Playwright config's
+ * `colorScheme: "light"`, and paints the surface the components are designed to
+ * sit on. Both are things a consumer's own document does; neither is a
+ * concession to the checker.
+ */
+/**
+ * No margin reset. The default 8px is what these pages have always had, and
+ * zeroing it collapses the body's box on a page whose mount point is empty,
+ * which Playwright then reads as `<html>` being hidden. Not part of the fault
+ * being fixed here, so not changed.
+ */
+body {
+  background: var(--color-surface-base);
+  color: var(--color-content-primary);
+  font-family: var(--font-family-body, system-ui, sans-serif);
+}

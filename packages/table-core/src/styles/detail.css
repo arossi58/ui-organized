@@ -1,0 +1,61 @@
+/* ─── Row detail ──────────────────────────────────────────────────────────────
+   The sheet chrome only. The body is whatever the consumer's `detail.render`
+   returns, and the panel itself is the library's `Sheet`. */
+
+.data-table__detail-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  /* Clears the Sheet's own close control, which occupies this corner. */
+  padding-right: var(--spacing-space-08);
+}
+
+.data-table__detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-space-01);
+}
+
+.data-table__detail-position {
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table__detail-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+/* ─── Inline edit ────────────────────────────────────────────────────────────
+   The editor replaces the cell's content in place and must not change the row
+   height — that is what `--control-height-*` sizing on the inner control buys,
+   and why the cell padding is removed while it is open. */
+
+.data-table__cell--editing {
+  padding-top: 0;
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+.data-table__editor {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+}
+
+.data-table__editor-message {
+  position: absolute;
+  z-index: var(--z-index-popover);
+  margin-top: var(--spacing-space-01);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  background-color: var(--color-status-error-bg);
+  border-radius: var(--border-radius-02);
+  color: var(--color-status-error-content);
+  font-size: var(--type-size-caption);
+  white-space: nowrap;
+}

@@ -18,11 +18,33 @@ import "./semantic-tokens.css";
 const { light, dark } = semanticColorMap;
 
 const CATEGORIES: Array<{ key: string; label: string; blurb: string }> = [
-  { key: "surface", label: "Surface", blurb: "Backgrounds — from the app canvas to raised overlays and the modal scrim." },
-  { key: "content", label: "Content", blurb: "Foreground text and icons by emphasis, plus placeholder, inverse, and fixed light/dark variants." },
-  { key: "border", label: "Border", blurb: "Dividers, container outlines, and form-control edges." },
-  { key: "interactive", label: "Interactive", blurb: "Control fills and foregrounds across action emphases and states." },
-  { key: "status", label: "Status", blurb: "Feedback colours — each with a base tone, a tinted background, and an on-background content tone." },
+  {
+    key: "surface",
+    label: "Surface",
+    blurb: "Backgrounds — from the app canvas to raised overlays and the modal scrim.",
+  },
+  {
+    key: "content",
+    label: "Content",
+    blurb:
+      "Foreground text and icons by emphasis, plus placeholder, inverse, and fixed light/dark variants.",
+  },
+  {
+    key: "border",
+    label: "Border",
+    blurb: "Dividers, container outlines, and form-control edges.",
+  },
+  {
+    key: "interactive",
+    label: "Interactive",
+    blurb: "Control fills and foregrounds across action emphases and states.",
+  },
+  {
+    key: "status",
+    label: "Status",
+    blurb:
+      "Feedback colours — each with a base tone, a tinted background, and an on-background content tone.",
+  },
 ];
 
 /** Role of each semantic group (longest matching prefix of the token name). */
@@ -92,7 +114,8 @@ function roleFor(token: string): string {
 /** The brand chosen on the site (shared via localStorage), default `mars`. */
 function activeBrand(): string {
   try {
-    const raw = typeof localStorage !== "undefined" ? localStorage.getItem("ui-org-site-theme") : null;
+    const raw =
+      typeof localStorage !== "undefined" ? localStorage.getItem("ui-org-site-theme") : null;
     if (raw) {
       const parsed = JSON.parse(raw) as { brand?: unknown };
       if (typeof parsed.brand === "string") return parsed.brand;
@@ -134,10 +157,10 @@ export function SemanticTokenTable() {
       <p className="sem-tokens__blurb sem-tokens__blurb--wide">
         Each token points at a primitive reference — a <code>family.step</code> pair — not a fixed
         hex: <code>brand.*</code> resolves to the selected brand family, <code>grey.*</code> to the
-        selected neutral family, any other family to its fixed core ramp, and raw values pass through
-        unchanged. Light and dark each carry their own assignment (both shown below). This map lives
-        in <code>semanticColorMap</code> (@ui-organized/utils) — the single source of truth this table is
-        generated from, so it can't drift. Consume a token with{" "}
+        selected neutral family, any other family to its fixed core ramp, and raw values pass
+        through unchanged. Light and dark each carry their own assignment (both shown below). This
+        map lives in <code>semanticColorMap</code> (@ui-organized/utils) — the single source of
+        truth this table is generated from, so it can't drift. Consume a token with{" "}
         <code>var(--color-…)</code>; never a primitive directly.
       </p>
 
@@ -151,7 +174,12 @@ export function SemanticTokenTable() {
               without the wrapper the Role column was simply unreachable.
               `tabIndex` because nothing inside is focusable, so without it a
               keyboard user has no way to reach the columns off to the right. */}
-          <div className="sem-tokens__scroll" tabIndex={0}>
+          <div
+            className="sem-tokens__scroll"
+            tabIndex={0}
+            role="region"
+            aria-label="Semantic tokens table, scrollable"
+          >
             <table className="sem-tokens__table">
               <thead>
                 <tr>

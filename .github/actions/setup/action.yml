@@ -1,0 +1,72 @@
+name: Set up the workspace
+description: >
+  pnpm + Node, a frozen-lockfile install, and a build of the workspace packages
+  the apps depend on. Split out of build-site so the quality gates can run
+  BETWEEN the install and the app builds — the gates write
+  manifest/test-status.json, and the marketing app imports it at build time, so
+  the order is load-bearing rather than incidental.
+
+runs:
+  using: composite
+  steps:
+    # The job runs in a container, so the checkout is owned by a different uid
+    # than the one running the steps, and git refuses to touch it:
+    #
+    #   fatal: detected dubious ownership in repository at '/__w/...'
+    #
+    # Everything that shells out to git then fails, and not always loudly. turbo
+    # degrades to a warning and carries on; `quality:lint`'s prettier check finds
+    # no merge base and skips itself; and its token-contract check runs
+    # `git diff --exit-code`, which exits 128 on an error and 1 on a real
+    # difference — read as "the contract is out of date" when git had simply
+    # refused to run. That combination cost a full CI round trip.
+    - name: Trust the checkout
+      shell: bash
+      run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+    # pnpm version comes from the "packageManager" field in package.json.
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        # wrangler >= 4.112 requires Node 22; the site build, the gates and the
+        # tests all run fine on it too.
+        node-version: 22
+        cache: pnpm
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile
+
+    # Every package, plus the tooling the apps pull in. `^...` selects each app's
+    # dependencies but not the app itself; `./packages/*` covers the rest.
+    #
+    # The app-dependency filters alone were not enough, and the way that failed is
+    # worth recording. They build what the *apps* consume — which is React's half
+    # of the design system. The quality gates consume more: `quality:unit` runs
+    # vitest in eleven packages, and the three table adapters import
+    # `@ui-organized/{svelte,vue,angular}` by package name, which resolves to
+    # `dist`. With only the app closure built, that is
+    # `Failed to resolve entry for package "@ui-organized/angular"` — the unit
+    # gate fails, `Build Storybook` never runs, and the aggregator (which is
+    # `if: always()`) reports the confusing symptom instead: "No Storybook build".
+    #
+    # `./packages/*` rather than a list of the six that were missing, for the same
+    # reason `check-tarballs.mjs` derives its list: one that has to be kept in step
+    # with the gates is one that will fall out of step with them again.
+    #
+    # Quoted for clarity only. `--filter=./packages/*` is one word starting with
+    # `--filter=`, so it matches no path and bash leaves it alone either way —
+    # which is why `typecheck:packages` in package.json has carried it unquoted
+    # for as long as it has existed. (zsh is the one that errors on an unmatched
+    # glob, which is what made this look load-bearing while testing by hand.)
+    - name: Build workspace dependencies
+      shell: bash
+      run: >
+        pnpm turbo build
+        --filter='./packages/*'
+        --filter=@ui-organized/marketing^...
+        --filter=@ui-organized/builder^...
+        --filter=@ui-organized/storybook^...

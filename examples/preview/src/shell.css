@@ -1,0 +1,236 @@
+/*
+ * The page around the components, and nothing that reaches them.
+ *
+ * Every selector here is prefixed `pv-`. The whole point of the preview is to
+ * show what `@ui-organized/core`'s stylesheet does on its own, so a rule of this
+ * file that leaked into a component would be showing a lie — and the shared
+ * stylesheet styles off `data-*` and `.component__part` class names, which is
+ * exactly what an unprefixed `section > div` here would catch.
+ *
+ * Every colour is a real token from `@ui-organized/tokens`, checked against
+ * `variables.css` rather than guessed. The first draft invented
+ * `--color-surface-page`, which does not exist — so the page fell back to white
+ * while the text resolved `--color-content-primary` from the real set, which is
+ * `--grey-100`, `#fcfcfc`. Near-white type on a white ground: every component
+ * name was invisible, and because it was a *fallback* it looked deliberate.
+ * A fallback on a token that exists is harmless; one on a token that does not is
+ * a silent second theme.
+ */
+
+.pv-page {
+  font-family: var(--font-family-body, system-ui, sans-serif);
+  background: var(--color-surface-base);
+  color: var(--color-content-primary);
+  margin: 0;
+  padding: 0 0 6rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── masthead ─────────────────────────────────────────────────────────────── */
+
+.pv-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--color-surface-base);
+  border-bottom: 1px solid var(--color-border-secondary);
+  padding: 0.875rem 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 1.25rem;
+}
+
+.pv-masthead h1 {
+  font-size: 1rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.pv-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-content-tertiary);
+  font-size: 0.8125rem;
+}
+
+.pv-nav {
+  display: flex;
+  gap: 0.875rem;
+  font-size: 0.8125rem;
+}
+
+.pv-nav a {
+  color: var(--color-content-tertiary);
+  text-decoration: none;
+}
+
+.pv-nav a:hover {
+  color: var(--color-content-primary);
+}
+
+.pv-nav a[aria-current="page"] {
+  color: var(--color-content-primary);
+  font-weight: 600;
+}
+
+.pv-tools {
+  margin-inline-start: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+/*
+ * The filter and the theme button are deliberately plain elements, not library
+ * components. The page's own chrome must not be the thing under review — if the
+ * filter were a `SearchInput`, a bug in it would look like a bug in the page and
+ * a broken page would hide the components it exists to show.
+ */
+.pv-filter,
+.pv-theme {
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--color-content-primary);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 6px;
+  padding: 0.3125rem 0.625rem;
+}
+
+.pv-filter {
+  inline-size: 12rem;
+}
+
+.pv-filter::placeholder {
+  color: var(--color-content-placeholder);
+}
+
+.pv-theme {
+  cursor: pointer;
+}
+
+.pv-filter:focus-visible,
+.pv-theme:focus-visible {
+  outline: 2px solid var(--color-content-primary);
+  outline-offset: 1px;
+}
+
+.pv-note {
+  padding: 1.25rem 1.75rem 0;
+  max-width: 68ch;
+  color: var(--color-content-tertiary);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ── the grid ─────────────────────────────────────────────────────────────── */
+
+/*
+ * Columns, not grid.
+ *
+ * A grid sizes every row to its tallest card, and these differ wildly — an
+ * ImageCropper is 355px beside a 112px Button, so a grid leaves a band of dead
+ * space across the whole row. Columns pack vertically and that disappears.
+ * The tradeoff is reading order: columns run top-to-bottom rather than
+ * left-to-right, which is the right trade for a catalogue nobody reads in
+ * sequence.
+ */
+.pv-grid {
+  padding: 1.25rem 1.75rem 0;
+  columns: 3 340px;
+  column-gap: 1rem;
+}
+
+.pv-card {
+  break-inside: avoid;
+  margin-block-end: 1rem;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-surface-primary);
+}
+
+.pv-card[hidden] {
+  display: none;
+}
+
+.pv-card__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4375rem 0.75rem;
+  border-bottom: 1px solid var(--color-border-secondary);
+  background: var(--color-surface-secondary);
+}
+
+.pv-card__name {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.pv-card__state {
+  font-size: 0.6875rem;
+  color: var(--color-content-tertiary);
+  margin-inline-start: auto;
+}
+
+/*
+ * Components are laid out by their own stylesheet; this only gives them room and
+ * a predictable origin.
+ *
+ * `overflow-x: auto` rather than `hidden`: DateRangeInput is genuinely wider
+ * than a 340px column and Marquee scrolls by design, and clipping them would
+ * show a component cut in half as though that were how it renders. Scrolling
+ * keeps the whole thing reachable and keeps the bleed out of the page.
+ */
+.pv-card__body {
+  padding: 1.125rem;
+  min-height: 4rem;
+  overflow-x: auto;
+}
+
+/*
+ * A component this library does not ship yet.
+ *
+ * Rendered rather than skipped, deliberately: all four pages list the same
+ * components in the same order, so a gap is visible in place instead of being a
+ * card that quietly is not there. A preview that hides what is missing is worse
+ * than no preview.
+ */
+.pv-card--missing {
+  border-style: dashed;
+}
+
+.pv-card--missing .pv-card__body {
+  color: var(--color-content-tertiary);
+  font-size: 0.8125rem;
+  font-style: italic;
+}
+
+/*
+ * A component that threw while rendering.
+ *
+ * Shown in place with its message rather than taking the page down. One broken
+ * component should not stop you looking at the other sixty-six, and a silent
+ * empty card would read as "renders nothing" instead of "failed".
+ */
+.pv-card--error {
+  border-color: var(--color-status-error-content);
+}
+
+.pv-card--error .pv-card__body {
+  color: var(--color-status-error-content);
+  font-size: 0.75rem;
+  font-family: ui-monospace, Menlo, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.pv-empty {
+  padding: 2rem 1.75rem;
+  color: var(--color-content-tertiary);
+  font-size: 0.875rem;
+}

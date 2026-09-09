@@ -1,0 +1,83 @@
+/* ─── Card mode ───────────────────────────────────────────────────────────────
+   Below the breakpoint the table is replaced, not hidden. Rendering both trees
+   and hiding one with a container query would double the DOM and defeat
+   virtualization on exactly the devices that can least afford it. */
+
+.data-table__cards {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: var(--spacing-space-02);
+  position: relative;
+  overflow: auto;
+  max-height: var(--data-table-max-height, none);
+  overscroll-behavior: contain;
+}
+
+.data-table__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.data-table__card--selected {
+  border-color: var(--color-interactive-primary-default);
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.data-table__card:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.data-table__card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-02);
+}
+
+/* The primary column is the card title — the same column that is the row header
+   in table mode and the pinned one on a narrow viewport. One decision, three
+   places it shows up. */
+.data-table__card-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+  overflow-wrap: anywhere;
+}
+
+.data-table__card-fields {
+  display: grid;
+  /* The label is body-small and the value body-medium; aligning the boxes would
+     leave their text off by the difference. */
+  align-items: baseline;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: var(--spacing-space-01) var(--spacing-space-03);
+  margin: 0;
+}
+
+.data-table__card-label {
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+.data-table__card-value {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-medium);
+  overflow-wrap: anywhere;
+}
+
+/* Card heights vary with content, so the virtualizer measures rather than
+   estimates. This is the spacer it uses at each end. */
+.data-table__card-spacer {
+  flex: none;
+}

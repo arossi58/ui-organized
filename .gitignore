@@ -7,7 +7,26 @@ tokens-update
 
 # Build output / test artifacts
 storybook-static/
+# svelte-package's intermediate output, one step before packages/svelte/dist
+.svelte-kit/
+# Generated: the Angular package keeps a copy of the shared stylesheet at its
+# root so one exports entry resolves both in the workspace and when published.
+packages/angular/styles.css
+packages/angular/overlay.css
+packages/angular-table/styles.css
+# Playwright run output (the visual gate's and the parity gate's)
+test-results/
+playwright-report/
 coverage/
+# Playwright's own outputs. These were tracked by accident: a report is a
+# snapshot of one machine's run, so committing it means every test run shows up
+# as a diff. The baselines under visual/__screenshots__/ ARE committed — those
+# are the oracle, not output.
+playwright-report/
+test-results/
+# Per-gate JSON reports; scripts/quality/aggregate.mjs reads them and writes the
+# one file that IS committed, manifest/test-status.json.
+.quality/
 # Assembled Cloudflare Workers deploy directory (scripts/assemble-site.mjs)
 _site/
 
@@ -28,6 +47,8 @@ Thumbs.db
 .env.*.local
 # Internal docs kept local, not published
 RELEASING.md
+# Working log for the 6.0.0 release; see also ~/.claude/plans/.
+RELEASE-6.md
 Connect.md
 COMPONENT-PLUGIN.md
 MIGRATION.md
@@ -36,6 +57,8 @@ FIGMA-PARITY.md
 # Internal spec / build-plan docs (kept local, not published)
 tooling/token-editor/
 apps/marketing/SITE.md
+# Anchored, so a future packages/*/TABLE.md readme isn't swallowed too.
+/TABLE.md
 
 # Internal operational docs (kept local, not published).
 # Anchored to the repo root: an unanchored `docs/` also swallows source
@@ -45,6 +68,17 @@ apps/marketing/SITE.md
 svg-animations/
 /theme.json
 .wrangler/
+
+# Scratch harness drivers, written while debugging a scenario
+tooling/parity/dbg*.mjs
+
+# Vitest/Vite writes a transient config next to the real one while it runs; one
+# was committed once and its `var` was the repo's only ESLint error.
+*.timestamp-*.mjs
+
+# Local agent config and the knowledge-graph artifact it builds (34 MB).
+.claude/
+graphify-out/
 
 # Locally installed Claude Code skills (vendored from upstream repos, e.g.
 # .claude/skills/humanizer from github.com/blader/humanizer). Not part of the

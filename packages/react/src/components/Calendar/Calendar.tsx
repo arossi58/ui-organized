@@ -19,8 +19,8 @@ import {
   weekdayLabels,
   ymdToDate,
   type YMD,
-} from "./dateUtils.js";
-import "./Calendar.css";
+} from "@ui-organized/core";
+import "@ui-organized/core/components/Calendar/Calendar.css";
 
 export interface CalendarRange {
   start: YMD | null;
@@ -80,8 +80,7 @@ export function Calendar({
   const start = rangeValue?.start ?? null;
   const end = rangeValue?.end ?? null;
 
-  const initialAnchor =
-    (mode === "single" ? value : start) ?? clampYMD(today, min, max);
+  const initialAnchor = (mode === "single" ? value : start) ?? clampYMD(today, min, max);
   const [viewMonth, setViewMonth] = useState<YMD>(() => startOfMonth(initialAnchor));
   const [focused, setFocused] = useState<YMD>(() => initialAnchor);
   const [hover, setHover] = useState<YMD | null>(null);
@@ -133,14 +132,30 @@ export function Calendar({
     const weekday = (ymdToDate(focused).getDay() - weekStartsOn + 7) % 7;
     let next: YMD | null = null;
     switch (event.key) {
-      case "ArrowLeft": next = addDays(focused, -1); break;
-      case "ArrowRight": next = addDays(focused, 1); break;
-      case "ArrowUp": next = addDays(focused, -7); break;
-      case "ArrowDown": next = addDays(focused, 7); break;
-      case "Home": next = addDays(focused, -weekday); break;
-      case "End": next = addDays(focused, 6 - weekday); break;
-      case "PageUp": next = addMonths(focused, -1); break;
-      case "PageDown": next = addMonths(focused, 1); break;
+      case "ArrowLeft":
+        next = addDays(focused, -1);
+        break;
+      case "ArrowRight":
+        next = addDays(focused, 1);
+        break;
+      case "ArrowUp":
+        next = addDays(focused, -7);
+        break;
+      case "ArrowDown":
+        next = addDays(focused, 7);
+        break;
+      case "Home":
+        next = addDays(focused, -weekday);
+        break;
+      case "End":
+        next = addDays(focused, 6 - weekday);
+        break;
+      case "PageUp":
+        next = addMonths(focused, -1);
+        break;
+      case "PageDown":
+        next = addMonths(focused, 1);
+        break;
       case "Enter":
       case " ":
         event.preventDefault();
@@ -170,9 +185,7 @@ export function Calendar({
   // Can't page earlier than the month containing `min`, nor later than `max`.
   const lastVisible = addMonths(viewMonth, numMonths - 1);
   const prevDisabled = min ? compareYMD(viewMonth, startOfMonth(min)) <= 0 : false;
-  const nextDisabled = max
-    ? compareYMD(startOfMonth(lastVisible), startOfMonth(max)) >= 0
-    : false;
+  const nextDisabled = max ? compareYMD(startOfMonth(lastVisible), startOfMonth(max)) >= 0 : false;
 
   // Year dropdown options: bounded by min/max when set, else a wide default
   // window, always widened to include every visible year.
@@ -200,6 +213,12 @@ export function Calendar({
             </span>
           ))}
         </div>
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus --
+            roving tabindex: the grid container is deliberately NOT in the tab
+            order. Exactly one day button holds tabIndex=0 (see below) and the
+            arrow keys move it, which is the APG grid pattern. Making the
+            container focusable would put two stops in the tab order for one
+            widget. The rule can't see focus delegated to children. */}
         <div
           className="calendar__grid"
           role="grid"
@@ -287,7 +306,9 @@ export function Calendar({
         <div className="calendar__labels">
           {months.map((m, i) => (
             <div key={`${m.year}-${m.month}`} className="calendar__label">
-              <span className="calendar__month-name text-emphasis-body-large">{monthName(m.year, m.month)}</span>
+              <span className="calendar__month-name text-emphasis-body-large">
+                {monthName(m.year, m.month)}
+              </span>
               <Select
                 variant="ghost"
                 size="sm"
@@ -310,9 +331,7 @@ export function Calendar({
           aria-label="Next month"
         />
       </div>
-      <div className="calendar__months">
-        {months.map((m) => renderMonth(m))}
-      </div>
+      <div className="calendar__months">{months.map((m) => renderMonth(m))}</div>
     </div>
   );
 }

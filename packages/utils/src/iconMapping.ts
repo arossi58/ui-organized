@@ -37,6 +37,7 @@ export const CANONICAL_ICON_NAMES = [
   "redo",
   "sort-asc",
   "sort-desc",
+  "sort",
   "filter",
   // Status / feedback
   "check-circle",
@@ -55,6 +56,11 @@ export const CANONICAL_ICON_NAMES = [
   "menu",
   "grid",
   "list",
+  "file",
+  "folder",
+  // Media / playback
+  "play",
+  "pause",
   // People / identity
   "user",
   "users",
@@ -68,6 +74,9 @@ export const CANONICAL_ICON_NAMES = [
   "home",
   "calendar",
   "clock",
+  "pipette",
+  "rotate-cw",
+  "rotate-ccw",
 ] as const;
 
 export type CanonicalIconName = (typeof CANONICAL_ICON_NAMES)[number];
@@ -85,61 +94,110 @@ export interface IconLibraryNames {
 
 export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
   // Navigation / directional
-  "chevron-down":   { lucide: "ChevronDown",    tabler: "IconChevronDown",    heroicons: "ChevronDownIcon"              },
-  "chevron-up":     { lucide: "ChevronUp",      tabler: "IconChevronUp",      heroicons: "ChevronUpIcon"                },
-  "chevron-left":   { lucide: "ChevronLeft",    tabler: "IconChevronLeft",    heroicons: "ChevronLeftIcon"              },
-  "chevron-right":  { lucide: "ChevronRight",   tabler: "IconChevronRight",   heroicons: "ChevronRightIcon"             },
-  "arrow-left":     { lucide: "ArrowLeft",      tabler: "IconArrowLeft",      heroicons: "ArrowLeftIcon"                },
-  "arrow-right":    { lucide: "ArrowRight",     tabler: "IconArrowRight",     heroicons: "ArrowRightIcon"               },
-  "arrow-up":       { lucide: "ArrowUp",        tabler: "IconArrowUp",        heroicons: "ArrowUpIcon"                  },
-  "arrow-down":     { lucide: "ArrowDown",      tabler: "IconArrowDown",      heroicons: "ArrowDownIcon"                },
-  "external-link":  { lucide: "ExternalLink",   tabler: "IconExternalLink",   heroicons: "ArrowTopRightOnSquareIcon"    },
+  "chevron-down": {
+    lucide: "ChevronDown",
+    tabler: "IconChevronDown",
+    heroicons: "ChevronDownIcon",
+  },
+  "chevron-up": { lucide: "ChevronUp", tabler: "IconChevronUp", heroicons: "ChevronUpIcon" },
+  "chevron-left": {
+    lucide: "ChevronLeft",
+    tabler: "IconChevronLeft",
+    heroicons: "ChevronLeftIcon",
+  },
+  "chevron-right": {
+    lucide: "ChevronRight",
+    tabler: "IconChevronRight",
+    heroicons: "ChevronRightIcon",
+  },
+  "arrow-left": { lucide: "ArrowLeft", tabler: "IconArrowLeft", heroicons: "ArrowLeftIcon" },
+  "arrow-right": { lucide: "ArrowRight", tabler: "IconArrowRight", heroicons: "ArrowRightIcon" },
+  "arrow-up": { lucide: "ArrowUp", tabler: "IconArrowUp", heroicons: "ArrowUpIcon" },
+  "arrow-down": { lucide: "ArrowDown", tabler: "IconArrowDown", heroicons: "ArrowDownIcon" },
+  "external-link": {
+    lucide: "ExternalLink",
+    tabler: "IconExternalLink",
+    heroicons: "ArrowTopRightOnSquareIcon",
+  },
   // Actions
-  "close":          { lucide: "X",              tabler: "IconX",              heroicons: "XMarkIcon"                    },
-  "check":          { lucide: "Check",          tabler: "IconCheck",          heroicons: "CheckIcon"                    },
-  "plus":           { lucide: "Plus",           tabler: "IconPlus",           heroicons: "PlusIcon"                     },
-  "minus":          { lucide: "Minus",          tabler: "IconMinus",          heroicons: "MinusIcon"                    },
-  "copy":           { lucide: "Copy",           tabler: "IconCopy",           heroicons: "DocumentDuplicateIcon"        },
-  "edit":           { lucide: "Pencil",         tabler: "IconPencil",         heroicons: "PencilIcon"                   },
-  "trash":          { lucide: "Trash2",         tabler: "IconTrash",          heroicons: "TrashIcon"                    },
-  "download":       { lucide: "Download",       tabler: "IconDownload",       heroicons: "ArrowDownTrayIcon"            },
-  "upload":         { lucide: "Upload",         tabler: "IconUpload",         heroicons: "ArrowUpTrayIcon"              },
-  "refresh":        { lucide: "RefreshCw",      tabler: "IconRefresh",        heroicons: "ArrowPathIcon"                },
-  "undo":           { lucide: "Undo2",          tabler: "IconArrowBackUp",    heroicons: "ArrowUturnLeftIcon"           },
-  "redo":           { lucide: "Redo2",          tabler: "IconArrowForwardUp", heroicons: "ArrowUturnRightIcon"          },
-  "sort-asc":       { lucide: "ArrowUpAZ",      tabler: "IconSortAscending",  heroicons: "BarsArrowUpIcon"              },
-  "sort-desc":      { lucide: "ArrowDownAZ",    tabler: "IconSortDescending", heroicons: "BarsArrowDownIcon"            },
-  "filter":         { lucide: "Filter",         tabler: "IconFilter",         heroicons: "FunnelIcon"                   },
+  close: { lucide: "X", tabler: "IconX", heroicons: "XMarkIcon" },
+  check: { lucide: "Check", tabler: "IconCheck", heroicons: "CheckIcon" },
+  plus: { lucide: "Plus", tabler: "IconPlus", heroicons: "PlusIcon" },
+  minus: { lucide: "Minus", tabler: "IconMinus", heroicons: "MinusIcon" },
+  copy: { lucide: "Copy", tabler: "IconCopy", heroicons: "DocumentDuplicateIcon" },
+  edit: { lucide: "Pencil", tabler: "IconPencil", heroicons: "PencilIcon" },
+  trash: { lucide: "Trash2", tabler: "IconTrash", heroicons: "TrashIcon" },
+  download: { lucide: "Download", tabler: "IconDownload", heroicons: "ArrowDownTrayIcon" },
+  upload: { lucide: "Upload", tabler: "IconUpload", heroicons: "ArrowUpTrayIcon" },
+  refresh: { lucide: "RefreshCw", tabler: "IconRefresh", heroicons: "ArrowPathIcon" },
+  undo: { lucide: "Undo2", tabler: "IconArrowBackUp", heroicons: "ArrowUturnLeftIcon" },
+  redo: { lucide: "Redo2", tabler: "IconArrowForwardUp", heroicons: "ArrowUturnRightIcon" },
+  "sort-asc": { lucide: "ArrowUpAZ", tabler: "IconSortAscending", heroicons: "BarsArrowUpIcon" },
+  "sort-desc": {
+    lucide: "ArrowDownAZ",
+    tabler: "IconSortDescending",
+    heroicons: "BarsArrowDownIcon",
+  },
+  // A direction-neutral sort affordance, for the control that *opens* sorting
+  // rather than expressing a direction. Heroicons has no neutral glyph, so it
+  // reuses the one behind "sort-desc".
+  sort: { lucide: "ListFilter", tabler: "IconArrowsSort", heroicons: "BarsArrowDownIcon" },
+  filter: { lucide: "Filter", tabler: "IconFilter", heroicons: "FunnelIcon" },
   // Status / feedback
-  "check-circle":   { lucide: "CheckCircle",    tabler: "IconCircleCheck",    heroicons: "CheckCircleIcon"              },
-  "alert-circle":   { lucide: "AlertCircle",    tabler: "IconAlertCircle",    heroicons: "ExclamationCircleIcon"        },
-  "alert-triangle": { lucide: "AlertTriangle",  tabler: "IconAlertTriangle",  heroicons: "ExclamationTriangleIcon"      },
-  "info":           { lucide: "Info",           tabler: "IconInfoCircle",     heroicons: "InformationCircleIcon"        },
-  "loader":         { lucide: "Loader2",        tabler: "IconLoader2",        heroicons: "ArrowPathIcon"                },
+  "check-circle": {
+    lucide: "CheckCircle",
+    tabler: "IconCircleCheck",
+    heroicons: "CheckCircleIcon",
+  },
+  "alert-circle": {
+    lucide: "AlertCircle",
+    tabler: "IconAlertCircle",
+    heroicons: "ExclamationCircleIcon",
+  },
+  "alert-triangle": {
+    lucide: "AlertTriangle",
+    tabler: "IconAlertTriangle",
+    heroicons: "ExclamationTriangleIcon",
+  },
+  info: { lucide: "Info", tabler: "IconInfoCircle", heroicons: "InformationCircleIcon" },
+  loader: { lucide: "Loader2", tabler: "IconLoader2", heroicons: "ArrowPathIcon" },
   // Content / data
-  "search":         { lucide: "Search",         tabler: "IconSearch",         heroicons: "MagnifyingGlassIcon"          },
-  "eye":            { lucide: "Eye",            tabler: "IconEye",            heroicons: "EyeIcon"                      },
-  "eye-off":        { lucide: "EyeOff",         tabler: "IconEyeOff",         heroicons: "EyeSlashIcon"                 },
-  "bookmark":       { lucide: "Bookmark",       tabler: "IconBookmark",       heroicons: "BookmarkIcon"                 },
-  "star":           { lucide: "Star",           tabler: "IconStar",           heroicons: "StarIcon"                     },
-  "heart":          { lucide: "Heart",          tabler: "IconHeart",          heroicons: "HeartIcon"                    },
-  "tag":            { lucide: "Tag",            tabler: "IconTag",            heroicons: "TagIcon"                      },
-  "menu":           { lucide: "Menu",           tabler: "IconMenu2",          heroicons: "Bars3Icon"                    },
-  "grid":           { lucide: "Grid2X2",        tabler: "IconLayoutGrid",     heroicons: "Squares2X2Icon"               },
-  "list":           { lucide: "List",           tabler: "IconList",           heroicons: "ListBulletIcon"               },
+  search: { lucide: "Search", tabler: "IconSearch", heroicons: "MagnifyingGlassIcon" },
+  eye: { lucide: "Eye", tabler: "IconEye", heroicons: "EyeIcon" },
+  "eye-off": { lucide: "EyeOff", tabler: "IconEyeOff", heroicons: "EyeSlashIcon" },
+  bookmark: { lucide: "Bookmark", tabler: "IconBookmark", heroicons: "BookmarkIcon" },
+  star: { lucide: "Star", tabler: "IconStar", heroicons: "StarIcon" },
+  heart: { lucide: "Heart", tabler: "IconHeart", heroicons: "HeartIcon" },
+  tag: { lucide: "Tag", tabler: "IconTag", heroicons: "TagIcon" },
+  menu: { lucide: "Menu", tabler: "IconMenu2", heroicons: "Bars3Icon" },
+  grid: { lucide: "Grid2X2", tabler: "IconLayoutGrid", heroicons: "Squares2X2Icon" },
+  list: { lucide: "List", tabler: "IconList", heroicons: "ListBulletIcon" },
+  file: { lucide: "File", tabler: "IconFile", heroicons: "DocumentIcon" },
+  folder: { lucide: "Folder", tabler: "IconFolder", heroicons: "FolderIcon" },
+  // Media / playback
+  play: { lucide: "Play", tabler: "IconPlayerPlay", heroicons: "PlayIcon" },
+  pause: { lucide: "Pause", tabler: "IconPlayerPause", heroicons: "PauseIcon" },
   // People / identity
-  "user":           { lucide: "User",           tabler: "IconUser",           heroicons: "UserIcon"                     },
-  "users":          { lucide: "Users",          tabler: "IconUsers",          heroicons: "UsersIcon"                    },
-  "lock":           { lucide: "Lock",           tabler: "IconLock",           heroicons: "LockClosedIcon"               },
-  "unlock":         { lucide: "LockOpen",       tabler: "IconLockOpen",       heroicons: "LockOpenIcon"                 },
+  user: { lucide: "User", tabler: "IconUser", heroicons: "UserIcon" },
+  users: { lucide: "Users", tabler: "IconUsers", heroicons: "UsersIcon" },
+  lock: { lucide: "Lock", tabler: "IconLock", heroicons: "LockClosedIcon" },
+  unlock: { lucide: "LockOpen", tabler: "IconLockOpen", heroicons: "LockOpenIcon" },
   // Communication
-  "mail":           { lucide: "Mail",           tabler: "IconMail",           heroicons: "EnvelopeIcon"                 },
-  "phone":          { lucide: "Phone",          tabler: "IconPhone",          heroicons: "PhoneIcon"                    },
+  mail: { lucide: "Mail", tabler: "IconMail", heroicons: "EnvelopeIcon" },
+  phone: { lucide: "Phone", tabler: "IconPhone", heroicons: "PhoneIcon" },
   // Misc
-  "settings":       { lucide: "Settings",       tabler: "IconSettings",       heroicons: "Cog6ToothIcon"                },
-  "home":           { lucide: "Home",           tabler: "IconHome",           heroicons: "HomeIcon"                     },
-  "calendar":       { lucide: "Calendar",       tabler: "IconCalendar",       heroicons: "CalendarIcon"                 },
-  "clock":          { lucide: "Clock",          tabler: "IconClock",          heroicons: "ClockIcon"                    },
+  settings: { lucide: "Settings", tabler: "IconSettings", heroicons: "Cog6ToothIcon" },
+  home: { lucide: "Home", tabler: "IconHome", heroicons: "HomeIcon" },
+  calendar: { lucide: "Calendar", tabler: "IconCalendar", heroicons: "CalendarIcon" },
+  clock: { lucide: "Clock", tabler: "IconClock", heroicons: "ClockIcon" },
+  // Heroicons has no dedicated eyedropper outside its 24/outline set and no
+  // clockwise-rotate glyph at all; EyeDropperIcon and ArrowPathIcon are the
+  // closest true equivalents, and ArrowPathIcon already backs "refresh".
+  pipette: { lucide: "Pipette", tabler: "IconColorPicker", heroicons: "EyeDropperIcon" },
+  "rotate-cw": { lucide: "RotateCw", tabler: "IconRotateClockwise", heroicons: "ArrowPathIcon" },
+  // The counter-clockwise pair — "put it back". Heroicons reuses the glyph
+  // behind "undo", which is the same gesture.
+  "rotate-ccw": { lucide: "RotateCcw", tabler: "IconRotate", heroicons: "ArrowUturnLeftIcon" },
 };
 
 // ─── Name resolution ──────────────────────────────────────────────────────────

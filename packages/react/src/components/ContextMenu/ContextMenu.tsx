@@ -15,11 +15,11 @@ import type {
   ContextMenuCheckboxItemProps,
   ContextMenuRadioItemProps,
 } from "./ContextMenu.types.js";
-import "./ContextMenu.css";
+import "@ui-organized/core/components/ContextMenu/ContextMenu.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.
-import "../Checkbox/Checkbox.css";
-import "../Radio/Radio.css";
+import "@ui-organized/core/components/Checkbox/Checkbox.css";
+import "@ui-organized/core/components/Radio/Radio.css";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkMenu.Root>["positioning"]>;
 const SetPositioningContext = React.createContext<((p: Positioning) => void) | null>(null);

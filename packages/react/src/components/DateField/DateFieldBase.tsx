@@ -2,14 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import type * as React from "react";
 import { Field, Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { inputFieldStyles } from "../Input/Input.styles.js";
+import { CONTROL_ICON_SIZE, inputFieldStyles } from "@ui-organized/core";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
-import { parseISODate, toISODate, todayYMD, type YMD } from "../Calendar/dateUtils.js";
-import { popupControls } from "../../utils/aria.js";
+import { parseISODate, toISODate, todayYMD, type YMD } from "@ui-organized/core";
+import { popupControls } from "@ui-organized/core";
 import { openDatePicker } from "./openDatePicker.js";
 import { setNativeInputValue } from "./setNativeInputValue.js";
 import { useCoarsePointer } from "./useCoarsePointer.js";
@@ -18,8 +17,8 @@ import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
 import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // Shares the Input field surface/state styling; InputAffix.css supplies the
 // leading calendar button and hides the native picker chrome.
-import "../Input/Input.css";
-import "../Input/InputAffix.css";
+import "@ui-organized/core/components/Input/Input.css";
+import "@ui-organized/core/components/Input/InputAffix.css";
 
 function splitDateTime(value: string): { date: string; time: string } {
   const [date = "", time = ""] = value.split("T");

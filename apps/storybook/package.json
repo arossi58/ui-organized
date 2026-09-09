@@ -6,12 +6,16 @@
     "dev": "storybook dev -p 6006",
     "build": "storybook build",
     "preview": "npx http-server storybook-static -p 6007",
-    "test:visual": "storybook build --quiet && playwright test",
-    "test:visual:update": "storybook build --quiet && playwright test --update-snapshots",
-    "test:visual:run": "playwright test"
+    "test:visual": "PLAYWRIGHT_JSON_OUTPUT_NAME=../../.quality/visual.json playwright test --project=visual --reporter=json,list",
+    "test:interaction": "PLAYWRIGHT_JSON_OUTPUT_NAME=../../.quality/interaction.json playwright test --project=interaction-chromium --project=interaction-firefox --project=interaction-webkit --reporter=json,list",
+    "test:a11y": "PLAYWRIGHT_JSON_OUTPUT_NAME=../../.quality/a11y.json playwright test --project=a11y-chromium --project=a11y-firefox --project=a11y-webkit --reporter=json,list",
+    "test:browsers": "PLAYWRIGHT_JSON_OUTPUT_NAME=../../.quality/browsers.json playwright test --project=smoke-firefox --project=smoke-webkit --reporter=json,list",
+    "test:visual:update": "playwright test --project=visual --update-snapshots",
+    "test:visual:docker": "node ../../scripts/quality/visual-docker.mjs"
   },
   "dependencies": {
     "@ui-organized/react": "workspace:*",
+    "@ui-organized/react-table": "workspace:*",
     "@ui-organized/storybook-inspector": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
@@ -20,15 +24,16 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.61.0",
     "@storybook/addon-a11y": "^10.4.4",
     "@storybook/addon-docs": "^10.4.4",
     "@storybook/addon-themes": "^10.4.4",
     "@storybook/react": "^10.4.4",
     "@storybook/react-vite": "^10.4.4",
-    "@ui-organized/storybook-inspector": "workspace:*",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@ui-organized/storybook-inspector": "workspace:*",
     "http-server": "^14.1.1",
     "storybook": "^10.4.4",
     "typescript": "^5.4.0",

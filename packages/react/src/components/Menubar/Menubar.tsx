@@ -2,7 +2,7 @@ import * as React from "react";
 import { clsx } from "clsx";
 import { MenubarContext } from "./MenubarContext.js";
 import type { MenubarProps } from "./Menubar.types.js";
-import "./Menubar.css";
+import "@ui-organized/core/components/Menubar/Menubar.css";
 
 /**
  * Horizontal container for a row of menus. Place the existing `Menu` components
@@ -81,6 +81,10 @@ export function Menubar({
 
   return (
     <MenubarContext.Provider value>
+      {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus --
+          roving tabindex: `rove()` gives exactly one menubar item tabIndex=0
+          and every other -1, which is the APG menubar pattern. The container
+          must stay out of the tab order; the rule can't see the delegation. */}
       <div
         ref={ref}
         role="menubar"

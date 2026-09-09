@@ -1,6 +1,6 @@
 import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { sheetStyles } from "./Sheet.styles.js";
+import { sheetStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type {
   SheetProps,
@@ -12,10 +12,10 @@ import type {
   SheetFooterProps,
 } from "./Sheet.types.js";
 // Reuses the Dialog chrome (backdrop, title/description/footer/close).
-import "../Dialog/Dialog.css";
-import "./Sheet.css";
+import "@ui-organized/core/components/Dialog/Dialog.css";
+import "@ui-organized/core/components/Sheet/Sheet.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */

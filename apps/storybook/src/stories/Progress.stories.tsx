@@ -10,13 +10,14 @@ const meta: Meta<typeof Progress> = {
     docs: {
       description: {
         component:
-          "A horizontal progress bar. Pass `value` (or `null` for indeterminate), and use `variant`, `size`, `label`, and `showValue`.",
+          "A progress bar or ring. Pass `value` (or `null` for indeterminate), and use `variant`, `size`, `label`, and `showValue`. `shape=\"circular\"` draws the same value as a ring — identical states and colours, for places a full-width bar doesn't fit. Use `Meter` instead for a static measurement that isn't tracking a task.",
       },
     },
   },
   argTypes: {
     variant: { control: "select", options: ["default", "success", "warning", "error"] },
     size: { control: "select", options: ["sm", "md", "lg"] },
+    shape: { control: "select", options: ["linear", "circular"] },
     value: { control: { type: "range", min: 0, max: 100 } },
   },
 };
@@ -69,4 +70,53 @@ export const Indeterminate: Story = {
       <Progress value={null} label="Working…" />
     </div>
   ),
+};
+
+export const Circular: Story = {
+  render: () => <Progress shape="circular" value={68} showValue />,
+  parameters: {
+    docs: {
+      source: { code: `<Progress shape="circular" value={68} showValue />` },
+    },
+  },
+};
+
+export const CircularSizes: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+      <Progress shape="circular" size="sm" value={68} />
+      <Progress shape="circular" size="md" value={68} showValue />
+      <Progress shape="circular" size="lg" value={68} showValue />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress shape="circular" size="sm" value={68} />
+<Progress shape="circular" size="md" value={68} showValue />
+<Progress shape="circular" size="lg" value={68} showValue />`,
+      },
+    },
+  },
+};
+
+export const CircularVariants: Story = {
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+      <Progress shape="circular" value={30} showValue />
+      <Progress shape="circular" variant="success" value={100} showValue />
+      <Progress shape="circular" variant="warning" value={75} showValue />
+      <Progress shape="circular" variant="error" value={12} showValue />
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<Progress shape="circular" value={30} showValue />
+<Progress shape="circular" variant="success" value={100} showValue />
+<Progress shape="circular" variant="warning" value={75} showValue />
+<Progress shape="circular" variant="error" value={12} showValue />`,
+      },
+    },
+  },
 };

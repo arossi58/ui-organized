@@ -1,10 +1,10 @@
 import { useId, useState } from "react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
-import { navItemStyles } from "./Navigation.styles.js";
+import { navItemStyles } from "@ui-organized/core";
 import { useNavContext } from "./NavContext.js";
 import type { NavItemProps } from "./Navigation.types.js";
-import "./Navigation.css";
+import "@ui-organized/core/components/Navigation/Navigation.css";
 
 const ICON_SIZE = 18;
 const CARET_SIZE = 20;

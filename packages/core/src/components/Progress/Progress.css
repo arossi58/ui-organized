@@ -1,0 +1,180 @@
+/* ─── Progress ────────────────────────────────────────────────────────────── */
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  width: 100%;
+}
+
+/* ─── Header (label + value) ──────────────────────────────────────────────── */
+
+.progress__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+}
+
+.progress__label {
+  color: var(--color-content-secondary);
+}
+
+.progress__value {
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Track ───────────────────────────────────────────────────────────────── */
+
+.progress__track {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--color-interactive-secondary-default);
+  border-radius: var(--border-radius-full);
+}
+
+.progress--sm .progress__track {
+  height: 4px;
+}
+.progress--md .progress__track {
+  height: 8px;
+}
+.progress--lg .progress__track {
+  height: 12px;
+}
+
+/* ─── Indicator (fill) ────────────────────────────────────────────────────── */
+/* Base UI sets `width: <percent>%` inline; we animate that and color it. */
+
+.progress__indicator {
+  height: 100%;
+  background-color: var(--color-interactive-primary-default);
+  border-radius: inherit;
+  transition: width 200ms ease;
+}
+
+.progress--success .progress__indicator {
+  background-color: var(--color-status-success);
+}
+.progress--warning .progress__indicator {
+  background-color: var(--color-status-caution);
+}
+.progress--error .progress__indicator {
+  background-color: var(--color-status-error);
+}
+
+/* ─── Indeterminate ───────────────────────────────────────────────────────── */
+/* No value → Base UI omits the inline width; we drive a sliding segment. */
+
+.progress__indicator[data-state="indeterminate"] {
+  width: 40%;
+  animation: progress-indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(360%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress__indicator[data-state="indeterminate"] {
+    animation: none;
+  }
+}
+
+/* ─── Circular shape ──────────────────────────────────────────────────────────
+   Same value and states as the bar, drawn as a ring.
+
+   `--size` and `--thickness` are zag's names, not ours, and are mandatory:
+   @zag-js/progress writes `r: var(--radius)`, `stroke-width: var(--thickness)`
+   and `--radius: calc(var(--size) / 2 - var(--thickness) / 2)` inline on the
+   circle, so the SVG has no geometry at all until this file supplies those two.
+   `--radius`, `--circumference`, `--offset` and `--percent` are zag's to write
+   — never read them here.
+
+   Both values are sourced from the token scale, but the names must stay exactly
+   these two, so they are declared on `.progress__circle` and nowhere higher. */
+
+.progress--circular {
+  /* The ring is intrinsically sized; without this it would stretch like the
+     bar it shares a root class with. */
+  width: fit-content;
+}
+
+.progress--circular .progress__circle {
+  --size: var(--dimension-02, 80px);
+  --thickness: var(--spacing-space-02);
+  display: block;
+}
+
+.progress--sm.progress--circular .progress__circle {
+  --size: var(--dimension-01, 40px);
+  --thickness: var(--spacing-space-01);
+}
+
+.progress--lg.progress--circular .progress__circle {
+  --size: var(--dimension-03, 120px);
+  --thickness: var(--spacing-space-03);
+}
+
+/* The wrapper is what lets the value text sit in the middle of the ring; the
+   circle itself is an SVG and cannot hold flow content. */
+.progress__circle-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress__circle-track {
+  stroke: var(--color-interactive-secondary-default);
+}
+
+.progress__circle-range {
+  stroke: var(--color-interactive-primary-default);
+  /* Rounded caps read as a deliberate ring rather than a cut arc. */
+  stroke-linecap: round;
+  transition: stroke-dashoffset 200ms ease;
+}
+
+.progress--success .progress__circle-range {
+  stroke: var(--color-status-success);
+}
+.progress--warning .progress__circle-range {
+  stroke: var(--color-status-caution);
+}
+.progress--error .progress__circle-range {
+  stroke: var(--color-status-error);
+}
+
+.progress__circle-value {
+  position: absolute;
+  color: var(--color-content-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Indeterminate: zag omits the dash array, so the ring is drawn whole and spun
+   rather than filled. The dash pattern is what makes the gap visible. */
+.progress__circle-range[data-state="indeterminate"] {
+  stroke-dasharray: 0.6turn 1turn;
+  transform-origin: center;
+  animation: progress-circle-spin 1.2s linear infinite;
+}
+
+@keyframes progress-circle-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress__circle-range[data-state="indeterminate"] {
+    animation: none;
+  }
+}

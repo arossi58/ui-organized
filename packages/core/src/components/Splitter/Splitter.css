@@ -1,0 +1,117 @@
+/* ─── Splitter ────────────────────────────────────────────────────────────────
+   Resizable panes. zag owns the flex basis of each panel and writes it inline,
+   so nothing here sets a panel size — only the handle between them is styled.
+
+   The grip is three CSS dots rather than an Icon: Heroicons ships no grip
+   glyph, and inventing a canonical name backed by a wrong icon in one of the
+   three libraries would be worse than drawing two-by-six pixels here. */
+
+.splitter {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.splitter--vertical {
+  flex-direction: column;
+}
+
+.splitter__panel {
+  overflow: hidden;
+}
+
+/* ─── Resize handle ───────────────────────────────────────────────────────── */
+
+.splitter__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  background-color: var(--color-border-secondary);
+  border: none;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.splitter--horizontal .splitter__trigger {
+  /* A 1px rule is the visual, but a 1px hit target is not usable — the handle is
+     a full space-01 wide and the rule is drawn inside it. */
+  width: var(--spacing-space-01);
+  cursor: col-resize;
+}
+
+.splitter--vertical .splitter__trigger {
+  height: var(--spacing-space-01);
+  cursor: row-resize;
+}
+
+.splitter__trigger:hover,
+.splitter__trigger[data-focus] {
+  background-color: var(--color-interactive-primary-default);
+}
+
+.splitter__trigger[data-dragging] {
+  background-color: var(--color-interactive-primary-active);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.splitter__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.splitter__trigger[data-disabled] {
+  cursor: default;
+  opacity: 0.4;
+}
+
+/* The subtle variant hides the rule until the handle is approached, for layouts
+   where a permanent line would read as a border. */
+.splitter--subtle .splitter__trigger {
+  background-color: transparent;
+}
+
+.splitter--subtle .splitter__trigger:hover,
+.splitter--subtle .splitter__trigger[data-focus],
+.splitter--subtle .splitter__trigger[data-dragging] {
+  background-color: var(--color-interactive-primary-default);
+}
+
+/* ─── Grip ────────────────────────────────────────────────────────────────────
+   Three dots, drawn with a repeating gradient so there are no extra elements.
+   The 2px dot and 4px pitch are pointer-scale constants, not design values. */
+
+.splitter__grip {
+  background-image: radial-gradient(circle, var(--color-content-light) 1px, transparent 1px);
+  background-repeat: repeat;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.splitter--horizontal .splitter__grip {
+  width: 2px;
+  height: var(--spacing-space-04);
+  background-size: 2px 4px;
+}
+
+.splitter--vertical .splitter__grip {
+  width: var(--spacing-space-04);
+  height: 2px;
+  background-size: 4px 2px;
+}
+
+.splitter__trigger:hover .splitter__grip,
+.splitter__trigger[data-focus] .splitter__grip,
+.splitter__trigger[data-dragging] .splitter__grip {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splitter__trigger,
+  .splitter__grip {
+    transition: none;
+  }
+}

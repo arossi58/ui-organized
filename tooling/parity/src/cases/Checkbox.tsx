@@ -1,0 +1,27 @@
+import type { ComponentType } from "react";
+import { Checkbox as RCheckbox } from "@ui-organized/react";
+import CheckboxFixture from "../fixtures/CheckboxFixture.svelte";
+import VueCheckboxFixture from "../fixtures/vue/CheckboxFixture.vue";
+import type { ParitySpec } from "./spec.js";
+
+const spec: ParitySpec = {
+  component: "Checkbox",
+  react: (p) => <RCheckbox {...p} />,
+  svelte: CheckboxFixture as unknown as ComponentType<any>,
+  vue: VueCheckboxFixture as unknown as ComponentType<any>,
+  cases: [
+    { name: "default" },
+    { name: "with label", props: { label: "Accept" } },
+    // Same dangling-aria-labelledby case OMIT_ARIA guards on Switch.
+    { name: "no label, aria-label", props: { "aria-label": "Accept" } },
+    { name: "checked", props: { defaultChecked: true, label: "Accept" } },
+    // Ark folds indeterminate into the checked value; the facade keeps it a
+    // separate boolean, and the indicator swaps to a dash.
+    { name: "indeterminate", props: { indeterminate: true, label: "Accept" } },
+    { name: "disabled", props: { disabled: true, label: "Accept" } },
+    { name: "required", props: { required: true, label: "Accept" } },
+    { name: "named", props: { name: "accept", label: "Accept" } },
+  ],
+};
+
+export default spec;

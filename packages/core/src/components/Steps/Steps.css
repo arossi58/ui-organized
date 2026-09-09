@@ -1,0 +1,215 @@
+/* ─── Steps ───────────────────────────────────────────────────────────────────
+   A progress tracker across a linear task. zag sets `data-complete` /
+   `data-current` / `data-incomplete` on each trigger, so all three appearances
+   are attribute-driven and the component ships no state logic of its own. */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+/* ─── List ────────────────────────────────────────────────────────────────── */
+
+.steps__list {
+  display: flex;
+  gap: var(--spacing-space-02);
+}
+
+.steps--vertical .steps__list {
+  flex-direction: column;
+}
+
+.steps__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  /* Each item shares the row equally so the separators between them are the
+     same length regardless of how long a title is. */
+  flex: 1;
+}
+
+.steps--vertical .steps__item {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0;
+}
+
+.steps__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-01);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  cursor: pointer;
+  outline: none;
+  text-align: start;
+  transition: box-shadow 150ms ease;
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.steps__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.steps__trigger:disabled {
+  cursor: not-allowed;
+}
+
+/* ─── Indicator ───────────────────────────────────────────────────────────── */
+
+.steps__indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--spacing-space-06);
+  height: var(--spacing-space-06);
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-inactive-02);
+  color: var(--color-content-light);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-medium);
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.steps--sm .steps__indicator {
+  width: var(--spacing-space-05);
+  height: var(--spacing-space-05);
+  font-size: var(--type-size-body-small);
+}
+
+.steps--lg .steps__indicator {
+  width: var(--spacing-space-07);
+  height: var(--spacing-space-07);
+  font-size: var(--type-size-body-large);
+}
+
+/* The dotted variant keeps the same hit area and the same rhythm; only the
+   visible dot shrinks, so the separators still line up across variants. */
+.steps--dotted .steps__indicator {
+  width: var(--spacing-space-03);
+  height: var(--spacing-space-03);
+}
+
+.steps__trigger[data-current] .steps__indicator {
+  background-color: var(--color-interactive-primary-default);
+}
+
+.steps__trigger[data-complete] .steps__indicator {
+  background-color: var(--color-status-success);
+}
+
+/* Number and tick occupy the same circle; exactly one shows at a time. */
+.steps__indicator-check {
+  display: none;
+}
+
+.steps--dotted .steps__indicator-number,
+.steps--dotted .steps__indicator-check {
+  display: none;
+}
+
+.steps__trigger[data-complete] .steps__indicator-number {
+  display: none;
+}
+
+.steps--numbered .steps__trigger[data-complete] .steps__indicator-check {
+  display: inline-flex;
+}
+
+/* ─── Text ────────────────────────────────────────────────────────────────── */
+
+.steps__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.steps__title {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-tertiary);
+  transition: color 150ms ease;
+}
+
+.steps--lg .steps__title {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+.steps__trigger[data-current] .steps__title,
+.steps__trigger[data-complete] .steps__title {
+  color: var(--color-content-primary);
+}
+
+.steps__description {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+}
+
+/* ─── Separator ───────────────────────────────────────────────────────────────
+   Ark renders one per item and hides the last; it fills whatever space the
+   trigger leaves, which is why the item is a flex row with a growing separator. */
+
+.steps__separator {
+  flex: 1;
+  height: 1px;
+  min-width: var(--spacing-space-04);
+  background-color: var(--color-border-secondary);
+  transition: background-color 150ms ease;
+}
+
+.steps__separator[data-complete] {
+  background-color: var(--color-status-success);
+}
+
+.steps--vertical .steps__separator {
+  flex: none;
+  width: 1px;
+  min-width: 0;
+  height: var(--spacing-space-05);
+  /* Line the rule up with the centre of the indicator above it. */
+  margin-inline-start: calc(var(--spacing-space-06) / 2 + var(--spacing-space-01));
+}
+
+.steps--sm.steps--vertical .steps__separator {
+  margin-inline-start: calc(var(--spacing-space-05) / 2 + var(--spacing-space-01));
+}
+
+.steps--lg.steps--vertical .steps__separator {
+  margin-inline-start: calc(var(--spacing-space-07) / 2 + var(--spacing-space-01));
+}
+
+.steps--dotted.steps--vertical .steps__separator {
+  margin-inline-start: calc(var(--spacing-space-03) / 2 + var(--spacing-space-01));
+}
+
+/* ─── Content and actions ─────────────────────────────────────────────────── */
+
+.steps__content {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+}
+
+.steps__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}

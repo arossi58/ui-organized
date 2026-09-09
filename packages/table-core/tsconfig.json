@@ -1,0 +1,16 @@
+{
+  "extends": "@ui-organized/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    // DOM is in `lib` and that is not a contradiction of the purity rule: core
+    // owns the ResizeObserver breakpoint watcher and the clipboard write, both
+    // SSR-guarded. What it must never reach is a *framework*.
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "rootDir": "src"
+  },
+  // `scripts/` is deliberately outside the program, exactly as
+  // `@ui-organized/core` has it: the token-contract generator reaches into
+  // another package's source by relative path so it can run before anything is
+  // built, and that is not a shape `rootDir` can describe.
+  "include": ["src"]
+}

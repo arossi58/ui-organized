@@ -11,7 +11,7 @@ const meta: Meta<typeof DateRangeInput> = {
     docs: {
       description: {
         component:
-          "A from–to date range built from two native `<input type=\"date\">` controls on the Input field surface, under one shared `label`, `helperText`, and `error`. On desktop the calendar buttons open one shared design-system two-month range calendar; on touch devices they defer to the OS-native picker. The two ends auto-constrain each other (the end can't precede the start) on top of the optional `min` / `max` bounds. Works controlled (`value` + `onChange`) or uncontrolled (`defaultValue`).",
+          'A from–to date range built from two native `<input type="date">` controls on the Input field surface, under one shared `label`, `helperText`, and `error`. On desktop the calendar buttons open one shared design-system two-month range calendar; on touch devices they defer to the OS-native picker. The two ends auto-constrain each other (the end can\'t precede the start) on top of the optional `min` / `max` bounds. Works controlled (`value` + `onChange`) or uncontrolled (`defaultValue`).',
       },
     },
   },
@@ -93,9 +93,21 @@ export const AllSizes: Story = {
   },
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "480px" }}>
-      <DateRangeInput size="sm" label="Small" defaultValue={{ start: "2026-06-15", end: "2026-06-22" }} />
-      <DateRangeInput size="md" label="Medium" defaultValue={{ start: "2026-06-15", end: "2026-06-22" }} />
-      <DateRangeInput size="lg" label="Large" defaultValue={{ start: "2026-06-15", end: "2026-06-22" }} />
+      <DateRangeInput
+        size="sm"
+        label="Small"
+        defaultValue={{ start: "2026-06-15", end: "2026-06-22" }}
+      />
+      <DateRangeInput
+        size="md"
+        label="Medium"
+        defaultValue={{ start: "2026-06-15", end: "2026-06-22" }}
+      />
+      <DateRangeInput
+        size="lg"
+        label="Large"
+        defaultValue={{ start: "2026-06-15", end: "2026-06-22" }}
+      />
     </div>
   ),
 };
@@ -117,15 +129,45 @@ export const AllStates: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px", maxWidth: "480px" }}>
       <DateRangeInput label="Default" />
-      <DateRangeInput label="With value" defaultValue={{ start: "2026-06-15", end: "2026-06-22" }} />
+      <DateRangeInput
+        label="With value"
+        defaultValue={{ start: "2026-06-15", end: "2026-06-22" }}
+      />
       <DateRangeInput label="Required" required />
       <DateRangeInput label="Error state" error="End date must be on or after the start date." />
-      <DateRangeInput label="Disabled" defaultValue={{ start: "2026-06-15", end: "2026-06-22" }} disabled />
+      <DateRangeInput
+        label="Disabled"
+        defaultValue={{ start: "2026-06-15", end: "2026-06-22" }}
+        disabled
+      />
     </div>
   ),
 };
 
 /** Controlled range with a live nights count derived from the two ends. */
+// ── Stateful demo ────────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+function ControlledDemo() {
+  const [range, setRange] = useState<DateRangeValue>({ start: "", end: "" });
+  const nights =
+    range.start && range.end
+      ? Math.round((new Date(range.end).getTime() - new Date(range.start).getTime()) / 86_400_000)
+      : null;
+  return (
+    <div style={{ maxWidth: "480px" }}>
+      <DateRangeInput
+        label="Stay dates"
+        value={range}
+        onChange={setRange}
+        helperText={nights != null ? `${nights} night(s)` : "Pick your check-in and check-out."}
+      />
+    </div>
+  );
+}
+
 export const Controlled: Story = {
   parameters: {
     docs: {
@@ -149,25 +191,5 @@ const nights =
       },
     },
   },
-  render: () => {
-    const [range, setRange] = useState<DateRangeValue>({ start: "", end: "" });
-    const nights =
-      range.start && range.end
-        ? Math.round(
-            (new Date(range.end).getTime() - new Date(range.start).getTime()) / 86_400_000,
-          )
-        : null;
-    return (
-      <div style={{ maxWidth: "480px" }}>
-        <DateRangeInput
-          label="Stay dates"
-          value={range}
-          onChange={setRange}
-          helperText={
-            nights != null ? `${nights} night(s)` : "Pick your check-in and check-out."
-          }
-        />
-      </div>
-    );
-  },
+  render: () => <ControlledDemo />,
 };

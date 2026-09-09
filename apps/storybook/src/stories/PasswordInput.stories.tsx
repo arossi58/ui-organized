@@ -115,14 +115,44 @@ export const AllStates: Story = {
       <PasswordInput label="Default" placeholder="Enter your password" />
       <PasswordInput label="With value" defaultValue="hunter2pass" />
       <PasswordInput label="Required" placeholder="Enter your password" required />
-      <PasswordInput label="With helper" placeholder="Enter your password" helperText="Must be at least 8 characters." />
-      <PasswordInput label="Error state" placeholder="Enter your password" error="Password is too short." />
+      <PasswordInput
+        label="With helper"
+        placeholder="Enter your password"
+        helperText="Must be at least 8 characters."
+      />
+      <PasswordInput
+        label="Error state"
+        placeholder="Enter your password"
+        error="Password is too short."
+      />
       <PasswordInput label="Disabled" defaultValue="hunter2pass" disabled />
     </div>
   ),
 };
 
 /** Live strength hint driven from the controlled value. */
+// ── Stateful demo ────────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+function ControlledDemo() {
+  const [value, setValue] = useState("");
+  const strength =
+    value.length === 0 ? "" : value.length < 8 ? "Weak" : value.length < 12 ? "Good" : "Strong";
+  return (
+    <div style={{ maxWidth: "400px" }}>
+      <PasswordInput
+        label="Create password"
+        placeholder="Enter your password"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        helperText={strength ? `Strength: ${strength}` : "Must be at least 8 characters."}
+      />
+    </div>
+  );
+}
+
 export const Controlled: Story = {
   parameters: {
     docs: {
@@ -143,20 +173,5 @@ const strength =
       },
     },
   },
-  render: () => {
-    const [value, setValue] = useState("");
-    const strength =
-      value.length === 0 ? "" : value.length < 8 ? "Weak" : value.length < 12 ? "Good" : "Strong";
-    return (
-      <div style={{ maxWidth: "400px" }}>
-        <PasswordInput
-          label="Create password"
-          placeholder="Enter your password"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText={strength ? `Strength: ${strength}` : "Must be at least 8 characters."}
-        />
-      </div>
-    );
-  },
+  render: () => <ControlledDemo />,
 };

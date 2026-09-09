@@ -19,6 +19,9 @@ import "@ui-organized/react/icons/tabler";
 import "@ui-organized/react/icons/heroicons";
 import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
+// The table ships its own stylesheet — it lives outside the component library
+// so that consumers of Button do not pay for a table engine at install time.
+import "@ui-organized/react-table/styles";
 import "../src/preview.css";
 import {
   BRAND_TOKEN_KEYS,

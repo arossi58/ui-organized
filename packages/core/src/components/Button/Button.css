@@ -1,0 +1,188 @@
+/* ─── Button base ─────────────────────────────────────────────────────────── */
+
+.btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-01);
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    opacity 150ms ease;
+  outline: none;
+}
+
+/* A button given the `hidden` attribute has to disappear: `display: flex` above
+   would override [hidden]'s `display: none`. SignaturePad's clear trigger is
+   the case that found this — Ark keeps it mounted and hides it until there is
+   ink, so an empty pad offered a "Clear" button. General rather than scoped to
+   that component, because any caller can hide a button. */
+.btn[hidden] {
+  display: none;
+}
+
+/* Figma focus is a 2px ring hugging the button (drop-shadow spread 2, offset 0),
+   matching the box-shadow focus used across the rest of the design system. */
+.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.btn:disabled,
+.btn[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Intent: primary ─────────────────────────────────────────────────────── */
+
+.btn--primary {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  border-color: transparent;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: var(--color-interactive-primary-hover);
+}
+
+.btn--primary:active:not(:disabled) {
+  background-color: var(--color-interactive-primary-active);
+}
+
+/* ─── Intent: secondary ───────────────────────────────────────────────────── */
+
+.btn--secondary {
+  background-color: var(--color-interactive-secondary-default);
+  color: var(--color-content-primary);
+  border-color: transparent;
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: var(--color-interactive-secondary-hover);
+}
+
+.btn--secondary:active:not(:disabled) {
+  background-color: var(--color-interactive-secondary-active);
+}
+
+/* ─── Intent: tertiary ────────────────────────────────────────────────────── */
+
+.btn--tertiary {
+  background-color: transparent;
+  color: var(--color-interactive-tertiary-default);
+  border-color: var(--color-interactive-tertiary-default);
+}
+
+/* On interaction the outline fills solid with light text (Figma 23:313 / 23:477). */
+.btn--tertiary:hover:not(:disabled) {
+  background-color: var(--color-interactive-tertiary-hover);
+  border-color: var(--color-interactive-tertiary-hover);
+  color: var(--color-content-light);
+}
+
+.btn--tertiary:active:not(:disabled) {
+  background-color: var(--color-interactive-tertiary-active);
+  border-color: var(--color-interactive-tertiary-active);
+  color: var(--color-content-light);
+}
+
+/* ─── Intent: ghost ───────────────────────────────────────────────────────── */
+
+.btn--ghost {
+  background-color: var(--color-interactive-ghost-default);
+  color: var(--color-content-primary);
+  border-color: transparent;
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background-color: var(--color-interactive-ghost-hover);
+}
+
+.btn--ghost:active:not(:disabled) {
+  background-color: var(--color-interactive-ghost-active);
+}
+
+/* ─── Intent: destructive ─────────────────────────────────────────────────── */
+
+.btn--destructive {
+  background-color: var(--color-interactive-destructive-default);
+  color: var(--color-interactive-contents);
+  border-color: transparent;
+}
+
+.btn--destructive:hover:not(:disabled) {
+  background-color: var(--color-interactive-destructive-hover);
+}
+
+.btn--destructive:active:not(:disabled) {
+  background-color: var(--color-interactive-destructive-active);
+}
+
+/* ─── Intent: destructive-ghost ───────────────────────────────────────────── */
+
+.btn--destructive-ghost {
+  background-color: transparent;
+  color: var(--color-interactive-destructive-default-ghost);
+  border-color: transparent;
+}
+
+/* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
+.btn--destructive-ghost:hover:not(:disabled) {
+  background-color: var(--color-interactive-destructive-hover);
+  color: var(--color-content-light);
+}
+
+.btn--destructive-ghost:active:not(:disabled) {
+  background-color: var(--color-interactive-destructive-active);
+  color: var(--color-content-light);
+}
+
+/* ─── Size: sm ────────────────────────────────────────────────────────────── */
+
+.btn--sm {
+  height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+}
+
+/* ─── Size: md ────────────────────────────────────────────────────────────── */
+
+.btn--md {
+  height: var(--control-height-md);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+}
+
+/* ─── Size: lg ────────────────────────────────────────────────────────────── */
+
+.btn--lg {
+  height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+/* ─── Icon-only ───────────────────────────────────────────────────────────── */
+
+/* A button with an icon and no label is a square: width equals the shared
+   control height for the size (height comes from `.btn--{size}`), so an icon
+   button sits flush with text buttons in a row. Horizontal padding is dropped
+   and the icon centres in the square. */
+.btn--icon-only.btn--sm {
+  width: var(--control-height-sm);
+  padding: 0;
+}
+
+.btn--icon-only.btn--md {
+  width: var(--control-height-md);
+  padding: 0;
+}
+
+.btn--icon-only.btn--lg {
+  width: var(--control-height-lg);
+  padding: 0;
+}

@@ -16,4 +16,4 @@ export type {
   SheetCloseProps,
   SheetFooterProps,
 } from "./Sheet.types.js";
-export type { SheetVariants } from "./Sheet.styles.js";
+export type { SheetVariants } from "@ui-organized/core";

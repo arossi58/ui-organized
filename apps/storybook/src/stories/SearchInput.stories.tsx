@@ -124,6 +124,29 @@ export const AllStates: Story = {
 };
 
 /** Controlled search with a live result count driven from the field's value. */
+// ── Stateful demo ────────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+function ControlledDemo() {
+  const fruits = ["Apple", "Apricot", "Banana", "Blueberry", "Cherry", "Mango"];
+  const [query, setQuery] = useState("");
+  const matches = fruits.filter((f) => f.toLowerCase().includes(query.toLowerCase()));
+  return (
+    <div style={{ maxWidth: "400px" }}>
+      <SearchInput
+        label="Search fruit"
+        placeholder="Search…"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onClear={() => setQuery("")}
+        helperText={query ? `${matches.length} match(es)` : "Start typing to filter."}
+      />
+    </div>
+  );
+}
+
 export const Controlled: Story = {
   parameters: {
     docs: {
@@ -145,21 +168,5 @@ const matches = fruits.filter((f) => f.toLowerCase().includes(query.toLowerCase(
       },
     },
   },
-  render: () => {
-    const fruits = ["Apple", "Apricot", "Banana", "Blueberry", "Cherry", "Mango"];
-    const [query, setQuery] = useState("");
-    const matches = fruits.filter((f) => f.toLowerCase().includes(query.toLowerCase()));
-    return (
-      <div style={{ maxWidth: "400px" }}>
-        <SearchInput
-          label="Search fruit"
-          placeholder="Search…"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onClear={() => setQuery("")}
-          helperText={query ? `${matches.length} match(es)` : "Start typing to filter."}
-        />
-      </div>
-    );
-  },
+  render: () => <ControlledDemo />,
 };

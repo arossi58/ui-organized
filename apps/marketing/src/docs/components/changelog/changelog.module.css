@@ -1,0 +1,201 @@
+/* Foundations → Changelog: release cards beside a sticky version rail.
+
+   The content column keeps the docs measure it has everywhere else; the rail is
+   a narrow fixed track on the right. Both live inside `.mainInner`'s 67rem, so
+   this grid divides that column rather than widening the page. */
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 9rem;
+  gap: var(--spacing-space-08);
+  align-items: start;
+}
+
+/* Same breakpoint as `DOCS_COMPACT_QUERY` in DocsNav.tsx — a custom property
+   can't be used in a media condition, so the literal has to be repeated. Below
+   it the frame is already narrow enough that a second track would leave the
+   prose at phone width, so the rail goes rather than shrinks. */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .rail {
+    display: none;
+  }
+}
+
+/* ── Release ──────────────────────────────────────────────────────────────── */
+
+.release {
+  /* Clears the frame's top edge when a `#react-5-0-1` link lands here, the same
+     job `.section`'s scroll-margin does on every other docs page. */
+  scroll-margin-top: var(--spacing-space-06);
+}
+
+.release + .release {
+  margin-top: var(--spacing-space-09);
+  padding-top: var(--spacing-space-09);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.releaseHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  margin-bottom: var(--spacing-space-05);
+}
+
+.version {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  line-height: var(--type-leading-heading-medium);
+  /* Digits in a column of version numbers should line up. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Pushed to the far end of the row so the version and its badge read as one
+   unit and the date sits apart from them. */
+.date {
+  margin-left: auto;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+  white-space: nowrap;
+}
+
+/* ── Groups and entries ───────────────────────────────────────────────────── */
+
+/* Only rendered when a release has more than one kind of change — with a single
+   group the badge in the header has already said which kind it is. */
+.groupLabel {
+  margin: 0 0 var(--spacing-space-04);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.group + .group {
+  margin-top: var(--spacing-space-07);
+}
+
+.entry + .entry {
+  margin-top: var(--spacing-space-06);
+}
+
+/* The lead line of an entry is its summary — the sentence Changesets took from
+   the first line of the changeset file. Lifting it to primary colour at body-
+   large gives each entry an obvious opening, which is most of what makes a long
+   release readable; everything after it stays at the prose default. */
+.entry > p:first-child {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+}
+
+/* ── Dependency bumps ─────────────────────────────────────────────────────── */
+
+/* Changesets writes these as ordinary bullets, which puts a wall of version
+   numbers between the reader and the next release. They're kept — someone
+   debugging a lockfile wants them — but demoted to a footnote. */
+.dependencies {
+  margin-top: var(--spacing-space-05);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.dependencyName {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+
+/* ── Version rail ─────────────────────────────────────────────────────────── */
+
+.rail {
+  position: sticky;
+  top: 0;
+  /* Its own scroller, so a long history can't push the rail past the fold.
+     Short of the full viewport because the docs frame is already inset from it:
+     at 100vh a rail with enough releases in it would run under the frame's
+     bottom edge and be clipped there rather than scrolling. */
+  max-height: 85vh;
+  overflow-y: auto;
+  padding-block: var(--spacing-space-02);
+}
+
+.railLabel {
+  margin: 0 0 var(--spacing-space-03);
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-heavy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.railList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.railLink {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  border-radius: var(--border-radius-03);
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.railLink:hover {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+}
+
+.railLink[aria-current="true"] {
+  background: var(--color-surface-secondary);
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-heavy);
+}
+
+/* The bump level, as a dot rather than a second badge: at rail width a word
+   would wrap, and the colour is already the vocabulary the cards established. */
+.dot {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--border-radius-full);
+  background: var(--color-content-tertiary);
+}
+
+.dot[data-bump="major"] {
+  background: var(--color-status-warning);
+}
+
+.dot[data-bump="minor"] {
+  background: var(--color-status-info);
+}
+
+.dot[data-bump="patch"] {
+  background: var(--color-status-success);
+}
+
+.railDate {
+  margin-left: auto;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  white-space: nowrap;
+}

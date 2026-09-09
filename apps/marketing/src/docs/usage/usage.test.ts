@@ -15,6 +15,7 @@ import { MemoryRouter } from "react-router-dom";
 import { describe, it, expect } from "vitest";
 import {
   COMPONENT_SLUGS,
+  PENDING_USAGE_SLUGS,
   USAGE_GUIDES,
   type UsageGuide,
 } from "@ui-organized/code-connect/usage";
@@ -31,13 +32,17 @@ import { USAGE_EXAMPLES, usageExamplesFor } from "./examples";
 /**
  * Components whose guidance hasn't been written yet.
  *
- * Empty, and meant to stay that way: every component in the registry has a
- * guide, and `USAGE_GUIDES` is a total `Record<ComponentSlug, UsageGuide>`, so a
- * new component fails `typecheck` before it reaches this file. The list survives
- * as the escape hatch for a deliberate, reviewed gap, which the assertion below
- * then holds to exactly what is listed here.
+ * Read from `slugs.ts` rather than restated here, so the list cannot disagree
+ * with the one the types are built on. It is not empty: the guides were written
+ * against a 45-component library and this branch took it to 68, so 23 arrived
+ * without one.
+ *
+ * The type guarantee survives that. `USAGE_GUIDES` is keyed on
+ * `WrittenUsageSlug` — every slug *except* these — so a new component still
+ * fails `typecheck` before it reaches this file, and the only way onto the
+ * pending list is deliberately, in a diff someone reviews.
  */
-const PENDING: string[] = [];
+const PENDING: string[] = [...PENDING_USAGE_SLUGS];
 
 const guides = Object.entries(USAGE_GUIDES) as Array<[string, UsageGuide]>;
 const written = guides.map(([slug]) => slug);

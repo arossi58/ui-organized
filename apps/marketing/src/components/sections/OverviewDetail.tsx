@@ -74,15 +74,13 @@ interface DetailContent {
 
 /** The available tools, read straight from the registry. Planned tools are left
  * out of this homepage highlight (they still appear in the full /tools gallery). */
-const TOOL_ITEMS: DetailItem[] = TOOLS.filter((tool) => tool.status !== "planned").map(
-  (tool) => ({
-    icon: tool.icon,
-    title: tool.name,
-    desc: tool.tagline,
-    href: `/tools/${tool.id}`,
-    badge: tool.status === "soon" ? "Soon" : undefined,
-  }),
-);
+const TOOL_ITEMS: DetailItem[] = TOOLS.filter((tool) => tool.status !== "planned").map((tool) => ({
+  icon: tool.icon,
+  title: tool.name,
+  desc: tool.tagline,
+  href: `/tools/${tool.id}`,
+  badge: tool.status === "soon" ? "Soon" : undefined,
+}));
 
 export const DETAILS: Record<OverviewId, DetailContent> = {
   design: {
@@ -172,12 +170,9 @@ function Cta({ link }: { link: DetailLink }) {
     );
   }
   const render = link.external ? (
-    <a
-      href={link.href}
-      target="_blank"
-      rel="noreferrer"
-      onClick={() => trackOutbound(link.href)}
-    />
+    // `render` prop; Button injects `link.label` as the children at runtime.
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    <a href={link.href} target="_blank" rel="noreferrer" onClick={() => trackOutbound(link.href)} />
   ) : (
     <Link to={link.href} />
   );

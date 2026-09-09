@@ -1,85 +1,34 @@
 /**
- * The icon-set registry.
+ * This package's icon-set registry: the shared mechanism from
+ * `@ui-organized/core`, bound to React component types.
  *
- * ── Why this exists ─────────────────────────────────────────────────────────
+ * The registry itself — why it exists, why it is keyed on `globalThis`, and why
+ * each framework gets its own — is documented in core. All that happens here is
+ * fixing the component type, because a React icon is a `ComponentType` and a
+ * Svelte one is not.
  *
- * `Icon` used to statically import all three icon adapters, so `dist/index.mjs`
- * carried top-level `import` statements for `lucide-react`,
- * `@tabler/icons-react` *and* `@heroicons/react`. The package declared all three
- * as optional peers, but `optional` only suppresses npm's install-time warning —
- * at bundle time every one of them was a hard requirement. A consumer using only
- * Lucide, with only Lucide installed, got 168 errors like:
- *
- *     [MISSING_EXPORT] "IconArrowDown" is not exported by
- *     "__vite-optional-peer-dep:@tabler/icons-react:@ui-organized/react"
- *
- * …for a library their app never referenced.
- *
- * So the core imports nothing. Each library lives behind its own subpath
- * (`@ui-organized/react/icons/lucide`), and importing that subpath registers it
- * here. Whatever you don't import is never resolved, which is what makes the
- * optional peer honest. It also keeps `Icon` synchronous — a dynamic `import()`
- * would have made the most common element in the system render a frame late.
+ * The key is unchanged from when this file owned the Map outright, so a mixed
+ * install where two copies of this package are present still shares one
+ * registry.
  */
 
 import type { ComponentType } from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import {
+  createIconRegistry,
+  type IconNameMap as CoreIconNameMap,
+  type IconSet as CoreIconSet,
+} from "@ui-organized/core";
 
-export type IconLibrary = "lucide" | "tabler" | "heroicons";
+export type { IconLibrary } from "@ui-organized/core";
 
-/** Canonical name → component, for one library in one style. */
-export type IconNameMap = Partial<Record<CanonicalIconName, ComponentType<any>>>;
+/** Canonical name → React component, for one library in one style. */
+export type IconNameMap = CoreIconNameMap<ComponentType<any>>;
 
-/**
- * One library's adapter.
- *
- * `svgProps` belongs here rather than in `Icon` because the libraries disagree
- * about how they're sized and stroked — Lucide takes `size`/`strokeWidth`,
- * Tabler takes `size`/`stroke`, Heroicons take `width`/`height`/`strokeWidth`.
- * Keeping that per-adapter means a new library is a new subpath and nothing else.
- */
-export interface IconSet {
-  library: IconLibrary;
-  /** Outline/stroke variants. Every library has these. */
-  outline: IconNameMap;
-  /** Solid/filled variants, where the library ships them. */
-  solid?: IconNameMap;
-  /** Map the resolved size and stroke onto this library's own SVG props. */
-  svgProps(size: number, stroke: number | undefined): Record<string, unknown>;
-}
+/** One library's adapter. See `IconSet` in @ui-organized/core. */
+export type IconSet = CoreIconSet<ComponentType<any>>;
 
-/**
- * Keyed on `globalThis` rather than held in a module-local `Map`.
- *
- * This module is reachable from four bundle entries (the main one plus the three
- * `icons/*` subpaths). ESM code-splitting normally gives them a shared chunk, but
- * the CJS build cannot split — each entry inlines its own copy. Two copies means
- * two Maps: `icons/lucide` would register into one and `Icon` would read the
- * other, and icons would silently never render. A global key is the one storage
- * that is immune to how the bundler chose to lay the modules out.
- */
-const REGISTRY_KEY = Symbol.for("@ui-organized/react.iconRegistry");
+const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<
+  ComponentType<any>
+>(Symbol.for("@ui-organized/react.iconRegistry"));
 
-type GlobalWithRegistry = typeof globalThis & {
-  [REGISTRY_KEY]?: Map<IconLibrary, IconSet>;
-};
-
-const globalRef = globalThis as GlobalWithRegistry;
-const registry: Map<IconLibrary, IconSet> = (globalRef[REGISTRY_KEY] ??= new Map());
-
-/**
- * Register an icon set. Called for its side effect by each `icons/*` subpath, so
- * `import "@ui-organized/react/icons/lucide"` is all a consumer needs.
- */
-export function registerIconSet(set: IconSet): void {
-  registry.set(set.library, set);
-}
-
-export function getIconSet(library: IconLibrary): IconSet | undefined {
-  return registry.get(library);
-}
-
-/** Which libraries have been registered — used by the dev warning. */
-export function registeredLibraries(): IconLibrary[] {
-  return [...registry.keys()];
-}
+export { registerIconSet, getIconSet, registeredLibraries };
