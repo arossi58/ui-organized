@@ -1,8 +1,8 @@
 import { useId } from "react";
 import { clsx } from "clsx";
-import { meterStyles } from "./Meter.styles.js";
+import { meterStyles } from "@ui-organized/core";
 import type { MeterProps } from "./Meter.types.js";
-import "./Meter.css";
+import "@ui-organized/core/components/Meter/Meter.css";
 
 // Ark UI has no Meter primitive; Base UI's Meter.Root was a thin role="meter"
 // wrapper that emitted the ARIA value attributes, formatted the value, and set

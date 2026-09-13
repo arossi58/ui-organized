@@ -1,0 +1,100 @@
+/* ─── SignaturePad ────────────────────────────────────────────────────────────
+   A drawing surface that records strokes as SVG paths. Label / helper / error
+   chrome comes from `.field` (Field.css).
+
+   The ink's *width* is a canvas stroke in device pixels and is set through the
+   machine's `drawing.size`, not from here — it is geometry, and scaling it with
+   the type ramp would change how a signature looks rather than how the control
+   is themed. The ink's *colour* is a token, below.
+
+   `--signature-pad-height` is local geometry in the same category as
+   `--calendar-cell`: a pad's aspect is what makes a signature legible, not a
+   themeable dimension. It is still sourced from the token scale. */
+
+.signature-pad--sm .signature-pad__control {
+  --signature-pad-height: var(--dimension-02, 80px);
+}
+
+.signature-pad--md .signature-pad__control {
+  --signature-pad-height: var(--dimension-03, 120px);
+}
+
+.signature-pad--lg .signature-pad__control {
+  --signature-pad-height: var(--dimension-04, 160px);
+}
+
+.signature-pad__control {
+  position: relative;
+  width: 100%;
+  height: var(--signature-pad-height);
+  background-color: var(--color-surface-secondary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+  touch-action: none;
+  cursor: crosshair;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* The bordered variant reads as a boxed field rather than a tinted panel — for
+   forms where the pad sits among ordinary inputs. */
+.signature-pad--bordered .signature-pad__control {
+  background-color: var(--color-interactive-ui-default);
+  border-color: var(--color-border-primary);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. Drawn from :focus-within — focus lands on the surface
+   inside, not the container. */
+.signature-pad__control:focus-within {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.signature-pad__control[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.signature-pad__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.signature-pad__control[data-readonly] {
+  cursor: default;
+}
+
+/* ─── Ink ─────────────────────────────────────────────────────────────────────
+   Strokes are filled paths, not stroked ones: zag's drawing model outlines the
+   pressure envelope of each stroke and hands back a closed path, so `fill` is
+   what colours the ink and `stroke` would outline it. */
+
+.signature-pad__segment {
+  fill: var(--color-content-primary);
+}
+
+/* ─── Guide ───────────────────────────────────────────────────────────────────
+   The sign-here rule.
+
+   zag gives this part data attributes and nothing else — no position, no size —
+   so an unstyled guide collapses to nothing. Placing it is entirely this file's
+   job: a rule inset from the pad's edges and sitting above the lower margin,
+   where a signature is expected to land. */
+
+.signature-pad__guide {
+  position: absolute;
+  left: var(--spacing-space-04);
+  right: var(--spacing-space-04);
+  bottom: var(--spacing-space-05);
+  /* The primary border colour, not the secondary one a divider would use: this
+     rule is an instruction about where to sign, so it has to be legible on the
+     pad's own surface rather than receding into it. */
+  border-bottom: 1px solid var(--color-border-primary);
+  pointer-events: none;
+}
+
+.signature-pad__guide[data-disabled] {
+  opacity: 0.4;
+}

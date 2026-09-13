@@ -2,7 +2,16 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { describe, it, expect } from "vitest";
 import { zIndexTokens } from "@ui-organized/tokens";
-import { SRC_DIR, cssFiles } from "../scripts/token-contract";
+import { cssFiles } from "@ui-organized/core/contract";
+
+/**
+ * Two roots, deliberately. The positioners are JSX and live in *this* package;
+ * the popup rules are CSS and live in @ui-organized/core, which is shared with
+ * the Svelte, Vue and Angular libraries. This test is the seam between them, so
+ * it is the one check that has to reach across both.
+ */
+const TSX_DIR = "src";
+const CSS_DIR = "../core/src";
 
 /**
  * Guards the stacking contract for portalled overlays, which has two halves that
@@ -31,12 +40,27 @@ import { SRC_DIR, cssFiles } from "../scripts/token-contract";
 const POPPER_LAYERS: Record<string, string> = {
   "select-positioner": "select-popup",
   "combobox-positioner": "combobox-popup",
-  "menu__positioner": "menu__popup",
+  menu__positioner: "menu__popup",
   "context-menu__positioner": "context-menu__popup",
-  "popover__positioner": "popover__popup",
+  popover__positioner: "popover__popup",
   "hover-card__positioner": "hover-card__popup",
-  "tooltip__positioner": "tooltip__popup",
+  tooltip__positioner: "tooltip__popup",
   "date-popover-positioner": "date-popover",
+  "color-picker__positioner": "color-picker__popup",
+  "date-picker__positioner": "date-picker__popup",
+  // Tour is popper-backed only while the current step is a `tooltip`; for
+  // `dialog`/`floating` steps the positioner is a plain fixed box. Registering
+  // it is correct either way and strictly safer — declaring on the content works
+  // when zag reads it, and when it doesn't the positioner's `z-index: auto`
+  // creates no stacking context, so the content competes at the root.
+  tour__positioner: "tour__content",
+  // FloatingPanel is NOT popper-backed — its positioner carries only the drag
+  // position and no inline `z-index`, so a rule there would in fact survive. It
+  // is registered anyway rather than added to NON_POPPER_NAMESPACE: one map
+  // entry keeps it inside all four assertions, including the tier check, which
+  // is the coverage this file exists to provide. Widening the exemption would
+  // remove it from every one of them.
+  "floating-panel__positioner": "floating-panel__content",
 };
 
 /**
@@ -46,7 +70,7 @@ const POPPER_LAYERS: Record<string, string> = {
  */
 const NON_POPPER_NAMESPACE = "Dialog";
 
-function tsxFiles(dir: string = SRC_DIR): string[] {
+function tsxFiles(dir: string = TSX_DIR): string[] {
   const out: string[] = [];
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     const path = join(dir, entry.name);
@@ -89,7 +113,7 @@ function parseRules(css: string): Rule[] {
 
 const declaresZIndex = (body: string) => /(^|[;{\s])z-index\s*:/.test(body);
 
-const ALL_RULES = cssFiles().flatMap((file) => parseRules(readFileSync(file, "utf8")));
+const ALL_RULES = cssFiles(CSS_DIR).flatMap((file) => parseRules(readFileSync(file, "utf8")));
 
 /**
  * Rules whose selector list uses `.cls` as a standalone class, in any position.

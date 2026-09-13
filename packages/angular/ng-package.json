@@ -1,0 +1,9 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "dist",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "assets": [],
+  "allowedNonPeerDependencies": ["@ui-organized/core", "@ui-organized/utils", "clsx", "tslib"]
+}

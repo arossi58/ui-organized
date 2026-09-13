@@ -1,0 +1,80 @@
+{
+  "name": "@ui-organized/table-core",
+  "version": "0.1.0",
+  "description": "Framework-neutral data table engine for the ui-organized design system: column model, prop builders, keyboard and selection behaviours, state stores, and the entire stylesheet.",
+  "keywords": [
+    "design-system",
+    "data-table",
+    "table",
+    "headless",
+    "virtualization",
+    "framework-agnostic"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/table-core#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/table-core"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./styles": {
+      "types": "./styles.d.ts",
+      "default": "./dist/index.css"
+    },
+    "./styles.css": {
+      "types": "./styles.d.ts",
+      "default": "./dist/index.css"
+    },
+    "./token-contract.json": "./token-contract.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "styles.d.ts",
+    "token-contract.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "gen:contract": "tsx scripts/token-contract.ts",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/table-core": "^9.2.4",
+    "@tanstack/virtual-core": "^3.10.0",
+    "@ui-organized/tokens": "workspace:*",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@ui-organized/tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

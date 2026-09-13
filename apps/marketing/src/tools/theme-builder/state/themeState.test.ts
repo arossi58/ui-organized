@@ -5,6 +5,13 @@ import {
   typeFontTokens,
   typeWeightTokens,
 } from "@ui-organized/tokens";
+import {
+  getCoreFamily,
+  parseToOklch,
+  DEFAULT_NEUTRAL_TINT,
+  MAX_LIGHTNESS_GIVE,
+  MIN_NEUTRAL_TINT,
+} from "@ui-organized/utils";
 import { useBuilderStore } from "./themeState";
 import { buildThemeTokens } from "../utils/buildConfig";
 
@@ -98,5 +105,151 @@ describe("export → import round-trip", () => {
     expect(s().lineHeightMode).toBe("custom");
     expect(s().typeScaleSteps).toEqual(customSizes);
     expect(s().leadingSteps).toEqual(customLeadings);
+  });
+});
+
+describe("neutral surface tint", () => {
+  // The store is a singleton, so put the neutral back to the untinted default.
+  const resetNeutral = () => {
+    s().setNeutralFamily("grey");
+    s().setNeutralTint(DEFAULT_NEUTRAL_TINT);
+  };
+
+  it("defaults to untinted grey", () => {
+    resetNeutral();
+    expect(s().neutralMode).toBe("family");
+    expect(s().neutralFamily).toBe("grey");
+    expect(s().neutralRamp).toEqual(getCoreFamily("grey"));
+  });
+
+  it("tints from a named family while holding lightness", () => {
+    resetNeutral();
+    s().setNeutralFamily("flint");
+    const grey = getCoreFamily("grey");
+    for (const step of Object.keys(grey)) {
+      const delta = Math.abs(
+        parseToOklch(s().neutralRamp[step]!.hex).l - parseToOklch(grey[step]!.hex).l,
+      );
+      // Exact except at the light steps, where sRGB is too narrow to hold the
+      // chroma and the generator spends a bounded amount of lightness for it.
+      expect(delta, step).toBeLessThanOrEqual(MAX_LIGHTNESS_GIVE + 0.005);
+    }
+    // …but it is no longer grey.
+    expect(s().neutralRamp["400"]!.hex).not.toBe(grey["400"]!.hex);
+  });
+
+  it("tints the light-mode surface steps visibly", () => {
+    resetNeutral();
+    s().setNeutralFamily("flint");
+    // surface-base (400), surface-secondary (300) and surface-primary (100).
+    for (const step of ["400", "300", "100"]) {
+      expect(parseToOklch(s().neutralRamp[step]!.hex).c, step).toBeGreaterThan(0.01);
+    }
+  });
+
+  it("tints from a custom hex", () => {
+    resetNeutral();
+    s().setNeutralColor("#3355ff");
+    expect(s().neutralMode).toBe("custom");
+    expect(s().neutralHex).toBe("#3355ff");
+    expect(s().neutralRamp["400"]!.hex).not.toBe(getCoreFamily("grey")["400"]!.hex);
+  });
+
+  it("re-derives the ramp when strength changes", () => {
+    resetNeutral();
+    s().setNeutralFamily("flint");
+    const atDefault = s().neutralRamp["1200"]!.hex;
+    s().setNeutralTint(0.045);
+    expect(s().neutralRamp["1200"]!.hex).not.toBe(atDefault);
+    s().setNeutralTint(0);
+    expect(s().neutralRamp).toEqual(getCoreFamily("grey"));
+  });
+
+  it("carries a picked family into the custom color", () => {
+    resetNeutral();
+    s().setNeutralFamily("flint");
+    // The color input mirrors the swatch, so switching to custom continues from
+    // the family rather than jumping to an unrelated hex.
+    expect(s().neutralHex).toBe(s().neutralRamp["1000"]!.hex);
+    expect(s().neutralHex).not.toBe("#808080");
+  });
+
+  it("floors the strength when a tinted family is picked", () => {
+    resetNeutral();
+    s().setNeutralTint(0); // below the control's minimum
+    s().setNeutralFamily("flint");
+    expect(s().neutralTint).toBe(MIN_NEUTRAL_TINT);
+    expect(s().neutralRamp).not.toEqual(getCoreFamily("grey"));
+  });
+
+  it("floors the strength when a custom color is picked", () => {
+    resetNeutral();
+    s().setNeutralTint(0);
+    s().setNeutralColor("#3355ff");
+    expect(s().neutralTint).toBe(MIN_NEUTRAL_TINT);
+  });
+
+  it("leaves grey alone — it is achromatic whatever the strength", () => {
+    resetNeutral();
+    s().setNeutralTint(0);
+    s().setNeutralFamily("grey");
+    expect(s().neutralTint).toBe(0);
+    expect(s().neutralRamp).toEqual(getCoreFamily("grey"));
+  });
+
+  it("floors an imported tint below the minimum", () => {
+    resetNeutral();
+    s().setNeutralFamily("flint");
+    const theme = buildThemeTokens(s()) as Record<string, any>;
+    theme.$extensions["com.ui-organized.theme-builder"].neutral.tint = 0.001;
+
+    s().loadFromThemeJson(theme);
+    expect(s().neutralTint).toBe(MIN_NEUTRAL_TINT);
+  });
+
+  it("round-trips a custom tint through export → import", () => {
+    resetNeutral();
+    s().setNeutralColor("#3355ff");
+    s().setNeutralTint(0.041);
+    const expected = { ...s().neutralRamp };
+
+    const theme = buildThemeTokens(s());
+    s().setNeutralFamily("grey"); // dirty the state
+    s().setNeutralTint(DEFAULT_NEUTRAL_TINT);
+    s().loadFromThemeJson(theme);
+
+    expect(s().neutralMode).toBe("custom");
+    expect(s().neutralHex).toBe("#3355ff");
+    expect(s().neutralTint).toBeCloseTo(0.041, 5);
+    expect(s().neutralRamp).toEqual(expected);
+  });
+
+  it("round-trips a family tint through export → import", () => {
+    resetNeutral();
+    s().setNeutralFamily("juniper");
+    const expected = { ...s().neutralRamp };
+
+    const theme = buildThemeTokens(s());
+    s().setNeutralColor("#ff0000"); // dirty the state
+    s().loadFromThemeJson(theme);
+
+    expect(s().neutralMode).toBe("family");
+    expect(s().neutralFamily).toBe("juniper");
+    expect(s().neutralRamp).toEqual(expected);
+  });
+
+  it("loads a legacy theme that predates tinting", () => {
+    resetNeutral();
+    const theme = buildThemeTokens(s()) as Record<string, any>;
+    const ext = theme.$extensions["com.ui-organized.theme-builder"];
+    // Themes written before this feature carry only `neutral.family`.
+    ext.neutral = { family: "flint" };
+
+    s().setNeutralColor("#ff0000"); // dirty the state
+    s().loadFromThemeJson(theme);
+
+    expect(s().neutralMode).toBe("family");
+    expect(s().neutralFamily).toBe("flint");
+    expect(s().neutralTint).toBe(DEFAULT_NEUTRAL_TINT);
   });
 });

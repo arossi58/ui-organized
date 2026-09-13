@@ -1,0 +1,115 @@
+/* ─── Marquee ─────────────────────────────────────────────────────────────────
+   Continuously scrolling content. This is the one component in the package
+   whose animation is authored here rather than supplied by the machine: zag
+   measures the content, derives the timing from it and the `speed` prop, and
+   publishes the result as custom properties — but writes no @keyframes.
+
+   Every value below comes from zag at runtime:
+     --marquee-duration    seconds for one pass, from content width ÷ speed
+     --marquee-delay       seconds before the first pass
+     --marquee-loop-count  passes before stopping, or `infinite`
+     --marquee-translate   the end offset, -100% or 100% by direction
+     --marquee-spacing     the gap, resolved from the `spacing` prop
+
+   Hardcoding a duration instead would make short and long content scroll at
+   visibly different speeds, which is the bug this indirection exists to avoid.
+
+   zag sets the root's display, overflow, flex-direction and containment inline,
+   so this file only adds the gap, the animation and the edge fades. */
+
+.marquee__viewport {
+  display: flex;
+  flex-direction: inherit;
+  gap: var(--marquee-spacing);
+  overflow: hidden;
+}
+
+.marquee__content {
+  gap: var(--marquee-spacing);
+  /* The standalone `translate` property, not `transform` — zag already writes
+     `transform: translateZ(0)` inline on this element to force a compositor
+     layer, and animating `transform` here would replace it. `translate` applies
+     before `transform`, so the two compose instead of fighting. */
+  animation: marquee-scroll-x var(--marquee-duration) linear var(--marquee-delay)
+    var(--marquee-loop-count);
+}
+
+.marquee--vertical .marquee__content {
+  animation-name: marquee-scroll-y;
+}
+
+@keyframes marquee-scroll-x {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: var(--marquee-translate) 0;
+  }
+}
+
+@keyframes marquee-scroll-y {
+  from {
+    translate: 0 0;
+  }
+  to {
+    translate: 0 var(--marquee-translate);
+  }
+}
+
+/* zag flags the paused state on the root; pausing rather than cancelling keeps
+   the current offset, so resuming does not jump. */
+.marquee[data-paused] .marquee__content {
+  animation-play-state: paused;
+}
+
+.marquee__item {
+  flex-shrink: 0;
+}
+
+/* ─── Edges ───────────────────────────────────────────────────────────────────
+   Fades content into the surrounding surface at both ends, so items enter and
+   leave rather than being cut off. zag positions and sizes these absolutely;
+   only the gradient is ours.
+
+   A fade can only be correct against the colour it is fading into, and this
+   component cannot know that — a marquee on a card, a curtain or a coloured
+   band all need a different one. `--marquee-edge-color` defaults to the primary
+   surface and is the supported override:
+
+     .hero .marquee { --marquee-edge-color: var(--color-surface-secondary); }
+
+   Set `showEdges={false}` instead when the host surface has no flat colour to
+   fade into at all. */
+
+.marquee {
+  --marquee-edge-color: var(--color-surface-primary);
+}
+
+.marquee__edge {
+  /* Wide enough to read as a fade rather than a hard mask. */
+  width: var(--spacing-space-08);
+  height: 100%;
+  background-image: linear-gradient(to right, var(--marquee-edge-color), transparent);
+}
+
+.marquee__edge[data-side="end"] {
+  background-image: linear-gradient(to left, var(--marquee-edge-color), transparent);
+}
+
+.marquee--vertical .marquee__edge {
+  width: 100%;
+  height: var(--spacing-space-08);
+  background-image: linear-gradient(to bottom, var(--marquee-edge-color), transparent);
+}
+
+.marquee--vertical .marquee__edge[data-side="end"] {
+  background-image: linear-gradient(to top, var(--marquee-edge-color), transparent);
+}
+
+/* Continuous motion with no way to stop it is a WCAG 2.2.2 failure, so the
+   animation is dropped entirely rather than slowed. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__content {
+    animation: none;
+  }
+}

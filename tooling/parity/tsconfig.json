@@ -1,0 +1,14 @@
+{
+  "extends": "@ui-organized/tsconfig/base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "jsx": "react-jsx",
+    "noEmit": true
+  },
+  "include": ["src", "browser", "playwright.config.ts",
+    "playwright.a11y.config.ts",
+    "playwright.visual.config.ts",
+    "playwright.interaction.config.ts"]
+}

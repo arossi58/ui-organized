@@ -1,6 +1,6 @@
 import { Dialog as ArkDialog, Portal, useDialogContext } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { dialogStyles } from "./Dialog.styles.js";
+import { dialogStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type {
   DialogProps,
@@ -11,9 +11,9 @@ import type {
   DialogCloseProps,
   DialogFooterProps,
 } from "./Dialog.types.js";
-import "./Dialog.css";
+import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 
 /** Dialog root — controls open state. */

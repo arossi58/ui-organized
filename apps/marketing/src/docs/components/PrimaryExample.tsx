@@ -5,34 +5,15 @@
  * inside the same frame as the preview it produces. A separate "Import" section
  * further down leaves a reader to assemble two halves themselves, and leaves
  * anyone who copies the usage with code that doesn't resolve.
+ *
+ * The code follows the selected framework; the preview does not, and cannot —
+ * this is a React app rendering the React components. `FrameworkSwitcher` says
+ * so on the page.
  */
-import { jsxFromArgs } from "@ui-organized/code-connect/browser";
+import { FrameworkGapNote, gapFor, primarySnippet, useDocsFramework } from "../frameworks";
 import type { DocsComponent, DocsStory } from "../registry";
 import { CodeBlock } from "./CodeBlock";
 import { PreviewSurface } from "./PreviewSurface";
-
-/** A compound family imports as one statement — that's how it's actually used. */
-export function importStatementFor(component: DocsComponent): string | undefined {
-  const { entry, related } = component;
-  if (!entry) return undefined;
-  if (!related.length) return entry.importStatement;
-  const names = [entry.codeName, ...related.map((r) => r.codeName)].join(", ");
-  return `import { ${names} } from '@ui-organized/react';`;
-}
-
-/** Import + usage for a story, as one copyable block. */
-export function exampleCode(component: DocsComponent, story: DocsStory): string {
-  const { entry } = component;
-  // The story's hand-curated snippet when it has one — it shows real
-  // composition. Otherwise synthesise the usage from the args, ordered by the
-  // manifest, with `jsxFromArgs` (the same function the AI context block uses,
-  // so the two never print the same component differently).
-  const usage =
-    story.code ??
-    (entry ? jsxFromArgs(entry.codeName, story.args, entry.props.map((p) => p.name)) : "");
-
-  return [importStatementFor(component), usage].filter(Boolean).join("\n\n");
-}
 
 export function PrimaryExample({
   component,
@@ -41,12 +22,24 @@ export function PrimaryExample({
   component: DocsComponent;
   story: DocsStory;
 }) {
-  const code = exampleCode(component, story);
+  const { framework } = useDocsFramework();
+  const snippet = primarySnippet(component, story, framework);
+  // Only when the library hasn't got the component. A React page with no
+  // snippet at all is a story with neither a curated one nor a manifest entry,
+  // which the status badge already reports.
+  const gap = snippet ? undefined : gapFor(component, story, framework);
+
   return (
     <PreviewSurface
       layout={story.layout}
       label={component.name}
-      footer={code ? <CodeBlock code={code} attached /> : undefined}
+      footer={
+        snippet ? (
+          <CodeBlock code={snippet.code} language={snippet.language} attached />
+        ) : gap ? (
+          <FrameworkGapNote component={component} gap={gap} />
+        ) : undefined
+      }
     >
       <story.Story args={story.args} />
     </PreviewSurface>

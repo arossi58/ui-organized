@@ -1,0 +1,22 @@
+{
+  "name": "@ui-organized/example-svelte-table-smoke",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "The smallest Svelte app that uses the documented data-table setup. Built and rendered by the svelte-table smoke gate.",
+  "scripts": {
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@lucide/svelte": "^1.33.0",
+    "@ui-organized/svelte": "workspace:*",
+    "@ui-organized/svelte-table": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "svelte": "^5.56.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "vite": "^5.4.0"
+  }
+}

@@ -17,4 +17,4 @@ export type {
   FieldsetProps,
   FieldsetLegendProps,
 } from "./Field.types.js";
-export type { FieldVariants } from "./Field.styles.js";
+export type { FieldVariants } from "@ui-organized/core";

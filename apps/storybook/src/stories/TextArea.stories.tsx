@@ -143,6 +143,28 @@ export const Resize: Story = {
 };
 
 /** Live character counter — the canonical use of the helper text (Figma "Characters 0/500"). */
+// ── Stateful demo ────────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+function CharacterCounterDemo() {
+  const max = 500;
+  const [value, setValue] = useState("");
+  return (
+    <div style={{ maxWidth: "400px" }}>
+      <TextArea
+        label="Message"
+        placeholder="Your input"
+        maxLength={max}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        helperText={`Characters ${value.length}/${max}`}
+      />
+    </div>
+  );
+}
+
 export const CharacterCounter: Story = {
   parameters: {
     docs: {
@@ -163,20 +185,5 @@ const [value, setValue] = useState("");
       },
     },
   },
-  render: () => {
-    const max = 500;
-    const [value, setValue] = useState("");
-    return (
-      <div style={{ maxWidth: "400px" }}>
-        <TextArea
-          label="Message"
-          placeholder="Your input"
-          maxLength={max}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          helperText={`Characters ${value.length}/${max}`}
-        />
-      </div>
-    );
-  },
+  render: () => <CharacterCounterDemo />,
 };

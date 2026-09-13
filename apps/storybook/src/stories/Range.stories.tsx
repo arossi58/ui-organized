@@ -146,6 +146,33 @@ const sizes = [8, 16, 24, 32, 48, 64];
   },
 };
 
+// ── Stateful demo ────────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+function ControlledDemo() {
+  const [value, setValue] = useState(25);
+  return (
+    <div style={wrap}>
+      <Range
+        label="Opacity"
+        value={value}
+        onValueChange={setValue}
+        rangeLabels
+        formatValue={(v) => `${v}%`}
+      />
+      <div style={{ display: "flex", gap: "8px" }}>
+        {[0, 25, 50, 75, 100].map((v) => (
+          <button key={v} type="button" onClick={() => setValue(v)}>
+            {v}%
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export const Controlled: Story = {
   parameters: {
     docs: {
@@ -164,25 +191,5 @@ const [value, setValue] = useState(25);
       },
     },
   },
-  render: () => {
-    const [value, setValue] = useState(25);
-    return (
-      <div style={wrap}>
-        <Range
-          label="Opacity"
-          value={value}
-          onValueChange={setValue}
-          rangeLabels
-          formatValue={(v) => `${v}%`}
-        />
-        <div style={{ display: "flex", gap: "8px" }}>
-          {[0, 25, 50, 75, 100].map((v) => (
-            <button key={v} type="button" onClick={() => setValue(v)}>
-              {v}%
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  },
+  render: () => <ControlledDemo />,
 };

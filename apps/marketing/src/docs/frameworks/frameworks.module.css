@@ -1,0 +1,45 @@
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-03) var(--spacing-space-04);
+  margin-bottom: var(--spacing-space-04);
+}
+
+.previewNote {
+  margin: 0;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+}
+
+/* Sits in the preview frame's footer, where a code block would be — same inset,
+   so switching framework doesn't shift the frame. */
+.gap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-04);
+}
+
+.gapTitle {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.gapBody {
+  margin: 0;
+  max-width: 62ch;
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.gapBody code {
+  padding: 0 var(--spacing-space-01);
+  border-radius: var(--border-radius-02);
+  background: var(--color-surface-secondary);
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.92em;
+}

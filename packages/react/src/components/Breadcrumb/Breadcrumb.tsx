@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import type { BreadcrumbProps } from "./Breadcrumb.types.js";
-import "./Breadcrumb.css";
+import "@ui-organized/core/components/Breadcrumb/Breadcrumb.css";
 
 /** A trail of links showing the current page's location in a hierarchy. */
 export function Breadcrumb({ items, separator, className, ...props }: BreadcrumbProps) {

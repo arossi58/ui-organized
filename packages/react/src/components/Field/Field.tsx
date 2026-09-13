@@ -1,6 +1,6 @@
 import { Field as ArkField, Fieldset as ArkFieldset } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { fieldStyles } from "./Field.styles.js";
+import { fieldStyles } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
 import type {
   FieldProps,
@@ -11,7 +11,7 @@ import type {
   FieldsetProps,
   FieldsetLegendProps,
 } from "./Field.types.js";
-import "./Field.css";
+import "@ui-organized/core/components/Field/Field.css";
 
 /**
  * Form field wrapper. Associates a label, control, description and error message

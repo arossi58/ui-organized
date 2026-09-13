@@ -1,5 +1,5 @@
 import type * as React from "react";
-import type { SheetVariants } from "./Sheet.styles.js";
+import type { SheetVariants } from "@ui-organized/core";
 
 export interface SheetProps {
   /** Controlled open state. */

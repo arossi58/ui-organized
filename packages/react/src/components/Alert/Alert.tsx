@@ -1,9 +1,9 @@
 import { clsx } from "clsx";
-import { alertStyles } from "./Alert.styles.js";
+import { alertStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AlertProps } from "./Alert.types.js";
 import type { CanonicalIconName } from "@ui-organized/utils";
-import "./Alert.css";
+import "@ui-organized/core/components/Alert/Alert.css";
 
 const VARIANT_ICONS: Record<NonNullable<AlertProps["variant"]>, CanonicalIconName> = {
   info:    "info",

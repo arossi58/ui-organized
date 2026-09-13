@@ -1,0 +1,285 @@
+/* ─── Data table ──────────────────────────────────────────────────────────────
+   The whole table's look lives in this package, not in the React adapter, so a
+   second framework renders the same thing by importing the same stylesheet.
+
+   Every value is a token. The two size scales below are the only place pixel
+   geometry is decided: `ROW_HEIGHT` and `HEADER_HEIGHT` in styles.ts mirror them
+   as numbers for the virtualizer's initial estimate, and every rendered row is
+   measured afterwards so a re-themed token corrects itself on the first frame. */
+
+.data-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  width: 100%;
+  min-width: 0;
+  font-family: var(--type-font-body);
+  color: var(--color-content-primary);
+
+  /* Declared, not just consumed: the scroll cap is written as an inline custom
+     property on the viewport by the adapter, and without a declaration here it
+     would enter the token contract as something every theme has to supply. */
+  --data-table-max-height: none;
+
+  /* Row background is inherited by every cell, because a pinned cell has to be
+     opaque to cover the content it scrolls over. Set on the row so hover and
+     selection change one property rather than one rule per cell state. */
+  --data-table-cell-bg: var(--color-surface-primary);
+}
+
+/* ─── Size axis ─────────────────────────────────────────────────────────────
+   Row height is the control height plus the cell's vertical padding, so a row
+   with an inline editor in it is exactly as tall as a row without one. */
+
+.data-table--sm {
+  --data-table-row-height: calc(var(--control-height-sm) + 2 * var(--spacing-space-01));
+  --data-table-header-height: calc(var(--control-height-sm) + 2 * var(--spacing-space-01));
+  --data-table-cell-padding-y: var(--spacing-space-01);
+  --data-table-cell-padding-x: var(--spacing-space-02);
+  --data-table-text-size: var(--type-size-body-small);
+  --data-table-line-height: var(--type-leading-body-small);
+}
+
+.data-table--md {
+  --data-table-row-height: calc(var(--control-height-md) + 2 * var(--spacing-space-02));
+  --data-table-header-height: calc(var(--control-height-md) + 2 * var(--spacing-space-015));
+  --data-table-cell-padding-y: var(--spacing-space-02);
+  --data-table-cell-padding-x: var(--spacing-space-03);
+  --data-table-text-size: var(--type-size-body-medium);
+  --data-table-line-height: var(--type-leading-body-medium);
+}
+
+.data-table--lg {
+  --data-table-row-height: calc(var(--control-height-lg) + 2 * var(--spacing-space-02));
+  --data-table-header-height: calc(var(--control-height-lg) + 2 * var(--spacing-space-015));
+  --data-table-cell-padding-y: var(--spacing-space-02);
+  --data-table-cell-padding-x: var(--spacing-space-04);
+  --data-table-text-size: var(--type-size-body-large);
+  --data-table-line-height: var(--type-leading-body-large);
+}
+
+/* ─── Viewport ────────────────────────────────────────────────────────────────
+   Our own scroll container, not `ScrollArea`: that component exposes no viewport
+   ref and no `onScroll`, so a virtualizer has nothing to attach to. The
+   scrollbar is styled to match `scroll-area__scrollbar` — same thumb colour,
+   same 10px track — so the two read as one system. */
+
+.data-table__viewport {
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  max-height: var(--data-table-max-height, none);
+  background-color: var(--color-surface-primary);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-content-tertiary) transparent;
+}
+
+.data-table--default .data-table__viewport,
+.data-table--bordered .data-table__viewport {
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+/* The viewport is a keyboard tab stop in static mode (see getViewportProps), so
+   it has to show focus. Inset, because an outline on a clipping container is
+   drawn half outside it and gets cut off. */
+.data-table__viewport:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
+}
+
+.data-table__viewport::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.data-table__viewport::-webkit-scrollbar-thumb {
+  background-color: var(--color-content-tertiary);
+  border-radius: var(--border-radius-full);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.data-table__viewport::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* ─── Table ─────────────────────────────────────────────────────────────────
+   `separate` rather than `collapse`: collapsed borders are painted by the table,
+   not the cell, and a `position: sticky` cell then scrolls away from its own
+   border. Every rule below draws borders on cells for that reason. */
+
+.data-table__table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--data-table-text-size);
+  line-height: var(--data-table-line-height);
+}
+
+/* ─── Caption ───────────────────────────────────────────────────────────────
+   The accessible name. Visually hidden by default because most tables are
+   already introduced by a heading, but always present — a `<table>` with no
+   name is announced as "table" and nothing else.
+
+   There is no `sr-only` utility in @ui-organized/react, so this is ours. */
+
+.data-table__caption {
+  caption-side: top;
+  padding: 0 0 var(--spacing-space-02);
+  text-align: left;
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+/* The library has no `sr-only` utility, so this is ours. Used by the caption and
+   by any control whose only label would otherwise be an icon. */
+.data-table__sr-only,
+.data-table__caption--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─── Rows ──────────────────────────────────────────────────────────────────── */
+
+.data-table__row:hover {
+  --data-table-cell-bg: var(--color-interactive-ui-hover);
+}
+
+.data-table__row--selected {
+  --data-table-cell-bg: var(--color-interactive-ui-selected);
+}
+
+.data-table__row--selected:hover {
+  --data-table-cell-bg: var(--color-interactive-ui-active);
+}
+
+.data-table__row--clickable {
+  cursor: pointer;
+}
+
+.data-table__row--editing {
+  --data-table-cell-bg: var(--color-surface-secondary);
+}
+
+/* ─── Cells ─────────────────────────────────────────────────────────────────── */
+
+.data-table__cell {
+  /* `border-box`, so `--data-table-row-height` IS the row height rather than the
+     row height minus its padding and border. Without it a `md` row measures 65px
+     against a 48px estimate, and every virtualized scroll position is wrong by
+     35% until the measurement pass catches up. */
+  box-sizing: border-box;
+  height: var(--data-table-row-height);
+  padding: var(--data-table-cell-padding-y) var(--data-table-cell-padding-x);
+  background-color: var(--data-table-cell-bg);
+  border-bottom: 1px solid var(--color-border-secondary);
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-default);
+  text-align: left;
+  vertical-align: middle;
+  /* `table-layout: fixed` gives the column its width; this stops long content
+     from being the reason a row is taller than every other one. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-table__cell--start {
+  text-align: left;
+}
+
+.data-table__cell--center {
+  text-align: center;
+}
+
+.data-table__cell--end {
+  text-align: right;
+}
+
+/* The identifying column is a `<th scope="row">`, which browsers bold by
+   default; the weight is stated rather than inherited so a theme owns it. */
+.data-table__cell--primary {
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+/* Roving tabindex means exactly one cell is tabbable, so the focus ring is the
+   only thing telling the user where they are in the grid. */
+.data-table__cell:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
+}
+
+.data-table__cell--invalid {
+  box-shadow: inset 0 0 0 1px var(--color-status-error);
+}
+
+/* ─── Pinned columns ─────────────────────────────────────────────────────────
+   `position: sticky` with an offset from `column.getStart()`, set inline by
+   getCellProps. Works inside a real table; no layout hack required. */
+
+.data-table__cell--sticky {
+  position: sticky;
+  z-index: 1;
+}
+
+/* A pinned body cell is painted *over* the columns scrolling underneath it, so
+   it has to be opaque — and the row's state tint deliberately is not: hover,
+   selected and active are translucent overlays, which is what lets one tint work
+   on any surface. So a pinned cell paints the surface first and the tint on top
+   of it, which composites to exactly what an unpinned cell in the same row
+   shows. Without it the hovered row is the one row whose pinned column has the
+   scrolling text showing through it.
+
+   Head cells are excluded: they carry their own opaque background already, and
+   overriding it here would paint the pinned corner cell in the body's colour. */
+.data-table__cell--sticky:not(.data-table__head-cell) {
+  background-color: var(--color-surface-primary);
+  background-image: linear-gradient(var(--data-table-cell-bg), var(--data-table-cell-bg));
+}
+
+.data-table__head-cell.data-table__cell--sticky {
+  /* Above both the sticky header (2) and the sticky body cells (1): this is the
+     corner cell, which has to cover each of them. */
+  z-index: 3;
+}
+
+.data-table__cell--sticky-left-edge {
+  box-shadow: 4px 0 8px -6px rgba(0, 0, 0, 0.45);
+  border-right: 1px solid var(--color-border-primary);
+}
+
+.data-table__cell--sticky-right-edge {
+  box-shadow: -4px 0 8px -6px rgba(0, 0, 0, 0.45);
+  border-left: 1px solid var(--color-border-primary);
+}
+
+/* ─── Bordered variant ─────────────────────────────────────────────────────── */
+
+.data-table--bordered .data-table__cell {
+  border-right: 1px solid var(--color-border-secondary);
+}
+
+.data-table--bordered .data-table__cell:last-child {
+  border-right: 0;
+}
+
+/* ─── Virtualizer spacers ────────────────────────────────────────────────────
+   The rows the virtualizer is not rendering, standing in as one tall empty row
+   at each end. Hidden from the accessibility tree; position is reported by the
+   explicit `aria-rowindex` on the real rows either side. */
+
+.data-table__spacer-cell {
+  box-sizing: border-box;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}

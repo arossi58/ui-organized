@@ -1,6 +1,6 @@
 import { clsx } from "clsx";
 import type { ToolbarProps, ToolbarGroupProps } from "./Toolbar.types.js";
-import "./Toolbar.css";
+import "@ui-organized/core/components/Toolbar/Toolbar.css";
 
 // Ark UI has no Toolbar primitive; Base UI's was a roving-focus container. The
 // facade owns the accessible markup directly (role="toolbar"). It is a pure

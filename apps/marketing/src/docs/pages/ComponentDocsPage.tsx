@@ -17,7 +17,10 @@ import {
   PropsTable,
   StatusBadge,
   StoryExample,
+  TestStatusChip,
+  TestStatusPanel,
 } from "../components";
+import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import { exampleStories, getDocsComponent, inspectStory } from "../registry";
 import { stalenessFor } from "../staleness";
 import { useStorybookLink } from "../useStorybookLink";
@@ -28,6 +31,7 @@ import styles from "../components/content.module.css";
 
 export function ComponentDocsPage() {
   const { slug } = useParams();
+  const { framework } = useDocsFramework();
   const component = getDocsComponent(slug);
   const storybookHref = useStorybookLink(component?.storyTitle);
   const staleness = useMemo(() => stalenessFor(component?.entry), [component]);
@@ -48,6 +52,9 @@ export function ComponentDocsPage() {
       />
 
       <DocsTabs tabs={componentTabs(component.slug)} active="docs">
+        {/* Above the example, because it changes what the example says. */}
+        <FrameworkSwitcher />
+
         {/* The canonical instance with its import + usage attached, then the AI
             context buttons directly beneath it — the copy action sits with the
             thing it copies rather than up in the page chrome. */}
@@ -65,19 +72,45 @@ export function ComponentDocsPage() {
           {examples.length > 0 && (
             <DocsSection
               title="Examples"
-              subtitle="Every example is the real component, rendered live."
+              subtitle={
+                framework === "react"
+                  ? "Every example is the real component, rendered live."
+                  : // An example that composes several instances by hand has no
+                    // source outside React, and a single derived instance under
+                    // its heading would be a caption that lies. Said once here
+                    // rather than repeated under every example.
+                    "Every example is the real component, rendered live in React. A snippet " +
+                    "appears where the example is the component and its props alone; the " +
+                    "hand-composed ones are written out in React only."
+              }
             >
               {examples.map((story) => (
-                <StoryExample key={story.exportName} story={story} />
+                <StoryExample key={story.exportName} component={component} story={story} />
               ))}
             </DocsSection>
           )}
+
+          {/* Between the examples and the API: by this point a reader knows
+              what the component looks like, and "is it actually verified?" is
+              the next question they have — before they start writing code
+              against the prop table below. */}
+          <DocsSection
+            title="Quality"
+            subtitle="What automated testing knows about this component. Every gate runs on each pull request."
+            aside={<TestStatusChip slug={component.slug} />}
+          >
+            <TestStatusPanel slug={component.slug} />
+          </DocsSection>
 
           <DocsSection
             title="Props"
             subtitle={
               entry
-                ? `The complete API of ${entry.codeName}, scanned from ${entry.codePath}.`
+                ? `The complete API of ${entry.codeName}, scanned from ${entry.codePath}.` +
+                  // React is the only library the props are scanned from, so this
+                  // table stays React's whatever the switcher says. The other
+                  // ports track it, but nothing here verifies that.
+                  (framework === "react" ? "" : " This table is React's.")
                 : "No verified manifest entry matched this story, so there is no prop table."
             }
           >
@@ -91,7 +124,10 @@ export function ComponentDocsPage() {
             >
               {related.map((sub) => (
                 <div key={sub.codeName}>
-                  <h3 className={styles.sectionTitle} style={{ fontSize: "var(--type-size-body-large)" }}>
+                  <h3
+                    className={styles.sectionTitle}
+                    style={{ fontSize: "var(--type-size-body-large)" }}
+                  >
                     {sub.codeName}
                   </h3>
                   <PropsTable props={sub.props} showPassthrough={false} />

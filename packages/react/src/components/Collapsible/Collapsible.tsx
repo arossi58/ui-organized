@@ -5,7 +5,7 @@ import type {
   CollapsibleTriggerProps,
   CollapsibleContentProps,
 } from "./Collapsible.types.js";
-import "./Collapsible.css";
+import "@ui-organized/core/components/Collapsible/Collapsible.css";
 
 /** Collapsible root — controls the open state of a single disclosure section. */
 export function Collapsible({ className, onOpenChange, ...props }: CollapsibleProps) {

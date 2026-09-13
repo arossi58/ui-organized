@@ -1,23 +1,22 @@
 import { useId, useRef, useState, type ChangeEvent, type ReactNode } from "react";
 import { Popover as ArkPopover } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { inputFieldStyles } from "../Input/Input.styles.js";
+import { CONTROL_ICON_SIZE, inputFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import { Calendar } from "../Calendar/index.js";
-import { parseISODate, toISODate } from "../Calendar/dateUtils.js";
+import { parseISODate, toISODate } from "@ui-organized/core";
 import { DatePopover, datePopoverPositioning } from "../DateField/DatePopover.js";
 import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
-import { popupControls } from "../../utils/aria.js";
+import { popupControls } from "@ui-organized/core";
 import { openDatePicker } from "../DateField/openDatePicker.js";
 import { useCoarsePointer } from "../DateField/useCoarsePointer.js";
 import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types.js";
 // Shares the Input field surface/state styling; InputAffix.css supplies the
 // leading calendar buttons; DateRangeInput.css lays out the start/end pair.
-import "../Input/Input.css";
-import "../Input/InputAffix.css";
-import "./DateRangeInput.css";
+import "@ui-organized/core/components/Input/Input.css";
+import "@ui-organized/core/components/Input/InputAffix.css";
+import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
 
 /**
  * A from–to date range built from two native `<input type="date">` controls on

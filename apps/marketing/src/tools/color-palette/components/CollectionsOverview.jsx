@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Icon } from '@ui-organized/react';
-import { loadPresetDefinition } from '../constants/presets';
-import { LINKS } from '../../../lib/links';
-import SwatchStrip from './SwatchStrip';
+import React, { useEffect, useState } from "react";
+import { Button, Icon } from "@ui-organized/react";
+import { loadPresetDefinition } from "../constants/presets";
+import { LINKS } from "../../../lib/links";
+import SwatchStrip from "./SwatchStrip";
 
 // Shared row chrome — a full-width clickable card whose body is a swatch band.
 const Row = ({ title, subtitle, colors, loading, onClick }) => (
-  <button type="button" className="cp-overview-row" onClick={onClick} disabled={loading && colors.length === 0}>
+  <button
+    type="button"
+    className="cp-overview-row"
+    onClick={onClick}
+    disabled={loading && colors.length === 0}
+  >
     <div className="cp-overview-row__head">
       <span className="cp-overview-row__title">{title}</span>
       <span className="cp-overview-row__meta">
@@ -32,14 +37,18 @@ const PresetRow = ({ preset, onOpen }) => {
         const mid = (c) => c.stops[def.mainStopIndex] ?? c.stops[Math.floor(c.stops.length / 2)];
         setColors(def.colors.map(mid));
       })
-      .finally(() => { if (alive) setLoading(false); });
-    return () => { alive = false; };
+      .finally(() => {
+        if (alive) setLoading(false);
+      });
+    return () => {
+      alive = false;
+    };
   }, [preset.id]);
 
   return (
     <Row
       title={preset.label}
-      subtitle={loading ? 'Loading…' : `${colors.length} colors · Preset`}
+      subtitle={loading ? "Loading…" : `${colors.length} colors · Preset`}
       colors={colors}
       loading={loading}
       onClick={() => onOpen(preset.id)}
@@ -62,7 +71,7 @@ const CollectionsOverview = ({
   onNewCollection,
 }) => {
   const swatchesFor = (c) => {
-    const baseColors = c.id === activeCollectionId ? liveBaseColors : (c.palette?.baseColors || []);
+    const baseColors = c.id === activeCollectionId ? liveBaseColors : c.palette?.baseColors || [];
     return baseColors.map((x) => x.color);
   };
 
@@ -73,8 +82,8 @@ const CollectionsOverview = ({
           <div className="cp-overview__header-text">
             <h1 className="cp-overview__title">Collections</h1>
             <p className="cp-overview__subtitle">
-              Pick a collection to open it in the editor — start from UI Organized, a
-              design-system preset, or one of your own.
+              Pick a collection to open it in the editor — start from UI Organized, a design-system
+              preset, or one of your own.
             </p>
           </div>
           <div className="cp-overview__header-actions">
@@ -84,21 +93,14 @@ const CollectionsOverview = ({
               icon="external-link"
               iconPosition="right"
               render={
-                <a
-                  href={LINKS.figmaColorPalettePlugin}
-                  target="_blank"
-                  rel="noreferrer"
-                />
+                // `render` prop; Button injects the children at runtime.
+                // eslint-disable-next-line jsx-a11y/anchor-has-content
+                <a href={LINKS.figmaColorPalettePlugin} target="_blank" rel="noreferrer" />
               }
             >
               Figma plugin
             </Button>
-            <Button
-              intent="primary"
-              size="lg"
-              icon="plus"
-              onClick={onNewCollection}
-            >
+            <Button intent="primary" size="lg" icon="plus" onClick={onNewCollection}>
               New Collection
             </Button>
           </div>

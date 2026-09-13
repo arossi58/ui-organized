@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState, type ChangeEvent } from "react";
-import { Button, Input } from "@ui-organized/react";
+import { Button, Input, Range } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import {
   BRAND_FAMILY_NAMES,
   NEUTRAL_FAMILY_NAMES,
   getCoreFamily,
+  getNeutralRamp,
+  MAX_NEUTRAL_TINT,
+  MIN_NEUTRAL_TINT,
   type ColorRamp,
 } from "@ui-organized/utils";
 import {
@@ -20,11 +23,6 @@ import styles from "./ColorPanel.module.css";
 // Ramp step used as the swatch preview in the family pickers.
 const BRAND_SWATCH_STEP = "1400";
 const NEUTRAL_SWATCH_STEP = "1000";
-
-// Neutral-palette picker is hidden for launch — users get the default grey
-// neutral only. The selector needs more work before release; flip this to
-// re-enable choosing a tinted-grey family. (Keep the section code intact.)
-const SHOW_NEUTRAL_PALETTE = false;
 
 const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -43,19 +41,44 @@ function buildOptions(names: readonly string[], step: string): FamilyOption[] {
 }
 
 const BRAND_OPTIONS = buildOptions(BRAND_FAMILY_NAMES, BRAND_SWATCH_STEP);
-const NEUTRAL_OPTIONS = buildOptions(NEUTRAL_FAMILY_NAMES, NEUTRAL_SWATCH_STEP);
+
+// Neutral swatches preview the *derived* ramp, not the authored family, so the
+// dropdown shows what picking that family will actually produce.
+const NEUTRAL_OPTIONS: FamilyOption[] = NEUTRAL_FAMILY_NAMES.map((name) => ({
+  name,
+  label: titleCase(name),
+  hex: getNeutralRamp(name)[NEUTRAL_SWATCH_STEP]?.hex ?? "#000000",
+}));
+
+// The ramp steps the surface tokens actually resolve to, lightest surface last.
+const SURFACE_STEPS = {
+  light: ["400", "300", "100"],
+  dark: ["2200", "2300", "2400"],
+} as const;
 
 // ─── Icons ────────────────────────────────────────────────────────────────────
 
 const ChevronDown = () => (
   <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
-    <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M6 8l4 4 4-4"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
 const CheckMark = () => (
   <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
-    <path d="M5 10.5l3.4 3.4L15 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M5 10.5l3.4 3.4L15 7"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -106,9 +129,15 @@ function FamilyPicker({
         aria-label={ariaLabel}
         onClick={() => setOpen((o) => !o)}
       >
-        <span className={styles.pickerSwatch} style={{ background: triggerSwatch }} aria-hidden="true" />
+        <span
+          className={styles.pickerSwatch}
+          style={{ background: triggerSwatch }}
+          aria-hidden="true"
+        />
         <span className={styles.pickerTriggerLabel}>{triggerLabel}</span>
-        <span className={styles.pickerChevron}><ChevronDown /></span>
+        <span className={styles.pickerChevron}>
+          <ChevronDown />
+        </span>
       </button>
 
       {open && (
@@ -127,9 +156,17 @@ function FamilyPicker({
                   setOpen(false);
                 }}
               >
-                <span className={styles.pickerSwatch} style={{ background: opt.hex }} aria-hidden="true" />
+                <span
+                  className={styles.pickerSwatch}
+                  style={{ background: opt.hex }}
+                  aria-hidden="true"
+                />
                 <span className={styles.pickerItemLabel}>{opt.label}</span>
-                {selected && <span className={styles.pickerCheck}><CheckMark /></span>}
+                {selected && (
+                  <span className={styles.pickerCheck}>
+                    <CheckMark />
+                  </span>
+                )}
               </button>
             );
           })}
@@ -182,21 +219,66 @@ function PrimaryShadeSelector({
       </div>
 
       {/* ── Contrast readout ── */}
-      <div className={`${styles.contrastReadout} ${passes ? styles.contrastReadoutPass : styles.contrastReadoutFail}`}>
+      <div
+        className={`${styles.contrastReadout} ${passes ? styles.contrastReadoutPass : styles.contrastReadoutFail}`}
+      >
         <div className={styles.contrastSwatch} style={{ backgroundColor: selectedHex }}>
-          <span className={styles.contrastSwatchLabel} style={{ color: PRIMARY_TEXT_HEX }}>Aa</span>
+          <span className={styles.contrastSwatchLabel} style={{ color: PRIMARY_TEXT_HEX }}>
+            Aa
+          </span>
         </div>
         <div className={styles.contrastInfo}>
           <span className={styles.contrastRatio}>{contrastRatio.toFixed(2)}:1</span>
           <span className={styles.contrastLabel}>
             {passes ? `WCAG ${level}` : "Fails WCAG AA (4.5:1 min)"}
           </span>
-          <span className={styles.contrastShade}>Shade {selectedShade} · {selectedHex}</span>
+          <span className={styles.contrastShade}>
+            Shade {selectedShade} · {selectedHex}
+          </span>
         </div>
-        <div className={`${styles.contrastBadge} ${passes ? styles.contrastBadgePass : styles.contrastBadgeFail}`}>
+        <div
+          className={`${styles.contrastBadge} ${passes ? styles.contrastBadgePass : styles.contrastBadgeFail}`}
+        >
           {level === "fail" ? "Fail" : level}
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Surface preview ──────────────────────────────────────────────────────────
+
+/**
+ * Shows the neutral ramp at the steps the surface tokens actually use, for both
+ * modes. A single mid-ramp swatch says little about what a page will look like;
+ * these are the page background, the card, and the raised surface.
+ */
+function SurfacePreview({ ramp }: { ramp: ColorRamp }) {
+  return (
+    <div className={styles.surfacePreview}>
+      {(["light", "dark"] as const).map((mode) => (
+        <div key={mode} className={styles.surfaceRow}>
+          <span className={styles.surfaceRowLabel}>{titleCase(mode)}</span>
+          <div className={styles.surfaceSwatches}>
+            {SURFACE_STEPS[mode].map((step) => {
+              const hex = ramp[step]?.hex ?? "#000000";
+              return (
+                <div
+                  key={step}
+                  className={styles.surfaceSwatch}
+                  style={{
+                    backgroundColor: hex,
+                    color: mode === "light" ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)",
+                  }}
+                  title={`${step} — ${hex}`}
+                >
+                  {hex}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -205,9 +287,22 @@ function PrimaryShadeSelector({
 
 export function ColorPanel() {
   const {
-    brandMode, brandFamily, brandHex, brandRamp, brandShade,
+    brandMode,
+    brandFamily,
+    brandHex,
+    brandRamp,
+    brandShade,
+    neutralMode,
     neutralFamily,
-    setBrandFamily, setBrandColor, setBrandShade, setNeutralFamily,
+    neutralHex,
+    neutralTint,
+    neutralRamp,
+    setBrandFamily,
+    setBrandColor,
+    setBrandShade,
+    setNeutralFamily,
+    setNeutralColor,
+    setNeutralTint,
     loadFromThemeJson,
   } = useBuilderStore();
 
@@ -219,6 +314,13 @@ export function ColorPanel() {
     const val = e.target.value;
     if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) {
       setBrandColor(val);
+    }
+  }
+
+  function handleNeutralHexInput(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) {
+      setNeutralColor(val);
     }
   }
 
@@ -239,10 +341,14 @@ export function ColorPanel() {
     }
   }
 
-  const brandTriggerSwatch = brandMode === "custom"
-    ? brandHex
-    : brandRamp[brandShade]?.hex ?? brandHex;
+  const brandTriggerSwatch =
+    brandMode === "custom" ? brandHex : (brandRamp[brandShade]?.hex ?? brandHex);
   const brandTriggerLabel = brandMode === "custom" ? "Custom color" : titleCase(brandFamily);
+
+  const neutralTriggerSwatch = neutralRamp[NEUTRAL_SWATCH_STEP]?.hex ?? "#000000";
+  const neutralTriggerLabel = neutralMode === "custom" ? "Custom color" : titleCase(neutralFamily);
+  // `grey` is the "no tint" choice; everything else carries a hue.
+  const isTinted = neutralMode === "custom" || neutralFamily !== "grey";
 
   return (
     <div className={styles.panel}>
@@ -250,8 +356,8 @@ export function ColorPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Brand Color</h3>
         <p className={styles.hint}>
-          Pick a brand family from the core palette, or enter a custom color to
-          generate a matching 24-step ramp.
+          Pick a brand family from the core palette, or enter a custom color to generate a matching
+          24-step ramp.
         </p>
 
         <FamilyPicker
@@ -263,7 +369,9 @@ export function ColorPanel() {
           onSelect={setBrandFamily}
         />
 
-        <p className={styles.hint} style={{ marginTop: 4 }}>Or use a custom color:</p>
+        <p className={styles.hint} style={{ marginTop: 4 }}>
+          Or use a custom color:
+        </p>
         <div className={styles.colorPickerRow}>
           <input
             type="color"
@@ -278,7 +386,10 @@ export function ColorPanel() {
             defaultValue={brandHex}
             key={brandHex}
             onBlur={handleHexInput}
-            onKeyDown={(e) => e.key === "Enter" && handleHexInput(e as unknown as React.ChangeEvent<HTMLInputElement>)}
+            onKeyDown={(e) =>
+              e.key === "Enter" &&
+              handleHexInput(e as unknown as React.ChangeEvent<HTMLInputElement>)
+            }
             placeholder="#bc4900"
             maxLength={7}
             spellCheck={false}
@@ -292,9 +403,8 @@ export function ColorPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Primary Color</h3>
         <p className={styles.hint}>
-          Choose which shade of the brand ramp is the primary interactive color.
-          Only shades that read clearly with white text — neither too light nor
-          too dark (near-black) — are shown.
+          Choose which shade of the brand ramp is the primary interactive color. Only shades that
+          read clearly with white text — neither too light nor too dark (near-black) — are shown.
         </p>
         <PrimaryShadeSelector
           ramp={brandRamp}
@@ -303,25 +413,76 @@ export function ColorPanel() {
         />
       </section>
 
-      {/* ── Neutral Family — hidden for launch (grey-only); flip
-           SHOW_NEUTRAL_PALETTE to re-enable. Needs more work first. ── */}
-      {SHOW_NEUTRAL_PALETTE && (
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Neutral Palette</h3>
-          <p className={styles.hint}>
-            Select a neutral family. This drives surfaces, borders, text, and UI
-            control colors.
-          </p>
-          <FamilyPicker
-            ariaLabel="Neutral family"
-            options={NEUTRAL_OPTIONS}
-            selectedName={neutralFamily}
-            triggerSwatch={getCoreFamily(neutralFamily)[NEUTRAL_SWATCH_STEP]?.hex ?? "#000000"}
-            triggerLabel={titleCase(neutralFamily)}
-            onSelect={setNeutralFamily}
+      {/* ── Neutral & Surface Tint ──────────────────────────────────────── */}
+      <section className={styles.section}>
+        <h3 className={styles.sectionTitle}>Neutral &amp; Surface Tint</h3>
+        <p className={styles.hint}>
+          Tint the neutral ramp that drives every surface, border, and text color. Pick a hue from
+          the palette or enter your own. Every tint holds the grey ramp&rsquo;s brightness at each
+          step, so your contrast ratios hold.
+        </p>
+
+        <FamilyPicker
+          ariaLabel="Neutral family"
+          options={NEUTRAL_OPTIONS}
+          selectedName={neutralMode === "family" ? neutralFamily : null}
+          triggerSwatch={neutralTriggerSwatch}
+          triggerLabel={neutralTriggerLabel}
+          onSelect={setNeutralFamily}
+        />
+
+        <p className={styles.hint} style={{ marginTop: 4 }}>
+          Or use a custom color:
+        </p>
+        <div className={styles.colorPickerRow}>
+          <input
+            type="color"
+            value={neutralHex}
+            onChange={(e) => setNeutralColor(e.target.value)}
+            className={styles.colorPicker}
+            title="Pick a custom tint color"
           />
-        </section>
-      )}
+          <Input
+            size="sm"
+            className={styles.hexField}
+            defaultValue={neutralHex}
+            key={neutralHex}
+            onBlur={handleNeutralHexInput}
+            onKeyDown={(e) =>
+              e.key === "Enter" &&
+              handleNeutralHexInput(e as unknown as React.ChangeEvent<HTMLInputElement>)
+            }
+            placeholder="#808080"
+            maxLength={7}
+            spellCheck={false}
+            aria-label="Custom neutral hex"
+          />
+          {neutralMode === "custom" && <span className={styles.hint}>Custom</span>}
+        </div>
+
+        {/* Grey is achromatic, so strength has nothing to act on and the surfaces
+            are just the stock ramp — both controls would be inert. */}
+        {isTinted && (
+          <>
+            <Range
+              label="Tint strength"
+              size="sm"
+              value={neutralTint}
+              min={MIN_NEUTRAL_TINT}
+              max={MAX_NEUTRAL_TINT}
+              step={0.001}
+              formatValue={(v) => `${Math.round((v / MAX_NEUTRAL_TINT) * 100)}%`}
+              onValueChange={setNeutralTint}
+            />
+
+            <SurfacePreview ramp={neutralRamp} />
+            <p className={styles.hint}>
+              Both light and dark surfaces take the tint. The lightest surfaces carry less of it
+              than the mid-tones, because near-white simply cannot hold much color.
+            </p>
+          </>
+        )}
+      </section>
 
       {/* ── Import Theme ────────────────────────────────────────────────── */}
       <section className={styles.section}>

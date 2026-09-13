@@ -1,0 +1,141 @@
+/* ─── Filter bar ──────────────────────────────────────────────────────────────
+   The applied filters, on their own line under the header — made prominent
+   rather than hidden inside the controls that produced them. Layout only: the
+   chips are the design system's `Chip`, so nothing here says how one looks. */
+
+.data-table__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+/* "Filters" — a caption naming the row, not a heading. Small enough to read as
+   a gutter label beside the chips rather than as another control. */
+.data-table__filters-label {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  font-weight: var(--type-weight-body-emphasis);
+  white-space: nowrap;
+}
+
+/* ─── Chip ────────────────────────────────────────────────────────────────────
+   The chip is the design system's `Chip`, so a filter chip and a recipient chip
+   cannot drift apart. All that is left here is what is specific to a filter:
+   how much of a long value it is allowed to show before it truncates. */
+
+.data-table__filter-chip .chip__value {
+  max-width: var(--dimension-05);
+}
+
+/* ─── Editor popover (Figma 2298:726) ────────────────────────────────────────
+   The field name, the operator, the value, a rule, and a remove.
+
+   The popup is padded to `space-01` rather than the `Popover` default, because
+   the rows inside it carry their own `space-03` — the design's surface hugs its
+   controls the way a menu does. */
+
+.data-table__filter-editor-popup.popover__popup {
+  padding: var(--spacing-space-01);
+}
+
+/* `PopoverTitle` ships `text-strong-body-large`; the design's header is
+   body-small. Two classes at the same specificity would be decided by
+   stylesheet order, which is not something this package controls — so the
+   override is scoped one level deeper and wins outright. */
+.data-table__filter-editor .data-table__filter-editor-title {
+  margin: 0;
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.data-table__filter-editor-rule {
+  margin: var(--spacing-space-01) 0;
+}
+
+/* A menu item, not a footer button: full width, left-aligned, and typed like
+   one. It is a `Button` rather than a `MenuItem` because it acts on its own
+   instead of selecting from a list, so the menu item's type step and icon
+   gutter have to be restated here: a `md` Button is body-large with a
+   `space-01` gap, which beside the design's menu rows reads a step too large. */
+.data-table__filter-editor-remove.btn {
+  width: 100%;
+  justify-content: flex-start;
+  gap: var(--spacing-space-02);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+/* Every control in the editor is a field, so they share one width. */
+.data-table__filter-field {
+  width: 100%;
+}
+
+/* The title above already names the field and each control's own content says
+   the rest, so the design shows no field labels here. The `<label>` stays in
+   the DOM — hiding it keeps the control named for assistive tech, where
+   dropping it would leave a `<select>` and an `<input>` with no name at all. */
+.data-table__filter-field--unlabelled .field__label,
+.data-table__filter-field--unlabelled.listbox .listbox__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.data-table__filter-editor {
+  display: flex;
+  flex-direction: column;
+  /* `space-01`, matching `.menu__list` — the design draws this popup as a menu
+     and the rows inside it carry their own padding, so a wider gap here would
+     double-space rows that are already 32px tall. */
+  gap: var(--spacing-space-01);
+  min-width: var(--dimension-06);
+  max-width: var(--dimension-08);
+}
+
+.data-table__filter-editor-value {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.data-table__filter-editor-value > * {
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.data-table__filter-editor-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--spacing-space-01);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+/* ─── Add-filter picker ──────────────────────────────────────────────────────
+   The design system `Menu`, so it only needs a width floor and a height cap —
+   a table with thirty filterable columns should not produce a menu taller than
+   the viewport. Scrolling is safe here because menu items are focusable, so
+   axe's `scrollable-region-focusable` is satisfied without a tabindex. */
+
+.data-table__filter-picker {
+  min-width: var(--dimension-05);
+  max-height: var(--dimension-09);
+  overflow-y: auto;
+}
+
+.data-table__filter-option-count {
+  margin-left: var(--spacing-space-01);
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}

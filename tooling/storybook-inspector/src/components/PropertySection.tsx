@@ -14,17 +14,21 @@ export function PropertySection({
   const [collapsed, setCollapsed] = useState(defaultCollapsed);
   return (
     <section>
-      <div
-        className="fcp-section-header"
+      {/* A real <button>, not a div with role="button": the toggle was
+          mouse-only before — not focusable, and Enter/Space did nothing. The
+          extra class only carries the button reset; the shared header class is
+          also used by three genuinely static headers. */}
+      <button
+        type="button"
+        className="fcp-section-header fcp-section-header--toggle"
         onClick={() => setCollapsed((c) => !c)}
-        role="button"
         aria-expanded={!collapsed}
       >
         <span className="fcp-section-caret" data-collapsed={String(collapsed)}>
           ▾
         </span>
         {title}
-      </div>
+      </button>
       {!collapsed && <div>{children}</div>}
     </section>
   );

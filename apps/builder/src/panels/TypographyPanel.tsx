@@ -1,6 +1,11 @@
-import { useState, useMemo } from "react";
+import { useId, useState, useMemo } from "react";
 import { useBuilderStore } from "../state/themeState";
-import { useGoogleFonts, getAvailableWeights, loadGoogleFont, type GoogleFont } from "../hooks/useGoogleFonts";
+import {
+  useGoogleFonts,
+  getAvailableWeights,
+  loadGoogleFont,
+  type GoogleFont,
+} from "../hooks/useGoogleFonts";
 import { TYPE_SCALE_STEP_NAMES, LINE_HEIGHT_MULTIPLIERS } from "@ui-organized/utils";
 import { Select, type SelectOption } from "@ui-organized/react";
 import styles from "./TypographyPanel.module.css";
@@ -17,13 +22,20 @@ const RATIO_PRESETS = [
   { label: "Perfect Fifth (1.5)", value: 1.5 },
 ];
 
-const HEADING_STEPS = ["display-xlarge","display-large","display-medium","heading-large","heading-medium","heading-small"];
+const HEADING_STEPS = [
+  "display-xlarge",
+  "display-large",
+  "display-medium",
+  "heading-large",
+  "heading-medium",
+  "heading-small",
+];
 
 const WEIGHT_ROLES = [
-  { key: "default",  label: "Default" },
+  { key: "default", label: "Default" },
   { key: "emphasis", label: "Emphasis" },
-  { key: "strong",   label: "Strong" },
-  { key: "heavy",    label: "Heavy" },
+  { key: "strong", label: "Strong" },
+  { key: "heavy", label: "Heavy" },
 ];
 
 // ─── Font search dropdown ─────────────────────────────────────────────────────
@@ -55,7 +67,10 @@ function FontPicker({
 
   const selectedFont = fonts.find((f) => f.family === value) ?? null;
   const availableWeights = selectedFont ? getAvailableWeights(selectedFont) : [400];
-  const weightOptions: SelectOption[] = availableWeights.map((w) => ({ value: String(w), label: String(w) }));
+  const weightOptions: SelectOption[] = availableWeights.map((w) => ({
+    value: String(w),
+    label: String(w),
+  }));
 
   function handleFontChange(family: string) {
     const font = fonts.find((f) => f.family === family);
@@ -63,14 +78,12 @@ function FontPicker({
     const ws = getAvailableWeights(font);
     loadGoogleFont(font.family, ws);
     const nearest = (target: number) =>
-      ws.reduce((prev, curr) =>
-        Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev,
-      );
+      ws.reduce((prev, curr) => (Math.abs(curr - target) < Math.abs(prev - target) ? curr : prev));
     onSelect(font.family, {
-      default:  nearest(400),
+      default: nearest(400),
       emphasis: nearest(500),
-      strong:   nearest(600),
-      heavy:    nearest(700),
+      strong: nearest(600),
+      heavy: nearest(700),
     });
   }
 
@@ -135,7 +148,9 @@ function TypeScaleSpecimen({
           <div key={stepName} className={styles.specimenRow}>
             <div className={styles.specimenMeta}>
               <span className={styles.specimenName}>{stepName}</span>
-              <span className={styles.specimenPx}>{px}px / {lh}</span>
+              <span className={styles.specimenPx}>
+                {px}px / {lh}
+              </span>
             </div>
             <span
               className={styles.specimenText}
@@ -159,17 +174,29 @@ function TypeScaleSpecimen({
 
 export function TypographyPanel() {
   const {
-    headingFamily, headingWeights,
-    bodyFamily, bodyWeights,
-    typeScaleBase, typeScaleRatio, typeScaleSteps,
+    headingFamily,
+    headingWeights,
+    bodyFamily,
+    bodyWeights,
+    typeScaleBase,
+    typeScaleRatio,
+    typeScaleSteps,
     lineHeightScale,
-    setHeadingFont, setBodyFont, setTypeScale, setLineHeightScale,
+    setHeadingFont,
+    setBodyFont,
+    setTypeScale,
+    setLineHeightScale,
   } = useBuilderStore();
 
   const { fonts, loading } = useGoogleFonts();
 
   const [customRatio, setCustomRatio] = useState("");
   const isCustomRatio = !RATIO_PRESETS.some((p) => p.value === typeScaleRatio);
+
+  // The scale controls are a bare <input>/<select> rather than the design
+  // system's Field wrapper, so their labels need associating by hand.
+  const baseSizeId = useId();
+  const ratioId = useId();
 
   return (
     <div className={styles.panel}>
@@ -202,9 +229,12 @@ export function TypographyPanel() {
 
         <div className={styles.scaleControls}>
           <div className={styles.controlGroup}>
-            <label className={styles.controlLabel}>Base size (body-large)</label>
+            <label className={styles.controlLabel} htmlFor={baseSizeId}>
+              Base size (body-large)
+            </label>
             <div className={styles.numberRow}>
               <input
+                id={baseSizeId}
                 type="number"
                 className={styles.numberInput}
                 value={typeScaleBase}
@@ -218,8 +248,11 @@ export function TypographyPanel() {
           </div>
 
           <div className={styles.controlGroup}>
-            <label className={styles.controlLabel}>Scale ratio</label>
+            <label className={styles.controlLabel} htmlFor={ratioId}>
+              Scale ratio
+            </label>
             <select
+              id={ratioId}
               className={styles.ratioSelect}
               value={isCustomRatio ? "custom" : String(typeScaleRatio)}
               onChange={(e) => {
@@ -230,7 +263,9 @@ export function TypographyPanel() {
               }}
             >
               {RATIO_PRESETS.map((p) => (
-                <option key={p.value} value={p.value}>{p.label}</option>
+                <option key={p.value} value={p.value}>
+                  {p.label}
+                </option>
               ))}
               <option value="custom">Custom…</option>
             </select>

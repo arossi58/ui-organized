@@ -1,0 +1,109 @@
+/* ─── Carousel ────────────────────────────────────────────────────────────────
+   A scroll-snap slide track. zag owns every geometry value here — it writes
+   `--slide-item-size`, `--slide-spacing` and `--slides-per-page` on the root
+   from the `slidesPerPage`/`spacing` props, and the item group reads them back.
+   Nothing in this file may hardcode a slide width, or the snap points and the
+   layout disagree.
+
+   The previous/next buttons are library `Button`s, so their surfaces, focus
+   rings and disabled treatment are inherited rather than restated. */
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  width: 100%;
+}
+
+.carousel__items {
+  display: flex;
+  gap: var(--slide-spacing);
+  overflow: hidden;
+  scroll-snap-type: x mandatory;
+}
+
+.carousel[data-orientation="vertical"] .carousel__items {
+  flex-direction: column;
+  scroll-snap-type: y mandatory;
+}
+
+.carousel__item {
+  flex: 0 0 var(--slide-item-size);
+  min-width: 0;
+  scroll-snap-align: start;
+  border-radius: var(--border-radius-05);
+  overflow: hidden;
+}
+
+/* ─── Control row ─────────────────────────────────────────────────────────── */
+
+.carousel__control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-03);
+}
+
+.carousel__indicators {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+}
+
+/* ─── Indicator ───────────────────────────────────────────────────────────────
+   A dot per page. The current one widens into a pill rather than only changing
+   colour, so the position is readable without relying on hue alone. */
+
+.carousel__indicator {
+  width: var(--spacing-space-02);
+  height: var(--spacing-space-02);
+  padding: 0;
+  border: none;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-inactive-02);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    width 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.carousel--sm .carousel__indicator {
+  width: var(--spacing-space-015);
+  height: var(--spacing-space-015);
+}
+
+.carousel--lg .carousel__indicator {
+  width: var(--spacing-space-03);
+  height: var(--spacing-space-03);
+}
+
+.carousel__indicator:hover {
+  background-color: var(--color-interactive-inactive-01);
+}
+
+.carousel__indicator[data-current] {
+  background-color: var(--color-interactive-primary-default);
+  width: var(--spacing-space-05);
+}
+
+.carousel--sm .carousel__indicator[data-current] {
+  width: var(--spacing-space-04);
+}
+
+.carousel--lg .carousel__indicator[data-current] {
+  width: var(--spacing-space-06);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.carousel__indicator:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel__indicator {
+    transition: none;
+  }
+}

@@ -1,0 +1,60 @@
+/* ─── Empty, loading and error states ─────────────────────────────────────────
+   All three occupy the table body rather than replacing the table, so the
+   header — and therefore the column widths and the scroll position — survives
+   the transition between having data and not. */
+
+.data-table__state-cell {
+  padding: var(--spacing-space-08) var(--spacing-space-04);
+  background-color: var(--data-table-cell-bg);
+  border-bottom: 1px solid var(--color-border-secondary);
+  text-align: center;
+  white-space: normal;
+}
+
+.data-table__state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  color: var(--color-content-secondary);
+}
+
+.data-table__state-title {
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+.data-table__state-description {
+  max-width: var(--dimension-08);
+  font-size: var(--type-size-body-medium);
+  color: var(--color-content-secondary);
+}
+
+.data-table__state-actions {
+  display: flex;
+  gap: var(--spacing-space-02);
+  margin-top: var(--spacing-space-02);
+}
+
+.data-table__state--error .data-table__state-title {
+  color: var(--color-status-error-content);
+}
+
+/* ─── Loading ────────────────────────────────────────────────────────────────
+   Skeleton rows are sized to the real row height, so the table does not resize
+   when the data arrives — which is the entire point of a skeleton over a
+   spinner. (There is no Spinner in the library, which settles it anyway.) */
+
+.data-table__skeleton-cell {
+  height: var(--data-table-row-height);
+  padding: var(--data-table-cell-padding-y) var(--data-table-cell-padding-x);
+  background-color: var(--data-table-cell-bg);
+  border-bottom: 1px solid var(--color-border-secondary);
+}
+
+/* An unloaded row in an infinite-scroll table: the scrollbar already accounts
+   for it, so the placeholder has to be exactly one row tall. */
+.data-table__row--placeholder {
+  --data-table-cell-bg: var(--color-surface-primary);
+}

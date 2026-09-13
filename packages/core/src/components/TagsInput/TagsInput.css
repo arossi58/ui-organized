@@ -1,0 +1,151 @@
+/* ─── TagsInput ───────────────────────────────────────────────────────────────
+   A wrapping well of tag chips with an entry field on the last row. Label /
+   helper / error chrome comes from `.field` (Field.css).
+
+   The control carries the `.field__control` surface tokens but not the class
+   itself: `.field__control` is a fixed-height single-line box, and this well
+   grows a row at a time. Restating the four surface tokens is cheaper — and
+   more obvious at the point of use — than adding a fourth exclusion to the
+   `:not()` chain in Field.css purely to opt back out. */
+
+.tags-input__control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  /* Min height matches a single-line control so an empty well lines up with a
+     neighbouring Input; content past one row grows downward. */
+  min-height: var(--control-height-md);
+  box-sizing: border-box;
+  padding: var(--spacing-space-01);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.tags-input--sm .tags-input__control {
+  min-height: var(--control-height-sm);
+}
+
+.tags-input--lg .tags-input__control {
+  min-height: var(--control-height-lg);
+}
+
+/* The well is not itself focusable — focus lands on the entry field inside it,
+   so the ring is drawn from that descendant onto the container. */
+.tags-input__control:focus-within {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.tags-input__control[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.tags-input__control[data-invalid]:focus-within {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.tags-input__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Tag chip ────────────────────────────────────────────────────────────────
+   Deliberately not the `<Tag>` component: Tag's variants are status colours
+   (success / warning / error) and a tag here carries no status — it is a
+   neutral chip for a value the user entered. */
+
+.tags-input__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+  background-color: var(--color-interactive-secondary-default);
+  border-radius: var(--radius-checkbox);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  transition: background-color 150ms ease;
+}
+
+.tags-input__tag[data-highlighted] {
+  background-color: var(--color-interactive-secondary-hover);
+}
+
+.tags-input__tag-label {
+  white-space: nowrap;
+}
+
+.tags-input__tag-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--border-radius-full);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.tags-input__tag-delete:hover {
+  color: var(--color-content-primary);
+}
+
+.tags-input__tag-delete:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── In-place tag editing ────────────────────────────────────────────────────
+   Ark swaps the preview for this input on double-click; it must occupy the same
+   box or the row reflows on every edit. */
+
+.tags-input__tag-input {
+  min-width: 0;
+  padding: var(--spacing-space-005) var(--spacing-space-02);
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-interactive-focus);
+  border-radius: var(--radius-checkbox);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  outline: none;
+}
+
+/* ─── Entry field ─────────────────────────────────────────────────────────────
+   Borderless and transparent: the well around it is the visible control, and a
+   second border inside it would read as a nested input. */
+
+.tags-input__entry {
+  flex: 1;
+  min-width: var(--spacing-space-16);
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: var(--spacing-space-005) var(--spacing-space-01);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+}
+
+.tags-input--sm .tags-input__entry {
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.tags-input__entry::placeholder {
+  color: var(--color-content-placeholder);
+}

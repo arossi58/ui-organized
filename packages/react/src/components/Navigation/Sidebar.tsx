@@ -3,7 +3,7 @@ import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import { NavProvider } from "./NavContext.js";
 import type { SidebarProps } from "./Navigation.types.js";
-import "./Navigation.css";
+import "@ui-organized/core/components/Navigation/Navigation.css";
 
 const TOGGLE_ICON_SIZE = 20;
 

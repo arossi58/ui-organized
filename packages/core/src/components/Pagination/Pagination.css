@@ -1,0 +1,92 @@
+/* ─── Pagination ──────────────────────────────────────────────────────────── */
+
+.pagination__list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* The items carry no rhythm of their own: this is a row of controls that happens
+   to be marked up as a list, and a page that styles `li` — a docs site, a CMS
+   article, any reset with list spacing in it — would otherwise push the row's
+   buttons off the line they share with everything beside them. */
+.pagination__list > li {
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Page controls ───────────────────────────────────────────────────────── */
+
+/* Sized to the shared control height so numbered pages sit flush with the
+   ghost prev/next/ellipsis buttons in the row. */
+.pagination__page {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-height-md);
+  height: var(--control-height-md);
+  padding: 0 var(--spacing-space-02);
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-primary);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.pagination__page:hover:not(:disabled) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.pagination__page:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.pagination__page[aria-current="page"] {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+/* ─── Ellipsis (jump menu trigger) ────────────────────────────────────────── */
+
+.pagination__ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-height-md);
+  height: var(--control-height-md);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  background: var(--color-interactive-ghost-default);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.pagination__ellipsis:hover,
+.pagination__ellipsis[data-state="open"] {
+  background-color: var(--color-interactive-ghost-hover);
+  color: var(--color-content-primary);
+}
+
+.pagination__ellipsis:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Constrain long hidden-page ranges to a scrollable menu. */
+.pagination__ellipsis-menu {
+  max-height: 16rem;
+  overflow-y: auto;
+}

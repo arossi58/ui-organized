@@ -6,7 +6,7 @@ import type {
   HoverCardTriggerProps,
   HoverCardContentProps,
 } from "./HoverCard.types.js";
-import "./HoverCard.css";
+import "@ui-organized/core/components/HoverCard/HoverCard.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 

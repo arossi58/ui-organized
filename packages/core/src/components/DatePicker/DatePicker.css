@@ -1,0 +1,287 @@
+/* ─── DatePicker ──────────────────────────────────────────────────────────────
+   An input plus a portalled calendar. Label / helper / error chrome comes from
+   `.field` (Field.css); the popup mirrors `.date-popover` and the grid reuses
+   `Calendar.css`'s token vocabulary verbatim, so this calendar and the one
+   behind DateInput are the same calendar to look at.
+
+   This component is ADDITIVE. `DateInput`, `DateTimeInput`, `DateRangeInput` and
+   the internal `Calendar` are unchanged and still in use — DatePicker is the
+   Ark-native option for new work, not a replacement for them. See §7 of
+   FIGMA-PARITY.md. */
+
+/* ─── Control ─────────────────────────────────────────────────────────────── */
+
+.date-picker__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+}
+
+.date-picker__input {
+  flex: 1;
+  min-width: 0;
+  box-sizing: border-box;
+  height: var(--control-height-md);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+  background-color: var(--color-interactive-ui-default);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.date-picker--sm .date-picker__input {
+  height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.date-picker--lg .date-picker__input {
+  height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+.date-picker__input::placeholder {
+  color: var(--color-content-placeholder);
+}
+
+.date-picker__input:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.date-picker__input:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.date-picker__input[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.date-picker__input[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* The ghost variant drops the box and keeps only the text, for toolbars and
+   table cells where a bordered field would be too heavy. */
+.date-picker--ghost .date-picker__input {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.date-picker--ghost .date-picker__input:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* ─── Trigger ─────────────────────────────────────────────────────────────── */
+
+.date-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: var(--spacing-space-01);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-secondary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.date-picker__trigger:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.date-picker__trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.date-picker__trigger[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Popup ───────────────────────────────────────────────────────────────── */
+
+.date-picker__popup {
+  /* Same local var name as Calendar.css: the cell is a computed square, not a
+     themeable dimension, and both grids must size identically. */
+  --calendar-cell: var(--spacing-space-08);
+
+  /* Stacking belongs on the popup, never `.date-picker__positioner`: zag writes
+     an inline `z-index: var(--z-index)` onto the positioner and fills that
+     variable by reading *this* rule. */
+  z-index: var(--z-index-popover, 1200);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+  background-color: var(--color-surface-primary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.12);
+}
+
+/* Ark keeps a closed popup mounted and hides it with the `hidden` attribute,
+   trusting the UA stylesheet's `[hidden] { display: none }`. An author-level
+   `display` beats a UA rule at any specificity, so the `display: flex` above left
+   a dismissed calendar painted on the page and swallowing clicks. The popups that
+   fade out on close (`.select-popup`, `.menu__popup`) hide themselves that way;
+   this one has no exit state, so it has to honor `hidden` — the same fix
+   `.avatar__fallback` needs. */
+.date-picker__popup[hidden] {
+  display: none;
+}
+
+/* ─── View control ────────────────────────────────────────────────────────── */
+
+.date-picker__view-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+}
+
+.date-picker__nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-01);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-secondary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.date-picker__nav:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.date-picker__nav:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.date-picker__view-trigger {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  outline: none;
+}
+
+.date-picker__view-trigger:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.date-picker__view-trigger:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Grid ────────────────────────────────────────────────────────────────── */
+
+.date-picker__table {
+  border-collapse: collapse;
+}
+
+.date-picker__weekday {
+  width: var(--calendar-cell);
+  padding: 0;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+  text-align: center;
+}
+
+.date-picker__cell {
+  padding: 0;
+}
+
+.date-picker__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: var(--calendar-cell);
+  height: var(--calendar-cell);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.date-picker__day:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* In-range days sit between the two ends of a range selection; they take the
+   lighter selected fill so the endpoints stay legible as the endpoints. */
+.date-picker__day[data-in-range] {
+  background-color: var(--color-interactive-ui-selected);
+  border-radius: 0;
+}
+
+.date-picker__day[data-selected] {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  font-weight: var(--type-weight-body-emphasis);
+  border-radius: var(--radius-interactive);
+}
+
+.date-picker__day[data-today]:not([data-selected]) {
+  /* An inset ring rather than a fill, so "today" and "selected" can both show. */
+  box-shadow: inset 0 0 0 1px var(--color-interactive-primary-default);
+}
+
+.date-picker__day:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Days from the neighbouring month are shown for grid continuity but are not
+   the month being read. */
+.date-picker__day[data-outside-range] {
+  color: var(--color-content-placeholder);
+}
+
+.date-picker__day[data-disabled],
+.date-picker__day[data-unavailable] {
+  cursor: not-allowed;
+  color: var(--color-content-placeholder);
+  opacity: 0.4;
+}

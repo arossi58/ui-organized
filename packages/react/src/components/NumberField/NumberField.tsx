@@ -1,12 +1,11 @@
 import * as React from "react";
 import { NumberInput, Field } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { numberFieldStyles } from "./NumberField.styles.js";
+import { CONTROL_ICON_SIZE, numberFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
-import { CONTROL_ICON_SIZE } from "../controlSize.js";
 import { FieldError } from "../FieldError/index.js";
 import type { NumberFieldProps } from "./NumberField.types.js";
-import "./NumberField.css";
+import "@ui-organized/core/components/NumberField/NumberField.css";
 
 export function NumberField({
   value,

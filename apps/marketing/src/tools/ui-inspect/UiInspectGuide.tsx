@@ -143,15 +143,7 @@ function FeatureList({ items }: { items: Feature[] }) {
   );
 }
 
-function Section({
-  title,
-  sub,
-  children,
-}: {
-  title: string;
-  sub?: string;
-  children: ReactNode;
-}) {
+function Section({ title, sub, children }: { title: string; sub?: string; children: ReactNode }) {
   return (
     <section className={styles.section}>
       <h2 className={styles.sectionTitle}>{title}</h2>
@@ -173,26 +165,28 @@ export default function UiInspectGuide() {
             UI Inspect
           </h1>
           <p className={styles.lede}>
-            A design-system inspector for local development. Click any element in your
-            running dev app, see its properties resolved against{" "}
-            <strong>that project&rsquo;s</strong> design tokens, and edit them live.
+            A design-system inspector for local development. Click any element in your running dev
+            app, see its properties resolved against <strong>that project&rsquo;s</strong> design
+            tokens, and edit them live.
           </p>
           <p className={styles.leadNote}>
-            Its primary use is <strong>quick live edits while you work locally</strong>:
-            nudge a value against your own token scale, judge it on the real page in the
-            real app, and carry what you settle on back into code, without leaving the
-            dev server you already have running.
+            Its primary use is <strong>quick live edits while you work locally</strong>: nudge a
+            value against your own token scale, judge it on the real page in the real app, and carry
+            what you settle on back into code, without leaving the dev server you already have
+            running.
           </p>
           <p className={styles.leadNote}>
-            It reads the tokens your page already defines, by default the{" "}
-            <code>:root</code> custom properties, so there is nothing to configure. It
-            isn&rsquo;t tied to <code>@ui-organized/react</code>: it inspects whatever
-            design system the page actually ships, including none.
+            It reads the tokens your page already defines, by default the <code>:root</code> custom
+            properties, so there is nothing to configure. It isn&rsquo;t tied to{" "}
+            <code>@ui-organized/react</code>: it inspects whatever design system the page actually
+            ships, including none.
           </p>
           <div className={styles.ctas}>
             <Button
               intent="primary"
               render={
+                // `render` prop; Button injects the children at runtime.
+                // eslint-disable-next-line jsx-a11y/anchor-has-content
                 <a href={LINKS.npmUiInspect} target="_blank" rel="noreferrer" />
               }
             >
@@ -221,9 +215,9 @@ export default function UiInspectGuide() {
             aria-label="Screen recording: opening UI Inspect on a running app, selecting an element, replacing its font size with a token from the page's own scale, and reviewing the edit in the Changes tab."
           />
           <figcaption className={styles.demoCaption}>
-            A live edit end to end: select an element, swap a hard-coded size for a
-            token off the page&rsquo;s own scale, then read the change back out of the
-            Changes tab as JSON or Markdown.
+            A live edit end to end: select an element, swap a hard-coded size for a token off the
+            page&rsquo;s own scale, then read the change back out of the Changes tab as JSON or
+            Markdown.
           </figcaption>
         </figure>
 
@@ -246,15 +240,14 @@ export default function UiInspectGuide() {
                 <h3 className={styles.stepTitle}>Mount it behind a dev guard</h3>
               </div>
               <p className={styles.body}>
-                The dynamic <code>import()</code> is what keeps it out of the production
-                bundle; the guard decides whether the module is ever fetched.
+                The dynamic <code>import()</code> is what keeps it out of the production bundle; the
+                guard decides whether the module is ever fetched.
               </p>
               <CodeBlock code={MOUNT} language="ts" />
               <p className={styles.body}>
                 Not on Vite? Any dev-only guard works:{" "}
                 <code>process.env.NODE_ENV !== &quot;production&quot;</code>, a bundler{" "}
-                <code>define</code>, or simply not importing it from your production
-                entry.
+                <code>define</code>, or simply not importing it from your production entry.
               </p>
             </li>
 
@@ -264,9 +257,9 @@ export default function UiInspectGuide() {
                 <h3 className={styles.stepTitle}>Open it, then click an element</h3>
               </div>
               <p className={styles.body}>
-                Run your dev server and hit the <strong>Inspect</strong> button the
-                package mounts in the page. Click anything and the panel resolves that
-                element against your token set.
+                Run your dev server and hit the <strong>Inspect</strong> button the package mounts
+                in the page. Click anything and the panel resolves that element against your token
+                set.
               </p>
             </li>
           </ol>
@@ -282,10 +275,9 @@ export default function UiInspectGuide() {
         >
           <CodeBlock code={OPTIONS} language="ts" />
           <p className={styles.body}>
-            <code>source</code> is where the token set comes from: the page&rsquo;s own
-            CSS custom properties (<code>css-vars</code>, the default), a DTCG token
-            file (<code>dtcg</code>), a Tailwind config (<code>tailwind</code>), or
-            plain <code>json</code>.
+            <code>source</code> is where the token set comes from: the page&rsquo;s own CSS custom
+            properties (<code>css-vars</code>, the default), a DTCG token file (<code>dtcg</code>),
+            a Tailwind config (<code>tailwind</code>), or plain <code>json</code>.
           </p>
         </Section>
 

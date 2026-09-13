@@ -1,12 +1,12 @@
 import { Field } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { textAreaFieldStyles } from "./TextArea.styles.js";
+import { textAreaFieldStyles } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
 import type { TextAreaProps } from "./TextArea.types.js";
 // Shares the Input field surface/state styling; TextArea.css layers on the
 // multi-line specifics (min-height, resize).
-import "../Input/Input.css";
-import "./TextArea.css";
+import "@ui-organized/core/components/Input/Input.css";
+import "@ui-organized/core/components/TextArea/TextArea.css";
 
 export function TextArea({
   label,

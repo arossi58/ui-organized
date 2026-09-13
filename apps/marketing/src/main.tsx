@@ -8,6 +8,9 @@ import "./styles/fonts";
 // components reference the token variables defined here.
 import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
+// The data table is a separate package (see TABLE.md); its stylesheet has to be
+// imported alongside the component library's.
+import "@ui-organized/react-table/styles";
 // All three icon sets. The library imports none of them itself — that is what
 // makes the optional peers genuinely optional — so each has to be registered
 // explicitly. This site needs all three because the Theme Builder preview and

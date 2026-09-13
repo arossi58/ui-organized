@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import type { FieldErrorProps } from "./FieldError.types.js";
-import "./FieldError.css";
+import "@ui-organized/core/components/FieldError/FieldError.css";
 
 /**
  * Reusable inline error message for form controls (Input, Select, …).

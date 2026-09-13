@@ -57,7 +57,7 @@ describe("projectRender", () => {
 
 describe("every render-prop trigger routes through projectRender", () => {
   // Guards against a new trigger being written in the old shape — which is how
-  // all nine of them came to have the same bug.
+  // all of them came to have the same bug.
   function tsxFiles(dir = "src/components"): string[] {
     const out: string[] = [];
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
@@ -81,15 +81,18 @@ describe("every render-prop trigger routes through projectRender", () => {
     expect(offenders, "use projectRender(render, children, name) instead").toEqual([]);
   });
 
-  it("covers all nine known triggers", () => {
+  it("covers all ten known triggers", () => {
     const found = tsxFiles()
-      .flatMap((f) => [...readFileSync(f, "utf8").matchAll(/projectRender\(render, children, "(\w+)"\)/g)])
+      .flatMap((f) => [
+        ...readFileSync(f, "utf8").matchAll(/projectRender\(render, children, "(\w+)"\)/g),
+      ])
       .map((m) => m[1]!)
       .sort();
     expect(found).toEqual([
       "AlertDialogTrigger",
       "DialogClose",
       "DialogTrigger",
+      "FloatingPanelTrigger",
       "HoverCardTrigger",
       "MenuTrigger",
       "PopoverClose",

@@ -38,10 +38,16 @@ Buttons trigger actions. Use \`intent\` to convey emphasis and tone, \`size\` fo
 
 | Prop | Allowed values | Required | Default | Notes |
 | --- | --- | --- | --- | --- |
-| \`icon\` | \`"plus"\` \\| \`"arrow-right"\` \\| \`"download"\` \\| \`"trash"\` \\| \`"edit"\` \\| \`"check"\` \\| \`"close"\` | no | — | Optional icon to render inside the button. |
+| \`icon\` | \`CanonicalIconName \\| IconComponent\` — \`CanonicalIconName\` see below | no | — | Optional icon to render inside the button. |
 | \`iconPosition\` | \`"left"\` \\| \`"right"\` | no | \`"left"\` | Whether the icon appears before or after the button label. |
 | \`intent\` | \`"primary"\` \\| \`"secondary"\` \\| \`"tertiary"\` \\| \`"ghost"\` \\| \`"destructive"\` \\| \`"destructive-ghost"\` | no | \`"primary"\` | Visual style intent. |
 | \`size\` | \`"sm"\` \\| \`"md"\` \\| \`"lg"\` | no | \`"md"\` | Size variant. |
+
+\`CanonicalIconName\` is one of exactly these 7 values — any other string is invalid:
+
+\`\`\`
+plus arrow-right download trash edit check close
+\`\`\`
 
 Beyond the props above, this component forwards the standard React props of its underlying element — \`children\`, \`className\`, \`id\`, \`style\`, \`ref\`, its native event handlers (\`onClick\`, \`onChange\`, …), and \`aria-*\` / \`data-*\` attributes. Those are the ONLY additions; they do not extend the variant API above.
 
@@ -65,7 +71,7 @@ Beyond the props above, this component forwards the standard React props of its 
 - Package: @ui-organized/react@4.1.0
 - Source: packages/react/src/components/Button/Button.types.ts
 - Confidence: exact
-- Props: in sync with code (last scanned 2026-07-03T01:18:35.349Z)
+- Props: in sync with code (last scanned 2026-08-02T14:46:46.619Z)
 - Docs: https://uiorganized.com/docs/button
 - Spec: https://uiorganized.com/ai/Button.md
 - All components: 114 components — https://uiorganized.com/llms.txt

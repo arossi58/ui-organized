@@ -1,0 +1,236 @@
+/* ─── AngleSlider ─────────────────────────────────────────────────────────────
+   A ring dial: a full track ring, an active arc swept clockwise from twelve
+   o'clock, the value and its label reading out in the hollow, and a knob riding
+   the band. Helper text and the error message below come from `.field`
+   (Field.css).
+
+   zag writes `--angle` on the root and `rotate: var(--angle)` inline on the
+   thumb, so this file never computes the angle — the arc reads `--angle` as a
+   conic-gradient stop and the thumb only needs its rotation origin moved to the
+   dial's centre. Same for markers, which get `--marker-display-value` and their
+   own inline rotate.
+
+   `--angle-slider-dial` and `--angle-slider-track` are local geometry, not
+   tokens: the dial is a computed circle in the same category as
+   `--calendar-cell`, and there is no themeable meaning to its diameter beyond
+   the size step it comes from. The diameter is still sourced from the token
+   scale; the band is the design's own eighth-of-the-diameter ratio, which lands
+   on 8 / 15 / 25px across the three steps. */
+
+.angle-slider {
+  /* The dial is intrinsically sized; without this it would fill its column the
+     way the text fields sharing `.field` do. */
+  width: fit-content;
+}
+
+.angle-slider--sm .angle-slider__control {
+  --angle-slider-dial: var(--spacing-space-16, 64px);
+}
+
+.angle-slider--md .angle-slider__control {
+  --angle-slider-dial: var(--dimension-03, 120px);
+}
+
+.angle-slider--lg .angle-slider__control {
+  --angle-slider-dial: var(--dimension-05, 200px);
+}
+
+/* ─── Dial ────────────────────────────────────────────────────────────────── */
+
+.angle-slider__control {
+  --angle-slider-track: calc(var(--angle-slider-dial) / 8);
+  --angle-slider-range: var(--color-interactive-primary-default);
+
+  position: relative;
+  box-sizing: border-box;
+  width: var(--angle-slider-dial);
+  height: var(--angle-slider-dial);
+  border-radius: var(--border-radius-full);
+  cursor: grab;
+}
+
+.angle-slider__control:active {
+  cursor: grabbing;
+}
+
+.angle-slider__control[data-invalid] {
+  --angle-slider-range: var(--color-status-error);
+}
+
+.angle-slider__control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.angle-slider__control[data-readonly] {
+  cursor: default;
+}
+
+/* ─── Ring ────────────────────────────────────────────────────────────────────
+   Track and arc are one paint: a conic gradient that flips colour at `--angle`,
+   with the middle punched out. The hole has to be a mask rather than an opaque
+   inner disc — the track is a translucent overlay token, so whatever sits
+   behind the dial has to show through the hollow unchanged.
+
+   The mask's `closest-side` ray is the dial radius, so `100% - track` is the
+   ring's inner edge: dial/2 - dial/8, i.e. three eighths of the diameter.
+
+   It lives on a pseudo-element rather than on `.angle-slider__control` itself
+   because masking the control would clip the thumb's drop shadow and focus
+   ring along with the ring. */
+
+.angle-slider__control::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: conic-gradient(
+    var(--angle-slider-range) var(--angle, 0deg),
+    var(--color-surface-overlay-tertiary) 0
+  );
+  /* A mask reads only the alpha channel, so this black is compositing, not
+     palette — there is no theme in which it should be anything else, and
+     pointing it at a colour token would imply otherwise. */
+  /* stylelint-disable color-no-hex -- see above */
+  -webkit-mask-image: radial-gradient(
+    closest-side,
+    transparent calc(100% - var(--angle-slider-track)),
+    #000 calc(100% - var(--angle-slider-track))
+  );
+  mask-image: radial-gradient(
+    closest-side,
+    transparent calc(100% - var(--angle-slider-track)),
+    #000 calc(100% - var(--angle-slider-track))
+  );
+  /* stylelint-enable color-no-hex */
+}
+
+/* ─── Readout ─────────────────────────────────────────────────────────────────
+   Value over label, centred in the hollow. Pointer events pass through so the
+   dial responds to a click anywhere inside it, text included.
+
+   The design overlaps the two lines by 8px: both typographic steps carry more
+   leading than this pairing wants, and the negative margin is what closes the
+   gap back up. The width cap is the hollow's diameter (dial - 2 x track), so a
+   long label truncates instead of spilling past the ring. */
+
+.angle-slider__readout {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: calc(var(--angle-slider-dial) - 2 * var(--angle-slider-track));
+  margin: 0 auto;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.angle-slider__value {
+  font-family: var(--type-font-heading);
+  font-size: var(--type-size-heading-medium);
+  font-weight: var(--type-weight-heading-strong);
+  line-height: var(--type-leading-heading-medium);
+  color: var(--color-content-primary);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: calc(var(--spacing-space-02) * -1);
+}
+
+.angle-slider--sm .angle-slider__value {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-large);
+}
+
+.angle-slider--lg .angle-slider__value {
+  font-size: var(--type-size-display-large);
+  line-height: var(--type-leading-display-large);
+}
+
+.angle-slider__label {
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+}
+
+/* ─── Thumb ───────────────────────────────────────────────────────────────────
+   Fills the band's width and sits flush with the dial's top edge, which puts
+   its centre exactly on the band's mid-line, then spins around the dial's
+   centre. The origin's y offset is measured from the thumb's own top-left, so
+   it is exactly the dial radius.
+
+   The thumb element is only the positioner; the knob is drawn on `::before` so
+   it can be counter-rotated. Otherwise `rotate: var(--angle)` would carry the
+   drop shadow around with it and the light would appear to orbit the dial. */
+
+.angle-slider__thumb {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--angle-slider-track);
+  height: var(--angle-slider-track);
+  margin-left: calc(var(--angle-slider-track) / -2);
+  border-radius: var(--border-radius-full);
+  transform-origin: 50% calc(var(--angle-slider-dial) / 2);
+  outline: none;
+  cursor: inherit;
+}
+
+.angle-slider__thumb::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border-radius: inherit;
+  background-color: var(--color-content-light);
+  border: 1px solid var(--color-border-data-entry);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+  rotate: calc(var(--angle, 0deg) * -1);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. It goes on the thumb rather than the knob so it is not
+   counter-rotated — a ring is rotationally symmetric, and keeping it here lets
+   it sit outside the knob's own shadow. */
+.angle-slider__thumb:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.angle-slider__thumb[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+/* ─── Markers ─────────────────────────────────────────────────────────────────
+   Not part of the Figma component; kept from the existing API and re-anchored
+   into the band, centred across it, so they read against both the track and the
+   arc.
+
+   Unlike the thumb, the tick does not start flush with the dial's top edge, so
+   its rotation origin is the dial radius less however far down the tick begins
+   — otherwise every marker swings around a point below the dial's centre. */
+
+.angle-slider__markers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.angle-slider__marker {
+  position: absolute;
+  top: calc(var(--angle-slider-track) / 4);
+  left: 50%;
+  width: 1px;
+  height: calc(var(--angle-slider-track) / 2);
+  margin-left: -0.5px;
+  background-color: var(--color-content-tertiary);
+  transform-origin: 50% calc(var(--angle-slider-dial) / 2 - var(--angle-slider-track) / 4);
+}

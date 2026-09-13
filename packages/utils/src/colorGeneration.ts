@@ -42,19 +42,19 @@ export interface OklchColor {
  * 24 steps matching the core color library architecture.
  */
 const RAMP_STEPS: Record<string, number> = {
-  "100":  0.990,
-  "200":  0.952,
-  "300":  0.913,
-  "400":  0.875,
-  "500":  0.837,
-  "600":  0.799,
-  "700":  0.760,
-  "800":  0.722,
-  "900":  0.684,
+  "100": 0.99,
+  "200": 0.952,
+  "300": 0.913,
+  "400": 0.875,
+  "500": 0.837,
+  "600": 0.799,
+  "700": 0.76,
+  "800": 0.722,
+  "900": 0.684,
   "1000": 0.646,
   "1100": 0.608,
   "1200": 0.569,
-  "1300": 0.530,
+  "1300": 0.53,
   "1400": 0.491,
   "1500": 0.452,
   "1600": 0.413,
@@ -65,7 +65,7 @@ const RAMP_STEPS: Record<string, number> = {
   "2100": 0.217,
   "2200": 0.178,
   "2300": 0.138,
-  "2400": 0.100,
+  "2400": 0.1,
 };
 
 /**
@@ -75,15 +75,15 @@ const RAMP_STEPS: Record<string, number> = {
  * Derived from the core library's brand-typical families.
  */
 const CHROMA_SCALE: Record<string, number> = {
-  "100":  0.024,
-  "200":  0.118,
-  "300":  0.218,
-  "400":  0.320,
-  "500":  0.429,
-  "600":  0.544,
-  "700":  0.667,
-  "800":  0.797,
-  "900":  0.933,
+  "100": 0.024,
+  "200": 0.118,
+  "300": 0.218,
+  "400": 0.32,
+  "500": 0.429,
+  "600": 0.544,
+  "700": 0.667,
+  "800": 0.797,
+  "900": 0.933,
   "1000": 0.998,
   "1100": 0.998,
   "1200": 0.998,
@@ -191,7 +191,10 @@ function oklchToOklab(l: number, c: number, h: number): [number, number, number]
  * Supports both space-separated and comma-separated formats.
  */
 function parseOklchString(oklchStr: string): OklchColor {
-  const inner = oklchStr.trim().replace(/^oklch\(/, "").replace(/\)$/, "");
+  const inner = oklchStr
+    .trim()
+    .replace(/^oklch\(/, "")
+    .replace(/\)$/, "");
   // Handle "none" keyword (treat as 0) and strip % from lightness
   const parts = inner
     .split(/[\s,]+/)
@@ -211,7 +214,8 @@ function clamp(v: number, min = 0, max = 1): number {
   return Math.max(min, Math.min(max, v));
 }
 
-function oklchToHex(l: number, c: number, h: number): string {
+/** Convert OKLCH components to a gamut-clamped 6-digit sRGB hex string. */
+export function oklchToHex(l: number, c: number, h: number): string {
   const [la, a, b] = oklchToOklab(l, c, h);
   const [lr, lg, lb] = oklabToLinearRgb(la, a, b);
   const r = Math.round(clamp(linearToGamma(lr)) * 255);
@@ -220,7 +224,34 @@ function oklchToHex(l: number, c: number, h: number): string {
   return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${bVal.toString(16).padStart(2, "0")}`;
 }
 
-function oklchToString(l: number, c: number, h: number): string {
+/**
+ * Whether an OKLCH color falls inside the sRGB gamut.
+ *
+ * Near white and near black the gamut is very tight — at L 0.99 most hues admit
+ * a chroma of only ~0.005 — so a requested chroma has to be checked rather than
+ * assumed. Without this, {@link oklchToHex} silently channel-clamps and returns
+ * a color whose real lightness and hue differ from what was asked for.
+ */
+export function oklchInGamut(l: number, c: number, h: number): boolean {
+  const [la, a, b] = oklchToOklab(l, c, h);
+  const rgb = oklabToLinearRgb(la, a, b);
+  return rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
+}
+
+/** The largest in-gamut chroma at a given lightness and hue, to 4 decimals. */
+export function maxChromaFor(l: number, h: number): number {
+  let lo = 0;
+  let hi = 0.4;
+  for (let i = 0; i < 24; i += 1) {
+    const mid = (lo + hi) / 2;
+    if (oklchInGamut(l, mid, h)) lo = mid;
+    else hi = mid;
+  }
+  return lo;
+}
+
+/** Format OKLCH components as an `oklch(L C H)` CSS string. */
+export function oklchToString(l: number, c: number, h: number): string {
   return `oklch(${l.toFixed(3)} ${c.toFixed(3)} ${h.toFixed(1)})`;
 }
 
@@ -257,7 +288,9 @@ export function parseToOklch(input: string): OklchColor {
     const [L, a, bVal] = linearRgbToOklab(r, g, b);
     return oklabToOklch(L, a, bVal);
   }
-  throw new Error(`Unsupported color format: "${input}". Expected "#rrggbb" or "oklch(...)"`.trim());
+  throw new Error(
+    `Unsupported color format: "${input}". Expected "#rrggbb" or "oklch(...)"`.trim(),
+  );
 }
 
 /**

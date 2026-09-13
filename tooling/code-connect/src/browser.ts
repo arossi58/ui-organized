@@ -80,3 +80,23 @@ export {
   PASSTHROUGH_NOTE,
   TOKEN_FAMILIES,
 } from "./ai-context-rules.js";
+export {
+  DOC_FRAMEWORKS,
+  FRAMEWORK_INFO,
+  frameworkSample,
+  frameworkSymbol,
+  frameworkUsage,
+  importStatement,
+  isDocFramework,
+  parseAngularInputs,
+  parseAngularSelectors,
+  parseBarrelExports,
+  resolveTarget,
+  unsupportedArgs,
+  type AngularSelector,
+  type DocFramework,
+  type FrameworkInfo,
+  type FrameworkSampleOptions,
+  type FrameworkSurface,
+  type FrameworkTarget,
+} from "./frameworks.js";

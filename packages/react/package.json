@@ -79,7 +79,6 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
-    "gen:contract": "tsx scripts/token-contract.ts",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "test:smoke": "node scripts/smoke-icons.mjs"
@@ -104,9 +103,9 @@
   },
   "dependencies": {
     "@ark-ui/react": "^5.37.2",
+    "@ui-organized/core": "workspace:*",
     "@ui-organized/tokens": "workspace:*",
     "@ui-organized/utils": "workspace:*",
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0"
   },
   "devDependencies": {

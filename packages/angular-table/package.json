@@ -1,0 +1,80 @@
+{
+  "name": "@ui-organized/angular-table",
+  "version": "0.1.0",
+  "description": "Angular data table for the ui-organized design system: headless signals, styled directives, and a batteries-included <uio-data-table>, built on @ui-organized/table-core.",
+  "keywords": [
+    "design-system",
+    "angular",
+    "data-table",
+    "table",
+    "virtualization",
+    "accessible"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/angular-table#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/angular-table"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "styles.css",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types/ui-organized-angular-table.d.ts",
+      "default": "./dist/fesm2022/ui-organized-angular-table.mjs"
+    },
+    "./styles": {
+      "default": "./styles.css"
+    },
+    "./styles.css": {
+      "default": "./styles.css"
+    }
+  },
+  "scripts": {
+    "build": "ng-packagr -p ng-package.json && node scripts/copy-styles.mjs",
+    "test": "vitest run",
+    "lint": "eslint src/",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test:smoke": "node ../../scripts/smoke-table.mjs angular"
+  },
+  "peerDependencies": {
+    "@angular/cdk": ">=21.0.0",
+    "@angular/common": ">=21.0.0",
+    "@angular/core": ">=21.0.0",
+    "@ui-organized/angular": ">=0.1.0"
+  },
+  "dependencies": {
+    "@tanstack/angular-table": "^9.2.4",
+    "@tanstack/angular-virtual": "^6.0.3",
+    "@ui-organized/table-core": "workspace:*",
+    "@ui-organized/utils": "workspace:*",
+    "clsx": "^2.1.0",
+    "tslib": "^2.6.0"
+  },
+  "devDependencies": {
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/platform-browser": "^21.2.20",
+    "@types/node": "^20.0.0",
+    "@ui-organized/angular": "workspace:*",
+    "@ui-organized/tsconfig": "workspace:*",
+    "jsdom": "^29.1.1",
+    "ng-packagr": "^21.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}

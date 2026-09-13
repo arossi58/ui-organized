@@ -1,0 +1,153 @@
+/* ─── TreeView ────────────────────────────────────────────────────────────────
+   A disclosure tree. Rows reuse the Listbox item recipe — same hover, selected
+   and focus treatment — so a tree row and a list row read as the same control.
+
+   Depth indentation is zag's: it sets `--depth` on each node, and padding is
+   computed from it. That is why no rule here hardcodes a per-level indent. */
+
+.tree-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.tree-view__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-secondary);
+}
+
+.tree-view__tree {
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+.tree-view--bordered .tree-view__tree {
+  background-color: var(--color-surface-primary);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  padding: var(--spacing-space-01);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. Roving focus lives on the tree, not the rows. */
+.tree-view__tree:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* ─── Rows ────────────────────────────────────────────────────────────────────
+   Branch controls and leaf items are different Ark parts but the same row, so
+   they share every rule. Indentation comes from zag's `--depth`. */
+
+.tree-view__item,
+.tree-view__branch-control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  padding-inline-start: calc(var(--spacing-space-02) + var(--depth, 0) * var(--spacing-space-04));
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms ease;
+}
+
+.tree-view--sm .tree-view__item,
+.tree-view--sm .tree-view__branch-control {
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  padding-block: var(--spacing-space-005);
+}
+
+.tree-view--lg .tree-view__item,
+.tree-view--lg .tree-view__branch-control {
+  padding-block: var(--spacing-space-02);
+}
+
+/* Keyboard focus (data-focus) and selection (data-selected) can be true at
+   once, so they must not share a fill. */
+.tree-view__item[data-focus],
+.tree-view__branch-control[data-focus],
+.tree-view__item:hover,
+.tree-view__branch-control:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.tree-view__item[data-selected],
+.tree-view__branch-control[data-selected] {
+  background-color: var(--color-interactive-ui-selected);
+  font-weight: var(--type-weight-body-emphasis);
+}
+
+.tree-view__item[data-disabled],
+.tree-view__branch-control[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.tree-view__node-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tree-view__node-icon {
+  flex-shrink: 0;
+  color: var(--color-content-tertiary);
+}
+
+/* ─── Branch indicator ────────────────────────────────────────────────────────
+   A chevron that rotates rather than swaps glyph, so the open/closed change
+   reads as one continuous motion. */
+
+.tree-view__branch-indicator {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--color-content-tertiary);
+  transition: rotate 150ms ease;
+}
+
+.tree-view__branch-indicator[data-state="open"] {
+  rotate: 90deg;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tree-view__branch-indicator {
+    transition: none;
+  }
+}
+
+/* ─── Branch content ──────────────────────────────────────────────────────── */
+
+.tree-view__branch-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A collapsed branch is `hidden`, and `display: flex` would override
+   [hidden]'s `display: none` — leaving every child listed under a branch that
+   says it is shut. Same shape as `.avatar__fallback[hidden]`. */
+.tree-view__branch-content[hidden] {
+  display: none;
+}
+
+/* The guide is absolutely positioned against the branch content and offset by
+   the node's own depth, so it lands under the chevron of the row that owns it. */
+.tree-view__indent-guide {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(var(--spacing-space-04) + var(--depth, 0) * var(--spacing-space-04));
+  width: 1px;
+  background-color: var(--color-border-secondary);
+}

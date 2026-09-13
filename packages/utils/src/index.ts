@@ -2,11 +2,27 @@ export {
   generateColorRamp,
   parseToOklch,
   oklchColorToHex,
+  oklchToHex,
+  oklchToString,
+  oklchInGamut,
+  maxChromaFor,
   formatOklchColor,
   type ColorSwatch,
   type ColorRamp,
   type OklchColor,
 } from "./colorGeneration.js";
+
+export {
+  generateNeutralRamp,
+  getNeutralRamp,
+  rampHue,
+  NEUTRAL_TINT_STRENGTHS,
+  DEFAULT_NEUTRAL_TINT,
+  MAX_NEUTRAL_TINT,
+  MIN_NEUTRAL_TINT,
+  MAX_LIGHTNESS_GIVE,
+  type NeutralRampOptions,
+} from "./neutralGeneration.js";
 
 export {
   neutralPresets,
@@ -26,10 +42,7 @@ export {
   type CoreFamilyName,
 } from "./coreColors.js";
 
-export {
-  semanticColorMap,
-  type SemanticRefMap,
-} from "./semanticColorMap.js";
+export { semanticColorMap, type SemanticRefMap } from "./semanticColorMap.js";
 
 export {
   resolveSemanticColors,
@@ -50,11 +63,7 @@ export {
   type TypeScaleStepName,
 } from "./typeScale.js";
 
-export {
-  generateSpacingScale,
-  SPACING_SCALE,
-  SPACING_MULTIPLIERS,
-} from "./spacing.js";
+export { generateSpacingScale, SPACING_SCALE, SPACING_MULTIPLIERS } from "./spacing.js";
 
 export {
   generateModes,

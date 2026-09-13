@@ -19,6 +19,7 @@ import {
   kebab,
   manifest,
 } from "./registry";
+import testStatus from "../../../../manifest/test-status.json";
 
 describe("docs registry", () => {
   it("picks up every story file", () => {
@@ -179,5 +180,43 @@ describe("kebab", () => {
     expect(kebab("DateRangeInput")).toBe("date-range-input");
     expect(kebab("Button")).toBe("button");
     expect(kebab("Data Display")).toBe("data-display");
+  });
+});
+
+describe("test status", () => {
+  /**
+   * The join that makes the quality feed land on the right page.
+   *
+   * `scripts/quality/slug.mjs` re-implements `kebab` and `parseTitle` because it
+   * is plain Node and this registry is app TypeScript that eagerly globs every
+   * story module. Duplication is the cost of that split; this is what stops it
+   * being silent. If the two ever disagree, a component's Quality section goes
+   * blank with nothing else to indicate anything is wrong — so it fails here
+   * instead.
+   */
+  it("gives every component in test-status.json a real docs page", () => {
+    const slugs = new Set(docsComponents.map((c) => c.slug));
+    const orphans = Object.keys(testStatus.components).filter((slug) => !slugs.has(slug));
+    expect(orphans).toEqual([]);
+  });
+
+  it("has results for every component that has a docs page", () => {
+    const missing = docsComponents
+      .map((c) => c.slug)
+      .filter((slug) => !(slug in testStatus.components));
+    expect(missing).toEqual([]);
+  });
+
+  it("distinguishes untested from passing", () => {
+    // A dashboard that paints "no tests" green answers the question people are
+    // actually asking with a confident lie, so `none` must stay a real state.
+    const statuses = new Set(
+      Object.values(testStatus.components).flatMap((c) =>
+        [c.visual, c.interaction, c.a11y, c.tokens, c.crossBrowser].map((g) => g.status),
+      ),
+    );
+    for (const status of statuses) {
+      expect(["pass", "warn", "fail", "none", "skip", "not-run"]).toContain(status);
+    }
   });
 });

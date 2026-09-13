@@ -30,6 +30,14 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
 
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+
+      # Staging runs no gates, so it builds against whatever
+      # manifest/test-status.json is committed. The /quality dashboard and the
+      # docs Quality sections will therefore show the last results that were
+      # committed rather than this ref's — fine for a manual pre-prod check, and
+      # the page states the commit its numbers came from.
       - name: Build and assemble site
         uses: ./.github/actions/build-site
         with:
@@ -37,7 +45,7 @@ jobs:
           contact-endpoint: ${{ vars.VITE_CONTACT_ENDPOINT }}
           turnstile-site-key: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
 
-      # wrangler is a root devDependency; the composite action already ran
+      # wrangler is a root devDependency; the setup action already ran
       # `pnpm install`, so invoke it directly. It reads the credentials from env.
       - name: Deploy to staging
         env:

@@ -1,5 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { typeSizeTokens, typeLeadingTokens } from "@ui-organized/tokens";
+import { DEFAULT_NEUTRAL_TINT } from "@ui-organized/utils";
 import { useBuilderStore } from "../state/themeState";
 import { buildThemeTokens, buildThemeJson, buildIconsModule, buildReadme } from "./buildConfig";
 import { buildThemeCss } from "./buildCss";
@@ -112,6 +113,78 @@ describe("buildThemeTokens (DTCG)", () => {
     });
     // Icons must NOT pollute the standard token groups.
     expect(t.icons).toBeUndefined();
+  });
+});
+
+describe("tinted neutral export", () => {
+  const resetNeutral = () => {
+    state().setNeutralFamily("grey");
+    state().setNeutralTint(DEFAULT_NEUTRAL_TINT);
+  };
+
+  /** Every `{primitive.color.g.s}` alias in both modes resolves to a primitive. */
+  const expectAliasesResolvable = (t: any) => {
+    const aliasRe = /^\{primitive\.color\.([^.]+)\.([^.}]+)\}$/;
+    const checkGroup = (group: any) => {
+      for (const v of Object.values(group) as any[]) {
+        if (v && typeof v.$value === "string") {
+          const m = aliasRe.exec(v.$value);
+          if (m) {
+            const [, g, st] = m;
+            expect(t.primitive.color[g]?.[st], `missing primitive ${g}.${st}`).toBeTruthy();
+          }
+        } else if (v && typeof v === "object") {
+          checkGroup(v);
+        }
+      }
+    };
+    checkGroup(t.color.light);
+    checkGroup(t.color.dark);
+  };
+
+  it("keeps every alias resolvable with a custom tint", () => {
+    resetNeutral();
+    state().setNeutralColor("#3355ff");
+    const t = buildThemeTokens(state()) as any;
+    expectAliasesResolvable(t);
+    // Surfaces still alias rather than baking a literal.
+    expect(t.color.dark.surface.base.$value).toMatch(/^\{primitive\.color\..+\}$/);
+    resetNeutral();
+  });
+
+  it("emits the full 24-step tinted neutral ramp", () => {
+    resetNeutral();
+    state().setNeutralColor("#3355ff");
+    const t = buildThemeTokens(state()) as any;
+    expect(Object.keys(t.primitive.color.neutral)).toHaveLength(24);
+    // The ramp is tinted, not the authored grey.
+    expect(t.primitive.color.neutral["400"].$value).not.toBe("#e9e9e9");
+    resetNeutral();
+  });
+
+  it("records the tint in $extensions for round-tripping", () => {
+    resetNeutral();
+    state().setNeutralColor("#3355ff");
+    state().setNeutralTint(0.041);
+    const ext = (buildThemeTokens(state()) as any).$extensions["com.ui-organized.theme-builder"];
+    expect(ext.neutral).toMatchObject({ mode: "custom", hex: "#3355ff", tint: 0.041 });
+    // `family` is kept so a reader predating tinting still finds one.
+    expect(typeof ext.neutral.family).toBe("string");
+    resetNeutral();
+  });
+
+  it("names the tint in the stylesheet header", () => {
+    resetNeutral();
+    state().setNeutralColor("#3355ff");
+    expect(buildThemeCss(state())).toContain("Neutral: custom #3355ff");
+    resetNeutral();
+  });
+
+  it("leaves the untinted default byte-identical to authored grey", () => {
+    resetNeutral();
+    const t = buildThemeTokens(state()) as any;
+    expect(t.primitive.color.neutral["400"].$value).toBe("#e9e9e9");
+    expect(t.primitive.color.neutral["2400"].$value).toBe("#030303");
   });
 });
 

@@ -1,0 +1,180 @@
+/* ─── FileUpload ──────────────────────────────────────────────────────────────
+   A drop target, a browse button and a list of chosen files. Label / helper /
+   error chrome comes from `.field` (Field.css).
+
+   The dropzone deliberately does not carry `.field__control`: that class is a
+   fixed-height single-line box and this is a tall drop target that grows a row
+   per file. It restates the surface tokens instead of widening the `:not()`
+   exclusion chain in Field.css to opt straight back out. */
+
+/* ─── Dropzone ────────────────────────────────────────────────────────────── */
+
+.file-upload__dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-02);
+  box-sizing: border-box;
+  padding: var(--spacing-space-06);
+  background-color: var(--color-interactive-ui-default);
+  /* Dashed says "drop here" in a way a solid rule does not; 1px is the hairline
+     the rest of the package uses. */
+  border: 1px dashed var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.file-upload--sm .file-upload__dropzone {
+  padding: var(--spacing-space-04);
+}
+
+.file-upload--lg .file-upload__dropzone {
+  padding: var(--spacing-space-08);
+}
+
+/* A single row rather than a panel, for forms where a full drop target would
+   dominate. */
+.file-upload--compact .file-upload__dropzone {
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+}
+
+.file-upload__dropzone:hover:not([data-disabled]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* zag flags the drag-over state on the dropzone; the border going solid and
+   accented is the confirmation that a drop will land. */
+.file-upload__dropzone[data-dragging] {
+  background-color: var(--color-interactive-ui-hover);
+  border-style: solid;
+  border-color: var(--color-interactive-primary-default);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. */
+.file-upload__dropzone:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.file-upload__dropzone[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.file-upload__dropzone[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.file-upload__dropzone-icon {
+  color: var(--color-content-tertiary);
+}
+
+.file-upload__dropzone-text {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+/* ─── File list ───────────────────────────────────────────────────────────────
+   Ark keeps the group mounted with no children when nothing is chosen, so the
+   gap must not open on an empty list. */
+
+.file-upload__items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.file-upload__items:empty {
+  display: none;
+}
+
+.file-upload__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02);
+  background-color: var(--color-surface-secondary);
+  border-radius: var(--radius-interactive);
+}
+
+.file-upload__item-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--color-content-tertiary);
+}
+
+/* Thumbnails are square and cropped, so a portrait and a landscape image line
+   up in the same list. */
+.file-upload__item-image {
+  width: var(--spacing-space-08);
+  height: var(--spacing-space-08);
+  object-fit: cover;
+  border-radius: var(--radius-checkbox);
+}
+
+.file-upload__item-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.file-upload__item-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+}
+
+.file-upload__item-size {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.file-upload__item-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: var(--spacing-space-005);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.file-upload__item-delete:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.file-upload__item-delete:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}

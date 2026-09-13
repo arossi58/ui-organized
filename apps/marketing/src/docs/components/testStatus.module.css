@@ -1,0 +1,298 @@
+/* ─── Quality panel ──────────────────────────────────────────────────────────
+   The per-component test-result strip on a docs page, and the shared cell
+   styling the /quality dashboard reuses. Token-only, like every other docs
+   module. ── */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: var(--spacing-space-03);
+  margin: 0 0 var(--spacing-space-04);
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  padding: var(--spacing-space-03) var(--spacing-space-04);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-03);
+  background: var(--color-surface-secondary);
+}
+
+/* The status colour goes on a left edge rather than the whole surface: five
+   saturated tiles in a row read as an alert, and four of them are good news. */
+.cell[data-status="pass"] {
+  border-left: 3px solid var(--color-status-success);
+}
+/* `caution`, not `warning`: the palette splits them, and warning is cerise
+   while caution is the amber this state wants — the same token Alert's own
+   warning variant renders with, so a chip and a banner agree. */
+.cell[data-status="warn"] {
+  border-left: 3px solid var(--color-status-caution);
+}
+.cell[data-status="fail"] {
+  border-left: 3px solid var(--color-status-error);
+}
+.cell[data-status="none"],
+.cell[data-status="skip"],
+.cell[data-status="not-run"] {
+  border-left: 3px solid var(--color-border-secondary);
+}
+
+.cellHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-02);
+}
+
+.cellLabel {
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+.cellValue {
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  color: var(--color-content-secondary);
+}
+
+/* Wraps an <Icon>, not a text glyph — inline-flex so the SVG sits on the text
+   baseline of whatever it labels instead of dropping below it. */
+.mark {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  line-height: 1;
+  vertical-align: -0.15em;
+}
+.mark[data-status="pass"] {
+  color: var(--color-status-success);
+}
+.mark[data-status="warn"] {
+  color: var(--color-status-caution);
+}
+.mark[data-status="fail"] {
+  color: var(--color-status-error);
+}
+.mark[data-status="none"],
+.mark[data-status="skip"],
+.mark[data-status="not-run"] {
+  color: var(--color-content-tertiary);
+}
+
+/* The violation list inside the caution banner. The banner itself is the design
+   system's Alert; this only handles the list rhythm inside it. */
+.issueList {
+  margin: 0;
+  padding-left: var(--spacing-space-05);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.issueList li + li {
+  margin-top: var(--spacing-space-01);
+}
+
+.issueRule {
+  font-family: var(--type-font-mono, ui-monospace, monospace);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+
+.meta {
+  margin: 0;
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+  color: var(--color-content-tertiary);
+}
+
+.meta code {
+  font-family: var(--type-font-mono, ui-monospace, monospace);
+}
+
+/* ── Dashboard table (/quality) ──────────────────────────────────────────── */
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-03);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-secondary);
+  white-space: nowrap;
+}
+
+.table th {
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-secondary);
+  background: var(--color-surface-secondary);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+.table td:first-child {
+  white-space: normal;
+}
+
+.category {
+  /* Block: the name and category now sit inside one <span> in the row toggle,
+     where inline flow ran them together as "ColorPickerForms". */
+  display: block;
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-caption);
+  line-height: var(--type-leading-caption);
+}
+
+.componentLink {
+  display: block;
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-strong);
+}
+
+/* ── Expandable dashboard rows ─────────────────────────────────────────────
+   Type in here is body-small on content-primary/secondary, not caption on
+   tertiary. This panel is what someone opened the row to read: it is the
+   content, not a footnote about it, and caption grey on a tinted surface was
+   both hard to read and needlessly close to the contrast floor. ── */
+
+/* The whole first cell is the toggle, so the row reads as one target rather
+   than a name with a separate chevron to hunt for. A real <button> because the
+   alternative — a click handler on the <tr> — is unreachable by keyboard. */
+.rowToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rowChevron {
+  flex-shrink: 0;
+  color: var(--color-content-tertiary);
+  transition: transform 120ms ease;
+}
+
+.rowToggle[aria-expanded="true"] .rowChevron {
+  transform: rotate(180deg);
+}
+
+.rowToggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  border-radius: var(--border-radius-02);
+}
+
+.detailRow > td {
+  padding: 0;
+  background: var(--color-surface-secondary);
+}
+
+.detail {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--spacing-space-05);
+  padding: var(--spacing-space-05) var(--spacing-space-05) var(--spacing-space-04);
+  white-space: normal;
+}
+
+.detailGate {
+  min-width: 0;
+}
+
+.detailHead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  margin: 0 0 var(--spacing-space-02);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-primary);
+}
+
+.detailSummary {
+  margin: 0 0 var(--spacing-space-03);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-secondary);
+}
+
+.checkList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-primary);
+}
+
+.checkList li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--spacing-space-02);
+  padding: 2px 0;
+}
+
+.checkEngines {
+  color: var(--color-content-secondary);
+}
+
+/* Long suites collapse behind a count rather than making one row 60 lines tall. */
+.checkMore {
+  margin-top: var(--spacing-space-02);
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.detailIssue {
+  margin: 0 0 var(--spacing-space-03);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-primary);
+}
+
+.detailFoot {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-top: var(--spacing-space-03);
+  border-top: 1px solid var(--color-border-secondary);
+  font-size: var(--type-size-body-small);
+}
+
+/* The dashboard is rendered inside the docs subtree but keeps its own copy
+   rather than borrowing docs.css's `.sr-only`, so the module stays portable.
+   Without it the table's caption — there to name the table for screen readers —
+   renders as a stray line of text above it. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

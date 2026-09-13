@@ -7,7 +7,7 @@
  *    `<IconProvider library="lucide" style="outline" strokeAdjustment>`
  *    (`.storybook/preview.tsx`), and the stories assume it — without the same
  *    wrapper here every `icon="…"` prop renders nothing.
- * 2. **An error boundary.** These pages render 45 components' worth of real
+ * 2. **An error boundary.** These pages render 68 components' worth of real
  *    story code. One story that throws would otherwise blank the entire route,
  *    so a failure is contained to its own preview and reported in place.
  * 3. **A scan target.** `stageRef` exposes just the rendered component — not the
@@ -111,7 +111,13 @@ export function PreviewSurface({
         data-layout={layout}
         style={visionFilter ? { filter: visionFilter } : undefined}
       >
-        <div className={styles.stageInner} ref={stageRef}>
+        {/* `data-preview-stage` is the boundary the page's prose typography
+            stops at (see content.module.css). An example renders inside
+            `DocsProse`, so without it `.prose li`, `.prose p` and friends style
+            the component's own markup — the Pagination row's `<li>`s picked up
+            a bottom margin and lifted the page buttons off the line they share
+            with the row count beside them. */}
+        <div className={styles.stageInner} data-preview-stage ref={stageRef}>
           <PreviewBoundary label={label}>
             <IconProvider library="lucide" style="outline" strokeAdjustment>
               {/* Inside `stageRef`, so a contained overlay lands in the subtree

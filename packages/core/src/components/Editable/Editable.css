@@ -1,0 +1,125 @@
+/* ─── Editable ────────────────────────────────────────────────────────────────
+   A value that becomes an input in place. Label / helper / error chrome comes
+   from `.field` (Field.css).
+
+   Preview and input must occupy the same box — identical padding, border width,
+   font and line height — or the text jumps sideways the moment an edit starts.
+   The preview's border is transparent rather than absent for exactly that
+   reason: it reserves the pixel the input's border will occupy. */
+
+.editable__area {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.editable__preview,
+.editable__input {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: var(--control-height-md);
+  padding: var(--Button-Medium-vertical) var(--Button-Medium-horizontal);
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid transparent;
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+  outline: none;
+}
+
+.editable--sm .editable__preview,
+.editable--sm .editable__input {
+  height: var(--control-height-sm);
+  padding: var(--Button-Small-vertical) var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.editable--lg .editable__preview,
+.editable--lg .editable__input {
+  height: var(--control-height-lg);
+  padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
+}
+
+/* ─── Preview ─────────────────────────────────────────────────────────────────
+   Reads as text until hovered, where a surface appears to advertise that it is
+   editable — the same affordance the ghost Button uses. */
+
+.editable__preview {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  cursor: text;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition:
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.editable__preview:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+   colour is themed. The preview takes focus in `activationMode="focus"`. */
+.editable__preview:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+/* Ark sets data-placeholder-shown when the value is empty; the placeholder is
+   rendered as the preview's text, so it is coloured here rather than via
+   ::placeholder (which only applies to real inputs). */
+.editable__preview[data-placeholder-shown] {
+  color: var(--color-content-placeholder);
+}
+
+/* ─── Input ───────────────────────────────────────────────────────────────────
+   The real control surface, matching `.field__control`. */
+
+.editable__input {
+  background-color: var(--color-interactive-ui-default);
+  border-color: var(--color-border-data-entry);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.editable__input:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+}
+
+.editable__input[data-invalid] {
+  border-color: var(--color-status-error);
+}
+
+.editable__input[data-invalid]:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-status-error);
+}
+
+.editable__preview[data-disabled],
+.editable__input[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.editable__preview[data-readonly] {
+  cursor: default;
+}
+
+.editable__preview[data-readonly]:hover {
+  background-color: transparent;
+}
+
+/* ─── Controls ────────────────────────────────────────────────────────────── */
+
+.editable__control {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}

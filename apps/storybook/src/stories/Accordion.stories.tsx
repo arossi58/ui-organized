@@ -6,8 +6,7 @@ const ITEMS: AccordionItem[] = [
   {
     value: "what",
     title: "What is this design system?",
-    content:
-      "A React component library built on Ark UI primitives, themed with design tokens.",
+    content: "A React component library built on Ark UI primitives, themed with design tokens.",
   },
   {
     value: "how",
@@ -59,7 +58,21 @@ export const Variants: Story = {
   render: () => (
     <div style={{ width: 480, display: "flex", flexDirection: "column", gap: 24 }}>
       {(["default", "bordered", "separated"] as const).map((variant) => (
-        <Accordion key={variant} items={ITEMS} variant={variant} defaultValue={["what"]} />
+        <Accordion
+          key={variant}
+          // Each panel is a `region` landmark named by its trigger, so three
+          // accordions sharing one item list put three identically-named
+          // landmarks on the page and a screen reader's landmark list becomes
+          // useless. Naming the items per variant is what the demo meant anyway
+          // — it is showing three different variants.
+          items={ITEMS.map((item) => ({
+            ...item,
+            value: `${variant}-${item.value}`,
+            title: `${item.title} (${variant})`,
+          }))}
+          variant={variant}
+          defaultValue={[`${variant}-what`]}
+        />
       ))}
     </div>
   ),

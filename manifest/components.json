@@ -1,7 +1,1167 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-07-31T00:02:54.122Z",
+  "generatedAt": "2026-08-27T18:15:20.632Z",
   "components": [
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Table",
+      "codeName": "Table",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { Table } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<Table>…</Table>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableBody",
+      "codeName": "TableBody",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableBody } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableBody>…</TableBody>",
+      "propSignatureHash": "sha256:4e1d72ca83b62efd",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCell",
+      "codeName": "TableCell",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCell } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "cell",
+          "type": "Cell<T, unknown>",
+          "required": true
+        },
+        {
+          "name": "editContext",
+          "type": "TableEditContext<T> | null",
+          "required": true,
+          "description": "The row's open editor, if it has one."
+        },
+        {
+          "name": "focused",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index among visible columns."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "onFocusCell",
+          "type": "(cursor: GridCursor) => void",
+          "required": true
+        },
+        {
+          "name": "onStartEdit",
+          "type": "(row: TableRowModel<T>, columnId: string) => void",
+          "required": false
+        },
+        {
+          "name": "primary",
+          "type": "boolean",
+          "required": true,
+          "description": "This is the identifying column, so the cell is a `<th scope=\"row\">`."
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        },
+        {
+          "name": "rowIndex",
+          "type": "number",
+          "required": true,
+          "description": "The row's index within the current page — half of the cursor coordinate."
+        },
+        {
+          "name": "table",
+          "type": "TableInstance<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableCell cell={/* Cell<T, unknown> */} editContext={/* TableEditContext<T> | null */} focused={/* boolean */} index={/* number */} interactive={/* boolean */} primary={/* boolean */} row={/* TableRowModel<T> */} rowIndex={/* number */} table={/* TableInstance<T> */} />",
+      "propSignatureHash": "sha256:1019fa022d35b9f9",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFooter",
+      "codeName": "TableFooter",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFooter } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFooter>…</TableFooter>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableHeadCell",
+      "codeName": "TableHeadCell",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableHeadCell } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "header",
+          "type": "Header<T, unknown>",
+          "required": true
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index among visible columns — the `aria-colindex` and the cursor column."
+        }
+      ],
+      "usageSnippet": "<TableHeadCell header={/* Header<T, unknown> */} index={/* number */} />",
+      "propSignatureHash": "sha256:e91a4591a00cee55",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableHeader",
+      "codeName": "TableHeader",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableHeader } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableHeader />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableRow",
+      "codeName": "TableRow",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableRow } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "absoluteIndex",
+          "type": "number",
+          "required": true,
+          "description": "Index within the whole dataset — what `aria-rowindex` reports."
+        },
+        {
+          "name": "clickable",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "editContext",
+          "type": "TableEditContext<T> | null",
+          "required": true,
+          "description": "Non-null only for the row that has a cell open for editing."
+        },
+        {
+          "name": "editing",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "focusedCol",
+          "type": "number | null",
+          "required": true,
+          "description": "Cursor column when the cursor is on this row, else null."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index within the current page — the cursor's row coordinate."
+        },
+        {
+          "name": "interactive",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "measureElement",
+          "type": "(element: HTMLElement | null) => void",
+          "required": false,
+          "description": "The virtualizer's measurement hook."
+        },
+        {
+          "name": "onActivate",
+          "type": "(row: TableRowModel<T>) => void",
+          "required": false,
+          "description": "Row activation — opens the detail sheet, or calls `onRowClick`."
+        },
+        {
+          "name": "onFocusCell",
+          "type": "(cursor: GridCursor) => void",
+          "required": true
+        },
+        {
+          "name": "onStartEdit",
+          "type": "(row: TableRowModel<T>, columnId: string) => void",
+          "required": false
+        },
+        {
+          "name": "primaryColumnId",
+          "type": "string | undefined",
+          "required": true
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        },
+        {
+          "name": "selectable",
+          "type": "boolean",
+          "required": true,
+          "description": "Row selection is enabled at all — gates `aria-selected`."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "table",
+          "type": "TableInstance<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableRow absoluteIndex={/* number */} clickable={/* boolean */} editContext={/* TableEditContext<T> | null */} editing={/* boolean */} focusedCol={/* number | null */} index={/* number */} interactive={/* boolean */} primaryColumnId={/* string | undefined */} row={/* TableRowModel<T> */} selectable={/* boolean */} selected={/* boolean */} table={/* TableInstance<T> */} />",
+      "propSignatureHash": "sha256:8db392154501e9a6",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableViewport",
+      "codeName": "TableViewport",
+      "codePath": "packages/react-table/src/components/Table/Table.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableViewport } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "required": false,
+          "description": "Caps the scroll height."
+        }
+      ],
+      "usageSnippet": "<TableViewport>…</TableViewport>",
+      "propSignatureHash": "sha256:b002972530fec3c2",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCard",
+      "codeName": "TableCard",
+      "codePath": "packages/react-table/src/components/TableCards/TableCards.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCard } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "fields",
+          "type": "string[]",
+          "required": true,
+          "description": "Column ids to show as fields, already ordered by `meta.priority`."
+        },
+        {
+          "name": "index",
+          "type": "number",
+          "required": true,
+          "description": "Index within the current page."
+        },
+        {
+          "name": "measureElement",
+          "type": "(element: HTMLElement | null) => void",
+          "required": false
+        },
+        {
+          "name": "row",
+          "type": "TableRowModel<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableCard fields={/* string[] */} index={/* number */} row={/* TableRowModel<T> */} />",
+      "propSignatureHash": "sha256:47f0145b02dfeb5d",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableCards",
+      "codeName": "TableCards",
+      "codePath": "packages/react-table/src/components/TableCards/TableCards.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableCards } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableCards />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableDetailSheet",
+      "codeName": "TableDetailSheet",
+      "codePath": "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableDetailSheet } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"full\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Panel width."
+        }
+      ],
+      "usageSnippet": "<TableDetailSheet />",
+      "propSignatureHash": "sha256:4d40b2c45bf5c087",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilter",
+      "codeName": "TableFilter",
+      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilter } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "column",
+          "type": "Column<T, unknown>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableFilter column={/* Column<T, unknown> */} />",
+      "propSignatureHash": "sha256:c66004775e5d7ab7",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "deprecated"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterBar",
+      "codeName": "TableFilterBar",
+      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterBar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFilterBar />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "deprecated"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterAdd",
+      "codeName": "TableFilterAdd",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterAdd } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "iconOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Render as the header's icon-only funnel rather than the bar's \"＋ Add\"."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The trigger's label — shown beside the icon in the filter bar, and used as the accessible name of the header's icon-only button."
+        }
+      ],
+      "usageSnippet": "<TableFilterAdd />",
+      "propSignatureHash": "sha256:fde2af977ec00d75",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterChip",
+      "codeName": "TableFilterChip",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterChip } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableFilterChip condition={/* TableFilterCondition */} />",
+      "propSignatureHash": "sha256:2957cc9efe245da9",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterEditor",
+      "codeName": "TableFilterEditor",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterEditor } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": true,
+          "description": "The element a portalled popup must land inside."
+        }
+      ],
+      "usageSnippet": "<TableFilterEditor condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
+      "propSignatureHash": "sha256:c7a723631f4e59c2",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilters",
+      "codeName": "TableFilters",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilters } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableFilters />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterValueEditor",
+      "codeName": "TableFilterValueEditor",
+      "codePath": "packages/react-table/src/components/TableFilters/TableFilters.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterValueEditor } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "arity",
+          "type": "\"none\" | \"one\" | \"two\" | \"many\"",
+          "required": true,
+          "description": "How many operands the current operator takes."
+        },
+        {
+          "name": "condition",
+          "type": "TableFilterCondition",
+          "required": true
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": true,
+          "description": "The element a portalled popup must land inside."
+        }
+      ],
+      "usageSnippet": "<TableFilterValueEditor arity={/* \"none\" | \"one\" | \"two\" | \"many\" */} condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
+      "propSignatureHash": "sha256:8410efe385c8c430",
+      "lastSyncedAt": "2026-08-26T21:20:14.917Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TablePagination",
+      "codeName": "TablePagination",
+      "codePath": "packages/react-table/src/components/TablePagination/TablePagination.types.ts",
+      "framework": "react",
+      "importStatement": "import { TablePagination } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "pageSizes",
+          "type": "number[]",
+          "required": false,
+          "description": "Page sizes to offer."
+        },
+        {
+          "name": "showPageSize",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Offer a page-size control."
+        }
+      ],
+      "usageSnippet": "<TablePagination />",
+      "propSignatureHash": "sha256:14711ae142cd3385",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableRowActions",
+      "codeName": "TableRowActions",
+      "codePath": "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableRowActions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "RowAction<T>[]",
+          "required": false,
+          "description": "Overrides the table's own `rowActions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Row",
+          "description": "Accessible name for the trigger."
+        },
+        {
+          "name": "row",
+          "type": "T",
+          "required": true,
+          "description": "The row the actions operate on."
+        }
+      ],
+      "usageSnippet": "<TableRowActions row={/* T */} />",
+      "propSignatureHash": "sha256:4a089adf1b634630",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSelectionBar",
+      "codeName": "TableSelectionBar",
+      "codePath": "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSelectionBar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "BulkAction<T>[]",
+          "required": false,
+          "description": "Overrides the table's own `bulkActions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSelectionBar />",
+      "propSignatureHash": "sha256:8ac9e9cad8f9dda2",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableEmpty",
+      "codeName": "TableEmpty",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableEmpty } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "action",
+          "type": "ReactNode",
+          "required": false,
+          "description": "A call to action — \"Add the first row\", \"Clear filters\"."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableEmpty />",
+      "propSignatureHash": "sha256:0c9cebf01d0d18eb",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableError",
+      "codeName": "TableError",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableError } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableError>…</TableError>",
+      "propSignatureHash": "sha256:b2511e333bc5e979",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableLoading",
+      "codeName": "TableLoading",
+      "codePath": "packages/react-table/src/components/TableStates/TableStates.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableLoading } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "required": false,
+          "defaultValue": "8",
+          "description": "Skeleton rows to render."
+        }
+      ],
+      "usageSnippet": "<TableLoading />",
+      "propSignatureHash": "sha256:4f8b36fe1aff7433",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableActions",
+      "codeName": "TableActions",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableActions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "TableAction[]",
+          "required": false,
+          "description": "Overrides `options.actions`."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableActions />",
+      "propSignatureHash": "sha256:b512149875b19a53",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableExportMenu",
+      "codeName": "TableExportMenu",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableExportMenu } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableExportMenu />",
+      "propSignatureHash": "sha256:cfb165bf50cb1789",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSearch",
+      "codeName": "TableSearch",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSearch } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Search",
+          "description": "Accessible name."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSearch />",
+      "propSignatureHash": "sha256:94cab4cb15698d5d",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSortMenu",
+      "codeName": "TableSortMenu",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSortMenu } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Sort",
+          "description": "Accessible name for the icon-only trigger."
+        }
+      ],
+      "usageSnippet": "<TableSortMenu />",
+      "propSignatureHash": "sha256:c6a930f97323ee0d",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableToolbar",
+      "codeName": "TableToolbar",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableToolbar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "Replaces the default arrangement entirely."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableToolbar>…</TableToolbar>",
+      "propSignatureHash": "sha256:2f00c389ec961ef4",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableViewOptions",
+      "codeName": "TableViewOptions",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableViewOptions } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableViewOptions />",
+      "propSignatureHash": "sha256:cfb165bf50cb1789",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableProvider",
+      "codeName": "TableProvider",
+      "codePath": "packages/react-table/src/core/TableContext.tsx",
+      "framework": "react",
+      "importStatement": "import { TableProvider } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "DataTableApi<T>",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<TableProvider value={/* DataTableApi<T> */}>…</TableProvider>",
+      "propSignatureHash": "sha256:1df0f2ad5f9cd57e",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DataTable",
+      "codeName": "DataTable",
+      "codePath": "packages/react-table/src/DataTable/DataTable.types.ts",
+      "framework": "react",
+      "importStatement": "import { DataTable } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "TableAction[]",
+          "required": false,
+          "description": "The table's own actions, rendered in the header row."
+        },
+        {
+          "name": "bulkActions",
+          "type": "BulkAction<T>[]",
+          "required": false
+        },
+        {
+          "name": "captionVisible",
+          "type": "boolean",
+          "required": false,
+          "description": "Show the caption instead of hiding it visually."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "readonly TableColumn<T>[]",
+          "required": true
+        },
+        {
+          "name": "data",
+          "type": "readonly T[]",
+          "required": true
+        },
+        {
+          "name": "defaultColumnVisibility",
+          "type": "Record<string, boolean>",
+          "required": false
+        },
+        {
+          "name": "defaultFilters",
+          "type": "TableFilterInput[]",
+          "required": false,
+          "description": "Conditions the table starts with."
+        },
+        {
+          "name": "defaultSorting",
+          "type": "{ id: string; desc: boolean }[]",
+          "required": false
+        },
+        {
+          "name": "detail",
+          "type": "DetailConfig<T>",
+          "required": false
+        },
+        {
+          "name": "empty",
+          "type": "EmptyStateConfig",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "ReactNode",
+          "required": false
+        },
+        {
+          "name": "exportable",
+          "type": "boolean",
+          "required": false,
+          "description": "Offer CSV download and clipboard copy in the toolbar."
+        },
+        {
+          "name": "filterable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "filterOperators",
+          "type": "FilterOperatorDef[]",
+          "required": false,
+          "description": "Extra or replacement operators."
+        },
+        {
+          "name": "getRowId",
+          "type": "(row: T, index: number) => string",
+          "required": false,
+          "description": "Stable row identity."
+        },
+        {
+          "name": "hideableColumns",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "The table's accessible name."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "manual",
+          "type": "boolean",
+          "required": false,
+          "description": "Server-driven mode."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "required": false,
+          "description": "Caps the scroll viewport."
+        },
+        {
+          "name": "onEdit",
+          "type": "(patch: TableEditPatch<T>) => void | Promise<void>",
+          "required": false
+        },
+        {
+          "name": "onLoadMore",
+          "type": "() => void",
+          "required": false,
+          "description": "Infinite scroll: fires as the viewport approaches the end of the rows."
+        },
+        {
+          "name": "onQueryChange",
+          "type": "(query: DataTableQuery) => void",
+          "required": false
+        },
+        {
+          "name": "onRowClick",
+          "type": "(row: T) => void",
+          "required": false
+        },
+        {
+          "name": "pageSize",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "paginated",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "reorderable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "resizable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "responsive",
+          "type": "ResponsiveConfig",
+          "required": false
+        },
+        {
+          "name": "rowActions",
+          "type": "RowAction<T>[]",
+          "required": false
+        },
+        {
+          "name": "rowCount",
+          "type": "number",
+          "required": false,
+          "description": "Total matching rows."
+        },
+        {
+          "name": "searchable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "selection",
+          "type": "SelectionMode",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "TableSize",
+          "required": false
+        },
+        {
+          "name": "sortable",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "sortMenu",
+          "type": "boolean",
+          "required": false,
+          "description": "The header's sort button."
+        },
+        {
+          "name": "variant",
+          "type": "TableVariant",
+          "required": false
+        },
+        {
+          "name": "virtual",
+          "type": "boolean | VirtualConfig",
+          "required": false,
+          "description": "Row virtualization."
+        }
+      ],
+      "usageSnippet": "<DataTable />",
+      "propSignatureHash": "sha256:ab7e8f66ad90b0b9",
+      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "status": "draft"
+    },
     {
       "figmaComponentKey": "",
       "figmaComponentName": "Accordion",
@@ -276,6 +1436,112 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "AngleSlider",
+      "codeName": "AngleSlider",
+      "codePath": "packages/react/src/components/AngleSlider/AngleSlider.types.ts",
+      "framework": "react",
+      "importStatement": "import { AngleSlider } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial angle in degrees for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the dial."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered inside the dial, under the value."
+        },
+        {
+          "name": "markers",
+          "type": "number[]",
+          "required": false,
+          "description": "Tick marks in degrees, e.g."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called continuously as the dial is dragged."
+        },
+        {
+          "name": "onValueChangeEnd",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called once, when the drag ends."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the angle read-only while keeping it focusable."
+        },
+        {
+          "name": "showValue",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the current angle in the middle of the dial."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Degrees per keyboard step."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "description": "Controlled angle in degrees, 0–360."
+        }
+      ],
+      "usageSnippet": "<AngleSlider />",
+      "propSignatureHash": "sha256:ef1fcefb10a0ea3f",
+      "lastSyncedAt": "2026-08-16T16:58:42.070Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Avatar",
       "codeName": "Avatar",
       "codePath": "packages/react/src/components/Avatar/Avatar.types.ts",
@@ -401,7 +1667,7 @@
       "props": [
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "CanonicalIconName | IconComponent",
           "required": false,
           "description": "Optional icon to render inside the button."
         },
@@ -428,8 +1694,8 @@
         }
       ],
       "usageSnippet": "<Button />",
-      "propSignatureHash": "sha256:6d519848f6e30dac",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:f812888fdf6764f8",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -524,12 +1790,123 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Carousel",
+      "codeName": "Carousel",
+      "codePath": "packages/react/src/components/Carousel/Carousel.types.ts",
+      "framework": "react",
+      "importStatement": "import { Carousel } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "autoplay",
+          "type": "boolean | { delay: number }",
+          "required": false,
+          "description": "Advances on a timer."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultPage",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Initial page index for the uncontrolled case."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label for the carousel region."
+        },
+        {
+          "name": "loop",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Wraps from the last slide back to the first."
+        },
+        {
+          "name": "onPageChange",
+          "type": "(page: number) => void",
+          "required": false,
+          "description": "Called with the new index whenever the visible page changes."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Scroll direction."
+        },
+        {
+          "name": "page",
+          "type": "number",
+          "required": false,
+          "description": "Controlled page index."
+        },
+        {
+          "name": "showIndicators",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the dot indicators below the slides."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant, driving control and indicator scale."
+        },
+        {
+          "name": "slides",
+          "type": "CarouselSlide[]",
+          "required": true,
+          "description": "The slides, in order."
+        },
+        {
+          "name": "slidesPerPage",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "How many slides are visible at once."
+        },
+        {
+          "name": "spacing",
+          "type": "string",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Gap between slides."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"minimal\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment."
+        }
+      ],
+      "usageSnippet": "<Carousel slides={/* CarouselSlide[] */} />",
+      "propSignatureHash": "sha256:3d523f34e49c29cb",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Checkbox",
       "codeName": "Checkbox",
       "codePath": "packages/react/src/components/Checkbox/Checkbox.types.ts",
       "framework": "react",
       "importStatement": "import { Checkbox } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the checkbox is rendered without a visible `label`."
+        },
         {
           "name": "checked",
           "type": "boolean",
@@ -591,8 +1968,177 @@
         }
       ],
       "usageSnippet": "<Checkbox />",
-      "propSignatureHash": "sha256:ef2e1d3a01365ae7",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:cf4b0e586ed96657",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Chip",
+      "codeName": "Chip",
+      "codePath": "packages/react/src/components/Chip/Chip.types.ts",
+      "framework": "react",
+      "importStatement": "import { Chip } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The value half."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false,
+          "description": "Class for the chip's wrapper."
+        },
+        {
+          "name": "detail",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The quiet middle."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false
+        },
+        {
+          "name": "dropdown",
+          "type": "boolean",
+          "required": false,
+          "description": "Draws a trailing chevron, for a chip that opens a menu or popover."
+        },
+        {
+          "name": "icon",
+          "type": "CanonicalIconName | IconComponent",
+          "required": false,
+          "description": "Leading icon — a canonical name, or a library icon component."
+        },
+        {
+          "name": "incomplete",
+          "type": "boolean",
+          "required": false,
+          "description": "The chip exists but does not yet stand for anything — a filter with no value chosen."
+        },
+        {
+          "name": "label",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The emphasized half — what the chip is *about*."
+        },
+        {
+          "name": "onRemove",
+          "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+          "required": false,
+          "description": "Renders a dismiss button as a **sibling** of the chip's body."
+        },
+        {
+          "name": "operator",
+          "type": "ComparisonIconName",
+          "required": false,
+          "description": "The relation between label and value, **drawn**: one of the design system's six comparison glyphs."
+        },
+        {
+          "name": "operatorLabel",
+          "type": "string",
+          "required": false,
+          "description": "The glyph's accessible name — \"contains\"."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "required": false,
+          "description": "The dismiss button's accessible name."
+        },
+        {
+          "name": "selected",
+          "type": "boolean",
+          "required": false,
+          "description": "Its popover is open, or it is toggled on."
+        }
+      ],
+      "usageSnippet": "<Chip>…</Chip>",
+      "propSignatureHash": "sha256:19545bed9418f849",
+      "lastSyncedAt": "2026-08-27T17:09:40.870Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Clipboard",
+      "codeName": "Clipboard",
+      "codePath": "packages/react/src/components/Clipboard/Clipboard.types.ts",
+      "framework": "react",
+      "importStatement": "import { Clipboard } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copied",
+          "description": "Text on the trigger just after copying."
+        },
+        {
+          "name": "copyLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copy",
+          "description": "Text on the trigger before copying."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "onStatusChange",
+          "type": "(copied: boolean) => void",
+          "required": false,
+          "description": "Called when the copied state changes."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "timeout",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3000",
+          "description": "Milliseconds the copied state stays visible before reverting."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The text copied to the clipboard."
+        },
+        {
+          "name": "variant",
+          "type": "\"input\" | \"button\"",
+          "required": false,
+          "defaultValue": "input",
+          "description": "Layout."
+        }
+      ],
+      "usageSnippet": "<Clipboard value={/* string */} />",
+      "propSignatureHash": "sha256:1f0e2a3c80b01679",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -657,6 +2203,157 @@
       "usageSnippet": "<CollapsibleTrigger />",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ColorPicker",
+      "codeName": "ColorPicker",
+      "codePath": "packages/react/src/components/ColorPicker/ColorPicker.types.ts",
+      "framework": "react",
+      "importStatement": "import { ColorPicker } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Portal target for the picker surface."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for the uncontrolled case."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial colour for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "format",
+          "type": "\"rgba\" | \"hsla\" | \"hsba\" | \"hex\" | \"oklch\"",
+          "required": false,
+          "defaultValue": "rgba",
+          "description": "The notation this component *emits* — what `value`, `onValueChange`, `onValueChangeEnd`, the trigger's value text and the hidden form input all use."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the trigger."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the trigger."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the picker opens or closes."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called continuously as the colour changes, with a CSS colour string."
+        },
+        {
+          "name": "onValueChangeEnd",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called once the interaction ends."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state of the picker."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the colour read-only while keeping the trigger focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "showEyeDropper",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the eyedropper button, where the browser supports it."
+        },
+        {
+          "name": "showFormatInputs",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the notation select and its channel fields — HEX, RGB, HSL, OKLCH — under the sliders."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "swatches",
+          "type": "string[]",
+          "required": false,
+          "description": "Preset swatches offered under the picker area."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled colour, as a CSS colour string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"swatch-only\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Trigger treatment."
+        }
+      ],
+      "usageSnippet": "<ColorPicker />",
+      "propSignatureHash": "sha256:986a424f729e6c35",
+      "lastSyncedAt": "2026-08-17T16:57:11.422Z",
       "status": "draft"
     },
     {
@@ -1042,10 +2739,192 @@
       "codePath": "packages/react/src/components/DateInput/DateInput.types.ts",
       "framework": "react",
       "importStatement": "import { DateInput } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the calendar popover into."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
       "usageSnippet": "<DateInput />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:be543467ad5a668c",
+      "lastSyncedAt": "2026-08-26T18:21:11.562Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DatePicker",
+      "codeName": "DatePicker",
+      "codePath": "packages/react/src/components/DatePicker/DatePicker.types.ts",
+      "framework": "react",
+      "importStatement": "import { DatePicker } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Portal target for the calendar surface."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for the uncontrolled case."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial value for the uncontrolled case, as ISO dates."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the control."
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "required": false,
+          "description": "BCP-47 locale driving month names, weekday order and formatting."
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "required": false,
+          "description": "Latest selectable date, as an ISO date."
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false,
+          "description": "Earliest selectable date, as an ISO date."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "numOfMonths",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Months shown side by side."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the calendar opens or closes."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the new ISO dates whenever the selection changes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state of the calendar."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the value read-only while keeping the control focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "selectionMode",
+          "type": "\"single\" | \"multiple\" | \"range\"",
+          "required": false,
+          "defaultValue": "single",
+          "description": "How many dates may be picked."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled value as ISO dates (`YYYY-MM-DD`)."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"ghost\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Control treatment."
+        }
+      ],
+      "usageSnippet": "<DatePicker />",
+      "propSignatureHash": "sha256:8201be7c1bd86fd5",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
       "status": "draft"
     },
     {
@@ -1187,10 +3066,42 @@
       "codePath": "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts",
       "framework": "react",
       "importStatement": "import { DateTimeInput } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the calendar popover into."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        }
+      ],
       "usageSnippet": "<DateTimeInput />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:be543467ad5a668c",
+      "lastSyncedAt": "2026-08-26T18:21:11.562Z",
       "status": "draft"
     },
     {
@@ -1367,6 +3278,137 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Editable",
+      "codeName": "Editable",
+      "codePath": "packages/react/src/components/Editable/Editable.types.ts",
+      "framework": "react",
+      "importStatement": "import { Editable } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "activationMode",
+          "type": "\"focus\" | \"dblclick\" | \"click\" | \"none\"",
+          "required": false,
+          "defaultValue": "focus",
+          "description": "What starts an edit."
+        },
+        {
+          "name": "autoResize",
+          "type": "boolean",
+          "required": false,
+          "description": "Grows the input to fit its content instead of filling the width."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial value for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the value."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the value."
+        },
+        {
+          "name": "maxLength",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of characters."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called on every keystroke while editing."
+        },
+        {
+          "name": "onValueCommit",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called when the edit is committed — on submit, or on blur in blur mode."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Text shown when the value is empty."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the value read-only, so no edit can be started."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "showControls",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows explicit edit / submit / cancel buttons."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "submitMode",
+          "type": "\"blur\" | \"enter\" | \"both\" | \"none\"",
+          "required": false,
+          "defaultValue": "blur",
+          "description": "What commits an edit."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled value."
+        }
+      ],
+      "usageSnippet": "<Editable />",
+      "propSignatureHash": "sha256:4acc88909e051c06",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Field",
       "codeName": "Field",
       "codePath": "packages/react/src/components/Field/Field.types.ts",
@@ -1506,6 +3548,380 @@
       "usageSnippet": "<FieldError>…</FieldError>",
       "propSignatureHash": "sha256:8e43c867ebd12f85",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FileUpload",
+      "codeName": "FileUpload",
+      "codePath": "packages/react/src/components/FileUpload/FileUpload.types.ts",
+      "framework": "react",
+      "importStatement": "import { FileUpload } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "accept",
+          "type": "string | string[] | Record<string, string[]>",
+          "required": false,
+          "description": "Accepted types, as MIME types or extensions — `\"image\"`, `[\"image/png\", \".pdf\"]`, or a map of MIME type to extensions."
+        },
+        {
+          "name": "acceptedFiles",
+          "type": "File[]",
+          "required": false,
+          "description": "Controlled list of accepted files."
+        },
+        {
+          "name": "allowDrop",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Accepts files dropped onto the dropzone."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultAcceptedFiles",
+          "type": "File[]",
+          "required": false,
+          "description": "Initial files for the uncontrolled case."
+        },
+        {
+          "name": "directory",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Lets the picker select a whole directory."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "dropzoneLabel",
+          "type": "string",
+          "required": false,
+          "description": "Text inside the dropzone."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the control."
+        },
+        {
+          "name": "maxFiles",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Maximum number of files."
+        },
+        {
+          "name": "maxFileSize",
+          "type": "number",
+          "required": false,
+          "description": "Largest accepted file, in bytes."
+        },
+        {
+          "name": "minFileSize",
+          "type": "number",
+          "required": false,
+          "description": "Smallest accepted file, in bytes."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onFileChange",
+          "type": "(details: { acceptedFiles: File[]; rejectedFiles: unknown[] }) => void",
+          "required": false,
+          "description": "Called with the accepted and rejected lists whenever either changes."
+        },
+        {
+          "name": "onFileReject",
+          "type": "(files: unknown[]) => void",
+          "required": false,
+          "description": "Called with the files that failed validation."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "showPreview",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows a thumbnail for image files."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "triggerLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Choose",
+          "description": "Text on the browse button."
+        },
+        {
+          "name": "variant",
+          "type": "\"dropzone\" | \"button\" | \"compact\"",
+          "required": false,
+          "defaultValue": "dropzone",
+          "description": "Layout."
+        }
+      ],
+      "usageSnippet": "<FileUpload />",
+      "propSignatureHash": "sha256:5037daf8df9203b2",
+      "lastSyncedAt": "2026-08-02T18:39:22.446Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanel",
+      "codeName": "FloatingPanel",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanel } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for the uncontrolled case."
+        },
+        {
+          "name": "defaultPosition",
+          "type": "{ x: number; y: number }",
+          "required": false,
+          "description": "Initial position in pixels, relative to the positioning strategy."
+        },
+        {
+          "name": "defaultSize",
+          "type": "{ width: number; height: number }",
+          "required": false,
+          "description": "Initial size in pixels."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Allows dragging the panel by its header."
+        },
+        {
+          "name": "maxSize",
+          "type": "{ width: number; height: number }",
+          "required": false,
+          "description": "Largest size the panel can be resized to."
+        },
+        {
+          "name": "minSize",
+          "type": "{ width: number; height: number }",
+          "required": false,
+          "description": "Smallest size the panel can be resized to."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the panel opens or closes."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "resizable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Allows resizing the panel from its edges."
+        },
+        {
+          "name": "strategy",
+          "type": "\"absolute\" | \"fixed\"",
+          "required": false,
+          "defaultValue": "fixed",
+          "description": "Positioning strategy."
+        }
+      ],
+      "usageSnippet": "<FloatingPanel>…</FloatingPanel>",
+      "propSignatureHash": "sha256:de71f68bc5505cbb",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelBody",
+      "codeName": "FloatingPanelBody",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelBody } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<FloatingPanelBody>…</FloatingPanelBody>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelClose",
+      "codeName": "FloatingPanelClose",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelClose } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<FloatingPanelClose>…</FloatingPanelClose>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelContent",
+      "codeName": "FloatingPanelContent",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Portal target for the panel."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant, driving the panel's default width."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"elevated\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Surface treatment."
+        }
+      ],
+      "usageSnippet": "<FloatingPanelContent>…</FloatingPanelContent>",
+      "propSignatureHash": "sha256:fe34e6848f3af1a5",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelHeader",
+      "codeName": "FloatingPanelHeader",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelHeader } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<FloatingPanelHeader>…</FloatingPanelHeader>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelTitle",
+      "codeName": "FloatingPanelTitle",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelTitle } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<FloatingPanelTitle>…</FloatingPanelTitle>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FloatingPanelTrigger",
+      "codeName": "FloatingPanelTrigger",
+      "codePath": "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts",
+      "framework": "react",
+      "importStatement": "import { FloatingPanelTrigger } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<FloatingPanelTrigger>…</FloatingPanelTrigger>",
+      "propSignatureHash": "sha256:8e43c867ebd12f85",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
       "status": "draft"
     },
     {
@@ -1672,6 +4088,129 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "ImageCropper",
+      "codeName": "ImageCropper",
+      "codePath": "packages/react/src/components/ImageCropper/ImageCropper.types.ts",
+      "framework": "react",
+      "importStatement": "import { ImageCropper } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "alt",
+          "type": "string",
+          "required": false,
+          "description": "Alternative text for the image."
+        },
+        {
+          "name": "aspectRatio",
+          "type": "number",
+          "required": false,
+          "description": "Locks the crop box to a ratio, e.g."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "cropShape",
+          "type": "\"rectangle\" | \"circle\"",
+          "required": false,
+          "defaultValue": "rectangle",
+          "description": "Shape of the crop box."
+        },
+        {
+          "name": "defaultZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Initial zoom for the uncontrolled case."
+        },
+        {
+          "name": "fixedCropArea",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Prevents the crop box being moved or resized."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the viewport."
+        },
+        {
+          "name": "initialCrop",
+          "type": "CropRect",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Crop box the editor opens with."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the viewport."
+        },
+        {
+          "name": "maxZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "3",
+          "description": "Largest zoom level."
+        },
+        {
+          "name": "minZoom",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Smallest zoom level."
+        },
+        {
+          "name": "onCropChange",
+          "type": "(crop: CropRect) => void",
+          "required": false,
+          "description": "Called continuously as the crop box moves or resizes."
+        },
+        {
+          "name": "onZoomChange",
+          "type": "(zoom: number) => void",
+          "required": false,
+          "description": "Called when the zoom changes."
+        },
+        {
+          "name": "showGrid",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Draws rule-of-thirds guides inside the crop box."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant, driving the viewport's height."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "Image to crop."
+        },
+        {
+          "name": "zoom",
+          "type": "number",
+          "required": false,
+          "description": "Controlled zoom level."
+        }
+      ],
+      "usageSnippet": "<ImageCropper src={/* string */} />",
+      "propSignatureHash": "sha256:3487396be4c6ffc5",
+      "lastSyncedAt": "2026-08-02T18:39:22.446Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Input",
       "codeName": "Input",
       "codePath": "packages/react/src/components/Input/Input.types.ts",
@@ -1707,6 +4246,183 @@
       "usageSnippet": "<Input />",
       "propSignatureHash": "sha256:7a065a645590a677",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Listbox",
+      "codeName": "Listbox",
+      "codePath": "packages/react/src/components/Listbox/Listbox.types.ts",
+      "framework": "react",
+      "importStatement": "import { Listbox } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial selection for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the whole list."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "description": "Message shown when `options` is empty."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the list."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the full selection whenever it changes."
+        },
+        {
+          "name": "options",
+          "type": "ListboxOption[]",
+          "required": true,
+          "description": "The options to list, in display order."
+        },
+        {
+          "name": "selectionMode",
+          "type": "\"single\" | \"multiple\" | \"extended\"",
+          "required": false,
+          "defaultValue": "single",
+          "description": "How many options may be selected at once."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled selection."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"bordered\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment."
+        }
+      ],
+      "usageSnippet": "<Listbox options={/* ListboxOption[] */} />",
+      "propSignatureHash": "sha256:c4aac84c484bb4e8",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Marquee",
+      "codeName": "Marquee",
+      "codePath": "packages/react/src/components/Marquee/Marquee.types.ts",
+      "framework": "react",
+      "importStatement": "import { Marquee } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "autoFill",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Repeats the content until the track is full, so there is never a gap."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultPaused",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Starts paused."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Seconds to wait before the first pass."
+        },
+        {
+          "name": "items",
+          "type": "MarqueeItem[]",
+          "required": true,
+          "description": "The items to scroll, in order."
+        },
+        {
+          "name": "loopCount",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Number of passes before stopping."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Scroll direction."
+        },
+        {
+          "name": "pauseOnInteraction",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Pauses while hovered or focused."
+        },
+        {
+          "name": "reverse",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Reverses the travel direction."
+        },
+        {
+          "name": "showEdges",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Fades the leading and trailing edges into the background."
+        },
+        {
+          "name": "spacing",
+          "type": "string",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Gap between items."
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "required": false,
+          "defaultValue": "50",
+          "description": "Pixels travelled per second."
+        }
+      ],
+      "usageSnippet": "<Marquee items={/* MarqueeItem[] */} />",
+      "propSignatureHash": "sha256:5990e288f07f2275",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
       "status": "draft"
     },
     {
@@ -2015,6 +4731,12 @@
       "importStatement": "import { Meter } from '@ui-organized/react';",
       "props": [
         {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the meter is rendered without a visible `label`."
+        },
+        {
           "name": "className",
           "type": "string",
           "required": false
@@ -2074,8 +4796,8 @@
         }
       ],
       "usageSnippet": "<Meter value={/* number */} />",
-      "propSignatureHash": "sha256:b6ba916fba5d5478",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:ef09ae151baf0f59",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -2500,6 +5222,146 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "PinInput",
+      "codeName": "PinInput",
+      "codePath": "packages/react/src/components/PinInput/PinInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { PinInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "blurOnComplete",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Blurs the last cell once the value is complete."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial value for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables every cell."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the cells."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the cells."
+        },
+        {
+          "name": "length",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "Number of cells."
+        },
+        {
+          "name": "mask",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Renders entered characters as dots, like a password field."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called on every keystroke with the concatenated value."
+        },
+        {
+          "name": "onValueComplete",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called once every cell is filled."
+        },
+        {
+          "name": "otp",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Marks the cells as a one-time-code field so browsers and password managers offer to autofill an SMS code."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder character shown in each empty cell."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the value read-only while keeping it focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "type",
+          "type": "\"numeric\" | \"alphanumeric\" | \"alphabetic\"",
+          "required": false,
+          "defaultValue": "numeric",
+          "description": "Which characters each cell accepts."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Controlled value, one character per cell."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"underline\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment of each cell."
+        }
+      ],
+      "usageSnippet": "<PinInput />",
+      "propSignatureHash": "sha256:7bb9543b95a35aa0",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Popover",
       "codeName": "Popover",
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
@@ -2617,6 +5479,32 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "PopoverDescription",
+      "codeName": "PopoverDescription",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PopoverTitle",
+      "codeName": "PopoverTitle",
+      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
+      "framework": "react",
+      "importStatement": "import { PopoverTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<PopoverTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "PopoverTrigger",
       "codeName": "PopoverTrigger",
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
@@ -2655,6 +5543,13 @@
           "description": "Maximum value."
         },
         {
+          "name": "shape",
+          "type": "\"linear\" | \"circular\"",
+          "required": false,
+          "defaultValue": "linear",
+          "description": "Track geometry."
+        },
+        {
           "name": "showValue",
           "type": "boolean",
           "required": false,
@@ -2684,8 +5579,95 @@
         }
       ],
       "usageSnippet": "<Progress />",
-      "propSignatureHash": "sha256:1828fc99db4d4a55",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:107504ef664f40a5",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "QRCode",
+      "codeName": "QRCode",
+      "codePath": "packages/react/src/components/QRCode/QRCode.types.ts",
+      "framework": "react",
+      "importStatement": "import { QRCode } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "downloadFileName",
+          "type": "string",
+          "required": false,
+          "defaultValue": "qr-code",
+          "description": "File name for the download, without an extension."
+        },
+        {
+          "name": "downloadLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Download",
+          "description": "Text on the download button."
+        },
+        {
+          "name": "errorCorrection",
+          "type": "\"L\" | \"M\" | \"Q\" | \"H\"",
+          "required": false,
+          "defaultValue": "M",
+          "description": "Error-correction level."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "the",
+          "description": "Accessible label for the code."
+        },
+        {
+          "name": "overlay",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Logo or badge drawn over the centre of the code."
+        },
+        {
+          "name": "pixelSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "10",
+          "description": "Edge length of one module (a single square of the code), in pixels."
+        },
+        {
+          "name": "showDownload",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows a download button below the code."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant, driving the rendered edge length."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The string encoded into the code — a URL, an id, anything scannable."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"framed\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Surface treatment."
+        }
+      ],
+      "usageSnippet": "<QRCode value={/* string */} />",
+      "propSignatureHash": "sha256:651243f891e80bbe",
+      "lastSyncedAt": "2026-08-02T18:39:22.446Z",
       "status": "draft"
     },
     {
@@ -2696,6 +5678,12 @@
       "framework": "react",
       "importStatement": "import { RadioGroup } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
         {
           "name": "className",
           "type": "string",
@@ -2752,8 +5740,8 @@
         }
       ],
       "usageSnippet": "<RadioGroup options={/* RadioOption[] */} />",
-      "propSignatureHash": "sha256:93806ae6d8e62cb8",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:6b1a92c950305c6c",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -2764,6 +5752,12 @@
       "framework": "react",
       "importStatement": "import { Range } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the thumb when there is no visible `label`."
+        },
         {
           "name": "className",
           "type": "string",
@@ -2891,8 +5885,115 @@
         }
       ],
       "usageSnippet": "<Range />",
-      "propSignatureHash": "sha256:56341b313d548653",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:0ffbd394cc54fdad",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "RatingGroup",
+      "codeName": "RatingGroup",
+      "codePath": "packages/react/src/components/RatingGroup/RatingGroup.types.ts",
+      "framework": "react",
+      "importStatement": "import { RatingGroup } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "allowHalf",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Allows half-star ratings."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "count",
+          "type": "number",
+          "required": false,
+          "defaultValue": "5",
+          "description": "Number of rating items."
+        },
+        {
+          "name": "defaultValue",
+          "type": "number",
+          "required": false,
+          "description": "Initial rating for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the stars."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the stars."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: number) => void",
+          "required": false,
+          "description": "Called with the new rating whenever it changes."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Renders the rating without interaction while keeping it readable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "required": false,
+          "description": "Controlled rating."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"warning\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Colour of the filled stars."
+        }
+      ],
+      "usageSnippet": "<RatingGroup />",
+      "propSignatureHash": "sha256:f91adc6c16e05917",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -3357,6 +6458,133 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "SignaturePad",
+      "codeName": "SignaturePad",
+      "codePath": "packages/react/src/components/SignaturePad/SignaturePad.types.ts",
+      "framework": "react",
+      "importStatement": "import { SignaturePad } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "Text on the clear button."
+        },
+        {
+          "name": "defaultPaths",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial strokes for the uncontrolled case."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables drawing."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the pad."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the pad."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden input."
+        },
+        {
+          "name": "onDraw",
+          "type": "(paths: string[]) => void",
+          "required": false,
+          "description": "Called as each stroke is drawn."
+        },
+        {
+          "name": "onDrawEnd",
+          "type": "( paths: string[], getDataUrl: ( type: \"image/png\" | \"image/jpeg\" | \"image/svg+xml\", quality?: number, ) => Promise<string>, ) => void",
+          "required": false,
+          "description": "Called when a stroke finishes."
+        },
+        {
+          "name": "paths",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled strokes, as SVG path data."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the signature read-only while keeping it visible."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "showClear",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the clear button."
+        },
+        {
+          "name": "showGuide",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the sign-here rule across the pad."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant, driving the pad's height."
+        },
+        {
+          "name": "strokeWidth",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "Ink width in device pixels."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"bordered\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Surface treatment."
+        }
+      ],
+      "usageSnippet": "<SignaturePad />",
+      "propSignatureHash": "sha256:b7fbad87145c2b47",
+      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Skeleton",
       "codeName": "Skeleton",
       "codePath": "packages/react/src/components/Skeleton/Skeleton.types.ts",
@@ -3404,12 +6632,173 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Splitter",
+      "codeName": "Splitter",
+      "codePath": "packages/react/src/components/Splitter/Splitter.types.ts",
+      "framework": "react",
+      "importStatement": "import { Splitter } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultSize",
+          "type": "number[]",
+          "required": false,
+          "defaultValue": "an",
+          "description": "Initial sizes for the uncontrolled case."
+        },
+        {
+          "name": "onResize",
+          "type": "(size: number[]) => void",
+          "required": false,
+          "description": "Called continuously while a handle is dragged."
+        },
+        {
+          "name": "onResizeEnd",
+          "type": "(size: number[]) => void",
+          "required": false,
+          "description": "Called once, when the drag ends."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Split direction."
+        },
+        {
+          "name": "panels",
+          "type": "SplitterPanelDef[]",
+          "required": true,
+          "description": "The panels, in order."
+        },
+        {
+          "name": "size",
+          "type": "number[]",
+          "required": false,
+          "description": "Controlled sizes, as percentages, one per panel."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"subtle\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Handle treatment."
+        }
+      ],
+      "usageSnippet": "<Splitter panels={/* SplitterPanelDef[] */} />",
+      "propSignatureHash": "sha256:333d3414459f7252",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Steps",
+      "codeName": "Steps",
+      "codePath": "packages/react/src/components/Steps/Steps.types.ts",
+      "framework": "react",
+      "importStatement": "import { Steps } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "completedContent",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Panel shown once every step is complete."
+        },
+        {
+          "name": "defaultStep",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "Initial step index for the uncontrolled case."
+        },
+        {
+          "name": "linear",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Prevents jumping ahead past the current step."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(step: number) => void",
+          "required": false,
+          "description": "Called with the new index whenever the current step changes."
+        },
+        {
+          "name": "onStepComplete",
+          "type": "() => void",
+          "required": false,
+          "description": "Called once the last step is completed."
+        },
+        {
+          "name": "orientation",
+          "type": "\"horizontal\" | \"vertical\"",
+          "required": false,
+          "defaultValue": "horizontal",
+          "description": "Layout direction."
+        },
+        {
+          "name": "showContent",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Renders the step panels and the previous/next buttons."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "required": false,
+          "description": "Controlled index of the current step."
+        },
+        {
+          "name": "steps",
+          "type": "StepItem[]",
+          "required": true,
+          "description": "The steps, in order."
+        },
+        {
+          "name": "variant",
+          "type": "\"numbered\" | \"dotted\"",
+          "required": false,
+          "defaultValue": "numbered",
+          "description": "Indicator style."
+        }
+      ],
+      "usageSnippet": "<Steps steps={/* StepItem[] */} />",
+      "propSignatureHash": "sha256:ba967994bcab4048",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Switch",
       "codeName": "Switch",
       "codePath": "packages/react/src/components/Switch/Switch.types.ts",
       "framework": "react",
       "importStatement": "import { Switch } from '@ui-organized/react';",
       "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name when the switch is rendered without a visible `label`."
+        },
         {
           "name": "checked",
           "type": "boolean",
@@ -3465,8 +6854,8 @@
         }
       ],
       "usageSnippet": "<Switch />",
-      "propSignatureHash": "sha256:81671ca52c9acd68",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:42ffb8903433d9dc",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
       "status": "draft"
     },
     {
@@ -3580,6 +6969,124 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "TagsInput",
+      "codeName": "TagsInput",
+      "codePath": "packages/react/src/components/TagsInput/TagsInput.types.ts",
+      "framework": "react",
+      "importStatement": "import { TagsInput } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "addOnPaste",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Creates tags from pasted text."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial tags for the uncontrolled case."
+        },
+        {
+          "name": "delimiter",
+          "type": "string",
+          "required": false,
+          "description": "Splits pasted or typed text into several tags."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Disables the control."
+        },
+        {
+          "name": "editable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Allows a double-click to edit an existing tag in place."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "Error state."
+        },
+        {
+          "name": "helperText",
+          "type": "string",
+          "required": false,
+          "description": "Helper text rendered below the control."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label text rendered above the control."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "Maximum number of tags."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Form field name for the hidden inputs."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the full list whenever a tag is added or removed."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "description": "Placeholder shown in the entry field."
+        },
+        {
+          "name": "readOnly",
+          "type": "boolean",
+          "required": false,
+          "description": "Makes the tags read-only while keeping them focusable."
+        },
+        {
+          "name": "required",
+          "type": "boolean",
+          "required": false,
+          "description": "Marks the field required and shows the required indicator."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled list of tags."
+        }
+      ],
+      "usageSnippet": "<TagsInput />",
+      "propSignatureHash": "sha256:552c98b946bd1448",
+      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "TextArea",
       "codeName": "TextArea",
       "codePath": "packages/react/src/components/TextArea/TextArea.types.ts",
@@ -3622,6 +7129,98 @@
       "usageSnippet": "<TextArea />",
       "propSignatureHash": "sha256:44fdc445b5e5ca23",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Timer",
+      "codeName": "Timer",
+      "codePath": "packages/react/src/components/Timer/Timer.types.ts",
+      "framework": "react",
+      "importStatement": "import { Timer } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "autoStart",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Starts as soon as it mounts."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "countdown",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Counts down to `targetMs` instead of up from it."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1000",
+          "description": "Milliseconds between ticks."
+        },
+        {
+          "name": "onComplete",
+          "type": "() => void",
+          "required": false,
+          "description": "Called once the target is reached."
+        },
+        {
+          "name": "parts",
+          "type": "TimerPart[]",
+          "required": false,
+          "description": "Which units to display, in order."
+        },
+        {
+          "name": "showControls",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Renders start / pause / reset buttons."
+        },
+        {
+          "name": "showLabels",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows the unit name under each value."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "startMs",
+          "type": "number",
+          "required": false,
+          "description": "Where the timer starts, in milliseconds."
+        },
+        {
+          "name": "targetMs",
+          "type": "number",
+          "required": false,
+          "description": "Where the timer stops, in milliseconds."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"boxed\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment."
+        }
+      ],
+      "usageSnippet": "<Timer />",
+      "propSignatureHash": "sha256:d64df2ef063762e0",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
       "status": "draft"
     },
     {
@@ -3958,6 +7557,187 @@
       "usageSnippet": "<TooltipProvider>…</TooltipProvider>",
       "propSignatureHash": "sha256:7040e5e67adbe084",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Tour",
+      "codeName": "Tour",
+      "codePath": "packages/react/src/components/Tour/Tour.types.ts",
+      "framework": "react",
+      "importStatement": "import { Tour } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "closeOnEscape",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Closes on Escape."
+        },
+        {
+          "name": "closeOnInteractOutside",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Closes when clicking outside the card."
+        },
+        {
+          "name": "onStepChange",
+          "type": "(stepId: string | null) => void",
+          "required": false,
+          "description": "Called with the new step id whenever the tour advances, and with `null` when it closes."
+        },
+        {
+          "name": "preventInteraction",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Blocks interaction with the page behind the tour."
+        },
+        {
+          "name": "showProgress",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the \"step N of M\" counter."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "spotlightRadius",
+          "type": "number",
+          "required": false,
+          "defaultValue": "4",
+          "description": "Corner radius of the spotlight cutout, in pixels."
+        },
+        {
+          "name": "stepId",
+          "type": "string | null",
+          "required": true,
+          "description": "The step to show, by id."
+        },
+        {
+          "name": "steps",
+          "type": "TourStep[]",
+          "required": true,
+          "description": "The steps, in order."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"compact\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Card treatment."
+        }
+      ],
+      "usageSnippet": "<Tour stepId={/* string | null */} steps={/* TourStep[] */} />",
+      "propSignatureHash": "sha256:c9fda0ee4ed41a43",
+      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TreeView",
+      "codeName": "TreeView",
+      "codePath": "packages/react/src/components/TreeView/TreeView.types.ts",
+      "framework": "react",
+      "importStatement": "import { TreeView } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultExpandedValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Branches expanded on first render."
+        },
+        {
+          "name": "defaultSelectedValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial selection for the uncontrolled case."
+        },
+        {
+          "name": "expandedValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled set of expanded branch ids."
+        },
+        {
+          "name": "items",
+          "type": "TreeViewNode[]",
+          "required": true,
+          "description": "The tree to render, in display order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible label rendered above the tree."
+        },
+        {
+          "name": "onExpandedChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the full expanded set whenever a branch opens or closes."
+        },
+        {
+          "name": "onSelectionChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Called with the full selection whenever it changes."
+        },
+        {
+          "name": "selectedValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Controlled selection, by node id."
+        },
+        {
+          "name": "selectionMode",
+          "type": "\"single\" | \"multiple\"",
+          "required": false,
+          "defaultValue": "single",
+          "description": "How many nodes may be selected at once."
+        },
+        {
+          "name": "showIndentGuides",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Shows the vertical rules that connect a branch to its children."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size variant."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"bordered\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "Visual treatment."
+        }
+      ],
+      "usageSnippet": "<TreeView items={/* TreeViewNode[] */} />",
+      "propSignatureHash": "sha256:6fa3af288f279d38",
+      "lastSyncedAt": "2026-08-02T17:47:27.946Z",
       "status": "draft"
     },
     {

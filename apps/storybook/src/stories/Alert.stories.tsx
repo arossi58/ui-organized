@@ -99,6 +99,49 @@ export const WithoutTitle: Story = {
   ),
 };
 
+// ── Stateful demos ───────────────────────────────────────────────────────────
+// Extracted rather than inlined into `render`: an arrow function that calls
+// hooks is a component React can't recognise as one, which is both a
+// rules-of-hooks violation and a real remount hazard for the docs site, which
+// renders these story bodies live (apps/marketing/src/docs/registry.ts).
+
+function DismissibleDemo() {
+  const [visible, setVisible] = useState(true);
+  return visible ? (
+    <div style={{ maxWidth: "520px" }}>
+      <Alert variant="info" title="Dismissible alert" onDismiss={() => setVisible(false)}>
+        Click the dismiss button to hide this alert.
+      </Alert>
+    </div>
+  ) : (
+    <p style={{ color: "var(--color-content-tertiary)" }}>Alert was dismissed.</p>
+  );
+}
+
+function AllVariantsDismissibleDemo() {
+  const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
+  const variants = ["info", "success", "warning", "error"] as const;
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "520px" }}>
+      {variants
+        .filter((v) => !dismissed[v])
+        .map((variant) => (
+          <Alert
+            key={variant}
+            variant={variant}
+            title={`${variant.charAt(0).toUpperCase() + variant.slice(1)} alert`}
+            onDismiss={() => setDismissed((prev) => ({ ...prev, [variant]: true }))}
+          >
+            This is a dismissible {variant} alert.
+          </Alert>
+        ))}
+      {variants.every((v) => dismissed[v]) && (
+        <p style={{ color: "var(--color-content-tertiary)" }}>All alerts dismissed.</p>
+      )}
+    </div>
+  );
+}
+
 export const Dismissible: Story = {
   parameters: {
     docs: {
@@ -115,22 +158,7 @@ export const Dismissible: Story = {
       },
     },
   },
-  render: () => {
-    const [visible, setVisible] = useState(true);
-    return visible ? (
-      <div style={{ maxWidth: "520px" }}>
-        <Alert
-          variant="info"
-          title="Dismissible alert"
-          onDismiss={() => setVisible(false)}
-        >
-          Click the dismiss button to hide this alert.
-        </Alert>
-      </div>
-    ) : (
-      <p style={{ color: "var(--color-content-tertiary)" }}>Alert was dismissed.</p>
-    );
-  },
+  render: () => <DismissibleDemo />,
 };
 
 export const AllVariantsDismissible: Story = {
@@ -152,25 +180,5 @@ export const AllVariantsDismissible: Story = {
       },
     },
   },
-  render: () => {
-    const [dismissed, setDismissed] = useState<Record<string, boolean>>({});
-    const variants = ["info", "success", "warning", "error"] as const;
-    return (
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px", maxWidth: "520px" }}>
-        {variants.filter((v) => !dismissed[v]).map((variant) => (
-          <Alert
-            key={variant}
-            variant={variant}
-            title={`${variant.charAt(0).toUpperCase() + variant.slice(1)} alert`}
-            onDismiss={() => setDismissed((prev) => ({ ...prev, [variant]: true }))}
-          >
-            This is a dismissible {variant} alert.
-          </Alert>
-        ))}
-        {variants.every((v) => dismissed[v]) && (
-          <p style={{ color: "var(--color-content-tertiary)" }}>All alerts dismissed.</p>
-        )}
-      </div>
-    );
-  },
+  render: () => <AllVariantsDismissibleDemo />,
 };

@@ -1,7 +1,7 @@
 import { clsx } from "clsx";
-import { skeletonStyles } from "./Skeleton.styles.js";
+import { skeletonStyles } from "@ui-organized/core";
 import type { SkeletonProps } from "./Skeleton.types.js";
-import "./Skeleton.css";
+import "@ui-organized/core/components/Skeleton/Skeleton.css";
 
 /** A number is treated as pixels; strings pass through as-is. */
 function toCssSize(value?: number | string): string | undefined {

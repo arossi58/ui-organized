@@ -14,7 +14,7 @@
 //   /llms.txt    → AI index (llms.txt convention)
 //   /ai/*.md     → per-component machine-verified specs
 //   /coverage/   → placeholder (real coverage report is a deferred follow-up)
-//   /quality/    → placeholder (real quality dashboard is a deferred follow-up)
+//   /quality/    → SPA redirect to /docs/foundations/quality (not a file here)
 //   /.assetsignore → excludes files Workers should not serve
 //
 // Run directly for local verification: `node scripts/assemble-site.mjs`
@@ -84,10 +84,8 @@ execFileSync(
 );
 
 // ── Placeholders ────────────────────────────────────────────────────────────
-// /coverage and /quality are part of the deploy path contract, but the data
-// pipeline that populates them (coverage tooling, JUnit, token-contrast / a11y /
-// coverage-summary emitters) is a deferred follow-up. Ship dependency-free
-// static placeholders so the URLs are stable; wire real content in later.
+// /coverage is still a placeholder: `@vitest/coverage-v8` is not installed and
+// coverage is a separate piece of work. /quality is no longer one — see below.
 const placeholder = (title, body) =>
   `<!doctype html>
 <html lang="en">
@@ -130,16 +128,14 @@ writeFileSync(
   ),
 );
 
-mkdirSync(resolve(OUT, "quality"), { recursive: true });
-writeFileSync(
-  resolve(OUT, "quality/index.html"),
-  placeholder(
-    "Quality dashboard",
-    `<p>The quality dashboard (token-contrast table, a11y pass rate, coverage
-      summary) will render here once the test-output JSON feed is generated.
-      <strong>Placeholder — needs design + a data pipeline.</strong></p>`,
-  ),
-);
+// /quality is NOT written here any more. The dashboard is a docs page —
+// Foundations → Quality (apps/marketing/src/docs/pages/FoundationsQualityPage.tsx),
+// rendered from manifest/test-status.json, the "test-output JSON feed" this
+// placeholder was waiting for — and /quality redirects to it so the reserved URL
+// keeps working. Writing a file here would break that: Workers serves a real
+// file in preference to `not_found_handling: "single-page-application"`, so
+// _site/quality/index.html would shadow the route and permanently show the
+// placeholder instead.
 
 // Workers does not auto-exclude the files Pages did — do it explicitly.
 writeFileSync(
@@ -148,6 +144,6 @@ writeFileSync(
 );
 
 console.log("✓ Assembled _site/ (marketing → /, builder → /builder/, storybook → /storybook/)");
-console.log("  + AI surface: /llms.txt, /ai/*.md  |  + placeholders: /coverage, /quality");
+console.log("  + AI surface: /llms.txt, /ai/*.md  |  + placeholder: /coverage");
 console.log("  + 404.html (SPA shell)  |  + .assetsignore");
-console.log("  NOTE: /quality and /coverage are placeholders pending the deferred data pipeline.");
+console.log("  NOTE: /coverage is a placeholder; /quality redirects to the docs Quality page.");
