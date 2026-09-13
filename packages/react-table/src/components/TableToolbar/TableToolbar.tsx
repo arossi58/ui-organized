@@ -17,7 +17,7 @@ import {
 import type { CanonicalIconName } from "@ui-organized/utils";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
-import { TableFilterAdd, TableFilters } from "../TableFilters/index.js";
+import { TableFilterAdd } from "../TableFilters/index.js";
 import type {
   TableActionsProps,
   TableExportMenuProps,
@@ -67,33 +67,30 @@ export function TableToolbar({ children, className }: TableToolbarProps) {
     return null;
   }
 
-  // Two rows, deliberately. Chips wrap — often onto a second and third line —
-  // and sharing a row with the controls would shunt those around every time a
-  // filter is added. Keeping the applied filters on their own line below is
-  // also what makes them read as a summary rather than as more chrome.
+  // One row. What is *applied* — the filter chips and the selection's bulk
+  // actions — sits on the line below, in `TableSubBar`: chips wrap, often onto
+  // a second and third line, and sharing this row with them would shunt the
+  // controls around every time a filter is added.
   return (
-    <>
-      <div className={clsx("data-table__toolbar", className)}>
-        {searchable && <TableSearch />}
-        <div className="data-table__toolbar-spacer" />
+    <div className={clsx("data-table__toolbar", className)}>
+      {searchable && <TableSearch />}
+      <div className="data-table__toolbar-spacer" />
 
-        <TableActions />
-        {/* Only when there is something on both sides of it. A rule with
-            nothing to its left is a rule separating the toolbar from its own
-            edge, which says nothing. */}
-        {actions.length > 0 && (
-          <Divider orientation="vertical" className="data-table__toolbar-divider" />
-        )}
+      <TableActions />
+      {/* Only when there is something on both sides of it. A rule with nothing
+          to its left is a rule separating the toolbar from its own edge, which
+          says nothing. */}
+      {actions.length > 0 && (
+        <Divider orientation="vertical" className="data-table__toolbar-divider" />
+      )}
 
-        {sortMenu && <TableSortMenu />}
-        {filterable && <TableFilterAdd iconOnly />}
-        {exportable && <TableExportMenu />}
-        {hideable && <TableViewOptions />}
-        {/* Last, and only while the viewport is actually hiding columns. */}
-        <TableScrollButtons />
-      </div>
-      <TableFilters />
-    </>
+      {sortMenu && <TableSortMenu />}
+      {filterable && <TableFilterAdd iconOnly />}
+      {exportable && <TableExportMenu />}
+      {hideable && <TableViewOptions />}
+      {/* Last, and only while the viewport is actually hiding columns. */}
+      <TableScrollButtons />
+    </div>
   );
 }
 

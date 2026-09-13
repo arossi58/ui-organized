@@ -506,6 +506,54 @@ describe("filters", () => {
 });
 
 /**
+ * Both halves of the row under the toolbar are summaries of applied state, and
+ * the point of the row is that they share it: the chips on the left, the bulk
+ * actions at the right-hand end, directly under the sort and filter buttons
+ * that produced them. Asserted as *siblings inside one element* rather than by
+ * position, because that is the part a stylesheet cannot recover from.
+ */
+describe("the row under the toolbar", () => {
+  const withBulk = (defaultFilters?: TableFilterInput[]) =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        defaultFilters={defaultFilters}
+        bulkActions={[{ id: "export", label: "Export", onRun: () => {} }]}
+      />,
+    );
+
+  it("is absent while nothing is filtered and nothing is selected", () => {
+    const dom = withBulk();
+    expect(dom.querySelector(".data-table__subbar")).toBeNull();
+  });
+
+  it("holds the filter chips and the bulk actions on one line", () => {
+    const dom = withBulk([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
+    act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
+
+    const subbar = dom.querySelector(".data-table__subbar");
+    expect(subbar?.querySelector(".data-table__filters")).not.toBeNull();
+    expect(subbar?.querySelector(".data-table__selection-bar")).not.toBeNull();
+    // And nowhere else: a second copy outside the row would look identical
+    // until the viewport narrowed.
+    expect(dom.querySelectorAll(".data-table__selection-bar")).toHaveLength(1);
+  });
+
+  it("appears for a selection alone, with no filters applied", () => {
+    const dom = withBulk();
+    act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
+
+    const subbar = dom.querySelector(".data-table__subbar");
+    expect(subbar?.querySelector(".data-table__selection-bar")).not.toBeNull();
+    expect(subbar?.querySelector(".data-table__filters")).toBeNull();
+  });
+});
+
+/**
  * Ark's `Checkbox` does not toggle under a synthetic click in jsdom — its state
  * machine wants real pointer events — so selection is exercised through the
  * keyboard path instead. That is the better test anyway: the keyboard path is

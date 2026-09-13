@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-08-27T18:15:20.632Z",
+  "generatedAt": "2026-09-09T16:17:18.120Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -55,7 +55,7 @@
       "props": [
         {
           "name": "cell",
-          "type": "Cell<T, unknown>",
+          "type": "TableCellInstance<T>",
           "required": true
         },
         {
@@ -114,8 +114,8 @@
         }
       ],
       "usageSnippet": "<TableCell cell={/* Cell<T, unknown> */} editContext={/* TableEditContext<T> | null */} focused={/* boolean */} index={/* number */} interactive={/* boolean */} primary={/* boolean */} row={/* TableRowModel<T> */} rowIndex={/* number */} table={/* TableInstance<T> */} />",
-      "propSignatureHash": "sha256:1019fa022d35b9f9",
-      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "propSignatureHash": "sha256:3e6664bb40751787",
+      "lastSyncedAt": "2026-09-09T16:17:18.120Z",
       "status": "draft"
     },
     {
@@ -152,7 +152,7 @@
       "props": [
         {
           "name": "header",
-          "type": "Header<T, unknown>",
+          "type": "TableHeaderInstance<T>",
           "required": true
         },
         {
@@ -163,8 +163,8 @@
         }
       ],
       "usageSnippet": "<TableHeadCell header={/* Header<T, unknown> */} index={/* number */} />",
-      "propSignatureHash": "sha256:e91a4591a00cee55",
-      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "propSignatureHash": "sha256:2e03c9da76a19fbc",
+      "lastSyncedAt": "2026-09-09T16:17:18.120Z",
       "status": "draft"
     },
     {
@@ -763,6 +763,25 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "TableSubBar",
+      "codeName": "TableSubBar",
+      "codePath": "packages/react-table/src/components/TableSubBar/TableSubBar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSubBar } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSubBar />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-09-09T16:17:18.120Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "TableActions",
       "codeName": "TableActions",
       "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
@@ -808,6 +827,39 @@
       "usageSnippet": "<TableExportMenu />",
       "propSignatureHash": "sha256:cfb165bf50cb1789",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableScrollButtons",
+      "codeName": "TableScrollButtons",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableScrollButtons } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "leftLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Scroll",
+          "description": "Accessible name for the left button."
+        },
+        {
+          "name": "rightLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Scroll",
+          "description": "Accessible name for the right button."
+        }
+      ],
+      "usageSnippet": "<TableScrollButtons />",
+      "propSignatureHash": "sha256:e2c49e4d0da60133",
+      "lastSyncedAt": "2026-09-09T16:17:18.120Z",
       "status": "draft"
     },
     {

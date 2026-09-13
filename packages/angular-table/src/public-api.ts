@@ -83,6 +83,7 @@ export {
 } from "./lib/components/table-filters.js";
 export { UioTablePagination } from "./lib/components/table-pagination.js";
 export { UioTableSelectionBar } from "./lib/components/table-selection-bar.js";
+export { UioTableSubBar } from "./lib/components/table-sub-bar.js";
 export { UioTableRowActions } from "./lib/components/table-row-actions.js";
 
 // ── Layer 3: the wrapper ────────────────────────────────────────────────────

@@ -97,6 +97,9 @@ export type { TablePaginationProps } from "./components/TablePagination/index.js
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
 export type { TableSelectionBarProps } from "./components/TableSelectionBar/index.js";
 
+export { TableSubBar } from "./components/TableSubBar/index.js";
+export type { TableSubBarProps } from "./components/TableSubBar/index.js";
+
 export { TableRowActions } from "./components/TableRowActions/index.js";
 export type { TableRowActionsProps } from "./components/TableRowActions/index.js";
 

@@ -38,8 +38,13 @@ const scenarios: BrowserScenario[] = [
     name: "dismissed with Escape",
     steps: [
       ...openViaTrigger("dialog"),
+      // Focus is waited on before the keypress, for the reason in the Popover
+      // scenario: zag starts listening for Escape a frame after the dialog opens,
+      // so on a slow runner a keypress sent on `data-state` alone is lost and
+      // React stays open.
+      { do: "awaitFocus", target: part("dialog", "content") },
       { do: "press", key: "Escape" },
-      // Focus is waited on after the keypress, and it is not decoration. Now that
+      // And focus is waited on after the keypress, and it is not decoration. Now that
       // `[hidden]` really hides, dismissal changes what is painted — so a
       // capture taken the instant Escape is pressed can sample one library
       // mid-close and another already settled. Focus returning to the trigger
