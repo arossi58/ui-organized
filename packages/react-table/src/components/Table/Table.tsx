@@ -43,7 +43,8 @@ import type {
  * The DOM they compose to:
  *
  *   <Table>              <div class="data-table">        root, size + variant
- *     <TableToolbar>     …
+ *     <TableToolbar>     <div class="data-table__toolbar">
+ *     <TableSubBar>      <div class="data-table__subbar">   filters + selection
  *     <TableViewport>    <div class="data-table__viewport"><table>
  *       <TableHeader>    <thead>
  *       <TableBody>      <tbody>   spacer / rows / spacer

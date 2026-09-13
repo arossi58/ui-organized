@@ -25,7 +25,16 @@ const scenarios: BrowserScenario[] = [
   {
     component: "Popover",
     name: "dismissed with Escape",
-    steps: [...openViaTrigger("popover"), { do: "press", key: "Escape" }],
+    // Focus is waited on before the keypress. zag registers the Escape listener
+    // one animation frame after `data-state` flips to open — the same frame that
+    // moves focus inside — so an Escape sent on the state alone reaches a
+    // document nothing is listening to yet whenever frames run late. That
+    // reports as "React stayed open" on a loaded CI runner and passes locally.
+    steps: [
+      ...openViaTrigger("popover"),
+      { do: "awaitFocus", target: part("popover", "content") },
+      { do: "press", key: "Escape" },
+    ],
     regions: ["#mount"],
     hidden: [part("popover", "content")],
   },

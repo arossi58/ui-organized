@@ -20,7 +20,7 @@
   import { TableCards } from "../components/TableCards/index.js";
   import { TableDetailSheet } from "../components/TableDetailSheet/index.js";
   import { TablePagination } from "../components/TablePagination/index.js";
-  import { TableSelectionBar } from "../components/TableSelectionBar/index.js";
+  import { TableSubBar } from "../components/TableSubBar/index.js";
   import { TableToolbar } from "../components/TableToolbar/index.js";
 
   /**
@@ -41,7 +41,7 @@
 
 <Table class={props.class}>
   <TableToolbar />
-  <TableSelectionBar />
+  <TableSubBar />
 
   {#if table.mode === "cards"}
     <TableCards />

@@ -10,7 +10,7 @@ import {
 import { TableCards } from "../components/TableCards/index.js";
 import { TableDetailSheet } from "../components/TableDetailSheet/index.js";
 import { TablePagination } from "../components/TablePagination/index.js";
-import { TableSelectionBar } from "../components/TableSelectionBar/index.js";
+import { TableSubBar } from "../components/TableSubBar/index.js";
 import { TableToolbar } from "../components/TableToolbar/index.js";
 import type { DataTableProps } from "./DataTable.types.js";
 import type { RowData } from "@ui-organized/table-core";
@@ -29,7 +29,7 @@ export function DataTable<T extends RowData>({ className, ...options }: DataTabl
     <TableProvider value={api}>
       <Table className={className}>
         <TableToolbar />
-        <TableSelectionBar />
+        <TableSubBar />
 
         {api.mode === "cards" ? (
           <TableCards />

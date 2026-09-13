@@ -34,9 +34,8 @@ import type {
 } from "./core/types.js";
 import { UioToolbar } from "@ui-organized/angular";
 import { UioTable, UioTableBody, UioTableHeader, UioTableViewport } from "./components/table.js";
-import { UioTableFilters } from "./components/table-filters.js";
 import { UioTablePagination } from "./components/table-pagination.js";
-import { UioTableSelectionBar } from "./components/table-selection-bar.js";
+import { UioTableSubBar } from "./components/table-sub-bar.js";
 import { UioTableToolbar } from "./components/table-toolbar.js";
 
 /**
@@ -65,8 +64,7 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
   imports: [
     UioToolbar,
     UioTableToolbar,
-    UioTableFilters,
-    UioTableSelectionBar,
+    UioTableSubBar,
     UioTableViewport,
     UioTableHeader,
     UioTableBody,
@@ -85,10 +83,7 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
   ],
   template: `
     <div uioTableToolbar></div>
-    @if (filterable()) {
-      <div uioTableFilters></div>
-    }
-    <div uioTableSelectionBar></div>
+    <div uioTableSubBar></div>
 
     <div uioTableViewport>
       <thead uioTableHeader></thead>

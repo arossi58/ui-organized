@@ -59,7 +59,7 @@ const table = useDataTable({ label: "Team members", columns, data });
 <TableProvider value={table}>
   <Table>
     <TableToolbar />
-    <TableSelectionBar />
+    <TableSubBar />
     <TableViewport>
       <TableHeader />
       <TableBody />
@@ -241,13 +241,18 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 
 ## The header
 
-One row of controls above the table, and — once something is filtered — a line of chips
-under it.
+One row of controls above the table, and under it a second row — `TableSubBar` — for what
+is currently _applied_: the filter chips on the left, and, while rows are ticked, the
+bulk-action toolbar at the right-hand end. Neither is there until it has something to say,
+and the row itself is absent when neither is.
 
 ```
 [ Search            ]   [ your actions ] │ [sort] [filter] [export] [columns] [‹][›]
-Filters  (Role is any of Owner, Admin)  (Joined is after 2021-01-01)   ＋ Add   ↺ Reset
+Filters (Role is any of Owner, Admin) ＋ Add ↺ Reset      [ 2 rows selected · Export · Clear ]
 ```
+
+The chips wrap onto further lines before the bulk-action toolbar gives up its place beside
+them, so a narrow viewport grows the row downwards rather than hiding either half.
 
 `actions` are yours; everything right of the rule belongs to the table. The rule appears
 only when there is something on both sides of it.
