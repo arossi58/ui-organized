@@ -29,6 +29,10 @@ test-results/
 .quality/
 # Assembled Cloudflare Workers deploy directory (scripts/assemble-site.mjs)
 _site/
+# The isolated directory ci-report.yml runs wrangler from — config, assets and a
+# stub package.json. CI builds it in a fresh checkout, but reproducing a deploy
+# locally leaves one behind with wrangler's 35 packages installed in it.
+deploy/
 
 # Caches
 .vite/

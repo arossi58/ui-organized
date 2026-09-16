@@ -58,14 +58,29 @@ jobs:
       # directory. Pointed at the repo root that fails outright: the root
       # package.json declares `workspace:*` dependencies that only pnpm
       # understands, and npm aborts with EUNSUPPORTEDPROTOCOL before it ever
-      # reaches the registry. So give it a directory holding nothing but the
-      # config and the assets — npm then has no workspace deps to choke on, and
-      # the privileged job genuinely never installs the repo's dependencies,
-      # which is what this job wanted all along. Safe because this is an
-      # assets-only Worker: wrangler.jsonc declares no `main`, so there is
-      # nothing to bundle and no dependency of ours to resolve.
+      # reaches the registry. So wrangler runs from a directory holding nothing
+      # but the config and the assets. Safe because this is an assets-only
+      # Worker: wrangler.jsonc declares no `main`, so there is nothing to bundle
+      # and no dependency of ours to resolve.
+      #
+      # The package.json below is the part that actually does the work, and
+      # leaving it out is why the first attempt at this failed exactly as before.
+      # An empty directory does not make npm install *there*: with no manifest in
+      # the working directory npm walks UP the tree looking for one, finds the
+      # workspace root two levels above, and resolves against the very file we
+      # were trying to get away from. A private stub stops the search at
+      # `deploy/`, which is the whole trick — there is nothing else it needs to
+      # contain, and wrangler never reads it.
       - name: Stage the deploy directory
-        run: cp wrangler.jsonc deploy/
+        run: |
+          cp wrangler.jsonc deploy/
+          cat > deploy/package.json <<'JSON'
+          {
+            "name": "uiorganized-deploy",
+            "private": true,
+            "description": "Stops npm resolving against the pnpm workspace root. Not published, not a workspace member."
+          }
+          JSON
 
       # `versions upload` creates a preview version WITHOUT shifting production
       # traffic.
@@ -226,14 +241,29 @@ jobs:
       # directory. Pointed at the repo root that fails outright: the root
       # package.json declares `workspace:*` dependencies that only pnpm
       # understands, and npm aborts with EUNSUPPORTEDPROTOCOL before it ever
-      # reaches the registry. So give it a directory holding nothing but the
-      # config and the assets — npm then has no workspace deps to choke on, and
-      # the privileged job genuinely never installs the repo's dependencies,
-      # which is what this job wanted all along. Safe because this is an
-      # assets-only Worker: wrangler.jsonc declares no `main`, so there is
-      # nothing to bundle and no dependency of ours to resolve.
+      # reaches the registry. So wrangler runs from a directory holding nothing
+      # but the config and the assets. Safe because this is an assets-only
+      # Worker: wrangler.jsonc declares no `main`, so there is nothing to bundle
+      # and no dependency of ours to resolve.
+      #
+      # The package.json below is the part that actually does the work, and
+      # leaving it out is why the first attempt at this failed exactly as before.
+      # An empty directory does not make npm install *there*: with no manifest in
+      # the working directory npm walks UP the tree looking for one, finds the
+      # workspace root two levels above, and resolves against the very file we
+      # were trying to get away from. A private stub stops the search at
+      # `deploy/`, which is the whole trick — there is nothing else it needs to
+      # contain, and wrangler never reads it.
       - name: Stage the deploy directory
-        run: cp wrangler.jsonc deploy/
+        run: |
+          cp wrangler.jsonc deploy/
+          cat > deploy/package.json <<'JSON'
+          {
+            "name": "uiorganized-deploy",
+            "private": true,
+            "description": "Stops npm resolving against the pnpm workspace root. Not published, not a workspace member."
+          }
+          JSON
 
       - name: Deploy production
         uses: cloudflare/wrangler-action@v4
