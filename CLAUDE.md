@@ -89,6 +89,35 @@ to `.github/workflows/ci.yml`.** CI invokes the individual `quality:*` scripts
 and never bare `pnpm quality`, so the three framework gates above shipped running
 on nobody's machine but their author's.
 
+### Selective CI
+
+**On a PR the gates run only for the components the diff can reach; every push
+to main runs everything.** `scripts/quality/affected.mjs` classifies the diff and
+CI's `Classify the change` step exports the result. Local runs and main are
+unfiltered, so `pnpm quality` is unchanged.
+
+- `QUALITY_COMPONENTS` — comma-separated slugs. Read in **one place per harness**:
+  `apps/storybook/shared/story.ts` (which narrows visual, interaction, a11y and
+  cross-browser at once, plus `storyTest` for the hand-written specs) and
+  `tooling/parity/browser/scenarios/index.ts`. A new browser gate that enumerates
+  through those inherits the filter; one that enumerates its own way does not.
+- `QUALITY_PACKAGES` — pnpm's `...[base]` answer, consumed by `quality:unit`.
+- Ask why a run was narrowed: `node scripts/quality/affected.mjs --paths <files>`.
+
+Two properties hold this together, and a change that breaks either makes the
+narrowing unsafe rather than merely slow:
+
+- **An unrecognised path forces a full run.** Adding a directory that no pattern
+  in `affected.mjs` matches costs a full suite, never a silent empty one.
+- **An untested component reports `none`, not `pass`.** Filtered-out stories are
+  never collected, and `rollUp` returns `{ status: "none" }` for zero rows. Never
+  filter by registering *skipped* tests — a set of rows that are all skips rolls
+  up to `pass`, which is the one outcome that would make this dangerous.
+
+`${QUALITY_COMPONENTS:+--pass-with-no-tests}` on each Playwright script is why a
+filter matching no stories is not a failure; unset, "no tests found" still fails,
+because on a full run that means a broken glob.
+
 ## Gotchas that waste tokens if forgotten
 
 - **CI runs steps as root inside the Playwright container, but `$HOME`

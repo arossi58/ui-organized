@@ -648,12 +648,24 @@ test.describe("Data Table horizontal scroll", () => {
    * user notices nothing (the button is still live, and the next press finishes
    * the job); a test that presses as fast as Playwright can click sees a scroll
    * that stopped in the middle.
+   *
+   * The buttons are read too, not just the offset. Their disabled state comes
+   * from a `scroll` listener that calls `setState` (`useHorizontalScroll` in
+   * packages/react-table/src/core/useDataTable.ts), so it lands a React commit
+   * after the position stops moving — measured at 0–16ms behind it. That window
+   * is small, but it is the difference between "the scroll has stopped" and "the
+   * control has stopped changing", and only the second one is worth basing an
+   * assertion on. It is what the name claimed all along.
    */
   const settled = async (page: Page) => {
-    let previous = Number.NaN;
+    let previous = "";
     await expect
       .poll(async () => {
-        const now = await scrollLeft(page);
+        const now = [
+          await scrollLeft(page),
+          await page.locator(LEFT).isDisabled(),
+          await page.locator(RIGHT).isDisabled(),
+        ].join("/");
         const same = now === previous;
         previous = now;
         return same;
@@ -697,10 +709,28 @@ test.describe("Data Table horizontal scroll", () => {
 
       // Pressed until it retires. A button at the end of the scroll that stays
       // enabled and does nothing is the failure this is watching for.
-      for (let press = 0; press < 6 && (await right.isEnabled()); press += 1) {
-        await right.click();
+      //
+      // `settled` first, before the check — that ordering is the whole fix, and
+      // the reason is not obvious. The press above already reaches the end here
+      // (one press moves 0.8 of the viewport, which is more than this table has
+      // to give), so by the time the loop runs, the button is *going* to retire.
+      // The condition used to be read straight after the two assertions above,
+      // which pass mid-animation: measured on WebKit, the check landed ~150ms
+      // in, with the viewport at ~250 of its 314 maximum. `isEnabled()` was
+      // therefore true and correct — there really was scrolling left to do — and
+      // the `click()` it authorised then waited out its full 30 seconds while
+      // the animation finished and the button retired underneath it.
+      //
+      // Nothing about that is WebKit-specific; WebKit just loses the race most
+      // often. Reading the button only once the scroll has stopped makes the
+      // answer a fact about the resting state rather than about a moment in an
+      // animation.
+      for (let press = 0; press < 6; press += 1) {
         await settled(page);
+        if (await right.isDisabled()) break;
+        await right.click();
       }
+      await settled(page);
       await expect(right).toBeDisabled();
 
       await left.click();

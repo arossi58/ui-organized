@@ -41,9 +41,88 @@ function readIndex(): Record<string, StoryEntry> {
   return index.entries;
 }
 
+/**
+ * `"ColorPicker"` → `"color-picker"`, and `"Components/Forms/ColorPicker"` →
+ * `"color-picker"`.
+ *
+ * A third copy of the pair in `scripts/quality/slug.mjs` and
+ * `apps/marketing/src/docs/registry.ts`, and copied for the reason given there:
+ * this file is loaded by Playwright's esbuild transform, which cannot import the
+ * plain-Node script, and importing the registry would eagerly glob every story
+ * module. `registry.test.ts` holds the other two honest against each other; this
+ * one is held honest by the gates themselves — a filter that disagreed with the
+ * aggregator's slugs would narrow a run to nothing and the empty result would be
+ * loud.
+ */
+function slugOf(title: string): string {
+  const name = title.split("/").pop()?.trim() ?? title;
+  return name
+    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
+    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
+    .replace(/[^a-zA-Z0-9]+/g, "-")
+    .toLowerCase()
+    .replace(/^-+|-+$/g, "");
+}
+
+/**
+ * The component filter CI narrows a run to, or `undefined` for "everything".
+ *
+ * Set by the `Classify the change` step in ci.yml from
+ * `scripts/quality/affected.mjs`. Every browser gate — visual, interaction, a11y
+ * and cross-browser smoke — enumerates through the two functions below, so this
+ * one variable narrows all four and there is no per-gate plumbing to keep in
+ * step.
+ *
+ * Deliberately not a "skip" mechanism: the stories are never collected, so the
+ * aggregator sees no rows for the other components and records them as `none`
+ * (`rollUp` in scripts/quality/report.mjs returns `{ status: "none" }` for an
+ * empty set). An untested component reads as "no results" on its docs page
+ * rather than as a pass it did not earn, which is the property that makes
+ * narrowing safe at all.
+ */
+function filterSlugs(): Set<string> | undefined {
+  const raw = process.env.QUALITY_COMPONENTS?.trim();
+  if (!raw) return undefined;
+  const slugs = new Set(
+    raw
+      .split(",")
+      .map((s) => s.trim())
+      .filter(Boolean),
+  );
+  return slugs.size ? slugs : undefined;
+}
+
+function applyFilter(stories: StoryEntry[]): StoryEntry[] {
+  const only = filterSlugs();
+  if (!only) return stories;
+  return stories.filter((story) => only.has(slugOf(story.title)));
+}
+
+/**
+ * Whether one story id survives the filter — for tests written by hand against a
+ * named story rather than generated from the index.
+ *
+ * `storyTest` calls this and declines to register the test at all. Registering a
+ * *skipped* test instead would be worse than useless: `rollUp` in
+ * scripts/quality/report.mjs returns `status: "pass"` for a set of rows that are
+ * all skips, so a component filtered out of the run would report a pass it never
+ * earned — the precise failure this narrowing is supposed to be safe from. No
+ * rows at all is what produces the honest `none`.
+ */
+export function storyIncluded(storyId: string): boolean {
+  const only = filterSlugs();
+  if (!only) return true;
+  const entry = readIndex()[storyId];
+  // An id this build does not contain is not a reason to narrow. The test will
+  // fail loudly when it navigates, which is the correct outcome for a story that
+  // was renamed or removed; dropping it here would hide that.
+  if (!entry) return true;
+  return only.has(slugOf(entry.title));
+}
+
 /** Every story in the build. Docs pages (`type: "docs"`) are not stories. */
 export function allStories(): StoryEntry[] {
-  return Object.values(readIndex()).filter((e) => e.type === "story");
+  return applyFilter(Object.values(readIndex()).filter((e) => e.type === "story"));
 }
 
 /**

@@ -8,17 +8,24 @@
  * smoke gates.
  */
 import { expect, test, type Page } from "@playwright/test";
-import { openStory } from "./story";
+import { openStory, storyIncluded } from "./story";
 
 /**
  * Declare a test against one story. The story is opened and settled before the
  * body runs, so a spec only ever describes behaviour.
+ *
+ * Silently declines when CI has narrowed the run to other components. The
+ * generated half of this gate filters through `allStories()`, but these specs
+ * name their stories by hand and would otherwise be the one part of the suite
+ * that kept running everything — 67 tests, which is most of what is left once
+ * the contract tests narrow.
  */
 export function storyTest(
   storyId: string,
   name: string,
   body: (page: Page) => Promise<void>,
 ): void {
+  if (!storyIncluded(storyId)) return;
   test(`${storyId} › ${name}`, async ({ page }) => {
     await openStory(page, storyId);
     await body(page);

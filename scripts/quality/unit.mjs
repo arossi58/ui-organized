@@ -49,10 +49,51 @@ const PACKAGES = [
   "@ui-organized/marketing",
 ];
 
+/**
+ * Narrowed to the packages a change can reach, when CI says so.
+ *
+ * `QUALITY_PACKAGES` is pnpm's own `...[base]` answer, computed in
+ * `scripts/quality/affected.mjs` — so it carries *dependents*, and editing
+ * `table-core` still runs `react-table`'s suite. Unset means all of them, which
+ * is what a local run and every push to main get.
+ *
+ * Intersected rather than trusted: this list is the set with results worth
+ * attributing to a docs page, and a package pnpm reports as affected but that is
+ * absent here has nowhere to put its numbers.
+ */
+const only = new Set(
+  (process.env.QUALITY_PACKAGES ?? "")
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean),
+);
+const selected = only.size ? PACKAGES.filter((pkg) => only.has(pkg)) : PACKAGES;
+
+if (selected.length !== PACKAGES.length) {
+  console.log(
+    `Unit: ${selected.length} of ${PACKAGES.length} packages (narrowed by QUALITY_PACKAGES)`,
+  );
+}
+
+/**
+ * Vitest spells a skipped test three ways and this only knew one of them.
+ *
+ * The JSON reporter is jest-shaped, so `pending` was a fair guess — but vitest
+ * emits `skipped` for `it.skip` and `describe.skipIf`, and `todo` for `it.todo`.
+ * Everything not on this list was mapped to `fail`, which means a skipped test
+ * was recorded in `.quality/unit.json` as a failing one and counted as a failure
+ * on the /quality dashboard and on the component's docs page.
+ *
+ * It never failed the gate — that is driven by vitest's own exit code, which is
+ * why this sat unnoticed — so the symptom was purely a number that was wrong in
+ * the one direction nobody double-checks: worse than reality.
+ */
+const SKIPPED = new Set(["pending", "skipped", "todo"]);
+
 const tests = [];
 let failed = false;
 
-for (const pkg of PACKAGES) {
+for (const pkg of selected) {
   const out = resolve(QUALITY, `vitest-${pkg.replace(/[@/]/g, "-")}.json`);
   rmSync(out, { force: true });
   const result = spawnSync(
@@ -78,7 +119,7 @@ for (const pkg of PACKAGES) {
       tests.push({
         file: relative(root, suite.name ?? ""),
         name: test.fullName ?? test.title,
-        status: test.status === "passed" ? "pass" : test.status === "pending" ? "skip" : "fail",
+        status: test.status === "passed" ? "pass" : SKIPPED.has(test.status) ? "skip" : "fail",
       });
     }
   }

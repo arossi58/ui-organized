@@ -107,7 +107,12 @@ describe("coverage read from the packages", () => {
     expect(angular.covered).toBe(coveredNames("angular").length);
     expect(angular.total).toBe(docsComponents.filter((c) => c.codeName).length);
     expect(coverageOf("react").covered).toBe(angular.total);
-    expect(angular.covered).toBeLessThan(angular.total);
+    // `toBeLessThanOrEqual`, not `toBeLessThan`. This asserted a strict subset
+    // as shorthand for "the count is really computed" — and then Angular caught
+    // up (the data table was the last documented component it was missing) and
+    // the shorthand failed for the one reason the header forbids: the library
+    // grew. The invariant that matters is the three lines above it.
+    expect(angular.covered).toBeLessThanOrEqual(angular.total);
   });
 });
 
@@ -128,25 +133,29 @@ const unshipped = docsComponents.find(
   (c) => c.codeName && inspectStory(c) && !targetFor("angular", c.codeName),
 );
 
+// `skipIf` skips the tests but still runs the callback, so nothing at this level
+// may touch `unshipped` — it is undefined precisely when the block is skipped,
+// and reading `.stories` off it threw at collection time the first time Angular
+// covered everything, turning the intended skip into a suite-wide failure.
 describe.skipIf(!unshipped)("a component a framework does not ship", () => {
-  const missing = unshipped!;
-  const story = inspectStory(missing)!;
+  const missing = () => unshipped!;
+  const story = () => inspectStory(unshipped!)!;
 
   it("resolves to nothing rather than to React", () => {
-    expect(targetFor("angular", missing.codeName)).toBeUndefined();
+    expect(targetFor("angular", missing().codeName)).toBeUndefined();
   });
 
   it("shows no sample at all — never React's under an Angular label", () => {
     // The whole reason the switcher needs coverage: a mislabelled sample is
     // worse than a missing one, because a reader cannot tell it is wrong.
-    expect(primarySnippet(missing, story, "angular")).toBeUndefined();
-    for (const example of missing.stories) {
-      expect(exampleSnippet(missing, example, "angular")).toBeUndefined();
+    expect(primarySnippet(missing(), story(), "angular")).toBeUndefined();
+    for (const example of missing().stories) {
+      expect(exampleSnippet(missing(), example, "angular")).toBeUndefined();
     }
   });
 
   it("says so, with what the library does cover", () => {
-    const gap = gapFor(missing, story, "angular")!;
+    const gap = gapFor(missing(), story(), "angular")!;
     expect(gap.reason).toBe("missing-component");
     expect(gap.packageName).toBe("@ui-organized/angular");
     if (gap.reason !== "missing-component") throw new Error("unreachable");

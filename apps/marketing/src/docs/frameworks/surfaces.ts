@@ -3,8 +3,8 @@
  *
  * The four libraries move at different rates, and the docs site has to be honest
  * about where each one is this week — Svelte and Vue reached React's component
- * set in the wave-7 port, Angular ships all of them too, and the data table is
- * React-only for now.
+ * set in the wave-7 port, Angular ships all of them too, and the data table now
+ * ships for all four, though Angular's is deliberately thinner (see below).
  *
  * So nothing here is a list of component names. Each package's own public barrel
  * is read as source and its value exports are the coverage set: add `Meter` to
@@ -13,6 +13,17 @@
  * would be wrong within a week and wrong silently, which is the one failure this
  * feature cannot afford — the entire point of the switcher is that the label on
  * a snippet is true.
+ *
+ * ── Two barrels per framework ───────────────────────────────────────────────
+ *
+ * The data table is a separate package per framework, so a surface is the union
+ * of the library barrel and the table barrel. React gets that union for free:
+ * its surface is the manifest, and the scanner already carries
+ * `@ui-organized/react-table` as a second scan root. The other three read
+ * barrels directly, so until they read the table barrel too, every table
+ * component resolved to `undefined` and the page reported it "not available"
+ * while the package shipped it — the exact silent wrongness this file exists to
+ * prevent, aimed at the one framework whose surface is built differently.
  *
  * The globs are `?raw`, so nothing here imports Svelte, Vue or Angular code — a
  * React app cannot execute any of it, and does not need to in order to read what
@@ -49,6 +60,20 @@ const angularBarrel = import.meta.glob<string>(
   { query: "?raw", import: "default", eager: true },
 );
 
+const svelteTableBarrel = import.meta.glob<string>(
+  "../../../../../packages/svelte-table/src/lib/index.ts",
+  { query: "?raw", import: "default", eager: true },
+);
+const vueTableBarrel = import.meta.glob<string>("../../../../../packages/vue-table/src/index.ts", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+const angularTableBarrel = import.meta.glob<string>(
+  "../../../../../packages/angular-table/src/public-api.ts",
+  { query: "?raw", import: "default", eager: true },
+);
+
 // The directive sources, not just the barrel. Angular's components are attribute
 // directives on the caller's own element, so a sample needs to know that
 // `UioButton` is written `<button uioButton>` and `UioTag` is a `<span>` — and
@@ -58,6 +83,25 @@ const angularSources = import.meta.glob<string>(
   ["../../../../../packages/angular/src/lib/*/*.ts", "!**/*.spec.ts"],
   { query: "?raw", import: "default", eager: true },
 );
+
+// Same reason, and the same two lookups, for the table package — `resolveTarget`
+// drops any Angular class it cannot find a selector for, so a barrel read
+// without its sources resolves to nothing at all rather than to a sample.
+//
+// The depths differ from the library above: angular-table keeps its parts in
+// `lib/components/*.ts` and `lib/core/*.ts` and `UioDataTable` in `lib/*.ts`,
+// where the library is uniformly `lib/*/*.ts`. Both patterns are needed or the
+// wrapper — the one component most readers want a sample of — goes missing.
+const angularTableSources = import.meta.glob<string>(
+  [
+    "../../../../../packages/angular-table/src/lib/*.ts",
+    "../../../../../packages/angular-table/src/lib/*/*.ts",
+    "!**/*.spec.ts",
+  ],
+  { query: "?raw", import: "default", eager: true },
+);
+
+const allAngularSources = [...Object.values(angularSources), ...Object.values(angularTableSources)];
 
 function exportsOf(modules: Record<string, string>): string[] {
   return Object.values(modules).flatMap(parseBarrelExports);
@@ -78,12 +122,12 @@ export const frameworkSurfaces: Record<DocFramework, FrameworkSurface> = {
       .filter((component) => component.status !== "deprecated")
       .map((component) => component.codeName),
   },
-  svelte: { exports: exportsOf(svelteBarrel) },
-  vue: { exports: exportsOf(vueBarrel) },
+  svelte: { exports: [...exportsOf(svelteBarrel), ...exportsOf(svelteTableBarrel)] },
+  vue: { exports: [...exportsOf(vueBarrel), ...exportsOf(vueTableBarrel)] },
   angular: {
-    exports: exportsOf(angularBarrel),
-    selectors: parseAngularSelectors(Object.values(angularSources)),
-    inputs: parseAngularInputs(Object.values(angularSources)),
+    exports: [...exportsOf(angularBarrel), ...exportsOf(angularTableBarrel)],
+    selectors: parseAngularSelectors(allAngularSources),
+    inputs: parseAngularInputs(allAngularSources),
   },
 };
 

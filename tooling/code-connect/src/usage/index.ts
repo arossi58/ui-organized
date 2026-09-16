@@ -15,7 +15,10 @@
  * adds it to that list deliberately. That is the point. Guidance is the one thing on a docs page nothing
  * can generate, so nothing but a human writing it will do.
  */
-import { pascalFromSlug, type ComponentSlug, type WrittenUsageSlug } from "./slugs.js";
+// `ComponentSlug` is not imported here: it is re-exported below straight from
+// `./slugs.js`, which does not consume an import binding, so importing it too
+// left an unused local that failed `typecheck`.
+import { pascalFromSlug, type WrittenUsageSlug } from "./slugs.js";
 import type { UsageGuide } from "./types.js";
 import { buttonUsage } from "./guides/button.js";
 import { meterUsage } from "./guides/meter.js";

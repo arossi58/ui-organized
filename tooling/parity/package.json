@@ -18,11 +18,11 @@
     "pretest:interaction": "pnpm build:deps",
     "pretest:visual": "pnpm build:deps",
     "test": "vitest run",
-    "test:a11y": "playwright test --config playwright.a11y.config.ts",
-    "test:browser": "playwright test",
-    "test:browser:run": "playwright test",
-    "test:interaction": "playwright test --config playwright.interaction.config.ts",
-    "test:visual": "playwright test --config playwright.visual.config.ts",
+    "test:a11y": "playwright test --config playwright.a11y.config.ts ${QUALITY_COMPONENTS:+--pass-with-no-tests}",
+    "test:browser": "playwright test ${QUALITY_COMPONENTS:+--pass-with-no-tests}",
+    "test:browser:run": "playwright test ${QUALITY_COMPONENTS:+--pass-with-no-tests}",
+    "test:interaction": "playwright test --config playwright.interaction.config.ts ${QUALITY_COMPONENTS:+--pass-with-no-tests}",
+    "test:visual": "playwright test --config playwright.visual.config.ts ${QUALITY_COMPONENTS:+--pass-with-no-tests}",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
