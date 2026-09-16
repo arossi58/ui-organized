@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-27T18:15:20.632Z",
+  "generatedAt": "2026-09-09T16:17:18.120Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -129,7 +129,7 @@
     "packages/react-table/src/components/Table/Table.types.ts::TableBody": "sha256:4e1d72ca83b62efd",
     "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCard": "sha256:47f0145b02dfeb5d",
     "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCards": "sha256:1d83a9eaf1f23632",
-    "packages/react-table/src/components/Table/Table.types.ts::TableCell": "sha256:1019fa022d35b9f9",
+    "packages/react-table/src/components/Table/Table.types.ts::TableCell": "sha256:3e6664bb40751787",
     "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts::TableDetailSheet": "sha256:4d40b2c45bf5c087",
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": "sha256:0c9cebf01d0d18eb",
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableError": "sha256:b2511e333bc5e979",
@@ -140,16 +140,18 @@
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilters": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterValueEditor": "sha256:8410efe385c8c430",
     "packages/react-table/src/components/Table/Table.types.ts::TableFooter": "sha256:2f00c389ec961ef4",
-    "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": "sha256:e91a4591a00cee55",
+    "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": "sha256:2e03c9da76a19fbc",
     "packages/react-table/src/components/Table/Table.types.ts::TableHeader": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableLoading": "sha256:4f8b36fe1aff7433",
     "packages/react-table/src/components/TablePagination/TablePagination.types.ts::TablePagination": "sha256:14711ae142cd3385",
     "packages/react-table/src/core/TableContext.tsx::TableProvider": "sha256:1df0f2ad5f9cd57e",
     "packages/react-table/src/components/Table/Table.types.ts::TableRow": "sha256:8db392154501e9a6",
     "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts::TableRowActions": "sha256:4a089adf1b634630",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableScrollButtons": "sha256:e2c49e4d0da60133",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": "sha256:94cab4cb15698d5d",
     "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts::TableSelectionBar": "sha256:8ac9e9cad8f9dda2",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": "sha256:c6a930f97323ee0d",
+    "packages/react-table/src/components/TableSubBar/TableSubBar.types.ts::TableSubBar": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": "sha256:2f00c389ec961ef4",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
@@ -4609,7 +4611,7 @@
     "packages/react-table/src/components/Table/Table.types.ts::TableCell": [
       {
         "name": "cell",
-        "type": "Cell<T, unknown>",
+        "type": "TableCellInstance<T>",
         "required": true
       },
       {
@@ -4818,7 +4820,7 @@
     "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": [
       {
         "name": "header",
-        "type": "Header<T, unknown>",
+        "type": "TableHeaderInstance<T>",
         "required": true
       },
       {
@@ -4996,6 +4998,27 @@
         "description": "The row the actions operate on."
       }
     ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableScrollButtons": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "leftLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Scroll",
+        "description": "Accessible name for the left button."
+      },
+      {
+        "name": "rightLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Scroll",
+        "description": "Accessible name for the right button."
+      }
+    ],
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": [
       {
         "name": "className",
@@ -5040,6 +5063,13 @@
         "required": false,
         "defaultValue": "Sort",
         "description": "Accessible name for the icon-only trigger."
+      }
+    ],
+    "packages/react-table/src/components/TableSubBar/TableSubBar.types.ts::TableSubBar": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
       }
     ],
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": [

@@ -70,6 +70,7 @@ export {
 } from "./components/TableFilters/index.js";
 export { TablePagination } from "./components/TablePagination/index.js";
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
+export { TableSubBar } from "./components/TableSubBar/index.js";
 export { TableCards, TableCard } from "./components/TableCards/index.js";
 export { TableDetailSheet } from "./components/TableDetailSheet/index.js";
 export { TableRowActions } from "./components/TableRowActions/index.js";

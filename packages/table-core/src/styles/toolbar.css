@@ -75,16 +75,55 @@
   font-size: var(--type-size-body-small);
 }
 
+/* ─── The row under the toolbar ──────────────────────────────────────────────
+   One line holding both of the table's "what is currently applied" summaries:
+   the filter chips on the left, the selection's bulk actions on the right —
+   directly under the sort and filter buttons that produced them.
+
+   They were two stacked rows before, and read as two unrelated announcements:
+   ticking a row pushed the chips up a line and put the actions two rows away
+   from the controls they belong with. Same line, two clusters.
+
+   Rendered only while one of the halves has something to say, so a table with
+   neither filters nor a selection holds no layout for it — which is why there
+   is no `:empty` rule here to lean on. */
+
+.data-table__subbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  flex-wrap: wrap;
+}
+
+/* The filters take the slack, and that — rather than an auto margin — is what
+   puts the selection toolbar at the right-hand end. On a narrow viewport the
+   chips wrap inside their own group first; only once that group can shrink no
+   further does the toolbar drop to a line of its own. */
+.data-table__subbar .data-table__filters {
+  flex: 1 1 auto;
+}
+
+/* With nothing filtered there is no group to take the slack, so the auto margin
+   does it. Without this the toolbar would jump from the right edge to the left
+   as the last chip was removed. Flex resolves growth before auto margins, so
+   the two never fight: when the filters are there, this is worth zero. */
+.data-table__subbar .data-table__selection-bar {
+  margin-inline-start: auto;
+}
+
 /* ─── Selection bar ──────────────────────────────────────────────────────────
    Appears only when the selection is non-empty. It is a `Toolbar`, so it comes
-   with the library's own surface; this only positions it and states the count. */
+   with the library's own surface; this only positions it and states the count.
+
+   It shrink-wraps rather than filling the row: it shares that row with the
+   filter chips now, and the surface is what separates the two clusters. */
 
 .data-table__selection-bar {
   display: flex;
   align-items: center;
   gap: var(--spacing-space-03);
   flex-wrap: wrap;
-  width: 100%;
+  min-width: 0;
 }
 
 .data-table__selection-count {

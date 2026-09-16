@@ -11,7 +11,7 @@ import { computed, useSlots } from "vue";
 import { clsx } from "clsx";
 import { Divider } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
-import { TableFilterAdd, TableFilters } from "../TableFilters/index.js";
+import { TableFilterAdd } from "../TableFilters/index.js";
 import TableActions from "./TableActions.vue";
 import TableExportMenu from "./TableExportMenu.vue";
 import TableScrollButtons from "./TableScrollButtons.vue";
@@ -57,35 +57,28 @@ const render = computed(
     <slot />
   </div>
   <!--
-    Two rows, deliberately. Chips wrap — often onto a second and third line — and
-    sharing a row with the controls would shunt those around every time a filter
-    is added. Keeping the applied filters on their own line below is also what
-    makes them read as a summary rather than as more chrome.
+    One row. What is *applied* — the filter chips and the selection's bulk
+    actions — sits on the line below, in `TableSubBar`: chips wrap, often onto a
+    second and third line, and sharing this row with them would shunt the
+    controls around every time a filter is added.
   -->
-  <template v-else-if="render">
-    <div :class="clsx('data-table__toolbar', $props.class)">
-      <TableSearch v-if="searchable" />
-      <div class="data-table__toolbar-spacer" />
+  <div v-else-if="render" :class="clsx('data-table__toolbar', $props.class)">
+    <TableSearch v-if="searchable" />
+    <div class="data-table__toolbar-spacer" />
 
-      <TableActions />
-      <!--
-        Only when there is something on both sides of it. A rule with nothing to
-        its left is a rule separating the toolbar from its own edge, which says
-        nothing.
-      -->
-      <Divider
-        v-if="actions.length > 0"
-        orientation="vertical"
-        class="data-table__toolbar-divider"
-      />
+    <TableActions />
+    <!--
+      Only when there is something on both sides of it. A rule with nothing to
+      its left is a rule separating the toolbar from its own edge, which says
+      nothing.
+    -->
+    <Divider v-if="actions.length > 0" orientation="vertical" class="data-table__toolbar-divider" />
 
-      <TableSortMenu v-if="sortMenu" />
-      <TableFilterAdd v-if="filterable" icon-only />
-      <TableExportMenu v-if="exportable" />
-      <TableViewOptions v-if="hideable" />
-      <!-- Last, and only while the viewport is actually hiding columns. -->
-      <TableScrollButtons />
-    </div>
-    <TableFilters />
-  </template>
+    <TableSortMenu v-if="sortMenu" />
+    <TableFilterAdd v-if="filterable" icon-only />
+    <TableExportMenu v-if="exportable" />
+    <TableViewOptions v-if="hideable" />
+    <!-- Last, and only while the viewport is actually hiding columns. -->
+    <TableScrollButtons />
+  </div>
 </template>
