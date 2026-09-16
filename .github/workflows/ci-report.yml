@@ -44,26 +44,40 @@ jobs:
           node-version: 22
 
       # Cross-workflow download of the artifact CI uploaded. This is inert static
-      # output; we never run install/build/lifecycle scripts from it.
+      # output; we never run install/build/lifecycle scripts from it. It lands
+      # inside `deploy/`, the isolated directory wrangler runs from (below).
       - name: Download site artifact
         uses: actions/download-artifact@v4
         with:
           name: site
-          path: _site
+          path: deploy/_site
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
+      # wrangler-action installs wrangler with `npm install` inside its working
+      # directory. Pointed at the repo root that fails outright: the root
+      # package.json declares `workspace:*` dependencies that only pnpm
+      # understands, and npm aborts with EUNSUPPORTEDPROTOCOL before it ever
+      # reaches the registry. So give it a directory holding nothing but the
+      # config and the assets — npm then has no workspace deps to choke on, and
+      # the privileged job genuinely never installs the repo's dependencies,
+      # which is what this job wanted all along. Safe because this is an
+      # assets-only Worker: wrangler.jsonc declares no `main`, so there is
+      # nothing to bundle and no dependency of ours to resolve.
+      - name: Stage the deploy directory
+        run: cp wrangler.jsonc deploy/
+
       # `versions upload` creates a preview version WITHOUT shifting production
-      # traffic. packageManager: npm installs a standalone, pinned wrangler so the
-      # privileged job never runs the repo's pnpm workspace install scripts.
+      # traffic.
       - name: Upload preview version
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.112.0"
           packageManager: npm
+          workingDirectory: deploy
           command: versions upload
 
       # wrangler-action's `deployment-url` output is not populated for
@@ -204,15 +218,29 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: site
-          path: _site
+          path: deploy/_site
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
+      # wrangler-action installs wrangler with `npm install` inside its working
+      # directory. Pointed at the repo root that fails outright: the root
+      # package.json declares `workspace:*` dependencies that only pnpm
+      # understands, and npm aborts with EUNSUPPORTEDPROTOCOL before it ever
+      # reaches the registry. So give it a directory holding nothing but the
+      # config and the assets — npm then has no workspace deps to choke on, and
+      # the privileged job genuinely never installs the repo's dependencies,
+      # which is what this job wanted all along. Safe because this is an
+      # assets-only Worker: wrangler.jsonc declares no `main`, so there is
+      # nothing to bundle and no dependency of ours to resolve.
+      - name: Stage the deploy directory
+        run: cp wrangler.jsonc deploy/
+
       - name: Deploy production
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.112.0"
           packageManager: npm
+          workingDirectory: deploy
           command: deploy
