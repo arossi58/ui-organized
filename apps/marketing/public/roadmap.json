@@ -1,22 +1,95 @@
 {
-  "syncedAt": "2026-10-20T15:17:54.914Z",
+  "syncedAt": "2026-10-20T19:31:07.209Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
     {
       "id": "backlog",
       "title": "Backlog",
-      "items": []
+      "items": [
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNd-A",
+          "title": "Data Visualization",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/3",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeYE",
+          "title": "Class manager and MCP Plugin",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/5",
+          "labels": []
+        }
+      ]
     },
     {
       "id": "in-progress",
       "title": "In progress",
-      "items": []
+      "items": [
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfho",
+          "title": "Additional Components",
+          "type": "design",
+          "url": "https://github.com/arossi58/ui-organized/issues/11",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeNg",
+          "title": "Table Library",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/4",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNec0",
+          "title": "Vue Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/6",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNekM",
+          "title": "Angular Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/8",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
+          "title": "Svelte Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/7",
+          "labels": []
+        }
+      ]
     },
     {
       "id": "done",
       "title": "Done",
-      "items": []
+      "items": [
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNewM",
+          "title": "Figma Library Cleanup",
+          "type": "design",
+          "url": "https://github.com/arossi58/ui-organized/issues/9",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgvuCfw",
+          "title": "Update color palette tool with new UI",
+          "type": "design",
+          "url": "https://github.com/arossi58/ui-organized/issues/1",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNfE4",
+          "title": "Example Pages",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/10",
+          "labels": []
+        }
+      ]
     }
   ]
 }
