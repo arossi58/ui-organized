@@ -1,0 +1,60 @@
+{
+  "name": "@ui-organized/mcp",
+  "version": "0.0.0",
+  "description": "MCP server for the UI Organized design system: real components and design tokens for AI coding agents, so generated code uses what exists instead of inventing it.",
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "mcp",
+    "model-context-protocol",
+    "ui-organized"
+  ],
+  "license": "Apache-2.0",
+  "author": "arossi58 <arossi5861@gmail.com>",
+  "homepage": "https://github.com/arossi58/ui-organized/tree/main/packages/mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arossi58/ui-organized.git",
+    "directory": "packages/mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/arossi58/ui-organized/issues"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "bin": {
+    "ui-organized-mcp": "./dist/server.js"
+  },
+  "exports": {
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup && node scripts/copy-data.mjs",
+    "test:smoke": "pnpm build && node scripts/smoke.mjs",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@ui-organized/code-connect": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "@ui-organized/tsconfig": "workspace:*",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

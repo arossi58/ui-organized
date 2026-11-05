@@ -17,6 +17,7 @@ import {
   checkTokenCoverage,
   type Finding,
 } from "./checks.js";
+import { commitInit, InitError, planInit } from "./init.js";
 import { display, inspectProject, installCommand, type Project } from "./project.js";
 
 /**
@@ -34,6 +35,8 @@ const USAGE = `uiorg — UI Organized command line
 Usage
   uiorg theme <bundle>          Apply a theme bundle (.zip, or an unzipped folder)
   uiorg theme <bundle> --check  Report only; write nothing
+  uiorg init                    Set up AI agents: rules plus the MCP server
+  uiorg init --check            Report only; write nothing
 
 Options
   --out <dir>     Where to write, relative to the project. Default: beside an
@@ -42,6 +45,7 @@ Options
   --force         Apply even with uncommitted changes in the working tree
   --offline       Skip the Google Fonts weight verification (no network)
   --cwd <dir>     Treat <dir> as the project root. Default: the current directory
+  --cursor        (init) Write Cursor's files even without a .cursor/ directory
   -h, --help      Show this
   -v, --version   Show the version
 
@@ -49,6 +53,7 @@ Examples
   npx @ui-organized/cli theme ~/Downloads/my-theme.zip
   npx @ui-organized/cli theme ./my-theme --dry-run
   npx @ui-organized/cli theme ~/Downloads/my-theme.zip --out src/theme
+  npx @ui-organized/cli init
 `;
 
 /**
@@ -98,6 +103,7 @@ export async function run(argv: string[]): Promise<number> {
   }
 
   const [command, ...rest] = argv;
+  if (command === "init") return runInit(rest);
   if (command !== "theme") {
     process.stderr.write(`Unknown command "${command}".\n\n${USAGE}`);
     return 2;
@@ -141,6 +147,43 @@ function parseOptions(args: string[]): Options {
   }
 
   return options;
+}
+
+function runInit(args: string[]): number {
+  const options = { cwd: process.cwd(), check: false, cursor: false };
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i]!;
+    if (arg === "--check" || arg === "--dry-run") options.check = true;
+    else if (arg === "--cursor") options.cursor = true;
+    else if (arg === "--cwd" && args[i + 1]) options.cwd = args[++i]!;
+    else {
+      process.stderr.write(`Unknown option "${arg}" for init.\n\n${USAGE}`);
+      return 2;
+    }
+  }
+
+  let writes;
+  try {
+    writes = planInit(options);
+  } catch (error) {
+    if (error instanceof InitError) {
+      process.stderr.write(`✗ ${error.message}\n`);
+      return 1;
+    }
+    throw error;
+  }
+
+  process.stdout.write(`\n${bold("UI Organized")} — AI agent setup\n\n`);
+  for (const write of writes) process.stdout.write(`  ${write.status.padEnd(9)} ${write.path}\n`);
+
+  if (options.check) {
+    process.stdout.write(`\n${dim("Nothing written (--check).")}\n\n`);
+    return 0;
+  }
+
+  commitInit(options.cwd, writes);
+  process.stdout.write(`\n✓ Done. Restart your agent so it picks up the MCP server.\n\n`);
+  return 0;
 }
 
 async function applyTheme(options: Options): Promise<number> {

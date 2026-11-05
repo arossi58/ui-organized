@@ -162,7 +162,7 @@ const TABLE = /^packages\/(table-core|react-table|svelte-table|vue-table|angular
  * `schema` looked like it belonged here and does not, which is why it is in
  * FANOUT above.
  */
-const NON_COMPONENT = /^packages\/(cli|export|token-io|resolver|react-vite)\//;
+const NON_COMPONENT = /^packages\/(cli|mcp|export|token-io|resolver|react-vite)\//;
 
 function classify(files) {
   const components = new Set();
@@ -211,7 +211,9 @@ function classify(files) {
     // Whether any publishable package was touched at all. The smoke gate packs
     // and executes tarballs, so it keys off this rather than off the component
     // set: `packages/cli/` changes no component and still has to be smoked.
-    touchedPackages: files.some((f) => /^packages\//.test(f)),
+    // `tooling/code-connect/` and `manifest/` are private but ship bundled inside
+    // the cli and mcp tarballs, so they count.
+    touchedPackages: files.some((f) => /^(packages|tooling\/code-connect|manifest)\//.test(f)),
   };
 }
 

@@ -1,7 +1,8 @@
 /**
  * Publish the design system's component specs as fetchable Markdown.
  *
- * Emits `<out>/llms.txt` (the llms.txt convention index) and
+ * Emits `<out>/llms.txt` (the llms.txt convention index), `<out>/llms-full.txt`
+ * (all of it in one document), `<out>/ai/tokens.md`, and
  * `<out>/ai/<Component>.md` for every manifest entry, rendered by the SAME
  * `buildAiContext()` the docs site's "Copy for AI" button and the Storybook
  * addon use. That's what makes the "Prompt + URL" copy format honest: the ~40
@@ -22,14 +23,11 @@
 import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { buildAiContext } from "../src/ai-context.js";
-import { usageGuideForCodeName } from "../src/usage/index.js";
-import { computeStalenessCore } from "../src/staleness-core.js";
-import { entryId } from "../src/schema.js";
+import { buildComponentSpec, SITE_ORIGIN } from "../src/component-spec.js";
+import { parseTokens, renderTokensMarkdown } from "../src/tokens/catalog.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
-const SITE_ORIGIN = "https://uiorganized.com";
 
 const out = resolve(REPO, process.argv[2] ?? "_site");
 const manifestPath = join(REPO, "manifest/components.json");
@@ -49,16 +47,6 @@ const reactPkg = JSON.parse(
   readFileSync(join(REPO, "packages/react/package.json"), "utf8"),
 ) as { version: string };
 
-/** URL slug for a component's docs page — must match `kebab()` in the docs registry. */
-function kebab(name: string): string {
-  return name
-    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-    .replace(/([A-Z]+)([A-Z][a-z])/g, "$1-$2")
-    .replace(/[^a-zA-Z0-9]+/g, "-")
-    .toLowerCase()
-    .replace(/^-+|-+$/g, "");
-}
-
 const byCodePath = new Map<string, ComponentManifestEntry[]>();
 for (const entry of manifest.components) {
   const list = byCodePath.get(entry.codePath) ?? [];
@@ -66,9 +54,6 @@ for (const entry of manifest.components) {
   byCodePath.set(entry.codePath, list);
 }
 
-// `generatedAt` is passed in rather than read inside buildAiContext, so the
-// generator stays the only place a clock is consulted and the function itself
-// remains deterministic for its golden test.
 const generatedAt = manifest.generatedAt;
 
 const aiDir = join(out, "ai");
@@ -80,45 +65,16 @@ interface IndexRow {
   deprecated: boolean;
 }
 const rows: IndexRow[] = [];
+const specs: string[] = [];
 
 for (const entry of manifest.components) {
-  const id = entryId(entry.codePath, entry.codeName);
-  const staleness = computeStalenessCore(entry, latest.hashes?.[id], latest.props?.[id]);
   const related = (byCodePath.get(entry.codePath) ?? []).filter(
     (sibling) => sibling.codeName !== entry.codeName,
   );
 
-  // Subcomponents have no guide of their own — guidance is written per docs
-  // page, and a page covers the whole compound family.
-  const usage = usageGuideForCodeName(entry.codeName);
-
-  const { text } = buildAiContext({
-    entry,
-    related,
-    staleness,
-    confidence: "exact",
-    usage,
-    meta: {
-      packageVersion: reactPkg.version,
-      setupImports: [
-        "@ui-organized/tokens/variables.css",
-        "@ui-organized/react/styles",
-        // Registers the icon set. Omit it and every <Icon> renders nothing —
-        // the library imports no icon package itself.
-        "@ui-organized/react/icons/lucide",
-      ],
-      // The guide carries the real docs slug where one exists — `kebab()` of a
-      // codeName is right for all but the components whose page is named after
-      // the family rather than the export (`NavItem` → `/docs/navigation`).
-      siteUrl: `${SITE_ORIGIN}/docs/${usage?.slug ?? kebab(entry.codeName)}`,
-      docUrl: `${SITE_ORIGIN}/ai/${entry.codeName}.md`,
-      indexUrl: `${SITE_ORIGIN}/llms.txt`,
-      componentCount: manifest.components.length,
-      generatedAt,
-    },
-  });
-
+  const text = buildComponentSpec(entry, manifest, latest, reactPkg.version);
   writeFileSync(join(aiDir, `${entry.codeName}.md`), text);
+  specs.push(text);
 
   rows.push({
     name: entry.codeName,
@@ -157,6 +113,19 @@ function summarise(entry: ComponentManifestEntry, related: ComponentManifestEntr
   return "No props of its own — driven by children and element attributes.";
 }
 
+// ── Tokens ──────────────────────────────────────────────────────────────────
+// From the built stylesheet, so this can't list a token consumers don't get.
+const tokensCss = join(REPO, "packages/tokens/output/variables.css");
+if (!existsSync(tokensCss)) {
+  console.error(`✖ No ${tokensCss} — run \`pnpm --filter @ui-organized/tokens build\` first.`);
+  process.exit(1);
+}
+const tokensPkg = JSON.parse(
+  readFileSync(join(REPO, "packages/tokens/package.json"), "utf8"),
+) as { version: string };
+const tokensMd = renderTokensMarkdown(parseTokens(readFileSync(tokensCss, "utf8")), tokensPkg.version);
+writeFileSync(join(aiDir, "tokens.md"), tokensMd);
+
 rows.sort((a, b) => a.name.localeCompare(b.name));
 const live = rows.filter((r) => !r.deprecated);
 
@@ -169,6 +138,13 @@ const llms = `# UI Organized
 >
 > Do not generate code against this design system without reading the relevant file.
 > If a component you want is not listed here, it does not exist — ask rather than invent one.
+>
+> For custom layout and custom elements, use only the design tokens in tokens.md. Never
+> hex colours or px literals, and never a token name that file doesn't list.
+
+## Design tokens
+
+- [Tokens](${SITE_ORIGIN}/ai/tokens.md): Every colour, spacing, radius and type token, with its theme values and when to use it.
 
 ## Components
 
@@ -186,14 +162,20 @@ ${
 - [Component docs](${SITE_ORIGIN}/docs) — live previews, prop tables, accessibility checks
 - [Storybook](${SITE_ORIGIN}/storybook/) — the interactive playground
 
+## Optional
+
+- [Everything in one file](${SITE_ORIGIN}/llms-full.txt): The tokens and every component spec, for tools that load one document.
+
 Generated ${generatedAt} from manifest version ${manifest.manifestVersion}.
 `;
 
 writeFileSync(join(out, "llms.txt"), llms);
 // Also under /ai/ so a reader who found one spec can walk up to the index.
 writeFileSync(join(aiDir, "llms.txt"), llms);
+// `specs` follows the manifest's order, which is stable across scans.
+writeFileSync(join(out, "llms-full.txt"), [tokensMd, ...specs].join("\n\n---\n\n"));
 
 console.log(
-  `✓ AI surface: ${rows.length} specs → ${aiDir.replace(`${REPO}/`, "")}/  + llms.txt` +
+  `✓ AI surface: ${rows.length} specs → ${aiDir.replace(`${REPO}/`, "")}/  + tokens.md, llms.txt, llms-full.txt` +
     (rows.length > live.length ? `  (${rows.length - live.length} deprecated)` : ""),
 );

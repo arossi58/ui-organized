@@ -404,6 +404,10 @@ export function GetStartedPage() {
               semantic roles your components actually reference.
             </li>
             <li>Any component in the sidebar for live examples, props and an Inspect view.</li>
+            <li>
+              <Link to="/docs/use-with-ai">Use with AI</Link> sets up your coding agent with the
+              real components and tokens.
+            </li>
           </ul>
         </DocsSection>
       </DocsProse>

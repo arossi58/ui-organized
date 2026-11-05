@@ -1,26 +1,21 @@
 /**
- * The single McpServer factory (Connect.md §6.1). Registers the 4 tools + the
- * manifest resource + the anti-hallucination instructions ONCE, so the stdio entry
+ * The single McpServer factory (Connect.md §6.1). Registers the Figma tools, the
+ * shared read tools + the anti-hallucination instructions ONCE, so the stdio entry
  * (`server.ts`) and the HTTP entry (`http-server.ts`) share identical behavior —
  * "don't fork logic between transports" (§6.1). The transport is the only thing
  * that differs between the two.
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
-import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { ManifestLoader } from "./manifest-loader.js";
-import {
-  buildComponentContext,
-  searchComponents,
-  validateMapping,
-  listStale,
-} from "./tools.js";
+import { json, registerReadTools } from "./read-tools.js";
+import { buildComponentContext, validateMapping, listStale } from "./tools.js";
 
-/** Every tool returns pretty JSON text — agents parse it; humans can read it. */
-function json(data: unknown): CallToolResult {
-  return { content: [{ type: "text", text: JSON.stringify(data, null, 2) }] };
-}
+const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 
 export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): McpServer {
   const server = new McpServer(
@@ -59,24 +54,6 @@ export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): 
   );
 
   server.registerTool(
-    "search_components",
-    {
-      title: "Search components",
-      description:
-        "Fuzzy-search real, mapped code components by name or path. Use this to browse " +
-        "available components before generating code for an unmapped design, or when " +
-        "get_component_context returned no exact match. Every result carries a " +
-        "similarity score — treat low scores as unconfirmed.",
-      inputSchema: {
-        query: z.string().describe("Name or path fragment to search for"),
-        framework: z.enum(["react", "svelte", "vue", "angular", "swiftui", "compose"]).optional(),
-        status: z.enum(["active", "deprecated", "draft"]).optional(),
-      },
-    },
-    async (args) => json(searchComponents(loader, args)),
-  );
-
-  server.registerTool(
     "validate_mapping",
     {
       title: "Validate mapping",
@@ -104,24 +81,14 @@ export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): 
     async () => json(listStale(loader)),
   );
 
-  server.registerResource(
-    "components",
-    "manifest://components",
-    {
-      title: "Component manifest",
-      description: "The full Code Connect component manifest (source of truth).",
-      mimeType: "application/json",
-    },
-    async (uri) => ({
-      contents: [
-        {
-          uri: uri.href,
-          mimeType: "application/json",
-          text: JSON.stringify(loader.getManifest(), null, 2),
-        },
-      ],
-    }),
-  );
+  registerReadTools(server, {
+    loader,
+    tokensCssPath: resolve(REPO, "packages/tokens/output/variables.css"),
+    figmaVariablesPath: resolve(REPO, "manifest/figma-variables.json"),
+    packageVersion: (
+      JSON.parse(readFileSync(resolve(REPO, "packages/react/package.json"), "utf8")) as { version: string }
+    ).version,
+  });
 
   return server;
 }

@@ -12,6 +12,7 @@ import { DocsLayout } from "./components";
 import { DocsFrameworkProvider } from "./frameworks";
 import { DocsIntroPage } from "./pages/DocsIntroPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
+import { UseWithAiPage } from "./pages/UseWithAiPage";
 import { ThemingPage } from "./pages/ThemingPage";
 import { FoundationsColorPage } from "./pages/FoundationsColorPage";
 import { FoundationsTypographyPage } from "./pages/FoundationsTypographyPage";
@@ -57,6 +58,7 @@ function DocsRouteTree({ overlayHost }: { overlayHost: RefObject<HTMLDivElement 
       <Routes>
         <Route index element={<DocsIntroPage />} />
         <Route path="get-started" element={<GetStartedPage />} />
+        <Route path="use-with-ai" element={<UseWithAiPage />} />
         <Route path="theming" element={<ThemingPage />} />
         <Route path="foundations/color" element={<FoundationsColorPage />} />
         <Route path="foundations/typography" element={<FoundationsTypographyPage />} />
