@@ -50,7 +50,7 @@ export function ToolsPage() {
   // Titled by the selected tool, so a shared /tools/<id> link is self-describing.
   // Must sit above the mobile early-return to stay unconditional.
   useDocumentMeta({
-    title: `${active.name} — UI Organized Tools`,
+    title: `${active.name} | UI Organized Tools`,
     description: active.tagline,
   });
 

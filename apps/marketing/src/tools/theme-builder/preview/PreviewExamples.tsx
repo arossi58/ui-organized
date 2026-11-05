@@ -130,7 +130,7 @@ function DashboardExample() {
         <header className={styles.appBar}>
           <div>
             <h1 className={styles.pageTitle}>Dashboard</h1>
-            <p className={styles.pageSubtitle}>Welcome back — here&apos;s today at a glance.</p>
+            <p className={styles.pageSubtitle}>Welcome back. Here&apos;s today at a glance.</p>
           </div>
           <div className={styles.appBarActions}>
             <SearchInput size="sm" placeholder="Search…" aria-label="Search" />
@@ -490,8 +490,8 @@ function MarketingExample() {
         </Tag>
         <h1 className={styles.heroTitle}>Design once. Ship everywhere.</h1>
         <p className={styles.heroText}>
-          A token-driven component library that keeps product, brand, and code in perfect sync —
-          from the first prototype to production.
+          A token-driven component library for product and brand teams, from the first
+          prototype to production.
         </p>
         <div className={styles.heroActions}>
           <Button intent="primary" size="lg" icon="arrow-right" iconPosition="right">
@@ -524,7 +524,7 @@ function MarketingExample() {
       </section>
 
       <section className={styles.pricing}>
-        <h2 className={styles.sectionHeading}>Simple, scalable pricing</h2>
+        <h2 className={styles.sectionHeading}>Pricing</h2>
         <div className={styles.pricingGrid}>
           {TIERS.map((t) => (
             <Card

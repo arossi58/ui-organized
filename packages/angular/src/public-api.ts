@@ -29,11 +29,10 @@ export {
 } from "./lib/card/card.js";
 export { UioDivider, type DividerOrientation, type DividerSpacing } from "./lib/divider/divider.js";
 export { UioTag, type TagVariant, type TagSize } from "./lib/tag/tag.js";
-export { UioChip, type ChipVariant, type ChipSize } from "./lib/chip/chip.js";
-// Re-exported from core, the way React's, Svelte's and Vue's Chip barrels do:
-// a filter chip's `operator` is one of these, and a table adapter cannot name
-// the input's type without it.
-export type { ChipVariants, ComparisonIconName } from "@ui-organized/core";
+export { UioChip, UioChipSegment } from "./lib/chip/chip.js";
+// Re-exported from core, the way React's Chip barrel does: a segment's `part`
+// is one of these, and a consumer cannot name the input's type without it.
+export type { ChipSegmentPart } from "@ui-organized/core";
 export {
   UioSkeleton,
   UioSkeletonGroup,

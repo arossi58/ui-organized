@@ -39,7 +39,7 @@ import {
   parseToOklch,
   type ColorRamp,
 } from "./colorGeneration.js";
-import { coreColors, getCoreFamily } from "./coreColors.js";
+import { coreColors, getAuthoredFamily } from "./coreColors.js";
 
 // ─── Measured constants ───────────────────────────────────────────────────────
 
@@ -222,7 +222,7 @@ export function generateNeutralRamp(
   input: string | number,
   opts: NeutralRampOptions = {},
 ): ColorRamp {
-  const base = opts.baseRamp ?? getCoreFamily("grey");
+  const base = opts.baseRamp ?? getAuthoredFamily("grey");
   const strength = opts.strength ?? DEFAULT_NEUTRAL_TINT;
 
   let hue: number;
@@ -253,16 +253,25 @@ export function generateNeutralRamp(
  *
  * The authored families supply the hue; chroma comes from `strength`. `grey` is
  * achromatic and is returned as authored.
+ *
+ * Memoized per (name, strength): theme providers call this on every brand or
+ * mode change, and callers compare ramps by identity.
  */
 export function getNeutralRamp(name: string, strength: number = DEFAULT_NEUTRAL_TINT): ColorRamp {
-  const grey = getCoreFamily("grey");
+  const grey = getAuthoredFamily("grey");
   if (name === "grey") return grey;
 
   const authored = coreColors[name];
   if (!authored) return grey;
 
-  const hue = rampHue(authored);
-  if (hue === null) return grey;
+  const key = `${name}|${strength}`;
+  const cached = derivedRamps.get(key);
+  if (cached) return cached;
 
-  return generateNeutralRamp(hue, { baseRamp: grey, strength });
+  const hue = rampHue(authored);
+  const ramp = hue === null ? grey : generateNeutralRamp(hue, { baseRamp: grey, strength });
+  derivedRamps.set(key, ramp);
+  return ramp;
 }
+
+const derivedRamps = new Map<string, ColorRamp>();

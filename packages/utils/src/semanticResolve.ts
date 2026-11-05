@@ -11,8 +11,9 @@
  */
 
 import { semanticColorMap } from "./semanticColorMap.js";
-import { getCoreFamily, CORE_STEPS } from "./coreColors.js";
+import { getAuthoredFamily, CORE_STEPS } from "./coreColors.js";
 import type { ColorRamp } from "./colorGeneration.js";
+import { contrastRatio } from "./contrast.js";
 
 const FAMILY_REF = /^([a-z]+)\.(\d+)$/;
 
@@ -81,38 +82,193 @@ export interface ResolveOptions {
 }
 
 /** Resolve one "family.step" reference (or pass a raw value through). */
-function resolveRef(ref: string, opts: ResolveOptions): string {
+function resolveRef(ref: string, opts: ResolveOptions, cssVar: string): string {
   const m = FAMILY_REF.exec(ref);
   if (!m) return ref; // raw CSS value (#hex, rgba(), etc.)
   const [, family, step] = m;
   const ramp =
     family === "brand" ? opts.brandRamp :
     family === "grey"  ? opts.neutralRamp :
-    getCoreFamily(family!);
-  return ramp[step!]?.hex ?? ref;
+    getAuthoredFamily(family!);
+  const hex = ramp[step!]?.hex;
+  // Emitting the ref itself would write "grey.2400" into CSS as an invalid value.
+  if (!hex) throw missingStep(ref, family!, ramp, cssVar);
+  return hex;
+}
+
+function missingStep(ref: string, family: string, ramp: ColorRamp, cssVar: string): Error {
+  const which = family === "brand" ? "brand ramp" : family === "grey" ? "neutral ramp" : `"${family}" ramp`;
+  const steps = Object.keys(ramp);
+  return new Error(
+    `Semantic ref "${ref}" (${cssVar}) is not in the supplied ${which} ` +
+      `(steps ${steps[0]}–${steps[steps.length - 1]}). Pass a full ${CORE_STEPS.length}-step ramp, ` +
+      `e.g. getCoreFamily(name); getNeutralPreset() ramps are 16-step pack presets.`,
+  );
+}
+
+// ─── Contrast-derived roles ────────────────────────────────────────────────────
+//
+// A fixed step can't hold contrast for every brand: the families diverge by
+// tens of L* mid-ramp, so the step that passes depends on a paired token (the
+// fill under a label, the surface under a link) the map can't see. These roles
+// start at their mapped step and walk the brand ramp until they clear AA.
+// Anything that already passes stays on its mapped step.
+
+const AA_TEXT = 4.5;
+
+const PRIMARY_FILLS = [
+  "--color-interactive-primary-default",
+  "--color-interactive-primary-hover",
+  "--color-interactive-primary-active",
+  "--color-interactive-primary-selected",
+] as const;
+
+const LINK_STATES = [
+  "--color-interactive-tertiary-default",
+  "--color-interactive-tertiary-hover",
+  "--color-interactive-tertiary-active",
+] as const;
+
+/** Filled-button label candidates, preferred first. */
+const LABEL_REFS = ["grey.100", "grey.2400"] as const;
+
+/** The label the resolver puts on a primary fill, and how well it reads there. */
+export interface PrimaryLabel {
+  /** Neutral ref the label resolves to: near-white or near-black. */
+  ref: (typeof LABEL_REFS)[number];
+  /** Resolved label colour. */
+  hex: string;
+  /** WCAG contrast of the label on the fill. */
+  ratio: number;
+}
+
+/**
+ * The filled-button label (`--color-interactive-contents`) the resolver chooses
+ * for a primary fill: near-white when it clears 4.5:1 (preferred), else
+ * near-black when that does, else whichever reads better. Exported so shade
+ * pickers can judge a fill by the label it will actually get.
+ */
+export function pickPrimaryLabel(fillHex: string, neutralRamp: ColorRamp): PrimaryLabel {
+  const scored = LABEL_REFS.map((ref) => {
+    const hex = neutralRamp[FAMILY_REF.exec(ref)![2]!]?.hex;
+    if (!hex) throw missingStep(ref, "grey", neutralRamp, "--color-interactive-contents");
+    return { ref, hex, ratio: contrastRatio(hex, fillHex) };
+  });
+  return scored.find((c) => c.ratio >= AA_TEXT) ?? scored.reduce((a, b) => (b.ratio > a.ratio ? b : a));
+}
+
+function brandStep(ref: string | undefined): string | undefined {
+  const m = ref ? FAMILY_REF.exec(ref) : null;
+  return m && m[1] === "brand" ? m[2] : undefined;
+}
+
+/**
+ * From `start`, walk the ramp one step at a time in `dir` (+1 darker, −1
+ * lighter) and return the first step not in `avoid` whose worst ratio against
+ * `beds` clears `target`. If the ramp runs out, return the best-scoring
+ * candidate seen, so a hopeless ramp degrades rather than throws.
+ */
+function pickStep(
+  ramp: ColorRamp,
+  start: string,
+  dir: 1 | -1,
+  beds: string[],
+  target: number,
+  avoid: ReadonlySet<string> = new Set(),
+): string {
+  let best = start;
+  let bestRatio = -1;
+  for (let i = CORE_STEPS.indexOf(start); i >= 0 && i < CORE_STEPS.length; i += dir) {
+    const step = CORE_STEPS[i]!;
+    const hex = ramp[step]?.hex;
+    if (!hex || avoid.has(step)) continue;
+    const ratio = Math.min(...beds.map((b) => contrastRatio(hex, b)));
+    if (ratio >= target) return step;
+    if (ratio > bestRatio) [best, bestRatio] = [step, ratio];
+  }
+  return best;
+}
+
+/**
+ * The map for a mode after the primary-shade override and the contrast-derived
+ * roles are applied — still as "family.step" refs, so `resolveSemanticRefs`
+ * can keep the primitive alias to whichever step was chosen.
+ */
+function effectiveRefs(mode: "light" | "dark", opts: ResolveOptions): Record<string, string> {
+  const refs: Record<string, string> = { ...semanticColorMap[mode] };
+  const hex = (cssVar: string): string => resolveRef(refs[cssVar]!, opts, cssVar);
+
+  // Optional primary-shade override (the builder's primary-color tool).
+  if (opts.brandShade) {
+    const s = opts.brandShade;
+    const set = (cssVar: string, step: string): void => {
+      if (opts.brandRamp[step]) refs[cssVar] = `brand.${step}`;
+    };
+    set("--color-interactive-primary-default", s);
+    set("--color-interactive-primary-selected", s);
+    set("--color-interactive-primary-hover", offsetStep(s, +2));
+    set("--color-interactive-primary-active", offsetStep(s, -1));
+  }
+
+  // Filled-button label: whichever of near-white / near-black reads on the
+  // resting fill (white preferred), then any other fill state that fails with
+  // that label walks away from it — darker under a light label, lighter under
+  // a dark one — staying distinct from the resting step.
+  const restStep = brandStep(refs["--color-interactive-primary-default"]);
+  if (restStep) {
+    const pick = pickPrimaryLabel(hex("--color-interactive-primary-default"), opts.neutralRamp);
+    refs["--color-interactive-contents"] = pick.ref;
+
+    const away: 1 | -1 = pick.ref === LABEL_REFS[0] ? 1 : -1;
+    const used = new Set([restStep]);
+    for (const cssVar of PRIMARY_FILLS.slice(1)) {
+      const step = brandStep(refs[cssVar]);
+      if (!step || contrastRatio(pick.hex, hex(cssVar)) >= AA_TEXT) {
+        if (step) used.add(step);
+        continue;
+      }
+      // Selected mirrors the resting fill, so it may share its step.
+      const avoid = cssVar.endsWith("-selected") ? new Set<string>() : used;
+      const next = pickStep(opts.brandRamp, step, away, [pick.hex], AA_TEXT, avoid);
+      refs[cssVar] = `brand.${next}`;
+      used.add(next);
+    }
+  }
+
+  // Links: every state must read at body size on both surfaces. Walk toward
+  // the page's opposite end (lighter in dark mode, darker in light) and keep
+  // the states on distinct steps so hover and press still show.
+  const beds = [hex("--color-surface-primary"), hex("--color-surface-secondary")];
+  const toward: 1 | -1 = mode === "dark" ? -1 : 1;
+  const usedLink = new Set<string>();
+  for (const cssVar of LINK_STATES) {
+    const step = brandStep(refs[cssVar]);
+    if (!step) continue;
+    const next = pickStep(opts.brandRamp, step, toward, beds, AA_TEXT, usedLink);
+    refs[cssVar] = `brand.${next}`;
+    usedLink.add(next);
+  }
+
+  return refs;
 }
 
 /**
  * Resolve the canonical semantic map for a mode into a flat
  * `{ "--color-…": "#hex" }` object, substituting the chosen brand and neutral
  * families. Used for both the live preview (inline styles) and theme export.
+ *
+ * The filled-button label (`--color-interactive-contents`), the primary fill
+ * states, and the link states are chosen by contrast against their resolved
+ * backgrounds, so they hold WCAG AA for any brand. Throws if a ref's step is
+ * missing from the supplied ramp.
  */
 export function resolveSemanticColors(
   mode: "light" | "dark",
   opts: ResolveOptions,
 ): Record<string, string> {
   const out: Record<string, string> = {};
-  for (const [cssVar, ref] of Object.entries(semanticColorMap[mode])) {
-    out[cssVar] = resolveRef(ref, opts);
-  }
-
-  // Optional primary-shade override (the builder's primary-color tool).
-  if (opts.brandShade) {
-    const s = opts.brandShade;
-    out["--color-interactive-primary-default"]  = opts.brandRamp[s]?.hex ?? out["--color-interactive-primary-default"]!;
-    out["--color-interactive-primary-selected"] = out["--color-interactive-primary-default"]!;
-    out["--color-interactive-primary-hover"]    = opts.brandRamp[offsetStep(s, +2)]?.hex ?? out["--color-interactive-primary-hover"]!;
-    out["--color-interactive-primary-active"]   = opts.brandRamp[offsetStep(s, -1)]?.hex ?? out["--color-interactive-primary-active"]!;
+  for (const [cssVar, ref] of Object.entries(effectiveRefs(mode, opts))) {
+    out[cssVar] = resolveRef(ref, opts, cssVar);
   }
 
   // Bare brand token — the brand primary color (tracks the chosen primary shade).
@@ -162,7 +318,7 @@ export function resolveSemanticRefs(
   opts: ResolveOptions,
 ): Record<string, SemanticRef> {
   const out: Record<string, SemanticRef> = {};
-  for (const [cssVar, ref] of Object.entries(semanticColorMap[mode])) {
+  for (const [cssVar, ref] of Object.entries(effectiveRefs(mode, opts))) {
     const m = FAMILY_REF.exec(ref);
     if (!m) {
       out[cssVar] = { kind: "raw", value: ref }; // raw CSS literal (#hex / rgba())
@@ -173,22 +329,8 @@ export function resolveSemanticRefs(
       kind: "alias",
       group: familyToGroup(family!),
       step: step!,
-      hex: resolveRef(ref, opts),
+      hex: resolveRef(ref, opts, cssVar),
     };
-  }
-
-  // Optional primary-shade override — mirrors resolveSemanticColors, but the
-  // tokens stay brand aliases (re-anchored to the chosen step).
-  if (opts.brandShade) {
-    const s = opts.brandShade;
-    const setBrand = (cssVar: string, stp: string): void => {
-      const hex = opts.brandRamp[stp]?.hex;
-      if (hex) out[cssVar] = { kind: "alias", group: "brand", step: stp, hex };
-    };
-    setBrand("--color-interactive-primary-default", s);
-    setBrand("--color-interactive-primary-selected", s);
-    setBrand("--color-interactive-primary-hover", offsetStep(s, +2));
-    setBrand("--color-interactive-primary-active", offsetStep(s, -1));
   }
 
   // Bare brand token tracks the primary interactive color (same alias).

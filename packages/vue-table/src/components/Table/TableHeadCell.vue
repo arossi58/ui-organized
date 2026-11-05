@@ -6,6 +6,7 @@ import { Icon } from "@ui-organized/vue";
 import {
   alignOf,
   getHeadCellProps,
+  metaOf,
   stickyPositionOf,
   type RowData,
   type TableHeaderInstance,
@@ -28,6 +29,7 @@ const focused = computed(
     table.focus.cursor.value.row === -1 &&
     table.focus.cursor.value.col === props.index,
 );
+const editable = computed(() => Boolean(metaOf<T>(column.value.columnDef)?.edit));
 
 const cellProps = computed(() =>
   getHeadCellProps({
@@ -39,6 +41,7 @@ const cellProps = computed(() =>
     sticky: stickyPositionOf(table.table as unknown as TableInstance<T>, column.value),
     resizing: column.value.getIsResizing(),
     interactive: interactive.value,
+    editable: editable.value,
   }),
 );
 </script>
@@ -66,13 +69,29 @@ const cellProps = computed(() =>
         <span class="data-table__head-label">
           <FlexRender v-if="!header.isPlaceholder" :header="header" />
         </span>
+        <!--
+          The pencil on an editable column's header. The words go with it: as
+          part of the column header, ", editable" is announced with every cell
+          in the column, which is where a screen-reader user needs to learn that
+          Enter opens an editor.
+        -->
+        <span v-if="editable" class="data-table__edit-icon">
+          <Icon name="edit" :size="14" />
+          <span class="data-table__sr-only">, editable</span>
+        </span>
         <span class="data-table__sort-icon">
           <Icon :name="sorted === 'desc' ? 'sort-desc' : 'sort-asc'" :size="14" />
         </span>
       </button>
-      <span v-else class="data-table__head-label">
-        <FlexRender v-if="!header.isPlaceholder" :header="header" />
-      </span>
+      <template v-else>
+        <span class="data-table__head-label">
+          <FlexRender v-if="!header.isPlaceholder" :header="header" />
+        </span>
+        <span v-if="editable" class="data-table__edit-icon">
+          <Icon name="edit" :size="14" />
+          <span class="data-table__sr-only">, editable</span>
+        </span>
+      </template>
     </div>
     <ResizeHandle v-if="column.getCanResize()" :header="header" />
   </th>

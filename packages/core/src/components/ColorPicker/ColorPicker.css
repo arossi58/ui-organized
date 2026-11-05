@@ -73,10 +73,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. */
 .color-picker__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .color-picker__trigger[data-invalid] {
@@ -283,7 +284,8 @@
 }
 
 .color-picker__thumb:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Eyedropper ──────────────────────────────────────────────────────────── */
@@ -309,7 +311,8 @@
 }
 
 .color-picker__eyedropper:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Notation row ────────────────────────────────────────────────────────────
@@ -426,7 +429,8 @@
 }
 
 .color-picker__swatch-trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .color-picker__swatch {

@@ -85,6 +85,19 @@ export { UioTablePagination } from "./lib/components/table-pagination.js";
 export { UioTableSelectionBar } from "./lib/components/table-selection-bar.js";
 export { UioTableSubBar } from "./lib/components/table-sub-bar.js";
 export { UioTableRowActions } from "./lib/components/table-row-actions.js";
+export { UioTableCards, UioTableCard } from "./lib/components/table-cards.js";
+/**
+ * Card mode's sort and filter sheets. React also exports `TableSheetButton`;
+ * Angular's sheet trigger is a directive on a real `<button>`, which a
+ * component cannot wrap without a host element in between, so it has no
+ * counterpart here.
+ */
+export {
+  UioTableSortSheet,
+  UioTableFilterSheet,
+  UioTableFilterSheetCondition,
+  UioTableSheetSection,
+} from "./lib/components/table-sheets.js";
 
 // ── Layer 3: the wrapper ────────────────────────────────────────────────────
 export { UioDataTable } from "./lib/data-table.js";

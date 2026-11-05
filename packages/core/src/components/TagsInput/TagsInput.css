@@ -38,7 +38,8 @@
 /* The well is not itself focusable — focus lands on the entry field inside it,
    so the ring is drawn from that descendant onto the container. */
 .tags-input__control:focus-within {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .tags-input__control[data-invalid] {
@@ -46,7 +47,7 @@
 }
 
 .tags-input__control[data-invalid]:focus-within {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .tags-input__control[data-disabled] {
@@ -103,7 +104,8 @@
 }
 
 .tags-input__tag-delete:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── In-place tag editing ────────────────────────────────────────────────────

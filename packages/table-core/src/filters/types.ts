@@ -159,17 +159,6 @@ export interface FilterOperatorDef {
   /** Shown in the operator picker and in the chip. The localization hook. */
   label: string;
   /**
-   * The design system comparison glyph a chip draws instead of the label —
-   * "equals", "contains", "starts-with" and so on.
-   *
-   * Deliberately a plain string rather than core's `ComparisonIconName`:
-   * `@ui-organized/table-core` imports no framework *and* no component library,
-   * so it names the glyph and the adapter resolves it. Only six operators have
-   * one; the rest keep their words, because there is no glyph for "is in the
-   * last 7 days" that anyone would read correctly.
-   */
-  icon?: string;
-  /**
    * Per-type label override. `lt` is "is less than" for a number and "is
    * before" for a date — the same comparison, and it would read badly under one
    * name. An override beats duplicate operator ids, which would double every

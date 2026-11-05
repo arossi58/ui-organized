@@ -32,14 +32,14 @@ export function ExportPanel() {
   return (
     <div className={styles.panel}>
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Export Theme</h3>
+        <h3 className={styles.sectionTitle}>Export theme</h3>
         <p className={styles.hint}>
-          Download a complete theme bundle — one config in three shapes:
+          Download a theme bundle: one config in three shapes.
         </p>
         <ul className={styles.steps}>
-          <li><code>theme.json</code> — DTCG design tokens (code + Figma).</li>
-          <li><code>theme.css</code> — ready-to-use CSS custom properties (web).</li>
-          <li><code>icons.ts</code> — <code>IconProvider</code> config (library, size, stroke).</li>
+          <li><code>theme.json</code>: DTCG design tokens (code + Figma).</li>
+          <li><code>theme.css</code>: ready-to-use CSS custom properties (web).</li>
+          <li><code>icons.ts</code>: <code>IconProvider</code> config (library, size, stroke).</li>
         </ul>
       </section>
 
@@ -73,8 +73,8 @@ export function ExportPanel() {
         </div>
         <p className={styles.hint}>
           What a page renders as before any <code>data-theme</code> is set. Both modes
-          always ship — this only decides the one on bare <code>:root</code>, so a light
-          app doesn’t paint a dark first frame.
+          always ship. This only decides the one on bare <code>:root</code>, so a light
+          app doesn&apos;t paint a dark first frame.
         </p>
       </section>
 
@@ -89,7 +89,7 @@ export function ExportPanel() {
 
       {status === "success" && (
         <div className={styles.successMsg}>
-          ✓ Theme exported successfully!
+          ✓ Theme exported.
         </div>
       )}
 
@@ -106,26 +106,26 @@ export function ExportPanel() {
         <h3 className={styles.sectionTitle}>How it works</h3>
         <ol className={styles.steps}>
           <li>
-            <strong>Apply it</strong> — point the CLI at the zip. It files everything where
+            <strong>Apply it</strong>: point the CLI at the zip. It files everything where
             your project keeps things, and checks the theme before it writes:
             <pre className={styles.codeBlock}>{`npx @ui-organized/cli theme my-theme.zip`}</pre>
             No install step. It verifies the theme defines every token the components read,
             that the typefaces it names can load, and that nothing in your own CSS overrides
-            it — then prints the import lines. Add <code>--dry-run</code> to look first.
+            it, then prints the import lines. Add <code>--dry-run</code> to look first.
           </li>
           <li>
-            <strong>Or by hand</strong> — drop <code>theme.css</code> in and import it at your
+            <strong>Or by hand</strong>: drop <code>theme.css</code> in and import it at your
             app entry, <em>after</em> the component styles:
             <pre className={styles.codeBlock}>{`import '@ui-organized/react/styles'
 import './styles/theme.css'`}</pre>
             Order matters: both declare on <code>:root</code>, and that tie is decided by
-            source order. The file is self-contained — it carries the layout constants
+            source order. The file is self-contained: it carries the layout constants
             (<code>--dimension-*</code>, <code>--z-index-*</code>) too, so no baseline
             stylesheet is required. Toggle modes with{" "}
             <code>data-theme="light"</code> / <code>"dark"</code> on <code>&lt;html&gt;</code>.
           </li>
           <li>
-            <strong>Icons</strong> — install the library you picked, register it, and wrap
+            <strong>Icons</strong>: install the library you picked, register it, and wrap
             your app with the exported config:
             <pre className={styles.codeBlock}>{`import '@ui-organized/react/icons/${icons.library}'
 import { iconConfig } from './icons'
@@ -133,20 +133,20 @@ import { iconConfig } from './icons'
 <IconProvider {...iconConfig}>
   <App />
 </IconProvider>`}</pre>
-            The subpath import is required — <code>@ui-organized/react</code> imports no icon
-            package itself, which is what keeps the ones you didn’t choose out of your bundle.
+            The subpath import is required. <code>@ui-organized/react</code> imports no icon
+            package itself, which keeps the ones you didn&apos;t choose out of your bundle.
           </li>
           <li>
-            <strong>Fonts</strong> — <code>theme.css</code> names its typefaces but cannot
+            <strong>Fonts</strong>: <code>theme.css</code> names its typefaces but cannot
             load them. <code>fonts.ts</code> carries the <code>&lt;link&gt;</code> tags for
             your families; add them to your document head, or let the CLI print them.
           </li>
           <li>
-            <strong>Figma</strong> — import <code>theme.json</code> with the
+            <strong>Figma</strong>: import <code>theme.json</code> with the
             <strong> UI Organized - Theme Import</strong> plugin. It builds Primitives,
             Semantic (Light/Dark, aliased), Scale and Typography collections. Edit the
             variables in Figma, export a fresh <code>theme.json</code> from the plugin, and
-            load it back with <em>Import Theme</em> on the <strong>Color</strong> tab.
+            load it back with <em>Import theme</em> on the <strong>Color</strong> tab.
           </li>
         </ol>
       </section>

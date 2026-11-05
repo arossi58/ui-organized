@@ -23,7 +23,7 @@ export const popoverExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Popover defaultOpen>
-        <PopoverTrigger className="btn btn--secondary btn--md">Display</PopoverTrigger>
+        <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">Display</PopoverTrigger>
         <PopoverContent>
           <PopoverTitle>Display</PopoverTitle>
           <div style={body}>
@@ -35,7 +35,7 @@ export const popoverExamples: UsageExampleSet = {
     ),
     Dont: () => (
       <Popover defaultOpen>
-        <PopoverTrigger className="btn btn--secondary btn--md">Display</PopoverTrigger>
+        <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">Display</PopoverTrigger>
         <PopoverContent>
           <div style={body}>
             <Switch label="Compact rows" defaultChecked />
@@ -50,7 +50,7 @@ export const popoverExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Popover defaultOpen>
-        <PopoverTrigger className="btn btn--secondary btn--md">Rename</PopoverTrigger>
+        <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">Rename</PopoverTrigger>
         <PopoverContent>
           <PopoverTitle>Rename</PopoverTitle>
           <div style={body}>
@@ -65,7 +65,7 @@ export const popoverExamples: UsageExampleSet = {
     // A whole form in a floating box that has to scroll to be filled in.
     Dont: () => (
       <Popover defaultOpen>
-        <PopoverTrigger className="btn btn--secondary btn--md">Rename</PopoverTrigger>
+        <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">Rename</PopoverTrigger>
         <PopoverContent>
           <PopoverTitle>Details</PopoverTitle>
           <div style={body}>

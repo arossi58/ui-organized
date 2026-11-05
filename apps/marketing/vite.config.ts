@@ -1,5 +1,6 @@
 import { defineConfig, type PluginOption } from "vite";
 import react from "@vitejs/plugin-react";
+import { copyEditor } from "./copy-editor/plugin.ts";
 import { createReadStream, existsSync, statSync } from "node:fs";
 import { extname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -110,7 +111,8 @@ function serveStorybook(): PluginOption {
 
 export default defineConfig({
   base,
-  plugins: [react(), serveStorybook()],
+  // `pnpm copy-editor` adds the in-page copy editor; see copy-editor/plugin.ts.
+  plugins: [react(), serveStorybook(), process.env.COPY_EDITOR === "1" && copyEditor()],
   esbuild: {
     // The docs registry joins each Storybook story to its manifest entry through
     // `meta.component`'s function name (src/docs/registry.ts). Minification

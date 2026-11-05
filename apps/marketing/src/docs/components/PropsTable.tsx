@@ -97,7 +97,7 @@ export function PropsTable({ props, typeValues, showPassthrough = true }: PropsT
                             : prop.defaultValue}
                         </code>
                       ) : (
-                        <span className={styles.typeText}>—</span>
+                        <span className={styles.typeText}>None</span>
                       )}
                     </td>
                     <td className={styles.propNote}>

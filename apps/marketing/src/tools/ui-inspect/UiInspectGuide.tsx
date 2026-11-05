@@ -82,7 +82,7 @@ const FEATURES: Feature[] = [
   {
     icon: Shapes,
     title: "Matched by value type, not by name",
-    desc: "Matching runs on the resolved type (color, length, number, family), never on token names. A property is only audited when your system actually defines tokens of that type, so you never get an “everything is broken” score.",
+    desc: "Matching runs on the resolved type (color, length, number, family), never on token names. A property is only audited when your system defines tokens of that type, so you never get an 'everything is broken' score.",
   },
   {
     icon: Gauge,
@@ -92,7 +92,7 @@ const FEATURES: Feature[] = [
   {
     icon: Blocks,
     title: "A component inventory",
-    desc: "The components it recovered from the page, with the provenance and confidence of each identification rather than a bare guess.",
+    desc: "The components it recovered from the page, with the provenance and confidence of each identification.",
   },
 ];
 

@@ -7,6 +7,7 @@
     "changeset": "changeset",
     "check:tarballs": "node scripts/check-tarballs.mjs",
     "clean": "turbo clean && rm -rf node_modules",
+    "copy-editor": "pnpm --filter @ui-organized/marketing dev:copy",
     "dev": "turbo dev",
     "format:check": "prettier --check .",
     "generate:palette": "node scripts/generate-core-palette.mjs",
@@ -27,6 +28,7 @@
     "release": "turbo run build --filter=./packages/* && pnpm smoke && changeset publish",
     "smoke": "pnpm --filter @ui-organized/cli test:smoke && pnpm --filter @ui-organized/react test:smoke && pnpm --filter @ui-organized/react-table test:smoke && pnpm --filter @ui-organized/svelte test:smoke && pnpm --filter @ui-organized/vue test:smoke && pnpm --filter @ui-organized/angular test:smoke && pnpm --filter @ui-organized/vue-table test:smoke && pnpm --filter @ui-organized/svelte-table test:smoke && pnpm --filter @ui-organized/angular-table test:smoke",
     "test": "turbo test",
+    "audit:contrast": "node scripts/audit-contrast.mjs",
     "typecheck": "turbo typecheck",
     "typecheck:packages": "turbo typecheck --filter=./packages/* --filter=./tooling/*",
     "version-packages": "changeset version"

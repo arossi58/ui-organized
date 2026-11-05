@@ -16,7 +16,7 @@ export const menuExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuGroup>
             <MenuGroupLabel>Edit</MenuGroupLabel>
@@ -34,7 +34,7 @@ export const menuExamples: UsageExampleSet = {
     ),
     Dont: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuItem icon="edit">Rename</MenuItem>
           <MenuItem icon="copy">Duplicate</MenuItem>
@@ -51,7 +51,7 @@ export const menuExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuItem icon="edit">Rename</MenuItem>
           <MenuItem icon="copy">Duplicate</MenuItem>
@@ -65,7 +65,7 @@ export const menuExamples: UsageExampleSet = {
     // Delete sits between two ordinary items, one slip from either.
     Dont: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuItem icon="edit">Rename</MenuItem>
           <MenuItem icon="trash">Delete</MenuItem>

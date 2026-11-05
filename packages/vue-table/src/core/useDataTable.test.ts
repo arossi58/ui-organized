@@ -208,4 +208,15 @@ describe("useDataTable", () => {
     // the dataset rather than from the page.
     expect(api.renderRows.value[0]!.absoluteIndex).toBe(2);
   });
+
+  it("moves a condition to another column from the chip's field segment", () => {
+    const { api } = mount();
+    const id = api.filters.add("name");
+    api.filters.update(id, { values: ["ada"] });
+    // Text to enum: nothing carries across, so it starts on the enum's default.
+    api.filters.changeField(id, "role");
+    expect(api.filters.conditions.value).toEqual([
+      { id, columnId: "role", operator: "is-any-of", values: [] },
+    ]);
+  });
 });

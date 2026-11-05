@@ -33,7 +33,6 @@
   border-radius: var(--radius-interactive);
   background: transparent;
   color: var(--color-content-primary);
-  font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition:
     background-color 150ms ease,
@@ -41,18 +40,25 @@
     color 150ms ease;
 }
 
-.pagination__page:hover:not(:disabled) {
+.pagination__page:hover:not(:disabled):not([aria-current="page"]) {
   background-color: var(--color-interactive-ui-hover);
 }
 
 .pagination__page:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .pagination__page[aria-current="page"] {
   background-color: var(--color-interactive-primary-default);
   color: var(--color-interactive-contents);
+}
+
+/* The current page keeps its primary fill on hover. The neutral hover fill
+   above is light in light mode, and the current page's label is white, so the
+   number vanished. */
+.pagination__page[aria-current="page"]:hover {
+  background-color: var(--color-interactive-primary-hover);
 }
 
 /* ─── Ellipsis (jump menu trigger) ────────────────────────────────────────── */
@@ -81,8 +87,8 @@
 }
 
 .pagination__ellipsis:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* Constrain long hidden-page ranges to a scrollable menu. */

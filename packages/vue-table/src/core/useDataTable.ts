@@ -73,6 +73,7 @@ import {
   operatorLabel,
   operatorsFor,
   orderFilterableFields,
+  retargetCondition,
   overscanFor,
   primaryColumnId,
   rangeSelect,
@@ -955,6 +956,20 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
     );
   };
 
+  /** The chip's field segment: move a condition to another column. */
+  const changeFilterField = (id: string, columnId: string) => {
+    const condition = conditions.value.find((entry) => entry.id === id);
+    if (!condition || condition.columnId === columnId) return;
+    dispatchFilter(
+      retargetCondition(
+        condition,
+        { type: typeOfColumn(condition.columnId) },
+        { columnId, type: typeOfColumn(columnId), def: filterDefs.value.get(columnId) },
+        catalogue.value,
+      ),
+    );
+  };
+
   const operatorsForCondition = (condition: TableFilterCondition) => {
     const type = typeOfColumn(condition.columnId);
     return operatorsFor(
@@ -1024,6 +1039,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
       fields,
       add: addFilter,
       update: (id, patch) => dispatchFilter({ type: "update", id, ...patch }),
+      changeField: changeFilterField,
       restore: (condition) => dispatchFilter({ type: "restore", condition }),
       remove: removeFilter,
       clear: clearFilters,

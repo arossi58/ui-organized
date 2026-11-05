@@ -9,7 +9,6 @@ import {
   AlertDialogFooter,
   AlertDialogTitle,
   Button,
-  Toolbar,
 } from "@ui-organized/react";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
@@ -18,11 +17,16 @@ import type { TableSelectionBarProps } from "./TableSelectionBar.types.js";
 import type { RowData } from "@ui-organized/table-core";
 
 /**
- * Appears only while something is selected.
+ * Appears only while something is selected, and then takes the place of the
+ * toolbar's sort, filter and table actions: with rows selected, what to do
+ * with them is the decision in front of the user, so it sits where they were
+ * already looking rather than on a line of its own.
  *
- * A `Toolbar` this time — it genuinely is a cluster of buttons, which is what
- * `role="toolbar"` and its roving focus are for. Destructive actions route
- * through `AlertDialog`; "archive 40,000 rows" is not an undo-able mis-click.
+ * Plain buttons in a labelled group, with no surface of its own. It shares the
+ * toolbar row with the search box, so `role="toolbar"`'s roving focus would
+ * make it the only cluster in that row that Tab skips through. Destructive
+ * actions route through `AlertDialog`; "archive 40,000 rows" is not an
+ * undo-able mis-click.
  */
 export function TableSelectionBar<T extends RowData>({
   actions,
@@ -39,7 +43,11 @@ export function TableSelectionBar<T extends RowData>({
   };
 
   return (
-    <Toolbar className={clsx("data-table__selection-bar", className)} aria-label="Bulk actions">
+    <div
+      role="group"
+      className={clsx("data-table__selection-bar", className)}
+      aria-label="Bulk actions"
+    >
       <span className="data-table__selection-count" aria-live="polite">
         {selection.count === 1 ? "1 row selected" : `${selection.count} rows selected`}
       </span>
@@ -97,6 +105,6 @@ export function TableSelectionBar<T extends RowData>({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </Toolbar>
+    </div>
   );
 }

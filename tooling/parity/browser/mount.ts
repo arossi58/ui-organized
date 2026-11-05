@@ -91,6 +91,8 @@ export async function mountScenario(
           step.target,
           { timeout: 5_000 },
         );
+      else if (step.do === "awaitHidden")
+        await page.locator(step.target).first().waitFor({ state: "hidden", timeout: 5_000 });
       // Short, so a state that never arrives reports as itself rather than as
       // the whole test running out of time 25 seconds later.
       else await page.locator(step.target).first().waitFor({ state: "attached", timeout: 5_000 });

@@ -50,6 +50,8 @@ export const BRAND_TOKEN_KEYS = [
   "--color-interactive-tertiary-hover",
   "--color-interactive-tertiary-active",
   "--color-interactive-tertiary-selected",
+  // Derived from the primary fill: near-black on light brands, so it must follow the brand.
+  "--color-interactive-contents",
   "--brand",
 ] as const;
 

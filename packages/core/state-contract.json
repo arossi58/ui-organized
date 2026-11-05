@@ -197,25 +197,20 @@
       "runtime": []
     },
     "Chip": {
-      "attributes": {},
+      "attributes": {
+        "aria-expanded": [
+          "true"
+        ]
+      },
       "classes": [
         "chip",
         "chip--disabled",
         "chip--incomplete",
-        "chip--lg",
-        "chip--md",
-        "chip--outline",
         "chip--selected",
-        "chip--sm",
-        "chip--subtle",
-        "chip__body",
-        "chip__caret",
-        "chip__detail",
-        "chip__icon",
-        "chip__label",
-        "chip__operator",
         "chip__remove",
-        "chip__value"
+        "chip__segment",
+        "chip__segment--operator",
+        "chip__segment--value"
       ],
       "runtime": []
     },

@@ -21,6 +21,7 @@ import {
   heroLockClosed, heroLockOpen, heroMagnifyingGlass, heroMinus, heroPause, heroPencil,
   heroPhone, heroPlay, heroPlus, heroSquares2x2, heroStar, heroTag, heroTrash, heroUser,
   heroUsers, heroXMark,
+  heroSun, heroMoon, heroComputerDesktop,
 } from "@ng-icons/heroicons/outline";
 import {
   heroArrowDownSolid, heroArrowDownTraySolid, heroArrowLeftSolid, heroArrowPathSolid,
@@ -36,6 +37,7 @@ import {
   heroMinusSolid, heroPauseSolid, heroPencilSolid, heroPhoneSolid, heroPlaySolid, heroPlusSolid,
   heroSquares2x2Solid, heroStarSolid, heroTagSolid, heroTrashSolid, heroUserSolid,
   heroUsersSolid, heroXMarkSolid,
+  heroSunSolid, heroMoonSolid, heroComputerDesktopSolid,
 } from "@ng-icons/heroicons/solid";
 import type { CanonicalIconName } from "@ui-organized/utils";
 
@@ -102,6 +104,9 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, string> = {
   "pipette":        heroEyeDropper,
   "rotate-cw":      heroArrowPath,
   "rotate-ccw":     heroArrowUturnLeft,
+  "sun":            heroSun,
+  "moon":           heroMoon,
+  "monitor":        heroComputerDesktop,
 };
 
 export const heroiconsSolidSet: Record<CanonicalIconName, string> = {
@@ -162,4 +167,7 @@ export const heroiconsSolidSet: Record<CanonicalIconName, string> = {
   "pipette":        heroEyeDropperSolid,
   "rotate-cw":      heroArrowPathSolid,
   "rotate-ccw":     heroArrowUturnLeftSolid,
+  "sun":            heroSunSolid,
+  "moon":           heroMoonSolid,
+  "monitor":        heroComputerDesktopSolid,
 };

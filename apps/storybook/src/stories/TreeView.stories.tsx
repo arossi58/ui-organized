@@ -34,7 +34,7 @@ const meta: Meta<typeof TreeView> = {
     docs: {
       description: {
         component:
-          "Nested, expandable rows — file trees, category hierarchies, org charts. A node with `children` renders as a branch and gets the disclosure machinery; one without renders as a leaf. Indentation comes from the machine's own depth, so arbitrarily deep trees stay aligned.",
+          "Nested, expandable rows for file trees, category hierarchies or org charts. A node with `children` renders as a branch and gets the disclosure machinery; one without renders as a leaf. Indentation comes from the machine's own depth, so arbitrarily deep trees stay aligned.",
       },
     },
   },

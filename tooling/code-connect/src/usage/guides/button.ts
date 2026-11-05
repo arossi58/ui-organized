@@ -45,7 +45,7 @@ export const buttonUsage: UsageGuide = {
       example: "icon-only",
     },
     {
-      do: "Disable an action only while it genuinely cannot run, and say elsewhere what would enable it.",
+      do: "Disable an action only while it cannot run, and say elsewhere what would enable it.",
       dont: "Treat the disabled state as the explanation, when it takes no focus and announces nothing.",
     },
   ],

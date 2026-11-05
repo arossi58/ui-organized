@@ -111,12 +111,12 @@ export function TestStatusPanel({ slug }: { slug: string }) {
       </div>
 
       {openIssues.length > 0 && (
-        <Alert variant="warning" title="Known accessibility issues — recorded, not accepted">
+        <Alert variant="warning" title="Known accessibility issues (recorded, not accepted)">
           <ul className={styles.issueList}>
             {openIssues.map((violation) => (
               <li key={violation.id}>
                 <code className={styles.issueRule}>{violation.id}</code>
-                {violation.impact ? ` (${violation.impact})` : ""} — {violation.help}
+                {violation.impact ? ` (${violation.impact})` : ""}: {violation.help}
                 {violation.helpUrl && (
                   <>
                     {" "}

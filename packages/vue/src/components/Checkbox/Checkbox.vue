@@ -111,7 +111,7 @@ const rootProps = computed(() =>
     "
   >
     <ArkCheckbox.Control class="checkbox__control">
-      <ArkCheckbox.Indicator class="checkbox__indicator">
+      <ArkCheckbox.Indicator class="checkbox__indicator" :indeterminate="indeterminate">
         <span v-if="indeterminate" class="checkbox__indicator--indeterminate" />
         <Icon v-else name="check" :size="16" class="checkbox__check" />
       </ArkCheckbox.Indicator>

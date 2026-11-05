@@ -103,14 +103,10 @@ export function TableCard<T extends RowData>({
       data-index={index}
       data-row-id={row.id}
     >
+      {/* Title first, then the row's controls at the top-right corner: the
+          actions menu, and the checkbox last, in the corner a thumb reaches
+          and where a ticked card is easiest to scan for down a list. */}
       <div className="data-table__card-header">
-        {selection.mode !== "none" && (
-          <Checkbox
-            checked={selected}
-            onCheckedChange={(checked) => selection.toggle(row.id, checked)}
-            aria-label={`Select ${typeof title === "string" ? title : row.id}`}
-          />
-        )}
         {/* A button rather than a clickable card: a card is not an interactive
             element, and making one is how a keyboard user loses the row. */}
         {clickable ? (
@@ -124,7 +120,23 @@ export function TableCard<T extends RowData>({
         ) : (
           <span className="data-table__card-title">{title}</span>
         )}
-        {options.rowActions?.length ? <TableRowActions row={row.original} /> : null}
+        {(options.rowActions?.length || selection.mode !== "none") && (
+          <span className="data-table__card-controls">
+            {options.rowActions?.length ? (
+              <TableRowActions
+                row={row.original}
+                label={`Actions for ${typeof title === "string" ? title : row.id}`}
+              />
+            ) : null}
+            {selection.mode !== "none" && (
+              <Checkbox
+                checked={selected}
+                onCheckedChange={(checked) => selection.toggle(row.id, checked)}
+                aria-label={`Select ${typeof title === "string" ? title : row.id}`}
+              />
+            )}
+          </span>
+        )}
       </div>
 
       <dl className="data-table__card-fields">

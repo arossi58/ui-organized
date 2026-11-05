@@ -73,7 +73,7 @@ function GateDetail({ gate, result }: { gate: GateKey; result: GateResult }) {
       {result.violations?.map((violation) => (
         <p key={violation.id} className={styles.detailIssue}>
           <code>{violation.id}</code>
-          {violation.impact ? ` (${violation.impact})` : ""} — {violation.help}
+          {violation.impact ? ` (${violation.impact})` : ""}: {violation.help}
           {violation.nodes
             ? ` · ${violation.nodes} element${violation.nodes === 1 ? "" : "s"}`
             : ""}
@@ -90,7 +90,7 @@ function GateDetail({ gate, result }: { gate: GateKey; result: GateResult }) {
 
       {result.messages?.map((message, i) => (
         <p key={i} className={styles.detailIssue}>
-          <code>{message.rule ?? message.source}</code> — {message.text}
+          <code>{message.rule ?? message.source}</code>: {message.text}
           {message.line ? ` (line ${message.line})` : ""}
         </p>
       ))}
@@ -275,7 +275,7 @@ export function FoundationsQualityPage() {
             >
               Recorded in <code>apps/storybook/a11y/known-violations.json</code> so the gate can
               block <em>new</em> regressions while the existing ones are worked down. They are open
-              bugs, not accepted exceptions — the file should only ever shrink.
+              bugs, not accepted exceptions, and the file should only ever shrink.
             </Alert>
           )}
         </DocsSection>

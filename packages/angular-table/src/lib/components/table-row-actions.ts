@@ -36,7 +36,12 @@ import type { RowAction } from "../core/types.js";
         icon="menu"
         [attr.aria-label]="label()"
       ></button>
-      <uio-menu #menu="uioMenu" align="end">
+      <!--
+        Picks report through the menu's own (select), carrying the item's value:
+        UioMenuItem has no select output, so (select) on an item binds a DOM
+        event that never fires.
+      -->
+      <uio-menu #menu="uioMenu" align="end" (select)="run($event)">
         @for (action of items(); track action.id) {
           <div
             uioMenuItem
@@ -44,7 +49,6 @@ import type { RowAction } from "../core/types.js";
             [icon]="iconOf(action)"
             [destructive]="!!action.destructive"
             [disabled]="!!action.disabled?.(row())"
-            (select)="action.onRun(row())"
           >
             {{ action.label }}
           </div>
@@ -66,6 +70,11 @@ export class UioTableRowActions<T extends RowData> {
 
   protected readonly table = injectDataTable<T>();
   protected readonly items = computed(() => this.actions() ?? this.table.options.rowActions ?? []);
+
+  protected run(id: string): void {
+    const action = this.items().find((candidate) => candidate.id === id);
+    if (action && !action.disabled?.(this.row())) void action.onRun(this.row());
+  }
 
   protected iconOf(action: RowAction<T>): CanonicalIconName | undefined {
     return action.icon as CanonicalIconName | undefined;

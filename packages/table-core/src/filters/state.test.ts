@@ -5,6 +5,7 @@ import {
   conditionsForColumn,
   filterReducer,
   fromColumnFilters,
+  retargetCondition,
   toColumnFilters,
   type TableFilterState,
 } from "./state.js";
@@ -75,6 +76,48 @@ describe("changing an operator", () => {
     });
     const next = filterReducer(state, { type: "update", id: "f1", operator: "gte" });
     expect(next.conditions[0]).toMatchObject({ operator: "gte", values: [3] });
+  });
+});
+
+describe("changing a condition's field", () => {
+  const age = { id: "f1", columnId: "age", operator: "gt", values: [30] };
+
+  it("keeps the operator and value when both columns read them the same way", () => {
+    expect(retargetCondition(age, { type: "number" }, { columnId: "score", type: "number" })).toEqual(
+      { type: "update", id: "f1", columnId: "score", operator: "gt", values: [30], single: undefined },
+    );
+  });
+
+  it("starts over on the new column's default when the type changes", () => {
+    const action = retargetCondition(age, { type: "number" }, { columnId: "name", type: "text" });
+    expect(action).toMatchObject({ columnId: "name", operator: "contains", values: [] });
+  });
+
+  it("starts over between two enums, whose options never mean the same thing", () => {
+    const role = { id: "f1", columnId: "role", operator: "is-any-of", values: ["admin"] };
+    const action = retargetCondition(role, { type: "enum" }, { columnId: "team", type: "enum" });
+    expect(action).toMatchObject({ columnId: "team", operator: "is-any-of", values: [] });
+  });
+
+  it("starts over when the new column does not offer the operator", () => {
+    const action = retargetCondition(
+      age,
+      { type: "number" },
+      { columnId: "score", type: "number", def: { operators: ["is", "between"] } },
+    );
+    expect(action).toMatchObject({ operator: "is", values: [] });
+  });
+
+  it("moves the condition through the reducer, dropping a single column's others", () => {
+    const state = reduce(
+      INITIAL_FILTER_STATE,
+      { type: "add", columnId: "age", operator: "gt", values: [30] },
+      { type: "add", columnId: "score", operator: "lt", values: [5] },
+      { type: "update", id: "f1", columnId: "score", single: true },
+    );
+    expect(state.conditions).toEqual([
+      { id: "f1", columnId: "score", operator: "gt", values: [30] },
+    ]);
   });
 });
 

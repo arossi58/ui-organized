@@ -25,6 +25,7 @@ import {
   Mail, Menu, Minus, Pause, Pencil, Phone, Pipette, Play, Plus,
   Redo2, RefreshCw, RotateCw,
   Search, Settings, Star, Tag, Trash2, TriangleAlert, Undo2, Upload, User, Users, X, ListFilter, RotateCcw,
+  Sun, Moon, Monitor,
 } from "@lucide/svelte";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -87,4 +88,7 @@ export const lucideIconSet: Record<CanonicalIconName, IconComponent> = {
   "pipette":        Pipette,
   "rotate-cw":      RotateCw,
   "rotate-ccw":     RotateCcw,
+  "sun":            Sun,
+  "moon":           Moon,
+  "monitor":        Monitor,
 };

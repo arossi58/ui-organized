@@ -34,7 +34,7 @@ export {
 
 export {
   coreColors,
-  getCoreFamily,
+  getAuthoredFamily,
   CORE_FAMILY_NAMES,
   NEUTRAL_FAMILY_NAMES,
   BRAND_FAMILY_NAMES,
@@ -42,11 +42,17 @@ export {
   type CoreFamilyName,
 } from "./coreColors.js";
 
+export { getCoreFamily } from "./families.js";
+
+export { contrastRatio, relativeLuminance } from "./contrast.js";
+
 export { semanticColorMap, type SemanticRefMap } from "./semanticColorMap.js";
 
 export {
   resolveSemanticColors,
   resolveSemanticRefs,
+  pickPrimaryLabel,
+  type PrimaryLabel,
   type ResolveOptions,
   type SemanticRef,
 } from "./semanticResolve.js";

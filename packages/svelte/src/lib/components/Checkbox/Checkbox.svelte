@@ -41,7 +41,7 @@
   {id}
 >
   <ArkCheckbox.Control class="checkbox__control">
-    <ArkCheckbox.Indicator class="checkbox__indicator">
+    <ArkCheckbox.Indicator class="checkbox__indicator" {indeterminate}>
       {#if indeterminate}
         <span class="checkbox__indicator--indeterminate"></span>
       {:else}

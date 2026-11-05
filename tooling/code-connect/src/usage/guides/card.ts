@@ -38,7 +38,7 @@ export const cardUsage: UsageGuide = {
       example: "consistent",
     },
     {
-      do: "Reserve the elevated variant for something genuinely raised above the rest.",
+      do: "Reserve the elevated variant for the card that should stand above the rest.",
       dont: "Elevate every card, which flattens the distinction back to nothing.",
     },
   ],

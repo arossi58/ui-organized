@@ -49,6 +49,9 @@ const scenarios: BrowserScenario[] = [
       // honored `hidden`, nothing about the popup changed on close and the
       // timing could not matter.
       { do: "awaitFocus", target: part("dialog", "trigger") },
+      // Focus returns before the sheet has finished sliding out: Ark holds it
+      // displayed until the exit animation ends.
+      { do: "awaitHidden", target: part("dialog", "content") },
     ],
     regions: ["#mount"],
     // `.sheet__popup` sets `display: flex` for the same reason `.dialog__popup`

@@ -59,6 +59,9 @@ import {
   UserIcon as UserOutline,
   UsersIcon as UsersOutline,
   XMarkIcon as CloseOutline,
+  SunIcon as SunOutline,
+  MoonIcon as MoonOutline,
+  ComputerDesktopIcon as MonitorOutline,
 } from "@heroicons/vue/24/outline";
 
 import {
@@ -115,6 +118,9 @@ import {
   UserIcon as UserSolid,
   UsersIcon as UsersSolid,
   XMarkIcon as CloseSolid,
+  SunIcon as SunSolid,
+  MoonIcon as MoonSolid,
+  ComputerDesktopIcon as MonitorSolid,
 } from "@heroicons/vue/24/solid";
 
 import type { CanonicalIconName } from "@ui-organized/utils";
@@ -180,6 +186,9 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, IconComponent> = {
   // and already backs "refresh" and "loader" here for the same reason.
   "rotate-cw":      RefreshOutline,
   "rotate-ccw":     UndoOutline,
+  "sun":            SunOutline,
+  "moon":           MoonOutline,
+  "monitor":        MonitorOutline,
 };
 
 export const heroiconsSolidSet: Record<CanonicalIconName, IconComponent> = {
@@ -240,4 +249,7 @@ export const heroiconsSolidSet: Record<CanonicalIconName, IconComponent> = {
   "pipette":        PipetteSolid,
   "rotate-cw":      RefreshSolid,
   "rotate-ccw":     UndoSolid,
+  "sun":            SunSolid,
+  "moon":           MoonSolid,
+  "monitor":        MonitorSolid,
 };

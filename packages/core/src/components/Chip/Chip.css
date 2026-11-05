@@ -1,105 +1,108 @@
-/* ─── Chip (Figma 2298:857 / 880 / 897 / 916 / 932 / 948) ─────────────────────
-   A compact, self-contained token standing for something the user *added* — a
-   filter, a facet, a recipient — which they can then change or take away again.
+/* ─── Chip (Figma 2462:2636) ──────────────────────────────────────────────────
+   A compact token standing for something the user *added* — a filter, a facet,
+   a recipient — which they can then change or take away again.
 
    That is the whole difference between a Chip and a `Tag`. A Tag reports state
    the user did not choose (`success`, `error`) and is a non-focusable span. A
-   Chip is interactive, and often interactive in two ways at once: a body that
-   opens something, and a dismiss control that removes it.
+   Chip is interactive, and segmented: "Name | is greater than | Value" is three
+   controls, each opening its own menu for the one parameter it shows.
 
-   Those two are always SIBLING buttons inside a plain wrapper. A dismiss button
-   nested inside the body would be a button inside a button — invalid HTML, and
-   an axe `nested-interactive` violation. The wrapper exists to make them look
-   like one object while staying two.
+   Segments are always SIBLINGS inside a plain wrapper, and so is the dismiss
+   control. A button nested in another would be invalid HTML and an axe
+   `nested-interactive` violation. The wrapper exists to make several controls
+   look like one object while staying several.
 
-   The size scale mirrors `Tag`'s deliberately: the two sit side by side in the
-   same rows, and a chip a few pixels taller than the tag beside it looks like a
-   mistake rather than a decision. */
+   One variant (outlined) and one size. Height is content-driven — 2px padding
+   plus an 18px line, inside a 1px border — so the chip is 24px tall without
+   pinning it: a token, not a control, and lighter than the toolbar above it. */
 
 .chip {
+  /* The hairline between segments. A custom property so `selected` can swap it
+     for one that still reads against the brand fill. */
+  --chip-divider: var(--color-border-data-entry);
+
   display: inline-flex;
   align-items: stretch;
   max-width: 100%;
   background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
   border-radius: var(--border-radius-full);
+  color: var(--color-content-primary);
   font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-small);
+  /* Clips each segment's hover fill to the pill. */
   overflow: hidden;
 }
 
-/* ─── Body ────────────────────────────────────────────────────────────────────
-   A `<button>` when the chip opens something, a `<span>` when it is a static
-   token with only a dismiss control. Both carry the same class, so the two
-   forms are the same object visually. */
+/* ─── Segments ────────────────────────────────────────────────────────────────
+   A `<button>` when the segment opens something, a `<span>` when it is static
+   text. Both carry the same classes, so the two forms are the same object.
 
-.chip__body {
-  display: inline-flex;
-  align-items: center;
-  /* 2px, not 4: the parts are one sentence, and a wider gap reads as three
-     separate things sitting next to each other. */
-  gap: var(--spacing-space-005);
+   Block, not flex: the value segment truncates, and `text-overflow` only
+   applies to a block container's own text. */
+
+.chip__segment {
+  display: block;
+  flex: none;
   min-width: 0;
   margin: 0;
+  /* 2px above and below, 4px either side of every hairline — the label, the
+     operator and the value are spaced alike (Figma 2462:2636). */
+  padding: var(--spacing-space-005) var(--spacing-space-01);
   background: none;
   border: 0;
-  color: var(--color-content-primary);
+  color: inherit;
   font: inherit;
   text-align: left;
   white-space: nowrap;
 }
 
-button.chip__body {
-  cursor: pointer;
+/* The outer edges of the pill get the chip's own 8px inset — on the segment,
+   not the wrapper, so the click target runs all the way to the curve. */
+.chip__segment:first-child {
+  padding-inline-start: var(--spacing-space-02);
 }
 
-/* ─── The parts of a chip's sentence ──────────────────────────────────────────
-   "Role · is any of · Admin, Owner". The label names the thing, the detail is
-   grammar between two nouns, and the value is what the user chose. Only the
-   value truncates: losing the end of "Admin, Owner" still reads; losing the end
-   of "Role" does not.
-
-   Label and value share one treatment, as the Figma chip does — the emphasis is
-   carried by the whole chip, not by one half of it. `detail` is the exception
-   because it is the only part that is grammar rather than content. */
-
-.chip__label,
-.chip__detail {
-  flex: none;
+.chip__segment:last-child,
+.chip__segment:has(+ .chip__remove) {
+  padding-inline-end: var(--spacing-space-02);
 }
 
-.chip__detail {
-  color: var(--color-content-secondary);
+.chip__segment + .chip__segment,
+.chip__remove {
+  border-inline-start: 1px solid var(--chip-divider);
 }
 
-.chip__value {
-  min-width: 0;
+/* Grammar between two nouns, so it is quieter than either. */
+.chip__segment--operator {
+  color: var(--color-content-tertiary);
+}
+
+/* Only the value truncates: losing the end of "Admin, Owner" still reads;
+   losing the end of "Role" does not. */
+.chip__segment--value {
+  flex: 0 1 auto;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.chip__icon,
-.chip__operator,
-.chip__caret {
-  flex: 0 0 auto;
+button.chip__segment {
+  cursor: pointer;
 }
 
-/* ─── The comparison glyph ────────────────────────────────────────────────────
-   The relation drawn rather than spelled: "=", "•••", "(•••)", "(•••" and so
-   on. Six operators have one; the rest fall back to `.chip__detail` text,
-   because there is no glyph for "is in the last 7 days" that anyone would read
-   correctly.
+button.chip__segment:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
 
-   No size here: the glyphs are drawn in a 16-unit box and carry their own
-   `width`/`height`, which is what keeps their 2px strokes on whole pixels. The
-   control icon sizes (16/20/24) are for the three third-party packs, whose
-   24-unit artwork scales; these do not. */
-
-.chip__caret {
-  color: var(--color-content-secondary);
+button.chip__segment:active,
+button.chip__segment[aria-expanded="true"] {
+  background-color: var(--color-interactive-ui-active);
 }
 
 /* ─── Dismiss ─────────────────────────────────────────────────────────────────
-   Stretches to the chip's full height and separates with a hairline, so a click
+   A trailing segment of its own, separated by the same hairline, so a click
    near the boundary is visibly one control or the other. */
 
 .chip__remove {
@@ -107,42 +110,68 @@ button.chip__body {
   align-items: center;
   justify-content: center;
   flex: none;
+  margin: 0;
   padding: 0 var(--spacing-space-01);
   background: none;
-  border: 0;
-  border-left: 1px solid var(--color-border-secondary);
+  border-block: 0;
+  border-inline-end: 0;
   color: var(--color-content-secondary);
   cursor: pointer;
 }
 
+/* As the destructive-ghost button: a solid fill with light ink on interaction.
+   `destructive-default-ghost` is the ghost's *text* colour, not a fill — used
+   as one, it drew the red icon on red and the X vanished. */
 .chip__remove:hover {
-  background-color: var(--color-interactive-destructive-default-ghost);
-  color: var(--color-interactive-destructive-default);
+  background-color: var(--color-interactive-destructive-hover);
+  color: var(--color-content-light);
 }
 
-/* ─── Variants ────────────────────────────────────────────────────────────── */
-
-.chip--outline {
-  border: 1px solid var(--color-border-data-entry);
+.chip__remove:active {
+  background-color: var(--color-interactive-destructive-active);
+  color: var(--color-content-light);
 }
 
-/* No outline: for chips that sit in a dense row where a border per chip reads
-   as a grid. Keeps the fill, so the chip is still an object. */
-.chip--subtle {
-  border: 1px solid transparent;
-}
-
-.chip--outline button.chip__body:hover,
-.chip--subtle button.chip__body:hover {
-  background-color: var(--color-interactive-ui-hover);
+/* Inset, because the chip clips to a pill: an outset ring on a segment would
+   be cropped by the wrapper's `overflow: hidden`. */
+.chip__segment:focus-visible,
+.chip__remove:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
 }
 
 /* ─── States ──────────────────────────────────────────────────────────────────
-   `selected` covers both "its popover is open" and "this chip is toggled on";
-   they are the same visual promise — this is the one you are acting on. */
+   `selected` covers both "one of its menus is open" and "this chip is toggled
+   on"; they are the same visual promise — this is the one you are acting on.
+   A brand fill, as the primary button and a checked radio draw it. */
 
 .chip--selected {
-  border-color: var(--color-interactive-primary-default);
+  --chip-divider: var(--color-interactive-primary-hover);
+
+  background-color: var(--color-interactive-primary-selected);
+  border-color: var(--color-interactive-primary-selected);
+  color: var(--color-interactive-contents);
+}
+
+/* Tertiary ink on the brand fill fails contrast; on brand every part of the
+   sentence takes the same light ink, and the hairlines carry the structure. */
+.chip--selected .chip__segment--operator,
+.chip--selected .chip__remove {
+  color: inherit;
+}
+
+.chip--selected button.chip__segment:hover {
+  background-color: var(--color-interactive-primary-hover);
+}
+
+.chip--selected button.chip__segment:active,
+.chip--selected button.chip__segment[aria-expanded="true"] {
+  background-color: var(--color-interactive-primary-active);
+}
+
+.chip--selected .chip__segment:focus-visible,
+.chip--selected .chip__remove:focus-visible {
+  outline-color: var(--color-interactive-contents);
 }
 
 /* The chip exists but does not yet stand for anything: a filter with no value
@@ -154,7 +183,7 @@ button.chip__body {
 /* `content-placeholder` is tuned for an input's white field and lands at 3.9:1
    on the chip's tinted fill. The dashed outline is the real signal anyway; this
    only needs to read as "not filled in yet", which secondary does at 4.5:1. */
-.chip--incomplete .chip__value {
+.chip--incomplete:not(.chip--selected) .chip__segment--value {
   color: var(--color-content-secondary);
 }
 
@@ -162,48 +191,13 @@ button.chip__body {
   opacity: 0.5;
 }
 
-.chip--disabled .chip__body,
+.chip--disabled .chip__segment,
 .chip--disabled .chip__remove {
   cursor: not-allowed;
 }
 
-.chip--disabled button.chip__body:hover,
+.chip--disabled button.chip__segment:hover,
 .chip--disabled .chip__remove:hover {
   background: none;
   color: inherit;
-}
-
-/* Inset, because the chip clips to a pill: an outset ring on the body would be
-   cropped by the wrapper's `overflow: hidden` on three sides. */
-.chip__body:focus-visible,
-.chip__remove:focus-visible {
-  outline: 2px solid var(--color-interactive-focus);
-  outline-offset: -2px;
-}
-
-/* ─── Sizes ───────────────────────────────────────────────────────────────────
-   Height is content-driven — padding plus line height — rather than pinned to a
-   control height. A chip is a token, not a control: a row of them at 32px would
-   weigh as much as the toolbar above it.
-
-   `md` is the size Figma draws, so an unsized chip is the drawn one. The other
-   two only move the inline padding and the type step; there is nothing below
-   zero vertical padding to take away. */
-
-.chip--sm .chip__body {
-  padding: 0 var(--spacing-space-005);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
-}
-
-.chip--md .chip__body {
-  padding: 0 var(--spacing-space-01);
-  font-size: var(--type-size-body-small);
-  line-height: var(--type-leading-body-small);
-}
-
-.chip--lg .chip__body {
-  padding: 0 var(--spacing-space-02);
-  font-size: var(--type-size-body-medium);
-  line-height: var(--type-leading-body-medium);
 }

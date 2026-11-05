@@ -22,6 +22,7 @@ import {
   tablerRotateClockwise, tablerSearch, tablerSettings, tablerSortAscending,
   tablerSortDescending, tablerStar, tablerTag, tablerTrash, tablerUpload, tablerUser,
   tablerUsers, tablerX, tablerArrowsSort, tablerRotate,
+  tablerSun, tablerMoon, tablerDeviceDesktop,
 } from "@ng-icons/tabler-icons";
 import {
   tablerAlertCircleFill, tablerAlertTriangleFill, tablerBookmarkFill, tablerCalendarFill,
@@ -30,6 +31,7 @@ import {
   tablerLockFill, tablerMailFill, tablerPencilFill, tablerPhoneFill, tablerPlayerPauseFill,
   tablerPlayerPlayFill, tablerPlusFill, tablerSearchFill, tablerSettingsFill, tablerStarFill,
   tablerTagFill, tablerTrashFill, tablerUserFill,
+  tablerSunFill, tablerMoonFill, tablerDeviceDesktopFill,
 } from "@ng-icons/tabler-icons/fill";
 import type { CanonicalIconName } from "@ui-organized/utils";
 
@@ -91,6 +93,9 @@ export const tablerIconSet: Record<CanonicalIconName, string> = {
   "pipette":        tablerColorPicker,
   "rotate-cw":      tablerRotateClockwise,
   "rotate-ccw":     tablerRotate,
+  "sun":            tablerSun,
+  "moon":           tablerMoon,
+  "monitor":        tablerDeviceDesktop,
 };
 
 /**
@@ -126,4 +131,7 @@ export const tablerSolidSet: Partial<Record<CanonicalIconName, string>> = {
   "tag":            tablerTagFill,
   "trash":          tablerTrashFill,
   "user":           tablerUserFill,
+  "sun":            tablerSunFill,
+  "moon":           tablerMoonFill,
+  "monitor":        tablerDeviceDesktopFill,
 };

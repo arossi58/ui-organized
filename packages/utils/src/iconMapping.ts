@@ -77,6 +77,10 @@ export const CANONICAL_ICON_NAMES = [
   "pipette",
   "rotate-cw",
   "rotate-ccw",
+  // Theme
+  "sun",
+  "moon",
+  "monitor",
 ] as const;
 
 export type CanonicalIconName = (typeof CANONICAL_ICON_NAMES)[number];
@@ -198,6 +202,10 @@ export const ICON_MAP: Record<CanonicalIconName, IconLibraryNames> = {
   // The counter-clockwise pair — "put it back". Heroicons reuses the glyph
   // behind "undo", which is the same gesture.
   "rotate-ccw": { lucide: "RotateCcw", tabler: "IconRotate", heroicons: "ArrowUturnLeftIcon" },
+  // Theme
+  sun: { lucide: "Sun", tabler: "IconSun", heroicons: "SunIcon" },
+  moon: { lucide: "Moon", tabler: "IconMoon", heroicons: "MoonIcon" },
+  monitor: { lucide: "Monitor", tabler: "IconDeviceDesktop", heroicons: "ComputerDesktopIcon" },
 };
 
 // ─── Name resolution ──────────────────────────────────────────────────────────

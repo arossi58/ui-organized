@@ -49,10 +49,11 @@
   transition: box-shadow 150ms ease;
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. */
 .steps__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .steps__trigger:disabled {

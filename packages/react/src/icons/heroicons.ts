@@ -62,6 +62,9 @@ import {
   UserIcon as UserOutline,
   UsersIcon as UsersOutline,
   XMarkIcon as CloseOutline,
+  SunIcon as SunOutline,
+  MoonIcon as MoonOutline,
+  ComputerDesktopIcon as MonitorOutline,
 } from "@heroicons/react/24/outline";
 
 import {
@@ -118,6 +121,9 @@ import {
   UserIcon as UserSolid,
   UsersIcon as UsersSolid,
   XMarkIcon as CloseSolid,
+  SunIcon as SunSolid,
+  MoonIcon as MoonSolid,
+  ComputerDesktopIcon as MonitorSolid,
 } from "@heroicons/react/24/solid";
 
 import type { CanonicalIconName } from "@ui-organized/utils";
@@ -183,6 +189,9 @@ export const heroiconsOutlineSet: Record<CanonicalIconName, ComponentType<any>> 
   // and already backs "refresh" and "loader" here for the same reason.
   "rotate-cw": RefreshOutline,
   "rotate-ccw": UndoOutline,
+  sun: SunOutline,
+  moon: MoonOutline,
+  monitor: MonitorOutline,
 };
 
 export const heroiconsSolidSet: Record<CanonicalIconName, ComponentType<any>> = {
@@ -243,4 +252,7 @@ export const heroiconsSolidSet: Record<CanonicalIconName, ComponentType<any>> = 
   pipette: PipetteSolid,
   "rotate-cw": RefreshSolid,
   "rotate-ccw": UndoSolid,
+  sun: SunSolid,
+  moon: MoonSolid,
+  monitor: MonitorSolid,
 };

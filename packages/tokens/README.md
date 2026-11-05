@@ -57,6 +57,38 @@ To regenerate `output/variables.css` from the DTCG source files:
 pnpm build:tokens
 ```
 
+### Overlay tokens are not fills
+
+These tokens are translucent. They're meant to be layered over a surface, not
+used as a surface themselves:
+
+| Tokens | Dark | Light |
+| --- | --- | --- |
+| `--color-interactive-ui-{default,hover,active,selected}` | near-white at 2 / 6 / 10 / 14% | near-black at 2 / 6 / 10 / 14% |
+| `--color-interactive-secondary-{default,hover,active,selected}` | white at 10 / 20 / 15 / 15% | black at 10 / 20 / 15 / 15% |
+| `--color-interactive-ghost-{default,hover,active}` | transparent / white 20% / 15% | transparent / black 20% / 15% |
+| `--color-surface-overlay-{primary,secondary,tertiary}` | 6 / 10 / 14% | 6 / 10 / 14% |
+
+Used as the only background, an element reads as transparent. Put it on
+something that already sits on `--color-surface-*`.
+
+## Runtime theme
+
+```ts
+import { initTheme, setTheme, toggleTheme } from "@ui-organized/tokens";
+
+initTheme();          // stored choice, else follow the OS (no-preference → light)
+toggleTheme();        // explicit choice, remembered
+setTheme("system");   // forget the choice, follow the OS again
+```
+
+`initTheme()` never writes to storage. Only an explicit `setTheme`/`toggleTheme`
+does, so a visitor who never picks keeps following their OS.
+
+**The baseline `:root` is dark-first.** With no `data-theme` on `<html>`, or an
+unknown one, the page paints dark. If you server-render a light default, put
+`data-theme="light"` in the markup yourself. Don't wait for script to set it.
+
 Theming guide: <https://uiorganized.com/docs/theming>.
 
 ## License

@@ -82,7 +82,7 @@ const CollectionsOverview = ({
           <div className="cp-overview__header-text">
             <h1 className="cp-overview__title">Collections</h1>
             <p className="cp-overview__subtitle">
-              Pick a collection to open it in the editor — start from UI Organized, a design-system
+              Pick a collection to open it in the editor. Start from UI Organized, a design-system
               preset, or one of your own.
             </p>
           </div>
@@ -101,7 +101,7 @@ const CollectionsOverview = ({
               Figma plugin
             </Button>
             <Button intent="primary" size="lg" icon="plus" onClick={onNewCollection}>
-              New Collection
+              New collection
             </Button>
           </div>
         </header>

@@ -92,7 +92,7 @@ function WeightGrid({
                     d="M8 1.2 15.2 14a.9.9 0 0 1-.78 1.35H1.58A.9.9 0 0 1 .8 14L8 1.2Zm0 3.9a.85.85 0 0 0-.85.9l.2 3.5a.65.65 0 0 0 1.3 0l.2-3.5A.85.85 0 0 0 8 5.1Zm0 6.05a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Z"
                   />
                 </svg>
-                Below 10px — too small for body text
+                Below 10px: too small for body text
               </span>
             )}
           </div>
@@ -165,7 +165,7 @@ export function PreviewTypography() {
       </section>
 
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Body &amp; Caption</h2>
+        <h2 className={styles.sectionTitle}>Body &amp; caption</h2>
         <WeightGrid
           steps={BODY_STEPS}
           fontVar="var(--type-font-body)"

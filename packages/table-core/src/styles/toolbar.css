@@ -41,6 +41,19 @@
   min-width: var(--dimension-05);
 }
 
+/* Card mode (a phone): search takes the whole first row, and the buttons wrap
+   onto the second, left-aligned under it. The spacer, which pushes the buttons
+   to the right on a wide toolbar, has no job once they are on a row of their
+   own. Keyed off the card list's presence, so no adapter has to pass the mode
+   down. */
+.data-table:has(.data-table__cards) .data-table__search {
+  flex: 1 0 100%;
+}
+
+.data-table:has(.data-table__cards) .data-table__toolbar-spacer {
+  display: none;
+}
+
 /* ─── Horizontal scroll buttons ──────────────────────────────────────────────
    Rendered only while the viewport is hiding columns. Gapped tighter than the
    toolbar itself so the pair reads as one control with two ends, rather than as
@@ -76,54 +89,85 @@
 }
 
 /* ─── The row under the toolbar ──────────────────────────────────────────────
-   One line holding both of the table's "what is currently applied" summaries:
-   the filter chips on the left, the selection's bulk actions on the right —
-   directly under the sort and filter buttons that produced them.
-
-   They were two stacked rows before, and read as two unrelated announcements:
-   ticking a row pushed the chips up a line and put the actions two rows away
-   from the controls they belong with. Same line, two clusters.
-
-   Rendered only while one of the halves has something to say, so a table with
-   neither filters nor a selection holds no layout for it — which is why there
-   is no `:empty` rule here to lean on. */
+   The filter chips. Rendered only while a filter is applied, so a table with
+   none holds no layout for it — which is why there is no `:empty` rule here to
+   lean on. The selection's bulk actions used to share this line; they now take
+   the toolbar's place while rows are selected. */
 
 .data-table__subbar {
   display: flex;
   align-items: center;
   gap: var(--spacing-space-03);
   flex-wrap: wrap;
+  /* Mounts with the first filter and unmounts with the last, so this plays
+     exactly when the row appears. It opens the row's height and its share of
+     the table's `gap` (the negative margin) along with the fade, so the table
+     underneath is pushed down rather than jumping by a row. */
+  animation: data-table-row-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The filters take the slack, and that — rather than an auto margin — is what
-   puts the selection toolbar at the right-hand end. On a narrow viewport the
-   chips wrap inside their own group first; only once that group can shrink no
-   further does the toolbar drop to a line of its own. */
+/* `max-height` is the only way to animate to a content height that is not
+   known in advance. The ceiling is one control height — about one row of
+   chips, which is what the first filter makes — so the growth follows the
+   easing curve instead of finishing in its first frames. The animation does
+   not fill, so nothing is capped once it ends. `clip-path` keeps the chips
+   from painting over the table while the box is shorter than they are. */
+@keyframes data-table-row-in {
+  from {
+    max-height: 0;
+    margin-block-start: calc(-1 * var(--spacing-space-03));
+    opacity: 0;
+    clip-path: inset(0);
+  }
+  to {
+    max-height: var(--control-height-md);
+    margin-block-start: 0;
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
 .data-table__subbar .data-table__filters {
   flex: 1 1 auto;
 }
 
-/* With nothing filtered there is no group to take the slack, so the auto margin
-   does it. Without this the toolbar would jump from the right edge to the left
-   as the last chip was removed. Flex resolves growth before auto margins, so
-   the two never fight: when the filters are there, this is worth zero. */
-.data-table__subbar .data-table__selection-bar {
-  margin-inline-start: auto;
-}
-
 /* ─── Selection bar ──────────────────────────────────────────────────────────
-   Appears only when the selection is non-empty. It is a `Toolbar`, so it comes
-   with the library's own surface; this only positions it and states the count.
-
-   It shrink-wraps rather than filling the row: it shares that row with the
-   filter chips now, and the surface is what separates the two clusters. */
+   Appears only when the selection is non-empty, in the toolbar row, in place of
+   the sort, filter and table actions. No surface of its own: the count and the
+   buttons sit in the row like the controls they replaced, at the same gap. */
 
 .data-table__selection-bar {
   display: flex;
   align-items: center;
-  gap: var(--spacing-space-03);
+  gap: var(--spacing-space-02);
   flex-wrap: wrap;
   min-width: 0;
+  /* Mounts with the first ticked row and stays mounted while the count
+     changes, so this plays once per selection, not once per click. It slides a
+     few pixels in from the right edge it is anchored to. */
+  animation: data-table-actions-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes data-table-actions-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--spacing-space-03));
+  }
+}
+
+/* Reduced motion: nothing moves or grows — both arrive with a short fade, so
+   the change is still visible without the table sliding under the user. */
+@keyframes data-table-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .data-table__subbar,
+  .data-table__selection-bar {
+    animation: data-table-fade-in 120ms ease-out;
+  }
 }
 
 .data-table__selection-count {
@@ -177,8 +221,10 @@
 
 /* The checkbox has a closed prop API — no ref, no onClick, no data-* — so a
    shift-click range needs a wrapper that can see the modifier key before the
-   change event fires. This is that wrapper. */
+   change event fires. This is that wrapper. Block-level `flex`, not
+   `inline-flex`: an inline box sits on the cell's text baseline, and the
+   descender space under it held every checkbox ~3px above the row's centre. */
 .data-table__select-hit {
-  display: inline-flex;
+  display: flex;
   align-items: center;
 }

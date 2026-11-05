@@ -35,7 +35,8 @@
 }
 
 .combobox-field__control:has(:focus-visible) {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .field[data-invalid] .combobox-field__control {
@@ -43,7 +44,7 @@
 }
 
 .field[data-invalid] .combobox-field__control:has(:focus-visible) {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .field[data-disabled] .combobox-field__control {

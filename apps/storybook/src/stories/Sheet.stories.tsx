@@ -31,13 +31,13 @@ export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
     <Sheet {...args}>
-      <SheetTrigger className="btn btn--primary btn--md">Open sheet</SheetTrigger>
+      <SheetTrigger className="text-default-body-large btn btn--primary btn--md">Open sheet</SheetTrigger>
       <SheetContent>
         <SheetTitle>Edit profile</SheetTitle>
         <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
         <SheetFooter>
-          <SheetClose className="btn btn--secondary btn--md">Cancel</SheetClose>
-          <SheetClose className="btn btn--primary btn--md">Save</SheetClose>
+          <SheetClose className="text-default-body-large btn btn--secondary btn--md">Cancel</SheetClose>
+          <SheetClose className="text-default-body-large btn btn--primary btn--md">Save</SheetClose>
         </SheetFooter>
       </SheetContent>
     </Sheet>
@@ -49,12 +49,12 @@ export const Sides: Story = {
     <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
       {(["top", "right", "bottom", "left"] as const).map((side) => (
         <Sheet key={side}>
-          <SheetTrigger className="btn btn--secondary btn--md">{side}</SheetTrigger>
+          <SheetTrigger className="text-default-body-large btn btn--secondary btn--md">{side}</SheetTrigger>
           <SheetContent side={side}>
             <SheetTitle>Side: {side}</SheetTitle>
             <SheetDescription>The panel slides in from the {side} edge.</SheetDescription>
             <SheetFooter>
-              <SheetClose className="btn btn--primary btn--md">Close</SheetClose>
+              <SheetClose className="text-default-body-large btn btn--primary btn--md">Close</SheetClose>
             </SheetFooter>
           </SheetContent>
         </Sheet>

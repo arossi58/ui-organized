@@ -207,7 +207,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "is",
     label: "is",
-    icon: "equals",
     labelByType: { date: "is on" },
     arity: "one",
     types: ALL_TYPES,
@@ -234,7 +233,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "is-any-of",
     label: "is any of",
-    icon: "is-any-of",
     arity: "many",
     types: ["text", "enum", "number"],
     compile: (c, ctx) => many(c, ctx.type),
@@ -260,7 +258,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "contains",
     label: "contains",
-    icon: "contains",
     arity: "one",
     types: TEXTUAL,
     compile: (c) => one(c, "text"),
@@ -272,7 +269,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "not-contains",
     label: "does not contain",
-    icon: "does-not-contain",
     arity: "one",
     types: TEXTUAL,
     matchesEmpty: true,
@@ -285,7 +281,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "starts-with",
     label: "starts with",
-    icon: "starts-with",
     arity: "one",
     types: TEXTUAL,
     compile: (c) => one(c, "text"),
@@ -297,7 +292,6 @@ export const BUILT_IN_OPERATORS: readonly FilterOperatorDef[] = [
   {
     id: "ends-with",
     label: "ends with",
-    icon: "ends-with",
     arity: "one",
     types: TEXTUAL,
     compile: (c) => one(c, "text"),

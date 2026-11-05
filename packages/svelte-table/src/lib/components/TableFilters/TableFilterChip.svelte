@@ -1,35 +1,65 @@
 <!--
-  One condition, as a chip that opens its own editor (Figma 2298:376).
+  One condition, as a segmented chip (Figma 2462:2636): "Name | is greater than
+  | 30". Each segment opens the control for the one parameter it shows — the
+  field menu, the operator menu, the value editor — so changing a filter is one
+  click on the part you mean rather than a trip through a form.
 
-  No dismiss button on the chip itself: removal lives inside the editor, where
-  the design puts it. That keeps the chip a single target the whole width of the
-  words it shows — a 20px-tall pill with a second 20px hit area inside it is a
-  coin-flip on touch.
+  Removal lives in the field menu and at the foot of the value editor, not in a
+  dismiss button: a fourth 24px target in a row of segments is a coin-flip on
+  touch, and an operator that takes no value ("is empty") has no value editor to
+  put it in.
 -->
 <script lang="ts">
   import { clsx } from "clsx";
   import {
     Chip,
+    ChipSegment,
+    Menu,
+    MenuContent,
+    MenuItem,
+    MenuRadioGroup,
+    MenuRadioItem,
+    MenuSeparator,
+    MenuTrigger,
     Popover,
     PopoverContent,
     PopoverTitle,
     PopoverTrigger,
   } from "@ui-organized/svelte";
-  import type { ComparisonIconName } from "@ui-organized/svelte";
-  import type { TableFilterCondition } from "@ui-organized/table-core";
+  import { afterRowEntrance, type TableFilterCondition } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
-  import { autoFocusField } from "./useAutoFocusField.js";
+  import { autoFocusField, focusAfterRemoval } from "./useAutoFocusField.js";
   import TableFilterEditor from "./TableFilterEditor.svelte";
 
   let { condition, class: className }: { condition: TableFilterCondition; class?: string } =
     $props();
   const table = getTable();
 
-  // Which chip is open is filter state, not chip state: the chip that opens is
-  // often the one the *header* just created, and removing an open condition has
-  // to close its editor rather than leave a dangling id behind.
-  const open = $derived(table.filters.editing === condition.id);
+  // Which chip's editor is open is filter state, not chip state: the chip that
+  // opens is often the one the *header* just created, and removing an open
+  // condition has to close its editor rather than leave a dangling id behind.
+  const editing = $derived(table.filters.editing === condition.id);
   const setOpen = (next: boolean) => table.filters.setEditing(next ? condition.id : null);
+  // The first chip arrives inside a row that is still animating open, so the
+  // editor waits for the row to settle rather than open against a moving
+  // anchor and jump. An existing chip settles at once.
+  let settled = $state(false);
+  $effect(() => {
+    if (!editing) {
+      settled = false;
+      return;
+    }
+    const chip = document.querySelector(`[data-filter-id="${CSS.escape(condition.id)}"]`);
+    return afterRowEntrance(chip, () => {
+      settled = true;
+    });
+  });
+  const open = $derived(editing && settled);
+  // The two menus are this chip's alone, so they are local.
+  let menu = $state<"field" | "operator" | null>(null);
+  const setMenu = (name: "field" | "operator") => (next: boolean) => {
+    menu = next ? name : null;
+  };
 
   // The condition as it was when the editor opened, so Escape can revert it.
   let snapshot = $state<TableFilterCondition | null>(null);
@@ -43,6 +73,12 @@
   });
 
   const description = $derived(table.filters.describe(condition));
+  const takesValue = $derived(table.filters.arityOf(condition) !== "none");
+
+  const remove = () => {
+    table.filters.remove(condition.id);
+    focusAfterRemoval(condition.id);
+  };
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "Escape" || !snapshot) return;
@@ -52,43 +88,76 @@
   };
 </script>
 
-<Popover {open} onOpenChange={setOpen}>
-  <!--
-    The design system `Chip`. Every prop but `class` lands on its body, so the
-    trigger's `id`, click handler and `aria-expanded` attach to the button that
-    opens the popover rather than to a wrapper.
-
-    Left at its default size, whatever the table's density: `md` is the size
-    Figma draws a filter chip at, and these describe the table rather than being
-    part of it — a row of 40px chips would outweigh the header above.
-  -->
-  <PopoverTrigger>
-    {#snippet asChild(props)}
-      <Chip
-        {...(props() as Record<string, never>)}
-        class={clsx("data-table__filter-chip", className)}
-        label={description.field}
-        operator={description.icon as ComparisonIconName | undefined}
-        operatorLabel={description.relative}
-        detail={description.relative}
-        selected={open}
-        incomplete={!description.complete}
-        data-column-id={condition.columnId}
-        data-filter-id={condition.id}
+<!--
+  The group's name is the whole sentence, so a screen reader moving into any one
+  segment hears what the filter *is* before what the button does.
+-->
+<Chip
+  class={clsx("data-table__filter-chip", className)}
+  aria-label={`Filter: ${description.text}`}
+  selected={editing || menu !== null}
+  incomplete={!description.complete}
+  data-column-id={condition.columnId}
+  data-filter-id={condition.id}
+>
+  <Menu open={menu === "field"} onOpenChange={setMenu("field")}>
+    <MenuTrigger>
+      {#snippet asChild(props)}
+        <ChipSegment {...(props() as Record<string, never>)} part="label">{description.field}</ChipSegment>
+      {/snippet}
+    </MenuTrigger>
+    <MenuContent class="data-table__filter-picker">
+      <MenuRadioGroup
+        value={condition.columnId}
+        onValueChange={(columnId) => table.filters.changeField(condition.id, columnId)}
       >
-        {description.value}
-      </Chip>
-    {/snippet}
-  </PopoverTrigger>
-  <PopoverContent
-    class="data-table__filter-editor-popup"
-    side="bottom"
-    align="start"
-    onkeydown={onKeyDown}
-  >
-    <div bind:this={editorEl} class="data-table__filter-editor">
-      <PopoverTitle class="data-table__filter-editor-title">{description.field}</PopoverTitle>
-      <TableFilterEditor {condition} portalContainer={editorEl} />
-    </div>
-  </PopoverContent>
-</Popover>
+        {#each table.filters.fields as field (field.columnId)}
+          <MenuRadioItem value={field.columnId}>{field.label}</MenuRadioItem>
+        {/each}
+      </MenuRadioGroup>
+      <MenuSeparator />
+      <MenuItem value="remove" icon="trash" onSelect={remove}>Remove filter</MenuItem>
+    </MenuContent>
+  </Menu>
+
+  <Menu open={menu === "operator"} onOpenChange={setMenu("operator")}>
+    <MenuTrigger>
+      {#snippet asChild(props)}
+        <ChipSegment {...(props() as Record<string, never>)} part="operator">{description.relative}</ChipSegment>
+      {/snippet}
+    </MenuTrigger>
+    <MenuContent class="data-table__filter-picker">
+      <MenuRadioGroup
+        value={condition.operator}
+        onValueChange={(operator) => table.filters.update(condition.id, { operator })}
+      >
+        {#each table.filters.operatorsFor(condition) as operator (operator.id)}
+          <MenuRadioItem value={operator.id}>{operator.label}</MenuRadioItem>
+        {/each}
+      </MenuRadioGroup>
+    </MenuContent>
+  </Menu>
+
+  {#if takesValue}
+    <Popover {open} onOpenChange={setOpen}>
+      <PopoverTrigger>
+        {#snippet asChild(props)}
+          <ChipSegment {...(props() as Record<string, never>)} part="value">{description.value}</ChipSegment>
+        {/snippet}
+      </PopoverTrigger>
+      <PopoverContent
+        class="data-table__filter-editor-popup"
+        side="bottom"
+        align="start"
+        onkeydown={onKeyDown}
+      >
+        <div bind:this={editorEl} class="data-table__filter-editor">
+          <PopoverTitle class="data-table__filter-editor-title"
+            >{description.field} {description.relative}</PopoverTitle
+          >
+          <TableFilterEditor {condition} portalContainer={editorEl} />
+        </div>
+      </PopoverContent>
+    </Popover>
+  {/if}
+</Chip>

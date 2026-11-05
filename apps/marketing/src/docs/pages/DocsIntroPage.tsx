@@ -19,7 +19,7 @@ const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/schema", "Zod schema / types for the theme config"],
   ["@ui-organized/utils", "Colour, type-scale, spacing & semantic-token utilities"],
   ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens"],
-  ["@ui-organized/cli", "uiorg: applies a theme bundle, then checks it actually works"],
+  ["@ui-organized/cli", "uiorg: applies a theme bundle and checks that it works"],
 ];
 
 export function DocsIntroPage() {
@@ -29,7 +29,7 @@ export function DocsIntroPage() {
         title="UI Organized"
         lede={
           <>
-            <strong>An open-source, token-driven design system ecosystem.</strong> One theme
+            UI Organized is an open-source, token-driven design system. One theme
             config drives design and code, so a brand colour chosen once looks identical in
             Figma, in the component library, and in the products built with it. These docs are
             the live component reference, built with the system itself.

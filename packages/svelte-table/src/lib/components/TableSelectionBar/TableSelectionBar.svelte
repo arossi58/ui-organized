@@ -1,9 +1,14 @@
 <!--
-  Appears only while something is selected.
+  Appears only while something is selected, and then takes the place of the
+  toolbar's sort, filter and table actions: with rows selected, what to do with
+  them is the decision in front of the user, so it sits where they were already
+  looking rather than on a line of its own.
 
-  A `Toolbar` this time — it genuinely is a cluster of buttons, which is what
-  `role="toolbar"` and its roving focus are for. Destructive actions route
-  through `AlertDialog`; "archive 40,000 rows" is not an undo-able mis-click.
+  Plain buttons in a labelled group, with no surface of its own. It shares the
+  toolbar row with the search box, so `role="toolbar"`'s roving focus would make
+  it the only cluster in that row that Tab skips through. Destructive actions
+  route through `AlertDialog`; "archive 40,000 rows" is not an undo-able
+  mis-click.
 -->
 <script lang="ts" generics="T extends RowData">
   import { clsx } from "clsx";
@@ -16,7 +21,6 @@
     AlertDialogFooter,
     AlertDialogTitle,
     Button,
-    Toolbar,
   } from "@ui-organized/svelte";
   import type { CanonicalIconName } from "@ui-organized/utils";
   import type { RowData } from "@ui-organized/table-core";
@@ -41,7 +45,7 @@
 </script>
 
 {#if count > 0}
-  <Toolbar class={clsx("data-table__selection-bar", className)} aria-label="Bulk actions">
+  <div role="group" class={clsx("data-table__selection-bar", className)} aria-label="Bulk actions">
     <span class="data-table__selection-count" aria-live="polite">
       {count === 1 ? "1 row selected" : `${count} rows selected`}
     </span>
@@ -96,5 +100,5 @@
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  </Toolbar>
+  </div>
 {/if}

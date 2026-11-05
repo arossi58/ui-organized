@@ -19,7 +19,7 @@ export function SpacingPanel() {
       />
       <p className={styles.hint}>
         All spacing values are derived from this single unit. At 4px the scale
-        matches the canonical system values exactly — see the live preview for
+        matches the canonical system values exactly. The live preview shows
         the full scale.
       </p>
     </div>

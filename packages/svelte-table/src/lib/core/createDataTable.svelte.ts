@@ -74,6 +74,7 @@ import {
   normalizeFilterDef,
   operatorLabel,
   operatorsFor,
+  retargetCondition,
   orderFilterableFields,
   overscanFor,
   primaryColumnId,
@@ -1012,6 +1013,20 @@ export function createDataTable<T extends RowData>(
     return id;
   };
 
+  /** The chip's field segment: move a condition to another column. */
+  const changeFilterField = (id: string, columnId: string) => {
+    const condition = conditions.find((entry) => entry.id === id);
+    if (!condition || condition.columnId === columnId) return;
+    dispatchFilter(
+      retargetCondition(
+        condition,
+        { type: typeOfColumn(condition.columnId) },
+        { columnId, type: typeOfColumn(columnId), def: filterDefs.get(columnId) },
+        catalogue,
+      ),
+    );
+  };
+
   const removeFilter = (id: string) => {
     const condition = conditions.find((entry) => entry.id === id);
     if (condition) announce("removed", condition);
@@ -1165,6 +1180,7 @@ export function createDataTable<T extends RowData>(
       },
       add: addFilter,
       update: (id, patch) => dispatchFilter({ type: "update", id, ...patch }),
+      changeField: changeFilterField,
       restore: (condition) => dispatchFilter({ type: "restore", condition }),
       remove: removeFilter,
       clear: clearFilters,

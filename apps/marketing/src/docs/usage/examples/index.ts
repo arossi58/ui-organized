@@ -50,6 +50,28 @@ import { dividerExamples } from "./divider";
 import { scrollAreaExamples } from "./scroll-area";
 import { avatarExamples } from "./avatar";
 import { iconExamples } from "./icon";
+import { pinInputExamples } from "./pin-input";
+import { tagsInputExamples } from "./tags-input";
+import { editableExamples } from "./editable";
+import { ratingGroupExamples } from "./rating-group";
+import { angleSliderExamples } from "./angle-slider";
+import { colorPickerExamples } from "./color-picker";
+import { signaturePadExamples } from "./signature-pad";
+import { listboxExamples } from "./listbox";
+import { treeViewExamples } from "./tree-view";
+import { dataTableExamples } from "./data-table";
+import { stepsExamples } from "./steps";
+import { carouselExamples } from "./carousel";
+import { chipExamples } from "./chip";
+import { clipboardExamples } from "./clipboard";
+import { qrCodeExamples } from "./qr-code";
+import { timerExamples } from "./timer";
+import { marqueeExamples } from "./marquee";
+import { fileUploadExamples } from "./file-upload";
+import { imageCropperExamples } from "./image-cropper";
+import { floatingPanelExamples } from "./floating-panel";
+import { splitterExamples } from "./splitter";
+import { tourExamples } from "./tour";
 
 const EXAMPLES: Record<string, UsageExampleSet> = {
   button: buttonExamples,
@@ -96,6 +118,28 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "scroll-area": scrollAreaExamples,
   avatar: avatarExamples,
   icon: iconExamples,
+  "pin-input": pinInputExamples,
+  "tags-input": tagsInputExamples,
+  editable: editableExamples,
+  "rating-group": ratingGroupExamples,
+  "angle-slider": angleSliderExamples,
+  "color-picker": colorPickerExamples,
+  "signature-pad": signaturePadExamples,
+  listbox: listboxExamples,
+  "tree-view": treeViewExamples,
+  "data-table": dataTableExamples,
+  steps: stepsExamples,
+  carousel: carouselExamples,
+  chip: chipExamples,
+  clipboard: clipboardExamples,
+  "qr-code": qrCodeExamples,
+  timer: timerExamples,
+  marquee: marqueeExamples,
+  "file-upload": fileUploadExamples,
+  "image-cropper": imageCropperExamples,
+  "floating-panel": floatingPanelExamples,
+  splitter: splitterExamples,
+  tour: tourExamples,
 };
 
 /** Empty for a component whose guidance is all text pairs. */

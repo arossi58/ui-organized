@@ -27,7 +27,8 @@
 }
 
 .collapsible__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .collapsible__trigger[data-disabled] {

@@ -22,7 +22,7 @@ const meta: Meta<typeof FileUpload> = {
     docs: {
       description: {
         component:
-          "A drop target, a browse button and a list of chosen files. `accept`, `maxFiles` and `maxFileSize` are enforced by the machine, which sorts each file into accepted or rejected — `onFileReject` tells you which failed and why.\n\nThe dropzone deliberately does not reuse `.field__control`: that is a fixed-height single-line box, and this grows a row per file.",
+          "A file upload that allows drag and drop, browsing, and a list of chosen files. ",
       },
     },
   },

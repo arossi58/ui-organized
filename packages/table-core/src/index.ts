@@ -168,6 +168,7 @@ export type { DetailAction, DetailIntent, DetailState } from "./detail.js";
 // ─── Responsive ──────────────────────────────────────────────────────────────
 export { resolveMode, watchWidth } from "./responsive.js";
 export type { ResponsiveConfig, TableMode } from "./responsive.js";
+export { afterRowEntrance } from "./motion.js";
 
 // ─── Column resize and reorder ───────────────────────────────────────────────
 export { moveColumn, resizeKeyDown, resizeStep } from "./resize.js";
@@ -210,9 +211,15 @@ export {
   createFilterStore,
   filterReducer,
   fromColumnFilters,
+  retargetCondition,
   toColumnFilters,
 } from "./filters/state.js";
-export type { ColumnFilterEntry, TableFilterAction, TableFilterState } from "./filters/state.js";
+export type {
+  ColumnFilterEntry,
+  RetargetColumn,
+  TableFilterAction,
+  TableFilterState,
+} from "./filters/state.js";
 
 export {
   VALUE_PLACEHOLDER,

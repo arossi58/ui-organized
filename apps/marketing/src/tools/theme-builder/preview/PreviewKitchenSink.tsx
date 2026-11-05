@@ -153,7 +153,7 @@ export function PreviewKitchenSink() {
 
       {/* ── Text fields ──────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Text Fields</h2>
+        <h2 className={styles.sectionTitle}>Text fields</h2>
         <div className={styles.twoCol}>
           <div className={styles.group}>
             <Input label="Full name" placeholder="Jane Smith" />
@@ -220,7 +220,7 @@ export function PreviewKitchenSink() {
 
       {/* ── Status & feedback ────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Status &amp; Feedback</h2>
+        <h2 className={styles.sectionTitle}>Status &amp; feedback</h2>
 
         <div className={styles.group}>
           <span className={styles.label}>Tags</span>
@@ -248,7 +248,7 @@ export function PreviewKitchenSink() {
         </div>
 
         <div className={styles.alertStack}>
-          <Alert variant="success" title="Changes saved">Your theme has been exported successfully.</Alert>
+          <Alert variant="success" title="Changes saved">Your theme has been exported.</Alert>
           <Alert variant="info" title="New version available">Update to get the latest features and fixes.</Alert>
           <Alert variant="warning" title="Approaching limit">You&apos;re using 90% of your available storage.</Alert>
           <Alert variant="error" title="Export failed">The config could not be validated. Check for missing values.</Alert>
@@ -257,7 +257,7 @@ export function PreviewKitchenSink() {
 
       {/* ── Data display ─────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Data Display</h2>
+        <h2 className={styles.sectionTitle}>Data display</h2>
         <div className={styles.group}>
           <span className={styles.label}>Avatars</span>
           <div className={styles.row}>
@@ -335,9 +335,9 @@ export function PreviewKitchenSink() {
         <h2 className={styles.sectionTitle}>Containers</h2>
         <div className={styles.cardGrid}>
           <Card variant="elevated">
-            <CardHeader><strong>Dashboard Overview</strong></CardHeader>
+            <CardHeader><strong>Dashboard overview</strong></CardHeader>
             <CardBody>
-              <p>Monitor your project metrics, track usage trends, and review recent activity in one place.</p>
+              <p>Usage and recent activity for this project.</p>
             </CardBody>
             <CardFooter>
               <Button size="sm" intent="primary">View details</Button>

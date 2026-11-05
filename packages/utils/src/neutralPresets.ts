@@ -365,6 +365,11 @@ export const NEUTRAL_PRESET_NAMES = Object.keys(neutralPresets) as NeutralPreset
 /**
  * Retrieve a neutral preset ramp by name.
  * Throws if the name is not found.
+ *
+ * These are the 16-step (100–1600) presets behind `packs/ui-organized`'s recipe
+ * contract. They are NOT valid input to `resolveSemanticColors`, whose map
+ * references neutral steps up to 2400 — it throws on them. For theming, pass
+ * `getCoreFamily(name)`, which returns the full, lightness-normalized ramp.
  */
 export function getNeutralPreset(name: string): ColorRamp {
   if (!(name in neutralPresets)) {

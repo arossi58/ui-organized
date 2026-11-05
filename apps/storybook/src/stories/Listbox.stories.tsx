@@ -25,7 +25,7 @@ const meta: Meta<typeof Listbox> = {
     docs: {
       description: {
         component:
-          "A standing list of selectable options — the list itself, always visible, with no trigger and no popup. Use `Select` when the list should collapse into a control, and `Listbox` when the options are the interface.",
+          "A list of selectable options that is always visible, with no trigger and no popup. Use `Select` when the list should collapse into a control, and `Listbox` when the options are the interface.",
       },
     },
   },

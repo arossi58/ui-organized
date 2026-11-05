@@ -1,4 +1,4 @@
-import { HeroStage } from "../components/hero/HeroStage";
+import { HeroShowcase } from "../components/hero/HeroShowcase";
 import { OverviewSection } from "../components/sections/OverviewSection";
 import { RoadmapSection } from "../components/sections/RoadmapSection";
 import { ContactSection } from "../components/sections/ContactSection";
@@ -13,7 +13,7 @@ export function HomePage() {
   return (
     <>
       <main id="main">
-        <HeroStage />
+        <HeroShowcase />
         <OverviewSection />
         <RoadmapSection />
         <ContactSection />

@@ -5,12 +5,22 @@
   inset: 0;
   z-index: var(--z-index-dialog, 1100);
   background-color: var(--color-surface-curtain);
-  transition: opacity 150ms ease;
+}
+
+/* Keyframes rather than a transition: the backdrop arrives from `hidden`, and
+   a transition never runs from display: none, so it used to appear at full
+   strength on the first frame. A fade is not motion, so it stays under
+   `prefers-reduced-motion`. */
+.dialog__backdrop[data-state="open"] {
+  animation: dialog-backdrop-in 150ms ease-out both;
 }
 
 .dialog__backdrop[data-state="closed"] {
-  opacity: 0;
+  animation: dialog-backdrop-out 120ms ease-in both;
 }
+
+@keyframes dialog-backdrop-in { from { opacity: 0; } }
+@keyframes dialog-backdrop-out { to { opacity: 0; } }
 
 /* ─── Positioner (centers the popup; Base UI's popup self-centered) ───────── */
 
@@ -103,8 +113,8 @@
 }
 
 .dialog__close:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Title / Description / Footer ────────────────────────────────────────── */

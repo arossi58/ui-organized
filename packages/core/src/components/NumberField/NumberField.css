@@ -38,7 +38,8 @@
 }
 
 .number-field__group:has(:focus-visible) {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* Invalid / disabled mirror the field control states (data attrs on Field.Root).
@@ -46,7 +47,7 @@
    the <FieldError> pill is the only error signal (matching the Input control) —
    so only the focus ring shifts to the error colour. */
 .field[data-invalid] .number-field__group:has(:focus-visible) {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .field[data-disabled] .number-field__group {

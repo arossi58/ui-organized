@@ -34,15 +34,15 @@ export const Inspect: Story = {
   // behaves normally until something actually drives it.
   render: (args) => (
     <Dialog {...args}>
-      <DialogTrigger className="btn btn--primary btn--md">Delete project</DialogTrigger>
+      <DialogTrigger className="text-default-body-large btn btn--primary btn--md">Delete project</DialogTrigger>
       <DialogContent>
         <DialogTitle>Delete project</DialogTitle>
         <DialogDescription>
           This action cannot be undone. This permanently deletes the project and all of its data.
         </DialogDescription>
         <DialogFooter>
-          <DialogClose className="btn btn--secondary btn--md">Cancel</DialogClose>
-          <DialogClose className="btn btn--destructive btn--md">Delete</DialogClose>
+          <DialogClose className="text-default-body-large btn btn--secondary btn--md">Cancel</DialogClose>
+          <DialogClose className="text-default-body-large btn btn--destructive btn--md">Delete</DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -54,14 +54,14 @@ export const Sizes: Story = {
     <div style={{ display: "flex", gap: 12 }}>
       {(["sm", "md", "lg"] as const).map((size) => (
         <Dialog key={size}>
-          <DialogTrigger className="btn btn--secondary btn--md">{size}</DialogTrigger>
+          <DialogTrigger className="text-default-body-large btn btn--secondary btn--md">{size}</DialogTrigger>
           <DialogContent size={size}>
             <DialogTitle>Size: {size}</DialogTitle>
             <DialogDescription>
               The dialog popup width adapts to the chosen size preset.
             </DialogDescription>
             <DialogFooter>
-              <DialogClose className="btn btn--primary btn--md">Got it</DialogClose>
+              <DialogClose className="text-default-body-large btn btn--primary btn--md">Got it</DialogClose>
             </DialogFooter>
           </DialogContent>
         </Dialog>

@@ -8,7 +8,7 @@ export const iconUsage: UsageGuide = {
   useWhen: [
     "A glyph is conventional enough to be read at a glance, like search or close.",
     "It sits beside a label and makes that label quicker to find.",
-    "Space is genuinely tight and the action is unmistakable.",
+    "Space is tight and the action is unmistakable.",
   ],
   avoid: [
     {

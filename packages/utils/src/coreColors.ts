@@ -83,7 +83,14 @@ export const BRAND_FAMILY_NAMES: string[] = ["passion","cerise","violet","eggpla
 /** The 24 ramp step keys, lightest → darkest. */
 export const CORE_STEPS: string[] = Object.keys(CORE_HEX.grey ?? {});
 
-/** Look up a family ramp by name; falls back to grey if unknown. */
-export function getCoreFamily(name: string): ColorRamp {
+/**
+ * Look up a family ramp exactly as authored; falls back to grey if unknown.
+ *
+ * The authored neutral families are NOT lightness-normalized (`juniper.1400` is
+ * far darker than `grey.1400`), so they break the semantic map's fixed-step
+ * contrast. Use this for palette display only; for theming use
+ * `getCoreFamily` (families.ts), which derives neutrals to grey's lightness.
+ */
+export function getAuthoredFamily(name: string): ColorRamp {
   return coreColors[name] ?? coreColors.grey!;
 }

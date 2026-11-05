@@ -104,7 +104,7 @@ const ExportModal = ({
       >
         <div style={{ padding: 24, flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: 'var(--color-content-primary)' }}>Export Palette</h2>
+            <h2 style={{ margin: 0, fontSize: 24, fontWeight: 700, color: 'var(--color-content-primary)' }}>Export palette</h2>
             <button
               onClick={() => setShowExportModal(false)}
               style={{
@@ -128,7 +128,7 @@ const ExportModal = ({
           {/* Color selection */}
           <div style={{ marginBottom: 24 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-content-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Include Colors</span>
+              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--color-content-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Include colors</span>
               <button
                 onClick={() => setSelectedColorIds(allSelected ? [] : baseColors.map(c => c.id))}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--color-interactive-primary-default)', padding: 0 }}

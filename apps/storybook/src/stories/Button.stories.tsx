@@ -189,3 +189,16 @@ export const AllVariantsGrid: Story = {
     </div>
   ),
 };
+
+/**
+ * A consumer-supplied `box-shadow` must not erase the focus indicator. The ring
+ * is drawn with `outline`, which a shadow can't collide with — asserted by
+ * interaction/focus.spec.ts.
+ */
+export const FocusRingWithConsumerShadow: Story = {
+  args: {
+    children: "Lifted button",
+    intent: "secondary",
+    style: { boxShadow: "0 4px 12px rgba(0, 0, 0, 0.25)" },
+  },
+};

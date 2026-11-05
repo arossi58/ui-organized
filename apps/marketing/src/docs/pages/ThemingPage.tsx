@@ -107,9 +107,9 @@ const CLI_CHECK = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip --dry-ru
 ✓ Fonts declared for Oswald and Inter`;
 
 const IMPORTS = `import '@ui-organized/react/styles'   // component styles
-import './styles/theme.css'           // your theme — after, so it wins`;
+import './styles/theme.css'           // your theme, after so it wins`;
 
-const OVERRIDE = `/* src/styles/theme.css — a hand-written theme */
+const OVERRIDE = `/* src/styles/theme.css: a hand-written theme */
 :root {
   /* Mode-independent: type, spacing, radius, layout constants. */
   --type-font-body: 'Inter', sans-serif;
@@ -307,7 +307,7 @@ export function ThemingPage() {
                 <tr>
                   <td><span className={styles.propName}>README.md</span></td>
                   <td>The same setup instructions, alongside the files.</td>
-                  <td>—</td>
+                  <td>n/a</td>
                 </tr>
               </tbody>
             </table>
@@ -419,7 +419,7 @@ export function ThemingPage() {
 
           <p>
             The two <strong>constant</strong> families are marked that way because no theme has
-            a reason to change them, but component CSS still reads them anyway.{" "}
+            a reason to change them, but component CSS still reads them.{" "}
             <code>--dimension-06</code> is the sidebar's width; <code>--z-index-*</code> is the
             whole portalled-overlay stack. Omitting them once meant a sidebar shrunk to its
             content and overlays stacking on DOM order, with a green build and a clean console.

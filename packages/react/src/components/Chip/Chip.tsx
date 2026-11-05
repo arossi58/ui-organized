@@ -1,39 +1,42 @@
+import { createContext, forwardRef, useContext, type ReactNode } from "react";
 import { clsx } from "clsx";
-import { COMPARISON_ICONS, chipStyles } from "@ui-organized/core";
+import { chipSegmentStyles, chipStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import { warnMissingRemoveLabel } from "./warnMissingRemoveLabel.js";
-import type { ChipProps } from "./Chip.types.js";
+import type { ChipProps, ChipSegmentProps } from "./Chip.types.js";
 import "@ui-organized/core/components/Chip/Chip.css";
 
-/** Icons render at 16px across every chip size, exactly as `Tag`'s do. */
+/** The dismiss icon, at the size `Tag`'s icons render. */
 const ICON_SIZE = 16;
+
+/** The chip's `disabled`, reaching segments a consumer composed themselves. */
+const ChipDisabledContext = createContext(false);
+
+const present = (node: ReactNode) => node !== undefined && node !== null && node !== false;
 
 /**
  * A compact token standing for something the user added — a filter, a facet, a
  * recipient — which they can then edit or remove.
  *
- * Two structural decisions are load-bearing:
+ * Segmented (Figma 2462:2636): "Name | is greater than | Value" is three
+ * controls, each opening the menu for the one parameter it shows. Two
+ * structural decisions are load-bearing:
  *
- * 1. **The dismiss control is a sibling of the body, not inside it.** A chip
- *    genuinely does two things, and a button nested in a button is invalid HTML
- *    and an axe `nested-interactive` violation. The wrapper `<span>` is what
- *    makes two controls look like one object.
- * 2. **Every prop except `className` lands on the body.** That is what lets an
- *    overlay trigger project itself onto a chip —
- *    `<PopoverTrigger render={<Chip … />} />` — and have its `id`, `onClick`
- *    and `aria-expanded` attach to the element that actually opens the popover,
- *    rather than to a wrapper that does nothing.
+ * 1. **Every segment, and the dismiss control, is a sibling.** A button nested
+ *    in a button is invalid HTML and an axe `nested-interactive` violation. The
+ *    wrapper `<span role="group">` is what makes several controls look like one
+ *    object.
+ * 2. **Each segment is its own element**, so an overlay trigger can project
+ *    onto exactly the part that opens it —
+ *    `<MenuTrigger render={<ChipSegment part="operator">…</ChipSegment>} />` —
+ *    and its `id`, `onClick` and `aria-expanded` attach to that segment rather
+ *    than to the whole chip.
  */
 export function Chip({
-  variant,
-  size = "md",
   label,
-  detail,
   operator,
-  operatorLabel,
+  value,
   children,
-  icon,
-  dropdown = false,
   selected = false,
   incomplete = false,
   disabled = false,
@@ -42,76 +45,64 @@ export function Chip({
   className,
   ...props
 }: ChipProps) {
-  // A chip that opens something is a button; a chip that is only a token with a
-  // dismiss control is not. Rendering a <button> either way would promise an
-  // action that isn't there, and put an empty stop in the tab order.
-  //
-  // `disabled` counts, because there is nothing to disable on a static token —
-  // and a real disabled control is also what exempts the dimmed label from
-  // axe's contrast rule, which no amount of tuning the opacity would satisfy.
-  const interactive = props.onClick !== undefined || dropdown || disabled;
-
   if (onRemove && !removeLabel) warnMissingRemoveLabel();
 
-  const content = (
-    <>
-      {icon && <Icon name={icon} size={ICON_SIZE} className="chip__icon" />}
-      {label !== undefined && label !== null && label !== false && (
-        <span className="chip__label">{label}</span>
-      )}
-      {/* Drawn or spelled, never both — the six operators that have a glyph use
-          it, and the thirteen that do not fall back to words. The markup is
-          in-repo and generated from the designer's SVGs; nothing here is
-          user-supplied, which is the whole of why this injection is safe. */}
-      {operator ? (
-        <span
-          className="icon chip__operator"
-          role={operatorLabel ? "img" : undefined}
-          aria-label={operatorLabel}
-          aria-hidden={operatorLabel ? undefined : true}
-          dangerouslySetInnerHTML={{ __html: COMPARISON_ICONS[operator] }}
-        />
-      ) : (
-        detail !== undefined &&
-        detail !== null &&
-        detail !== false && <span className="chip__detail">{detail}</span>
-      )}
-      {children !== undefined && children !== null && children !== false && (
-        <span className="chip__value">{children}</span>
-      )}
-      {dropdown && <Icon name="chevron-down" size={ICON_SIZE} className="chip__caret" />}
-    </>
-  );
-
   return (
-    <span
-      className={clsx(
-        chipStyles({ variant, size }),
-        selected && "chip--selected",
-        incomplete && "chip--incomplete",
-        disabled && "chip--disabled",
-        className,
-      )}
-    >
-      {interactive ? (
-        <button type="button" className="chip__body" disabled={disabled} {...props}>
-          {content}
-        </button>
-      ) : (
-        <span className="chip__body">{content}</span>
-      )}
+    <ChipDisabledContext.Provider value={disabled}>
+      <span
+        role="group"
+        className={clsx(
+          chipStyles(),
+          selected && "chip--selected",
+          incomplete && "chip--incomplete",
+          disabled && "chip--disabled",
+          className,
+        )}
+        {...props}
+      >
+        {present(label) && <ChipSegment part="label">{label}</ChipSegment>}
+        {present(operator) && <ChipSegment part="operator">{operator}</ChipSegment>}
+        {present(value) && <ChipSegment part="value">{value}</ChipSegment>}
+        {children}
 
-      {onRemove && (
-        <button
-          type="button"
-          className="chip__remove"
-          aria-label={removeLabel}
-          disabled={disabled}
-          onClick={onRemove}
-        >
-          <Icon name="close" size={ICON_SIZE} />
-        </button>
-      )}
-    </span>
+        {onRemove && (
+          <button
+            type="button"
+            className="chip__remove"
+            aria-label={removeLabel}
+            disabled={disabled}
+            onClick={onRemove}
+          >
+            <Icon name="close" size={ICON_SIZE} />
+          </button>
+        )}
+      </span>
+    </ChipDisabledContext.Provider>
   );
 }
+
+/**
+ * One part of a chip's sentence. A `<button>` once it has something to do, a
+ * `<span>` until then.
+ *
+ * A segment that opens nothing must not be a button, or every static token in a
+ * list puts empty stops in the tab order. `disabled` counts as something to do:
+ * a real disabled control is what exempts the dimmed text from axe's contrast
+ * rule, which no amount of tuning the opacity would satisfy.
+ */
+export const ChipSegment = forwardRef<HTMLButtonElement, ChipSegmentProps>(function ChipSegment(
+  { part, className, disabled: ownDisabled, children, ...props },
+  ref,
+) {
+  const disabled = useContext(ChipDisabledContext) || ownDisabled === true;
+  const classes = clsx(chipSegmentStyles({ part }), className);
+
+  if (props.onClick === undefined && !disabled) {
+    return <span className={classes}>{children}</span>;
+  }
+  return (
+    <button ref={ref} type="button" className={classes} disabled={disabled} {...props}>
+      {children}
+    </button>
+  );
+});

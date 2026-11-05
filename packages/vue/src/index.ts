@@ -33,8 +33,8 @@ export type { SkeletonProps } from "./components/Skeleton/index.js";
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";
 
-export { Chip } from "./components/Chip/index.js";
-export type { ChipProps, ChipVariants, ComparisonIconName } from "./components/Chip/index.js";
+export { Chip, ChipSegment } from "./components/Chip/index.js";
+export type { ChipProps, ChipSegmentPart, ChipSegmentProps } from "./components/Chip/index.js";
 
 export { FieldError } from "./components/FieldError/index.js";
 export type { FieldErrorProps } from "./components/FieldError/index.js";

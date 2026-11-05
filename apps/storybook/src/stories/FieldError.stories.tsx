@@ -10,7 +10,7 @@ const meta: Meta<typeof FieldError> = {
     docs: {
       description: {
         component:
-          "FieldError renders a validation error pill from the message passed as `children`, and renders nothing when the message is empty; it typically sits beneath an invalid form control.",
+          "FieldError renders a validation error pill from the message passed as `children`, it typically sits beneath an invalid form control.",
       },
     },
   },

@@ -28,7 +28,8 @@
 /* Focus moves to Ark's visually-hidden input, not the track <span>, so the
    keyboard-focus ring is keyed off Zag's data-focus-visible instead of :focus-visible. */
 .switch__track[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .switch__track[data-state="checked"] {
@@ -51,7 +52,7 @@
   left: 3px;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-interactive-contents);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: left 200ms ease;

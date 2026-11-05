@@ -48,11 +48,12 @@
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. The box stays focusable so the value can be selected and
    copied by keyboard without the trigger. */
 .clipboard--input .clipboard__input:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Copy indicator ──────────────────────────────────────────────────────────

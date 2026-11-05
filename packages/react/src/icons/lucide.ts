@@ -66,6 +66,7 @@ import {
   Users,
   X,
   ArrowUpAZ, ListFilter, RotateCcw,
+  Sun, Moon, Monitor,
 } from "lucide-react";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
@@ -128,4 +129,7 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   pipette: Pipette,
   "rotate-cw": RotateCw,
   "rotate-ccw": RotateCcw,
+  sun: Sun,
+  moon: Moon,
+  monitor: Monitor,
 };

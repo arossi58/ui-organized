@@ -138,6 +138,8 @@ function longDate(day: YMD, locale: string | undefined): string {
  * behaviour worth not reproducing. The button stays because its id is part of
  * the rendered contract, and because the day the year view is built it is
  * already in the right place.
+ *
+ * @deprecated Use DateInput for a single date or DateRangeInput for a range. DatePicker is no longer documented and will be removed in the next major release.
  */
 @Component({
   selector: "div[uioDatePicker]",

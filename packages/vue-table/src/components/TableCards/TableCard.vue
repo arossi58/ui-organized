@@ -49,13 +49,12 @@ const measure = (el: Element | null) => {
     :data-index="index"
     :data-row-id="row.id"
   >
+    <!--
+      Title first, then the row's controls at the top-right corner: the actions
+      menu, and the checkbox last, in the corner a thumb reaches and where a
+      ticked card is easiest to scan for down a list.
+    -->
     <div class="data-table__card-header">
-      <Checkbox
-        v-if="table.selection.mode.value !== 'none'"
-        :checked="selected"
-        :aria-label="`Select ${titleText}`"
-        @update:checked="(checked: boolean) => table.selection.toggle(row.id, checked)"
-      />
       <!--
         A button rather than a clickable card: a card is not an interactive
         element, and making one is how a keyboard user loses the row.
@@ -73,7 +72,22 @@ const measure = (el: Element | null) => {
         <FlexRender v-if="primaryCell" :cell="primaryCell" />
         <template v-else>{{ row.id }}</template>
       </span>
-      <TableRowActions v-if="table.options.rowActions?.length" :row="row.original" />
+      <span
+        v-if="table.options.rowActions?.length || table.selection.mode.value !== 'none'"
+        class="data-table__card-controls"
+      >
+        <TableRowActions
+          v-if="table.options.rowActions?.length"
+          :row="row.original"
+          :label="`Actions for ${titleText}`"
+        />
+        <Checkbox
+          v-if="table.selection.mode.value !== 'none'"
+          :checked="selected"
+          :aria-label="`Select ${titleText}`"
+          @update:checked="(checked: boolean) => table.selection.toggle(row.id, checked)"
+        />
+      </span>
     </div>
 
     <dl class="data-table__card-fields">

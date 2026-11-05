@@ -16,11 +16,13 @@
  * `createFilterStore` still ships, for adapters with no scheduler of their own.
  */
 import { createStore, type Store } from "../state.js";
-import { DEFAULT_CATALOGUE, requiredOperands } from "./operators.js";
+import { DEFAULT_CATALOGUE, defaultOperatorFor, operatorsFor, requiredOperands } from "./operators.js";
 import type {
   FilterOperatorCatalogue,
   TableFilterCondition,
+  TableFilterDef,
   TableFilterOperator,
+  TableFilterType,
   TableFilterUnit,
   TableFilterValue,
 } from "./types.js";
@@ -69,9 +71,13 @@ export type TableFilterAction =
   | {
       type: "update";
       id: string;
+      /** Move the condition to another column — the chip's field segment. */
+      columnId?: string;
       operator?: TableFilterOperator;
       values?: TableFilterValue[];
       unit?: TableFilterUnit;
+      /** With `columnId`: the target column takes one condition, so drop its others. */
+      single?: boolean;
     }
   /** Put a condition back exactly as it was — Escape in an open editor. */
   | { type: "restore"; condition: TableFilterCondition }
@@ -111,6 +117,45 @@ export function coerceValues(
   return kept;
 }
 
+/** Either end of a field change, as `retargetCondition` needs to see it. */
+export interface RetargetColumn {
+  columnId: string;
+  type: TableFilterType;
+  def?: Pick<TableFilterDef, "operators" | "defaultOperator" | "single">;
+}
+
+/**
+ * What a condition becomes when its chip's field segment picks another column.
+ *
+ * Kept in core so four adapters cannot disagree about it. The rule is to keep
+ * whatever still means the same thing: "Age is greater than 30" moved to
+ * "Score" stays "is greater than 30", because both are numbers and the new
+ * column offers the operator. Anything else starts over on the new column's
+ * default operator with no value, rather than carrying across a value that
+ * would silently mean something different — an enum id from one column is
+ * never a valid option on another, so enums always start over.
+ */
+export function retargetCondition(
+  condition: TableFilterCondition,
+  from: Pick<RetargetColumn, "type">,
+  to: RetargetColumn,
+  catalogue: FilterOperatorCatalogue = DEFAULT_CATALOGUE,
+): Extract<TableFilterAction, { type: "update" }> {
+  const keeps =
+    from.type === to.type &&
+    to.type !== "enum" &&
+    operatorsFor(to.type, catalogue, to.def?.operators).some((op) => op.id === condition.operator);
+
+  return {
+    type: "update",
+    id: condition.id,
+    columnId: to.columnId,
+    operator: keeps ? condition.operator : defaultOperatorFor(to.type, catalogue, to.def),
+    values: keeps ? [...condition.values] : [],
+    single: to.def?.single,
+  };
+}
+
 export function createFilterReducer(catalogue: FilterOperatorCatalogue = DEFAULT_CATALOGUE) {
   return function filterReducer(
     state: TableFilterState,
@@ -140,8 +185,9 @@ export function createFilterReducer(catalogue: FilterOperatorCatalogue = DEFAULT
 
       case "update": {
         let changed = false;
-        const conditions = state.conditions.map((condition) => {
+        const mapped = state.conditions.map((condition) => {
           if (condition.id !== action.id) return condition;
+          const columnId = action.columnId ?? condition.columnId;
           const operator = action.operator ?? condition.operator;
           const values =
             action.values ??
@@ -150,6 +196,7 @@ export function createFilterReducer(catalogue: FilterOperatorCatalogue = DEFAULT
               : condition.values);
           const unit = action.unit ?? condition.unit;
           if (
+            columnId === condition.columnId &&
             operator === condition.operator &&
             values === condition.values &&
             unit === condition.unit
@@ -157,8 +204,14 @@ export function createFilterReducer(catalogue: FilterOperatorCatalogue = DEFAULT
             return condition;
           }
           changed = true;
-          return { ...condition, operator, values, ...(unit ? { unit } : {}) };
+          return { ...condition, columnId, operator, values, ...(unit ? { unit } : {}) };
         });
+        // A column that takes one condition loses its others when another
+        // condition moves onto it — the same rule `add` applies with `single`.
+        const conditions =
+          changed && action.columnId && action.single
+            ? mapped.filter((c) => c.id === action.id || c.columnId !== action.columnId)
+            : mapped;
         // The row-model memo is keyed on the array reference, so a no-op has to
         // return the identical state or every keystroke re-filters the table.
         return changed ? { ...state, conditions } : state;

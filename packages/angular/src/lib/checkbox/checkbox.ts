@@ -36,10 +36,10 @@ import { UioIcon } from "../icons/icon.js";
  * `indeterminate` *property* set. A property and not an attribute because
  * there is no such attribute, which is also why the parity gate cannot see it.
  *
- * The indicator carries `hidden` unless the box is ticked, as Ark's does, and
- * is painted anyway: `.checkbox__indicator` sets `display`, which outranks the
- * attribute. That is the stylesheet's decision and it is shared by all four
- * libraries — reproducing the attribute is what keeps them comparable.
+ * The indicator carries `hidden` while the box is unchecked, as Ark's does when
+ * its Indicator is given `indeterminate` (the other three libraries pass it).
+ * `base.css` enforces `[hidden]`, so an indicator hidden in the indeterminate
+ * state would lose its dash.
  *
  * ```html
  * <label uioCheckbox label="Accept" formControlName="accept"></label>
@@ -80,7 +80,7 @@ import { UioIcon } from "../icons/icon.js";
         [attr.data-hover]="flag(hover())"
         [attr.data-focus]="flag(focus())"
         [attr.data-focus-visible]="flag(focusVisible())"
-        [attr.hidden]="state() === 'checked' ? null : ''"
+        [attr.hidden]="state() === 'unchecked' ? '' : null"
       >
         @if (indeterminate()) {
           <span class="checkbox__indicator--indeterminate"></span>

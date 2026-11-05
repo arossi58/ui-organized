@@ -51,7 +51,8 @@
 }
 
 .select-field__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .select-field__trigger[data-invalid] {
@@ -59,7 +60,7 @@
 }
 
 .select-field__trigger[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error-message);
+  outline-color: var(--color-status-error-message);
 }
 
 .select-field__trigger:disabled,

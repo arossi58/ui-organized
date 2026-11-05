@@ -37,7 +37,7 @@ export function PreviewIcons() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Size scale</h2>
         <p className={styles.hint}>
-          Stroke weight adjusts automatically when Dynamic Stroke Weight is enabled.
+          Stroke weight adjusts automatically when dynamic stroke weight is enabled.
         </p>
         <div className={styles.sizeTable}>
           {SIZE_STEPS.map((sz) => (

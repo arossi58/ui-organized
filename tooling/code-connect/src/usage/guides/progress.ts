@@ -31,7 +31,7 @@ export const progressUsage: UsageGuide = {
       example: "labelled",
     },
     {
-      do: "Pass `null` for work you genuinely cannot measure, and let the bar say only that it is running.",
+      do: "Pass `null` for work you cannot measure, and let the bar say only that it is running.",
       dont: "Invent a percentage, turning a wait into a promise the interface can't keep.",
       example: "indeterminate",
     },

@@ -21,7 +21,7 @@
 .field__label {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: var(--spacing-space-005);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-default);
@@ -35,7 +35,7 @@
   display: inline-block;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--brand);
   flex-shrink: 0;
 }
@@ -108,11 +108,12 @@
 }
 
 .field__control:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .field__control[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .field__control:disabled,

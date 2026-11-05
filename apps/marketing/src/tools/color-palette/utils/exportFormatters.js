@@ -169,7 +169,7 @@ export const generateVariableExport = (format, collectionName, variables) => {
 
     case 'tailwind':
       output =
-        `// Tailwind Config — ${label}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: ` +
+        `// Tailwind Config: ${label}\nmodule.exports = {\n  theme: {\n    extend: {\n      colors: ` +
         JSON.stringify(buildTree(), null, 2).replace(/\n/g, '\n      ') +
         `\n    }\n  }\n}\n`;
       break;

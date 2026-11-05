@@ -7,25 +7,13 @@ import {
   DEFAULT_NEUTRAL_TINT,
   MAX_LIGHTNESS_GIVE,
 } from "./neutralGeneration.js";
+import { contrastRatio, relativeLuminance } from "./contrast.js";
 import { maxChromaFor, parseToOklch, type ColorRamp } from "./colorGeneration.js";
-import { coreColors, getCoreFamily, NEUTRAL_FAMILY_NAMES, CORE_STEPS } from "./coreColors.js";
+import { coreColors, getAuthoredFamily, NEUTRAL_FAMILY_NAMES, CORE_STEPS } from "./coreColors.js";
 
-const GREY = getCoreFamily("grey");
+const GREY = getAuthoredFamily("grey");
 
-/** WCAG 2.x relative luminance of a 6-digit hex. */
-function relativeLuminance(hex: string): number {
-  const h = hex.replace("#", "");
-  const channel = (i: number) => {
-    const v = parseInt(h.slice(i, i + 2), 16) / 255;
-    return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-  };
-  return 0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4);
-}
-
-function contrast(a: string, b: string): number {
-  const [hi, lo] = [relativeLuminance(a), relativeLuminance(b)].sort((x, y) => y - x);
-  return (hi! + 0.05) / (lo! + 0.05);
-}
+const contrast = contrastRatio;
 
 /** The real neutral-backed token pairs from semanticColorMap, as [fg, bg] steps. */
 const TOKEN_PAIRS: [label: string, fg: string, bg: string][] = [
@@ -193,7 +181,7 @@ describe("generateNeutralRamp", () => {
   });
 
   it("preserves the lightness of a non-grey base ramp", () => {
-    const base = getCoreFamily("dove");
+    const base = getAuthoredFamily("dove");
     const ramp = generateNeutralRamp(196, { baseRamp: base });
     for (const step of CORE_STEPS) {
       const before = parseToOklch(base[step]!.hex).l;
@@ -228,7 +216,7 @@ describe("rampHue", () => {
       hemp: 18,
     };
     for (const [name, hue] of Object.entries(expected)) {
-      const actual = rampHue(getCoreFamily(name))!;
+      const actual = rampHue(getAuthoredFamily(name))!;
       const delta = Math.abs(((actual - hue + 540) % 360) - 180);
       expect(delta, `${name}: got ${actual.toFixed(1)}, want ~${hue}`).toBeLessThan(8);
     }

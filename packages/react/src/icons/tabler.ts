@@ -92,6 +92,8 @@ import {
   IconTagFilled,
   IconTrashFilled,
   IconUserFilled, IconArrowsSort, IconRotate,
+  IconSun, IconMoon, IconDeviceDesktop,
+  IconSunFilled, IconMoonFilled, IconDeviceDesktopFilled,
 } from "@tabler/icons-react";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ComponentType } from "react";
@@ -154,6 +156,9 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   pipette: IconColorPicker,
   "rotate-cw": IconRotateClockwise,
   "rotate-ccw": IconRotate,
+  sun: IconSun,
+  moon: IconMoon,
+  monitor: IconDeviceDesktop,
 };
 
 /**
@@ -189,4 +194,7 @@ export const tablerSolidSet: Partial<Record<CanonicalIconName, ComponentType<any
   tag: IconTagFilled,
   trash: IconTrashFilled,
   user: IconUserFilled,
+  sun: IconSunFilled,
+  moon: IconMoonFilled,
+  monitor: IconDeviceDesktopFilled,
 };

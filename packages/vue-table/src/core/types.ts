@@ -85,6 +85,12 @@ export interface FiltersApi {
    */
   add: (columnId: string) => string;
   update: (id: string, patch: Partial<Omit<TableFilterCondition, "id" | "columnId">>) => void;
+  /**
+   * Move a condition to another column — the chip's field segment. Keeps the
+   * operator and value when both columns read them the same way, and starts
+   * over on the new column's default otherwise (`retargetCondition`).
+   */
+  changeField: (id: string, columnId: string) => void;
   /** Put a condition back as it was — Escape in an open editor. */
   restore: (condition: TableFilterCondition) => void;
   remove: (id: string) => void;

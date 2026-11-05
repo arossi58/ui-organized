@@ -72,7 +72,7 @@ export function FrameworkGapNote({
       ) : (
         <>
           <p className={styles.gapTitle}>
-            This example needs props {gap.label} hasn&rsquo;t got.
+            This example needs props {gap.label} hasn't got.
           </p>
           <p className={styles.gapBody}>
             <code>{gap.symbol}</code> in <code>{gap.packageName}</code> has no{" "}
@@ -83,7 +83,7 @@ export function FrameworkGapNote({
               </span>
             ))}
             . A sample without {gap.props.length > 1 ? "them" : "it"} would be a different
-            example, so there isn&rsquo;t one. The other examples on this page still switch.
+            example, so there isn't one. The other examples on this page still switch.
           </p>
         </>
       )}

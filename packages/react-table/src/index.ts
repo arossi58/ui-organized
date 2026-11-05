@@ -95,6 +95,16 @@ export { TablePagination } from "./components/TablePagination/index.js";
 export type { TablePaginationProps } from "./components/TablePagination/index.js";
 
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
+export {
+  TableFilterSheet,
+  TableSheetButton,
+  TableSortSheet,
+} from "./components/TableSheets/index.js";
+export type {
+  TableFilterSheetProps,
+  TableSheetButtonProps,
+  TableSortSheetProps,
+} from "./components/TableSheets/index.js";
 export type { TableSelectionBarProps } from "./components/TableSelectionBar/index.js";
 
 export { TableSubBar } from "./components/TableSubBar/index.js";

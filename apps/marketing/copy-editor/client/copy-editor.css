@@ -1,0 +1,143 @@
+/* Above the site's own overlays. This UI only exists on the local dev server. */
+.copy-editor {
+  --copy-editor-layer: 2147483000;
+  font: 14px/1.45 Inter, system-ui, sans-serif;
+}
+
+.copy-editor__highlight {
+  position: fixed;
+  z-index: var(--copy-editor-layer);
+  pointer-events: none;
+  outline: 2px solid var(--color-interactive-primary-default);
+  border-radius: 2px;
+}
+
+.copy-editor__bar,
+.copy-editor__drawer,
+.copy-editor__popover {
+  position: fixed;
+  z-index: var(--copy-editor-layer);
+  color: var(--color-content-primary);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.18);
+}
+
+.copy-editor__bar {
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+}
+
+.copy-editor__drawer {
+  top: 64px;
+  right: 16px;
+  bottom: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 380px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.copy-editor__drawer h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.copy-editor__popover {
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(560px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  padding: 16px;
+  overflow-y: auto;
+  transform: translate(-50%, -50%);
+}
+
+.copy-editor p {
+  margin: 0;
+}
+
+.copy-editor__meta {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  overflow-wrap: anywhere;
+}
+
+.copy-editor__quote {
+  padding-left: 12px;
+  border-left: 2px solid var(--color-border-secondary);
+}
+
+.copy-editor__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.copy-editor__search {
+  flex: none;
+  padding: 8px;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 6px;
+}
+
+.copy-editor__list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.copy-editor__list button {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 8px;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+}
+
+.copy-editor__list button:hover,
+.copy-editor__list button:focus-visible {
+  outline: 2px solid var(--color-interactive-primary-default);
+  outline-offset: -2px;
+}
+
+.copy-editor__edit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.copy-editor__output {
+  max-height: 240px;
+  padding: 8px;
+  overflow: auto;
+  font-size: 11px;
+  white-space: pre-wrap;
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 6px;
+}

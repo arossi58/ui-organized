@@ -5,6 +5,7 @@ import {
   alignOf,
   getHeadCellProps,
   getResizeHandleProps,
+  metaOf,
   resizeKeyDown,
   stickyPositionOf,
   type RowData,
@@ -124,6 +125,16 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
               <ng-container *flexRenderHeader="header(); let rendered">{{ rendered }}</ng-container>
             }
           </span>
+          @if (editable()) {
+            <!--
+              The pencil, and the words with it: as part of the column header,
+              ", editable" is announced with every cell in the column.
+            -->
+            <span class="data-table__edit-icon">
+              <span uioIcon name="edit" [size]="14"></span>
+              <span class="data-table__sr-only">, editable</span>
+            </span>
+          }
           <span class="data-table__sort-icon">
             <span uioIcon [name]="sortIcon()" [size]="14"></span>
           </span>
@@ -134,6 +145,16 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
             <ng-container *flexRenderHeader="header(); let rendered">{{ rendered }}</ng-container>
           }
         </span>
+        @if (editable()) {
+          <!--
+            The pencil, and the words with it: as part of the column header,
+            ", editable" is announced with every cell in the column.
+          -->
+          <span class="data-table__edit-icon">
+            <span uioIcon name="edit" [size]="14"></span>
+            <span class="data-table__sr-only">, editable</span>
+          </span>
+        }
       }
     </div>
     @if (column().getCanResize()) {
@@ -150,6 +171,7 @@ export class UioTableHeadCell<T extends RowData> extends UioTablePropsHost {
   protected readonly sortable = computed(() => this.column().getCanSort());
   protected readonly sorted = computed(() => this.column().getIsSorted());
   protected readonly interactive = computed(() => this.table.interactive());
+  protected readonly editable = computed(() => Boolean(metaOf<T>(this.column().columnDef)?.edit));
   protected readonly sortIcon = computed(() =>
     this.sorted() === "desc" ? "sort-desc" : "sort-asc",
   );
@@ -174,6 +196,7 @@ export class UioTableHeadCell<T extends RowData> extends UioTablePropsHost {
       sticky: stickyPositionOf(this.table.table as unknown as TableInstance<T>, this.column()),
       resizing: this.column().getIsResizing(),
       interactive: this.interactive(),
+      editable: this.editable(),
     }),
   );
 

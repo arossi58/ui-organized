@@ -14,7 +14,7 @@ const LIBRARIES: {
   {
     id: "lucide",
     name: "Lucide",
-    description: "Clean, consistent open-source icons. Outline only.",
+    description: "Open-source icons. Outline only.",
     supportsOutline: true,
     supportsSolid: false,
     pkg: "lucide-react",
@@ -22,7 +22,7 @@ const LIBRARIES: {
   {
     id: "tabler",
     name: "Tabler Icons",
-    description: "4000+ pixel-perfect icons. Supports outline and solid.",
+    description: "4000+ icons. Supports outline and solid.",
     supportsOutline: true,
     supportsSolid: true,
     pkg: "@tabler/icons-react",
@@ -30,7 +30,7 @@ const LIBRARIES: {
   {
     id: "heroicons",
     name: "Heroicons",
-    description: "Handcrafted SVGs by the Tailwind team. Supports outline and solid.",
+    description: "SVG icons from the Tailwind team. Supports outline and solid.",
     supportsOutline: true,
     supportsSolid: true,
     pkg: "@heroicons/react",
@@ -125,10 +125,10 @@ export function IconsPanel() {
     <div className={styles.panel}>
       {/* ── Library ─────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Icon Library</h3>
+        <h3 className={styles.sectionTitle}>Icon library</h3>
         <p className={styles.hint}>
-          Choose which icon library your project uses. Install only the one you
-          select — the others are not required.
+          Choose which icon library your project uses. You only need to install
+          the one you select.
         </p>
         <div className={styles.libraryGrid}>
           {LIBRARIES.map((lib) => (
@@ -144,7 +144,7 @@ export function IconsPanel() {
 
       {/* ── Style ───────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Icon Style</h3>
+        <h3 className={styles.sectionTitle}>Icon style</h3>
         <p className={styles.hint}>
           {activeLib.id === "lucide"
             ? "Lucide only supports outline style."
@@ -161,7 +161,7 @@ export function IconsPanel() {
       {/* ── Base size & stroke ──────────────────────────────────────── */}
       {icons.style === "outline" && (
         <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Reference Size &amp; Stroke</h3>
+          <h3 className={styles.sectionTitle}>Reference size &amp; stroke</h3>
           <p className={styles.hint}>
             Set the size at which your base stroke weight is defined. At this
             size no adjustment is made. Lucide and Tabler are designed at 24px
@@ -205,7 +205,7 @@ export function IconsPanel() {
       {/* ── Stroke adjustment ───────────────────────────────────────── */}
       {icons.style === "outline" && (
         <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Dynamic Stroke Weight</h3>
+          <h3 className={styles.sectionTitle}>Dynamic stroke weight</h3>
           <p className={styles.hint}>
             When enabled, stroke width scales with icon size using the formula{" "}
             <code>stroke = baseStroke × (size / baseSize)^0.50</code>. At the

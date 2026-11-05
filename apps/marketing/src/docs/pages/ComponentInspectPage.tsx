@@ -11,13 +11,14 @@
  */
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@ui-organized/react";
+import { Button, SegmentedControl } from "@ui-organized/react";
 import {
   DocsPageHeader,
   DocsTabs,
   InlineMarkdown,
   PreviewSurface,
   StatusBadge,
+  type PreviewViewport,
 } from "../components";
 import { getDocsComponent, inspectStory } from "../registry";
 import { stalenessFor } from "../staleness";
@@ -32,6 +33,11 @@ import { componentTabs } from "./componentTabs";
 import { DocsNotFound } from "./DocsNotFound";
 import styles from "../inspect/inspect.module.css";
 
+const VIEWPORTS = [
+  { value: "desktop", label: "Desktop" },
+  { value: "mobile", label: "Mobile" },
+];
+
 export function ComponentInspectPage() {
   const { slug } = useParams();
   const component = getDocsComponent(slug);
@@ -41,6 +47,7 @@ export function ComponentInspectPage() {
   const story = component ? inspectStory(component) : undefined;
   const [overrides, setOverrides] = useState<Record<string, unknown>>({});
   const [vision, setVision] = useState<string | null>(null);
+  const [viewport, setViewport] = useState<PreviewViewport>("desktop");
   const stage = useRef<HTMLDivElement>(null);
 
   // Opening an overlay from the State switch makes it controlled, and a
@@ -56,10 +63,21 @@ export function ComponentInspectPage() {
       merged.onOpenChange = (open: boolean) =>
         setOverrides((current) => ({ ...current, open }));
     }
+    // The preview sits beside the properties panel, narrower than most
+    // screens, so a component that measures its container (DataTable swaps to
+    // cards under 640px) would always show its phone layout. Pin it to the
+    // layout the viewport switch names instead.
+    const responsive = entryProps?.some((prop) => prop.name === "responsive");
+    if (responsive && !("responsive" in overrides)) {
+      merged.responsive = { mode: viewport === "mobile" ? "cards" : "table" };
+    }
     return merged;
-  }, [story, overrides, entryProps]);
+  }, [story, overrides, entryProps, viewport]);
   const { inspection, refresh, highlight, reveal } = useInspection(stage, args);
-  const scan = useA11yScan(stage, args);
+  // The viewport changes what renders (a table becomes cards) without touching
+  // an arg, so the scan has to hear about it separately.
+  const scanRevision = useMemo(() => [args, viewport], [args, viewport]);
+  const scan = useA11yScan(stage, scanRevision);
 
   const setArg = useCallback((name: string, value: unknown) => {
     setOverrides((current) => ({ ...current, [name]: value }));
@@ -109,8 +127,16 @@ export function ComponentInspectPage() {
               stageRef={stage}
               containOverlays
               visionFilter={visionFilterValue(vision)}
+              viewport={viewport}
               toolbar={
                 <>
+                  <SegmentedControl
+                    aria-label="Preview width"
+                    size="sm"
+                    items={VIEWPORTS}
+                    value={viewport}
+                    onValueChange={(next) => setViewport(next as PreviewViewport)}
+                  />
                   <VisionFilterMenu value={vision} onChange={setVision} />
                   <A11yRunButton scan={scan} />
                   <Button intent="ghost" size="sm" icon="refresh" onClick={refresh}>

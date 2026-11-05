@@ -26,6 +26,8 @@ import {
   IconPlayerPauseFilled, IconPlayerPlayFilled,
   IconPlusFilled, IconSearchFilled, IconSettingsFilled,
   IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled, IconArrowsSort, IconRotate,
+  IconSun, IconMoon, IconDeviceDesktop,
+  IconSunFilled, IconMoonFilled, IconDeviceDesktopFilled,
 } from "@tabler/icons-vue";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -88,10 +90,13 @@ export const tablerIconSet: Record<CanonicalIconName, IconComponent> = {
   "pipette":        IconColorPicker,
   "rotate-cw":      IconRotateClockwise,
   "rotate-ccw":     IconRotate,
+  "sun":            IconSun,
+  "moon":           IconMoon,
+  "monitor":        IconDeviceDesktop,
 };
 
 /**
- * Tabler's filled cut, which covers 27 of the 55 canonical names. The rest have
+ * Tabler's filled cut, which covers 30 of the 60 canonical names. The rest have
  * no official filled variant; `resolveIconComponent` falls back to the outline
  * one rather than leaving a hole.
  */
@@ -123,4 +128,7 @@ export const tablerSolidSet: Partial<Record<CanonicalIconName, IconComponent>> =
   "tag":            IconTagFilled,
   "trash":          IconTrashFilled,
   "user":           IconUserFilled,
+  "sun":            IconSunFilled,
+  "moon":           IconMoonFilled,
+  "monitor":        IconDeviceDesktopFilled,
 };

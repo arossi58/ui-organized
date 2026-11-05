@@ -118,6 +118,17 @@ narrowing unsafe rather than merely slow:
 filter matching no stories is not a failure; unset, "no tests found" still fails,
 because on a full run that means a broken glob.
 
+## Copy editor
+
+`pnpm copy-editor` runs the marketing site with an in-page editor: click text, edit it, and the
+source string is rewritten in place (`apps/marketing/copy-editor/`). It never commits, and it is
+absent from builds and from plain `pnpm dev`. "All copy" reaches text you can't click, such as
+meta titles, and lists this session's edits with undo.
+
+It matches clicked text against strings parsed from the source, so it can't edit computed text
+(plurals, `${}`), and text beside an inline `<Link>` edits as separate segments. Generated files
+are deliberately out of its allowlist in `store.ts`.
+
 ## Gotchas that waste tokens if forgotten
 
 - **CI runs steps as root inside the Playwright container, but `$HOME`
@@ -141,9 +152,9 @@ because on a full run that means a broken glob.
   with a turbo build — the nested invocation races the outer graph and poisons the turbo cache.
 - **`pnpm generate:palette` currently fails.** It reads `tokens-update/core-color.css`, but
   `tokens-update/` is gitignored (`.gitignore:6`) and absent from this working copy. The palette
-  outputs (`packages/tokens/src/primitive/core-color.json`, `packages/utils/src/coreColors.ts`,
-  `apps/marketing/src/tools/color-palette/constants/defaultPalette.js`) are generated — never
-  hand-edit them; restore the source dir first.
+  outputs (`packages/tokens/src/primitive/core-color.json`, `packages/utils/src/coreColors.ts`)
+  are generated — never hand-edit them; restore the source dir first. The palette tool's
+  `defaultPalette.js` is no longer generated: it reads `getCoreFamily` from utils at runtime.
 - **graphify's detector false-flags token files as secrets** (`token-contract.json`,
   `*-tokens.css`, `tokens-export.yml`). They are design tokens, not credentials — they are simply
   absent from the graph, so read them directly.

@@ -1,26 +1,39 @@
 import type { ComponentType } from "react";
-import { Chip as RChip } from "@ui-organized/react";
+import { Chip as RChip, ChipSegment as RChipSegment } from "@ui-organized/react";
 import ChipFixture from "../fixtures/ChipFixture.svelte";
 import VueChipFixture from "../fixtures/vue/ChipFixture.vue";
-import { SIZES, type ParitySpec } from "./spec.js";
+import type { ParitySpec } from "./spec.js";
+
+const noop = () => {};
 
 const spec: ParitySpec = {
   component: "Chip",
   /**
-   * `removable` is translated, not passed. React decides to render the dismiss
-   * control from `onRemove` — a *handler*, which cannot cross a props object the
-   * harness serializes into a URL — while the three ports expose the same
-   * decision as a boolean. Without the bridge the browser scenario compares a
-   * React chip that has no remove button against three that do, and reports a
-   * divergence the libraries do not actually have.
+   * Two flags are translated, not passed, because each stands for handlers —
+   * which cannot cross a props object the harness serializes into a URL:
    *
-   * The button it renders is a sibling of the body, never nested: a button
-   * inside a button is invalid HTML and an axe `nested-interactive` violation.
-   * That is a claim about tree shape, and worth four libraries agreeing on it.
+   * - `removable`: React renders the dismiss control from `onRemove`, Svelte
+   *   from `onremove`; Vue and Angular take the boolean and emit.
+   * - `segmented`: the chip composed from three clickable `ChipSegment`s, the
+   *   way a filter chip builds it. Every fixture spells the same three segments,
+   *   so what is compared is that each library turns a segment with something
+   *   to do into a sibling `<button>` — never a nested one, never a span.
    */
-  react: ({ removable, ...p }) => (
-    <RChip {...p} onRemove={removable ? () => {} : undefined}>
-      Admin
+  react: ({ removable, segmented, ...p }) => (
+    <RChip {...p} onRemove={removable ? noop : undefined}>
+      {segmented ? (
+        <>
+          <RChipSegment part="label" onClick={noop}>
+            Name
+          </RChipSegment>
+          <RChipSegment part="operator" onClick={noop}>
+            is greater than
+          </RChipSegment>
+          <RChipSegment part="value" onClick={noop}>
+            30
+          </RChipSegment>
+        </>
+      ) : null}
     </RChip>
   ),
   svelte: ChipFixture as unknown as ComponentType<any>,
@@ -28,35 +41,21 @@ const spec: ParitySpec = {
   stylesheets: ["Chip/Chip.css"],
   cases: [
     { name: "default", props: { label: "Role" } },
-    { name: "sentence", props: { label: "Role", detail: "is any of" } },
+    { name: "sentence", props: { label: "Name", operator: "is greater than", value: "30" } },
+    { name: "value only", props: { value: "Admin" } },
     { name: "plain", props: {} },
-    ...(["outline", "subtle"] as const).map((variant) => ({
-      name: `variant/${variant}`,
-      props: { variant, label: "Role" },
-    })),
-    ...SIZES.map((size) => ({ name: `size/${size}`, props: { size, label: "Role" } })),
-    // The state that decides which element the body is. A static token must not
-    // be a button, or every chip in a list becomes an empty stop in the tab
-    // order — and only rendering all four proves the three ports agree on it.
-    { name: "dropdown", props: { label: "Role", dropdown: true } },
-    { name: "selected", props: { label: "Role", selected: true, dropdown: true } },
-    { name: "incomplete", props: { label: "Role", incomplete: true, dropdown: true } },
-    { name: "disabled", props: { label: "Role", disabled: true } },
-    { name: "icon", props: { label: "Owner", icon: "user" } },
-    // The comparison glyphs. All six, because they are markup injected by three
-    // different mechanisms — `dangerouslySetInnerHTML`, `{@html}` and `v-html` —
-    // and "the string went in" is the only thing that proves each one did.
-    ...(
-      ["equals", "is-any-of", "contains", "does-not-contain", "starts-with", "ends-with"] as const
-    ).map((operator) => ({
-      name: `operator/${operator}`,
-      props: { label: "Name", operator, operatorLabel: operator.replaceAll("-", " ") },
-    })),
-    { name: "operator/decorative", props: { label: "Name", operator: "equals" } },
-    // `detail` loses to `operator`: drawn or spelled, never both.
+    // The state that decides which element each segment is. A static token must
+    // not be a button, or every chip in a list puts empty stops in the tab order.
+    { name: "segmented", props: { segmented: true } },
+    { name: "selected", props: { segmented: true, selected: true } },
     {
-      name: "operator/wins over detail",
-      props: { label: "Name", operator: "contains", detail: "contains" },
+      name: "incomplete",
+      props: { label: "Name", operator: "contains", value: "…", incomplete: true },
+    },
+    { name: "disabled", props: { label: "Role", value: "Admin", disabled: true } },
+    {
+      name: "removable",
+      props: { label: "Role", value: "Admin", removable: true, removeLabel: "Remove role filter" },
     },
   ],
 };

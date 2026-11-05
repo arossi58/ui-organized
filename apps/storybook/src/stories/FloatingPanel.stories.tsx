@@ -19,7 +19,7 @@ const meta: Meta<typeof FloatingPanel> = {
     docs: {
       description: {
         component:
-          "A draggable, resizable window that floats above the page — inspectors, tool palettes, anything a person wants to reposition and keep open while working. Unlike `Dialog` it is non-modal by design: the page behind it stays interactive.\n\nThe whole header is the drag handle, which is why `FloatingPanelTitle` and `FloatingPanelClose` go inside `FloatingPanelHeader`.",
+          "A draggable, resizable window that floats above the page, for inspectors, tool palettes and anything else a person wants to reposition and keep open while working. Unlike `Dialog` it is non-modal by design: the page behind it stays interactive.\n\nThe whole header is the drag handle, which is why `FloatingPanelTitle` and `FloatingPanelClose` go inside `FloatingPanelHeader`.",
       },
     },
   },

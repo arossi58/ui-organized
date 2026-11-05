@@ -51,7 +51,7 @@ export function FoundationsChangelogPage() {
         title="Changelog"
         lede={
           <>
-            Every release, newest first, straight from the packages&rsquo; own changelogs. Under{" "}
+            Every release, newest first, straight from the packages' own changelogs. Under{" "}
             <a href="https://semver.org">semver</a>: major asks something of your code, minor adds
             to the API, patch does neither.
           </>

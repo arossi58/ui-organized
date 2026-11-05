@@ -88,6 +88,27 @@
   outline-offset: -2px;
 }
 
+/* A classic (always-shown) scrollbar runs the viewport's full height, header
+   included, and its transparent track shows the body's surface — so beside the
+   sticky header there is a white notch, obvious once the thumb moves down. A
+   viewport's own background does not scroll with its content, so a header-
+   coloured band painted on it stays put exactly as the sticky header does and
+   shows through the track there. Border-box origin, so the band reaches under
+   the scrollbar; the line at the bottom continues the header's border.
+
+   Only while a header is the first thing in the viewport: cards have none, and
+   a visible caption sits above it. */
+.data-table__viewport:has(.data-table__head-cell):not(
+    :has(.data-table__caption:not(.data-table__caption--hidden))
+  ) {
+  background:
+    linear-gradient(var(--color-border-primary), var(--color-border-primary)) 0
+      var(--data-table-header-height) / 100% 1px no-repeat border-box,
+    linear-gradient(var(--color-surface-secondary), var(--color-surface-secondary)) 0 0 /
+      100% var(--data-table-header-height) no-repeat border-box,
+    var(--color-surface-primary);
+}
+
 .data-table__viewport::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -252,13 +273,27 @@
   z-index: 3;
 }
 
+/* The scroll shadow is drawn per cell but has to read as one line down the
+   column. A blurred shadow can't: blur fades at a cell's top and bottom as
+   well as its side, so a column of them is a row of mounds. Unblurred copies
+   offset sideways keep the cell's full height and meet their neighbours
+   exactly; stacked at falling opacity they compose a fade outward. (A
+   pseudo-element gradient would be smoother, but cells clip their overflow.) */
 .data-table__cell--sticky-left-edge {
-  box-shadow: 4px 0 8px -6px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    1px 0 0 rgba(0, 0, 0, 0.08),
+    2px 0 0 rgba(0, 0, 0, 0.06),
+    4px 0 0 rgba(0, 0, 0, 0.04),
+    6px 0 0 rgba(0, 0, 0, 0.03);
   border-right: 1px solid var(--color-border-primary);
 }
 
 .data-table__cell--sticky-right-edge {
-  box-shadow: -4px 0 8px -6px rgba(0, 0, 0, 0.45);
+  box-shadow:
+    -1px 0 0 rgba(0, 0, 0, 0.08),
+    -2px 0 0 rgba(0, 0, 0, 0.06),
+    -4px 0 0 rgba(0, 0, 0, 0.04),
+    -6px 0 0 rgba(0, 0, 0, 0.03);
   border-left: 1px solid var(--color-border-primary);
 }
 

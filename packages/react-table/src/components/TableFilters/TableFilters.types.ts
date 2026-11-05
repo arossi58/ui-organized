@@ -1,3 +1,4 @@
+import type { RefObject } from "react";
 import type { TableFilterCondition } from "@ui-organized/table-core";
 
 export interface TableFiltersProps {
@@ -13,6 +14,12 @@ export interface TableFilterAddProps {
   label?: string;
   /** Render as the header's icon-only funnel rather than the bar's "＋ Add". */
   iconOnly?: boolean;
+  /**
+   * Where the field menu portals. Inside a modal sheet it has to be the sheet:
+   * a modal hides everything outside itself from assistive tech, and a menu
+   * portalled to <body> is outside it — painted, but unreachable.
+   */
+  container?: RefObject<HTMLElement | null>;
   className?: string;
 }
 

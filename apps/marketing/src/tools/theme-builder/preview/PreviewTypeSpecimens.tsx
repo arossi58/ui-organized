@@ -59,7 +59,7 @@ function EditorialSpecimen() {
         feel composed before you&apos;ve picked a single accent.
       </p>
       <blockquote className={styles.pullQuote}>
-        “Set the body text, and the rest of the page falls into place.”
+        &ldquo;Set the body text, and the rest of the page falls into place.&rdquo;
       </blockquote>
       <p className={styles.body}>
         When the scale is right, captions and labels can carry real information
@@ -128,10 +128,10 @@ function MarketingSpecimen() {
   return (
     <div className={styles.hero}>
       <Tag variant="info" emphasized={false}>Typography · v2</Tag>
-      <h1 className={styles.displayXl}>Type that reads itself.</h1>
+      <h1 className={styles.displayXl}>One scale for every screen.</h1>
       <p className={styles.lede}>
-        A scale built from tokens, tuned once, and applied everywhere, from the
-        loudest hero to the smallest caption.
+        A type scale built from tokens and applied everywhere, from the largest
+        hero to the smallest caption.
       </p>
       <div className={styles.heroActions}>
         <Button intent="primary" size="lg" icon="arrow-right" iconPosition="right">

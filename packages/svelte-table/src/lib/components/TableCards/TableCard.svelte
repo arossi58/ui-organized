@@ -45,14 +45,12 @@
   data-row-id={row.id}
   use:elementRef={measure}
 >
+  <!--
+    Title first, then the row's controls at the top-right corner: the actions
+    menu, and the checkbox last, in the corner a thumb reaches and where a
+    ticked card is easiest to scan for down a list.
+  -->
   <div class="data-table__card-header">
-    {#if table.selection.mode !== "none"}
-      <Checkbox
-        checked={selected}
-        aria-label={`Select ${titleText}`}
-        onCheckedChange={(checked) => table.selection.toggle(row.id, checked)}
-      />
-    {/if}
     <!--
       A button rather than a clickable card: a card is not an interactive
       element, and making one is how a keyboard user loses the row.
@@ -70,8 +68,19 @@
         {#if primaryCell}<FlexRender cell={primaryCell} />{:else}{row.id}{/if}
       </span>
     {/if}
-    {#if table.options.rowActions?.length}
-      <TableRowActions row={row.original} />
+    {#if table.options.rowActions?.length || table.selection.mode !== "none"}
+      <span class="data-table__card-controls">
+        {#if table.options.rowActions?.length}
+          <TableRowActions row={row.original} label={`Actions for ${titleText}`} />
+        {/if}
+        {#if table.selection.mode !== "none"}
+          <Checkbox
+            checked={selected}
+            aria-label={`Select ${titleText}`}
+            onCheckedChange={(checked) => table.selection.toggle(row.id, checked)}
+          />
+        {/if}
+      </span>
     {/if}
   </div>
 

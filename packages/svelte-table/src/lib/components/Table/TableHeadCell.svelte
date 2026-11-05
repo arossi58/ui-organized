@@ -5,6 +5,7 @@
   import {
     alignOf,
     getHeadCellProps,
+    metaOf,
     stickyPositionOf,
     type RowData,
     type TableHeaderInstance,
@@ -25,6 +26,8 @@
     interactive && table.focus.cursor.row === -1 && table.focus.cursor.col === index,
   );
 
+  const editable = $derived(Boolean(metaOf<T>(column.columnDef)?.edit));
+
   const cellProps = $derived(
     getHeadCellProps({
       columnId: column.id,
@@ -35,9 +38,22 @@
       sticky: stickyPositionOf(table.table as unknown as TableInstance<T>, column),
       resizing: column.getIsResizing(),
       interactive,
+      editable,
     }),
   );
 </script>
+
+<!--
+  The pencil on an editable column's header. The words go with it: as part of
+  the column header, ", editable" is announced with every cell in the column,
+  which is where a screen-reader user needs to learn that Enter opens an editor.
+-->
+{#snippet editMark()}
+  <span class="data-table__edit-icon">
+    <Icon name="edit" size={14} />
+    <span class="data-table__sr-only">, editable</span>
+  </span>
+{/snippet}
 
 <th
   {...svelteProps(cellProps)}
@@ -61,6 +77,7 @@
         <span class="data-table__head-label">
           {#if !header.isPlaceholder}<FlexRender {header} />{/if}
         </span>
+        {#if editable}{@render editMark()}{/if}
         <span class="data-table__sort-icon">
           <Icon name={sorted === "desc" ? "sort-desc" : "sort-asc"} size={14} />
         </span>
@@ -69,6 +86,7 @@
       <span class="data-table__head-label">
         {#if !header.isPlaceholder}<FlexRender {header} />{/if}
       </span>
+      {#if editable}{@render editMark()}{/if}
     {/if}
   </div>
   {#if column.getCanResize()}<ResizeHandle {header} />{/if}

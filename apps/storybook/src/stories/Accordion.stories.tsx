@@ -16,7 +16,7 @@ const ITEMS: AccordionItem[] = [
   {
     value: "themes",
     title: "Does it support dark mode?",
-    content: "Yes — toggle the data-theme attribute and every component re-themes instantly.",
+    content: "Yes. Toggle the data-theme attribute and every component re-themes instantly.",
     disabled: false,
   },
 ];

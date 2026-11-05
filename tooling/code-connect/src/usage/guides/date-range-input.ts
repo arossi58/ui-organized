@@ -16,7 +16,7 @@ export const dateRangeInputUsage: UsageGuide = {
       instead: ["date-input"],
     },
     {
-      text: "For two dates that are genuinely independent of each other.",
+      text: "For two dates that are independent of each other.",
       instead: ["date-input"],
     },
     {

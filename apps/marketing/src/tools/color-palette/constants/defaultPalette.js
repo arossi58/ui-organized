@@ -1,45 +1,25 @@
 // The default "UI Organized" collection IS the design system's global color
-// tokens. GENERATED from tokens-update/core-color.css by
-// scripts/generate-core-palette.mjs — every family is the canonical 24-step ramp
-// (100 lightest -> 2400 darkest). The base `color` is the 1200 weight, the
-// design system's primary stop (mainStopIndex 11). Do not edit by hand; edit the
-// source CSS and re-run `pnpm generate:palette`.
-export const DEFAULT_PALETTE = [
-  { id: 1, name: 'Grey', color: '#bababa', customStops: ['#fcfcfc','#f6f6f6','#efefef','#e9e9e9','#e3e3e3','#dddddd','#d7d7d7','#d1d1d1','#cccccc','#c6c6c6','#c0c0c0','#bababa','#a8a8a8','#969696','#858585','#747474','#646464','#545454','#444444','#353535','#272727','#191919','#0d0d0d','#030303'] },
-  { id: 2, name: 'Dove', color: '#8f7687', customStops: ['#fffafd','#f7ecf3','#efdee9','#e7d1e0','#dfc3d6','#d3b8ca','#c7acbf','#bca1b3','#b096a8','#a58b9d','#9a8192','#8f7687','#836a7b','#765e6f','#6a5363','#5e4857','#533d4c','#483241','#3d2836','#321e2c','#261521','#1a0d17','#0f060d','#060205'] },
-  { id: 3, name: 'Mythical', color: '#7a768f', customStops: ['#fcfbff','#efeef9','#e3e0f2','#d7d3eb','#cbc7e2','#bfbbd6','#b3afca','#a7a3be','#9c98b2','#908ca6','#85819a','#7a768f','#6e6a83','#635f77','#58546c','#4d4960','#423e55','#38344a','#2e2a3f','#242035','#1b1729','#120f1d','#090711','#030308'] },
-  { id: 4, name: 'Flint', color: '#767e8f', customStops: ['#fafcff','#ecf0f7','#dee4ef','#d1d8e7','#c4ccdf','#b8c1d3','#adb5c8','#a1aabc','#969fb0','#8b94a5','#81899a','#767e8f','#6a7283','#5f6677','#535b6b','#484f5f','#3d4453','#333948','#282f3d','#1f2533','#161b27','#0e121b','#060910','#020307'] },
-  { id: 5, name: 'Waterloo', color: '#767a8f', customStops: ['#fbfbff','#edeff8','#e0e2f1','#d2d6e9','#c5cae1','#babed5','#aeb2c9','#a2a7bd','#979bb1','#8c90a6','#81859a','#767a8f','#6a6e83','#5f6377','#54576b','#494c60','#3e4254','#343749','#2a2d3f','#202334','#171a28','#0f111c','#070811','#030307'] },
-  { id: 6, name: 'Stone', color: '#76878f', customStops: ['#f9fcfe','#ebf2f5','#dce7ec','#cedce3','#c0d2db','#b5c7d0','#aabcc4','#9fb1ba','#95a6af','#8a9ca4','#809199','#76878f','#6a7a82','#5d6e76','#526269','#46565d','#3b4a51','#303f46','#25343b','#1a2930','#121f24','#0a1419','#050b0e','#010405'] },
-  { id: 7, name: 'Cave', color: '#768b8f', customStops: ['#f9fcfd','#eaf2f4','#dce8eb','#cddee2','#bfd4d8','#b3cace','#a9bfc3','#9eb4b8','#94aaae','#8a9fa3','#809599','#768b8f','#697e82','#5d7175','#516569','#45595c','#394d50','#2e4145','#233639','#182b2e','#0f2023','#091518','#040b0d','#010405'] },
-  { id: 8, name: 'Juniper', color: '#768f8f', customStops: ['#f8fdfd','#eaf3f3','#dbeae9','#cce0e0','#bdd7d7','#b2cccc','#a8c2c2','#9db7b7','#93adad','#8aa3a3','#809999','#768f8f','#698282','#5c7575','#506868','#445b5c','#384f4f','#2c4343','#213838','#162d2d','#0d2122','#071617','#030c0c','#010404'] },
-  { id: 9, name: 'Battleship', color: '#7a8f76', customStops: ['#f9fdf9','#ebf4ea','#ddeadb','#d0e1cc','#c2d8be','#b7cdb2','#acc3a8','#a2b89e','#98ae94','#8ea38a','#849980','#7a8f76','#6d8269','#61755d','#546851','#485c45','#3d5039','#31442e','#263823','#1b2d18','#12220f','#0b1708','#050d04','#010401'] },
-  { id: 10, name: 'Squirrel', color: '#8f8276', customStops: ['#fefbf9','#f5efea','#ece4dc','#e3d8ce','#daccbf','#cfc1b4','#c4b6aa','#b9ac9f','#afa195','#a4978a','#998c80','#8f8276','#82756a','#75695d','#695d51','#5d5146','#51453a','#453a2f','#3a2f25','#2f251b','#241b12','#18110a','#0e0905','#050301'] },
-  { id: 11, name: 'Hemp', color: '#8f7676', customStops: ['#fffafa','#f8eded','#f0dfdf','#e8d1d1','#e0c4c4','#d4b9b9','#c8adad','#bca2a2','#b19797','#a58c8c','#9a8181','#8f7676','#836a6a','#775f5f','#6b5353','#5f4848','#533d3d','#483333','#3d2829','#321f1f','#271616','#1b0e0e','#100707','#070202'] },
-  { id: 12, name: 'Passion', color: '#dd2864', customStops: ['#fffafb','#ffeaec','#ffd8de','#ffc7cf','#ffb5c1','#ffa1b2','#ff8da3','#ff7695','#ff5c86','#f84679','#ea386e','#dd2864','#ce0f58','#bc004e','#a80045','#94003c','#810033','#6e002b','#5c0023','#4b001b','#3a0013','#2a000c','#1a0005','#0c0002'] },
-  { id: 13, name: 'Cerise', color: '#dd2882', customStops: ['#fffafc','#ffe9f0','#ffd8e5','#ffc7d9','#ffb4ce','#ffa1c3','#ff8cb8','#ff75ad','#ff5aa2','#f74697','#ea388d','#dd2882','#ce0e76','#bb006a','#a7005e','#940052','#800047','#6e003c','#5c0031','#4a0026','#39001c','#290013','#1a000a','#0c0003'] },
-  { id: 14, name: 'Violet', color: '#dd28bf', customStops: ['#fffafd','#ffe9f9','#ffd8f4','#ffc7f0','#ffb4eb','#ffa1e8','#ff8be4','#ff73e1','#ff55df','#f545d5','#e938ca','#dd28bf','#cd07b1','#ba00a0','#a6008e','#92007d','#7f006c','#6c005c','#5a004c','#48003d','#38002e','#270020','#180013','#0a0007'] },
-  { id: 15, name: 'Eggplant', color: '#bf28dd', customStops: ['#fefaff','#fbe9ff','#f8d7ff','#f4c5ff','#f1b2ff','#ed9fff','#e98aff','#e573ff','#e159ff','#d747f6','#cb39e9','#bf28dd','#b10bcf','#a000bc','#8f00a8','#7e0094','#6d0081','#5d006e','#4d005c','#3e004a','#300039','#220029','#15001a','#09000c'] },
-  { id: 16, name: 'Purple', color: '#8228dd', customStops: ['#fcfbff','#f0eaff','#e4d8ff','#d9c6ff','#ceb4ff','#c3a1ff','#b88eff','#af79ff','#a562ff','#9b4bfb','#8e3aec','#8228dd','#7814d1','#6e00c2','#6200ae','#56009a','#4b0087','#400074','#350062','#2a0051','#200040','#170030','#0d0020','#060012'] },
-  { id: 17, name: 'Lapis', color: '#4628dd', customStops: ['#fbfbff','#e7eaff','#d3d9ff','#c0c8ff','#adb7ff','#9aa5ff','#8892ff','#787eff','#6969ff','#5c4fff','#503dee','#4628dd','#4017d2','#3a00c6','#3400b3','#2d009f','#27008c','#20007a','#1a0068','#140057','#0e0046','#090036','#050026','#020018'] },
-  { id: 18, name: 'Persian', color: '#2846dd', customStops: ['#fafcff','#e4ecff','#cfddff','#b9ceff','#a4beff','#8eaeff','#799dff','#648cff','#507aff','#3e66fe','#3356ed','#2846dd','#213ad2','#1c2ec7','#1720bc','#130cb1','#1000a0','#0d008a','#090076','#060062','#04004f','#02003c','#01002b','#01001a'] },
-  { id: 19, name: 'Cerulean', color: '#2864dd', customStops: ['#fafcff','#e5efff','#d1e1ff','#bcd4ff','#a7c7ff','#93b9ff','#7eabff','#699cff','#538dff','#407efa','#3471eb','#2864dd','#1d58d0','#114dc4','#0441b8','#0037a5','#002f91','#00287d','#002069','#001956','#001244','#000b33','#000522','#000213'] },
-  { id: 20, name: 'Aqua', color: '#2882dd', customStops: ['#f9fcff','#e6f1ff','#d2e7ff','#bedcff','#aad1ff','#95c6ff','#80bbff','#69afff','#50a4ff','#4198f5','#358de9','#2882dd','#1675cf','#0068bf','#005dab','#005197','#004683','#003b70','#00305e','#00264c','#001c3a','#00122a','#00091b','#00030c'] },
-  { id: 21, name: 'Damselfly', color: '#28a1dd', customStops: ['#f9fcff','#e5f5ff','#d2edff','#bee5ff','#a9deff','#93d6ff','#7cceff','#61c6ff','#4cbdfa','#41b3f0','#35aae7','#28a1dd','#0692cd','#0083b9','#0074a5','#006691','#00577d','#004a6a','#003c58','#003046','#002335','#001725','#000c16','#000408'] },
-  { id: 22, name: 'Scooter', color: '#28bfdd', customStops: ['#f6fdff','#e3f9ff','#cef5ff','#b8f0ff','#a1ecff','#87e7ff','#68e3ff','#52dcfb','#49d5f3','#3fceec','#34c6e4','#28bfdd','#00aecb','#009bb6','#008aa1','#00798d','#00687a','#005767','#004855','#003843','#002a32','#001c22','#000f13','#000406'] },
-  { id: 23, name: 'Caribbean', color: '#28dda1', customStops: ['#f4fff9','#dfffef','#ccfee6','#bbfbdd','#a9f9d4','#95f7cb','#80f4c3','#67f1ba','#46eeb2','#3de9ac','#33e3a6','#28dda1','#00c990','#01b481','#00a072','#008c63','#007855','#006547','#005339','#00412c','#003020','#002014','#001109','#000502'] },
-  { id: 24, name: 'Emerald', color: '#28dd82', customStops: ['#f4fff7','#e0ffe9','#cbffdb','#b9fdcf','#a7fac3','#92f8b7','#7cf5aa','#62f39e','#46ef93','#3de98d','#33e388','#28dd82','#01c972','#00b466','#00a05a','#008c4e','#007842','#006537','#00532c','#004121','#003017','#00200e','#001106','#000501'] },
-  { id: 25, name: 'Malachite', color: '#28dd28', customStops: ['#f5fff4','#e2ffe0','#ceffc9','#b7ffb1','#a3fd9d','#8efb87','#76f870','#59f554','#46f043','#3dea3b','#33e332','#28dd28','#00c90a','#00b408','#00a006','#008c05','#007803','#006602','#005302','#004201','#003101','#002100','#001200','#000500'] },
-  { id: 26, name: 'Lima', color: '#82dd28', customStops: ['#f7fff2','#e8ffda','#dcfdc8','#d1fbb6','#c5f8a4','#b9f591','#aef37d','#a2f067','#95ec4e','#8ce839','#87e331','#82dd28','#71c900','#65b400','#589f00','#4d8b00','#417800','#366500','#2b5300','#214100','#173000','#0d2000','#051100','#010500'] },
-  { id: 27, name: 'Inchworm', color: '#a1dd28', customStops: ['#f7ffef','#edfeda','#e5fbca','#ddf9ba','#d4f6a9','#ccf398','#c4f086','#bced73','#b4ea5d','#ace643','#a6e230','#a1dd28','#8fc900','#80b400','#719f00','#628b00','#547700','#466400','#385200','#2b4000','#1f2f00','#131f00','#081000','#020400'] },
-  { id: 28, name: 'Lime', color: '#dcdc4f', customStops: ['#fdfee8','#f9fbdc','#f6f8d0','#f3f5c3','#f0f2b7','#edefaa','#eaec9d','#e7e990','#e4e681','#e1e372','#dee062','#dcdc4f','#c8c801','#b3b300','#9e9e00','#8a8a00','#777600','#636300','#515100','#3f3f00','#2e2e00','#1e1e00','#0f0f00','#040400'] },
-  { id: 29, name: 'Candlelight', color: '#f4e281', customStops: ['#fffced','#fffadf','#fef8d5','#fdf6cc','#fcf3c4','#fbf1bb','#faeeb2','#f8eca8','#f7ea9f','#f6e795','#f5e58b','#f4e281','#e7cb00','#cfb501','#b7a000','#a08c00','#897800','#736400','#5e5200','#4a4000','#362e00','#241e00','#130f00','#040300'] },
-  { id: 30, name: 'Midas', color: '#ddbf28', customStops: ['#fffcef','#fef7d8','#fbf2c7','#f9ecb5','#f6e7a3','#f4e18f','#f1db7b','#efd565','#ecd04b','#e8ca39','#e2c431','#ddbf28','#c9ac00','#b49a00','#a08800','#8c7700','#786600','#655600','#534600','#413600','#302800','#201a00','#110d00','#050300'] },
-  { id: 31, name: 'Lightning', color: '#fdbe13', customStops: ['#fffbf4','#fff6e5','#fff1d6','#ffecc6','#ffe6b6','#ffe1a5','#ffdb94','#ffd581','#ffd06d','#ffca56','#ffc437','#fdbe13','#e5ab00','#ce9900','#b68700','#9f7600','#896500','#745500','#5f4500','#4b3500','#372700','#251900','#140c00','#060300'] },
-  { id: 32, name: 'Dough', color: '#dda128', customStops: ['#fffbf5','#fff3df','#ffeac9','#ffe1b2','#ffd899','#ffcf7f','#ffc660','#fbbd4d','#f3b644','#ecaf3c','#e4a832','#dda128','#cb9000','#b68100','#a27200','#8e6300','#7a5500','#674700','#553a00','#432d00','#322100','#221500','#130a00','#060300'] },
-  { id: 33, name: 'Meteor', color: '#dd8228', customStops: ['#fffbf8','#fff0e4','#ffe4d0','#ffd8bb','#ffcca5','#ffc08e','#ffb375','#ffa659','#f99c47','#f0933e','#e68b33','#dd8228','#cc730c','#b96600','#a45a00','#904e00','#7d4300','#6a3800','#572d00','#462300','#351900','#251000','#150700','#080200'] },
-  { id: 34, name: 'Mars', color: '#dd6428', customStops: ['#fffbf9','#ffede6','#ffdfd2','#ffd1be','#ffc3a9','#ffb494','#ffa47d','#ff9365','#fe8249','#f3783f','#e86e34','#dd6428','#cd5613','#bc4900','#a74100','#933800','#802f00','#6d2700','#5a1f00','#491800','#371000','#270900','#180400','#0a0100'] },
-  { id: 35, name: 'Pumpkin', color: '#dd4628', customStops: ['#fffbfa','#ffebe7','#ffdbd3','#ffcbbf','#ffbbab','#ffa996','#ff9781','#ff846a','#ff6d50','#f65e40','#ea5234','#dd4628','#ce3717','#bf2600','#aa2100','#961c00','#831700','#701200','#5d0d00','#4b0900','#3a0500','#2a0300','#1a0100','#0c0000'] },
-  { id: 36, name: 'Cinnabar', color: '#dd3728', customStops: ['#fffbfa','#ffeae7','#ffdad3','#ffc9c0','#ffb8ac','#ffa697','#ff9282','#ff7d6b','#ff6552','#f75240','#ea4534','#dd3728','#ce2518','#bf0c03','#ac0600','#980400','#840300','#710200','#5e0200','#4d0100','#3b0100','#2b0000','#1b0000','#0d0000'] },
-  { id: 37, name: 'Crimson', color: '#dd2828', customStops: ['#fffbfa','#ffeae7','#ffd9d4','#ffc7c0','#ffb5ac','#ffa398','#ff8e82','#ff786c','#ff5e54','#f84740','#eb3934','#dd2828','#ce0f19','#bc0011','#a8000e','#94000b','#810008','#6f0006','#5d0004','#4b0003','#3a0002','#2a0001','#1b0000','#0d0000'] },
-];
+// tokens, read straight from @ui-organized/utils so it can never drift from what
+// themes actually resolve. Every family is the canonical 24-step ramp (100
+// lightest -> 2400 darkest); the base `color` is the 1200 weight, the design
+// system's primary stop (mainStopIndex 11).
+//
+// Neutrals come from `getCoreFamily`, which returns them re-derived to grey's
+// lightness (the authored tinted families diverge by up to 23 L* mid-ramp and
+// fail text contrast). Brands are the authored ramps.
+import {
+  BRAND_FAMILY_NAMES,
+  CORE_STEPS,
+  NEUTRAL_FAMILY_NAMES,
+  getCoreFamily,
+} from '@ui-organized/utils';
+
+const MAIN_STOP_INDEX = 11;
+
+const titleCase = (name) => name.charAt(0).toUpperCase() + name.slice(1);
+
+export const DEFAULT_PALETTE = [...NEUTRAL_FAMILY_NAMES, ...BRAND_FAMILY_NAMES].map((name, i) => {
+  const ramp = getCoreFamily(name);
+  const customStops = CORE_STEPS.map((step) => ramp[step].hex);
+  return { id: i + 1, name: titleCase(name), color: customStops[MAIN_STOP_INDEX], customStops };
+});

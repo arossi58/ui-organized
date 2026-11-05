@@ -31,8 +31,8 @@
 /* Figma focus is a 2px ring hugging the button (drop-shadow spread 2, offset 0),
    matching the box-shadow focus used across the rest of the design system. */
 .btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .btn:disabled,
@@ -49,11 +49,11 @@
   border-color: transparent;
 }
 
-.btn--primary:hover:not(:disabled) {
+.btn--primary:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-primary-hover);
 }
 
-.btn--primary:active:not(:disabled) {
+.btn--primary:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-primary-active);
 }
 
@@ -65,11 +65,11 @@
   border-color: transparent;
 }
 
-.btn--secondary:hover:not(:disabled) {
+.btn--secondary:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-secondary-hover);
 }
 
-.btn--secondary:active:not(:disabled) {
+.btn--secondary:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-secondary-active);
 }
 
@@ -82,13 +82,13 @@
 }
 
 /* On interaction the outline fills solid with light text (Figma 23:313 / 23:477). */
-.btn--tertiary:hover:not(:disabled) {
+.btn--tertiary:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
   color: var(--color-content-light);
 }
 
-.btn--tertiary:active:not(:disabled) {
+.btn--tertiary:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
   color: var(--color-content-light);
@@ -102,11 +102,11 @@
   border-color: transparent;
 }
 
-.btn--ghost:hover:not(:disabled) {
+.btn--ghost:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-ghost-hover);
 }
 
-.btn--ghost:active:not(:disabled) {
+.btn--ghost:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-ghost-active);
 }
 
@@ -118,11 +118,11 @@
   border-color: transparent;
 }
 
-.btn--destructive:hover:not(:disabled) {
+.btn--destructive:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-destructive-hover);
 }
 
-.btn--destructive:active:not(:disabled) {
+.btn--destructive:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-destructive-active);
 }
 
@@ -135,12 +135,12 @@
 }
 
 /* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
-.btn--destructive-ghost:hover:not(:disabled) {
+.btn--destructive-ghost:where(:hover:not(:disabled)) {
   background-color: var(--color-interactive-destructive-hover);
   color: var(--color-content-light);
 }
 
-.btn--destructive-ghost:active:not(:disabled) {
+.btn--destructive-ghost:where(:active:not(:disabled)) {
   background-color: var(--color-interactive-destructive-active);
   color: var(--color-content-light);
 }

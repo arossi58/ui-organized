@@ -10,7 +10,7 @@ const meta: Meta<typeof Input> = {
     docs: {
       description: {
         component:
-          "A single-line text field with an optional `label`, `helperText`, and `error` message; use `size` for density and the `required` / `disabled` booleans to convey state.",
+          "A single-line text field.",
       },
     },
   },
@@ -52,7 +52,7 @@ export const WithHelperText: Story = {
   args: {
     label: "Username",
     placeholder: "johndoe",
-    helperText: "Must be 3–20 characters. Letters and numbers only.",
+    helperText: "Must be 3 to 20 characters. Letters and numbers only.",
   },
 };
 
@@ -120,9 +120,9 @@ export const AllVariantsGrid: Story = {
 {(["sm", "md", "lg"] as const).map((size) => (
   <>
     <Input size={size} label={"Size: " + size} placeholder="Default" />
-    <Input size={size} label={"Size: " + size + " — required"} placeholder="Required" required />
-    <Input size={size} label={"Size: " + size + " — error"} placeholder="Error" error="Error message." />
-    <Input size={size} label={"Size: " + size + " — disabled"} placeholder="Disabled" disabled />
+    <Input size={size} label={"Size: " + size + ", required"} placeholder="Required" required />
+    <Input size={size} label={"Size: " + size + ", error"} placeholder="Error" error="Error message." />
+    <Input size={size} label={"Size: " + size + ", disabled"} placeholder="Disabled" disabled />
   </>
 ))}
 `.trim(),
@@ -134,9 +134,9 @@ export const AllVariantsGrid: Story = {
       {(["sm", "md", "lg"] as const).map((size) => (
         <div key={size} style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
           <Input size={size} label={`Size: ${size}`} placeholder="Default" />
-          <Input size={size} label={`Size: ${size} — required`} placeholder="Required" required />
-          <Input size={size} label={`Size: ${size} — error`} placeholder="Error" error="Error message." />
-          <Input size={size} label={`Size: ${size} — disabled`} placeholder="Disabled" disabled />
+          <Input size={size} label={`Size: ${size}, required`} placeholder="Required" required />
+          <Input size={size} label={`Size: ${size}, error`} placeholder="Error" error="Error message." />
+          <Input size={size} label={`Size: ${size}, disabled`} placeholder="Disabled" disabled />
         </div>
       ))}
     </div>

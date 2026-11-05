@@ -11,7 +11,7 @@
       },
       "active": {
         "$type": "color",
-        "$value": "{brand.1300}"
+        "$value": "{brand.1500}"
       },
       "selected": {
         "$type": "color",
@@ -26,14 +26,17 @@
       },
       "hover": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: black at 20% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#00000033"
       },
       "active": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: black at 15% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#00000026"
       },
       "selected": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: black at 15% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#00000026"
       }
     },
@@ -48,7 +51,7 @@
       },
       "active": {
         "$type": "color",
-        "$value": "{brand.1300}"
+        "$value": "{brand.1700}"
       },
       "selected": {
         "$type": "color",
@@ -58,6 +61,7 @@
     "ghost": {
       "default": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: fully transparent resting state, so the ghost button shows the surface beneath it.",
         "$value": "#fcfcfc00"
       },
       "hover": {
@@ -96,18 +100,22 @@
     "ui": {
       "default": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: near-black (#020202) at 2% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#02020205"
       },
       "hover": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: near-black (#020202) at 6% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#0202020f"
       },
       "active": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: near-black (#020202) at 10% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#0202021a"
       },
       "selected": {
         "$type": "color",
+        "$description": "OVERLAY, not a fill: near-black (#020202) at 14% alpha. Layer it over a surface; used as the only background the element reads as nearly transparent.",
         "$value": "#02020224"
       },
       "inverse": {

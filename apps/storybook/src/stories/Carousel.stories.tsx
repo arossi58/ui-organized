@@ -112,7 +112,7 @@ export const Minimal: Story = {
   parameters: {
     docs: {
       source: {
-        code: `{/* Indicators only — for a touch-first surface where swiping is the control. */}
+        code: `{/* Indicators only, for a touch-first surface where swiping is the control. */}
 <Carousel slides={SLIDES} label="Featured" variant="minimal" />`,
       },
     },

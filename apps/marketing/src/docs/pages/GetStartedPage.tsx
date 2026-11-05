@@ -21,7 +21,7 @@ const INSTALL = `npm install @ui-organized/react @ui-organized/tokens`;
 // The other three libraries, same shape. Kept as one block rather than a tab
 // strip: the only thing that changes is the package name, and a reader who is
 // not on React needs to see that at a glance rather than hunt for their tab.
-const INSTALL_FRAMEWORKS = `# or, for the framework you are on — same components, same tokens
+const INSTALL_FRAMEWORKS = `# or, for the framework you are on (same components, same tokens)
 npm install @ui-organized/svelte  @ui-organized/tokens
 npm install @ui-organized/vue     @ui-organized/tokens
 npm install @ui-organized/angular @ui-organized/tokens @angular/cdk`;
@@ -66,7 +66,7 @@ import { IconProvider } from '@ui-organized/react'
 
 import '@ui-organized/tokens/variables.css'  // 1. token baseline
 import '@ui-organized/react/styles'          // 2. component styles
-import './styles/theme.css'                  // 3. your theme — last, so it wins
+import './styles/theme.css'                  // 3. your theme, last so it wins
 import './index.css'                         // 4. your own layout
 
 import '@ui-organized/react/icons/lucide'    // registers your icon set
@@ -85,7 +85,7 @@ createRoot(document.getElementById('root')!).render(
 const INDEX_HTML = `<!-- index.html -->
 <html lang="en" data-theme="light">`;
 
-const FONT_LINKS = `<!-- index.html — in <head>, before your stylesheets -->
+const FONT_LINKS = `<!-- index.html: in <head>, before your stylesheets -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">`;
@@ -127,15 +127,12 @@ export function GetStartedPage() {
           </p>
           <CodeBlock code={INSTALL_FRAMEWORKS} language="sh" />
           <p>
-            All four libraries render the same markup against the same stylesheet and the same token
-            contract, so everything on this page past the install line is true whichever one you
-            chose. Each package's readme covers the parts that are genuinely its own: Svelte's
+            Each package's readme covers the parts that are its own: Svelte's
             bindable props, Vue's <code>v-model</code>, Angular's attribute directives and its
             second stylesheet for CDK overlays.
           </p>
           <p>
-            The <Link to="/docs/data-table">data table</Link> ships separately, because a table
-            engine plus a virtualizer is a dependency every consumer of <code>Button</code> would
+            The <Link to="/docs/data-table">data table</Link> ships separately. <code>Button</code> would
             otherwise pay for at install time:
           </p>
           <CodeBlock code={INSTALL_TABLE} language="sh" />
@@ -400,7 +397,7 @@ export function GetStartedPage() {
           <ul>
             <li>
               <Link to="/docs/theming">Theming</Link> covers generating a theme, overriding tokens
-              by hand, or build them from a config with the Vite plugin.
+              by hand, or building them from a config with the Vite plugin.
             </li>
             <li>
               <Link to="/docs/foundations/color">Foundations → Color</Link> is the palette and the

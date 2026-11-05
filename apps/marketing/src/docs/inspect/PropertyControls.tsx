@@ -62,7 +62,7 @@ function ControlRow({
           helperText={helperText}
           options={options.map((option) => ({ value: option, label: option }))}
           value={value == null ? "" : String(value)}
-          placeholder="—"
+          placeholder="Not set"
           onValueChange={onChange}
         />
       );

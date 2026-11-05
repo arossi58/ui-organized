@@ -66,10 +66,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. The preview takes focus in `activationMode="focus"`. */
 .editable__preview:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* Ark sets data-placeholder-shown when the value is empty; the placeholder is
@@ -91,7 +92,8 @@
 }
 
 .editable__input:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .editable__input[data-invalid] {
@@ -99,7 +101,7 @@
 }
 
 .editable__input[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .editable__preview[data-disabled],

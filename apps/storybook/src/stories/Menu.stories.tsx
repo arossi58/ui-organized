@@ -38,7 +38,7 @@ export const Inspect: Story = {
     const [density, setDensity] = useState("comfortable");
     return (
       <Menu {...args}>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuItem icon="user">Profile</MenuItem>
           <MenuItem icon="settings">Settings</MenuItem>
@@ -71,7 +71,7 @@ export const GroupsAndSelection: Story = {
     const [density, setDensity] = useState("comfortable");
     return (
       <Menu>
-        <MenuTrigger className="btn btn--secondary btn--md">View</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">View</MenuTrigger>
         <MenuContent>
           <MenuCheckboxItem checked={showGrid} onCheckedChange={setShowGrid}>
             Show grid

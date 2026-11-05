@@ -7,6 +7,10 @@
 }
 
 .radio-group__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
   color: var(--color-content-secondary);
   margin-bottom: var(--spacing-space-01);
 }
@@ -54,7 +58,7 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  border-radius: 9999px;
+  border-radius: var(--border-radius-full);
   background-color: transparent;
   border: 2px solid var(--color-interactive-ui-inverse);
   display: flex;
@@ -76,9 +80,11 @@
 /* Focus ring — double outline (inner dark, outer light). Focus lives on Ark's
    visually-hidden input, so key off data-focus-visible not :focus-visible. */
 .radio-item__control[data-focus-visible] {
-  box-shadow:
-    0 0 0 1px var(--color-interactive-focus-inverse),
-    0 0 0 2px var(--color-interactive-focus);
+  /* Outer ring as an outline so a consumer box-shadow can't erase it; the
+     inner contrast ring rides on box-shadow. */
+  outline: 1px solid var(--color-interactive-focus);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 1px var(--color-interactive-focus-inverse);
 }
 
 /* ─── Error state ─────────────────────────────────────────────────────────── */
@@ -97,7 +103,7 @@
 .radio-item__indicator {
   width: 6px;
   height: 6px;
-  border-radius: 3px;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-interactive-ui-light);
   transform: scale(0);
   transition: transform 150ms ease;

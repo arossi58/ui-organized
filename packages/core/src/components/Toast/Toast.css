@@ -116,8 +116,8 @@
 }
 
 .toast__close:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

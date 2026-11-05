@@ -37,7 +37,7 @@ export const scrollAreaUsage: UsageGuide = {
       example: "visible-edge",
     },
     {
-      do: "Set `orientation` to the axis the content actually overflows on.",
+      do: "Set `orientation` to the axis the content overflows on.",
       dont: "Allow both axes by default, where a small overflow becomes a two-directional drag.",
     },
   ],

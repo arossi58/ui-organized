@@ -4,10 +4,15 @@ import type { ControlSize } from "@ui-organized/core";
 export interface AccordionItem {
   /** Unique value identifying this item. */
   value: string | number;
-  /** Header label shown in the trigger. A string, or a snippet. */
-  title: string | Snippet;
-  /** Panel content revealed when the item is open. */
-  content: string | Snippet;
+  /**
+   * Header label shown in the trigger. A string, or a snippet. The snippet is
+   * handed its item, so one snippet can render every item from a list — Svelte
+   * has no public way to bind an argument to a snippet, and a snippet per item
+   * cannot be declared from a loop.
+   */
+  title: string | Snippet<[AccordionItem]>;
+  /** Panel content revealed when the item is open. Handed its item, as `title` is. */
+  content: string | Snippet<[AccordionItem]>;
   /** Whether this item is disabled. */
   disabled?: boolean;
 }

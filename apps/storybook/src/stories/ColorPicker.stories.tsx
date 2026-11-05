@@ -22,7 +22,7 @@ const meta: Meta<typeof ColorPicker> = {
     docs: {
       description: {
         component:
-          "A colour field with a swatch trigger and a portalled picker. The public `value` is a CSS colour string — `#2563eb`, `rgb(37 99 235)` — while the machine works in parsed colour objects; the conversion happens at the component boundary. The alpha checkerboard is overridden with surface tokens so it is correct in dark theme, which Ark's built-in one is not.",
+          "A colour field with a swatch trigger and a pop-up picker.",
       },
     },
   },

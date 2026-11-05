@@ -34,6 +34,7 @@ import type {
 } from "./core/types.js";
 import { UioToolbar } from "@ui-organized/angular";
 import { UioTable, UioTableBody, UioTableHeader, UioTableViewport } from "./components/table.js";
+import { UioTableCards } from "./components/table-cards.js";
 import { UioTablePagination } from "./components/table-pagination.js";
 import { UioTableSubBar } from "./components/table-sub-bar.js";
 import { UioTableToolbar } from "./components/table-toolbar.js";
@@ -69,6 +70,7 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
     UioTableHeader,
     UioTableBody,
     UioTablePagination,
+    UioTableCards,
   ],
   providers: [
     {
@@ -85,10 +87,19 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
     <div uioTableToolbar></div>
     <div uioTableSubBar></div>
 
-    <div uioTableViewport>
-      <thead uioTableHeader></thead>
-      <tbody uioTableBody></tbody>
-    </div>
+    <!--
+      Below the breakpoint the table is replaced by one card per row, not
+      hidden: both trees at once would double the DOM and defeat
+      virtualization on exactly the devices that can least afford it.
+    -->
+    @if (cards()) {
+      <div uioTableCards></div>
+    } @else {
+      <div uioTableViewport>
+        <thead uioTableHeader></thead>
+        <tbody uioTableBody></tbody>
+      </div>
+    }
 
     @if (paginated()) {
       <div uioTablePagination></div>
@@ -222,4 +233,6 @@ export class UioDataTable<T extends RowData> implements OnInit {
   ngOnInit(): void {
     this.ensureApi();
   }
+
+  protected readonly cards = computed(() => this.ensureApi().mode() === "cards");
 }

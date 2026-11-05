@@ -197,16 +197,17 @@
   rotate: calc(var(--angle, 0deg) * -1);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. It goes on the thumb rather than the knob so it is not
    counter-rotated — a ring is rotationally symmetric, and keeping it here lets
    it sit outside the knob's own shadow. */
 .angle-slider__thumb:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .angle-slider__thumb[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 /* ─── Markers ─────────────────────────────────────────────────────────────────

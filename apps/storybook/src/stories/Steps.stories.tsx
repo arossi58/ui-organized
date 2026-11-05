@@ -16,7 +16,7 @@ const meta: Meta<typeof Steps> = {
     docs: {
       description: {
         component:
-          "Progress through a linear task — checkout, onboarding, a multi-part form. `count` is derived from `steps`, never passed, so the indicator row and the progress state can never disagree. Set `linear` to stop people jumping ahead.",
+          "Progress through a linear task such as checkout, onboarding or a multi-part form. `count` is derived from `steps` rather than passed in, so the indicator row and the progress state always agree. Set `linear` to stop people jumping ahead.",
       },
     },
   },
@@ -72,7 +72,7 @@ export const Dotted: Story = {
 
 export const Linear: Story = {
   render: () => (
-    <Steps steps={CHECKOUT_STEPS} linear completedContent="All done — thanks for your order." />
+    <Steps steps={CHECKOUT_STEPS} linear completedContent="All done. Thanks for your order." />
   ),
   parameters: {
     docs: {
@@ -81,7 +81,7 @@ export const Linear: Story = {
 <Steps
   steps={CHECKOUT_STEPS}
   linear
-  completedContent="All done — thanks for your order."
+  completedContent="All done. Thanks for your order."
 />`,
       },
     },

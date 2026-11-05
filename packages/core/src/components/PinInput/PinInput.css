@@ -61,10 +61,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
    colour is themed. */
 .pin-input__cell:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .pin-input__cell[data-invalid] {
@@ -72,7 +73,7 @@
 }
 
 .pin-input__cell[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
 }
 
 .pin-input__cell:disabled,

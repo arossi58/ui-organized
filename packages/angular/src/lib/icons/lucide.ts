@@ -20,6 +20,7 @@ import {
   lucidePause, lucidePencil, lucidePhone, lucidePipette, lucidePlay, lucidePlus, lucideRedo2,
   lucideRefreshCw, lucideRotateCw, lucideSearch, lucideSettings, lucideStar, lucideTag,
   lucideTrash2, lucideUndo2, lucideUpload, lucideUser, lucideUsers, lucideX, lucideListFilter, lucideRotateCcw,
+  lucideSun, lucideMoon, lucideMonitor,
 } from "@ng-icons/lucide";
 import type { CanonicalIconName } from "@ui-organized/utils";
 
@@ -81,4 +82,7 @@ export const lucideIconSet: Record<CanonicalIconName, string> = {
   "pipette":        lucidePipette,
   "rotate-cw":      lucideRotateCw,
   "rotate-ccw":     lucideRotateCcw,
+  "sun":            lucideSun,
+  "moon":           lucideMoon,
+  "monitor":        lucideMonitor,
 };

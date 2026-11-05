@@ -23,7 +23,7 @@ const CARDS: OverviewCardDef[] = [
   {
     id: "tools",
     title: "Tools",
-    body: "Web apps and a Figma plugin for the repetitive parts.",
+    body: "To help with the tedious work. ",
     Art: ToolsScene,
   },
   {
@@ -61,8 +61,7 @@ export function OverviewSection() {
             <h2 className="overview__title">An open source design system</h2>
             <p className="overview__lede">
               UI Organized is an open source community that builds design tools
-              and resources. Today that means a design system and a set of
-              plugins, made by people who want design work to be easier.
+              and resources.
             </p>
           </div>
         </Reveal>

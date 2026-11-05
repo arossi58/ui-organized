@@ -26,12 +26,13 @@
    cannot drift apart. All that is left here is what is specific to a filter:
    how much of a long value it is allowed to show before it truncates. */
 
-.data-table__filter-chip .chip__value {
+.data-table__filter-chip .chip__segment--value {
   max-width: var(--dimension-05);
 }
 
-/* ─── Editor popover (Figma 2298:726) ────────────────────────────────────────
-   The field name, the operator, the value, a rule, and a remove.
+/* ─── Value editor popover (Figma 2298:726) ──────────────────────────────────
+   What the chip's value segment opens: the value, a rule, and a remove. The
+   field and the operator have segments — and menus — of their own.
 
    The popup is padded to `space-01` rather than the `Popover` default, because
    the rows inside it carry their own `space-03` — the design's surface hugs its

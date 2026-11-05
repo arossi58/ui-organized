@@ -123,6 +123,20 @@
   flex: 0 1 auto;
 }
 
+/* A phone-width column, centred, with its edges drawn so the width reads as a
+   device rather than as a component that happens to be narrow. 390px is a
+   current mid-size phone. */
+.stage[data-viewport="mobile"] {
+  justify-content: center;
+}
+
+.stage[data-viewport="mobile"] .stageInner {
+  flex: 0 1 390px;
+  max-width: 390px;
+  outline: 1px dashed var(--color-border-secondary);
+  outline-offset: var(--spacing-space-03);
+}
+
 /* Code that belongs to the preview above it, inside the same frame. The block's
    own border is dropped (see CodeBlock `attached`) so the two read as one card
    rather than two stacked ones. */

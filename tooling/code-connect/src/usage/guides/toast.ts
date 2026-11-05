@@ -4,7 +4,7 @@ export const toastUsage: UsageGuide = {
   slug: "toast",
   codeName: "ToastProvider",
   summary:
-    "A short notice that something happened, shown away from the flow and gone on its own. It reports, and it never asks: nothing important should live only inside one.",
+    "A short notice that something happened, shown away from the flow and gone on its own. It reports and never asks, so nothing important should live only inside one.",
   useWhen: [
     "An action succeeded and the result isn't visible on the surface itself.",
     "A background task finished while the reader was busy elsewhere.",

@@ -141,6 +141,7 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
   const sortable = column.getCanSort();
   const sorted = column.getIsSorted();
   const focused = interactive && focus.cursor.row === -1 && focus.cursor.col === index;
+  const editable = Boolean(metaOf<T>(column.columnDef)?.edit);
 
   const props = getHeadCellProps({
     columnId: column.id,
@@ -151,6 +152,7 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
     sticky: stickyPositionOf(table as TableInstance<T>, column),
     resizing: column.getIsResizing(),
     interactive,
+    editable,
   });
 
   const content = header.isPlaceholder
@@ -176,16 +178,34 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
             onClick={column.getToggleSortingHandler()}
           >
             <span className="data-table__head-label">{content}</span>
+            {editable && <EditMark />}
             <span className="data-table__sort-icon">
               <Icon name={sorted === "desc" ? "sort-desc" : "sort-asc"} size={14} />
             </span>
           </button>
         ) : (
-          <span className="data-table__head-label">{content}</span>
+          <>
+            <span className="data-table__head-label">{content}</span>
+            {editable && <EditMark />}
+          </>
         )}
       </div>
       {column.getCanResize() && <ResizeHandle header={header} />}
     </th>
+  );
+}
+
+/**
+ * The pencil on an editable column's header. The words go with it: as part of
+ * the column header, ", editable" is announced with every cell in the column,
+ * which is where a screen-reader user needs to learn that Enter opens an editor.
+ */
+function EditMark() {
+  return (
+    <span className="data-table__edit-icon">
+      <Icon name="edit" size={14} />
+      <span className="data-table__sr-only">, editable</span>
+    </span>
   );
 }
 
@@ -349,6 +369,7 @@ export function TableCell<T extends RowData>({
   const column = cell.column;
   const meta = metaOf<T>(column.columnDef);
   const editing = editContext?.columnId === column.id ? editContext : null;
+  const editable = Boolean(meta?.edit) && onStartEdit !== undefined;
 
   const props = getCellProps({
     columnId: column.id,
@@ -357,6 +378,7 @@ export function TableCell<T extends RowData>({
     primary,
     sticky: stickyPositionOf(table, column),
     focused,
+    editable,
     editing: Boolean(editing),
     invalid: Boolean(editing?.invalid),
     interactive,
@@ -371,7 +393,17 @@ export function TableCell<T extends RowData>({
       {...reactProps<React.TdHTMLAttributes<HTMLTableCellElement>>(props)}
       data-cell={`${rowIndex}:${index}`}
       onFocus={interactive ? () => onFocusCell({ row: rowIndex, col: index }) : undefined}
-      onDoubleClick={meta?.edit && onStartEdit ? () => onStartEdit(row, column.id) : undefined}
+      // One click opens the editor. The click stops here either way: it must not
+      // also activate the row (open its detail sheet), and a click *inside* the
+      // open editor must not restart the edit and throw the draft away.
+      onClick={
+        editable
+          ? (event) => {
+              event.stopPropagation();
+              if (!editing) onStartEdit?.(row, column.id);
+            }
+          : undefined
+      }
     >
       {editing ? (
         <CellEditor>{meta?.edit?.render(editing) as ReactNode}</CellEditor>
@@ -413,6 +445,27 @@ function CellEditor({ children }: { children: ReactNode }) {
   );
 }
 
+/** Anything a click can mean something to on its own. */
+const CONTROL_SELECTOR =
+  "a, button, input, select, textarea, label, summary, [contenteditable], [role=button], [role=checkbox], [role=menuitem], [role=menuitemcheckbox], [role=menuitemradio], [role=option], [role=switch], [role=tab]";
+
+/**
+ * Whether a click on a row was aimed at the row itself, rather than at a
+ * control inside it. A selection checkbox, the row's action menu and an inline
+ * editor all live in the row, and opening the detail sheet over the top of
+ * them turns every one into a trap. React also bubbles events out of portals
+ * by component tree, so a click on the action menu's items — rendered in a
+ * popup far outside the row — arrives here too; that is the
+ * `contains` check.
+ */
+export function isRowActivationClick(event: React.MouseEvent<HTMLElement>): boolean {
+  const target = event.target as Element | null;
+  const row = event.currentTarget;
+  if (!target || !row.contains(target)) return false;
+  const control = target.closest(CONTROL_SELECTOR);
+  return !control || !row.contains(control);
+}
+
 function TableRowBase<T extends RowData>({
   row,
   index,
@@ -448,7 +501,13 @@ function TableRowBase<T extends RowData>({
       // so a re-themed row height corrects itself on the first frame.
       ref={measureElement}
       data-index={index}
-      onClick={onActivate ? () => onActivate(row) : undefined}
+      onClick={
+        onActivate
+          ? (event) => {
+              if (isRowActivationClick(event)) onActivate(row);
+            }
+          : undefined
+      }
     >
       {row.getVisibleCells().map((cell, colIndex) => (
         <TableCell

@@ -41,6 +41,8 @@ import {
   IconPlayerPauseFilled, IconPlayerPlayFilled,
   IconPlusFilled, IconSearchFilled, IconSettingsFilled,
   IconStarFilled, IconTagFilled, IconTrashFilled, IconUserFilled, IconArrowsSort, IconRotate,
+  IconSun, IconMoon, IconDeviceDesktop,
+  IconSunFilled, IconMoonFilled, IconDeviceDesktopFilled,
 } from "@tabler/icons-svelte";
 import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "./registry.js";
@@ -103,10 +105,13 @@ const outline = {
   "pipette":        IconColorPicker,
   "rotate-cw":      IconRotateClockwise,
   "rotate-ccw":     IconRotate,
+  "sun":            IconSun,
+  "moon":           IconMoon,
+  "monitor":        IconDeviceDesktop,
 } satisfies Record<CanonicalIconName, unknown>;
 
 /**
- * Tabler's filled cut, which covers 27 of the 55 canonical names. The rest have
+ * Tabler's filled cut, which covers 30 of the 60 canonical names. The rest have
  * no official filled variant; `resolveIconComponent` falls back to the outline
  * one rather than leaving a hole.
  */
@@ -138,6 +143,9 @@ const solid = {
   "tag":            IconTagFilled,
   "trash":          IconTrashFilled,
   "user":           IconUserFilled,
+  "sun":            IconSunFilled,
+  "moon":           IconMoonFilled,
+  "monitor":        IconDeviceDesktopFilled,
 } satisfies Partial<Record<CanonicalIconName, unknown>>;
 
 export const tablerIconSet = outline as unknown as Record<CanonicalIconName, IconComponent>;

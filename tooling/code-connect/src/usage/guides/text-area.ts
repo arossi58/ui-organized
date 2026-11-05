@@ -25,7 +25,7 @@ export const textAreaUsage: UsageGuide = {
   ],
   guidance: [
     {
-      do: "Set the starting height to the length you actually expect.",
+      do: "Set the starting height to the length you expect.",
       dont: "Ship a two-line box for a paragraph, so the reader edits through a slot.",
       example: "expected-length",
     },

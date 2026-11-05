@@ -359,7 +359,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         brandRamp: ramp,
         brandHex: ramp["1400"]?.hex ?? DEFAULT_BRAND_HEX,
         // Keep the chosen primary accessible for the new ramp (snap if it isn't).
-        brandShade: pickAccessibleShade(ramp, state.brandShade),
+        brandShade: pickAccessibleShade(ramp, state.brandShade, state.neutralRamp),
       };
     }),
 
@@ -371,8 +371,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         brandHex: hex,
         brandRamp: ramp,
         // A custom hue may push the current shade out of the accessible band —
-        // snap to the nearest shade that still reads with white button text.
-        brandShade: pickAccessibleShade(ramp, state.brandShade),
+        // snap to the nearest shade whose button label still reads.
+        brandShade: pickAccessibleShade(ramp, state.brandShade, state.neutralRamp),
       };
     }),
 

@@ -75,6 +75,7 @@ import {
   normalizeFilterDef,
   operatorLabel,
   operatorsFor,
+  retargetCondition,
   orderFilterableFields,
   stepRow,
   toBulkSelection,
@@ -959,6 +960,23 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
     [],
   );
 
+  /** The chip's field segment: move a condition to another column. */
+  const changeFilterField = useCallback(
+    (id: string, columnId: string) => {
+      const condition = conditions.find((entry) => entry.id === id);
+      if (!condition || condition.columnId === columnId) return;
+      dispatchFilter(
+        retargetCondition(
+          condition,
+          { type: typeOfColumn(condition.columnId) },
+          { columnId, type: typeOfColumn(columnId), def: filterDefs.get(columnId) },
+          catalogue,
+        ),
+      );
+    },
+    [catalogue, conditions, filterDefs, typeOfColumn],
+  );
+
   const removeFilter = useCallback(
     (id: string) => {
       const condition = conditions.find((entry) => entry.id === id);
@@ -1069,6 +1087,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
       fields,
       add: addFilter,
       update: updateFilter,
+      changeField: changeFilterField,
       restore: (condition) => dispatchFilter({ type: "restore", condition }),
       remove: removeFilter,
       clear: clearFilters,

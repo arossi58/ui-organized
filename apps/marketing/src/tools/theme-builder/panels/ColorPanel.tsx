@@ -11,10 +11,9 @@ import {
   type ColorRamp,
 } from "@ui-organized/utils";
 import {
-  PRIMARY_TEXT_HEX,
-  wcagContrast,
   contrastLevel,
   getAccessibleShades,
+  primaryLabelFor,
 } from "../utils/accessibleShades";
 import styles from "./ColorPanel.module.css";
 
@@ -180,20 +179,23 @@ function FamilyPicker({
 
 function PrimaryShadeSelector({
   ramp,
+  neutralRamp,
   selectedShade,
   onSelect,
 }: {
   ramp: ColorRamp;
+  neutralRamp: ColorRamp;
   selectedShade: string;
   onSelect: (shade: string) => void;
 }) {
-  // Offer only shades that clear 4.5:1 against white button text (not too light)
-  // and stay under the near-black cap (not too dark). Same rule the store uses to
-  // auto-select an accessible shade when the brand changes.
-  const validSteps = getAccessibleShades(ramp);
+  // Offer only shades whose button label — near-white or near-black, whichever
+  // the resolver picks — clears 4.5:1, without the fill turning near-black or
+  // near-white. Same rule the store uses to auto-select a shade on brand change.
+  const validSteps = getAccessibleShades(ramp, neutralRamp);
 
   const selectedHex = ramp[selectedShade]?.hex ?? "#000000";
-  const contrastRatio = wcagContrast(selectedHex, PRIMARY_TEXT_HEX);
+  const label = primaryLabelFor(selectedHex, neutralRamp);
+  const contrastRatio = label.ratio;
   const level = contrastLevel(contrastRatio);
   const passes = level !== "fail";
 
@@ -210,7 +212,7 @@ function PrimaryShadeSelector({
               onClick={() => onSelect(s)}
               className={`${styles.shadeCell} ${isSelected ? styles.shadeCellSelected : ""}`}
               style={{ backgroundColor: hex }}
-              title={`${s} — ${wcagContrast(hex, PRIMARY_TEXT_HEX).toFixed(1)}:1`}
+              title={`${s} · ${primaryLabelFor(hex, neutralRamp).ratio.toFixed(1)}:1`}
             >
               {isSelected && <span className={styles.shadeCellCheck}>✓</span>}
             </button>
@@ -223,7 +225,7 @@ function PrimaryShadeSelector({
         className={`${styles.contrastReadout} ${passes ? styles.contrastReadoutPass : styles.contrastReadoutFail}`}
       >
         <div className={styles.contrastSwatch} style={{ backgroundColor: selectedHex }}>
-          <span className={styles.contrastSwatchLabel} style={{ color: PRIMARY_TEXT_HEX }}>
+          <span className={styles.contrastSwatchLabel} style={{ color: label.hex }}>
             Aa
           </span>
         </div>
@@ -233,7 +235,7 @@ function PrimaryShadeSelector({
             {passes ? `WCAG ${level}` : "Fails WCAG AA (4.5:1 min)"}
           </span>
           <span className={styles.contrastShade}>
-            Shade {selectedShade} · {selectedHex}
+            Shade {selectedShade} · {selectedHex} · {label.ref === "grey.100" ? "light" : "dark"} label
           </span>
         </div>
         <div
@@ -270,7 +272,7 @@ function SurfacePreview({ ramp }: { ramp: ColorRamp }) {
                     backgroundColor: hex,
                     color: mode === "light" ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.45)",
                   }}
-                  title={`${step} — ${hex}`}
+                  title={`${step} · ${hex}`}
                 >
                   {hex}
                 </div>
@@ -354,7 +356,7 @@ export function ColorPanel() {
     <div className={styles.panel}>
       {/* ── Brand Color ─────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Brand Color</h3>
+        <h3 className={styles.sectionTitle}>Brand color</h3>
         <p className={styles.hint}>
           Pick a brand family from the core palette, or enter a custom color to generate a matching
           24-step ramp.
@@ -401,13 +403,15 @@ export function ColorPanel() {
 
       {/* ── Primary Shade ───────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Primary Color</h3>
+        <h3 className={styles.sectionTitle}>Primary color</h3>
         <p className={styles.hint}>
-          Choose which shade of the brand ramp is the primary interactive color. Only shades that
-          read clearly with white text — neither too light nor too dark (near-black) — are shown.
+          Choose which shade of the brand ramp is the primary interactive color. Button text flips
+          between light and dark to suit the shade; only shades where it reads clearly, and that
+          aren't near-black or a pale tint, are shown.
         </p>
         <PrimaryShadeSelector
           ramp={brandRamp}
+          neutralRamp={neutralRamp}
           selectedShade={brandShade}
           onSelect={setBrandShade}
         />
@@ -415,7 +419,7 @@ export function ColorPanel() {
 
       {/* ── Neutral & Surface Tint ──────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Neutral &amp; Surface Tint</h3>
+        <h3 className={styles.sectionTitle}>Neutral &amp; surface tint</h3>
         <p className={styles.hint}>
           Tint the neutral ramp that drives every surface, border, and text color. Pick a hue from
           the palette or enter your own. Every tint holds the grey ramp&rsquo;s brightness at each
@@ -486,9 +490,9 @@ export function ColorPanel() {
 
       {/* ── Import Theme ────────────────────────────────────────────────── */}
       <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Import Theme</h3>
+        <h3 className={styles.sectionTitle}>Import theme</h3>
         <p className={styles.hint}>
-          Load a <code>theme.json</code> back into the builder — a previous export, or one
+          Load a <code>theme.json</code> back into the builder: a previous export, or one
           round-tripped from Figma via the <strong>UI Organized - Theme Import</strong> plugin.
         </p>
         <input

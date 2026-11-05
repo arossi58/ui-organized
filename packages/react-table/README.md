@@ -230,7 +230,7 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 | Pagination                           | Wraps `Pagination`, converts row count to page count                                  |
 | Virtualization                       | On above 50 rows; spacer rows, so table semantics survive                             |
 | Selection                            | Shift-range, and "select all 40,000 matching" for server tables                       |
-| Bulk actions                         | A `Toolbar` that appears with a selection; destructive routes through `AlertDialog`   |
+| Bulk actions                         | Replace the toolbar's controls while rows are selected; destructive confirms first    |
 | Column resize / reorder / visibility | Resize handle is a focusable `role="separator"`, not a drag-only target               |
 | Inline editing                       | Optimistic, with rollback on a rejected `onEdit`                                      |
 | Row detail                           | A `Sheet` with prev/next and a dirty guard                                            |
@@ -241,18 +241,22 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 
 ## The header
 
-One row of controls above the table, and under it a second row — `TableSubBar` — for what
-is currently _applied_: the filter chips on the left, and, while rows are ticked, the
-bulk-action toolbar at the right-hand end. Neither is there until it has something to say,
-and the row itself is absent when neither is.
+One row of controls above the table, and under it a second row — `TableSubBar` — for the
+filter chips. The second row is absent until a filter is applied.
 
 ```
 [ Search            ]   [ your actions ] │ [sort] [filter] [export] [columns] [‹][›]
-Filters (Role is any of Owner, Admin) ＋ Add ↺ Reset      [ 2 rows selected · Export · Clear ]
+Filters (Role is any of Owner, Admin) ＋ Add ↺ Reset
 ```
 
-The chips wrap onto further lines before the bulk-action toolbar gives up its place beside
-them, so a narrow viewport grows the row downwards rather than hiding either half.
+While rows are ticked, the bulk actions take the place of everything right of the search
+box, as plain buttons in the same row. What to do with the selection is the decision in
+front of the user, so it goes where they were already looking; clearing the selection
+brings the table's controls back.
+
+```
+[ Search            ]              2 rows selected  [Export] [Archive] [Clear] [‹][›]
+```
 
 `actions` are yours; everything right of the rule belongs to the table. The rule appears
 only when there is something on both sides of it.
@@ -278,6 +282,26 @@ buttons rather than an overflow menu, because these are the actions a page is _f
 headers; in **card mode it is the only sort control there is**, which is why it is not
 opt-in.
 
+### Card mode
+
+Card mode is the phone layout, so its controls are sized for a thumb:
+
+- **Sort and Filter are labelled buttons that open a bottom sheet each**
+  (`TableSortSheet`, `TableFilterSheet`). The sort sheet holds the field and direction.
+  The filter sheet lists **every filterable field at once**, one accordion section each,
+  all open to start. A section holds that field's condition and value, and shows what is
+  applied in its header so it still reads when collapsed. Nothing has to be added first:
+  the sheet keeps an empty draft condition per field while open, which the filter model
+  ignores until it has a value, and removes the unfilled drafts on close.
+- **What is applied is a badge on the button**, read out as ", 2 applied". The filter chips
+  row is not shown, because the sheet is where filters are edited.
+- **Each card's controls sit in its top-right corner**: the row-actions menu, then the
+  checkbox. Card type is one step larger than the table's.
+
+Anything the sheets open (the selects, the value list) portals into
+the sheet. The sheet is modal, so it hides everything outside itself from assistive tech,
+and a menu portalled to `<body>` would be on screen but unreachable.
+
 The last pair are the **scroll buttons**, and they are there only while the viewport is
 actually hiding columns — a table whose columns all fit never renders them. They move most
 of a viewport width at a time, keeping the trailing columns in view so the movement reads
@@ -294,19 +318,19 @@ const { scroll } = useDataTable({ … });
 
 ## Filtering
 
-A filter is **identifier + relative + value** — "Role · is any of · Owner, Admin". Users
-start one from the funnel in the header, each becomes a `Chip` on the line below, and
-clicking a chip opens an editor holding its operator, its value, and **Remove**.
+A filter is **identifier + relative + value**: "Role · is any of · Owner, Admin". Users
+start one from the funnel in the header, and each becomes a segmented `Chip` on the line
+below. Each segment opens the control for the one part it shows: the field segment a menu
+of columns (plus **Remove filter**), the operator segment a menu of operators, and the
+value segment the value editor. An operator that takes no value ("is empty") has no value
+segment.
 
-The relation is **drawn** for the six operators the design system has a glyph for — `is`,
-`is any of`, `contains`, `does not contain`, `starts with`, `ends with` — and written for
-the rest, because there is no glyph for "is in the last 7 days" that anyone would read
-correctly. The words stay the glyph's accessible name either way, so the chip reads as
-"Name contains ada" whether it is seen or heard. A custom operator can name a glyph too:
+Every relation is spelled, using the operator's `label` (or its per-type `labelByType`), so
+the chip reads as "Name contains ada" whether it is seen or heard.
 
-```ts
-filterOperators={[{ id: "matches", label: "matches", icon: "contains", /* … */ }]}
-```
+Moving a condition to another field keeps its operator and value when both columns read
+them the same way, and starts over on the new column's default otherwise
+(`retargetCondition` in `@ui-organized/table-core`).
 
 ```tsx
 { accessorKey: "joined", header: "Joined", meta: { filter: true } }              // inferred

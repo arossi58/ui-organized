@@ -40,9 +40,11 @@
    drop shadows. Focus lives on Ark's visually-hidden input, not the control
    <span>, so key off data-focus-visible. */
 .checkbox__control[data-focus-visible] {
-  box-shadow:
-    0 0 0 1px var(--color-interactive-focus-inverse),
-    0 0 0 2px var(--color-interactive-focus);
+  /* Outer ring as an outline so a consumer box-shadow can't erase it; the
+     inner contrast ring rides on box-shadow. */
+  outline: 1px solid var(--color-interactive-focus);
+  outline-offset: 1px;
+  box-shadow: 0 0 0 1px var(--color-interactive-focus-inverse);
 }
 
 .checkbox__control[data-state="checked"],

@@ -234,7 +234,7 @@ export function buildThemeTokens(state: BuilderState): Record<string, unknown> {
         : getCoreFamily(group);
 
   return {
-    $description: `${state.themeName || "My Theme"} — exported from the Design System Theme Builder`,
+    $description: `${state.themeName || "My Theme"}, exported from the UI Organized Theme Builder`,
     $extensions: {
       "com.ui-organized.theme-builder": {
         themeName: state.themeName || "My Theme",
@@ -343,7 +343,7 @@ export function buildIconsModule(state: BuilderState): string {
   return `/**
  * Icon configuration exported from the UI Organized Theme Builder.
  *
- * Icons are runtime React context, not CSS — wrap your app with <IconProvider>
+ * Icons are runtime React context, not CSS. Wrap your app with <IconProvider>
  * so every <Icon> inherits the chosen library, style, reference size and stroke
  * scaling.
  *
@@ -403,7 +403,7 @@ export function buildReadme(state: BuilderState): string {
   const defaultLine =
     mode === "system"
       ? "`:root` is light and follows `prefers-color-scheme` when no `data-theme` is set."
-      : `\`:root\` is **${mode}** — that is what a page renders as before any \`data-theme\` is set.`;
+      : `\`:root\` is **${mode}**, which is what a page renders as before any \`data-theme\` is set.`;
 
   const brandSummary =
     state.brandMode === "custom" ? `custom \`${state.brandHex}\`` : `\`${state.brandFamily}\``;
@@ -418,35 +418,35 @@ export function buildReadme(state: BuilderState): string {
 
   return `# ${name}
 
-Exported from the UI Organized Theme Builder. One source of truth — the DTCG
-tokens — plus everything derived from it that code and Figma actually consume.
+Exported from the UI Organized Theme Builder. The DTCG tokens are the source of
+truth; the other files are derived from them for code and Figma to consume.
 
-Brand is ${brandSummary} at shade \`${state.brandShade}\`. The neutral ramp — which
-drives every surface, border and content color — is ${neutralSummary}. Tinted
+Brand is ${brandSummary} at shade \`${state.brandShade}\`. The neutral ramp, which
+drives every surface, border and content color, is ${neutralSummary}. Tinted
 neutrals hold the untinted ramp's per-step lightness, giving up at most 0.02 at
 the lightest steps where sRGB is too narrow to hold the tint otherwise, so no
 token pair crosses a WCAG threshold.
 
 ## Files
 
-- **theme.json** — DTCG design tokens (the canonical config). \`primitive.color\`
+- **theme.json**: DTCG design tokens (the canonical config). \`primitive.color\`
   holds the full ramps of every color family this theme uses; \`color.light\` /
   \`color.dark\` are the semantic tokens, each **referencing** a primitive
   (\`{primitive.color.…}\`) or carrying a raw literal. Typography, spacing, radius,
   dimension and component aliases are theme-independent. Icon settings live under
   \`$extensions["com.ui-organized.theme-builder"].icons\`.
-- **theme.css** — derived web stylesheet (CSS custom properties for both modes).
+- **theme.css**: derived web stylesheet (CSS custom properties for both modes).
   Use this if you just want to drop the theme into a web app.
-- **icons.ts** — \`IconProvider\` config. Icons are React context, not a CSS or
+- **icons.ts**: \`IconProvider\` config. Icons are React context, not a CSS or
   Figma variable, so they are applied in code rather than through the tokens.
-- **fonts.ts** — the typefaces this theme names, with the stylesheet URL that
+- **fonts.ts**: the typefaces this theme names, with the stylesheet URL that
   loads each one. \`theme.css\` can name a font but cannot efficiently fetch it,
   so loading is left to your document head.
 
 ## Quick start
 
 Point the CLI at this bundle and it files everything where your project keeps
-things — then tells you what's left to do:
+things, then tells you what's left to do:
 
 \`\`\`sh
 npx @ui-organized/cli theme ${
@@ -474,12 +474,12 @@ entry:
 \`\`\`ts
 // src/main.tsx
 import '@ui-organized/react/styles'   // 1. component styles
-import './styles/theme.css'           // 2. this export — after, so it wins
+import './styles/theme.css'           // 2. this export (after, so it wins)
 import './index.css'                  // 3. your own layout, last
 \`\`\`
 
 Order is load-bearing. \`theme.css\` and any baseline token stylesheet both
-declare on \`:root\`, and \`:root\` vs \`:root\` is a specificity tie — decided by
+declare on \`:root\`, and \`:root\` vs \`:root\` is a specificity tie, decided by
 source order. Import the theme earlier and the baseline silently wins.
 
 This file is self-contained: it carries the resolved colors *and* the
@@ -489,7 +489,7 @@ styles need, so \`@ui-organized/tokens/variables.css\` is optional. Add it *befo
 
 ### Modes
 
-${defaultLine} Switch by attribute — no re-import:
+${defaultLine} Switch modes by attribute; there is nothing to re-import:
 
 \`\`\`ts
 document.documentElement.setAttribute('data-theme', 'light')  // or 'dark'
@@ -508,19 +508,18 @@ that reads resolved token values needs a \`MutationObserver\` on the attribute.
 ## Use the fonts (web)
 
 This theme is set in ${familyList}. **\`theme.css\` names those families but does
-not load them** — add these to your document \`<head>\`:
+not load them**. Add these to your document \`<head>\`:
 
 \`\`\`html
 ${fontLinkTags(fonts)}
 \`\`\`
 
-Without them the theme's metrics — sizes, weights and leading — render in
-whatever fallback the browser picks. It looks deliberate, which is exactly why
-it's easy to miss.
+Without them the theme's sizes, weights and leading render in whatever fallback
+the browser picks. The result can look intentional, so it's easy to miss.
 
 The tags are deliberately *not* an \`@import\` inside \`theme.css\`. An \`@import\` is
 invisible to the browser's preload scanner, so the font would sit behind a second
-round trip, and it would hard-code a CDN into your tokens — which makes
+round trip. It would also hard-code a CDN into your tokens, which makes
 self-hosting a matter of editing generated output after every re-export.
 \`fonts.ts\` carries the same list as data if you'd rather generate the tags at
 build time, or self-host the files and ignore these entirely.
@@ -540,7 +539,7 @@ ${
 }
 > **Watch the cascade:** any \`--type-font-*\` declaration in a stylesheet imported
 > *after* \`theme.css\` silently overrides these families. Loading the font does not
-> fix that — check your import order first if the typeface still looks wrong.
+> fix that. Check your import order first if the typeface still looks wrong.
 
 ## Use the icons (code)
 
@@ -570,20 +569,20 @@ logs how to fix it; without the package installed the import itself fails.
 Import **theme.json** with the **UI Organized - Theme Import** plugin. It creates
 (or updates) four variable collections:
 
-- **Primitives** — the used global colors from \`primitive.color\`.
-- **Semantic** — \`color.light\` / \`color.dark\` as the collection's Light/Dark
+- **Primitives**: the used global colors from \`primitive.color\`.
+- **Semantic**: \`color.light\` / \`color.dark\` as the collection's Light/Dark
   modes; each color is a Figma **alias** pointing at a Primitive, so re-skinning
   the brand/neutral re-flows everything.
-- **Scale** — spacing, radius, fixed dimensions and component dimensions,
+- **Scale**: spacing, radius, fixed dimensions and component dimensions,
   including the shared \`control-height\` (sm/md/lg) that keeps buttons, inputs and
   selects aligned.
-- **Typography** — font families, weights, sizes and line-heights.
-- **Icons** — only when dynamic stroke scaling is on: each icon size with its
+- **Typography**: font families, weights, sizes and line-heights.
+- **Icons**: only when dynamic stroke scaling is on: each icon size with its
   optically-corrected stroke weight (Figma can't compute strokes the way the
   \`<Icon>\` component does at runtime, so the plugin materialises them).
 
 Re-running the import overwrites existing variables in place and adds new ones.
-Icon library/style settings are otherwise metadata — apply them in code via
+Icon library/style settings are otherwise metadata; apply them in code via
 \`icons.ts\`.
 `;
 }

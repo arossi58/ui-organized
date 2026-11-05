@@ -12,7 +12,14 @@ function SourceTag({ prop }: { prop: StyleProp }) {
     return <span className="fcp-hardcoded" title="Hardcoded value — not a design token">⚠ hardcoded</span>;
   }
   if (prop.source === "inherited") {
-    return <span className="fcp-inherited" title="Inherited from an ancestor">inherited</span>;
+    const title = prop.varName ? `Inherited from an ancestor: ${prop.varName}` : "Inherited from an ancestor";
+    return <span className="fcp-inherited" title={title}>{prop.varName ?? "inherited"}</span>;
+  }
+  if (prop.source === "page") {
+    return <span className="fcp-inherited" title="Not set by the component; inherited from the page">from page</span>;
+  }
+  if (prop.source === "keyword" || prop.source === "inline") {
+    return <span className="fcp-inherited">{prop.source}</span>;
   }
   return null;
 }

@@ -16,6 +16,7 @@ const NAV_ICON_SIZE = 16;
 const toDateValues = (dates: string[] | undefined) =>
   dates ? dates.map((d) => parseDate(d)) : undefined;
 
+/** @deprecated Use DateInput for a single date or DateRangeInput for a range. DatePicker is no longer documented and will be removed in the next major release. */
 export function DatePicker({
   label,
   helperText,

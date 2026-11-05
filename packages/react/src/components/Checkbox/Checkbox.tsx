@@ -35,7 +35,7 @@ export function Checkbox({
       id={id}
     >
       <ArkCheckbox.Control className="checkbox__control">
-        <ArkCheckbox.Indicator className="checkbox__indicator">
+        <ArkCheckbox.Indicator className="checkbox__indicator" indeterminate={indeterminate}>
           {indeterminate ? (
             <span className="checkbox__indicator--indeterminate" />
           ) : (
