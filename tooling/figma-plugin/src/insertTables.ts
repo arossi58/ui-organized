@@ -6,10 +6,10 @@
  *   Name | <mode> | <mode> | … | Scopes
  *
  * There is always a Name column, then one column per mode in the collection,
- * and (optionally) a Scopes column. Colour cells carry a swatch whose fill is
+ * and (optionally) a Scopes column. Color cells carry a swatch whose fill is
  * bound to the actual variable — with the cell pinned to that column's mode via
  * setExplicitVariableModeForCollection — so the inserted table renders live in
- * the user's colours. The table chrome (surface, text, border) binds to the
+ * the user's colors. The table chrome (surface, text, border) binds to the
  * user's semantic tokens when they exist, so it's "styled with their variables".
  */
 
@@ -71,7 +71,7 @@ const SCOPE_LABELS: Record<string, string> = {
   TEXT_FILL: "Text fill",
   STROKE_COLOR: "Stroke",
   STROKE_FLOAT: "Stroke width",
-  EFFECT_COLOR: "Effect colour",
+  EFFECT_COLOR: "Effect color",
   EFFECT_FLOAT: "Effect",
   CORNER_RADIUS: "Corner radius",
   GAP: "Gap",
@@ -265,7 +265,7 @@ export async function insertTables(options: {
     const fallback: RGB = resolved && isRgba(resolved) ? { r: resolved.r, g: resolved.g, b: resolved.b } : { r: 0.5, g: 0.5, b: 0.5 };
     try {
       // Pin this swatch to the column's mode, then bind its fill to the variable
-      // so it renders that mode's colour live.
+      // so it renders that mode's color live.
       sw.setExplicitVariableModeForCollection(collection, modeId);
       sw.fills = [figma.variables.setBoundVariableForPaint({ type: "SOLID", color: fallback }, "color", variable)];
     } catch {

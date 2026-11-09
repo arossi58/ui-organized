@@ -29,7 +29,7 @@ const PROPS_COLLAPSE_QUERY = "(max-width: 720px)";
 
 interface PropsTableProps {
   props: PropDefinition[];
-  /** Named-alias expansions, e.g. `{ CanonicalIconName: [...] }`. */
+  /** Named-alias expansions, e.g. `{ ControlSize: [...] }`. */
   typeValues?: Record<string, string[]>;
   /** Show the "everything else forwards to the element" note. */
   showPassthrough?: boolean;

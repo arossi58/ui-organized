@@ -33,6 +33,7 @@ import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
+import { glyph } from "../../icons/glyph.js";
 
 type Side = "start" | "end";
 const SIDES = ["start", "end"] as const;
@@ -132,7 +133,7 @@ function fieldProps(side: Side) {
   const isStart = side === "start";
   return definedOnly({
     // Native date inputs are never `:placeholder-shown`; flag empty so the
-    // mm/dd/yyyy chrome renders in the placeholder colour.
+    // mm/dd/yyyy chrome renders in the placeholder color.
     "data-empty": (isStart ? current.value.start : current.value.end) ? undefined : true,
     value: isStart ? current.value.start : current.value.end,
     // The filled end becomes the other's bound, so the range can't invert.
@@ -197,7 +198,7 @@ const positioning = datePopoverPositioning(() => rowEl.value);
             :aria-label="pickerLabel(side)"
             @click="openNativePicker(side)"
           >
-            <Icon name="calendar" :size="iconSize" />
+            <Icon :name="glyph('calendar')" :size="iconSize" />
           </button>
           <input
             :ref="(el) => captureField(side, el)"
@@ -234,7 +235,7 @@ const positioning = datePopoverPositioning(() => rowEl.value);
                 :disabled="disabled"
                 :aria-label="pickerLabel('start')"
               >
-                <Icon name="calendar" :size="iconSize" />
+                <Icon :name="glyph('calendar')" :size="iconSize" />
               </button>
             </ArkPopover.Trigger>
             <button
@@ -245,7 +246,7 @@ const positioning = datePopoverPositioning(() => rowEl.value);
               :aria-label="pickerLabel('end')"
               @click="open = true"
             >
-              <Icon name="calendar" :size="iconSize" />
+              <Icon :name="glyph('calendar')" :size="iconSize" />
             </button>
             <input
               :ref="(el) => captureField(side, el)"

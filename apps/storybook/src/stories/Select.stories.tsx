@@ -18,7 +18,7 @@ const meta: Meta<typeof Select> = {
     docs: {
       description: {
         component:
-          "A dropdown field driven by an `options` array (each with `value`, `label`, and optional `disabled`); supports a `label`, `helperText`, and `error` message, plus `size` for density and the `required` / `disabled` booleans for state.",
+          "A dropdown input field.",
       },
     },
   },
@@ -226,7 +226,7 @@ export const Ghost: Story = {
     docs: {
       description: {
         story:
-          "The `ghost` variant has no border and no visible label. Its colour states mirror the ghost Button: transparent at rest, with a subtle fill on hover and while open. It has the same sizes and functionality as the default select; pass `label` to set the trigger's `aria-label`. Use it as a compact inline control, for example in a toolbar. It is shown here over a surface so the hover and open fill is visible.",
+          "The `ghost` variant has no border and no visible label. Its color states mirror the ghost Button: transparent at rest, with a subtle fill on hover and while open. It has the same sizes and functionality as the default select; pass `label` to set the trigger's `aria-label`. Use it as a compact inline control, for example in a toolbar. It is shown here over a surface so the hover and open fill is visible.",
       },
       source: {
         code: `

@@ -21,19 +21,14 @@ export function FoundationsColorPage() {
         title="Color"
         lede={
           <>
-            Colour has two layers: a <strong>core palette</strong> of ready-made OKLCH ramps,
-            and the <strong>semantic tokens</strong> that map a small set of roles onto it per
-            theme. Components speak only in roles; the palette is what those roles, and your
-            custom themes, are built from.
+            Color has two layers: a <strong>core palette</strong> of ready-made color ramps,
+            and the <strong>semantic tokens</strong> that map a small set of roles onto it per theme.
           </>
         }
       />
 
       <DocsProse>
-        <DocsSection
-          title="Palette"
-          subtitle="Core ramps on one tab, the roles that consume them on the other."
-        >
+        <DocsSection title="Palette">
           <Tabs>
             <Tab label="Core colors">
               <CoreColorTable />

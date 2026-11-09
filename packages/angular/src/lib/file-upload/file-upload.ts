@@ -22,6 +22,7 @@ import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { glyph } from "../icons/glyph.js";
 
 export type FileUploadSize = ControlSize;
 export type FileUploadVariant = NonNullable<FileUploadVariants["variant"]>;
@@ -180,7 +181,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
         (dragleave)="onDragLeave($event)"
         (drop)="onDrop($event)"
       >
-        <span uioIcon name="upload" class="file-upload__dropzone-icon" [size]="iconSize()"></span>
+        <span uioIcon [name]="glyph('upload')" class="file-upload__dropzone-icon" [size]="iconSize()"></span>
         <span class="file-upload__dropzone-text">{{ dropzoneLabel() }}</span>
         <ng-container [ngTemplateOutlet]="triggerTemplate"></ng-container>
       </div>
@@ -248,7 +249,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
             data-type="accepted"
             [id]="partId('item-preview:' + $index)"
           >
-            <span uioIcon name="file" [size]="iconSize()"></span>
+            <span uioIcon [name]="glyph('file')" [size]="iconSize()"></span>
           </div>
           <span class="file-upload__item-meta">
             <div
@@ -282,7 +283,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
             [disabled]="isDisabled()"
             (click)="removeAt($index)"
           >
-            <span uioIcon name="close" [size]="DELETE_ICON_SIZE"></span>
+            <span uioIcon [name]="glyph('close')" [size]="DELETE_ICON_SIZE"></span>
           </button>
         </li>
       }
@@ -324,6 +325,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
   },
 })
 export class UioFileUpload extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "file-upload";
   readonly part = "root";
 

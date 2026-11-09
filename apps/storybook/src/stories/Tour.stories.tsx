@@ -8,6 +8,8 @@ const meta: Meta<typeof Tour> = {
   tags: ["!dev"],
   parameters: {
     layout: "padded",
+    // Stories render open; see `containOverlays` in apps/marketing/src/docs/registry.ts.
+    containOverlays: true,
     docs: {
       description: {
         component:

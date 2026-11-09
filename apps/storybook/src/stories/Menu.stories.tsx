@@ -22,7 +22,7 @@ const meta: Meta<typeof Menu> = {
     docs: {
       description: {
         component:
-          "A dropdown menu of actions. Compose `<Menu>` with `<MenuTrigger>`, `<MenuContent>`, `<MenuItem>` (optionally `icon` / `destructive`), `<MenuSeparator>`, groups, and checkbox/radio items.",
+          "A dropdown menu of actions. ",
       },
     },
   },
@@ -56,7 +56,7 @@ export const Inspect: Story = {
             </MenuRadioGroup>
           </MenuGroup>
           <MenuSeparator />
-          <MenuItem icon="trash" destructive>
+          <MenuItem icon="trash-2" destructive>
             Delete
           </MenuItem>
         </MenuContent>

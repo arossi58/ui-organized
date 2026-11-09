@@ -43,11 +43,17 @@ export {
   getIconSet,
   registerIconSet,
   registeredLibraries,
+  // `registerIcons` with the library spelled out. Apps import the bound one from
+  // the library's subpath; this is for setups that pass `icons` explicitly.
+  registerIcons as registerLibraryIcons,
+  registeredNames,
   ngIconsSvgProps,
   type IconLibrary,
   type IconMarkup,
   type IconNameMap,
   type IconSet,
+  type RegisterIconsOptions,
+  type SystemGlyphMap,
 } from "./lib/icons/registry.js";
 export {
   UIO_ICON_CONFIG,
@@ -55,7 +61,15 @@ export {
   provideIconConfig,
   type UioIconConfig,
 } from "./lib/icons/icon-config.js";
-export { UioIcon, applySvgProps, parseIconMarkup } from "./lib/icons/icon.js";
+export { UioIcon, applySvgProps, parseIconMarkup, type IconName } from "./lib/icons/icon.js";
+/**
+ * @internal For the sibling packages (`@ui-organized/angular-table`) to draw the
+ * same glyphs the components do. Not an icon vocabulary: apps name icons the
+ * way their library does, with `uioIcon name` and `registerIcons`.
+ */
+export { glyph as internalGlyph, type IconGlyph } from "./lib/icons/glyph.js";
+/** The native name an icon export registers under: `XMarkIcon` → `"x-mark"`. */
+export { toNativeName } from "@ui-organized/core";
 export { UioOverlayStacking, applyOverlayStacking } from "./lib/overlay/stacking.js";
 export {
   createSurface,

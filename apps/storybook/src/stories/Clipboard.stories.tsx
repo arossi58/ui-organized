@@ -10,7 +10,7 @@ const meta: Meta<typeof Clipboard> = {
     docs: {
       description: {
         component:
-          "Copies a string to the clipboard and confirms it did. The trigger swaps its icon and label for a few seconds after copying. That change is the only feedback, so you don't need a toast. `input` shows the value being copied; `button` is the trigger alone.",
+          "Copies a string to the clipboard with confirmation.",
       },
     },
   },

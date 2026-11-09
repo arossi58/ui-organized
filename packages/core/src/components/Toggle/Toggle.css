@@ -1,6 +1,6 @@
 /* ─── Toggle ──────────────────────────────────────────────────────────────── */
 /* A toggle always carries the wrapper treatment — a subtle surface, border and
-   rounding — and fills with the primary colour when pressed (Figma Toggle /
+   rounding — and fills with the primary color when pressed (Figma Toggle /
    ToggleButton, nodes 2114:12579 / 2114:10546). */
 
 .toggle {
@@ -31,7 +31,7 @@
   outline-offset: 0;
 }
 
-/* Pressed (on) state — filled with the active primary colour.
+/* Pressed (on) state — filled with the active primary color.
 
    `interactive-primary-active` is brand.1500 (#a74100 on the default Mars
    brand) under a grey.100 label: 6.02:1. It was brand.1300 at 4.15:1 until the

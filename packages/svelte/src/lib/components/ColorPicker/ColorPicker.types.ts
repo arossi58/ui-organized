@@ -17,19 +17,19 @@ export interface ColorPickerProps {
    */
   error?: string | boolean;
   /**
-   * Colour as a CSS colour string — `#2563eb`, `rgb(37 99 235)`,
+   * Color as a CSS color string — `#2563eb`, `rgb(37 99 235)`,
    * `hsl(221 83% 53%)`. The machine works in parsed `Color` objects; the
    * conversion happens at this boundary. Bindable: `bind:value`.
    */
   value?: string;
-  /** Initial colour for the uncontrolled case. Defaults to '#000000'. */
+  /** Initial color for the uncontrolled case. Defaults to '#000000'. */
   defaultValue?: string;
-  /** Called continuously as the colour changes, with a CSS colour string. */
+  /** Called continuously as the color changes, with a CSS color string. */
   onValueChange?: (value: string) => void;
   /** Called once the interaction ends. */
   onValueChangeEnd?: (value: string) => void;
   /**
-   * The notation the colour is held and printed in — the value string, the
+   * The notation the color is held and printed in — the value string, the
    * trigger's value text and the hidden form input. Defaults to 'rgba'.
    *
    * It also picks which notation the picker's fields open on. It does not pin
@@ -61,7 +61,7 @@ export interface ColorPickerProps {
   required?: boolean;
   /** Disables the control. */
   disabled?: boolean;
-  /** Makes the colour read-only while keeping the trigger focusable. */
+  /** Makes the color read-only while keeping the trigger focusable. */
   readOnly?: boolean;
   /** Form field name for the hidden input. */
   name?: string;

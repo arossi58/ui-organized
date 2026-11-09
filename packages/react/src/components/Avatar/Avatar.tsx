@@ -4,6 +4,7 @@ import { avatarStyles, initials } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AvatarProps } from "./Avatar.types.js";
 import "@ui-organized/core/components/Avatar/Avatar.css";
+import { glyph } from "../../icons/glyph.js";
 
 const ICON_SIZE: Record<NonNullable<AvatarProps["size"]>, number> = {
   xs: 14,
@@ -25,7 +26,7 @@ export function Avatar({
 }: AvatarProps) {
   const derived =
     fallback ??
-    (name ? initials(name) : <Icon name="user" size={ICON_SIZE[size]} />);
+    (name ? initials(name) : <Icon name={glyph("user")} size={ICON_SIZE[size]} />);
 
   return (
     <ArkAvatar.Root

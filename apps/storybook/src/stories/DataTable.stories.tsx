@@ -107,7 +107,7 @@ const meta: Meta<typeof DataTable> = {
     docs: {
       description: {
         component:
-          "A virtualized data table built on real `<table>` semantics. Ships as its own package, `@ui-organized/react-table`, so consumers of the component library do not pay for a table engine at install time. Three layers: the `useDataTable` hook, the styled parts (`TableHeader`, `TableRow`, …), and this batteries-included wrapper.",
+          "A virtualized data table for displaying large groups of information. ",
       },
     },
   },
@@ -523,7 +523,7 @@ export const Selection: Story = {
       maxHeight={480}
       bulkActions={[
         { id: "export", label: "Export", icon: "download", onRun: () => {} },
-        { id: "archive", label: "Archive", icon: "trash", destructive: true, onRun: () => {} },
+        { id: "archive", label: "Archive", icon: "trash-2", destructive: true, onRun: () => {} },
       ]}
     />
   ),
@@ -545,7 +545,7 @@ export const Selection: Story = {
     {
       id: "archive",
       label: "Archive",
-      icon: "trash",
+      icon: "trash-2",
       destructive: true,
       // \`selection\` also expresses "all 40,000 matching", which an id list cannot.
       onRun: (rows, selection) => archive(selection),
@@ -567,8 +567,8 @@ export const RowActions: Story = {
       getRowId={(row) => row.id}
       maxHeight={420}
       rowActions={[
-        { id: "edit", label: "Edit member", icon: "edit", onRun: () => {} },
-        { id: "remove", label: "Remove", icon: "trash", destructive: true, onRun: () => {} },
+        { id: "edit", label: "Edit member", icon: "pencil", onRun: () => {} },
+        { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: () => {} },
       ]}
     />
   ),
@@ -585,11 +585,11 @@ export const RowActions: Story = {
   getRowId={(row) => row.id}
   maxHeight={420}
   rowActions={[
-    { id: "edit", label: "Edit member", icon: "edit", onRun: (row) => edit(row) },
+    { id: "edit", label: "Edit member", icon: "pencil", onRun: (row) => edit(row) },
     {
       id: "remove",
       label: "Remove",
-      icon: "trash",
+      icon: "trash-2",
       destructive: true,
       disabled: (row) => row.role === "Owner",
       onRun: (row) => remove(row),
@@ -897,8 +897,8 @@ export const Cards: Story = {
         responsive={{ mode: "cards" }}
         maxHeight={520}
         rowActions={[
-          { id: "edit", label: "Edit member", icon: "edit", onRun: () => {} },
-          { id: "remove", label: "Remove", icon: "trash", destructive: true, onRun: () => {} },
+          { id: "edit", label: "Edit member", icon: "pencil", onRun: () => {} },
+          { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: () => {} },
         ]}
       />
     </div>
@@ -918,8 +918,8 @@ export const Cards: Story = {
   responsive={{ mode: "auto", breakpoint: 640 }}
   maxHeight={520}
   rowActions={[
-    { id: "edit", label: "Edit member", icon: "edit", onRun: edit },
-    { id: "remove", label: "Remove", icon: "trash", destructive: true, onRun: remove },
+    { id: "edit", label: "Edit member", icon: "pencil", onRun: edit },
+    { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: remove },
   ]}
 />
 `.trim(),

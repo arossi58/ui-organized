@@ -6,6 +6,7 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { RatingGroupProps } from "./RatingGroup.types.js";
   import "@ui-organized/core/components/RatingGroup/RatingGroup.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const DEFAULT_COUNT = 5;
 
@@ -63,7 +64,7 @@
       {#snippet render(api)}
         {#each api().items as index (index)}
           <ArkRatingGroup.Item {index} class="rating-group__item">
-            <Icon name="star" size={iconSize} class="rating-group__star" />
+            <Icon name={glyph("star")} size={iconSize} class="rating-group__star" />
             <!--
               The half state is a clipped copy laid over the empty star. Ark sets
               data-half on the item; the width is what does the clipping, so the
@@ -71,7 +72,7 @@
             -->
             {#if allowHalf}
               <span class="rating-group__half" aria-hidden="true">
-                <Icon name="star" size={iconSize} class="rating-group__star" />
+                <Icon name={glyph("star")} size={iconSize} class="rating-group__star" />
               </span>
             {/if}
           </ArkRatingGroup.Item>

@@ -20,7 +20,7 @@ interface MobileMenuProps {
  * the nav pill from SiteNav — the pill (logo + hamburger, which becomes an X)
  * stays put on top, so opening/closing never shifts the logo or the button. It
  * holds the same routes as a large tap-friendly list, plus an accordion that
- * tucks away the theme controls (dark mode + brand colour, shared with the
+ * tucks away the theme controls (dark mode + brand color, shared with the
  * desktop popover via ThemeControls).
  *
  * Kept mounted and toggled via the `mobile-menu--open` class so both the enter

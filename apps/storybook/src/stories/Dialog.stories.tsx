@@ -18,7 +18,7 @@ const meta: Meta<typeof Dialog> = {
     docs: {
       description: {
         component:
-          "A modal dialog with a backdrop and focus trap. Compose `<Dialog>` with `<DialogTrigger>`, `<DialogContent>` (sizes: sm/md/lg/fullscreen), `<DialogTitle>`, `<DialogDescription>`, and `<DialogFooter>`.",
+          "A modal dialog with a backdrop and focus trap.",
       },
     },
   },

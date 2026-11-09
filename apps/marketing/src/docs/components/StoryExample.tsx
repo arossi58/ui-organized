@@ -29,7 +29,11 @@ export function StoryExample({
   return (
     <div className={styles.example}>
       {heading && <h3 className={styles.exampleTitle}>{story.name}</h3>}
-      <PreviewSurface layout={story.layout} label={story.name}>
+      <PreviewSurface
+        layout={story.layout}
+        label={story.name}
+        containOverlays={story.containOverlays}
+      >
         <story.Story args={story.args} />
       </PreviewSurface>
       {snippet && (

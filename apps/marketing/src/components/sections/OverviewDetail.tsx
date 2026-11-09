@@ -111,7 +111,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   },
   tools: {
     title: "Tools",
-    heading: "Tools that do the busywork",
+    heading: "Tools that do the tedious work.",
     lead: "A growing ecosystem of tools for on the web and in Figma.",
     items: TOOL_ITEMS,
     links: [

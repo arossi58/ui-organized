@@ -13,6 +13,7 @@
     MenuTrigger,
   } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { label = "Export", class: className }: { label?: string; class?: string } = $props();
   const table = getTable();
@@ -26,30 +27,30 @@
         {...(props() as Record<string, never>)}
         intent="secondary"
         size={table.size}
-        icon="download"
+        icon={glyph("download")}
         aria-label={label}
       />
     {/snippet}
   </MenuTrigger>
   <MenuContent align="end" class={className}>
-    <MenuItem value="csv-view" icon="download" onSelect={() => table.exportCsv("view")}>
+    <MenuItem value="csv-view" icon={glyph("download")} onSelect={() => table.exportCsv("view")}>
       Download this view (CSV)
     </MenuItem>
     <MenuItem
       value="csv-selected"
-      icon="download"
+      icon={glyph("download")}
       disabled={!hasSelection}
       onSelect={() => table.exportCsv("selected")}
     >
       Download selected rows (CSV)
     </MenuItem>
-    <MenuItem value="csv-all" icon="download" onSelect={() => table.exportCsv("all")}>
+    <MenuItem value="csv-all" icon={glyph("download")} onSelect={() => table.exportCsv("all")}>
       Download all rows (CSV)
     </MenuItem>
     <MenuSeparator />
     <MenuItem
       value="copy"
-      icon="copy"
+      icon={glyph("copy")}
       disabled={!hasSelection}
       onSelect={() => void table.copySelection("selected")}
     >

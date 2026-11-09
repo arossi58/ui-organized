@@ -2,7 +2,7 @@
  * Per-component test results, for the docs pages and the /quality dashboard.
  *
  * Reads `manifest/test-status.json`, which `scripts/quality/aggregate.mjs`
- * writes from the five gates. Imported the same way the docs already read the
+ * writes from every gate. Imported the same way the docs already read the
  * Code Connect manifest and the release dates — through Rollup's module graph,
  * so dev and build behave identically.
  *

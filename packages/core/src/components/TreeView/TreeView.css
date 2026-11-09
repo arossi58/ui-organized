@@ -34,7 +34,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. Roving focus lives on the tree, not the rows. */
+   color is themed. Roving focus lives on the tree, not the rows. */
 .tree-view__tree:focus-visible {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: 0;

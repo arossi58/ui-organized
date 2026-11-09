@@ -14,12 +14,13 @@ import {
   UioMenuTrigger,
   UioSearchInput,
 } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
 import { UioTableSelectionBar } from "./table-selection-bar.js";
 import { UioTableFilterSheet, UioTableSortSheet } from "./table-sheets.js";
 import type { TableAction } from "../core/types.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
+import type { IconName } from "@ui-organized/angular";
 
 /**
  * The row above the table: search, filters, and the controls that change what
@@ -206,7 +207,7 @@ import type { TableAction } from "../core/types.js";
             [menu]="filterSurface"
             intent="secondary"
             [size]="table.size()"
-            icon="filter"
+            [icon]="glyph('filter')"
             aria-label="Add filter"
           ></button>
           <uio-menu
@@ -238,7 +239,7 @@ import type { TableAction } from "../core/types.js";
           [menu]="columnsSurface"
           intent="secondary"
           [size]="table.size()"
-          icon="settings"
+          [icon]="glyph('settings')"
           aria-label="Columns"
         ></button>
         <uio-menu #columnsSurface="uioMenu" align="end">
@@ -283,7 +284,7 @@ import type { TableAction } from "../core/types.js";
           uioButton
           intent="secondary"
           [size]="table.size()"
-          icon="chevron-left"
+          [icon]="glyph('chevron-left')"
           aria-label="Scroll left"
           [disabled]="!scroll().canScrollLeft"
           (click)="table.scroll.by(-1)"
@@ -292,7 +293,7 @@ import type { TableAction } from "../core/types.js";
           uioButton
           intent="secondary"
           [size]="table.size()"
-          icon="chevron-right"
+          [icon]="glyph('chevron-right')"
           aria-label="Scroll right"
           [disabled]="!scroll().canScrollRight"
           (click)="table.scroll.by(1)"
@@ -318,17 +319,17 @@ import type { TableAction } from "../core/types.js";
           [menu]="exportSurface"
           intent="secondary"
           [size]="table.size()"
-          icon="download"
+          [icon]="glyph('download')"
           aria-label="Export"
         ></button>
         <uio-menu #exportSurface="uioMenu" align="end" (select)="runExport($event)">
-          <div uioMenuItem value="csv-view" icon="download">Download this view (CSV)</div>
-          <div uioMenuItem value="csv-selected" icon="download" [disabled]="!hasSelection()">
+          <div uioMenuItem value="csv-view" [icon]="glyph('download')">Download this view (CSV)</div>
+          <div uioMenuItem value="csv-selected" [icon]="glyph('download')" [disabled]="!hasSelection()">
             Download selected rows (CSV)
           </div>
-          <div uioMenuItem value="csv-all" icon="download">Download all rows (CSV)</div>
+          <div uioMenuItem value="csv-all" [icon]="glyph('download')">Download all rows (CSV)</div>
           <div uioMenuSeparator></div>
-          <div uioMenuItem value="copy" icon="copy" [disabled]="!hasSelection()">
+          <div uioMenuItem value="copy" [icon]="glyph('copy')" [disabled]="!hasSelection()">
             Copy selection to clipboard
           </div>
         </uio-menu>
@@ -337,6 +338,7 @@ import type { TableAction } from "../core/types.js";
   `,
 })
 export class UioTableToolbar {
+  protected readonly glyph = glyph;
   protected readonly table = injectDataTable();
 
   protected readonly searchable = computed(() => this.table.options.searchable ?? true);
@@ -378,12 +380,12 @@ export class UioTableToolbar {
   private readonly activeSort = computed(() => this.table.state().sorting?.[0]);
   protected readonly activeSortId = computed(() => this.activeSort()?.id ?? "");
   protected readonly sortDirection = computed(() => (this.activeSort()?.desc ? "desc" : "asc"));
-  protected readonly sortIcon = computed<CanonicalIconName>(() =>
-    this.activeSortId() ? (this.activeSort()?.desc ? "sort-desc" : "sort-asc") : "sort",
+  protected readonly sortIcon = computed(() =>
+    glyph(this.activeSortId() ? (this.activeSort()?.desc ? "sort-desc" : "sort-asc") : "sort"),
   );
 
-  protected iconOf(action: TableAction): CanonicalIconName | undefined {
-    return action.icon as CanonicalIconName | undefined;
+  protected iconOf(action: TableAction): IconName | undefined {
+    return action.icon;
   }
   // An icon-only button drops its visible label but keeps its accessible one —
   // the label is the whole name either way.

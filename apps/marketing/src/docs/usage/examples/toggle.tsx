@@ -23,13 +23,13 @@ export const toggleExamples: UsageExampleSet = {
     Do: () => (
       <ToggleGroup defaultValue={["grid"]}>
         <Toggle value="list" icon="list" aria-label="List view" />
-        <Toggle value="grid" icon="grid" aria-label="Grid view" />
+        <Toggle value="grid" icon="grid-2x2" aria-label="Grid view" />
       </ToggleGroup>
     ),
     Dont: () => (
       <div style={row}>
         <Toggle defaultPressed icon="list" aria-label="List view" />
-        <Toggle defaultPressed icon="grid" aria-label="Grid view" />
+        <Toggle defaultPressed icon="grid-2x2" aria-label="Grid view" />
       </div>
     ),
   },

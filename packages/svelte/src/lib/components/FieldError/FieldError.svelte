@@ -15,6 +15,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { FieldErrorProps } from "./FieldError.types.js";
   import "@ui-organized/core/components/FieldError/FieldError.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let { children, message, class: className, ...rest }: FieldErrorProps = $props();
 
@@ -23,7 +24,7 @@
 
 {#if !empty}
   <span class={clsx("field-error", "text-emphasis-caption", className)} {...rest}>
-    <Icon name="alert-circle" size={12} class="field-error__icon" />
+    <Icon name={glyph("alert-circle")} size={12} class="field-error__icon" />
     {#if children}{@render children()}{:else}{message}{/if}
   </span>
 {/if}

@@ -4,6 +4,7 @@ import { Menu as ArkMenu } from "@ark-ui/vue";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import type { MenuCheckboxItemProps } from "./Menu.types.js";
+import { glyph } from "../../icons/glyph.js";
 
 const props = withDefaults(defineProps<MenuCheckboxItemProps>(), {
   checked: undefined,
@@ -43,7 +44,7 @@ const isChecked = computed(() => props.checked ?? false);
     -->
     <span class="checkbox__control menu__control">
       <span class="checkbox__indicator">
-        <Icon name="check" :size="16" class="checkbox__check" />
+        <Icon :name="glyph('check')" :size="16" class="checkbox__check" />
       </span>
     </span>
     <span class="menu__item-label"><slot /></span>

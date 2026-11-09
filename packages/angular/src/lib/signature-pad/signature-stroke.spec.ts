@@ -178,7 +178,7 @@ describe("signatureOutline", () => {
 
 describe("signaturePathData", () => {
   it("closes the shape, because the ink is filled rather than stroked", () => {
-    // `SignaturePad.css` colours `.signature-pad__segment` with `fill`, so an
+    // `SignaturePad.css` colors `.signature-pad__segment` with `fill`, so an
     // unclosed path is an invisible signature.
     const d = signatureStroke(line(100), options);
     expect(d.startsWith("M ")).toBe(true);

@@ -175,7 +175,7 @@ export function DashboardControl({ id, onDialog, onSheet }: { id: ControlId } & 
             </MenuContent>
           </Menu>
           <Menu>
-            <MenuTrigger render={<Button intent="ghost" icon="edit">Edit</Button>} />
+            <MenuTrigger render={<Button intent="ghost" icon="pencil">Edit</Button>} />
             <MenuContent>
               <MenuItem>Undo</MenuItem>
               <MenuItem>Redo</MenuItem>

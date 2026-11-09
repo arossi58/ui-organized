@@ -7,6 +7,7 @@ import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import type { CarouselProps } from "./Carousel.types.js";
 import "@ui-organized/core/components/Carousel/Carousel.css";
+import { glyph } from "../../icons/glyph.js";
 
 /**
  * Default gap between slides.
@@ -102,7 +103,7 @@ const isString = (v: unknown) => typeof v === "string";
         them.
       -->
       <ArkCarousel.PrevTrigger v-if="variant !== 'minimal'" as-child>
-        <Button intent="ghost" :size="size" icon="chevron-left" aria-label="Previous slide" />
+        <Button intent="ghost" :size="size" :icon="glyph('chevron-left')" aria-label="Previous slide" />
       </ArkCarousel.PrevTrigger>
 
       <ArkCarousel.IndicatorGroup v-if="showIndicators" class="carousel__indicators">
@@ -116,7 +117,7 @@ const isString = (v: unknown) => typeof v === "string";
       </ArkCarousel.IndicatorGroup>
 
       <ArkCarousel.NextTrigger v-if="variant !== 'minimal'" as-child>
-        <Button intent="ghost" :size="size" icon="chevron-right" aria-label="Next slide" />
+        <Button intent="ghost" :size="size" :icon="glyph('chevron-right')" aria-label="Next slide" />
       </ArkCarousel.NextTrigger>
     </ArkCarousel.Control>
   </ArkCarousel.Root>

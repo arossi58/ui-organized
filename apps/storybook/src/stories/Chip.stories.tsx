@@ -19,7 +19,7 @@ const meta: Meta<typeof Chip> = {
     docs: {
       description: {
         component:
-          "A chip stands for something the user *added*, such as a filter or property, which they can later change or remove. It is segmented: each part of its sentence is its own control.",
+          "A filter or property the user has added and may customize.",
       },
     },
   },
@@ -190,7 +190,7 @@ export const States: Story = {
     docs: {
       description: {
         story:
-          '`selected` means "this is the one you are acting on": one of its menus is open, or it is toggled on, and it fills with the brand colour. `incomplete` is a chip that does not yet stand for anything, such as a filter with no value picked. It is dashed rather than coloured because it is an invitation, not an error.',
+          '`selected` means "this is the one you are acting on": one of its menus is open, or it is toggled on, and it fills with the brand color. `incomplete` is a chip that does not yet stand for anything, such as a filter with no value picked. It is dashed rather than colored because it is an invitation, not an error.',
       },
       source: {
         code: `

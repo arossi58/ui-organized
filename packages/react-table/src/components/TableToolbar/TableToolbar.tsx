@@ -14,7 +14,6 @@ import {
   MenuTrigger,
   SearchInput,
 } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
 import { TableFilterAdd } from "../TableFilters/index.js";
@@ -29,6 +28,7 @@ import type {
   TableToolbarProps,
   TableViewOptionsProps,
 } from "./TableToolbar.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The row above the table: search, filters, and the controls that change what
@@ -145,7 +145,7 @@ export function TableActions({ actions, className }: TableActionsProps) {
   return (
     <div className={clsx("data-table__toolbar-actions", className)}>
       {items.map((action) => {
-        const icon = action.icon as CanonicalIconName | undefined;
+        const icon = action.icon;
         const iconOnly = action.iconOnly === true && icon !== undefined;
         return (
           <Button
@@ -194,7 +194,7 @@ export function TableSortMenu({ label = "Sort", className }: TableSortMenuProps)
           <Button
             intent="secondary"
             size={size}
-            icon={activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort"}
+            icon={glyph(activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort")}
             aria-label={label}
             className={className}
           />
@@ -281,7 +281,7 @@ export function TableViewOptions({ label = "Columns", className }: TableViewOpti
   return (
     <Menu>
       <MenuTrigger
-        render={<Button intent="secondary" size={size} icon="settings" aria-label={label} />}
+        render={<Button intent="secondary" size={size} icon={glyph("settings")} aria-label={label} />}
       />
       <MenuContent align="end" className={className}>
         <MenuGroup>
@@ -331,27 +331,27 @@ export function TableExportMenu({ label = "Export", className }: TableExportMenu
   return (
     <Menu>
       <MenuTrigger
-        render={<Button intent="secondary" size={size} icon="download" aria-label={label} />}
+        render={<Button intent="secondary" size={size} icon={glyph("download")} aria-label={label} />}
       />
       <MenuContent align="end" className={className}>
-        <MenuItem value="csv-view" icon="download" onSelect={() => exportCsv("view")}>
+        <MenuItem value="csv-view" icon={glyph("download")} onSelect={() => exportCsv("view")}>
           Download this view (CSV)
         </MenuItem>
         <MenuItem
           value="csv-selected"
-          icon="download"
+          icon={glyph("download")}
           disabled={!hasSelection}
           onSelect={() => exportCsv("selected")}
         >
           Download selected rows (CSV)
         </MenuItem>
-        <MenuItem value="csv-all" icon="download" onSelect={() => exportCsv("all")}>
+        <MenuItem value="csv-all" icon={glyph("download")} onSelect={() => exportCsv("all")}>
           Download all rows (CSV)
         </MenuItem>
         <MenuSeparator />
         <MenuItem
           value="copy"
-          icon="copy"
+          icon={glyph("copy")}
           disabled={!hasSelection}
           onSelect={() => void copySelection("selected")}
         >
@@ -391,7 +391,7 @@ export function TableScrollButtons({
       <Button
         intent="secondary"
         size={size}
-        icon="chevron-left"
+        icon={glyph("chevron-left")}
         aria-label={leftLabel}
         disabled={!scroll.canScrollLeft}
         onClick={() => scroll.by(-1)}
@@ -399,7 +399,7 @@ export function TableScrollButtons({
       <Button
         intent="secondary"
         size={size}
-        icon="chevron-right"
+        icon={glyph("chevron-right")}
         aria-label={rightLabel}
         disabled={!scroll.canScrollRight}
         onClick={() => scroll.by(1)}

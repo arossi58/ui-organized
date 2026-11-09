@@ -15,6 +15,7 @@ import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { flushNow } from "../overlay/flush.js";
+import { glyph } from "../icons/glyph.js";
 
 export type TimerPart = "days" | "hours" | "minutes" | "seconds" | "milliseconds";
 export type TimerSize = NonNullable<TimerVariants["size"]>;
@@ -169,7 +170,7 @@ export function hasReachedTarget(options: {
         <button
           uioButton
           intent="primary"
-          icon="play"
+          [icon]="glyph('play')"
           data-scope="timer"
           data-part="action-trigger"
           [size]="size()"
@@ -181,7 +182,7 @@ export function hasReachedTarget(options: {
         <button
           uioButton
           intent="secondary"
-          icon="pause"
+          [icon]="glyph('pause')"
           data-scope="timer"
           data-part="action-trigger"
           [size]="size()"
@@ -193,7 +194,7 @@ export function hasReachedTarget(options: {
         <button
           uioButton
           intent="secondary"
-          icon="play"
+          [icon]="glyph('play')"
           data-scope="timer"
           data-part="action-trigger"
           [size]="size()"
@@ -205,7 +206,7 @@ export function hasReachedTarget(options: {
         <button
           uioButton
           intent="ghost"
-          icon="refresh"
+          [icon]="glyph('refresh')"
           data-scope="timer"
           data-part="action-trigger"
           [size]="size()"
@@ -223,6 +224,7 @@ export function hasReachedTarget(options: {
   },
 })
 export class UioTimer extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "timer";
   readonly part = "root";
 

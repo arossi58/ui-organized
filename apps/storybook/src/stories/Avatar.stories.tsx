@@ -13,7 +13,7 @@ const meta: Meta<typeof Avatar> = {
     docs: {
       description: {
         component:
-          "Represents a user with an image, deriving initials from `name` (or a user icon) when no image is available. Control `size` and `shape`.",
+          "Represents a user with an image or initials. ",
       },
     },
   },

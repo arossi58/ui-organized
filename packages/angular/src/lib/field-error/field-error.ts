@@ -2,6 +2,7 @@ import { Component, computed, effect, inject, input } from "@angular/core";
 import { HostPresence } from "../host-presence.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldContext } from "../field/field-context.js";
+import { glyph } from "../icons/glyph.js";
 
 /**
  * The inline error pill that sits under a form control.
@@ -34,7 +35,7 @@ import { UioFieldContext } from "../field/field-context.js";
   providers: [HostPresence],
   standalone: true,
   imports: [UioIcon],
-  template: `<span uioIcon class="field-error__icon" name="alert-circle" [size]="ICON_SIZE"></span
+  template: `<span uioIcon class="field-error__icon" [name]="glyph('alert-circle')" [size]="ICON_SIZE"></span
     >{{ message() }}`,
   host: {
     class: "field-error text-emphasis-caption",
@@ -45,6 +46,7 @@ import { UioFieldContext } from "../field/field-context.js";
   },
 })
 export class UioFieldError {
+  protected readonly glyph = glyph;
   readonly message = input<string | undefined | null>(undefined);
 
   protected readonly ICON_SIZE = 12;
@@ -57,7 +59,7 @@ export class UioFieldError {
   constructor() {
     this.field?.describe("error-text", this.present);
     // An empty message renders nothing at all — not an empty pill, which would
-    // hold space and a background colour. See HostPresence.
+    // hold space and a background color. See HostPresence.
     effect(() => this.presence.set(this.present()));
   }
 }

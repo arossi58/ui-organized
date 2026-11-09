@@ -51,7 +51,7 @@ const OVERALL_LABEL: Record<GateStatus, string> = {
 
 /**
  * One line of detail per gate. Says what actually happened rather than
- * restating the colour — "24 of 24 stories" is information; "passed" is not.
+ * restating the color — "24 of 24 stories" is information; "passed" is not.
  */
 function detail(gate: GateKey, result: GateResult): string {
   if (result.status === "not-run") return "gate did not run";

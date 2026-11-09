@@ -127,7 +127,7 @@
 }
 
 /* The theme-menu list/switch styling (theme-menu.css) is reused inside the
-   accordion; nudge the colour rows to full width within the panel padding. */
+   accordion; nudge the color rows to full width within the panel padding. */
 .mobile-menu__appearance .theme-menu__switch-row {
   padding-inline: 0;
 }

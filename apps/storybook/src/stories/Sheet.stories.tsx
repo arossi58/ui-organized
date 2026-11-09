@@ -18,7 +18,7 @@ const meta: Meta<typeof Sheet> = {
     docs: {
       description: {
         component:
-          "An edge-anchored panel built on the Dialog primitive. `<SheetContent>` takes `side` (top/right/bottom/left) and `size` (sm/md/lg) and slides in from the chosen edge.",
+          "An edge-anchored panel built on the Dialog primitive.",
       },
     },
   },

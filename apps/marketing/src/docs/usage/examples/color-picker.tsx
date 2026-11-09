@@ -13,23 +13,23 @@ export const colorPickerExamples: UsageExampleSet = {
     containOverlays: true,
     Do: () => (
       <div style={stack}>
-        <ColorPicker label="Accent colour" format="hex" defaultValue="#2563eb" />
-        <ColorPicker label="Link colour" format="hex" defaultValue="#2b5fe0" />
+        <ColorPicker label="Accent color" format="hex" defaultValue="#2563eb" />
+        <ColorPicker label="Link color" format="hex" defaultValue="#2b5fe0" />
       </div>
     ),
     // Two blues a few units apart; without the values nobody can tell them apart.
     Dont: () => (
       <div style={stack}>
-        <ColorPicker label="Accent colour" variant="swatch-only" defaultValue="#2563eb" />
-        <ColorPicker label="Link colour" variant="swatch-only" defaultValue="#2b5fe0" />
+        <ColorPicker label="Accent color" variant="swatch-only" defaultValue="#2563eb" />
+        <ColorPicker label="Link color" variant="swatch-only" defaultValue="#2b5fe0" />
       </div>
     ),
   },
 
   labelled: {
     containOverlays: true,
-    Do: () => <ColorPicker label="Accent colour" variant="swatch-only" defaultValue="#2563eb" />,
-    // A coloured square with no name: accent, text, background?
+    Do: () => <ColorPicker label="Accent color" variant="swatch-only" defaultValue="#2563eb" />,
+    // A colored square with no name: accent, text, background?
     Dont: () => <ColorPicker variant="swatch-only" defaultValue="#2563eb" />,
   },
 };

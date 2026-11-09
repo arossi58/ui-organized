@@ -15,6 +15,7 @@ import "@ui-organized/core/components/Dialog/Dialog.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 /** Dialog root — controls open state. */
 export function Dialog({ open, defaultOpen, onOpenChange, modal, children }: DialogProps) {
@@ -94,7 +95,7 @@ export function DialogContent({
         <ArkDialog.Content className={clsx(dialogStyles({ size }), className)} {...contentProps}>
           {showClose && (
             <ArkDialog.CloseTrigger className="dialog__close" aria-label="Close">
-              <Icon name="close" size={20} />
+              <Icon name={glyph("close")} size={20} />
             </ArkDialog.CloseTrigger>
           )}
           {children}

@@ -16,7 +16,7 @@ const meta: Meta<typeof Toolbar> = {
     docs: {
       description: {
         component:
-          'A layout container that groups related controls. Compose `<Toolbar>` with the library\'s own `Button` (use `intent="ghost"`), `Input`, and `Divider` (use `orientation="vertical"`) components. Match the control `size` across the children to size the toolbar.',
+          'A layout container that groups related controls.',
       },
     },
   },
@@ -73,11 +73,11 @@ export const WithIconButtons: Story = {
     <Toolbar>
       <ToolbarGroup>
         <Button intent="ghost" icon="copy" aria-label="Copy" />
-        <Button intent="ghost" icon="edit" aria-label="Edit" />
+        <Button intent="ghost" icon="pencil" aria-label="Edit" />
       </ToolbarGroup>
       <Divider orientation="vertical" />
       <ToolbarGroup>
-        <Button intent="ghost" icon="grid" aria-label="Grid view" />
+        <Button intent="ghost" icon="grid-2x2" aria-label="Grid view" />
         <Button intent="ghost" icon="list" aria-label="List view" />
       </ToolbarGroup>
       <Divider orientation="vertical" />

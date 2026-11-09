@@ -52,7 +52,7 @@
 
 /* ─── Indicator ───────────────────────────────────────────────────────────────
    A dot per page. The current one widens into a pill rather than only changing
-   colour, so the position is readable without relying on hue alone. */
+   color, so the position is readable without relying on hue alone. */
 
 .carousel__indicator {
   width: var(--spacing-space-02);
@@ -97,7 +97,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. */
+   color is themed. */
 .carousel__indicator:focus-visible {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: 0;

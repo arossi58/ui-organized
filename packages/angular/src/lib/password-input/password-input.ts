@@ -19,6 +19,7 @@ import { UioIcon } from "../icons/icon.js";
 import { UioFieldContext } from "../field/field-context.js";
 import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { glyph } from "../icons/glyph.js";
 
 export type PasswordInputSize = NonNullable<InputVariants["size"]>;
 
@@ -98,7 +99,7 @@ export type PasswordInputSize = NonNullable<InputVariants["size"]>;
           [disabled]="isDisabled()"
           (click)="toggle()"
         >
-          <span uioIcon [name]="visible() ? 'eye-off' : 'eye'" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph(visible() ? 'eye-off' : 'eye')" [size]="iconSize()"></span>
         </button>
       }
     </div>
@@ -119,6 +120,7 @@ export type PasswordInputSize = NonNullable<InputVariants["size"]>;
   },
 })
 export class UioPasswordInput extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";
 

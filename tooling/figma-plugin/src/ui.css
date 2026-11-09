@@ -567,8 +567,8 @@ body {
   flex: none;
   border-radius: 3px;
   border: 1px solid var(--color-border-secondary);
-  /* The colour sits ON TOP of the checkerboard (as the first background layer),
-     so opaque colours hide the checker entirely and only real alpha reveals it. */
+  /* The color sits ON TOP of the checkerboard (as the first background layer),
+     so opaque colors hide the checker entirely and only real alpha reveals it. */
   background-color: #fff;
   background-image: linear-gradient(var(--swatch-color), var(--swatch-color)),
     linear-gradient(45deg, #8884 25%, transparent 25%),

@@ -10,7 +10,6 @@ import {
   AlertDialogTitle,
   Button,
 } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
 import type { BulkAction } from "../../core/types.js";
 import type { TableSelectionBarProps } from "./TableSelectionBar.types.js";
@@ -69,7 +68,7 @@ export function TableSelectionBar<T extends RowData>({
           key={action.id}
           size={size}
           intent={action.destructive ? "destructive-ghost" : "ghost"}
-          icon={action.icon as CanonicalIconName | undefined}
+          icon={action.icon}
           onClick={() => (action.destructive ? setConfirming(action) : run(action))}
         >
           {action.label}

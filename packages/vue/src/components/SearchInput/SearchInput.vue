@@ -11,6 +11,7 @@ import type { SearchInputProps } from "./SearchInput.types.js";
 // leading icon and clear button.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -108,7 +109,7 @@ function clear() {
     </Field.Label>
     <div class="input-affix">
       <span class="input-affix__adornment input-affix__adornment--start" aria-hidden="true">
-        <Icon name="search" :size="CONTROL_ICON_SIZE[size]" />
+        <Icon :name="glyph('search')" :size="CONTROL_ICON_SIZE[size]" />
       </span>
       <Field.Input
         :ref="captureInput"
@@ -130,7 +131,7 @@ function clear() {
         :tabindex="-1"
         @click="clear"
       >
-        <Icon name="close" :size="CONTROL_ICON_SIZE[size]" />
+        <Icon :name="glyph('close')" :size="CONTROL_ICON_SIZE[size]" />
       </button>
     </div>
     <Field.HelperText v-if="helperText && !isInvalid" class="field__description">

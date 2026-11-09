@@ -7,7 +7,7 @@ export const textAreaUsage: UsageGuide = {
     "A field for text that runs to sentences. Its height is a promise about how much is wanted, and it lets the reader see what they have written.",
   useWhen: [
     "The answer is naturally longer than one line.",
-    "Line breaks are part of the content rather than an accident.",
+    "Line breaks are part of the content.",
     "The reader benefits from seeing several lines of what they wrote at once.",
   ],
   avoid: [

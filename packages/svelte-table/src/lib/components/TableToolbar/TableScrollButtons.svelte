@@ -16,6 +16,7 @@
   import { clsx } from "clsx";
   import { Button } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let {
     leftLabel = "Scroll left",
@@ -36,7 +37,7 @@
     <Button
       intent="secondary"
       size={table.size}
-      icon="chevron-left"
+      icon={glyph("chevron-left")}
       aria-label={leftLabel}
       disabled={!scroll.canScrollLeft}
       onclick={() => table.scroll.by(-1)}
@@ -44,7 +45,7 @@
     <Button
       intent="secondary"
       size={table.size}
-      icon="chevron-right"
+      icon={glyph("chevron-right")}
       aria-label={rightLabel}
       disabled={!scroll.canScrollRight}
       onclick={() => table.scroll.by(1)}

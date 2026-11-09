@@ -2,7 +2,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 /**
  * Composes the shared `.field` layout so the label and helper text match every
- * other form control; the trigger and the portalled picker are colour-specific.
+ * other form control; the trigger and the portalled picker are color-specific.
  */
 export const colorPickerStyles = cva("field color-picker", {
   variants: {

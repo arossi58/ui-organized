@@ -5,6 +5,7 @@ import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, listboxStyles, type ControlSize } from "@ui-organized/core";
 import type { ListboxProps, ListboxOption } from "./Listbox.types.js";
 import "@ui-organized/core/components/Listbox/Listbox.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Options in declaration order, bucketed by `group`. Ungrouped options keep a
  *  `null` bucket so a partially grouped list still renders every option once,
@@ -90,7 +91,7 @@ export function Listbox({
             <ArkListbox.Item key={item.value} item={item} className="listbox__item">
               <ArkListbox.ItemText className="listbox__item-text">{item.label}</ArkListbox.ItemText>
               <ArkListbox.ItemIndicator className="listbox__item-indicator">
-                <Icon name="check" size={iconSize} />
+                <Icon name={glyph("check")} size={iconSize} />
               </ArkListbox.ItemIndicator>
             </ArkListbox.Item>
           ));

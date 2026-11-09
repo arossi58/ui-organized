@@ -14,6 +14,7 @@
 <script lang="ts">
   import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let {
     label = "Add filter",
@@ -55,7 +56,7 @@
             {...(props() as Record<string, never>)}
             intent="secondary"
             size={table.size}
-            icon="filter"
+            icon={glyph("filter")}
             aria-label={label}
             class={className}
           />
@@ -64,7 +65,7 @@
             {...(props() as Record<string, never>)}
             intent="ghost"
             size="sm"
-            icon="plus"
+            icon={glyph("plus")}
             class={className}
           >
             {label}

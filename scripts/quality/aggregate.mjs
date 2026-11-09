@@ -157,7 +157,7 @@ function describeChecks(gate, rows) {
  *
  * A library's status for a component is the worst across that component's
  * scenarios: `fail` if it introduced a violation React does not have, `pass`
- * otherwise. Violations all four share are counted separately and do not colour
+ * otherwise. Violations all four share are counted separately and do not color
  * a library — they are not that port's doing, and the gate's own header explains
  * why blaming one for them would be wrong.
  */
@@ -188,7 +188,7 @@ function frameworkA11yByComponent(rows) {
 
 // ── a11y detail ──────────────────────────────────────────────────────────────
 // The axe attachment carries the violations themselves, so the docs page can
-// name what is wrong rather than just colouring a chip red.
+// name what is wrong rather than just coloring a chip red.
 function a11yDetail(rows) {
   const open = new Map();
   for (const row of rows) {
@@ -331,7 +331,7 @@ for (const [slug, meta] of [...components].sort(([a], [b]) => a.localeCompare(b)
           : "pass",
         // One check per library, so the docs panel reads the same way every other
         // gate's does — and names which of the three is at fault rather than
-        // colouring the whole cell red.
+        // coloring the whole cell red.
         checks: ["svelte", "vue", "angular"]
           .filter((framework) => found.frameworks[framework])
           .map((framework) => ({

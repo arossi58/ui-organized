@@ -13,7 +13,7 @@
 
 /* ─── Value box (input variant) ───────────────────────────────────────────────
    The same surface as `.field__control`, but the value is never editable, so
-   it takes the muted content colour and reads as a display of the string
+   it takes the muted content color and reads as a display of the string
    rather than an entry point for one. */
 
 .clipboard--input .clipboard__input {
@@ -49,7 +49,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. The box stays focusable so the value can be selected and
+   color is themed. The box stays focusable so the value can be selected and
    copied by keyboard without the trigger. */
 .clipboard--input .clipboard__input:focus-visible {
   outline: 2px solid var(--color-interactive-focus);

@@ -69,7 +69,8 @@ interface PreviewSurfaceProps {
   /**
    * Render overlays (Dialog, Menu, Select's listbox, Toast…) inside this frame
    * rather than over the window. The Inspect view sets it; the Docs tab doesn't,
-   * so its examples keep behaving the way they would in an application.
+   * so its examples keep behaving the way they would in an application, unless
+   * the story file sets `parameters.containOverlays` because it renders open.
    */
   containOverlays?: boolean;
   /**

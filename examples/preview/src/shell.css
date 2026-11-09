@@ -7,7 +7,7 @@
  * stylesheet styles off `data-*` and `.component__part` class names, which is
  * exactly what an unprefixed `section > div` here would catch.
  *
- * Every colour is a real token from `@ui-organized/tokens`, checked against
+ * Every color is a real token from `@ui-organized/tokens`, checked against
  * `variables.css` rather than guessed. The first draft invented
  * `--color-surface-page`, which does not exist — so the page fell back to white
  * while the text resolved `--color-content-primary` from the real set, which is

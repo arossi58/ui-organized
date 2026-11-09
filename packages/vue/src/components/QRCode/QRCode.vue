@@ -22,6 +22,7 @@ import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import type { QRCodeProps } from "./QRCode.types.js";
 import "@ui-organized/core/components/QRCode/QRCode.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_PIXEL_SIZE = 10;
 
@@ -88,7 +89,7 @@ const hasOverlay = computed(() => Boolean(slots.overlay));
       :file-name="`${downloadFileName}.png`"
       as-child
     >
-      <Button intent="secondary" :size="size" type="button" icon="download">
+      <Button intent="secondary" :size="size" type="button" :icon="glyph('download')">
         {{ downloadLabel }}
       </Button>
     </ArkQrCode.DownloadTrigger>

@@ -8,6 +8,7 @@ import Button from "../Button/Button.vue";
 import Icon from "../Icon/Icon.vue";
 import type { StepsProps } from "./Steps.types.js";
 import "@ui-organized/core/components/Steps/Steps.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** The completed tick sits inside the indicator circle at every size — it marks
  *  the step rather than scaling with the surrounding text. */
@@ -107,7 +108,7 @@ const isString = (v: unknown) => typeof v === "string";
             <span class="steps__indicator-number">
               <template v-if="variant === 'numbered'">{{ index + 1 }}</template>
             </span>
-            <Icon name="check" :size="COMPLETE_ICON_SIZE" class="steps__indicator-check" />
+            <Icon :name="glyph('check')" :size="COMPLETE_ICON_SIZE" class="steps__indicator-check" />
           </ArkSteps.Indicator>
           <span class="steps__text">
             <span class="steps__title">{{ item.title }}</span>

@@ -59,7 +59,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. */
+   color is themed. */
 .file-upload__dropzone:focus-visible {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: 0;
@@ -90,10 +90,14 @@
    Ark keeps the group mounted with no children when nothing is chosen, so the
    gap must not open on an empty list. */
 
+/* A `<ul>`: drop the browser's list indent so files line up with the dropzone. */
 .file-upload__items {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-space-01);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .file-upload__items:empty {

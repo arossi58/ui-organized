@@ -25,15 +25,26 @@
  * read a Svelte component out of the map and render nothing.
  */
 
-import type { CanonicalIconName } from "@ui-organized/utils";
+import { toNativeName } from "./nativeName.js";
+import type { SystemGlyph } from "./systemGlyphs.js";
 
 export type IconLibrary = "lucide" | "tabler" | "heroicons";
 
-/** Canonical name → component, for one library in one style. */
-export type IconNameMap<TComponent> = Partial<Record<CanonicalIconName, TComponent>>;
+/**
+ * Native icon name → component, e.g. `{ "chevron-down": ChevronDown }`. The
+ * names are the library's own; see `./nativeName.ts`.
+ */
+export type IconNameMap<TComponent> = Record<string, TComponent>;
+
+/** Internal glyph → component, for one library in one style. See `./systemGlyphs.ts`. */
+export type SystemGlyphMap<TComponent> = Partial<Record<SystemGlyph, TComponent>>;
 
 /**
  * One library's adapter.
+ *
+ * It carries only the glyphs the components draw themselves. The icons an app
+ * names in `<Icon name="…">` are its own choice, so it registers them with
+ * `registerIcons` and only those reach the bundle.
  *
  * `svgProps` belongs here rather than in `Icon` because the libraries disagree
  * about how they're sized and stroked — Lucide takes `size`/`strokeWidth`,
@@ -42,12 +53,23 @@ export type IconNameMap<TComponent> = Partial<Record<CanonicalIconName, TCompone
  */
 export interface IconSet<TComponent> {
   library: IconLibrary;
-  /** Outline/stroke variants. Every library has these. */
-  outline: IconNameMap<TComponent>;
-  /** Solid/filled variants, where the library ships them. */
-  solid?: IconNameMap<TComponent>;
+  /** Outline/stroke cuts of the internal glyphs. Every library has these. */
+  outline: SystemGlyphMap<TComponent>;
+  /** Solid/filled cuts, where the library ships them. */
+  solid?: SystemGlyphMap<TComponent>;
   /** Map the resolved size and stroke onto this library's own SVG props. */
   svgProps(size: number, stroke: number | undefined): Record<string, unknown>;
+}
+
+export interface RegisterIconsOptions {
+  /**
+   * Which cut these components are. Register the solid cuts separately —
+   * `registerIcons({ StarIcon }, { style: "solid" })` from
+   * `@heroicons/react/24/solid` — and `style="solid"` on the provider picks
+   * them, falling back to the outline cut where none was registered.
+   * @default "outline"
+   */
+  style?: "outline" | "solid";
 }
 
 export interface IconRegistry<TComponent> {
@@ -59,6 +81,26 @@ export interface IconRegistry<TComponent> {
   getIconSet(library: IconLibrary): IconSet<TComponent> | undefined;
   /** Which libraries have been registered — used by the dev warning. */
   registeredLibraries(): IconLibrary[];
+  /**
+   * Make icons available by their native names. Keys are either the export
+   * names as imported (`{ ChevronDown, X }`, converted by `toNativeName`) or
+   * native names already (`{ "arrow-down-0-1": ArrowDown01 }`, kept as given).
+   * Adds to what is registered; never replaces it.
+   */
+  registerIcons(
+    library: IconLibrary,
+    icons: Record<string, TComponent>,
+    options?: RegisterIconsOptions,
+  ): void;
+  /** A registered icon by native name. Solid falls back to outline. */
+  getIcon(library: IconLibrary, name: string, style: "outline" | "solid"): TComponent | undefined;
+  /** Every native name registered for `library`, sorted — used by the dev warning. */
+  registeredNames(library: IconLibrary): string[];
+}
+
+interface RegistryState<TComponent> {
+  sets: Map<IconLibrary, IconSet<TComponent>>;
+  icons: Map<IconLibrary, { outline: Map<string, TComponent>; solid: Map<string, TComponent> }>;
 }
 
 /**
@@ -74,20 +116,55 @@ export interface IconRegistry<TComponent> {
  */
 export function createIconRegistry<TComponent>(key: symbol): IconRegistry<TComponent> {
   type GlobalWithRegistry = typeof globalThis & {
-    [k: symbol]: Map<IconLibrary, IconSet<TComponent>> | undefined;
+    [k: symbol]: RegistryState<TComponent> | Map<IconLibrary, IconSet<TComponent>> | undefined;
   };
   const globalRef = globalThis as GlobalWithRegistry;
-  const registry: Map<IconLibrary, IconSet<TComponent>> = (globalRef[key] ??= new Map());
+  const existing = globalRef[key];
+  // An older copy of this package stored the bare Map of sets under the same
+  // key. Adopt it rather than replacing it, so a mixed install still shares.
+  const state: RegistryState<TComponent> =
+    existing instanceof Map
+      ? { sets: existing, icons: new Map() }
+      : (existing ?? { sets: new Map(), icons: new Map() });
+  globalRef[key] = state;
+  const { sets, icons } = state;
+
+  const iconsFor = (library: IconLibrary) => {
+    let entry = icons.get(library);
+    if (!entry) icons.set(library, (entry = { outline: new Map(), solid: new Map() }));
+    return entry;
+  };
 
   return {
     registerIconSet(set) {
-      registry.set(set.library, set);
+      sets.set(set.library, set);
     },
     getIconSet(library) {
-      return registry.get(library);
+      return sets.get(library);
     },
     registeredLibraries() {
-      return [...registry.keys()];
+      return [...sets.keys()];
+    },
+    registerIcons(library, components, options = {}) {
+      const style = options.style ?? "outline";
+      const target = iconsFor(library)[style];
+      for (const [exportName, component] of Object.entries(components)) {
+        let name = toNativeName(library, exportName);
+        // Tabler names its filled cuts `star-filled`. Registered as the solid
+        // style, that is the solid cut of `star`, so it answers to `star`.
+        if (style === "solid") name = name.replace(/-filled$/, "");
+        target.set(name, component);
+      }
+    },
+    getIcon(library, name, style) {
+      const entry = icons.get(library);
+      if (!entry) return undefined;
+      return (style === "solid" ? entry.solid.get(name) : undefined) ?? entry.outline.get(name);
+    },
+    registeredNames(library) {
+      const entry = icons.get(library);
+      if (!entry) return [];
+      return [...new Set([...entry.outline.keys(), ...entry.solid.keys()])].sort();
     },
   };
 }

@@ -1,4 +1,9 @@
-import { registerIconSet, type IconMarkup, type IconSet } from "@ui-organized/angular";
+import {
+  registerIconSet,
+  registerLibraryIcons,
+  type IconMarkup,
+  type IconSet,
+} from "@ui-organized/angular";
 import { makeStubIconSet } from "../../../src/fixtures/stubIconSet.js";
 
 /**
@@ -21,3 +26,9 @@ export const ANGULAR_STUB_SET: IconSet = makeStubIconSet<IconMarkup>(
 );
 
 registerIconSet(ANGULAR_STUB_SET);
+
+// The names a consumer would register. Native Lucide names, so `x`, not the
+// glyph key `close` the stub set is indexed by.
+const OUTLINE = `<svg data-cut="outline"></svg>`;
+registerLibraryIcons("lucide", { check: OUTLINE, x: OUTLINE, info: OUTLINE });
+registerLibraryIcons("lucide", { check: `<svg data-cut="solid"></svg>` }, { style: "solid" });

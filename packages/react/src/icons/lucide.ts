@@ -1,7 +1,8 @@
 /**
  * Lucide icon adapter.
  *
- * Maps each canonical design system icon name to its Lucide React component.
+ * Maps each of the components' own glyphs (`SystemGlyph` in @ui-organized/core)
+ * to its Lucide React component.
  * Named imports enable tree-shaking within the library — only icons referenced
  * in this file are included in the bundle.
  *
@@ -11,14 +12,9 @@
  */
 
 import {
-  ArrowDown,
   ArrowDownAZ,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
   AlertCircle,
   AlertTriangle,
-  Bookmark,
   Calendar,
   Check,
   CheckCircle,
@@ -26,35 +22,25 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronUp,
-  Clock,
   Copy,
   Download,
-  ExternalLink,
   Eye,
   EyeOff,
   File,
   Filter,
   Folder,
   Grid2X2,
-  Heart,
   Home,
   Info,
   List,
-  Loader2,
-  Lock,
-  LockOpen,
-  Mail,
   Menu,
   Minus,
   Pause,
   Pencil,
-  Phone,
   Pipette,
   Play,
   Plus,
   RefreshCw,
-  Redo2,
-  RotateCw,
   Search,
   Settings,
   Star,
@@ -63,24 +49,19 @@ import {
   Undo2,
   Upload,
   User,
-  Users,
   X,
-  ArrowUpAZ, ListFilter, RotateCcw,
-  Sun, Moon, Monitor,
+  ArrowUpAZ,
+  ListFilter,
+  RotateCcw,
 } from "lucide-react";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { SystemGlyph } from "@ui-organized/core";
 import type { ComponentType } from "react";
 
-export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
+export const lucideIconSet: Record<SystemGlyph, ComponentType<any>> = {
   "chevron-down": ChevronDown,
   "chevron-up": ChevronUp,
   "chevron-left": ChevronLeft,
   "chevron-right": ChevronRight,
-  "arrow-left": ArrowLeft,
-  "arrow-right": ArrowRight,
-  "arrow-up": ArrowUp,
-  "arrow-down": ArrowDown,
-  "external-link": ExternalLink,
   close: X,
   check: Check,
   plus: Plus,
@@ -92,7 +73,6 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   upload: Upload,
   refresh: RefreshCw,
   undo: Undo2,
-  redo: Redo2,
   "sort-asc": ArrowUpAZ,
   "sort-desc": ArrowDownAZ,
   filter: Filter,
@@ -101,13 +81,10 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "alert-circle": AlertCircle,
   "alert-triangle": AlertTriangle,
   info: Info,
-  loader: Loader2,
   search: Search,
   eye: Eye,
   "eye-off": EyeOff,
-  bookmark: Bookmark,
   star: Star,
-  heart: Heart,
   tag: Tag,
   menu: Menu,
   grid: Grid2X2,
@@ -117,19 +94,9 @@ export const lucideIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   play: Play,
   pause: Pause,
   user: User,
-  users: Users,
-  lock: Lock,
-  unlock: LockOpen,
-  mail: Mail,
-  phone: Phone,
   settings: Settings,
   home: Home,
   calendar: Calendar,
-  clock: Clock,
   pipette: Pipette,
-  "rotate-cw": RotateCw,
   "rotate-ccw": RotateCcw,
-  sun: Sun,
-  moon: Moon,
-  monitor: Monitor,
 };

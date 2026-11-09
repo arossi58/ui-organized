@@ -44,6 +44,18 @@
   min-width: 0;
 }
 
+/* Set apart from the controls above it: the code is their result, not one more
+   control. */
+.liveCode {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  min-width: 0;
+  margin-top: var(--spacing-space-03);
+  padding-top: var(--spacing-space-04);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
 .panelView[hidden] {
   display: none;
 }

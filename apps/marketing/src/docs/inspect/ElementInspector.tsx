@@ -38,7 +38,7 @@ function SourceTag({ prop }: { prop: StyleProp }) {
   // `display: flex` is just how CSS works.
   if (prop.source === "literal" && prop.tokenable) {
     return (
-      <Tag size="sm" variant="warning" emphasized={false}>
+      <Tag size="sm" variant="caution" emphasized={false}>
         hardcoded
       </Tag>
     );
@@ -138,7 +138,7 @@ export function ElementInspector({
                 {node.hardcodedCount > 0 && (
                   <Tag
                     size="sm"
-                    variant="warning"
+                    variant="caution"
                     emphasized={false}
                     className={styles.treeFlag}
                     title={`${node.hardcodedCount} hardcoded values`}

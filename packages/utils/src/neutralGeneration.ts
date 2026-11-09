@@ -21,7 +21,7 @@
  * Lightness is therefore preserved exactly wherever the gamut permits, and moves
  * by at most 0.02 where it does not. Across every hue and strength the largest
  * shift on a real token pair is 5.77:1 → 5.35:1, and no pair crosses a WCAG
- * threshold — so a tinted neutral stays a re-colouring rather than a
+ * threshold — so a tinted neutral stays a re-coloring rather than a
  * re-lightening. This is what the authored families do NOT do —
  * `grey` sits at L 0.673 at step 1400 while `juniper` sits at L 0.454, so
  * swapping between them darkens the UI. Re-deriving the presets through

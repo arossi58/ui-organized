@@ -1,6 +1,6 @@
+import type { IconName } from "../Icon/Icon.types.js";
 import type { Snippet } from "svelte";
 import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "../../icons/registry.js";
 
 export interface NavProviderProps {
@@ -41,10 +41,10 @@ export interface NavItemProps extends Omit<HTMLButtonAttributes, "class" | "chil
   /** Text label for the page. A string, or a snippet for anything richer. */
   label: string | Snippet;
   /**
-   * Optional leading icon, rendered via the Icon component — either a canonical
-   * name or a library icon component supplied directly.
+   * Optional leading icon, rendered via the Icon component — either its native
+   * name in the active library or a library icon component supplied directly.
    */
-  icon?: CanonicalIconName | IconComponent;
+  icon?: IconName | IconComponent;
   /** Marks this page as the current page — renders the filled, emphasized appearance. */
   selected?: boolean;
   /**
@@ -70,7 +70,7 @@ export interface NavSubItemProps extends Omit<HTMLButtonAttributes, "class" | "c
   /** Text label for the sub-page. A string, or a snippet. */
   label: string | Snippet;
   /** Optional leading icon, rendered via the Icon component. */
-  icon?: CanonicalIconName | IconComponent;
+  icon?: IconName | IconComponent;
   /** Marks this sub-page as the current page. */
   selected?: boolean;
   /**

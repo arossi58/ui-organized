@@ -134,7 +134,7 @@ function RealComponent({
     case "sidebar":
       return (
         <Sidebar className="physics-piece__sidebar" navLabel="Pages" collapsible>
-          <NavItem label="Welcome" icon="home" selected />
+          <NavItem label="Welcome" icon="house" selected />
           <NavItem label="Multipage Select" icon="list">
             <NavSubItem label="Sub page" />
           </NavItem>
@@ -157,13 +157,13 @@ function RealComponent({
       return (
         <div className="physics-piece__tabbar">
           <span className="physics-piece__tab is-active">
-            <Icon name="home" size={22} />
+            <Icon name="house" size={22} />
           </span>
           <span className="physics-piece__tab">
             <Icon name="search" size={22} />
           </span>
           <span className="physics-piece__tab">
-            <Icon name="grid" size={22} />
+            <Icon name="grid-2x2" size={22} />
           </span>
           <span className="physics-piece__tab">
             <Icon name="settings" size={22} />

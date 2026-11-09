@@ -27,6 +27,7 @@ import type {
   TableFilterEditorProps,
   TableFiltersProps,
 } from "./TableFilters.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The applied filters, on their own line under the header (Figma 2298:362).
@@ -55,7 +56,7 @@ export function TableFilters({ className }: TableFiltersProps) {
 
       <TableFilterAdd label="Add" />
 
-      <Button intent="ghost" size="sm" icon="rotate-ccw" onClick={filters.clear}>
+      <Button intent="ghost" size="sm" icon={glyph("rotate-ccw")} onClick={filters.clear}>
         Reset
       </Button>
 
@@ -104,9 +105,9 @@ export function TableFilterAdd({
   // set on the content. So the button's name has to be the *menu's* name too —
   // "Add filter", not "Filter".
   const trigger = iconOnly ? (
-    <Button intent="secondary" size={size} icon="filter" aria-label={label} className={className} />
+    <Button intent="secondary" size={size} icon={glyph("filter")} aria-label={label} className={className} />
   ) : (
-    <Button intent="ghost" size="sm" icon="plus" className={className}>
+    <Button intent="ghost" size="sm" icon={glyph("plus")} className={className}>
       {label}
     </Button>
   );
@@ -218,7 +219,7 @@ export function TableFilterChip({ condition, className }: TableFilterChipProps) 
             ))}
           </MenuRadioGroup>
           <MenuSeparator />
-          <MenuItem value="remove" icon="trash" onSelect={remove}>
+          <MenuItem value="remove" icon={glyph("trash")} onSelect={remove}>
             Remove filter
           </MenuItem>
         </MenuContent>
@@ -313,7 +314,7 @@ export function TableFilterEditor({ condition, portalContainer }: TableFilterEdi
       <Button
         intent="ghost"
         size={size}
-        icon="trash"
+        icon={glyph("trash")}
         className="data-table__filter-editor-remove"
         onClick={() => {
           filters.remove(condition.id);

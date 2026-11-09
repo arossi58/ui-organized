@@ -3,6 +3,7 @@
   import { clsx } from "clsx";
   import Icon from "../Icon/Icon.svelte";
   import type { MenuCheckboxItemProps } from "./Menu.types.js";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     value, checked, onCheckedChange, class: className, children, ...rest
@@ -26,7 +27,7 @@
   -->
   <span class="checkbox__control menu__control">
     <span class="checkbox__indicator">
-      <Icon name="check" size={16} class="checkbox__check" />
+      <Icon name={glyph("check")} size={16} class="checkbox__check" />
     </span>
   </span>
   <span class="menu__item-label">{@render children?.()}</span>

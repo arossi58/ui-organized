@@ -141,7 +141,7 @@ export function PreviewKitchenSink() {
         <div className={styles.row}>
           <ToggleGroup defaultValue={["grid"]}>
             <Toggle value="list" icon="list" aria-label="List view" />
-            <Toggle value="grid" icon="grid" aria-label="Grid view" />
+            <Toggle value="grid" icon="grid-2x2" aria-label="Grid view" />
           </ToggleGroup>
           <Toggle icon="star">Favorite</Toggle>
           <div className={styles.spacer} />
@@ -227,7 +227,6 @@ export function PreviewKitchenSink() {
           <div className={styles.row}>
             <Tag variant="success">Success</Tag>
             <Tag variant="info">Info</Tag>
-            <Tag variant="warning">Warning</Tag>
             <Tag variant="error">Error</Tag>
             <Tag variant="caution">Caution</Tag>
             <Tag variant="info" emphasized={false}>Subtle</Tag>
@@ -313,10 +312,10 @@ export function PreviewKitchenSink() {
           <Menu>
             <MenuTrigger render={<Button intent="secondary" icon="menu" iconPosition="right">Actions</Button>} />
             <MenuContent container={portalContainerRef}>
-              <MenuItem icon="edit">Edit</MenuItem>
+              <MenuItem icon="pencil">Edit</MenuItem>
               <MenuItem icon="copy">Duplicate</MenuItem>
               <MenuSeparator />
-              <MenuItem icon="trash" destructive>Delete</MenuItem>
+              <MenuItem icon="trash-2" destructive>Delete</MenuItem>
             </MenuContent>
           </Menu>
         </div>

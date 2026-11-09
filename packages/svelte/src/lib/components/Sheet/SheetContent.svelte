@@ -8,6 +8,7 @@
   import { sheetStyles } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import type { SheetContentProps } from "./Sheet.types.js";
+  import { glyph } from "../../icons/glyph.js";
 
   // `side` and `size` are left undefined rather than given defaults here: the
   // recipe already declares 'right' and 'md', and repeating them would be a
@@ -29,7 +30,7 @@
     <ArkDialog.Content class={clsx(sheetStyles({ side, size }), className)} {...contentProps}>
       {#if showClose}
         <ArkDialog.CloseTrigger class="dialog__close" aria-label="Close">
-          <Icon name="close" size={20} />
+          <Icon name={glyph("close")} size={20} />
         </ArkDialog.CloseTrigger>
       {/if}
       {@render children?.()}

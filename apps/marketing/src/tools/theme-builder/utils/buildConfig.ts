@@ -353,6 +353,12 @@ export function buildIconsModule(state: BuilderState): string {
  *
  *   import "@ui-organized/react/icons/${library}";   // registers the icon set
  *   import { IconProvider } from "@ui-organized/react";
+ *
+ * Then register the icons you name, under ${library}'s own names. Nothing is
+ * renamed, and only what you register reaches your bundle:
+ *
+ *   import { registerIcons } from "@ui-organized/react/icons/${library}";
+ *   registerIcons({ ...the ${pkg} icons you use });
  *   import { iconConfig } from "./icons";
  *
  *   <IconProvider {...iconConfig}>

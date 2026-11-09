@@ -5,6 +5,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, ratingGroupStyles, type ControlSize } from "@ui-organized/core";
 import type { RatingGroupProps } from "./RatingGroup.types.js";
 import "@ui-organized/core/components/RatingGroup/RatingGroup.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_COUNT = 5;
 
@@ -55,13 +56,13 @@ export function RatingGroup({
           {(api) =>
             api.items.map((index) => (
               <ArkRatingGroup.Item key={index} index={index} className="rating-group__item">
-                <Icon name="star" size={iconSize} className="rating-group__star" />
+                <Icon name={glyph("star")} size={iconSize} className="rating-group__star" />
                 {/* The half state is a clipped copy laid over the empty star.
                     Ark sets data-half on the item; the width is what does the
                     clipping, so the two stars stay pixel-aligned. */}
                 {allowHalf && (
                   <span className="rating-group__half" aria-hidden="true">
-                    <Icon name="star" size={iconSize} className="rating-group__star" />
+                    <Icon name={glyph("star")} size={iconSize} className="rating-group__star" />
                   </span>
                 )}
               </ArkRatingGroup.Item>

@@ -19,11 +19,12 @@ import {
   toggleStyles,
   type ToggleVariants,
 } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart, stateFlag } from "../part.js";
 import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
 import { UioToggleGroupContext } from "./toggle-group-context.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 export type ToggleSize = NonNullable<ToggleVariants["size"]>;
 export type ToggleOrientation = "horizontal" | "vertical";
@@ -105,7 +106,7 @@ export class UioToggle extends UioPart implements OnInit, OnDestroy {
   /** Identifies this toggle within a group. */
   readonly value = input<string | undefined>(undefined);
   readonly label = input<string | undefined>(undefined);
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   readonly size = input<ToggleSize>("md");
 
   protected readonly disabledInput = input(false, {

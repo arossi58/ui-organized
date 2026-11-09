@@ -91,7 +91,7 @@
 }
 
 /* Entry — a filled control keeps the default surface (the background does NOT
-   change on fill); only the text colour shifts to the emphasized primary value
+   change on fill); only the text color shifts to the emphasized primary value
    (the placeholder is the lighter `--color-content-placeholder`). Ark's Field
    doesn't track a filled state (Base UI's data-filled), so key off the input
    showing content instead. (Inputs without a placeholder match when empty too;

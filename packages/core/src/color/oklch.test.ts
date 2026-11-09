@@ -27,7 +27,7 @@ describe("rgbaToOklch", () => {
 });
 
 describe("oklchToRgba", () => {
-  it("clips a colour outside sRGB to the nearest displayable one", () => {
+  it("clips a color outside sRGB to the nearest displayable one", () => {
     // A chroma this high at this hue has no sRGB equivalent.
     const out = oklchToRgba({ l: 0.7, c: 0.35, h: 150, a: 1 });
     for (const channel of [out.r, out.g, out.b]) {
@@ -40,7 +40,7 @@ describe("oklchToRgba", () => {
 
 describe("round trip", () => {
   /* The bar for the text field: opening it and pressing enter without editing
-     must not shift the colour. That has to hold through the *string*, which is
+     must not shift the color. That has to hold through the *string*, which is
      where the rounding lives — not just through the float maths. */
   const lcg = (seed: number) => () => (seed = (seed * 1664525 + 1013904223) % 2 ** 32) / 2 ** 32;
 
@@ -67,12 +67,12 @@ describe("round trip", () => {
 });
 
 describe("formatOklch", () => {
-  it("trims trailing zeros so plain colours stay readable", () => {
+  it("trims trailing zeros so plain colors stay readable", () => {
     expect(formatOklch(rgb(255, 255, 255))).toBe("oklch(1 0 0)");
     expect(formatOklch(rgb(0, 0, 0))).toBe("oklch(0 0 0)");
   });
 
-  it("only writes the alpha component when the colour is translucent", () => {
+  it("only writes the alpha component when the color is translucent", () => {
     expect(formatOklch(rgb(255, 0, 0))).not.toContain("/");
     expect(formatOklch(rgb(255, 0, 0, 0.5))).toContain("/ 0.5");
   });

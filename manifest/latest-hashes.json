@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-09T16:17:18.120Z",
+  "generatedAt": "2026-11-06T15:27:28.005Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -14,14 +14,15 @@
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
-    "packages/react/src/components/Button/Button.types.ts::Button": "sha256:f812888fdf6764f8",
+    "packages/react/src/components/Button/Button.types.ts::Button": "sha256:68ec7bd6e371fc24",
     "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
-    "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:19545bed9418f849",
+    "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:4cd111a1f868c3b9",
+    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:d85400644ba09e1d",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
@@ -33,7 +34,7 @@
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuContent": "sha256:3a6de950be38dd59",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuGroupLabel": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuItem": "sha256:a65b7948801ee2b1",
+    "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuItem": "sha256:84938aebaed54770",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioGroup": "sha256:52b319fda5c54103",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioItem": "sha256:b868f7539ba601cd",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": "sha256:4f53cda18c2baa0c",
@@ -71,7 +72,7 @@
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:90589c38fc3d98e8",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:90f0ac6deaa84765",
+    "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:bef6759e7e844295",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:7a065a645590a677",
@@ -83,15 +84,15 @@
     "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:1f4c6873dde0f0bc",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroupLabel": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Menu/Menu.types.ts::MenuItem": "sha256:a65b7948801ee2b1",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuItem": "sha256:84938aebaed54770",
     "packages/react/src/components/Menu/Menu.types.ts::MenuRadioGroup": "sha256:52b319fda5c54103",
     "packages/react/src/components/Menu/Menu.types.ts::MenuRadioItem": "sha256:b868f7539ba601cd",
     "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Meter/Meter.types.ts::Meter": "sha256:ef09ae151baf0f59",
-    "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": "sha256:73f77a5acd96b251",
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": "sha256:6e365b82364e442b",
     "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": "sha256:c3f9c36951922c79",
-    "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": "sha256:b6749d0feda0a0f7",
+    "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": "sha256:4eec07fc20eae447",
     "packages/react/src/components/NumberField/NumberField.types.ts::NumberField": "sha256:b91cfb22028b086d",
     "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": "sha256:3db469cd143dd0c1",
     "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": "sha256:c14424eb19ef5d89",
@@ -134,10 +135,11 @@
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": "sha256:0c9cebf01d0d18eb",
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableError": "sha256:b2511e333bc5e979",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableExportMenu": "sha256:cfb165bf50cb1789",
-    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterAdd": "sha256:fde2af977ec00d75",
+    "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterAdd": "sha256:53c2a2ccb7c2e955",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterChip": "sha256:2957cc9efe245da9",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterEditor": "sha256:c7a723631f4e59c2",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilters": "sha256:1d83a9eaf1f23632",
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableFilterSheet": "sha256:dbe0d21a6d0db58a",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterValueEditor": "sha256:8410efe385c8c430",
     "packages/react-table/src/components/Table/Table.types.ts::TableFooter": "sha256:2f00c389ec961ef4",
     "packages/react-table/src/components/Table/Table.types.ts::TableHeadCell": "sha256:2e03c9da76a19fbc",
@@ -150,18 +152,20 @@
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableScrollButtons": "sha256:e2c49e4d0da60133",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": "sha256:94cab4cb15698d5d",
     "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts::TableSelectionBar": "sha256:8ac9e9cad8f9dda2",
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSheetButton": "sha256:9000daf69bd710be",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": "sha256:c6a930f97323ee0d",
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSortSheet": "sha256:c6a930f97323ee0d",
     "packages/react-table/src/components/TableSubBar/TableSubBar.types.ts::TableSubBar": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": "sha256:2f00c389ec961ef4",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
-    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:e022f7c3635671e2",
+    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:9c3b46b6a171ee43",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
-    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:acde0a4546711e5e",
+    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:dc5a165a6654b913",
     "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
@@ -475,7 +479,7 @@
     "packages/react/src/components/Button/Button.types.ts::Button": [
       {
         "name": "icon",
-        "type": "CanonicalIconName | IconComponent",
+        "type": "IconName | IconComponent",
         "required": false,
         "description": "Optional icon to render inside the button."
       },
@@ -708,36 +712,13 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false,
-        "description": "The value half."
-      },
-      {
-        "name": "className",
-        "type": "string",
-        "required": false,
-        "description": "Class for the chip's wrapper."
-      },
-      {
-        "name": "detail",
-        "type": "React.ReactNode",
-        "required": false,
-        "description": "The quiet middle."
+        "description": "`ChipSegment`s, rendered after any shorthand segments."
       },
       {
         "name": "disabled",
         "type": "boolean",
-        "required": false
-      },
-      {
-        "name": "dropdown",
-        "type": "boolean",
         "required": false,
-        "description": "Draws a trailing chevron, for a chip that opens a menu or popover."
-      },
-      {
-        "name": "icon",
-        "type": "CanonicalIconName | IconComponent",
-        "required": false,
-        "description": "Leading icon — a canonical name, or a library icon component."
+        "description": "Disables every segment and the dismiss control."
       },
       {
         "name": "incomplete",
@@ -749,25 +730,19 @@
         "name": "label",
         "type": "React.ReactNode",
         "required": false,
-        "description": "The emphasized half — what the chip is *about*."
+        "description": "Shorthand for a static label segment — what the chip is *about*."
       },
       {
         "name": "onRemove",
         "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
         "required": false,
-        "description": "Renders a dismiss button as a **sibling** of the chip's body."
+        "description": "Renders a dismiss button as the chip's last segment — a **sibling** of the others, never nested: a button inside a button is invalid HTML and an axe `nested-interactive` violation."
       },
       {
         "name": "operator",
-        "type": "ComparisonIconName",
+        "type": "React.ReactNode",
         "required": false,
-        "description": "The relation between label and value, **drawn**: one of the design system's six comparison glyphs."
-      },
-      {
-        "name": "operatorLabel",
-        "type": "string",
-        "required": false,
-        "description": "The glyph's accessible name — \"contains\"."
+        "description": "Shorthand for a static operator segment — the grammar between label and value: \"is any of\", \"is before\", \"is greater than\"."
       },
       {
         "name": "removeLabel",
@@ -779,7 +754,21 @@
         "name": "selected",
         "type": "boolean",
         "required": false,
-        "description": "Its popover is open, or it is toggled on."
+        "description": "One of its menus is open, or it is toggled on."
+      },
+      {
+        "name": "value",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Shorthand for a static value segment."
+      }
+    ],
+    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": [
+      {
+        "name": "part",
+        "type": "ChipSegmentPart",
+        "required": false,
+        "description": "Which part of the chip's sentence this is."
       }
     ],
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": [
@@ -899,7 +888,7 @@
         "name": "defaultValue",
         "type": "string",
         "required": false,
-        "description": "Initial colour for the uncontrolled case."
+        "description": "Initial color for the uncontrolled case."
       },
       {
         "name": "disabled",
@@ -948,7 +937,7 @@
         "name": "onValueChange",
         "type": "(value: string) => void",
         "required": false,
-        "description": "Called continuously as the colour changes, with a CSS colour string."
+        "description": "Called continuously as the color changes, with a CSS color string."
       },
       {
         "name": "onValueChangeEnd",
@@ -966,7 +955,7 @@
         "name": "readOnly",
         "type": "boolean",
         "required": false,
-        "description": "Makes the colour read-only while keeping the trigger focusable."
+        "description": "Makes the color read-only while keeping the trigger focusable."
       },
       {
         "name": "required",
@@ -1005,7 +994,7 @@
         "name": "value",
         "type": "string",
         "required": false,
-        "description": "Controlled colour, as a CSS colour string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
+        "description": "Controlled color, as a CSS color string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
       },
       {
         "name": "variant",
@@ -1210,7 +1199,7 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName",
+        "type": "IconName | IconComponent",
         "required": false,
         "description": "Leading icon."
       },
@@ -2402,9 +2391,9 @@
       },
       {
         "name": "name",
-        "type": "CanonicalIconName | IconComponent",
+        "type": "IconName | IconComponent",
         "required": true,
-        "description": "Either a canonical icon name from the design system's set, or a library icon component supplied directly (e.g."
+        "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g."
       },
       {
         "name": "size",
@@ -2825,7 +2814,7 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName",
+        "type": "IconName | IconComponent",
         "required": false,
         "description": "Leading icon."
       },
@@ -2972,9 +2961,9 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName | React.ComponentType<Record<string, unknown>>",
+        "type": "IconName | React.ComponentType<Record<string, unknown>>",
         "required": false,
-        "description": "Optional leading icon, rendered via the Icon component — either a canonical name or a library icon component supplied directly (e.g."
+        "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g."
       },
       {
         "name": "label",
@@ -3019,7 +3008,7 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName",
+        "type": "IconName | IconComponent",
         "required": false,
         "description": "Optional leading icon, rendered via the Icon component."
       },
@@ -3837,7 +3826,7 @@
         "type": "\"default\" | \"warning\"",
         "required": false,
         "defaultValue": "default",
-        "description": "Colour of the filled stars."
+        "description": "Color of the filled stars."
       }
     ],
     "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": [
@@ -4742,6 +4731,12 @@
         "required": false
       },
       {
+        "name": "container",
+        "type": "RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "Where the field menu portals."
+      },
+      {
         "name": "iconOnly",
         "type": "boolean",
         "required": false,
@@ -4784,6 +4779,20 @@
         "name": "className",
         "type": "string",
         "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableFilterSheet": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Filter",
+        "description": "Button label and sheet title."
       }
     ],
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterValueEditor": [
@@ -5051,6 +5060,30 @@
         "required": false
       }
     ],
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSheetButton": [
+      {
+        "name": "count",
+        "type": "number",
+        "required": true,
+        "description": "What is applied."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": true
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "unit",
+        "type": "string",
+        "required": true,
+        "description": "The word the count is read with: \"2 applied\"."
+      }
+    ],
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": [
       {
         "name": "className",
@@ -5063,6 +5096,20 @@
         "required": false,
         "defaultValue": "Sort",
         "description": "Accessible name for the icon-only trigger."
+      }
+    ],
+    "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSortSheet": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Sort",
+        "description": "Button label and sheet title."
       }
     ],
     "packages/react-table/src/components/TableSubBar/TableSubBar.types.ts::TableSubBar": [
@@ -5175,9 +5222,9 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName | IconComponent",
+        "type": "IconName | IconComponent",
         "required": false,
-        "description": "Optional icon rendered inside the tag — a canonical icon name or an icon component."
+        "description": "Optional icon rendered inside the tag — the icon's native name in the active library or an icon component."
       },
       {
         "name": "iconPosition",
@@ -5436,7 +5483,7 @@
       },
       {
         "name": "icon",
-        "type": "CanonicalIconName",
+        "type": "IconName | IconComponent",
         "required": false,
         "description": "Optional leading icon."
       },

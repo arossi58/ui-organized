@@ -28,6 +28,7 @@ import { UioIcon } from "../icons/icon.js";
 import { nextMachineId } from "../part-ids.js";
 import { flushNow } from "../overlay/flush.js";
 import { createSurface, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type TourSize = ControlSize;
 export type TourVariant = NonNullable<TourVariants["variant"]>;
@@ -229,7 +230,7 @@ export function tourProgressText(steps: readonly TourStep[], stepId: string | nu
               [attr.data-type]="step()?.type ?? null"
               (click)="dismiss()"
             >
-              <span uioIcon name="close" [size]="CLOSE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
           </div>
 
@@ -272,6 +273,7 @@ export function tourProgressText(steps: readonly TourStep[], stepId: string | nu
   `,
 })
 export class UioTour implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly steps = input<TourStep[]>([]);
   /**
    * The step to show, by id.

@@ -20,7 +20,7 @@
   background: var(--color-surface-secondary);
 }
 
-/* The status colour goes on a left edge rather than the whole surface: five
+/* The status color goes on a left edge rather than the whole surface: five
    saturated tiles in a row read as an alert, and four of them are good news. */
 .cell[data-status="pass"] {
   border-left: 3px solid var(--color-status-success);

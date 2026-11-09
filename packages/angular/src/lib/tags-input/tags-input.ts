@@ -17,6 +17,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { glyph } from "../icons/glyph.js";
 
 export type TagsInputSize = ControlSize;
 
@@ -132,7 +133,7 @@ const DELETE_ICON_SIZE = 12;
               [disabled]="isDisabled()"
               (click)="removeAt($index)"
             >
-              <span uioIcon name="close" [size]="DELETE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="DELETE_ICON_SIZE"></span>
             </button>
           </div>
           <!--
@@ -211,6 +212,7 @@ const DELETE_ICON_SIZE = 12;
   },
 })
 export class UioTagsInput extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "tags-input";
   readonly part = "root";
 

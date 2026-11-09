@@ -9,7 +9,6 @@ import "./overview-section.css";
 interface OverviewCardDef {
   id: OverviewId;
   title: string;
-  body: string;
   Art: ComponentType<{ selected: boolean }>;
 }
 
@@ -17,19 +16,16 @@ const CARDS: OverviewCardDef[] = [
   {
     id: "design",
     title: "Design",
-    body: "A Figma library of components and variables.",
     Art: DesignScene,
   },
   {
     id: "tools",
     title: "Tools",
-    body: "To help with the tedious work. ",
     Art: ToolsScene,
   },
   {
     id: "code",
     title: "Code",
-    body: "React components you install from npm.",
     Art: CodeScene,
   },
 ];
@@ -59,10 +55,6 @@ export function OverviewSection() {
         <Reveal>
           <div className="overview__head">
             <h2 className="overview__title">An open source design system</h2>
-            <p className="overview__lede">
-              UI Organized is an open source community that builds design tools
-              and resources.
-            </p>
           </div>
         </Reveal>
 
@@ -74,7 +66,6 @@ export function OverviewSection() {
               <Reveal key={card.id} className="overview__cell">
                 <OverviewCard
                   title={card.title}
-                  body={card.body}
                   Art={card.Art}
                   open={open}
                   panelId={inlineDetail ? cardPanelId : PANEL_ID}

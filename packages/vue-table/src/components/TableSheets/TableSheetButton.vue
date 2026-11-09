@@ -4,13 +4,12 @@
   announced after "Filter" says nothing about what it counts.
 -->
 <script setup lang="ts">
+import type { IconComponent, IconName } from "@ui-organized/vue";
 import { Button } from "@ui-organized/vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/tableContext.js";
 
 defineProps<{
-  /** A canonical icon name. */
-  icon: string;
+  icon: IconName | IconComponent;
   label: string;
   /** What is applied. Drawn as a badge from 1 up, and spoken as words. */
   count: number;
@@ -21,7 +20,7 @@ const table = useTableContext();
 </script>
 
 <template>
-  <Button intent="secondary" :size="table.size.value" :icon="icon as CanonicalIconName">
+  <Button intent="secondary" :size="table.size.value" :icon="icon">
     {{ label }}
     <template v-if="count > 0">
       <span class="data-table__badge" aria-hidden="true">{{ count }}</span>

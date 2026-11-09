@@ -52,7 +52,7 @@ export const buttonUsage: UsageGuide = {
   accessibility: [
     "Renders a real `<button>`, so Enter and Space activate it and it takes focus in DOM order.",
     "An icon-only button has no text to announce: give it an `aria-label` naming the action, not the glyph.",
-    "Intent is a ranking, not a status. If the outcome matters, the label has to say so too, because colour alone reaches nobody who can't see it.",
+    "Intent is a ranking, not a status. If the outcome matters, the label has to say so too, because color alone reaches nobody who can't see it.",
   ],
   content: [
     "Name the outcome rather than the mechanism: Delete, not Confirm.",

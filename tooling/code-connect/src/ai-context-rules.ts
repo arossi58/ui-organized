@@ -48,10 +48,19 @@ export function derivePropHints(entry: ComponentManifestEntry): string[] {
     hints.push("`intent` is NOT a prop of this component — the emphasis axis is `variant`.");
   }
 
-  // `icon` takes a canonical NAME, not an element. Agents habitually pass
-  // `icon={<Trash />}` because that's the react-icons / lucide convention.
+  // `icon` takes a NAME or a component, never an element. Agents habitually
+  // pass `icon={<Trash />}` because that's the react-icons convention. And the
+  // name is the icon library's own: there is no renamed vocabulary to recall,
+  // so an agent must not invent one (`close` for Lucide's `x`).
   const icon = entry.props.find((p) => p.name === "icon");
-  if (icon && !/ReactNode|ReactElement|ComponentType|JSX\.Element/.test(icon.type)) {
+  if (icon && /\bIconName\b/.test(icon.type)) {
+    hints.push(
+      "`icon` takes the active icon library's own name for the icon, exactly as the library " +
+        'publishes it (Lucide `"x"`, Heroicons `"x-mark"`; names are not translated between ' +
+        "libraries), registered once with `registerIcons`. Or pass the icon component itself " +
+        "(`icon={Trash2}`) — never an element (`icon={<Trash2 />}`).",
+    );
+  } else if (icon && !/ReactNode|ReactElement|ComponentType|JSX\.Element/.test(icon.type)) {
     hints.push(
       "`icon` takes an icon NAME string from the list below, not a React element — " +
         "never `icon={<SomeIcon />}`.",
@@ -105,6 +114,27 @@ export const PASSTHROUGH_NOTE =
   "underlying element — `children`, `className`, `id`, `style`, `ref`, its native " +
   "event handlers (`onClick`, `onChange`, …), and `aria-*` / `data-*` attributes. " +
   "Those are the ONLY additions; they do not extend the variant API above.";
+
+/**
+ * {@link PASSTHROUGH_NOTE} in each other library's terms. The same claim —
+ * these are the only additions — in the syntax that library forwards them with.
+ */
+export const FRAMEWORK_PASSTHROUGH_NOTES = {
+  svelte:
+    "Beyond the props above, this component forwards the standard attributes of its " +
+    "underlying element — `class`, `id`, `style`, its native event handlers (`onclick`, " +
+    "`oninput`, …), and `aria-*` / `data-*` attributes. Those are the ONLY additions; they " +
+    "do not extend the variant API above.",
+  vue:
+    "Beyond the props above, standard attributes fall through to the underlying element — " +
+    "`class`, `id`, `style`, native listeners (`@click`, `@input`, …), and `aria-*` / " +
+    "`data-*` attributes. Those are the ONLY additions; they do not extend the variant API " +
+    "above.",
+  angular:
+    "The host element is your own, so its standard attributes and native events " +
+    "(`class`, `id`, `(click)`, `aria-*`, `data-*`) go on it directly. Those are the ONLY " +
+    "additions; they do not extend the inputs above.",
+} as const;
 
 /** Repeated at the very end — recency matters as much as primacy. */
 export const CLOSING_RULE =

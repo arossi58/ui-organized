@@ -340,7 +340,7 @@ function buildProp(el: Element, cs: CSSStyleDeclaration, ctx: Context, spec: Spe
 
 /**
  * Border rows, one per side that paints. A single row would read one side's
- * colour for all of them, so a `border-bottom` would report `border-top-color`.
+ * color for all of them, so a `border-bottom` would report `border-top-color`.
  */
 function borderProps(el: Element, cs: CSSStyleDeclaration, ctx: Context): StyleProp[] {
   const rows = SIDES.filter(({ side }) => {

@@ -37,16 +37,16 @@ export interface RoadmapData {
 }
 
 /**
- * Design-system `Tag` colour variants. Kept as a local union (not imported
+ * Design-system `Tag` color variants. Kept as a local union (not imported
  * from @ui-organized/react) so this module stays React-free and unit-testable; RoadmapCard
  * passes these straight to `<Tag variant>`, so a wrong value fails to compile
  * there.
  */
-type TagVariant = "success" | "info" | "info-secondary" | "caution" | "warning" | "error";
+type TagVariant = "success" | "info" | "info-secondary" | "caution" | "error";
 
 /**
  * Per-type presentation, defined once (SITE.md §7.4) — the single source of
- * truth for a tag's display label and its `Tag` colour. To add a tag: add a
+ * truth for a tag's display label and its `Tag` color. To add a tag: add a
  * value to `RoadmapType`, an entry here, and a matching option to the project's
  * `Type` single-select field (plus an alias in sync-roadmap.mjs if the option
  * text differs from the key).
@@ -56,7 +56,7 @@ export const TYPE_META: Record<RoadmapType, { label: string; tag: TagVariant }> 
   development: { label: "Development", tag: "info" },
   documentation: { label: "Documentation", tag: "caution" },
   testing: { label: "Testing", tag: "success" },
-  community: { label: "Community", tag: "warning" },
+  community: { label: "Community", tag: "caution" },
   bug: { label: "Bug / Fix", tag: "error" },
 };
 

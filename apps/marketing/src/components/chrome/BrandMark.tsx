@@ -9,7 +9,7 @@ interface BrandMarkProps {
 /**
  * The UI Organized logomark — the bracketed "UI" frame from apps/assets
  * (logo-mark.svg), inlined so it paints with `currentColor` and tracks the
- * surrounding text colour (ink on light, cream on dark).
+ * surrounding text color (ink on light, cream on dark).
  */
 export function BrandMark({ glyphOnly = false, className }: BrandMarkProps) {
   return (

@@ -60,9 +60,7 @@ const FOUNDATION_CATEGORIES = new Set(["Foundation", "Foundations"]);
 /**
  * A glyph per rail section, keyed by the story category (`Foundations` is the
  * fixed top group). Passed to the kit's `Icon` as components rather than
- * canonical names: the canonical set is a small UI vocabulary — chevrons,
- * checks, alerts — with nothing that says "overlay" or "data display", and
- * `Icon` takes a library component directly for exactly this case.
+ * names, so none of them needs a `registerIcons` entry.
  */
 const CATEGORY_ICONS: Record<string, typeof Layers> = {
   Foundations: Layers,
@@ -79,7 +77,7 @@ const CATEGORY_ICONS: Record<string, typeof Layers> = {
 /**
  * Section heading. `text-default-body-medium` and the 18px glyph are the same
  * type utility and icon size `NavItem` uses, so a heading and the rows under it
- * sit on one baseline grid; only the colour separates them, and the divider
+ * sit on one baseline grid; only the color separates them, and the divider
  * above does the rest of the work of setting sections apart.
  */
 function GroupLabel({ name }: { name: string }) {

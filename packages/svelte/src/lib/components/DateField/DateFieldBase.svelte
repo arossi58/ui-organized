@@ -35,6 +35,7 @@
   // leading calendar button and hides the native picker chrome.
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     type,
@@ -132,7 +133,7 @@
     {disabled}
     aria-label={pickerLabel}
   >
-    <Icon name="calendar" size={iconSize} />
+    <Icon name={glyph("calendar")} size={iconSize} />
   </button>
 {/snippet}
 
@@ -171,7 +172,7 @@
                 "aria-label": pickerLabel,
               })}
             >
-              <Icon name="calendar" size={iconSize} />
+              <Icon name={glyph("calendar")} size={iconSize} />
             </button>
           {/snippet}
         </ArkPopover.Trigger>

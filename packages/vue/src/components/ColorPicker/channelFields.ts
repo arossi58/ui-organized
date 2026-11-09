@@ -2,13 +2,13 @@
  * Reading and writing one field of the notation row.
  *
  * The half of a field that `COLOR_NOTATION_FIELDS` in `@ui-organized/core`
- * cannot describe, because it needs a colour object and the four libraries do
+ * cannot describe, because it needs a color object and the four libraries do
  * not share one — the three Ark packages pass around `@zag-js/color-utils`
  * `Color`s and Angular computes its own. Core names the channel, its space and
  * its range; these two functions fetch and set it.
  *
  * Deliberately not Ark's `ChannelInput`: Ark writes a channel by converting the
- * colour to the *machine's* format first, so an HSL field would only work while
+ * color to the *machine's* format first, so an HSL field would only work while
  * the machine is in `hsla` — which would mean flipping the notation select had
  * to reformat the machine, and the machine's format is what decides the value
  * string, the hidden input's form value and whether the picker area is
@@ -31,7 +31,7 @@ import {
 } from "@ui-organized/core";
 
 /**
- * The parsed colour the machine holds. Named here rather than in the public
+ * The parsed color the machine holds. Named here rather than in the public
  * types so `ColorPickerProps` keeps its string-only surface — a caller never
  * handles one of these.
  */
@@ -61,7 +61,7 @@ export function readField(field: ColorField, color: ColorLike): string {
 }
 
 /**
- * `null` rejects the edit, and the field falls back to the colour it was
+ * `null` rejects the edit, and the field falls back to the color it was
  * showing rather than guessing at what was meant.
  */
 export function writeField(field: ColorField, text: string, color: ColorLike): ColorLike | null {
@@ -76,7 +76,7 @@ export function writeField(field: ColorField, text: string, color: ColorLike): C
     if (!hex) return null;
     /* Alpha deliberately survives a hex edit rather than being reset to opaque
        by a six-digit string. The field beside this one owns alpha; typing a
-       colour is not a statement about transparency. */
+       color is not a statement about transparency. */
     return parseColor(hex).withChannelValue("alpha", color.getChannelValue("alpha"));
   }
 

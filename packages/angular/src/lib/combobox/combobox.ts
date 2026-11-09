@@ -37,6 +37,7 @@ import { anchoredPositions } from "../overlay/anchor.js";
 import { pushLayer, removeLayer, type DismissibleLayer } from "../overlay/dismiss.js";
 import { flushNow } from "../overlay/flush.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type ComboboxSize = ControlSize;
 
@@ -186,7 +187,7 @@ export interface ComboboxOption {
           (pointerdown)="onTriggerPointerDown($event)"
           (click)="toggle()"
         >
-          <span uioIcon name="chevron-down" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('chevron-down')" [size]="iconSize()"></span>
         </button>
       </div>
     </div>
@@ -265,7 +266,7 @@ export interface ComboboxOption {
                 [attr.data-state]="isChosen(option.value) ? 'checked' : 'unchecked'"
                 [attr.hidden]="isChosen(option.value) ? null : ''"
               >
-                <span uioIcon name="check" [size]="iconSize()"></span>
+                <span uioIcon [name]="glyph('check')" [size]="iconSize()"></span>
               </div>
             </div>
           }
@@ -283,6 +284,7 @@ export class UioCombobox
   extends UioPart
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
+  protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";
 

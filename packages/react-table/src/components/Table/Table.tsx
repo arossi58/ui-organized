@@ -34,6 +34,7 @@ import type {
   TableRowProps,
   TableViewportProps,
 } from "./Table.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The parts, flat-exported — `TableHeader`, not `Table.Header`. That is the
@@ -180,7 +181,7 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
             <span className="data-table__head-label">{content}</span>
             {editable && <EditMark />}
             <span className="data-table__sort-icon">
-              <Icon name={sorted === "desc" ? "sort-desc" : "sort-asc"} size={14} />
+              <Icon name={glyph(sorted === "desc" ? "sort-desc" : "sort-asc")} size={14} />
             </span>
           </button>
         ) : (
@@ -203,7 +204,7 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
 function EditMark() {
   return (
     <span className="data-table__edit-icon">
-      <Icon name="edit" size={14} />
+      <Icon name={glyph("edit")} size={14} />
       <span className="data-table__sr-only">, editable</span>
     </span>
   );

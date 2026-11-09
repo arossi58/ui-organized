@@ -7,7 +7,7 @@
  * and what is the open accessibility debt?
  *
  * Data is `manifest/test-status.json`, written by `scripts/quality/aggregate.mjs`
- * from the five gates. CI regenerates it before building this app, so a deployed
+ * from every gate. CI regenerates it before building this app, so a deployed
  * page shows the results of the run that built it.
  */
 import { Fragment, useId, useState } from "react";
@@ -234,22 +234,13 @@ export function FoundationsQualityPage() {
     <>
       <DocsPageHeader
         title="Quality"
-        lede="Every component is checked five ways on each pull request. Here is what those checks found."
+        lede={`Every component is checked by ${GATE_ORDER.length} gates, across all four libraries. Here is what those checks found.`}
       />
 
       <DocsProse>
         {/* Repo-wide totals first: the table below is for looking something up,
             this is for knowing whether anything is on fire. */}
-        <DocsSection
-          title="Gates"
-          subtitle={
-            <>
-              Run the whole suite locally with <code>pnpm quality</code>, or any one gate with{" "}
-              <code>pnpm quality:visual</code>, <code>:interaction</code>, <code>:a11y</code>,{" "}
-              <code>:lint</code>, <code>:browsers</code>.
-            </>
-          }
-        >
+        <DocsSection title="Gates">
           <div className={styles.grid}>
             {gates.map(([key, summary]) => (
               <div key={key} className={styles.cell} data-status={summary.status}>
@@ -263,6 +254,9 @@ export function FoundationsQualityPage() {
                     : `${(summary.checks ?? []).filter((c) => c.status === "pass").length} of ${
                         (summary.checks ?? []).length
                       } checks`}
+                </span>
+                <span className={styles.meta}>
+                  {summary.blocking ? "Blocks merge" : "Advisory: reports, never fails"}
                 </span>
               </div>
             ))}

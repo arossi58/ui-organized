@@ -12,17 +12,17 @@
  * the caution tokens, so this matches it.
  */
 import { CircleDashed } from "lucide-react";
-import { Icon } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import { Icon, internalGlyph, type IconComponent } from "@ui-organized/react";
 import type { GateStatus } from "../testStatus";
 import styles from "./testStatus.module.css";
 
-const STATUS_ICON: Record<GateStatus, CanonicalIconName | typeof CircleDashed> = {
-  pass: "check-circle",
-  warn: "alert-triangle",
-  fail: "alert-circle",
-  // "Not covered" is an absence rather than a status, and the canonical set has
-  // no glyph for it. `Icon` takes a library component directly for this case.
+// Alert's own glyphs, so they follow the icon library the site is showing.
+const STATUS_ICON: Record<GateStatus, IconComponent | typeof CircleDashed> = {
+  pass: internalGlyph("check-circle"),
+  warn: internalGlyph("alert-triangle"),
+  fail: internalGlyph("alert-circle"),
+  // "Not covered" is an absence rather than a status, and Alert has no glyph
+  // for it. `Icon` takes a library component directly for this case.
   none: CircleDashed,
   skip: CircleDashed,
   "not-run": CircleDashed,

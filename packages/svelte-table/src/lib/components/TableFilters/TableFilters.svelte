@@ -12,6 +12,7 @@
   import { getTable } from "../../core/tableContext.js";
   import TableFilterAdd from "./TableFilterAdd.svelte";
   import TableFilterChip from "./TableFilterChip.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { class: className }: { class?: string } = $props();
   const table = getTable();
@@ -34,7 +35,7 @@
 
     <TableFilterAdd label="Add" />
 
-    <Button intent="ghost" size="sm" icon="rotate-ccw" onclick={() => table.filters.clear()}>
+    <Button intent="ghost" size="sm" icon={glyph("rotate-ccw")} onclick={() => table.filters.clear()}>
       Reset
     </Button>
 

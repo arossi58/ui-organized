@@ -10,7 +10,7 @@ const meta: Meta<typeof NumberField> = {
     docs: {
       description: {
         component:
-          "A numeric input with increment/decrement steppers. Supports `min`/`max`/`step`, `Intl.NumberFormat` via `format`, and the shared field chrome (label, helper text, error).",
+          "A numeric input with increment/decrement steppers.",
       },
     },
   },

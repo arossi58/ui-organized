@@ -7,6 +7,7 @@ import { FieldError } from "../FieldError/index.js";
 import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize } from "@ui-organized/core";
 import type { FileUploadProps } from "./FileUpload.types.js";
 import "@ui-organized/core/components/FileUpload/FileUpload.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Delete affordance inside a file row — always the small edge, because it sits
  *  inside the row rather than beside it. */
@@ -97,7 +98,7 @@ export function FileUpload({
           tabIndex={OMIT_ARIA as unknown as number}
           aria-label={OMIT_ARIA}
         >
-          <Icon name="upload" size={iconSize} className="file-upload__dropzone-icon" />
+          <Icon name={glyph("upload")} size={iconSize} className="file-upload__dropzone-icon" />
           <span className="file-upload__dropzone-text">{dropzoneLabel}</span>
           {trigger}
         </ArkFileUpload.Dropzone>
@@ -119,7 +120,7 @@ export function FileUpload({
                 {/* Shown for anything that is not an image — `type` is a filter,
                     and Ark renders only the preview whose filter matches. */}
                 <ArkFileUpload.ItemPreview type=".*" className="file-upload__item-preview">
-                  <Icon name="file" size={iconSize} />
+                  <Icon name={glyph("file")} size={iconSize} />
                 </ArkFileUpload.ItemPreview>
                 <span className="file-upload__item-meta">
                   <ArkFileUpload.ItemName className="file-upload__item-name" />
@@ -129,7 +130,7 @@ export function FileUpload({
                   className="file-upload__item-delete"
                   aria-label={`Remove ${file.name}`}
                 >
-                  <Icon name="close" size={DELETE_ICON_SIZE} />
+                  <Icon name={glyph("close")} size={DELETE_ICON_SIZE} />
                 </ArkFileUpload.ItemDeleteTrigger>
               </ArkFileUpload.Item>
             ))

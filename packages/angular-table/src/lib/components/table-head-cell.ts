@@ -14,6 +14,7 @@ import {
 } from "@ui-organized/table-core";
 import { UioTablePropsHost } from "../core/table-props-host.js";
 import { injectDataTable } from "../core/table-context.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
 
 /**
  * Pointer drag and keyboard, on one control.
@@ -131,7 +132,7 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
               ", editable" is announced with every cell in the column.
             -->
             <span class="data-table__edit-icon">
-              <span uioIcon name="edit" [size]="14"></span>
+              <span uioIcon [name]="glyph('edit')" [size]="14"></span>
               <span class="data-table__sr-only">, editable</span>
             </span>
           }
@@ -151,7 +152,7 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
             ", editable" is announced with every cell in the column.
           -->
           <span class="data-table__edit-icon">
-            <span uioIcon name="edit" [size]="14"></span>
+            <span uioIcon [name]="glyph('edit')" [size]="14"></span>
             <span class="data-table__sr-only">, editable</span>
           </span>
         }
@@ -163,6 +164,7 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
   `,
 })
 export class UioTableHeadCell<T extends RowData> extends UioTablePropsHost {
+  protected readonly glyph = glyph;
   readonly header = input.required<TableHeaderInstance<T>>();
   readonly index = input.required<number>();
 

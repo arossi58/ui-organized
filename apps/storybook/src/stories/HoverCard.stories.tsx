@@ -10,7 +10,7 @@ const meta: Meta<typeof HoverCard> = {
     docs: {
       description: {
         component:
-          "A rich preview shown when a trigger is hovered or focused. Compose `<HoverCard>` with `<HoverCardTrigger>` and `<HoverCardContent>` (side/align).",
+          "A rich preview shown when a trigger is hovered or focused.",
       },
     },
   },
@@ -23,9 +23,9 @@ export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
     <HoverCard {...args}>
-      {/* No inline colour on the trigger: `interactive-primary-default` is a
+      {/* No inline color on the trigger: `interactive-primary-default` is a
           fill token, and as 16px text on the default surface it reads 4.22:1 —
-          just under AA. It inherits the page's content colour instead, which is
+          just under AA. It inherits the page's content color instead, which is
           what body text is toned for. */}
       <HoverCardTrigger
         render={<a href="https://github.com/arossi58/ui-organized">@ui-organized</a>}

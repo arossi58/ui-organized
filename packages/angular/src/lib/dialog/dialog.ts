@@ -33,6 +33,7 @@ import { flushNow } from "../overlay/flush.js";
 import { focusInside, restoreFocus } from "../overlay/focus.js";
 import { applySurfaceStacking, createSurface, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
 import { UioDialogContext } from "./dialog-context.js";
+import { glyph } from "../icons/glyph.js";
 
 export type DialogSize = NonNullable<DialogVariants["size"]>;
 
@@ -146,7 +147,7 @@ export type DialogSize = NonNullable<DialogVariants["size"]>;
               [id]="dialogContext.partId('close')"
               (click)="hide()"
             >
-              <span uioIcon name="close" [size]="CLOSE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
           }
           <ng-content />
@@ -156,6 +157,7 @@ export type DialogSize = NonNullable<DialogVariants["size"]>;
   `,
 })
 export class UioDialog implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly open = model(false);
   readonly size = input<DialogSize>("md");
   readonly showClose = input(true, { transform: booleanAttribute });

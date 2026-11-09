@@ -16,11 +16,22 @@ export { OMIT_ARIA, popupControls } from "./aria.js";
 export { initials } from "./initials.js";
 
 export { createIconRegistry } from "./icons/registry.js";
-export type { IconLibrary, IconNameMap, IconRegistry, IconSet } from "./icons/registry.js";
+export type {
+  IconLibrary,
+  IconNameMap,
+  IconRegistry,
+  IconSet,
+  RegisterIconsOptions,
+  SystemGlyphMap,
+} from "./icons/registry.js";
+export { isNativeName, toNativeName } from "./icons/nativeName.js";
+/** @internal The components' own glyphs; never a public icon name. */
+export { SYSTEM_GLYPHS } from "./icons/systemGlyphs.js";
+export type { SystemGlyph } from "./icons/systemGlyphs.js";
 export {
   DEFAULT_ICON_CONFIG,
   ICON_VIEWBOX,
-  resolveIconComponent,
+  resolveSystemGlyph,
   resolveIconStroke,
   resolveIconSvgProps,
 } from "./icons/resolve.js";

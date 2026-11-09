@@ -3,7 +3,7 @@
   import { SVELTE_STUB_SET } from "./svelteIcons.js";
   import StubIcon from "./StubIcon.svelte";
 
-  // `supplied` swaps the canonical name for a component handed over directly,
+  // `supplied` swaps the registered name for a component handed over directly,
   // which is a separate branch in every `Icon`: no registry lookup, no adapter,
   // and core's own `{ size, strokeWidth }` fallback instead of the set's
   // `svgProps`. The component itself has to come from the fixture, because each

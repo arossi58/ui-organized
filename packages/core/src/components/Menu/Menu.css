@@ -59,7 +59,7 @@
   opacity: 0.4;
 }
 
-/* Destructive items mirror the destructive-ghost button: coloured text at rest,
+/* Destructive items mirror the destructive-ghost button: colored text at rest,
    filling solid with light text on hover/press. */
 .menu__item--destructive {
   color: var(--color-interactive-destructive-default-ghost);
@@ -127,7 +127,7 @@
   color: var(--color-content-primary);
 }
 
-/* The separator surface is the shared <Divider> (height / colour / full width);
+/* The separator surface is the shared <Divider> (height / color / full width);
    this only adds the menu's block spacing around the rule. */
 .menu__separator {
   margin: var(--spacing-space-01) 0;

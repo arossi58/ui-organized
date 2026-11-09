@@ -16,6 +16,7 @@ import { UioInteractionState } from "../interaction-state.js";
 import { UioPart } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
 
 /**
  * A box that is ticked, empty, or neither.
@@ -85,7 +86,7 @@ import { UioIcon } from "../icons/icon.js";
         @if (indeterminate()) {
           <span class="checkbox__indicator--indeterminate"></span>
         } @else {
-          <span uioIcon class="checkbox__check" name="check" [size]="ICON_SIZE"></span>
+          <span uioIcon class="checkbox__check" [name]="glyph('check')" [size]="ICON_SIZE"></span>
         }
       </div>
     </div>
@@ -137,6 +138,7 @@ import { UioIcon } from "../icons/icon.js";
   },
 })
 export class UioCheckbox extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "checkbox";
   readonly part = "root";
 

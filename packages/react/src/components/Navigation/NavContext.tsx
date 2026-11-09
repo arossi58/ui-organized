@@ -26,7 +26,7 @@ export interface NavProviderProps {
  * @example
  * ```tsx
  * <NavProvider collapsed={isCollapsed}>
- *   <NavItem label="Home" icon="home" />
+ *   <NavItem label="Home" icon="house" />
  * </NavProvider>
  * ```
  */

@@ -1,5 +1,5 @@
 /**
- * The colour picker's notation row, described rather than built.
+ * The color picker's notation row, described rather than built.
  *
  * Which notations the picker offers, and which fields each one puts under the
  * select, is one answer that four libraries have to give identically — the
@@ -9,7 +9,7 @@
  * in which channels exist, what they are called, or how far they range.
  *
  * Deliberately declarative. A `read`/`write` pair would have to close over a
- * colour object, and there is no colour object the four share — the three Ark
+ * color object, and there is no color object the four share — the three Ark
  * packages hand around `@zag-js/color-utils` `Color`s and Angular computes its
  * own in `color.ts`. So this names the channel and its range, and each library
  * supplies the two lines that fetch and set it.
@@ -19,7 +19,7 @@
  * Which notation the row is showing.
  *
  * Not the same set as a picker's `format` prop, which names an *output*
- * notation and includes `hsba`: this is a way of reading the colour, and `hsba`
+ * notation and includes `hsba`: this is a way of reading the color, and `hsba`
  * is not a way anyone reads one.
  */
 export type ColorNotation = "hex" | "rgb" | "hsl" | "oklch";
@@ -38,11 +38,11 @@ export const COLOR_NOTATIONS: ColorNotationOption[] = [
 ];
 
 /**
- * The format the colour *machine* runs on, given the format a caller asked for.
+ * The format the color *machine* runs on, given the format a caller asked for.
  *
  * The machine models `rgba`/`hsla`/`hsba` and nothing else, so the two notations
  * it cannot hold — hex, which is a rendering of rgba, and OKLCH, which is a
- * different colour space entirely — run on rgba underneath and are converted for
+ * different color space entirely — run on rgba underneath and are converted for
  * display.
  *
  * Framework-neutral because the consequence is: the machine's format decides the
@@ -87,7 +87,7 @@ interface ColorFieldBase {
 
 /**
  * A numeric channel, read and written in `space` whatever space the machine
- * itself is holding the colour in. `space: null` is alpha, the one channel
+ * itself is holding the color in. `space: null` is alpha, the one channel
  * every notation shares and the only one that survives a conversion untouched.
  */
 export interface ColorChannelField extends ColorFieldBase {
@@ -102,7 +102,7 @@ export interface ColorChannelField extends ColorFieldBase {
 }
 
 /**
- * A free-text field holding the whole colour — hex and OKLCH. It prints no
+ * A free-text field holding the whole color — hex and OKLCH. It prints no
  * abbreviation (the select beside it already says which notation it is) and
  * takes the width the numeric channels would have shared.
  */
@@ -171,7 +171,7 @@ export const COLOR_NOTATION_FIELDS: Record<ColorNotation, ColorField[]> = {
 /**
  * Reads what a person types into the hex field into a `#rrggbb` string, or
  * `null` for anything that is not one. The leading `#` is optional, because
- * half the world types a hex colour without it, and a three-digit form is
+ * half the world types a hex color without it, and a three-digit form is
  * expanded here so callers only ever handle the long one.
  */
 export function normalizeHex(input: string): string | null {
@@ -190,7 +190,7 @@ export function normalizeHex(input: string): string | null {
 
 /**
  * Reads a number typed into a numeric channel, clamped to the field's own
- * range. `null` rejects the edit, and the field falls back to the colour it was
+ * range. `null` rejects the edit, and the field falls back to the color it was
  * showing rather than guessing at what was meant.
  */
 export function readChannelInput(text: string, field: ColorChannelField): number | null {

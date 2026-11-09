@@ -32,7 +32,7 @@ const meta: Meta<typeof Marquee> = {
     docs: {
       description: {
         component:
-          "Continuously scrolling content, such as logo walls and ticker rows. Timing is measured from the content rather than fixed, so short and long lists travel at the same speed. Every story here starts paused: continuous motion with no way to stop it fails WCAG 2.2.2, and the animation is dropped entirely under `prefers-reduced-motion`.",
+          "Continuously scrolling content, such as logo walls and ticker rows.",
       },
     },
   },

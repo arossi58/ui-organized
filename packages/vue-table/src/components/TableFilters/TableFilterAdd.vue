@@ -16,6 +16,7 @@
 import { computed } from "vue";
 import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = withDefaults(
   defineProps<{
@@ -56,11 +57,11 @@ const fields = computed(() => table.filters.fields.value);
         v-if="iconOnly"
         intent="secondary"
         :size="table.size.value"
-        icon="filter"
+        :icon="glyph('filter')"
         :aria-label="props.label"
         :class="$props.class"
       />
-      <Button v-else intent="ghost" size="sm" icon="plus" :class="$props.class">
+      <Button v-else intent="ghost" size="sm" :icon="glyph('plus')" :class="$props.class">
         {{ props.label }}
       </Button>
     </MenuTrigger>

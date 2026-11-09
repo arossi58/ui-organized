@@ -1,8 +1,9 @@
 import { Component, computed, input } from "@angular/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioIcon } from "../icons/icon.js";
 import { clsx } from "clsx";
 import { tagStyles, type TagVariants } from "@ui-organized/core";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 export type TagVariant = NonNullable<TagVariants["variant"]>;
 export type TagSize = NonNullable<TagVariants["size"]>;
@@ -40,7 +41,7 @@ export class UioTag {
   readonly size = input<TagSize>("md");
   /** Subdued tags drop the filled treatment; the default is the filled one. */
   readonly emphasized = input(true);
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   readonly iconPosition = input<"left" | "right">("left");
 
   /** Icons render at 16px across every tag size. */

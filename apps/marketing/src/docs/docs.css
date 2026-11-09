@@ -27,7 +27,7 @@
    The incidental scrollers — wide code blocks, prop tables, the ecosystem
    diagram — stay native, so theme them here rather than leaving the platform
    bar, whose bordered track reads as an outline around the gutter and stays the
-   same colour in both themes. `scrollbar-color` inherits, so this reaches every
+   same color in both themes. `scrollbar-color` inherits, so this reaches every
    descendant that scrolls. */
 /* Zero-specificity so anything with its own scrollbar rules still wins — the
    ScrollArea viewport hides the native bar with `scrollbar-width: none`, and a

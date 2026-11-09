@@ -179,7 +179,7 @@ export function PropertyControls({
           ))}
         </section>
       ))}
-      <Button intent="ghost" size="sm" icon="refresh" onClick={onReset}>
+      <Button intent="ghost" size="sm" icon="refresh-cw" onClick={onReset}>
         Reset all
       </Button>
     </div>

@@ -63,6 +63,23 @@ export function useContainedPopoverProps(): ContainedPopoverProps {
 }
 
 /**
+ * Tour root. A tour's focus trap pulls focus into its card the moment it opens,
+ * which every other open tour reads as a focus-outside and dismisses on — so
+ * two contained tours on one page close and reopen each other in a loop. zag's
+ * tour machine has no `trapFocus` option; dropping dismiss-on-outside is the
+ * part that breaks the loop.
+ */
+export interface ContainedTourProps {
+  closeOnInteractOutside?: false;
+}
+
+const CONTAINED_TOUR: ContainedTourProps = { closeOnInteractOutside: false };
+
+export function useContainedTourProps(): ContainedTourProps {
+  return usePreviewOverlay().contain ? CONTAINED_TOUR : NONE;
+}
+
+/**
  * Positioning overrides for a popper-positioned overlay inside a preview box.
  *
  * Two changes, both about the box being small:

@@ -710,7 +710,7 @@ test.describe("Data Table pinned columns", () => {
         .locator(".data-table__cell--sticky")
         .first()
         .evaluate((cell) => {
-          // Component-count rather than a colour parse: three means opaque, four
+          // Component-count rather than a color parse: three means opaque, four
           // carries the alpha. Handles `rgb(r, g, b)` and `rgb(r g b / a)` alike.
           const parts =
             getComputedStyle(cell)

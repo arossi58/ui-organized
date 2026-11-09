@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-8 -8 160 160">
   <!-- The UI Organized logomark (chrome/BrandMark.tsx, logo-mark.svg). The mark
-       tracks the browser's colour scheme: ink (#17150f) on light chrome, cream
-       (#f7f2e8) on dark — matching the site's own ink/cream brand colours. -->
+       tracks the browser's color scheme: ink (#17150f) on light chrome, cream
+       (#f7f2e8) on dark — matching the site's own ink/cream brand colors. -->
   <style>
     path { fill: #17150f; }
     @media (prefers-color-scheme: dark) {

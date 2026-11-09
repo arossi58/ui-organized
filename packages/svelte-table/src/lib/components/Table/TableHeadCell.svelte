@@ -14,6 +14,7 @@
   import { getTable } from "../../core/tableContext.js";
   import { svelteProps } from "../../core/props.js";
   import ResizeHandle from "./ResizeHandle.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { header, index }: { header: TableHeaderInstance<T>; index: number } = $props();
   const table = getTable<T>();
@@ -50,7 +51,7 @@
 -->
 {#snippet editMark()}
   <span class="data-table__edit-icon">
-    <Icon name="edit" size={14} />
+    <Icon name={glyph("edit")} size={14} />
     <span class="data-table__sr-only">, editable</span>
   </span>
 {/snippet}
@@ -79,7 +80,7 @@
         </span>
         {#if editable}{@render editMark()}{/if}
         <span class="data-table__sort-icon">
-          <Icon name={sorted === "desc" ? "sort-desc" : "sort-asc"} size={14} />
+          <Icon name={glyph(sorted === "desc" ? "sort-desc" : "sort-asc")} size={14} />
         </span>
       </button>
     {:else}

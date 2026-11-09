@@ -15,8 +15,9 @@ import {
   type ButtonVariants,
   type ControlSize,
 } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioIcon } from "../icons/icon.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 export type ButtonIntent = NonNullable<ButtonVariants["intent"]>;
 
@@ -74,7 +75,7 @@ export class UioButton implements AfterViewInit {
    * submits it, which is almost never what a design-system button is for.
    */
   readonly type = input<"button" | "submit" | "reset">("button");
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   readonly iconPosition = input<"left" | "right">("left");
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

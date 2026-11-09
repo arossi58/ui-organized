@@ -44,7 +44,7 @@ export const chipUsage: UsageGuide = {
       dont: "Open the same editor from every segment, so a click on the operator lands in a form that leads with the field.",
     },
     {
-      do: "Set `selected` while any of the chip's menus is open, so the chip being changed is filled with the brand colour.",
+      do: "Set `selected` while any of the chip's menus is open, so the chip being changed is filled with the brand color.",
       dont: "Leave the chip unfilled while its menu is open, so nothing on the row says which filter the menu belongs to.",
     },
     {

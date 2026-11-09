@@ -29,6 +29,7 @@
   import Select from "../Select/Select.svelte";
   import type { CalendarProps } from "./Calendar.types.js";
   import "@ui-organized/core/components/Calendar/Calendar.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     mode,
@@ -291,7 +292,7 @@
     <Button
       intent="ghost"
       size="sm"
-      icon="chevron-left"
+      icon={glyph("chevron-left")}
       class="calendar__nav"
       onclick={() => (viewMonth = addMonths(viewMonth, -1))}
       disabled={prevDisabled}
@@ -318,7 +319,7 @@
     <Button
       intent="ghost"
       size="sm"
-      icon="chevron-right"
+      icon={glyph("chevron-right")}
       class="calendar__nav"
       onclick={() => (viewMonth = addMonths(viewMonth, 1))}
       disabled={nextDisabled}

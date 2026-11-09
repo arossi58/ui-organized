@@ -15,6 +15,7 @@ import {
 import { useTableContext } from "../../core/tableContext.js";
 import { vueProps } from "../../core/props.js";
 import ResizeHandle from "./ResizeHandle.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{ header: TableHeaderInstance<T>; index: number }>();
 const table = useTableContext<T>();
@@ -76,11 +77,11 @@ const cellProps = computed(() =>
           Enter opens an editor.
         -->
         <span v-if="editable" class="data-table__edit-icon">
-          <Icon name="edit" :size="14" />
+          <Icon :name="glyph('edit')" :size="14" />
           <span class="data-table__sr-only">, editable</span>
         </span>
         <span class="data-table__sort-icon">
-          <Icon :name="sorted === 'desc' ? 'sort-desc' : 'sort-asc'" :size="14" />
+          <Icon :name="glyph(sorted === 'desc' ? 'sort-desc' : 'sort-asc')" :size="14" />
         </span>
       </button>
       <template v-else>
@@ -88,7 +89,7 @@ const cellProps = computed(() =>
           <FlexRender v-if="!header.isPlaceholder" :header="header" />
         </span>
         <span v-if="editable" class="data-table__edit-icon">
-          <Icon name="edit" :size="14" />
+          <Icon :name="glyph('edit')" :size="14" />
           <span class="data-table__sr-only">, editable</span>
         </span>
       </template>

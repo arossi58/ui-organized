@@ -45,7 +45,7 @@ export function CookiePage() {
           site remembers how you like it.
         </li>
         <li>
-          <strong>Colour-palette generator</strong> — the palettes you generate.
+          <strong>Color-palette generator</strong> — the palettes you generate.
         </li>
         <li>
           <strong>Icon scaler</strong> — your icon-scaler workspace state.

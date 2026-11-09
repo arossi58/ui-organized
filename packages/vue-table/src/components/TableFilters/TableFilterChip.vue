@@ -31,6 +31,7 @@ import { afterRowEntrance, type TableFilterCondition } from "@ui-organized/table
 import { useTableContext } from "../../core/tableContext.js";
 import { focusAfterRemoval, useAutoFocusField } from "./useAutoFocusField.js";
 import TableFilterEditor from "./TableFilterEditor.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{ condition: TableFilterCondition; class?: string }>();
 const table = useTableContext();
@@ -122,7 +123,7 @@ const onKeyDown = (event: KeyboardEvent) => {
           </MenuRadioItem>
         </MenuRadioGroup>
         <MenuSeparator />
-        <MenuItem value="remove" icon="trash" @select="remove">Remove filter</MenuItem>
+        <MenuItem value="remove" :icon="glyph('trash')" @select="remove">Remove filter</MenuItem>
       </MenuContent>
     </Menu>
 

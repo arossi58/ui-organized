@@ -57,16 +57,16 @@ const composeHex = (mode, hue, x, y) => {
 
 /**
  * Interactive spectrum preview for the active swatch. Replaces the old static
- * colour block: a draggable 2-D plane shows where the colour sits, a hue strip
+ * color block: a draggable 2-D plane shows where the color sits, a hue strip
  * drives the third channel, and both re-render to match the selected display
  * format (HEX/RGB/HSL → saturation×lightness, OKLCH → chroma×lightness). An
- * Undo button reverts the last colour change.
+ * Undo button reverts the last color change.
  */
 export default function SpectrumPicker({ color, format, onChange, onEditStart, onUndo, canUndo }) {
   const mode = modeFor(format);
   const chan = deriveChannels(color, mode);
 
-  // Sticky hue: only follow the colour's hue while it is well-defined, so
+  // Sticky hue: only follow the color's hue while it is well-defined, so
   // dragging through greys (or up the saturation axis from a grey) doesn't lose
   // the hue the user was working with.
   const [hue, setHue] = useState(chan.hue);
@@ -80,7 +80,7 @@ export default function SpectrumPicker({ color, format, onChange, onEditStart, o
   const hueCanvas = useRef(null);
 
   // Coalesce continuous drags to one emit per frame — the palette regenerates on
-  // every colour change, so unthrottled pointermove would thrash it.
+  // every color change, so unthrottled pointermove would thrash it.
   const raf = useRef(0);
   const pending = useRef(null);
   const emit = (hex) => {
@@ -106,7 +106,7 @@ export default function SpectrumPicker({ color, format, onChange, onEditStart, o
         const x = xx / (PLANE_W - 1);
         const i = (yy * PLANE_W + xx) * 4;
         if (mode === "oklch") {
-          // Colours past the sRGB boundary can't be shown on the display, so
+          // Colors past the sRGB boundary can't be shown on the display, so
           // instead of gamut-mapping them (which hides the boundary) we black out
           // the region — only the lit area is selectable (see helper text below).
           if (isOklchInGamut(y, x * CMAX, hue)) {
@@ -306,7 +306,7 @@ export default function SpectrumPicker({ color, format, onChange, onEditStart, o
         />
       </div>
 
-      {/* OKLCH can describe more colours than a screen can show. The black area
+      {/* OKLCH can describe more colors than a screen can show. The black area
           is out of the sRGB range your display supports, so it isn't selectable
           — which is why the spectrum doesn't fill the whole box. */}
       {mode === "oklch" && (

@@ -6,12 +6,6 @@
   margin-bottom: var(--spacing-space-04);
 }
 
-.previewNote {
-  margin: 0;
-  color: var(--color-content-tertiary);
-  font-size: var(--type-size-caption);
-}
-
 /* Sits in the preview frame's footer, where a code block would be — same inset,
    so switching framework doesn't shift the frame. */
 .gap {

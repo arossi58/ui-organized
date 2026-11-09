@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes } from "react";
+import type { IconComponent, IconName } from "@ui-organized/react";
 
 export interface TableSheetButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** A canonical icon name. */
-  icon: string;
+  icon: IconName | IconComponent;
   label: string;
   /** What is applied. Drawn as a badge from 1 up, and spoken as words. */
   count: number;

@@ -1,5 +1,5 @@
+import type { IconName } from "../Icon/Icon.types.js";
 import type { Component } from "vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "../../icons/registry.js";
 
 export interface NavProviderProps {
@@ -28,10 +28,10 @@ export interface NavItemProps {
    */
   label: string | Component;
   /**
-   * Optional leading icon, rendered via the Icon component — either a canonical
-   * name or a library icon component supplied directly.
+   * Optional leading icon, rendered via the Icon component — either its native
+   * name in the active library or a library icon component supplied directly.
    */
-  icon?: CanonicalIconName | IconComponent;
+  icon?: IconName | IconComponent;
   /** Marks this page as the current page — renders the filled, emphasized appearance. */
   selected?: boolean;
   /**
@@ -51,7 +51,7 @@ export interface NavSubItemProps {
   /** Text label for the sub-page. */
   label: string | Component;
   /** Optional leading icon, rendered via the Icon component. */
-  icon?: CanonicalIconName | IconComponent;
+  icon?: IconName | IconComponent;
   /** Marks this sub-page as the current page. */
   selected?: boolean;
   /**

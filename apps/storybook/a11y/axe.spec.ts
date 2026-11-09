@@ -51,7 +51,7 @@ const ACCEPTED: Array<{ storyPrefix: string; rule: string; because: string }> = 
     rule: "color-contrast",
     because:
       "Emphasized Tag labels knowingly fall short of AA. This is a palette-level " +
-      "decision about the status colours, not a component defect — patching it in " +
+      "decision about the status colors, not a component defect — patching it in " +
       "Tag.css would desynchronise the component from the token it is meant to show.",
   },
   {
@@ -69,7 +69,7 @@ const ACCEPTED: Array<{ storyPrefix: string; rule: string; because: string }> = 
       "control with `opacity: 0.4` (Range.css). WCAG 1.4.3 exempts text that is " +
       "part of an inactive user interface component, and axe cannot tell that a " +
       "<span> beside a disabled slider is inactive — it only sees the composited " +
-      "colour. Raising the disabled opacity to satisfy the checker would make " +
+      "color. Raising the disabled opacity to satisfy the checker would make " +
       "disabled look enabled, which is the worse outcome.",
   },
 ];

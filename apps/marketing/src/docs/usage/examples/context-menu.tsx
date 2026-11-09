@@ -33,10 +33,10 @@ export const contextMenuExamples: UsageExampleSet = {
           <Button intent="ghost" size="sm" icon="menu" aria-label="Row actions" />
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem icon="edit">Rename</ContextMenuItem>
+          <ContextMenuItem icon="pencil">Rename</ContextMenuItem>
           <ContextMenuItem icon="copy">Duplicate</ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem icon="trash" destructive>
+          <ContextMenuItem icon="trash-2" destructive>
             Delete
           </ContextMenuItem>
         </ContextMenuContent>
@@ -48,10 +48,10 @@ export const contextMenuExamples: UsageExampleSet = {
           <span>Quarterly report</span>
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem icon="edit">Rename</ContextMenuItem>
+          <ContextMenuItem icon="pencil">Rename</ContextMenuItem>
           <ContextMenuItem icon="copy">Duplicate</ContextMenuItem>
           <ContextMenuSeparator />
-          <ContextMenuItem icon="trash" destructive>
+          <ContextMenuItem icon="trash-2" destructive>
             Delete
           </ContextMenuItem>
         </ContextMenuContent>
@@ -67,7 +67,7 @@ export const contextMenuExamples: UsageExampleSet = {
           <span>Quarterly report</span>
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem icon="edit">Rename this file</ContextMenuItem>
+          <ContextMenuItem icon="pencil">Rename this file</ContextMenuItem>
           <ContextMenuItem icon="download">Download this file</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
@@ -79,10 +79,10 @@ export const contextMenuExamples: UsageExampleSet = {
           <span>Quarterly report</span>
         </ContextMenuTrigger>
         <ContextMenuContent>
-          <ContextMenuItem icon="edit">Rename this file</ContextMenuItem>
+          <ContextMenuItem icon="pencil">Rename this file</ContextMenuItem>
           <ContextMenuItem icon="settings">Workspace settings</ContextMenuItem>
           <ContextMenuItem icon="users">Invite a teammate</ContextMenuItem>
-          <ContextMenuItem icon="refresh">Reload the page</ContextMenuItem>
+          <ContextMenuItem icon="refresh-cw">Reload the page</ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
     ),

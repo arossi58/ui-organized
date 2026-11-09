@@ -44,6 +44,7 @@ import { flushNow } from "../overlay/flush.js";
 import { restoreFocus } from "../overlay/focus.js";
 import { moveHighlight } from "../overlay/roving.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type SelectSize = NonNullable<SelectVariants["size"]>;
 export type SelectVariant = NonNullable<SelectVariants["variant"]>;
@@ -164,7 +165,7 @@ export interface SelectOption {
           [attr.data-invalid]="flag(invalid())"
           [attr.data-disabled]="flag(isDisabled())"
         >
-          <span uioIcon name="chevron-down" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('chevron-down')" [size]="iconSize()"></span>
         </div>
       </button>
       <!--
@@ -265,7 +266,7 @@ export interface SelectOption {
                 [attr.data-state]="value() === option.value ? 'checked' : 'unchecked'"
                 [attr.hidden]="value() === option.value ? null : ''"
               >
-                <span uioIcon name="check" [size]="iconSize()"></span>
+                <span uioIcon [name]="glyph('check')" [size]="iconSize()"></span>
               </div>
             </div>
           }
@@ -280,6 +281,7 @@ export interface SelectOption {
   },
 })
 export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";
 

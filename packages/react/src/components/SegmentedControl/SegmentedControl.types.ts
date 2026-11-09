@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface SegmentedControlItem {
   /** Unique value reported (and submitted) when this segment is selected. */
@@ -7,7 +7,7 @@ export interface SegmentedControlItem {
   /** Visible label. */
   label: React.ReactNode;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   /** Disable just this segment. */
   disabled?: boolean;
 }

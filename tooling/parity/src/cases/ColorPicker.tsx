@@ -37,17 +37,17 @@ const spec: ParitySpec = {
     { name: "default" },
     { name: "with label", props: { label: "Brand" } },
     { name: "required", props: { label: "Brand", required: true } },
-    { name: "helper text", props: { label: "Brand", helperText: "Any CSS colour" } },
-    { name: "error message", props: { label: "Brand", error: "Pick a colour" } },
+    { name: "helper text", props: { label: "Brand", helperText: "Any CSS color" } },
+    { name: "error message", props: { label: "Brand", error: "Pick a color" } },
     { name: "invalid without message", props: { label: "Brand", error: true } },
     { name: "helper hidden by error", props: { label: "B", helperText: "H", error: "Bad" } },
     // The trigger's aria-label, the value swatch's data-value and the value
-    // text all restate the colour, so a boundary that parsed it wrong shows up
+    // text all restate the color, so a boundary that parsed it wrong shows up
     // in three places at once.
     { name: "default value", props: { defaultValue: "#2563eb" } },
     { name: "controlled value", props: { value: "#16a34a" } },
     { name: "value in rgb notation", props: { value: "rgb(37, 99, 235)" } },
-    // Format reaches the *outside* of the popup: `ValueText` prints the colour
+    // Format reaches the *outside* of the popup: `ValueText` prints the color
     // in whichever notation the machine is in.
     ...(["rgba", "hsla", "hsba"] as const).map((format) => ({
       name: `format/${format}`,
@@ -81,7 +81,7 @@ const spec: ParitySpec = {
         "value swatch: @ark-ui/react and @ark-ui/svelte pass " +
         "`colorPicker.valueAsString`, @ark-ui/vue passes `colorPicker.value`, " +
         "the parsed Color. zag re-parses a string before comparing with " +
-        "`isEqual`, so whenever the colour's printed form in the current format " +
+        "`isEqual`, so whenever the color's printed form in the current format " +
         "rounds — `#2563eb` as hsla is `hsla(221.21, 83.19%, 53.33%, 1)` — the " +
         "round trip loses precision, and React and Svelte report `unchecked` on " +
         "the swatch that is by definition the value while Vue reports " +

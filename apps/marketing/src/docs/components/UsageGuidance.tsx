@@ -51,14 +51,6 @@ function InsteadClause({ slugs }: { slugs: readonly string[] }) {
  * carries the component's API description, and a "What it is" heading between
  * the two would read as the same thought said twice.
  */
-export function UsageSummary({ text }: { text: string }) {
-  return (
-    <p className={styles.summary}>
-      <InlineMarkdown text={text} />
-    </p>
-  );
-}
-
 export function UsageList({ items }: { items: readonly string[] }) {
   return (
     <ul>
@@ -162,7 +154,7 @@ function GuidanceCard({
   return (
     <figure className={styles.card} data-kind={kind}>
       {/* The word carries the meaning, the icon and the accent repeat it — so
-          the pair still reads with colour ignored, which is also what the
+          the pair still reads with color ignored, which is also what the
           Inspect tab's vision filters simulate. */}
       <p className={styles.cardKind}>
         <Icon name={isDo ? Check : X} size={14} />

@@ -107,7 +107,7 @@ const setFormat = async (label: string) => {
  * Two things this has to get right or it silently tests nothing: React maps
  * `onBlur` to the bubbling `focusout`, so a plain `blur` event is ignored; and
  * the state machine applies a value on a microtask, so the act must be awaited
- * before the rendered colour reflects the edit.
+ * before the rendered color reflects the edit.
  */
 const type = async (input: HTMLInputElement, text: string) => {
   await act(async () => {
@@ -147,7 +147,7 @@ describe("format", () => {
 });
 
 describe("the notation select", () => {
-  it("reads the same colour in every notation", async () => {
+  it("reads the same color in every notation", async () => {
     mount(picker());
 
     expect(fields()).toEqual([
@@ -176,7 +176,7 @@ describe("the notation select", () => {
   });
 
   /* The whole point of the switcher being local: it is a way of reading the
-     colour, so nothing leaves the component in a shape the consumer did not
+     color, so nothing leaves the component in a shape the consumer did not
      ask for. */
   it("does not change the notation the component emits", async () => {
     const changes: string[] = [];
@@ -210,12 +210,12 @@ describe("editing a field", () => {
     expect(changes).toEqual(["rgba(9, 35, 93, 1)"]);
   });
 
-  it("keeps the colour it was showing when an edit cannot be read", async () => {
+  it("keeps the color it was showing when an edit cannot be read", async () => {
     const changes: string[] = [];
     mount(picker({ format: "hex", onValueChangeEnd: (v) => changes.push(v) }));
 
     const hex = document.querySelector<HTMLInputElement>(".color-picker__field input")!;
-    await type(hex, "not a colour");
+    await type(hex, "not a color");
 
     expect(changes).toEqual([]);
     expect(hex.value).toBe("#2563EB");

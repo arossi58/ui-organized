@@ -48,7 +48,7 @@ export const inputUsage: UsageGuide = {
   accessibility: [
     "The `label` is the accessible name, so a field without one is unusable by anyone who can't see its context.",
     "`error` is announced with the field, which is why the message belongs there rather than in a separate list.",
-    "Mark required fields in words as well as styling, since colour and an asterisk carry no meaning alone.",
+    "Mark required fields in words as well as styling, since color and an asterisk carry no meaning alone.",
   ],
   content: [
     "Label with a noun for the value, not an instruction: Full name, not Enter your name.",

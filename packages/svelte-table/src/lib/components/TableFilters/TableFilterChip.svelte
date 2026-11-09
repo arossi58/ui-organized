@@ -30,6 +30,7 @@
   import { getTable } from "../../core/tableContext.js";
   import { autoFocusField, focusAfterRemoval } from "./useAutoFocusField.js";
   import TableFilterEditor from "./TableFilterEditor.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { condition, class: className }: { condition: TableFilterCondition; class?: string } =
     $props();
@@ -116,7 +117,7 @@
         {/each}
       </MenuRadioGroup>
       <MenuSeparator />
-      <MenuItem value="remove" icon="trash" onSelect={remove}>Remove filter</MenuItem>
+      <MenuItem value="remove" icon={glyph("trash")} onSelect={remove}>Remove filter</MenuItem>
     </MenuContent>
   </Menu>
 

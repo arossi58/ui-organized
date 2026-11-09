@@ -22,7 +22,6 @@
     AlertDialogTitle,
     Button,
   } from "@ui-organized/svelte";
-  import type { CanonicalIconName } from "@ui-organized/utils";
   import type { RowData } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
   import type { BulkAction } from "../../core/types.js";
@@ -66,7 +65,7 @@
       <Button
         size={table.size}
         intent={action.destructive ? "destructive-ghost" : "ghost"}
-        icon={action.icon as CanonicalIconName | undefined}
+        icon={action.icon}
         onclick={() => choose(action)}
       >
         {action.label}

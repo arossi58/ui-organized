@@ -13,11 +13,22 @@
  *   Prompt + URL — one line pointing at the published spec, for agents that fetch
  *   JSX          — just the snippet for what's on screen
  *   AI spec      — the full block: rules, import, every prop and allowed value
+ *
+ * All three follow the framework switcher. On the Vue tab they copy the Vue
+ * import, Vue markup and the Vue spec's URL; where a library doesn't ship the
+ * component they say so instead of copying React under its name.
  */
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@ui-organized/react";
-import type { AiContextFormat, Staleness } from "@ui-organized/code-connect/browser";
+import {
+  FRAMEWORK_INFO,
+  type AiContextFormat,
+  type DocFramework,
+  type Staleness,
+} from "@ui-organized/code-connect/browser";
 import { copyText } from "../../lib/clipboard";
+import { useDocsFramework } from "../frameworks";
+import { targetFor } from "../frameworks/surfaces";
 import type { DocsComponent } from "../registry";
 import { aiContextFor } from "./aiContextInput";
 import styles from "./ai.module.css";
@@ -31,6 +42,7 @@ const FORMATS: Array<{ id: AiContextFormat; label: string; title: string }> = [
   },
   {
     id: "jsx",
+    // Relabelled per framework below: only React's snippet is JSX.
     label: "JSX",
     title: "Copy just the snippet for what's currently on screen.",
   },
@@ -56,13 +68,21 @@ export function CopyAiContext({
   liveArgs,
   storybookUrl,
 }: CopyAiContextProps) {
+  const { framework } = useDocsFramework();
   const [copied, setCopied] = useState<AiContextFormat | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => () => clearTimeout(timer.current), []);
+  // A "Copied" left over from the React tab would read as having copied Vue.
+  useEffect(() => setCopied(null), [framework]);
 
   async function handleCopy(format: AiContextFormat) {
-    const result = aiContextFor(component, format, { staleness, liveArgs, storybookUrl });
+    const result = aiContextFor(component, format, {
+      framework,
+      staleness,
+      liveArgs,
+      storybookUrl,
+    });
     if (!result) return;
     await copyText(result.text);
     setCopied(format);
@@ -80,6 +100,18 @@ export function CopyAiContext({
     );
   }
 
+  const { label } = FRAMEWORK_INFO[framework];
+  if (framework !== "react" && !targetFor(framework, component.entry.codeName)) {
+    return (
+      <span
+        className={styles.unavailable}
+        title={`${FRAMEWORK_INFO[framework].packageName} doesn't ship ${component.name}, so there is no ${label} spec to copy.`}
+      >
+        No {label} version
+      </span>
+    );
+  }
+
   return (
     <span className={styles.group}>
       {FORMATS.map((format) => (
@@ -91,9 +123,14 @@ export function CopyAiContext({
           title={format.title}
           onClick={() => void handleCopy(format.id)}
         >
-          {copied === format.id ? "Copied" : format.label}
+          {copied === format.id ? "Copied" : labelFor(format.id, format.label, framework)}
         </Button>
       ))}
     </span>
   );
+}
+
+function labelFor(id: AiContextFormat, label: string, framework: DocFramework): string {
+  if (id !== "jsx" || framework === "react") return label;
+  return framework === "angular" ? "Template" : FRAMEWORK_INFO[framework].label;
 }

@@ -65,4 +65,36 @@ const PACKAGE_FOR: Record<IconLibrary, string> = {
 /** Test seam — lets a test observe the first-warning behaviour more than once. */
 export function resetIconSetWarnings(): void {
   warned.clear();
+  warnedNames.clear();
+}
+
+const NAME_WARNED_KEY = Symbol.for("@ui-organized/react.iconNameWarnings");
+type GlobalWithNameWarned = typeof globalThis & { [NAME_WARNED_KEY]?: Set<string> };
+const warnedNames: Set<string> = ((globalThis as GlobalWithNameWarned)[NAME_WARNED_KEY] ??=
+  new Set());
+
+/**
+ * Warn, once per library and name, that `<Icon name>` names an icon nobody
+ * registered. Names are the library's own, so the usual causes are a name from a
+ * different library (`x-mark` is Heroicons; Lucide calls it `x`) or a forgotten
+ * `registerIcons` call. Dev-only: unlike a missing set, this cannot be caused by
+ * a production-only bundling difference.
+ */
+export function warnMissingIcon(library: IconLibrary, name: string, registered: string[]): void {
+  if (process.env.NODE_ENV === "production") return;
+  const key = `${library}:${name}`;
+  if (warnedNames.has(key)) return;
+  warnedNames.add(key);
+
+  const known = registered.length
+    ? `Registered for ${library}: ${registered.join(", ")}.`
+    : `No icons are registered for ${library} yet.`;
+  console.warn(
+    `[@ui-organized/react] <Icon name="${name}"> renders nothing: no "${library}" icon is ` +
+      `registered under that name.\n\n${known}\n\n` +
+      `Names are ${library}'s own, not translated between libraries. Register the icon once:\n` +
+      `  import { registerIcons } from "@ui-organized/react/icons/${library}";\n` +
+      `  registerIcons({ <the ${PACKAGE_FOR[library]} export> });\n` +
+      `or pass the component itself: <Icon name={TheIcon} />.`,
+  );
 }

@@ -69,7 +69,7 @@ const stylelint = run("pnpm", [
   "stylelint",
   "packages/react/src/**/*.css",
   // The data table owns its own stylesheet, in its own package — held to the
-  // same rule, because a hard-coded colour there breaks a theme just as
+  // same rule, because a hard-coded color there breaks a theme just as
   // thoroughly.
   "packages/table-core/src/**/*.css",
   "-f",

@@ -45,7 +45,12 @@ function sourceFiles(dir = "src"): string[] {
  * catches bare side-effect imports (`import "./Icon.css"`).
  */
 function importsOf(file: string): string[] {
-  const src = readFileSync(file, "utf8");
+  // Comments out first: doc examples (`import { X } from "lucide-react"`) are
+  // not imports, and would otherwise make the module that documents a library
+  // look like one that loads it.
+  const src = readFileSync(file, "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/^\s*\/\/.*$/gm, "");
   const fromClauses = [...src.matchAll(/\bfrom\s+["']([^"']+)["']/g)].map((m) => m[1]!);
   const sideEffects = [...src.matchAll(/^\s*import\s+["']([^"']+)["']/gm)].map((m) => m[1]!);
   return [...fromClauses, ...sideEffects];

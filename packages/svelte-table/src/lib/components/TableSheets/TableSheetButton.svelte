@@ -5,7 +5,7 @@
 -->
 <script lang="ts">
   import { Button } from "@ui-organized/svelte";
-  import type { CanonicalIconName } from "@ui-organized/utils";
+  import type { IconComponent, IconName } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
 
   let {
@@ -16,8 +16,7 @@
     class: className,
     ...rest
   }: {
-    /** A canonical icon name. */
-    icon: string;
+    icon: IconName | IconComponent;
     label: string;
     /** What is applied. Drawn as a badge from 1 up, and spoken as words. */
     count: number;
@@ -34,7 +33,7 @@
   {...rest as Record<string, never>}
   intent="secondary"
   size={table.size}
-  icon={icon as CanonicalIconName}
+  {icon}
   class={className}
 >
   {label}

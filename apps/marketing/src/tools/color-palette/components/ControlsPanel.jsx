@@ -386,7 +386,7 @@ const ControlsPanel = ({
 
         {selectedColor && (
           <>
-            {/* Interactive spectrum preview — shows where the colour sits on the
+            {/* Interactive spectrum preview — shows where the color sits on the
                 spectrum for the active format, drag to change, undo the last edit. */}
             <SpectrumPicker
               color={selectedColor.color}

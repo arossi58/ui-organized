@@ -16,6 +16,7 @@ import { clsx } from "clsx";
 import Icon from "../Icon/Icon.vue";
 import type { BreadcrumbProps } from "./Breadcrumb.types.js";
 import "@ui-organized/core/components/Breadcrumb/Breadcrumb.css";
+import { glyph } from "../../icons/glyph.js";
 
 const ICON_SIZE = 16;
 
@@ -49,7 +50,7 @@ const isString = (value: unknown) => typeof value === "string";
           <component :is="item.label" v-else />
         </span>
         <span v-if="!isLast(index)" class="breadcrumb__separator" aria-hidden="true">
-          <slot name="separator"><Icon name="chevron-right" :size="ICON_SIZE" /></slot>
+          <slot name="separator"><Icon :name="glyph('chevron-right')" :size="ICON_SIZE" /></slot>
         </span>
       </li>
     </ol>

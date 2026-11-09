@@ -1,6 +1,6 @@
 /* Long-form docs content: prose, sections, code blocks, prop tables, badges. */
 
-/* No measure on the wrapper itself: the colour ramps, prop tables and preview
+/* No measure on the wrapper itself: the color ramps, prop tables and preview
    surfaces inside a docs section need the full column. The reading measure is
    applied to the text elements that actually need it. */
 .prose {
@@ -127,6 +127,15 @@
   background: var(--color-surface-secondary);
 }
 
+/* Whatever follows a snippet or a table needs the same gap a paragraph leaves
+   below itself. Neither block has a margin of its own, since they also sit in
+   grids and preview footers where a margin would be wrong. */
+.prose
+  :is(.code, .tableWrap)
+  + :is(p, ul, ol, h3, .code, .tableWrap):not([data-preview-stage] *) {
+  margin-top: var(--spacing-space-04);
+}
+
 /* Inside a preview frame the surface already draws the border and radius. */
 .code[data-attached] {
   border: 0;
@@ -142,16 +151,22 @@
   border-bottom: 1px solid var(--color-border-secondary);
 }
 
+.codeTitle {
+  color: var(--color-content-primary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-heavy);
+}
+
 .codeLabel {
   color: var(--color-content-tertiary);
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: var(--type-size-caption);
+  font-size: var(--type-size-body-small);
 }
 
 .codeMeta {
   margin-right: auto;
   color: var(--color-content-tertiary);
-  font-size: var(--type-size-caption);
+  font-size: var(--type-size-body-small);
 }
 
 .codePre {
@@ -161,7 +176,7 @@
   margin: 0;
   padding: var(--spacing-space-04);
   font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: var(--type-size-body-small);
+  font-size: var(--type-size-body-medium);
   line-height: 1.6;
   tab-size: 2;
 }

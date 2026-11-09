@@ -78,7 +78,7 @@
 
 .site-nav__link {
   /* 0 = ink, 1 = on-brand contrast. Driven by useNavIndicator (GSAP) so the
-     label colour crossfades as the pill arrives/leaves, and stays theme-aware. */
+     label color crossfades as the pill arrives/leaves, and stays theme-aware. */
   --_label-mix: 0;
   position: relative;
   z-index: 1; /* above the indicator blobs */

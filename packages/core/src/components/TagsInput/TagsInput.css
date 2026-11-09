@@ -56,7 +56,7 @@
 }
 
 /* ─── Tag chip ────────────────────────────────────────────────────────────────
-   Deliberately not the `<Tag>` component: Tag's variants are status colours
+   Deliberately not the `<Tag>` component: Tag's variants are status colors
    (success / warning / error) and a tag here carries no status — it is a
    neutral chip for a value the user entered. */
 

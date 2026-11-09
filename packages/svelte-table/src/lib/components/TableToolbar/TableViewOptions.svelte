@@ -17,6 +17,7 @@
   } from "@ui-organized/svelte";
   import { toggleableColumns } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { label = "Columns", class: className }: { label?: string; class?: string } = $props();
   const table = getTable();
@@ -33,7 +34,7 @@
           {...(props() as Record<string, never>)}
           intent="secondary"
           size={table.size}
-          icon="settings"
+          icon={glyph("settings")}
           aria-label={label}
         />
       {/snippet}

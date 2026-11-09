@@ -11,7 +11,7 @@ const meta: Meta<typeof DateRangeInput> = {
     docs: {
       description: {
         component:
-          'A date range built from two native `<input type="date">` controls (start and end) on the Input field surface, under one shared `label`, `helperText`, and `error`. On desktop the calendar buttons open one shared design-system two-month range calendar; on touch devices they defer to the OS-native picker. ',
+          'Input a range of dates with a single component. On desktop the calendar buttons open one shared design-system two-month range calendar; on touch devices they defer to the OS-native picker. ',
       },
     },
   },

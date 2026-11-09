@@ -20,6 +20,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { flushNow } from "../overlay/flush.js";
+import { glyph } from "../icons/glyph.js";
 
 export type CarouselSize = ControlSize;
 export type CarouselVariant = NonNullable<CarouselVariants["variant"]>;
@@ -217,7 +218,7 @@ export function carouselSeedPageCount(slideCount: number, slidesPerPage: number)
         <button
           uioButton
           intent="ghost"
-          icon="chevron-left"
+          [icon]="glyph('chevron-left')"
           aria-label="Previous slide"
           data-scope="carousel"
           data-part="prev-trigger"
@@ -267,7 +268,7 @@ export function carouselSeedPageCount(slideCount: number, slidesPerPage: number)
         <button
           uioButton
           intent="ghost"
-          icon="chevron-right"
+          [icon]="glyph('chevron-right')"
           aria-label="Next slide"
           data-scope="carousel"
           data-part="next-trigger"
@@ -299,6 +300,7 @@ export function carouselSeedPageCount(slideCount: number, slidesPerPage: number)
   },
 })
 export class UioCarousel extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "carousel";
   readonly part = "root";
 

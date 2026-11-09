@@ -71,11 +71,11 @@ export function TableContent() {
         },
       ]}
       rowActions={[
-        { id: "edit", label: "Edit member", icon: "edit", onRun: () => {} },
+        { id: "edit", label: "Edit member", icon: "pencil", onRun: () => {} },
         {
           id: "remove",
           label: "Remove",
-          icon: "trash",
+          icon: "trash-2",
           destructive: true,
           disabled: (row) => row.role === "Owner",
           onRun: (row) => remove(new Set([row.id])),
@@ -86,7 +86,7 @@ export function TableContent() {
         {
           id: "archive",
           label: "Archive",
-          icon: "trash",
+          icon: "trash-2",
           destructive: true,
           onRun: (selected) => remove(new Set(selected.map((row) => row.id))),
         },

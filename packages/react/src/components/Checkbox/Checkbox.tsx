@@ -4,6 +4,7 @@ import { Icon } from "../Icon/Icon.js";
 import { OMIT_ARIA } from "@ui-organized/core";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function Checkbox({
   checked,
@@ -39,7 +40,7 @@ export function Checkbox({
           {indeterminate ? (
             <span className="checkbox__indicator--indeterminate" />
           ) : (
-            <Icon name="check" size={16} className="checkbox__check" />
+            <Icon name={glyph("check")} size={16} className="checkbox__check" />
           )}
         </ArkCheckbox.Indicator>
       </ArkCheckbox.Control>

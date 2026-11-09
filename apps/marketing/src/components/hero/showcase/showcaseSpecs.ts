@@ -165,12 +165,12 @@ export const TABLE_SPEC: PageSpec = {
       { id: "invite", label: "Invite member", intent: "primary", icon: "plus" },
     ],
     rowActions: [
-      { id: "edit", label: "Edit member", icon: "edit" },
-      { id: "remove", label: "Remove", icon: "trash", destructive: true },
+      { id: "edit", label: "Edit member", icon: "pencil" },
+      { id: "remove", label: "Remove", icon: "trash-2", destructive: true },
     ],
     bulkActions: [
       { id: "export", label: "Export", icon: "download" },
-      { id: "archive", label: "Archive", icon: "trash", destructive: true },
+      { id: "archive", label: "Archive", icon: "trash-2", destructive: true },
     ],
   }),
 };

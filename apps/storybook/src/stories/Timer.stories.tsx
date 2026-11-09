@@ -14,7 +14,7 @@ const meta: Meta<typeof Timer> = {
     docs: {
       description: {
         component:
-          "Counts up or down in whichever units you ask for. Digits are tabular throughout, so the row does not jitter as digit widths change on each tick. Every story starts with `autoStart={false}`. Set it to `true` in real use, or drive it from the controls.",
+          "Counts time up or down.",
       },
     },
   },

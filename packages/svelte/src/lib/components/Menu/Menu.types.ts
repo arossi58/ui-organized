@@ -1,6 +1,6 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { Snippet } from "svelte";
 import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ArkForwardable } from "../../types.js";
 
 export type MenuSide = "top" | "right" | "bottom" | "left";
@@ -49,8 +49,8 @@ export interface MenuItemProps extends ArkForwardable<
   Omit<HTMLAttributes<HTMLDivElement>, "class">
 > {
   /** Icon rendered before the label. */
-  icon?: CanonicalIconName;
-  /** Renders the item in the destructive colour. */
+  icon?: IconName | IconComponent;
+  /** Renders the item in the destructive color. */
   destructive?: boolean;
   /** Stable value for the item. Generated when omitted. */
   value?: string;

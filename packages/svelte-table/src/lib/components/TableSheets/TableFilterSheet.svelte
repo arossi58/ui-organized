@@ -26,6 +26,7 @@
   import { getTable } from "../../core/tableContext.js";
   import TableFilterSheetCondition from "./TableFilterSheetCondition.svelte";
   import TableSheetButton from "./TableSheetButton.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { label = "Filter", class: className }: { label?: string; class?: string } = $props();
   const table = getTable();
@@ -106,7 +107,7 @@
       {#snippet asChild(props)}
         <TableSheetButton
           {...props()}
-          icon="filter"
+          icon={glyph("filter")}
           {label}
           {count}
           unit="applied"

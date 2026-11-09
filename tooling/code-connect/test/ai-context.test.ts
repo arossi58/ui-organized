@@ -58,8 +58,10 @@ describe("buildAiContext — golden", () => {
       description:
         "Buttons trigger actions. Use `intent` to convey emphasis and tone, `size` for density.",
       liveArgs: { children: "Button", intent: "primary", size: "md" },
+      // Storybook lists a few icon names as control options. `IconName` is open,
+      // so they must not come out as "exactly these values".
       typeValues: {
-        CanonicalIconName: ["plus", "arrow-right", "download", "trash", "edit", "check", "close"],
+        IconName: ["plus", "arrow-right", "download", "trash", "edit", "check", "close"],
       },
       examples: [
         {
@@ -240,20 +242,36 @@ describe("expandPropType", () => {
 
   it("resolves a named alias from typeValues", () => {
     const { values } = expandPropType(
-      { name: "icon", type: "CanonicalIconName", required: false },
-      { CanonicalIconName: ["plus", "trash"] },
+      { name: "size", type: "ControlSize", required: false },
+      { ControlSize: ["sm", "md", "lg"] },
     );
-    expect(values).toEqual(["plus", "trash"]);
+    expect(values).toEqual(["sm", "md", "lg"]);
+  });
+
+  it("never closes an open type, alone or as a union arm", () => {
+    const typeValues = { IconName: ["plus", "trash"] };
+    expect(
+      expandPropType({ name: "name", type: "IconName", required: false }, typeValues).values,
+    ).toBeUndefined();
+    expect(
+      expandPropType(
+        { name: "icon", type: "IconName | IconComponent", required: false },
+        typeValues,
+      ).values,
+    ).toBeUndefined();
   });
 
   it("renders a long union as a fenced block, not a table cell", () => {
-    const long = Array.from({ length: 40 }, (_, i) => `icon-${i}`);
+    const long = Array.from({ length: 40 }, (_, i) => `tone-${i}`);
     const { text } = buildAiContext({
-      entry: byName("Button"),
-      typeValues: { CanonicalIconName: long },
+      entry: {
+        ...byName("Button"),
+        props: [...byName("Button").props, { name: "tone", type: "ToneName", required: false }],
+      },
+      typeValues: { ToneName: long },
     });
     expect(text).toContain("is one of exactly these 40 values");
-    expect(text).toContain("icon-39");
+    expect(text).toContain("tone-39");
   });
 });
 
@@ -435,5 +453,67 @@ describe("browser safety", () => {
       /from\s+["']node:/.test(stripTypeImports(readFileSync(f, "utf8"))),
     );
     expect(offenders.length).toBeGreaterThan(0);
+  });
+});
+
+describe("buildAiContext — other frameworks", () => {
+  const button = byName("Button");
+  const svelte = { framework: "svelte" as const, symbol: "Button" };
+  const vue = { framework: "vue" as const, symbol: "Button" };
+  const angular = {
+    framework: "angular" as const,
+    symbol: "UioButton",
+    selector: { element: "button", attribute: "uioButton" },
+    inputs: ["intent", "size", "class", "loading"],
+    outputs: [],
+  };
+
+  it("imports from the framework's own package, never React's", () => {
+    for (const target of [svelte, vue]) {
+      const { text, data } = buildAiContext({ entry: button, target }, "markdown");
+      expect(data.package).toBe(`@ui-organized/${target.framework}`);
+      expect(text).toContain(`import { Button } from "@ui-organized/${target.framework}";`);
+      expect(text).not.toContain("@ui-organized/react");
+    }
+  });
+
+  it("writes the current state in the framework's markup", () => {
+    const liveArgs = { children: "Save", intent: "primary" };
+    expect(buildAiContext({ entry: button, target: vue, liveArgs }, "jsx").text).toBe(
+      '<Button intent="primary">Save</Button>\n',
+    );
+    expect(buildAiContext({ entry: button, target: angular, liveArgs }, "jsx").text).toBe(
+      '<button uioButton intent="primary">Save</button>\n',
+    );
+  });
+
+  it("never falls back to the React usage snippet", () => {
+    const { data } = buildAiContext({ entry: button, target: svelte });
+    expect(data.examples).toEqual([]);
+  });
+
+  it("lists Angular's real inputs, with React's types where the names match", () => {
+    const { text, data } = buildAiContext({ entry: button, target: angular });
+    expect(data.component).toBe("UioButton");
+    expect(data.props.map((p) => p.name)).toEqual(["intent", "size", "loading"]);
+    expect(data.props[0]!.type).toBe(button.props.find((p) => p.name === "intent")!.type);
+    expect(text).toContain("## Inputs — complete (3 own inputs)");
+    expect(text).toContain("This directive declares no outputs.");
+    expect(text).toContain("`<button uioButton>`");
+  });
+
+  it("names the library's conventions", () => {
+    expect(buildAiContext({ entry: button, target: vue }).text).toContain("@value-change");
+    expect(buildAiContext({ entry: button, target: svelte }).text).toContain("bind:value");
+  });
+
+  it("leaves React output unchanged when the target is React", () => {
+    const plain = buildAiContext({ entry: button, meta: META });
+    const targeted = buildAiContext({
+      entry: button,
+      meta: META,
+      target: { framework: "react", symbol: "Button" },
+    });
+    expect(targeted.text).toBe(plain.text);
   });
 });

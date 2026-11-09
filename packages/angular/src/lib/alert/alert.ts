@@ -1,12 +1,13 @@
 import { Component, computed, input, output } from "@angular/core";
 import { alertStyles, type AlertVariants } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
+import type { SystemGlyph } from "@ui-organized/core";
 
 export type AlertVariant = NonNullable<AlertVariants["variant"]>;
 
 /** Each variant announces itself with its own glyph before anyone reads the text. */
-const VARIANT_ICONS: Record<AlertVariant, CanonicalIconName> = {
+const VARIANT_ICONS: Record<AlertVariant, SystemGlyph> = {
   info: "info",
   success: "check-circle",
   warning: "alert-triangle",
@@ -17,7 +18,7 @@ const VARIANT_ICONS: Record<AlertVariant, CanonicalIconName> = {
  * A prominent message about the state of something.
  *
  * `role="alert"` is a static host attribute rather than the caller's job: an
- * alert that assistive technology does not announce is a coloured box.
+ * alert that assistive technology does not announce is a colored box.
  *
  * ── One API difference ──────────────────────────────────────────────────────
  *
@@ -54,7 +55,7 @@ const VARIANT_ICONS: Record<AlertVariant, CanonicalIconName> = {
         aria-label="Dismiss alert"
         (click)="dismiss.emit()"
       >
-        <span uioIcon name="close" [size]="ICON_SIZE"></span>
+        <span uioIcon [name]="glyph('close')" [size]="ICON_SIZE"></span>
       </button>
     }
   `,
@@ -64,6 +65,7 @@ const VARIANT_ICONS: Record<AlertVariant, CanonicalIconName> = {
   },
 })
 export class UioAlert {
+  protected readonly glyph = glyph;
   readonly variant = input<AlertVariant>("info");
   readonly title = input<string | undefined>(undefined);
   /** Renders the dismiss button. See the note above for why this is not implied. */
@@ -72,5 +74,5 @@ export class UioAlert {
 
   protected readonly ICON_SIZE = 20;
   protected readonly hostClass = computed(() => alertStyles({ variant: this.variant() }));
-  protected readonly iconName = computed(() => VARIANT_ICONS[this.variant()]);
+  protected readonly iconName = computed(() => glyph(VARIANT_ICONS[this.variant()]));
 }

@@ -5,6 +5,7 @@ import { Icon } from "../Icon/index.js";
 import { warnMissingRemoveLabel } from "./warnMissingRemoveLabel.js";
 import type { ChipProps, ChipSegmentProps } from "./Chip.types.js";
 import "@ui-organized/core/components/Chip/Chip.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** The dismiss icon, at the size `Tag`'s icons render. */
 const ICON_SIZE = 16;
@@ -73,7 +74,7 @@ export function Chip({
             disabled={disabled}
             onClick={onRemove}
           >
-            <Icon name="close" size={ICON_SIZE} />
+            <Icon name={glyph("close")} size={ICON_SIZE} />
           </button>
         )}
       </span>

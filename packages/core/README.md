@@ -12,7 +12,7 @@ any one framework:
   and Angular.
 - **Variant recipes** — the `cva` maps that turn a component's props into class
   names. Pure functions returning strings; no framework involved.
-- **Pure helpers** — OKLCH colour maths, date arithmetic, the pagination
+- **Pure helpers** — OKLCH color maths, date arithmetic, the pagination
   page-window algorithm, control sizing tables.
 
 ## Consuming it

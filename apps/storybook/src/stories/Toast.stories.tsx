@@ -15,7 +15,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          "Transient notifications. Wrap your app once in `<ToastProvider>`, then call `useToastManager().add({ title, description, type })`. Status (`info`/`success`/`warning`/`error`) drives the accent and icon.",
+          "Surfaces alerts regardless of page navigation. ",
       },
     },
   },

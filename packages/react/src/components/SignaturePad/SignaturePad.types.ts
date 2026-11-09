@@ -28,7 +28,7 @@ export interface SignaturePadProps {
   ) => void;
   /**
    * Ink width in device pixels. This is a canvas stroke, not CSS — the ink's
-   * *colour* is themed, its thickness is geometry. Defaults to 2.
+   * *color* is themed, its thickness is geometry. Defaults to 2.
    */
   strokeWidth?: number;
   /** Shows the sign-here rule across the pad. Defaults to true. */

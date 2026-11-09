@@ -10,7 +10,15 @@
 import { describe, it, expect } from "vitest";
 import { getChangelogs, parseChangelog, type PackageChangelog } from "./changelog";
 
-const [react, tokens] = getChangelogs();
+// By name, not position: the library tabs between these two appear as each
+// package gets its first CHANGELOG.md.
+function changelogOf(name: string): PackageChangelog {
+  const found = getChangelogs().find((pkg) => pkg.name === name);
+  if (!found) throw new Error(`no changelog for ${name}`);
+  return found;
+}
+const react = changelogOf("@ui-organized/react");
+const tokens = changelogOf("@ui-organized/tokens");
 
 /** Every release in a package, keyed by version, for direct lookups. */
 function byVersion(pkg: PackageChangelog) {

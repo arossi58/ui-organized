@@ -22,7 +22,7 @@ const spec: ParitySpec = {
     // edit; both are mounted, and `hidden` is what picks between them.
     { name: "default value", props: { defaultValue: "Ada" } },
     { name: "controlled value", props: { value: "Ada" } },
-    // Empty is a state of its own: [data-placeholder-shown] is what colours the
+    // Empty is a state of its own: [data-placeholder-shown] is what colors the
     // preview like a placeholder rather than like a value.
     { name: "placeholder", props: { placeholder: "Add a name" } },
     { name: "placeholder with value", props: { placeholder: "Add a name", defaultValue: "Ada" } },

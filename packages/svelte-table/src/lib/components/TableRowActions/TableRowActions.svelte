@@ -7,10 +7,10 @@
 -->
 <script lang="ts" generics="T extends RowData">
   import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/svelte";
-  import type { CanonicalIconName } from "@ui-organized/utils";
   import type { RowData } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
   import type { RowAction } from "../../core/types.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let {
     row,
@@ -46,7 +46,7 @@
           {...(props() as Record<string, never>)}
           intent="ghost"
           size={table.size}
-          icon="menu"
+          icon={glyph("menu")}
           aria-label={label}
         />
       {/snippet}
@@ -55,7 +55,7 @@
       {#each items as action (action.id)}
         <MenuItem
           value={action.id}
-          icon={action.icon as CanonicalIconName | undefined}
+          icon={action.icon}
           destructive={action.destructive}
           disabled={action.disabled?.(row)}
           onSelect={() => void action.onRun(row)}

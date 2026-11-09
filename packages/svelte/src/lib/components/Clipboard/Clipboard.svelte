@@ -6,6 +6,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { ClipboardProps } from "./Clipboard.types.js";
   import "@ui-organized/core/components/Clipboard/Clipboard.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     value,
@@ -61,8 +62,8 @@
               only the Indicator knows the state.
             -->
             <ArkClipboard.Indicator class="clipboard__indicator">
-              {#snippet copied()}<Icon name="check" size={iconSize} />{/snippet}
-              <Icon name="copy" size={iconSize} />
+              {#snippet copied()}<Icon name={glyph("check")} size={iconSize} />{/snippet}
+              <Icon name={glyph("copy")} size={iconSize} />
             </ArkClipboard.Indicator>
             <ArkClipboard.Indicator>
               {#snippet copied()}{copiedLabel}{/snippet}

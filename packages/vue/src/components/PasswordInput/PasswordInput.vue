@@ -11,6 +11,7 @@ import type { PasswordInputProps } from "./PasswordInput.types.js";
 // trailing show/hide toggle.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -76,7 +77,7 @@ const visible = ref(false);
         :disabled="disabled"
         @click="visible = !visible"
       >
-        <Icon :name="visible ? 'eye-off' : 'eye'" :size="CONTROL_ICON_SIZE[size]" />
+        <Icon :name="glyph(visible ? 'eye-off' : 'eye')" :size="CONTROL_ICON_SIZE[size]" />
       </button>
     </div>
     <Field.HelperText v-if="helperText && !isInvalid" class="field__description">

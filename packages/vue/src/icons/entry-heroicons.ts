@@ -2,7 +2,8 @@
  * `@ui-organized/vue/icons/heroicons` — the Heroicons adapter.
  *
  * Importing this module registers Heroicons, so
- * `<IconProvider library="heroicons">` resolves canonical names. This is the
+ * `<IconProvider library=\"heroicons\">` draws the components' own glyphs from it;
+ * `registerIcons` below adds the icons you name. This is the
  * only module that imports `@heroicons/vue`.
  *
  * ```ts
@@ -11,7 +12,13 @@
  */
 
 import { heroiconsOutlineSet, heroiconsSolidSet } from "./heroicons.js";
-import { registerIconSet, type IconSet } from "./registry.js";
+import {
+  registerIconSet,
+  type IconSet,
+  registerIcons as registerNamedIcons,
+  type RegisterIconsOptions,
+  type IconComponent,
+} from "./registry.js";
 
 export const heroiconsIcons: IconSet = {
   library: "heroicons",
@@ -45,3 +52,23 @@ export const heroiconsIcons: IconSet = {
 registerIconSet(heroiconsIcons);
 
 export { heroiconsOutlineSet, heroiconsSolidSet };
+
+/**
+ * Make Heroicons icons available to `<Icon name>` under their own names.
+ *
+ * Pass them as imported and the names follow from the exports
+ * (`CameraIcon` → `"camera"`), or key them by native name yourself where
+ * the export can't be read back unambiguously (`{ h1: H1Icon }`).
+ * Only what you register reaches your bundle.
+ *
+ * ```ts
+ * import { CameraIcon, RocketLaunchIcon } from "@heroicons/vue/24/outline";
+ * registerIcons({ CameraIcon, RocketLaunchIcon });
+ * ```
+ */
+export function registerIcons(
+  icons: Record<string, IconComponent>,
+  options?: RegisterIconsOptions,
+): void {
+  registerNamedIcons("heroicons", icons, options);
+}

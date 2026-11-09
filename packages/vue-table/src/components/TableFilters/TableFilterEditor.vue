@@ -10,6 +10,7 @@ import type { TableFilterCondition } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import { focusAfterRemoval } from "./useAutoFocusField.js";
 import TableFilterValueEditor from "./TableFilterValueEditor.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{
   condition: TableFilterCondition;
@@ -37,7 +38,7 @@ const remove = () => {
   <Button
     intent="ghost"
     :size="table.size.value"
-    icon="trash"
+    :icon="glyph('trash')"
     class="data-table__filter-editor-remove"
     @click="remove"
   >

@@ -8,6 +8,7 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { ComboboxProps } from "./Combobox.types.js";
   import "@ui-organized/core/components/Combobox/Combobox.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     options,
@@ -125,7 +126,7 @@
         {/snippet}
       </Field.Context>
       <ArkCombobox.Trigger class="combobox-field__trigger" aria-label="Toggle options">
-        <Icon name="chevron-down" size={iconSize} />
+        <Icon name={glyph("chevron-down")} size={iconSize} />
       </ArkCombobox.Trigger>
     </ArkCombobox.Control>
     <Portal container={portalContainer ?? undefined}>
@@ -144,7 +145,7 @@
             <ArkCombobox.Item {item} class="combobox-popup__item text-default-body-large">
               <span class="combobox-popup__item-label">{item.label}</span>
               <ArkCombobox.ItemIndicator class="combobox-popup__item-indicator">
-                <Icon name="check" size={iconSize} />
+                <Icon name={glyph("check")} size={iconSize} />
               </ArkCombobox.ItemIndicator>
             </ArkCombobox.Item>
           {/each}

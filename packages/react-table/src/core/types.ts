@@ -31,6 +31,7 @@ import type {
 import type { ReactTable, TableState } from "@tanstack/react-table";
 import type { UioTableFeatures } from "@ui-organized/table-core";
 import type { Virtualizer } from "@tanstack/react-virtual";
+import type { IconComponent, IconName } from "@ui-organized/react";
 
 /**
  * The React column type. Identical to core's, except that `meta.edit.render`
@@ -104,7 +105,8 @@ export interface FiltersApi {
 export interface BulkAction<T extends RowData> {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), or a component. */
+  icon?: IconName | IconComponent;
   /** Routes through `AlertDialog` before running. */
   destructive?: boolean;
   /** Confirmation copy. Defaults are derived from `label`. */
@@ -124,7 +126,8 @@ export interface BulkAction<T extends RowData> {
 export interface TableAction {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), or a component. */
+  icon?: IconName | IconComponent;
   /** Button hierarchy. Defaults to `tertiary` — chrome, not a call to action. */
   intent?: ButtonProps["intent"];
   /**
@@ -139,7 +142,8 @@ export interface TableAction {
 export interface RowAction<T extends RowData> {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), or a component. */
+  icon?: IconName | IconComponent;
   destructive?: boolean;
   disabled?: (row: T) => boolean;
   onRun: (row: T) => void | Promise<void>;

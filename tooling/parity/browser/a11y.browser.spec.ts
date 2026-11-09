@@ -108,7 +108,7 @@ interface Finding {
  *
  * Half the components here paint on a *translucent* background —
  * `.btn--secondary` is `rgba(0, 0, 0, 0.1)` — so axe has to composite them
- * against whatever is behind, and mid-transition that composite is a colour the
+ * against whatever is behind, and mid-transition that composite is a color the
  * design never specifies. The result was a gate that failed two scenarios per
  * run and a *different* two each time: `SegmentedControl` and `Steps`, then
  * `Steps` and `Toggle`. Probed directly, all of them were clean.

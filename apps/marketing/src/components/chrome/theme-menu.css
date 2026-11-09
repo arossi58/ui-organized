@@ -1,4 +1,4 @@
-/* Theme menu — the nav's brand-colour + dark-mode control (Branding mockup).
+/* Theme menu — the nav's brand-color + dark-mode control (Branding mockup).
    Everything is keyed off design-system semantic tokens so the control itself
    re-themes with the site. */
 
@@ -91,7 +91,7 @@
   flex-direction: column;
 }
 
-/* Colour rows — mirror the design-system Select item (`.select-popup__item`):
+/* Color rows — mirror the design-system Select item (`.select-popup__item`):
    no dividers, rounded rows, ui hover + selected fills. */
 .theme-menu__item {
   display: flex;

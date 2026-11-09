@@ -6,6 +6,7 @@ import { avatarStyles, initials } from "@ui-organized/core";
 import Icon from "../Icon/Icon.vue";
 import type { AvatarProps } from "./Avatar.types.js";
 import "@ui-organized/core/components/Avatar/Avatar.css";
+import { glyph } from "../../icons/glyph.js";
 
 const ICON_SIZE: Record<NonNullable<AvatarProps["size"]>, number> = {
   xs: 14, sm: 16, md: 20, lg: 24, xl: 32,
@@ -27,7 +28,7 @@ const hasFallbackSlot = computed(() => Boolean(slots.fallback));
     <ArkAvatar.Fallback class="avatar__fallback">
       <slot v-if="hasFallbackSlot" name="fallback" />
       <template v-else-if="name">{{ initials(name) }}</template>
-      <Icon v-else name="user" :size="ICON_SIZE[size]" />
+      <Icon v-else :name="glyph('user')" :size="ICON_SIZE[size]" />
     </ArkAvatar.Fallback>
   </ArkAvatar.Root>
 </template>

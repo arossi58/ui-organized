@@ -67,7 +67,7 @@
 }
 
 /* ─── Ring ────────────────────────────────────────────────────────────────────
-   Track and arc are one paint: a conic gradient that flips colour at `--angle`,
+   Track and arc are one paint: a conic gradient that flips color at `--angle`,
    with the middle punched out. The hole has to be a mask rather than an opaque
    inner disc — the track is a translucent overlay token, so whatever sits
    behind the dial has to show through the hollow unchanged.
@@ -90,7 +90,7 @@
   );
   /* A mask reads only the alpha channel, so this black is compositing, not
      palette — there is no theme in which it should be anything else, and
-     pointing it at a colour token would imply otherwise. */
+     pointing it at a color token would imply otherwise. */
   /* stylelint-disable color-no-hex -- see above */
   -webkit-mask-image: radial-gradient(
     closest-side,
@@ -198,7 +198,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. It goes on the thumb rather than the knob so it is not
+   color is themed. It goes on the thumb rather than the knob so it is not
    counter-rotated — a ring is rotationally symmetric, and keeping it here lets
    it sit outside the knob's own shadow. */
 .angle-slider__thumb:focus-visible {

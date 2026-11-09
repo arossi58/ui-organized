@@ -10,7 +10,7 @@ const meta: Meta<typeof ScrollArea> = {
     docs: {
       description: {
         component:
-          "A scrollable container with a themed scrollbar. Give the Root a bounded height via `style`/`className` so its content can overflow.",
+          "A scrollable container with a themed scrollbar.",
       },
     },
   },

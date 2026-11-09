@@ -21,7 +21,7 @@ import {
 /**
  * Upper bound on label contrast. A fill that reads above this with its label is
  * effectively black (under a white label) or effectively white (under a black
- * one) and stops reading as a brand colour. 12 keeps a healthy band and never
+ * one) and stops reading as a brand color. 12 keeps a healthy band and never
  * drops the curated default 1400.
  */
 export const PRIMARY_MAX_CONTRAST = 12;
@@ -56,7 +56,7 @@ export function isAccessiblePrimary(hex: string | undefined, neutralRamp: ColorR
   return ratio >= 4.5 && ratio <= PRIMARY_MAX_CONTRAST;
 }
 
-/** The brand-ramp steps that are valid primary colours, in ramp order. */
+/** The brand-ramp steps that are valid primary colors, in ramp order. */
 export function getAccessibleShades(ramp: ColorRamp, neutralRamp: ColorRamp = GREY): string[] {
   const first = CORE_STEPS.indexOf(PRIMARY_MIN_STEP);
   return CORE_STEPS.slice(first).filter((s) => isAccessiblePrimary(ramp[s]?.hex, neutralRamp));

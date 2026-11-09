@@ -37,14 +37,14 @@ const meta: Meta<typeof NavItem> = {
     docs: {
       description: {
         component:
-          "Navigation primitives for an application sidebar. `NavItem` is a top-level entry with an optional `icon`, `selected` / `disabled` states, a `collapsed` (icon-only) mode, and nestable `NavSubItem` children that turn it into an expandable group. `Sidebar` is the full container that arranges a logo, the scrollable nav, and a footer, with an optional `collapsible` rail.",
+          "Navigation primitives for an application sidebar.",
       },
     },
   },
   argTypes: {
     icon: {
       control: "select",
-      options: [undefined, "home", "settings", "user", "grid", "calendar", "mail"],
+      options: [undefined, "house", "settings", "user", "grid-2x2", "calendar", "mail"],
     },
     selected: { control: "boolean" },
     disabled: { control: "boolean" },
@@ -72,7 +72,7 @@ export const Inspect: Story = {
   tags: ["dev"],
   args: {
     label: "Dashboard",
-    icon: "home",
+    icon: "house",
     selected: false,
     disabled: false,
   },
@@ -81,7 +81,7 @@ export const Inspect: Story = {
 export const Selected: Story = {
   args: {
     label: "Dashboard",
-    icon: "home",
+    icon: "house",
     selected: true,
   },
 };
@@ -89,7 +89,7 @@ export const Selected: Story = {
 export const Disabled: Story = {
   args: {
     label: "Dashboard",
-    icon: "home",
+    icon: "house",
     disabled: true,
   },
 };
@@ -113,8 +113,8 @@ export const CollapsedRail: Story = {
     docs: {
       source: {
         code: `
-<NavItem label="Home" icon="home" collapsed />
-<NavItem label="Dashboard" icon="grid" selected collapsed />
+<NavItem label="Home" icon="house" collapsed />
+<NavItem label="Dashboard" icon="grid-2x2" selected collapsed />
 <NavItem label="Messages" icon="mail" collapsed />
 <NavItem label="Calendar" icon="calendar" collapsed />
 <NavItem label="Settings" icon="settings" collapsed />
@@ -125,8 +125,8 @@ export const CollapsedRail: Story = {
   },
   render: () => (
     <NavSurface collapsed>
-      <NavItem label="Home" icon="home" collapsed />
-      <NavItem label="Dashboard" icon="grid" selected collapsed />
+      <NavItem label="Home" icon="house" collapsed />
+      <NavItem label="Dashboard" icon="grid-2x2" selected collapsed />
       <NavItem label="Messages" icon="mail" collapsed />
       <NavItem label="Calendar" icon="calendar" collapsed />
       <NavItem label="Settings" icon="settings" collapsed />
@@ -145,13 +145,13 @@ export const ExpandedVsCollapsed: Story = {
     docs: {
       source: {
         code: `
-<NavItem label="Home" icon="home" />
-<NavItem label="Dashboard" icon="grid" selected />
+<NavItem label="Home" icon="house" />
+<NavItem label="Dashboard" icon="grid-2x2" selected />
 <NavItem label="Messages" icon="mail" />
 <NavItem label="Settings" icon="settings" />
 
-<NavItem label="Home" icon="home" collapsed />
-<NavItem label="Dashboard" icon="grid" selected collapsed />
+<NavItem label="Home" icon="house" collapsed />
+<NavItem label="Dashboard" icon="grid-2x2" selected collapsed />
 <NavItem label="Messages" icon="mail" collapsed />
 <NavItem label="Settings" icon="settings" collapsed />
 `.trim(),
@@ -167,14 +167,14 @@ export const ExpandedVsCollapsed: Story = {
       }}
     >
       <NavSurface>
-        <NavItem label="Home" icon="home" />
-        <NavItem label="Dashboard" icon="grid" selected />
+        <NavItem label="Home" icon="house" />
+        <NavItem label="Dashboard" icon="grid-2x2" selected />
         <NavItem label="Messages" icon="mail" />
         <NavItem label="Settings" icon="settings" />
       </NavSurface>
       <NavSurface collapsed>
-        <NavItem label="Home" icon="home" collapsed />
-        <NavItem label="Dashboard" icon="grid" selected collapsed />
+        <NavItem label="Home" icon="house" collapsed />
+        <NavItem label="Dashboard" icon="grid-2x2" selected collapsed />
         <NavItem label="Messages" icon="mail" collapsed />
         <NavItem label="Settings" icon="settings" collapsed />
       </NavSurface>
@@ -189,7 +189,7 @@ export const Expandable: Story = {
     docs: {
       source: {
         code: `
-<NavItem label="Reports" icon="grid" selected defaultExpanded>
+<NavItem label="Reports" icon="grid-2x2" selected defaultExpanded>
   <NavSubItem label="Overview" selected />
   <NavSubItem label="Revenue" />
   <NavSubItem label="Traffic" />
@@ -201,7 +201,7 @@ export const Expandable: Story = {
     },
   },
   render: () => (
-    <NavItem label="Reports" icon="grid" selected defaultExpanded>
+    <NavItem label="Reports" icon="grid-2x2" selected defaultExpanded>
       <NavSubItem label="Overview" selected />
       <NavSubItem label="Revenue" />
       <NavSubItem label="Traffic" />
@@ -216,7 +216,7 @@ export const ExpandableCollapsed: Story = {
     docs: {
       source: {
         code: `
-<NavItem label="Reports" icon="grid">
+<NavItem label="Reports" icon="grid-2x2">
   <NavSubItem label="Overview" />
   <NavSubItem label="Revenue" />
   <NavSubItem label="Traffic" />
@@ -226,7 +226,7 @@ export const ExpandableCollapsed: Story = {
     },
   },
   render: () => (
-    <NavItem label="Reports" icon="grid">
+    <NavItem label="Reports" icon="grid-2x2">
       <NavSubItem label="Overview" />
       <NavSubItem label="Revenue" />
       <NavSubItem label="Traffic" />
@@ -264,8 +264,8 @@ export const SidebarNav: Story = {
     docs: {
       source: {
         code: `
-<NavItem label="Home" icon="home" />
-<NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+<NavItem label="Home" icon="house" />
+<NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
   <NavSubItem label="Overview" selected />
   <NavSubItem label="Activity" />
   <NavSubItem label="Insights" />
@@ -284,8 +284,8 @@ export const SidebarNav: Story = {
   },
   render: () => (
     <>
-      <NavItem label="Home" icon="home" />
-      <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+      <NavItem label="Home" icon="house" />
+      <NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
         <NavSubItem label="Overview" selected />
         <NavSubItem label="Activity" />
         <NavSubItem label="Insights" />
@@ -322,15 +322,15 @@ const Wordmark = (
       whiteSpace: "nowrap",
     }}
   >
-    <Icon name="grid" size={24} />
+    <Icon name="grid-2x2" size={24} />
     UI Organized
   </span>
 );
 
 const SidebarItems = (
   <>
-    <NavItem label="Home" icon="home" />
-    <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+    <NavItem label="Home" icon="house" />
+    <NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
       <NavSubItem label="Overview" selected />
       <NavSubItem label="Activity" />
       <NavSubItem label="Insights" />
@@ -354,12 +354,12 @@ export const FullSidebar: Story = {
       source: {
         code: `
 <Sidebar
-  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
-  logoCollapsed={<Icon name="grid" size={24} />}
+  logo={<span className="brand"><Icon name="grid-2x2" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid-2x2" size={24} />}
   footer={<NavItem label="Help & Support" icon="info" />}
 >
-  <NavItem label="Home" icon="home" />
-  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+  <NavItem label="Home" icon="house" />
+  <NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
     <NavSubItem label="Overview" selected />
     <NavSubItem label="Activity" />
     <NavSubItem label="Insights" />
@@ -380,7 +380,7 @@ export const FullSidebar: Story = {
     <SidebarStage>
       <Sidebar
         logo={Wordmark}
-        logoCollapsed={<Icon name="grid" size={24} />}
+        logoCollapsed={<Icon name="grid-2x2" size={24} />}
         footer={<NavItem label="Help & Support" icon="info" />}
       >
         {SidebarItems}
@@ -403,12 +403,12 @@ export const CollapsibleSidebar: Story = {
         code: `
 <Sidebar
   collapsible
-  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
-  logoCollapsed={<Icon name="grid" size={24} />}
+  logo={<span className="brand"><Icon name="grid-2x2" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid-2x2" size={24} />}
   footer={<NavItem label="Help & Support" icon="info" />}
 >
-  <NavItem label="Home" icon="home" />
-  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+  <NavItem label="Home" icon="house" />
+  <NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
     <NavSubItem label="Overview" selected />
     <NavSubItem label="Activity" />
     <NavSubItem label="Insights" />
@@ -430,7 +430,7 @@ export const CollapsibleSidebar: Story = {
       <Sidebar
         collapsible
         logo={Wordmark}
-        logoCollapsed={<Icon name="grid" size={24} />}
+        logoCollapsed={<Icon name="grid-2x2" size={24} />}
         footer={<NavItem label="Help & Support" icon="info" />}
       >
         {SidebarItems}
@@ -450,12 +450,12 @@ export const SidebarStartCollapsed: Story = {
 <Sidebar
   collapsible
   defaultCollapsed
-  logo={<span className="brand"><Icon name="grid" size={24} /> UI Organized</span>}
-  logoCollapsed={<Icon name="grid" size={24} />}
+  logo={<span className="brand"><Icon name="grid-2x2" size={24} /> UI Organized</span>}
+  logoCollapsed={<Icon name="grid-2x2" size={24} />}
   footer={<NavItem label="Help & Support" icon="info" />}
 >
-  <NavItem label="Home" icon="home" />
-  <NavItem label="Dashboard" icon="grid" selected defaultExpanded>
+  <NavItem label="Home" icon="house" />
+  <NavItem label="Dashboard" icon="grid-2x2" selected defaultExpanded>
     <NavSubItem label="Overview" selected />
     <NavSubItem label="Activity" />
     <NavSubItem label="Insights" />
@@ -478,7 +478,7 @@ export const SidebarStartCollapsed: Story = {
         collapsible
         defaultCollapsed
         logo={Wordmark}
-        logoCollapsed={<Icon name="grid" size={24} />}
+        logoCollapsed={<Icon name="grid-2x2" size={24} />}
         footer={<NavItem label="Help & Support" icon="info" />}
       >
         {SidebarItems}

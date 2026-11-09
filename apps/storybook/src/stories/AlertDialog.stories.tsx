@@ -19,7 +19,7 @@ const meta: Meta<typeof AlertDialog> = {
     docs: {
       description: {
         component:
-          "A focus-trapping confirmation dialog dismissed via explicit actions. Compose `<AlertDialog>` with `<AlertDialogContent>`, `<AlertDialogTitle>`, `<AlertDialogDescription>`, and a footer of `<AlertDialogCancel>` + `<AlertDialogConfirm>`.",
+          "A focus-trapping confirmation dialog dismissed via explicit actions.",
       },
     },
   },

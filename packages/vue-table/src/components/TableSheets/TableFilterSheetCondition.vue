@@ -8,6 +8,7 @@ import { Button, Select } from "@ui-organized/vue";
 import type { TableFilterCondition } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import { TableFilterValueEditor } from "../TableFilters/index.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{ condition: TableFilterCondition; fieldLabel: string }>();
 const table = useTableContext();
@@ -42,7 +43,7 @@ const operatorOptions = computed(() =>
       v-if="description.complete"
       intent="ghost"
       :size="table.size.value"
-      icon="close"
+      :icon="glyph('close')"
       class="data-table__sheet-remove"
       :aria-label="`Clear filter: ${description.text}`"
       @click="table.filters.remove(condition.id)"

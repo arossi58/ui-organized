@@ -21,7 +21,7 @@
   max-width: calc(100vw - var(--spacing-space-08));
   padding: var(--spacing-space-03) var(--spacing-space-04);
   background-color: var(--color-surface-primary);
-  /* Figma: 2px full border in the status colour (see status accents below). */
+  /* Figma: 2px full border in the status color (see status accents below). */
   border: 2px solid var(--color-border-secondary);
   border-radius: var(--radius-interactive);
   /* Figma shadow-medium. */

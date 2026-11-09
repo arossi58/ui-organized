@@ -191,9 +191,8 @@ export default function UiInspectGuide() {
               }
             >
               View on npm
-              {/* The DS Button's `icon` prop takes a canonical *name*, which
-                  needs the icon registry; every lucide glyph on the site is
-                  passed to `Icon` as a component instead. */}
+              {/* Passed as a component, so it needs no `registerIcons`
+                  entry. */}
               <Icon name={ArrowUpRight} size={16} />
             </Button>
           </div>

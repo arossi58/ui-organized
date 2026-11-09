@@ -6,7 +6,7 @@ export const dateTimeInputUsage: UsageGuide = {
   summary:
     "A field for a moment: a date and a time together. Ask for the time only when it changes what happens, because it doubles what the reader has to decide.",
   useWhen: [
-    "The exact moment matters, such as when something is scheduled to run.",
+    "The exact date and time matters, such as when something is scheduled to run.",
     "Two entries on the same day need ordering by their times.",
     "The value is compared against a clock rather than a calendar.",
   ],

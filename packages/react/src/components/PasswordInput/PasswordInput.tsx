@@ -9,6 +9,7 @@ import type { PasswordInputProps } from "./PasswordInput.types.js";
 // trailing show/hide toggle.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function PasswordInput({
   label,
@@ -56,7 +57,7 @@ export function PasswordInput({
             aria-pressed={visible}
             disabled={disabled}
           >
-            <Icon name={visible ? "eye-off" : "eye"} size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph(visible ? "eye-off" : "eye")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </button>
         )}
       </div>

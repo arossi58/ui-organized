@@ -2,9 +2,9 @@
  * The docs subtree.
  *
  * Kept as one module so React Router's `/docs/*` route can be a single
- * `React.lazy` boundary: this chunk pulls the 128 KB manifest, the latest-hashes
- * artifact and all 68 story modules (which between them import most of the
- * component library), and none of that belongs in the home page's bundle.
+ * `React.lazy` boundary: this chunk pulls the Code Connect manifest, the
+ * latest-hashes artifact and every story module (which between them import most
+ * of the component library), and none of that belongs in the home page's bundle.
  */
 import { useRef, type RefObject } from "react";
 import { Route, Routes } from "react-router-dom";

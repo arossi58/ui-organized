@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
 import { TableFilterValueEditor } from "../TableFilters/TableFilterValue.js";
 import type {
@@ -20,6 +19,7 @@ import type {
   TableSortSheetProps,
 } from "./TableSheets.types.js";
 import type { TableFilterCondition } from "@ui-organized/table-core";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * Card mode's sort and filter controls: a labelled button that opens a bottom
@@ -40,7 +40,7 @@ import type { TableFilterCondition } from "@ui-organized/table-core";
 export function TableSheetButton({ icon, label, count, unit, ...props }: TableSheetButtonProps) {
   const { size } = useTableContext();
   return (
-    <Button intent="secondary" size={size} icon={icon as CanonicalIconName} {...props}>
+    <Button intent="secondary" size={size} icon={icon} {...props}>
       {label}
       {count > 0 && (
         <>
@@ -99,7 +99,7 @@ export function TableSortSheet({ label = "Sort", className }: TableSortSheetProp
         <SheetTrigger
           render={
             <TableSheetButton
-              icon={activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort"}
+              icon={glyph(activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort")}
               label={label}
               count={table.state.sorting.length}
               unit="applied"
@@ -215,7 +215,7 @@ export function TableFilterSheet({ label = "Filter", className }: TableFilterShe
         <SheetTrigger
           render={
             <TableSheetButton
-              icon="filter"
+              icon={glyph("filter")}
               label={label}
               count={count}
               unit="applied"
@@ -329,7 +329,7 @@ function TableFilterSheetCondition({
         <Button
           intent="ghost"
           size={size}
-          icon="close"
+          icon={glyph("close")}
           className="data-table__sheet-remove"
           aria-label={`Clear filter: ${description.text}`}
           onClick={() => filters.remove(condition.id)}

@@ -1,6 +1,6 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface BreadcrumbItem {
   /**
@@ -13,7 +13,7 @@ export interface BreadcrumbItem {
   /** Link target. Omit on the current (last) crumb. */
   href?: string;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
 }
 
 export interface BreadcrumbProps extends Omit<HTMLAttributes<HTMLElement>, "class" | "children"> {

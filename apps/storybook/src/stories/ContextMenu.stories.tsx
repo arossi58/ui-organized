@@ -18,7 +18,7 @@ const meta: Meta<typeof ContextMenu> = {
     docs: {
       description: {
         component:
-          "A menu that opens at the cursor on right-click (or long-press). Compose `<ContextMenu>` with `<ContextMenuTrigger>` (the target area) and `<ContextMenuContent>` of items.",
+          "A menu that opens at the cursor on right-click or long press.",
       },
     },
   },
@@ -49,11 +49,11 @@ export const Inspect: Story = {
         <ContextMenuGroup>
           <ContextMenuGroupLabel>Actions</ContextMenuGroupLabel>
           <ContextMenuItem icon="copy">Copy</ContextMenuItem>
-          <ContextMenuItem icon="edit">Rename</ContextMenuItem>
+          <ContextMenuItem icon="pencil">Rename</ContextMenuItem>
           <ContextMenuItem icon="download">Download</ContextMenuItem>
         </ContextMenuGroup>
         <ContextMenuSeparator />
-        <ContextMenuItem icon="trash" destructive>
+        <ContextMenuItem icon="trash-2" destructive>
           Delete
         </ContextMenuItem>
       </ContextMenuContent>

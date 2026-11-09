@@ -3,7 +3,7 @@
 
   Label / helper / error chrome comes from the shared `.field` layout, so the
   control lines up with every other form field; the trigger and the popup are
-  colour-specific.
+  color-specific.
 -->
 <script setup lang="ts">
 import { computed, ref, useAttrs } from "vue";
@@ -23,6 +23,7 @@ import FormatInputs from "./FormatInputs.vue";
 import type { ColorLike } from "./channelFields.js";
 import type { ColorPickerProps } from "./ColorPicker.types.js";
 import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -76,7 +77,7 @@ const isInvalid = computed(() => !!props.error);
 const errorMessage = computed(() => (typeof props.error === "string" ? props.error : undefined));
 const iconSize = computed(() => CONTROL_ICON_SIZE[props.size]);
 /* Which notation the picker's fields are showing. Local, because it is a way
-   of reading the colour rather than a property of it — see `format`. */
+   of reading the color rather than a property of it — see `format`. */
 const inputFormat = ref<ColorNotation>(INITIAL_INPUT_FORMAT[props.format]);
 
 const rootClass = computed(() =>
@@ -170,7 +171,7 @@ function onOpenChange(details: { open: boolean }) {
         -->
         <ArkColorPicker.Content
           class="color-picker__popup"
-          :aria-label="label ? `${label} colour picker` : 'Colour picker'"
+          :aria-label="label ? `${label} color picker` : 'Color picker'"
         >
           <ArkColorPicker.Area class="color-picker__area">
             <ArkColorPicker.AreaBackground class="color-picker__area-bg" />
@@ -187,7 +188,7 @@ function onOpenChange(details: { open: boolean }) {
                 v-if="showEyeDropper"
                 class="color-picker__eyedropper"
               >
-                <Icon name="pipette" :size="iconSize" />
+                <Icon :name="glyph('pipette')" :size="iconSize" />
               </ArkColorPicker.EyeDropperTrigger>
             </div>
 

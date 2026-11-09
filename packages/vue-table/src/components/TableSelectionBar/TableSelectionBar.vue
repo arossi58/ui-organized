@@ -23,7 +23,6 @@ import {
   AlertDialogTitle,
   Button,
 } from "@ui-organized/vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import type { BulkAction } from "../../core/types.js";
@@ -75,7 +74,7 @@ const confirm = () => {
       :key="action.id"
       :size="table.size.value"
       :intent="action.destructive ? 'destructive-ghost' : 'ghost'"
-      :icon="action.icon as CanonicalIconName | undefined"
+      :icon="action.icon"
       @click="choose(action)"
     >
       {{ action.label }}

@@ -5,6 +5,7 @@ import { FieldError } from "../FieldError/index.js";
 import { tagsInputStyles } from "@ui-organized/core";
 import type { TagsInputProps } from "./TagsInput.types.js";
 import "@ui-organized/core/components/TagsInput/TagsInput.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Delete affordance inside a tag — always the small edge, at every control
  *  size, because it sits inside the chip rather than beside it. */
@@ -67,7 +68,7 @@ export function TagsInput({
                     {tag}
                   </ArkTagsInput.ItemText>
                   <ArkTagsInput.ItemDeleteTrigger className="tags-input__tag-delete">
-                    <Icon name="close" size={DELETE_ICON_SIZE} />
+                    <Icon name={glyph("close")} size={DELETE_ICON_SIZE} />
                   </ArkTagsInput.ItemDeleteTrigger>
                 </ArkTagsInput.ItemPreview>
                 <ArkTagsInput.ItemInput className="tags-input__tag-input" />

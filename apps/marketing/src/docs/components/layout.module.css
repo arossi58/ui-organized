@@ -66,7 +66,7 @@
 /* Type comes from the `text-default-body-medium` utility on the element — the
    same one `NavItem` carries. The padding and gap match `.nav-item__trigger`
    too, so a heading's glyph and word land in the same columns as the rows
-   below it; only the tertiary colour marks it as a heading. */
+   below it; only the tertiary color marks it as a heading. */
 .groupLabel {
   display: flex;
   align-items: center;

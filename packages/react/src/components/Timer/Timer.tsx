@@ -5,6 +5,7 @@ import { Button } from "../Button/index.js";
 import { timerStyles } from "@ui-organized/core";
 import type { TimerProps, TimerPart } from "./Timer.types.js";
 import "@ui-organized/core/components/Timer/Timer.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_PARTS: TimerPart[] = ["hours", "minutes", "seconds"];
 
@@ -53,22 +54,22 @@ export function Timer({
           {/* zag hides whichever trigger does not apply to the current state, so
               start and resume can both be present without a conditional here. */}
           <ArkTimer.ActionTrigger action="start" asChild>
-            <Button intent="primary" size={size} icon="play" type="button">
+            <Button intent="primary" size={size} icon={glyph("play")} type="button">
               Start
             </Button>
           </ArkTimer.ActionTrigger>
           <ArkTimer.ActionTrigger action="pause" asChild>
-            <Button intent="secondary" size={size} icon="pause" type="button">
+            <Button intent="secondary" size={size} icon={glyph("pause")} type="button">
               Pause
             </Button>
           </ArkTimer.ActionTrigger>
           <ArkTimer.ActionTrigger action="resume" asChild>
-            <Button intent="secondary" size={size} icon="play" type="button">
+            <Button intent="secondary" size={size} icon={glyph("play")} type="button">
               Resume
             </Button>
           </ArkTimer.ActionTrigger>
           <ArkTimer.ActionTrigger action="reset" asChild>
-            <Button intent="ghost" size={size} icon="refresh" type="button">
+            <Button intent="ghost" size={size} icon={glyph("refresh")} type="button">
               Reset
             </Button>
           </ArkTimer.ActionTrigger>

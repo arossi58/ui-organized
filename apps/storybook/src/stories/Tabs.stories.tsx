@@ -17,7 +17,7 @@ const meta: Meta<typeof Tabs> = {
     docs: {
       description: {
         component:
-          "Tabs organize content into switchable panels. Pass a `tabs` array of `{ value, label, content, disabled }` items, set the initial panel with `defaultValue`, and use `orientation` and `size` to adjust layout and density.",
+          "Tabs organize content into switchable panels.",
       },
     },
   },

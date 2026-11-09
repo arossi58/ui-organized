@@ -10,7 +10,7 @@ const meta: Meta<typeof Editable> = {
     docs: {
       description: {
         component:
-          "A value that reads as text until you edit it in place. Use it for page titles, list item names and anything else that is renamed far less often than it is read.",
+          "A value that appears as text until you interact with it.",
       },
     },
   },

@@ -14,3 +14,5 @@ packages:
   - '!apps/token-manager'
   - '!tooling/figma-code-connect-plugin'
   - '!tooling/figma-component-bridge'
+  # Local-only Figma plugin (gitignored), installed on its own.
+  - '!tooling/figma-component-organizer'

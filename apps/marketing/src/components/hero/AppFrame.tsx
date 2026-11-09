@@ -17,7 +17,7 @@ interface AppFrameProps {
  * (mobilePieceManifest) rain in and assemble on top of it.
  *
  * The window is just the *container* — every actual UI element falls in as a
- * physics piece (see the manifests / PieceLayer). Colour comes from the DS
+ * physics piece (see the manifests / PieceLayer). Color comes from the DS
  * semantic tokens, so the mockup follows the site's global theme. The mockup is
  * laid out in frame units (frameW×frameH) and scaled to the viewport by
  * `--frame-scale`, which the engine sets alongside size/position/opacity.

@@ -22,8 +22,7 @@
  * import it through `@ui-organized/code-connect/browser`.
  */
 
-import { jsxAttr } from "./ai-context.js";
-import { jsValue, layoutElement, normalizeArgs, type MarkupAttr } from "./markup.js";
+import { jsValue, jsxAttr, layoutElement, normalizeArgs, type MarkupAttr } from "./markup.js";
 import type { Framework } from "./schema.js";
 
 // ─── The frameworks the docs site can show ───────────────────────────────────
@@ -163,18 +162,51 @@ export function parseAngularSelectors(sources: Iterable<string>): Record<string,
  * props".
  */
 export function parseAngularInputs(sources: Iterable<string>): Record<string, string[]> {
-  const out: Record<string, string[]> = {};
+  return parseAngularMembers(sources, /readonly\s+(\w+)\s*=\s*(?:input|model)\b/g);
+}
+
+/**
+ * The outputs each Angular class declares — `(checkedChange)`, where React and
+ * Svelte take an `onCheckedChange` callback prop. Same keying as
+ * {@link parseAngularInputs}.
+ */
+export function parseAngularOutputs(sources: Iterable<string>): Record<string, string[]> {
+  return parseAngularMembers(sources, /readonly\s+(\w+)\s*=\s*output\b/g);
+}
+
+/**
+ * The `model()` members — inputs that also bind two-way, `[(checked)]`. A
+ * subset of {@link parseAngularInputs}, listed separately because the binding
+ * syntax differs.
+ */
+export function parseAngularModels(sources: Iterable<string>): Record<string, string[]> {
+  return parseAngularMembers(sources, /readonly\s+(\w+)\s*=\s*model\b/g);
+}
+
+/**
+ * Members are collected per class and then inherited: `UioDateInput` declares
+ * none of its own — `label`, `min`, `required` and the rest live on the abstract
+ * `UioDateFieldBase` it extends, in another file — and reading only the class
+ * body reported every one of them as a prop Angular hasn't got.
+ */
+function parseAngularMembers(
+  sources: Iterable<string>,
+  declared: RegExp,
+): Record<string, string[]> {
+  const own: Record<string, string[]> = {};
+  const parents: Record<string, string> = {};
 
   for (const source of sources) {
-    const classes = /export class (\w+)/g;
+    const classes = /export\s+(?:abstract\s+)?class\s+(\w+)(?:<[^{]*?>)?(?:\s+extends\s+(\w+))?/g;
     const bounds: Array<{ name: string; at: number }> = [];
     for (let m = classes.exec(source); m; m = classes.exec(source)) {
       bounds.push({ name: m[1]!, at: m.index });
-      out[m[1]!] ??= [];
+      own[m[1]!] ??= [];
+      if (m[2]) parents[m[1]!] = m[2];
     }
     if (!bounds.length) continue;
 
-    const declared = /readonly\s+(\w+)\s*=\s*(?:input|model)\b/g;
+    declared.lastIndex = 0;
     for (let m = declared.exec(source); m; m = declared.exec(source)) {
       const owner = [...bounds].reverse().find((b) => b.at < m!.index);
       if (!owner) continue;
@@ -183,11 +215,57 @@ export function parseAngularInputs(sources: Iterable<string>): Record<string, st
       const end = source.indexOf(";", m.index);
       const decl = source.slice(m.index, end === -1 ? undefined : end);
       const alias = /alias:\s*["']([^"']+)["']/.exec(decl);
-      out[owner.name]!.push(alias ? alias[1]! : m[1]!);
+      own[owner.name]!.push(alias ? alias[1]! : m[1]!);
     }
   }
 
-  return out;
+  const inherited = (name: string, seen: Set<string>): string[] => {
+    const parent = parents[name];
+    if (!parent || seen.has(parent) || !own[parent]) return own[name] ?? [];
+    seen.add(parent);
+    return [...new Set([...inherited(parent, seen), ...own[name]!])];
+  };
+  return Object.fromEntries(
+    Object.keys(own).map((name) => [name, inherited(name, new Set([name]))]),
+  );
+}
+
+/**
+ * A framework's surface from the raw text of its source files — the one place
+ * the docs site (Vite `?raw` globs) and the static spec generator (`fs`) both
+ * build it, so the two cannot disagree about what a library ships.
+ *
+ * `table` is the data table's own package: its symbols are part of the surface
+ * but import from that package, not the library.
+ */
+export function surfaceFromSources(
+  framework: Exclude<DocFramework, "react">,
+  sources: {
+    barrels: string[];
+    table?: { packageName: string; barrels: string[] };
+    /** Angular only: every directive source, for selectors, inputs and outputs. */
+    angularSources?: string[];
+  },
+): FrameworkSurface {
+  const tableExports = (sources.table?.barrels ?? []).flatMap(parseBarrelExports);
+  const surface: FrameworkSurface = {
+    exports: [...sources.barrels.flatMap(parseBarrelExports), ...tableExports],
+    ...(sources.table && tableExports.length
+      ? {
+          packages: Object.fromEntries(
+            tableExports.map((symbol) => [symbol, sources.table!.packageName]),
+          ),
+        }
+      : {}),
+  };
+  if (framework === "angular") {
+    const all = sources.angularSources ?? [];
+    surface.selectors = parseAngularSelectors(all);
+    surface.inputs = parseAngularInputs(all);
+    surface.outputs = parseAngularOutputs(all);
+    surface.models = parseAngularModels(all);
+  }
+  return surface;
 }
 
 // ─── Resolving a component into a framework ──────────────────────────────────
@@ -205,6 +283,16 @@ export interface FrameworkTarget {
    * not "takes nothing".
    */
   inputs?: readonly string[];
+  /**
+   * Package the symbol is imported from, when it isn't the library's own — the
+   * data table lives in `@ui-organized/<framework>-table`. Absent means
+   * {@link FRAMEWORK_INFO}'s `packageName`.
+   */
+  packageName?: string;
+  /** Angular only — from {@link parseAngularOutputs}. */
+  outputs?: readonly string[];
+  /** Angular only — from {@link parseAngularModels}. */
+  models?: readonly string[];
 }
 
 /** What a framework package publishes, as read from its own source. */
@@ -214,6 +302,16 @@ export interface FrameworkSurface {
   selectors?: Record<string, AngularSelector>;
   /** Angular only — from {@link parseAngularInputs}. */
   inputs?: Record<string, readonly string[]>;
+  /**
+   * Symbols exported by a package other than the library itself, mapped to that
+   * package. A surface is a union of barrels, so without this every symbol
+   * would be imported from the library and the table samples would not resolve.
+   */
+  packages?: Record<string, string>;
+  /** Angular only — from {@link parseAngularOutputs}. */
+  outputs?: Record<string, readonly string[]>;
+  /** Angular only — from {@link parseAngularModels}. */
+  models?: Record<string, readonly string[]>;
 }
 
 /**
@@ -279,11 +377,17 @@ export function resolveTarget(
   if (framework === "angular" && !selector) return undefined;
 
   const inputs = surface.inputs?.[symbol];
+  const packageName = surface.packages?.[symbol];
+  const outputs = surface.outputs?.[symbol];
+  const models = surface.models?.[symbol];
   return {
     framework,
     symbol,
     ...(selector ? { selector } : {}),
     ...(inputs ? { inputs } : {}),
+    ...(packageName ? { packageName } : {}),
+    ...(outputs ? { outputs } : {}),
+    ...(models ? { models } : {}),
   };
 }
 
@@ -330,9 +434,27 @@ function kebabProp(name: string): string {
     .toLowerCase();
 }
 
+/**
+ * React's uncontrolled `defaultValue`, in Angular, when the component has no such
+ * input but has a `value` model. A one-way `value="…"` into a `model()` seeds it
+ * and the component goes on writing its own signal — React's `defaultValue`
+ * exactly, which is why Angular never grew the fork (`defaultChecked` → `checked`,
+ * `defaultOpen` → `open`, …).
+ */
+function angularModelFor(target: FrameworkTarget, name: string): string | undefined {
+  const m = /^default([A-Z]\w*)$/.exec(name);
+  if (!m || !target.models || target.inputs?.includes(name)) return undefined;
+  const model = m[1]!.charAt(0).toLowerCase() + m[1]!.slice(1);
+  return target.models.includes(model) ? model : undefined;
+}
+
 /** React's `className` is `class` everywhere else. */
 function propName(target: FrameworkTarget, name: string): string {
   if (target.framework === "react") return name;
+  if (target.framework === "angular") {
+    const model = angularModelFor(target, name);
+    if (model) return model;
+  }
   const renamed = target.framework === "vue" ? VUE_PROP_RENAMES[target.symbol]?.[name] : undefined;
   const base = renamed ?? (name === "className" ? "class" : name);
   // Vue's own style guide writes props kebab-cased in templates; the compiler
@@ -444,8 +566,12 @@ export function frameworkUsage(
 
 // ─── Complete samples ────────────────────────────────────────────────────────
 
-export function importStatement(framework: DocFramework, symbols: string[]): string {
-  return `import { ${symbols.join(", ")} } from "${FRAMEWORK_INFO[framework].packageName}";`;
+export function importStatement(
+  framework: DocFramework,
+  symbols: string[],
+  packageName: string = FRAMEWORK_INFO[framework].packageName,
+): string {
+  return `import { ${symbols.join(", ")} } from "${packageName}";`;
 }
 
 function indent(text: string, pad: string): string {
@@ -483,7 +609,8 @@ export function frameworkSample(
 ): string {
   const usage = frameworkUsage(target, args, propOrder);
   const symbols = [target.symbol, ...(options.extraSymbols ?? [])];
-  const line = options.importStatement ?? importStatement(target.framework, symbols);
+  const line =
+    options.importStatement ?? importStatement(target.framework, symbols, target.packageName);
 
   switch (target.framework) {
     case "react":
@@ -510,4 +637,42 @@ export function frameworkSample(
         "export class ExampleComponent {}",
       ].join("\n");
   }
+}
+
+// ─── AI specs ────────────────────────────────────────────────────────────────
+
+/**
+ * The once-per-app imports an AI spec lists, in the order Get started documents
+ * and the release smoke apps (`examples/*-table-smoke`) build with. `table`
+ * adds the data table's stylesheet, which is separate in every library.
+ */
+export function setupImportsFor(
+  framework: DocFramework,
+  options: { table?: boolean } = {},
+): string[] {
+  const pkg = FRAMEWORK_INFO[framework].packageName;
+  const table = options.table ? [`${pkg}-table/styles`] : [];
+  // Registers the icon set. Omit it and every icon renders nothing — no
+  // library imports an icon package itself.
+  const icons = `${pkg}/icons/lucide`;
+  if (framework === "angular") {
+    return [
+      "@ui-organized/tokens/variables.css",
+      "@angular/cdk/overlay-prebuilt.css",
+      `${pkg}/styles.css`,
+      `${pkg}/overlay.css`,
+      ...table,
+      icons,
+    ];
+  }
+  return ["@ui-organized/tokens/variables.css", `${pkg}/styles`, ...table, icons];
+}
+
+/**
+ * Where a component's published spec lives, relative to the site origin. React
+ * keeps the original `/ai/<Component>.md` so links already shared still
+ * resolve; the other libraries sit one level down.
+ */
+export function aiSpecPath(framework: DocFramework, codeName: string): string {
+  return framework === "react" ? `/ai/${codeName}.md` : `/ai/${framework}/${codeName}.md`;
 }

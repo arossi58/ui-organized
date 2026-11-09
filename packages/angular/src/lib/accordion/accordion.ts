@@ -19,6 +19,7 @@ import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
 import { moveHighlight } from "../overlay/roving.js";
+import { glyph } from "../icons/glyph.js";
 
 export type AccordionVariant = NonNullable<AccordionVariants["variant"]>;
 export type AccordionSize = NonNullable<AccordionVariants["size"]>;
@@ -116,7 +117,7 @@ const ICON_SIZE = 20;
             (keydown)="onKeydown($event, keyOf(item))"
           >
             <span class="accordion__title">{{ item.title }}</span>
-            <span uioIcon class="accordion__icon" name="chevron-down" [size]="ICON_SIZE"></span>
+            <span uioIcon class="accordion__icon" [name]="glyph('chevron-down')" [size]="ICON_SIZE"></span>
           </button>
         </h3>
         <div
@@ -150,6 +151,7 @@ const ICON_SIZE = 20;
   },
 })
 export class UioAccordion extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "accordion";
   readonly part = "root";
 

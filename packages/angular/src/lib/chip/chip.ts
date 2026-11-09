@@ -2,6 +2,7 @@ import { Component, Directive, ElementRef, computed, inject, input, output } fro
 import { UioIcon } from "../icons/icon.js";
 import { clsx } from "clsx";
 import { chipSegmentStyles, chipStyles, type ChipSegmentPart } from "@ui-organized/core";
+import { glyph } from "../icons/glyph.js";
 
 /**
  * A compact token standing for something the user added — a filter, a facet, a
@@ -43,13 +44,14 @@ import { chipSegmentStyles, chipStyles, type ChipSegmentPart } from "@ui-organiz
         [disabled]="disabled()"
         (click)="remove.emit($event)"
       >
-        <span uioIcon name="close" [size]="ICON_SIZE"></span>
+        <span uioIcon [name]="glyph('close')" [size]="ICON_SIZE"></span>
       </button>
     }
   `,
   host: { role: "group", "[class]": "hostClass()" },
 })
 export class UioChip {
+  protected readonly glyph = glyph;
   /** Shorthand for a static label segment — what the chip is *about*. Never truncated. */
   readonly label = input<string | null | undefined>(undefined);
   /** Shorthand for a static operator segment: "is any of", "is before". Always spelled. */

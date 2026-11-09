@@ -404,7 +404,8 @@
     "Dialog": {
       "attributes": {
         "data-state": [
-          "closed"
+          "closed",
+          "open"
         ],
         "hidden": []
       },
@@ -985,7 +986,8 @@
     "Sheet": {
       "attributes": {
         "data-state": [
-          "closed"
+          "closed",
+          "open"
         ],
         "hidden": []
       },
@@ -1122,7 +1124,6 @@
         "tag--sm",
         "tag--subdued",
         "tag--success",
-        "tag--warning",
         "tag__icon",
         "tag__label"
       ],

@@ -13,6 +13,7 @@ import { Button } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
 import TableFilterAdd from "./TableFilterAdd.vue";
 import TableFilterChip from "./TableFilterChip.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 defineProps<{ class?: string }>();
 const table = useTableContext();
@@ -38,7 +39,7 @@ const render = computed(() => table.options.filterable !== false && conditions.v
 
     <TableFilterAdd label="Add" />
 
-    <Button intent="ghost" size="sm" icon="rotate-ccw" @click="table.filters.clear()">
+    <Button intent="ghost" size="sm" :icon="glyph('rotate-ccw')" @click="table.filters.clear()">
       Reset
     </Button>
 

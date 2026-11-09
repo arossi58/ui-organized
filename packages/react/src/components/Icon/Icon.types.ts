@@ -1,19 +1,26 @@
 import type { ComponentType } from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 /**
  * An icon component supplied directly — e.g. `import { Image } from
- * "lucide-react"`. Passing a component keeps tree-shaking (only the icons you
- * import ship) and needs no canonical-name registration.
+ * "lucide-react"`. Passing a component needs no registration.
  */
 export type IconComponent = ComponentType<Record<string, unknown>>;
 
+/**
+ * An icon's name as its library publishes it: `"x"` or `"chevron-down"` in
+ * Lucide and Tabler, `"x-mark"` in Heroicons. Nothing is renamed, so a name
+ * belongs to one library. Register the icon first with `registerIcons` from
+ * that library's subpath.
+ */
+export type IconName = string;
+
 export interface IconProps {
   /**
-   * Either a canonical icon name from the design system's set, or a library
-   * icon component supplied directly (e.g. from lucide-react).
+   * Either the icon's native name in the active library (`"x"`, `"x-mark"`),
+   * registered with `registerIcons`, or a library icon component supplied
+   * directly (e.g. `X` from lucide-react).
    */
-  name: CanonicalIconName | IconComponent;
+  name: IconName | IconComponent;
   /**
    * Icon size in pixels. Applied to both width and height.
    * @default 24

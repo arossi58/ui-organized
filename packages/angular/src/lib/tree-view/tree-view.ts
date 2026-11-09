@@ -17,11 +17,13 @@ import {
   type ControlSize,
   type TreeViewVariants,
 } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
+import { glyph } from "../icons/glyph.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 export type TreeViewSize = NonNullable<TreeViewVariants["size"]>;
 export type TreeViewVariant = NonNullable<TreeViewVariants["variant"]>;
@@ -41,7 +43,7 @@ export interface TreeViewNode {
   /** A node with children renders as a branch, one without as a leaf. */
   children?: TreeViewNode[];
   /** Icon before the label. Branches default to a folder, leaves to none. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconGlyph;
   /** Prevents selection and focus while keeping the node visible. */
   disabled?: boolean;
 }
@@ -198,13 +200,13 @@ interface FlatNode {
                 [attr.data-focus]="flag(isFocused(node.id))"
                 [attr.data-disabled]="flag(node.disabled)"
               >
-                <span uioIcon name="chevron-right" [size]="INDICATOR_SIZE"></span>
+                <span uioIcon [name]="glyph('chevron-right')" [size]="INDICATOR_SIZE"></span>
               </div>
               <!-- A branch always asks for an icon; a leaf only when it has one. -->
               <span
                 uioIcon
                 class="tree-view__node-icon"
-                [name]="node.icon ?? 'folder'"
+                [name]="node.icon ?? glyph('folder')"
                 [size]="iconSize()"
               ></span>
               <span
@@ -284,6 +286,7 @@ interface FlatNode {
   host: { "[class]": "hostClass()", "[id]": "partId('root')" },
 })
 export class UioTreeView extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "tree-view";
   readonly part = "root";
 

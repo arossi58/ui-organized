@@ -3,7 +3,7 @@ import { useTheme } from "../../theme/ThemeProvider";
 import { trackEvent } from "../../lib/analytics";
 
 /**
- * The theme controls — a dark-mode toggle plus the brand-colour list. Shared by
+ * The theme controls — a dark-mode toggle plus the brand-color list. Shared by
  * the desktop nav's popover (ThemeMenu) and the mobile menu's accordion, so both
  * surfaces drive the site theme identically. Keyed off the `theme-menu__*`
  * classes (theme-menu.css) so the styling stays in one place.
@@ -36,7 +36,7 @@ export function ThemeControls() {
         />
       </div>
 
-      <div className="theme-menu__list" role="radiogroup" aria-label="Brand colour">
+      <div className="theme-menu__list" role="radiogroup" aria-label="Brand color">
         {options.map((option) => {
           const selected = option.name === brand;
           return (

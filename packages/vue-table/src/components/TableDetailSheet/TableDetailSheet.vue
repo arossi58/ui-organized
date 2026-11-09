@@ -24,6 +24,7 @@ import {
   SheetTitle,
 } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 withDefaults(defineProps<{ size?: "sm" | "md" | "lg"; class?: string }>(), { size: "md" });
 
@@ -77,7 +78,7 @@ watch(open, (isOpen) => {
           <Button
             intent="ghost"
             size="sm"
-            icon="chevron-up"
+            :icon="glyph('chevron-up')"
             aria-label="Previous row"
             :disabled="!detail.canStep(-1)"
             @click="detail.step(-1)"
@@ -85,7 +86,7 @@ watch(open, (isOpen) => {
           <Button
             intent="ghost"
             size="sm"
-            icon="chevron-down"
+            :icon="glyph('chevron-down')"
             aria-label="Next row"
             :disabled="!detail.canStep(1)"
             @click="detail.step(1)"

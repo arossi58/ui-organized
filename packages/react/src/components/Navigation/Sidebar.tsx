@@ -4,6 +4,7 @@ import { Icon } from "../Icon/index.js";
 import { NavProvider } from "./NavContext.js";
 import type { SidebarProps } from "./Navigation.types.js";
 import "@ui-organized/core/components/Navigation/Navigation.css";
+import { glyph } from "../../icons/glyph.js";
 
 const TOGGLE_ICON_SIZE = 20;
 
@@ -64,7 +65,7 @@ export function Sidebar({
                 title={isCollapsed ? "Expand" : "Collapse"}
               >
                 <Icon
-                  name={isCollapsed ? "chevron-right" : "chevron-left"}
+                  name={glyph(isCollapsed ? "chevron-right" : "chevron-left")}
                   size={TOGGLE_ICON_SIZE}
                   className="sidebar__toggle-icon"
                 />

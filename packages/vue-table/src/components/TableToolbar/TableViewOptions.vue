@@ -18,6 +18,7 @@ import {
 } from "@ui-organized/vue";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = withDefaults(defineProps<{ label?: string; class?: string }>(), { label: "Columns" });
 const table = useTableContext();
@@ -32,7 +33,7 @@ const headerOf = (column: (typeof columns.value)[number]) =>
       <Button
         intent="secondary"
         :size="table.size.value"
-        icon="settings"
+        :icon="glyph('settings')"
         :aria-label="props.label"
       />
     </MenuTrigger>

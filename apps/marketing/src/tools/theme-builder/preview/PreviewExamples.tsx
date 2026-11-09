@@ -118,7 +118,7 @@ function DashboardExample() {
             </div>
           }
         >
-          <NavItem icon="grid" label="Dashboard" selected />
+          <NavItem icon="grid-2x2" label="Dashboard" selected />
           <NavItem icon="users" label="Customers" />
           <NavItem icon="tag" label="Orders" />
           <NavItem icon="calendar" label="Schedule" />
@@ -418,7 +418,7 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
 
 const FEATURES = [
   {
-    icon: "grid" as const,
+    icon: "grid-2x2" as const,
     title: "Composable",
     text: "Every screen is built from the same tokenized primitives.",
   },
@@ -428,7 +428,7 @@ const FEATURES = [
     text: "WCAG-checked color, focus, and keyboard support by default.",
   },
   {
-    icon: "refresh" as const,
+    icon: "refresh-cw" as const,
     title: "Themeable",
     text: "Re-skin the entire system from one source of truth.",
   },
@@ -469,7 +469,7 @@ function MarketingExample() {
         <div className={styles.siteLinks}>
           {/* Spans, not anchors: this is a mock site chrome inside the theme
               preview. Nothing here navigates, and `href="#"` would put three
-              dead links in the tab order of a page that only shows colours. */}
+              dead links in the tab order of a page that only shows colors. */}
           <span className={styles.siteLink}>Product</span>
           <span className={styles.siteLink}>Pricing</span>
           <span className={styles.siteLink}>Docs</span>

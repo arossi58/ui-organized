@@ -1,14 +1,20 @@
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconComponent } from "../../icons/registry.js";
 
 export type { IconComponent };
 
+/**
+ * An icon's name as its library publishes it: `"x"` or `"chevron-down"` in
+ * Lucide and Tabler. Nothing is renamed, so a name belongs to one library.
+ * Register the icon first with `registerIcons` from that library's subpath.
+ */
+export type IconName = string;
+
 export interface IconProps {
   /**
-   * Either a canonical icon name from the design system's set, or a library
-   * icon component supplied directly.
+   * Either the icon's native name in the active library (`"x"`), registered
+   * with `registerIcons`, or a library icon component supplied directly.
    */
-  name: CanonicalIconName | IconComponent;
+  name: IconName | IconComponent;
   /**
    * Icon size in pixels. Applied to both width and height.
    * @default 24

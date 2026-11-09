@@ -3,7 +3,7 @@
  * story plus the Figma-style Inspector panel.
  *
  * One live instance driven by real controls, with the element/token inspector,
- * the colour-vision simulations and an axe run all pointed at the same rendered
+ * the color-vision simulations and an axe run all pointed at the same rendered
  * DOM. The controls and the inspector are two views of one panel beside the
  * preview (see `PropertiesPanel`). The variant matrix lives on the Docs tab
  * instead: its examples already enumerate the variants, and showing them twice
@@ -73,6 +73,9 @@ export function ComponentInspectPage() {
     }
     return merged;
   }, [story, overrides, entryProps, viewport]);
+  // What the live code prints: the story's args and the reader's changes, but
+  // not the handler and the layout pin added above for the preview's sake.
+  const codeArgs = useMemo(() => ({ ...(story?.args ?? {}), ...overrides }), [story, overrides]);
   const { inspection, refresh, highlight, reveal } = useInspection(stage, args);
   // The viewport changes what renders (a table becomes cards) without touching
   // an arg, so the scan has to hear about it separately.
@@ -113,6 +116,7 @@ export function ComponentInspectPage() {
           <PropertiesPanel
             component={component}
             args={args}
+            codeArgs={codeArgs}
             onChange={setArg}
             onReset={reset}
             nodes={inspection.nodes}
@@ -139,7 +143,7 @@ export function ComponentInspectPage() {
                   />
                   <VisionFilterMenu value={vision} onChange={setVision} />
                   <A11yRunButton scan={scan} />
-                  <Button intent="ghost" size="sm" icon="refresh" onClick={refresh}>
+                  <Button intent="ghost" size="sm" icon="refresh-cw" onClick={refresh}>
                     Re-read
                   </Button>
                 </>

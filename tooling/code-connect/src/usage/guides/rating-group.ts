@@ -43,7 +43,7 @@ export const ratingGroupUsage: UsageGuide = {
   accessibility: [
     "Each star is announced as a numbered option in a group, so the `label` has to say what is being rated.",
     "Arrow keys change the score a step at a time, so keyboard readers never need to reach an individual star.",
-    "Filled and empty stars differ only in colour, so keep that colour pairing at full contrast when theming.",
+    "Filled and empty stars differ only in color, so keep that color pairing at full contrast when theming.",
   ],
   content: [
     "Name what is being rated: How useful was this answer, not Rating.",

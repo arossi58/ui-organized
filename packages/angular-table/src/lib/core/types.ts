@@ -31,6 +31,7 @@ import type {
 } from "@ui-organized/table-core";
 import type { AngularTable, TableState } from "@tanstack/angular-table";
 import type { AngularVirtualizer } from "@tanstack/angular-virtual";
+import type { IconName } from "@ui-organized/angular";
 
 /**
  * Anything Angular will render from a renderer function.
@@ -124,7 +125,8 @@ export interface FiltersApi {
 export interface BulkAction<T extends RowData> {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), registered with `registerIcons`. */
+  icon?: IconName;
   /** Routes through `AlertDialog` before running. */
   destructive?: boolean;
   /** Confirmation copy. Defaults are derived from `label`. */
@@ -139,7 +141,8 @@ export interface BulkAction<T extends RowData> {
 export interface TableAction {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), registered with `registerIcons`. */
+  icon?: IconName;
   /** Button hierarchy. Defaults to `tertiary` — chrome, not a call to action. */
   intent?: ButtonIntent;
   /** Drop the visible label and keep only the icon. `label` still names it. */
@@ -151,7 +154,8 @@ export interface TableAction {
 export interface RowAction<T extends RowData> {
   id: string;
   label: string;
-  icon?: string;
+  /** The icon's native name in the active library (`"pencil"`), registered with `registerIcons`. */
+  icon?: IconName;
   destructive?: boolean;
   disabled?: (row: T) => boolean;
   onRun: (row: T) => void | Promise<void>;

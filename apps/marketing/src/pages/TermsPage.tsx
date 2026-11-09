@@ -22,7 +22,7 @@ export function TermsPage() {
       <h2>The service</h2>
       <p>
         UI Organized is an open-source design-system project. This site provides
-        documentation and free design tools (a theme builder, colour-palette generator,
+        documentation and free design tools (a theme builder, color-palette generator,
         and icon scaler) that run in your browser. There are no user accounts and
         nothing is for sale here.
       </p>

@@ -32,7 +32,7 @@ const meta: Meta<typeof Splitter> = {
     docs: {
       description: {
         component:
-          "Resizable panes with a draggable handle between each adjacent pair. Sizes are percentages of the group and the machine owns them, so panels stay in sync as the container resizes. Handles are keyboard-operable: arrow keys resize, and Enter toggles a collapsible panel.",
+          "Resizable panes with a draggable handle between each.",
       },
     },
   },

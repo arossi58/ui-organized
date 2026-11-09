@@ -50,7 +50,7 @@ export const alertUsage: UsageGuide = {
     },
   ],
   accessibility: [
-    "Tone is carried by colour and an icon, so the words have to carry it for anyone who sees neither.",
+    "Tone is carried by color and an icon, so the words have to carry it for anyone who sees neither.",
     "An alert added after load needs announcing: put it in a live region, or move focus to it.",
     "Dismissing removes the message completely, so never leave the only copy of an instruction inside one.",
   ],

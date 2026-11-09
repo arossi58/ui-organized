@@ -46,8 +46,12 @@ const repoRoot = dirname(dirname(pkgRoot));
 const exampleDir = join(repoRoot, "examples", "icon-smoke");
 const distDir = join(exampleDir, "dist");
 
-/** How many icons `src/main.jsx` renders. Kept in step deliberately. */
-const EXPECTED_ICONS = 8;
+/**
+ * How many icons `src/main.jsx` renders. Kept in step deliberately: eight named
+ * by the app and registered by native name, plus the Alert's own info and
+ * dismiss glyphs, which come from the adapter with no registration at all.
+ */
+const EXPECTED_ICONS = 10;
 
 let failures = 0;
 const check = (name, ok, detail = "") => {

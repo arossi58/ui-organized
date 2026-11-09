@@ -43,7 +43,7 @@
  *     proportional to pressure. Both endpoints are exact, which is what the spec
  *     asserts.
  *  3. **Outline** — the stroke is a *filled* shape, not a stroked line, because
- *     `SignaturePad.css` colours it with `fill`. Each point contributes two
+ *     `SignaturePad.css` colors it with `fill`. Each point contributes two
  *     offset points, `±r` along the normal of the local tangent; the tangent at
  *     an interior point is the sum of its two neighbouring segment directions,
  *     which is the standard miter-free join and cannot fold the ribbon inside

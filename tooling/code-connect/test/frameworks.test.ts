@@ -389,6 +389,21 @@ describe("complete samples", () => {
     );
   });
 
+  it("imports a symbol from the package that exports it, not the library", () => {
+    // The data table is its own package per framework. A surface is the union
+    // of both barrels, so the import line has to follow the symbol.
+    const surface: FrameworkSurface = {
+      exports: ["Button", "DataTable"],
+      packages: { DataTable: "@ui-organized/vue-table" },
+    };
+    const table = resolveTarget("vue", "DataTable", surface)!;
+    expect(frameworkSample(table, {})).toContain(
+      'import { DataTable } from "@ui-organized/vue-table";',
+    );
+    const button = resolveTarget("vue", "Button", surface)!;
+    expect(frameworkSample(button, {})).toContain('import { Button } from "@ui-organized/vue";');
+  });
+
   it("wraps Angular in a standalone component that imports the directive", () => {
     // Without the `imports` array the directive silently does nothing — the
     // element renders, unstyled, and nothing reports a problem.

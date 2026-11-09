@@ -8,11 +8,11 @@ import {
   UioAlertDialogTitle,
   UioButton,
 } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { HostPresence } from "@ui-organized/angular";
 import { injectDataTable } from "../core/table-context.js";
 import type { BulkAction } from "../core/types.js";
+import type { IconName } from "@ui-organized/angular";
 
 /**
  * Appears only while something is selected, and then takes the place of the
@@ -133,8 +133,8 @@ export class UioTableSelectionBar<T extends RowData> {
     () => this.confirming()?.confirm?.confirmLabel ?? this.confirming()?.label ?? "Confirm",
   );
 
-  protected iconOf(action: BulkAction<T>): CanonicalIconName | undefined {
-    return action.icon as CanonicalIconName | undefined;
+  protected iconOf(action: BulkAction<T>): IconName | undefined {
+    return action.icon;
   }
 
   private run(action: BulkAction<T>): void {

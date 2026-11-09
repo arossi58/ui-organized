@@ -37,6 +37,7 @@ import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // leading calendar button and hides the native picker chrome.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts an
@@ -113,7 +114,7 @@ const inputProps = computed(() =>
     class: undefined,
     type: props.type,
     // Native date/time inputs are never `:placeholder-shown`; flag the empty
-    // state so the mm/dd/yyyy chrome renders in the placeholder colour.
+    // state so the mm/dd/yyyy chrome renders in the placeholder color.
     "data-empty": internalValue.value ? undefined : true,
     required: props.required,
     disabled: props.disabled,
@@ -144,7 +145,7 @@ const positioning = datePopoverPositioning(() => fieldEl.value);
         :aria-label="pickerLabel"
         @click="openDatePicker(inputEl)"
       >
-        <Icon name="calendar" :size="iconSize" />
+        <Icon :name="glyph('calendar')" :size="iconSize" />
       </button>
       <Field.Input
         :ref="captureInput"
@@ -169,7 +170,7 @@ const positioning = datePopoverPositioning(() => fieldEl.value);
             :disabled="disabled"
             :aria-label="pickerLabel"
           >
-            <Icon name="calendar" :size="iconSize" />
+            <Icon :name="glyph('calendar')" :size="iconSize" />
           </button>
         </ArkPopover.Trigger>
         <Field.Input

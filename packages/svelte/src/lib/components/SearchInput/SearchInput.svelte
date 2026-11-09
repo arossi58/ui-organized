@@ -9,6 +9,7 @@
   // leading icon and clear button.
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     label,
@@ -59,7 +60,7 @@
   {/if}
   <div class="input-affix">
     <span class="input-affix__adornment input-affix__adornment--start" aria-hidden="true">
-      <Icon name="search" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+      <Icon name={glyph("search")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
     </span>
     <Field.Input
       bind:ref={inputEl}
@@ -88,7 +89,7 @@
         aria-label="Clear search"
         tabindex={-1}
       >
-        <Icon name="close" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+        <Icon name={glyph("close")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
       </button>
     {/if}
   </div>

@@ -45,7 +45,7 @@ export const avatarUsage: UsageGuide = {
   accessibility: [
     "The image is decorative when the name is already beside it, and needs `alt` when it stands alone.",
     "Initials are not a name: anything identifying has to exist as text somewhere reachable.",
-    "Never encode a state in the avatar's shape or colour alone.",
+    "Never encode a state in the avatar's shape or color alone.",
   ],
   content: [
     "Use the person's own display name, so the initials match how they are addressed.",

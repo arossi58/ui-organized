@@ -83,7 +83,6 @@ export function ComponentDocsPage() {
               against the prop table below. */}
           <DocsSection
             title="Quality"
-            subtitle="What automated testing knows about this component. Every gate runs on each pull request."
             aside={<TestStatusChip slug={component.slug} />}
           >
             <TestStatusPanel slug={component.slug} />

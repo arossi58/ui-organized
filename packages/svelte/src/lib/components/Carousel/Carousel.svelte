@@ -5,6 +5,7 @@
   import Button from "../Button/Button.svelte";
   import type { CarouselProps } from "./Carousel.types.js";
   import "@ui-organized/core/components/Carousel/Carousel.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /**
    * Default gap between slides.
@@ -79,7 +80,7 @@
           <Button
             intent="ghost"
             {size}
-            icon="chevron-left"
+            icon={glyph("chevron-left")}
             aria-label="Previous slide"
             class={clsx(arkClass)}
             {...triggerProps}
@@ -107,7 +108,7 @@
           <Button
             intent="ghost"
             {size}
-            icon="chevron-right"
+            icon={glyph("chevron-right")}
             aria-label="Next slide"
             class={clsx(arkClass)}
             {...triggerProps}

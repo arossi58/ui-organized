@@ -5,6 +5,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { CheckboxProps } from "./Checkbox.types.js";
   import "@ui-organized/core/components/Checkbox/Checkbox.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     checked = $bindable(),
@@ -45,7 +46,7 @@
       {#if indeterminate}
         <span class="checkbox__indicator--indeterminate"></span>
       {:else}
-        <Icon name="check" size={16} class="checkbox__check" />
+        <Icon name={glyph("check")} size={16} class="checkbox__check" />
       {/if}
     </ArkCheckbox.Indicator>
   </ArkCheckbox.Control>

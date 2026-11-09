@@ -27,7 +27,6 @@ import {
 } from "@angular/core";
 import { clsx } from "clsx";
 import { dividerStyles } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioMenubarContext } from "../menubar/menubar-context.js";
@@ -40,6 +39,9 @@ import { flushNow } from "../overlay/flush.js";
 import { restoreFocus } from "../overlay/focus.js";
 import { inDomOrder, moveHighlight } from "../overlay/roving.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 /**
  * What the menu needs to know about one of its items.
@@ -477,7 +479,7 @@ export class UioMenuItem extends UioPart implements OnInit, OnDestroy {
    * one-off actions has nothing meaningful to put there.
    */
   readonly value = input<string | undefined>(undefined);
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   /** Red text at rest, filling solid on highlight — the destructive-ghost button. */
   readonly destructive = input(false, { transform: booleanAttribute });
   override readonly disabled = input(false, { transform: booleanAttribute });
@@ -530,7 +532,7 @@ export class UioMenuItem extends UioPart implements OnInit, OnDestroy {
 /**
  * The rule between groups of actions.
  *
- * The surface is the design system's Divider — same height, colour and full
+ * The surface is the design system's Divider — same height, color and full
  * width as everywhere else — with Ark's separator identity merged onto it. React
  * does that with `asChild`; Angular has no such thing and cannot put two
  * components on one element, so the class is composed from `dividerStyles`
@@ -625,7 +627,7 @@ export class UioMenuGroupLabel extends UioPart {
   template: `
     <span class="checkbox__control menu__control">
       <span class="checkbox__indicator">
-        <span uioIcon class="checkbox__check" name="check" [size]="CHECK_SIZE"></span>
+        <span uioIcon class="checkbox__check" [name]="glyph('check')" [size]="CHECK_SIZE"></span>
       </span>
     </span>
     <span class="menu__item-label"><ng-content /></span>
@@ -646,6 +648,7 @@ export class UioMenuGroupLabel extends UioPart {
   },
 })
 export class UioMenuCheckboxItem extends UioPart implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly scope = "menu";
   readonly part = "item";
 

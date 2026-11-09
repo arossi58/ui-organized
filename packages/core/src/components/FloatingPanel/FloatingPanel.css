@@ -79,7 +79,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. Inset so it stays inside the panel's own border. */
+   color is themed. Inset so it stays inside the panel's own border. */
 .floating-panel__drag:focus-visible {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: -2px;

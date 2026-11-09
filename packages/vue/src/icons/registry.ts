@@ -13,20 +13,31 @@ import {
   createIconRegistry,
   type IconNameMap as CoreIconNameMap,
   type IconSet as CoreIconSet,
+  type SystemGlyphMap as CoreSystemGlyphMap,
 } from "@ui-organized/core";
 
-export type { IconLibrary } from "@ui-organized/core";
+export type { IconLibrary, RegisterIconsOptions } from "@ui-organized/core";
 
 /** An icon component supplied directly — e.g. `Image` from `@lucide/vue`. */
 export type IconComponent = Component;
 
-/** Canonical name → Vue component, for one library in one style. */
+/** Native name → Vue component, e.g. `{ \"chevron-down\": ChevronDown }`. */
 export type IconNameMap = CoreIconNameMap<IconComponent>;
 
 /** One library's adapter. See `IconSet` in @ui-organized/core. */
 export type IconSet = CoreIconSet<IconComponent>;
 
-const { registerIconSet, getIconSet, registeredLibraries } =
+/** The components' own glyphs, for one library in one style. */
+export type SystemGlyphMap = CoreSystemGlyphMap<IconComponent>;
+
+const { registerIconSet, getIconSet, registeredLibraries, registerIcons, getIcon, registeredNames } =
   createIconRegistry<IconComponent>(Symbol.for("@ui-organized/vue.iconRegistry"));
 
-export { registerIconSet, getIconSet, registeredLibraries };
+export {
+  registerIconSet,
+  getIconSet,
+  registeredLibraries,
+  registerIcons,
+  getIcon,
+  registeredNames,
+};

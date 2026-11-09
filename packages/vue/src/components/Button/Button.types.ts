@@ -1,5 +1,5 @@
+import type { IconName } from "../Icon/Icon.types.js";
 import type { ButtonHTMLAttributes } from "vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ControlSize } from "@ui-organized/core";
 import type { IconComponent } from "../../icons/registry.js";
 
@@ -20,8 +20,8 @@ export interface ButtonProps extends /* @vue-ignore */ Omit<ButtonHTMLAttributes
     | "destructive-ghost";
   /** Size variant. Defaults to 'md'. */
   size?: ControlSize;
-  /** Icon rendered alongside the label; a canonical name or a component. */
-  icon?: CanonicalIconName | IconComponent;
+  /** Icon rendered alongside the label; its native name in the active library, or a component. */
+  icon?: IconName | IconComponent;
   /** Which side of the label the icon sits on. @default "left" */
   iconPosition?: "left" | "right";
   /** @default "button" — so a button inside a form does not submit by accident. */

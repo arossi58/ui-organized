@@ -39,7 +39,7 @@ export const qrCodeUsage: UsageGuide = {
       example: "caption",
     },
     {
-      do: "Use `framed` when the code sits on a photo or a coloured band.",
+      do: "Use `framed` when the code sits on a photo or a colored band.",
       dont: "Let a busy background run up to the pattern and eat its quiet margin.",
     },
   ],

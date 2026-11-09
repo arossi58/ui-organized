@@ -16,16 +16,31 @@
  * its docs page for the richer version. Closing the gap means a build-time story
  * extractor (`scan-stories.ts`), which is the tracked follow-up.
  *
+ * Each component is also written for Svelte, Vue and Angular, at
+ * `<out>/ai/<framework>/<Component>.md`, wherever that library ships it. The
+ * surfaces come from `surfaceFromSources()` over the packages' own source, the
+ * same function the docs site's framework switcher uses.
+ *
  *   pnpm --filter @ui-organized/code-connect exec tsx scripts/generate-ai-docs.ts [outDir]
  */
 
-import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, mkdirSync, writeFileSync, existsSync, readdirSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildAiContext } from "../src/ai-context.js";
 import { usageGuideForCodeName } from "../src/usage/index.js";
 import { computeStalenessCore } from "../src/staleness-core.js";
 import { entryId } from "../src/schema.js";
+import {
+  FRAMEWORK_INFO,
+  aiSpecPath,
+  resolveTarget,
+  setupImportsFor,
+  surfaceFromSources,
+  type DocFramework,
+  type FrameworkSurface,
+  type FrameworkTarget,
+} from "../src/frameworks.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -35,7 +50,9 @@ const out = resolve(REPO, process.argv[2] ?? "_site");
 const manifestPath = join(REPO, "manifest/components.json");
 
 if (!existsSync(manifestPath)) {
-  console.error(`✖ No manifest at ${manifestPath} — run \`pnpm --filter @ui-organized/code-connect scan\` first.`);
+  console.error(
+    `✖ No manifest at ${manifestPath} — run \`pnpm --filter @ui-organized/code-connect scan\` first.`,
+  );
   process.exit(1);
 }
 
@@ -45,9 +62,84 @@ const latest: LatestHashes = existsSync(hashesPath)
   ? (JSON.parse(readFileSync(hashesPath, "utf8")) as LatestHashes)
   : { generatedAt: "", hashes: {} };
 
-const reactPkg = JSON.parse(
-  readFileSync(join(REPO, "packages/react/package.json"), "utf8"),
-) as { version: string };
+const versionOf = (dir: string): string =>
+  (
+    JSON.parse(readFileSync(join(REPO, "packages", dir, "package.json"), "utf8")) as {
+      version: string;
+    }
+  ).version;
+const reactPkg = { version: versionOf("react") };
+
+// ─── The other three libraries' surfaces ─────────────────────────────────────
+
+/** A file's text, or nothing when the package isn't in this checkout. */
+function source(path: string): string[] {
+  const abs = join(REPO, path);
+  return existsSync(abs) ? [readFileSync(abs, "utf8")] : [];
+}
+
+/** `.ts` files directly in `dir`, then one level down — the globs the docs site uses. */
+function angularSourcesIn(dir: string, depths: Array<1 | 2>): string[] {
+  const root = join(REPO, dir);
+  if (!existsSync(root)) return [];
+  const isSource = (name: string) => name.endsWith(".ts") && !name.endsWith(".spec.ts");
+  const out: string[] = [];
+  for (const item of readdirSync(root, { withFileTypes: true })) {
+    if (depths.includes(1) && item.isFile() && isSource(item.name)) {
+      out.push(readFileSync(join(root, item.name), "utf8"));
+    }
+    if (depths.includes(2) && item.isDirectory()) {
+      for (const name of readdirSync(join(root, item.name)).filter(isSource)) {
+        out.push(readFileSync(join(root, item.name, name), "utf8"));
+      }
+    }
+  }
+  return out;
+}
+
+const OTHER_SURFACES: Record<Exclude<DocFramework, "react">, FrameworkSurface> = {
+  svelte: surfaceFromSources("svelte", {
+    barrels: source("packages/svelte/src/lib/index.ts"),
+    table: {
+      packageName: "@ui-organized/svelte-table",
+      barrels: source("packages/svelte-table/src/lib/index.ts"),
+    },
+  }),
+  vue: surfaceFromSources("vue", {
+    barrels: source("packages/vue/src/index.ts"),
+    table: {
+      packageName: "@ui-organized/vue-table",
+      barrels: source("packages/vue-table/src/index.ts"),
+    },
+  }),
+  angular: surfaceFromSources("angular", {
+    barrels: source("packages/angular/src/public-api.ts"),
+    table: {
+      packageName: "@ui-organized/angular-table",
+      barrels: source("packages/angular-table/src/public-api.ts"),
+    },
+    angularSources: [
+      ...angularSourcesIn("packages/angular/src/lib", [2]),
+      ...angularSourcesIn("packages/angular-table/src/lib", [1, 2]),
+    ],
+  }),
+};
+
+const OTHER_FRAMEWORKS = Object.keys(OTHER_SURFACES) as Array<Exclude<DocFramework, "react">>;
+const VERSIONS: Record<DocFramework, string> = {
+  react: reactPkg.version,
+  svelte: versionOf("svelte"),
+  vue: versionOf("vue"),
+  angular: versionOf("angular"),
+};
+
+/** Deprecated entries stay React-only: they exist so old links resolve. */
+function targetIn(framework: Exclude<DocFramework, "react">, codeName: string) {
+  return resolveTarget(framework, codeName, OTHER_SURFACES[framework]);
+}
+
+/** How many specs each library got, for the index and the summary line. */
+const frameworkCounts: Record<string, string[]> = { svelte: [], vue: [], angular: [] };
 
 /** URL slug for a component's docs page — must match `kebab()` in the docs registry. */
 function kebab(name: string): string {
@@ -92,33 +184,50 @@ for (const entry of manifest.components) {
   // page, and a page covers the whole compound family.
   const usage = usageGuideForCodeName(entry.codeName);
 
-  const { text } = buildAiContext({
-    entry,
-    related,
-    staleness,
-    confidence: "exact",
-    usage,
-    meta: {
-      packageVersion: reactPkg.version,
-      setupImports: [
-        "@ui-organized/tokens/variables.css",
-        "@ui-organized/react/styles",
-        // Registers the icon set. Omit it and every <Icon> renders nothing —
-        // the library imports no icon package itself.
-        "@ui-organized/react/icons/lucide",
-      ],
-      // The guide carries the real docs slug where one exists — `kebab()` of a
-      // codeName is right for all but the components whose page is named after
-      // the family rather than the export (`NavItem` → `/docs/navigation`).
-      siteUrl: `${SITE_ORIGIN}/docs/${usage?.slug ?? kebab(entry.codeName)}`,
-      docUrl: `${SITE_ORIGIN}/ai/${entry.codeName}.md`,
-      indexUrl: `${SITE_ORIGIN}/llms.txt`,
-      componentCount: manifest.components.length,
-      generatedAt,
-    },
-  });
+  // The guide carries the real docs slug where one exists — `kebab()` of a
+  // codeName is right for all but the components whose page is named after
+  // the family rather than the export (`NavItem` → `/docs/navigation`).
+  const slug = usage?.slug ?? kebab(entry.codeName);
+  const table = entry.codePath.startsWith("packages/react-table/");
 
-  writeFileSync(join(aiDir, `${entry.codeName}.md`), text);
+  const specFor = (framework: DocFramework, target?: FrameworkTarget) => {
+    const relatedTargets: Record<string, FrameworkTarget> = {};
+    if (target && framework !== "react") {
+      for (const sibling of related) {
+        const t = targetIn(framework, sibling.codeName);
+        if (t) relatedTargets[sibling.codeName] = t;
+      }
+    }
+    return buildAiContext({
+      entry,
+      related,
+      staleness,
+      confidence: "exact",
+      usage,
+      ...(target ? { target, relatedTargets } : {}),
+      meta: {
+        packageVersion: VERSIONS[framework],
+        setupImports: setupImportsFor(framework, { table }),
+        siteUrl: `${SITE_ORIGIN}/docs/${slug}${framework === "react" ? "" : `?framework=${framework}`}`,
+        docUrl: `${SITE_ORIGIN}${aiSpecPath(framework, entry.codeName)}`,
+        indexUrl: `${SITE_ORIGIN}/llms.txt`,
+        componentCount: manifest.components.length,
+        generatedAt,
+      },
+    }).text;
+  };
+
+  writeFileSync(join(aiDir, `${entry.codeName}.md`), specFor("react"));
+
+  if (entry.status !== "deprecated") {
+    for (const framework of OTHER_FRAMEWORKS) {
+      const target = targetIn(framework, entry.codeName);
+      if (!target) continue;
+      mkdirSync(join(aiDir, framework), { recursive: true });
+      writeFileSync(join(out, aiSpecPath(framework, entry.codeName)), specFor(framework, target));
+      frameworkCounts[framework]!.push(entry.codeName);
+    }
+  }
 
   rows.push({
     name: entry.codeName,
@@ -181,6 +290,17 @@ ${
         .join("\n")}\n`
     : ""
 }
+## Other frameworks
+
+The same components ship for Svelte, Vue and Angular. Each spec has a per-library
+copy with that library's import, markup and conventions — swap the path segment:
+
+${OTHER_FRAMEWORKS.map(
+  (fw) =>
+    `- ${FRAMEWORK_INFO[fw].label} (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
+    `${frameworkCounts[fw]!.length} components): ${SITE_ORIGIN}/ai/${fw}/<Component>.md`,
+).join("\n")}
+
 ## Human documentation
 
 - [Component docs](${SITE_ORIGIN}/docs) — live previews, prop tables, accessibility checks
@@ -195,5 +315,6 @@ writeFileSync(join(aiDir, "llms.txt"), llms);
 
 console.log(
   `✓ AI surface: ${rows.length} specs → ${aiDir.replace(`${REPO}/`, "")}/  + llms.txt` +
-    (rows.length > live.length ? `  (${rows.length - live.length} deprecated)` : ""),
+    (rows.length > live.length ? `  (${rows.length - live.length} deprecated)` : "") +
+    `  + ${OTHER_FRAMEWORKS.map((fw) => `${frameworkCounts[fw]!.length} ${fw}`).join(", ")}`,
 );

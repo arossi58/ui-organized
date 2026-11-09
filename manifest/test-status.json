@@ -1970,7 +1970,7 @@
             "status": "pass"
           },
           {
-            "name": "Chip takes the glyph's colour from the text beside it",
+            "name": "Chip takes the glyph's color from the text beside it",
             "status": "pass"
           },
           {
@@ -2545,7 +2545,7 @@
             ]
           },
           {
-            "name": "editing a field keeps the colour it was showing when an edit cannot be read",
+            "name": "editing a field keeps the color it was showing when an edit cannot be read",
             "status": "pass"
           },
           {
@@ -2642,7 +2642,7 @@
             "status": "pass"
           },
           {
-            "name": "the notation select reads the same colour in every notation",
+            "name": "the notation select reads the same color in every notation",
             "status": "pass"
           }
         ]

@@ -26,10 +26,10 @@ import {
   UioSheetTrigger,
   type AccordionItem,
 } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { TableFilterCondition } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
 import { UioTableFilterValueEditor } from "./table-filters.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
 
 /**
  * Card mode's sort and filter controls: a labelled button that opens a bottom
@@ -174,8 +174,8 @@ export class UioTableSortSheet {
   protected readonly count = computed(() => this.sorting().length);
   protected readonly activeId = computed(() => this.sorting()[0]?.id ?? "");
   protected readonly direction = computed(() => (this.sorting()[0]?.desc ? "desc" : "asc"));
-  protected readonly icon = computed<CanonicalIconName>(() =>
-    this.activeId() ? (this.sorting()[0]?.desc ? "sort-desc" : "sort-asc") : "sort",
+  protected readonly icon = computed(() =>
+    glyph(this.activeId() ? (this.sorting()[0]?.desc ? "sort-desc" : "sort-asc") : "sort"),
   );
 
   private readonly sheet = viewChild(UioSheet);
@@ -226,7 +226,7 @@ export class UioTableSortSheet {
         uioButton
         intent="ghost"
         [size]="table.size()"
-        icon="close"
+        [icon]="glyph('close')"
         class="data-table__sheet-remove"
         [attr.aria-label]="'Clear filter: ' + description().text"
         (click)="table.filters.remove(condition().id)"
@@ -237,6 +237,7 @@ export class UioTableSortSheet {
   `,
 })
 export class UioTableFilterSheetCondition {
+  protected readonly glyph = glyph;
   readonly condition = input.required<TableFilterCondition>();
   readonly fieldLabel = input.required<string>();
 
@@ -298,7 +299,7 @@ export class UioTableSheetSection {
         [sheet]="sheet"
         intent="secondary"
         [size]="table.size()"
-        icon="filter"
+        [icon]="glyph('filter')"
       >
         {{ label() }}
         @if (count() > 0) {
@@ -355,6 +356,7 @@ export class UioTableSheetSection {
   `,
 })
 export class UioTableFilterSheet {
+  protected readonly glyph = glyph;
   /** Button label and sheet title. */
   readonly label = input("Filter");
 

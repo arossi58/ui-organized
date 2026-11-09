@@ -4,7 +4,7 @@
  * replicates Figma's layout grammar rather than inventing a generic form. Scoped
  * under .fcp- so it can't leak into Storybook's chrome.
  *
- * Colours come from the design system's own tokens (`--color-*`, injected into the
+ * Colors come from the design system's own tokens (`--color-*`, injected into the
  * manager realm by manager.tsx) so the panel re-themes with the DS and flips with
  * light/dark via `data-theme` on `.fcp-root`. Each `var()` keeps the original dark
  * hex as a fallback, so the panel still renders if the tokens ever fail to load.

@@ -136,7 +136,7 @@ const LABEL_REFS = ["grey.100", "grey.2400"] as const;
 export interface PrimaryLabel {
   /** Neutral ref the label resolves to: near-white or near-black. */
   ref: (typeof LABEL_REFS)[number];
-  /** Resolved label colour. */
+  /** Resolved label color. */
   hex: string;
   /** WCAG contrast of the label on the fill. */
   ratio: number;

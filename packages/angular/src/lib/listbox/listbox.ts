@@ -22,6 +22,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { firstEnabled } from "../overlay/roving.js";
+import { glyph } from "../icons/glyph.js";
 
 export type ListboxSize = NonNullable<ListboxVariants["size"]>;
 export type ListboxVariant = NonNullable<ListboxVariants["variant"]>;
@@ -223,7 +224,7 @@ interface OptionGroup {
           [attr.data-state]="isSelected(option.value) ? 'checked' : 'unchecked'"
           [attr.hidden]="isSelected(option.value) ? null : ''"
         >
-          <span uioIcon name="check" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('check')" [size]="iconSize()"></span>
         </div>
       </div>
     </ng-template>
@@ -234,6 +235,7 @@ interface OptionGroup {
   },
 })
 export class UioListbox extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "listbox";
   readonly part = "root";
 

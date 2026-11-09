@@ -71,7 +71,7 @@
 
 /* ─── Placeholder text ────────────────────────────────────────────────────── */
 /* Ark renders the placeholder inside the ValueText; Zag flags the empty trigger
-   with [data-placeholder-shown]. The chevron keeps its own colour below. */
+   with [data-placeholder-shown]. The chevron keeps its own color below. */
 
 .select-field__trigger[data-placeholder-shown] .select-field__value {
   color: var(--color-content-placeholder);
@@ -188,7 +188,7 @@
 }
 
 /* ─── Variant: ghost ──────────────────────────────────────────────────────── */
-/* A borderless, label-less trigger that mirrors the ghost Button's colour
+/* A borderless, label-less trigger that mirrors the ghost Button's color
    states (--color-interactive-ghost-*). Size, layout, focus, invalid and
    disabled treatments are inherited from the base trigger above. */
 

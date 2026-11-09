@@ -25,7 +25,7 @@ export function A11yRunButton({ scan }: { scan: A11yScan }) {
     <Button
       intent="ghost"
       size="sm"
-      icon={running ? "loader" : "check-circle"}
+      icon={running ? "loader-circle" : "circle-check-big"}
       disabled={running}
       title="Run axe-core against the live preview"
       onClick={() => void scan.run()}
@@ -47,7 +47,7 @@ export function A11yResults({ scan }: { scan: A11yScan }) {
       className={styles.dismiss}
       intent="ghost"
       size="sm"
-      icon="close"
+      icon="x"
       aria-label="Close accessibility results"
       onClick={dismiss}
     />

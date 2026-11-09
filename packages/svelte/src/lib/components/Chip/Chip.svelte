@@ -6,6 +6,7 @@
   import { provideChipDisabled } from "./chipContext.js";
   import type { ChipProps } from "./Chip.types.js";
   import "@ui-organized/core/components/Chip/Chip.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /** The dismiss icon, at the size `Tag`'s icons render. */
   const ICON_SIZE = 16;
@@ -54,7 +55,7 @@
       {disabled}
       onclick={onremove}
     >
-      <Icon name="close" size={ICON_SIZE} />
+      <Icon name={glyph("close")} size={ICON_SIZE} />
     </button>
   {/if}
 </span>

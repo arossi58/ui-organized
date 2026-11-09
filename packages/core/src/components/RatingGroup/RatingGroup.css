@@ -27,8 +27,16 @@
 }
 
 /* Icons in this package are stroked outlines; a rating star reads as filled,
-   so the glyph's fill follows its stroke colour and both change together. */
-.rating-group__star {
+   so the glyph's fill follows its stroke color and both change together. The
+   class lands on the Icon wrapper, and the svg inside carries its own
+   `fill="none"`, so the rule reaches the shapes inside it. Setting it on the
+   shapes rather than the svg also survives a page-wide `svg[fill="none"]`
+   reset, which some dev overlays inject. Empty stars keep the outline: only
+   highlighted items and the half overlay fill. */
+.rating-group__item[data-highlighted] .rating-group__star svg *,
+.rating-group__half .rating-group__star svg *,
+.rating-group__item[data-highlighted] svg.rating-group__star *,
+.rating-group__half svg.rating-group__star * {
   fill: currentColor;
 }
 
@@ -53,7 +61,9 @@
   inset: 0;
   display: none;
   align-items: center;
-  justify-content: center;
+  /* Start, not center: centering the full-size glyph in a half-width box
+     shifts it left by a quarter of the star, off the empty star beneath. */
+  justify-content: flex-start;
   overflow: hidden;
   /* 50% is the definition of a half rating, not a tunable. */
   width: 50%;

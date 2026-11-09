@@ -137,7 +137,7 @@
 }
 
 /* When today is selected the dot sits on the brand fill — switch it to the
-   on-primary content colour (dark or light per theme) so it stays visible. */
+   on-primary content color (dark or light per theme) so it stays visible. */
 .calendar__day[data-today][data-selected] .calendar__day-label::after {
   background-color: var(--color-interactive-contents);
 }

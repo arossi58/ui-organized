@@ -13,6 +13,7 @@ import { FieldError } from "../FieldError/index.js";
 import type { ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 // Module-level so `useFilter`'s memo key is stable (it keys on the props object
 // identity); otherwise `contains` — and the derived collection — would churn
@@ -100,7 +101,7 @@ export function Combobox({
             placeholder={placeholder}
           />
           <ArkCombobox.Trigger className="combobox-field__trigger" aria-label="Toggle options">
-            <Icon name="chevron-down" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph("chevron-down")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </ArkCombobox.Trigger>
         </ArkCombobox.Control>
         {/* An explicitly-passed container still wins over the preview context. */}
@@ -116,7 +117,7 @@ export function Combobox({
                 <ArkCombobox.Item key={item.value} item={item} className="combobox-popup__item text-default-body-large">
                   <span className="combobox-popup__item-label">{item.label}</span>
                   <ArkCombobox.ItemIndicator className="combobox-popup__item-indicator">
-                    <Icon name="check" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+                    <Icon name={glyph("check")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
                   </ArkCombobox.ItemIndicator>
                 </ArkCombobox.Item>
               ))}

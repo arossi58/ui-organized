@@ -22,7 +22,6 @@ import {
   UsageGuidanceGrid,
   UsageList,
   UsageRelatedList,
-  UsageSummary,
 } from "../components";
 import { getDocsComponent } from "../registry";
 import { stalenessFor } from "../staleness";
@@ -54,16 +53,11 @@ export function ComponentUsagePage() {
 
       <DocsTabs tabs={componentTabs(component.slug)} active="usage">
         <DocsProse>
-          <UsageSummary text={guide.summary} />
-
           <DocsSection title="When to use">
             <UsageList items={guide.useWhen} />
           </DocsSection>
 
-          <DocsSection
-            title="When not to use"
-            subtitle="Each line names the component that does the job instead, where one does."
-          >
+          <DocsSection title="When not to use">
             <UsageAvoidList items={guide.avoid} />
           </DocsSection>
 
@@ -82,13 +76,6 @@ export function ComponentUsagePage() {
               <UsageList items={guide.content} />
             </DocsSection>
           ) : null}
-
-          <DocsSection
-            title="Accessibility"
-            subtitle="What the component already handles, and what it still needs from you."
-          >
-            <UsageList items={guide.accessibility} />
-          </DocsSection>
 
           {guide.related?.length ? (
             <DocsSection title="Related components">

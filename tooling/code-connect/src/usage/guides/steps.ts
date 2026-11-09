@@ -50,7 +50,7 @@ export const stepsUsage: UsageGuide = {
   ],
   accessibility: [
     "Each stage is a tab that announces whether it is selected, so a title must make sense read on its own.",
-    "Completion is shown by colour and a tick, so the title still has to say what the stage is.",
+    "Completion is shown by color and a tick, so the title still has to say what the stage is.",
     "When the stage changes, move focus to its first field, since the panel swaps without a page load.",
   ],
   content: [

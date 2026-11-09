@@ -10,6 +10,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { BreadcrumbItem, BreadcrumbProps } from "./Breadcrumb.types.js";
   import "@ui-organized/core/components/Breadcrumb/Breadcrumb.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const ICON_SIZE = 16;
 
@@ -47,7 +48,7 @@
         {#if !isLast(index)}
           <span class="breadcrumb__separator" aria-hidden="true">
             {#if separator == null}
-              <Icon name="chevron-right" size={ICON_SIZE} />
+              <Icon name={glyph("chevron-right")} size={ICON_SIZE} />
             {:else if typeof separator === "string"}{separator}{:else}{@render separator()}{/if}
           </span>
         {/if}

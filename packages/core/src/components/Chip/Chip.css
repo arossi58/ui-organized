@@ -120,7 +120,7 @@ button.chip__segment[aria-expanded="true"] {
 }
 
 /* As the destructive-ghost button: a solid fill with light ink on interaction.
-   `destructive-default-ghost` is the ghost's *text* colour, not a fill — used
+   `destructive-default-ghost` is the ghost's *text* color, not a fill — used
    as one, it drew the red icon on red and the X vanished. */
 .chip__remove:hover {
   background-color: var(--color-interactive-destructive-hover);
@@ -175,7 +175,7 @@ button.chip__segment[aria-expanded="true"] {
 }
 
 /* The chip exists but does not yet stand for anything: a filter with no value
-   picked. Dashed rather than coloured — it is an invitation, not an error. */
+   picked. Dashed rather than colored — it is an invitation, not an error. */
 .chip--incomplete {
   border-style: dashed;
 }

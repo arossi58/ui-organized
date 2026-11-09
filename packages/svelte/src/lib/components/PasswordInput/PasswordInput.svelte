@@ -9,6 +9,7 @@
   // trailing show/hide toggle.
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     label,
@@ -59,7 +60,7 @@
         aria-pressed={visible}
         {disabled}
       >
-        <Icon name={visible ? "eye-off" : "eye"} size={CONTROL_ICON_SIZE[size ?? "md"]} />
+        <Icon name={glyph(visible ? "eye-off" : "eye")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
       </button>
     {/if}
   </div>

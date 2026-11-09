@@ -9,17 +9,34 @@
  * same function.
  */
 import {
+  aiSpecPath,
   buildAiContext,
+  frameworkUsage,
+  setupImportsFor,
+  unsupportedArgs,
   type AiContextExample,
   type AiContextFormat,
   type AiContextInput,
   type AiContextResult,
+  type DocFramework,
+  type FrameworkTarget,
   type Staleness,
 } from "@ui-organized/code-connect/browser";
 import { getUsageGuide } from "@ui-organized/code-connect/usage";
+import angularPkg from "../../../../../packages/angular/package.json";
 import reactPkg from "../../../../../packages/react/package.json";
+import sveltePkg from "../../../../../packages/svelte/package.json";
+import vuePkg from "../../../../../packages/vue/package.json";
 import { SITE_ORIGIN } from "../../lib/links";
+import { targetFor } from "../frameworks/surfaces";
 import { docsComponents, type DocsComponent } from "../registry";
+
+const VERSIONS: Record<DocFramework, string> = {
+  react: reactPkg.version,
+  svelte: sveltePkg.version,
+  vue: vuePkg.version,
+  angular: angularPkg.version,
+};
 
 /**
  * Snippets that read as standalone JSX. `AllVariantsGrid`-style stories pin a
@@ -38,7 +55,28 @@ function usableExamples(component: DocsComponent): AiContextExample[] {
     }));
 }
 
+/**
+ * The same examples in another library's markup — derived from the story args,
+ * so only the stories that are the component with its args and nothing else
+ * (`argsOnly`), and only where this library's component takes every one of
+ * them. The rule is the docs page's own (see `frameworks/sample.ts`): a
+ * composition the args don't carry would come out as a caption that lies.
+ */
+function frameworkExamples(component: DocsComponent, target: FrameworkTarget): AiContextExample[] {
+  const propOrder = component.entry?.props.map((p) => p.name) ?? [];
+  return component.stories
+    .filter((story) => story.argsOnly && !unsupportedArgs(target, story.args, propOrder).length)
+    .map((story) => ({
+      name: story.exportName,
+      label: story.name,
+      code: frameworkUsage(target, story.args, propOrder),
+      source: "live-args" as const,
+    }));
+}
+
 export interface AiContextOptions {
+  /** The library to write the block for. Defaults to React. */
+  framework?: DocFramework;
   staleness?: Staleness;
   /** Live control values from the Inspect view, for the "current state" block. */
   liveArgs?: Record<string, unknown>;
@@ -46,7 +84,11 @@ export interface AiContextOptions {
   storybookUrl?: string;
 }
 
-/** Null when the story has no verified manifest entry — we never guess one. */
+/**
+ * Null when the story has no verified manifest entry, or when the chosen
+ * library doesn't ship the component — we never guess one, and never hand an
+ * agent React under another library's name.
+ */
 export function aiContextInputFor(
   component: DocsComponent,
   options: AiContextOptions = {},
@@ -54,33 +96,41 @@ export function aiContextInputFor(
   const { entry } = component;
   if (!entry) return null;
 
+  const framework = options.framework ?? "react";
+  const target = framework === "react" ? undefined : targetFor(framework, entry.codeName);
+  if (framework !== "react" && !target) return null;
+
+  const relatedTargets: Record<string, FrameworkTarget> = {};
+  if (target) {
+    for (const sibling of component.related) {
+      const t = targetFor(framework, sibling.codeName);
+      if (t) relatedTargets[sibling.codeName] = t;
+    }
+  }
+  const query = framework === "react" ? "" : `?framework=${framework}`;
+
   return {
     entry,
     related: component.related,
+    ...(target ? { target, relatedTargets } : {}),
     staleness: options.staleness,
     confidence: "exact",
     description: component.description,
     // The Usage tab's guidance, verbatim — an agent gets the same boundaries a
     // reader does, including the "use X instead" the prop table can't express.
     usage: getUsageGuide(component.slug),
-    examples: usableExamples(component),
+    examples: target ? frameworkExamples(component, target) : usableExamples(component),
     liveArgs: options.liveArgs,
     // Storybook's argTypes carry hand-listed options for props whose type is a
-    // named alias the scanner can't expand (`icon: CanonicalIconName`). Feeding
-    // them in turns "icon takes a CanonicalIconName" — useless — into the actual
-    // list of legal names.
+    // named alias the scanner can't expand. Feeding them in turns "size takes a
+    // ControlSize" — useless — into the actual list of legal values. Open types
+    // such as `IconName` are skipped by `expandPropType` itself.
     typeValues: typeValuesFromArgTypes(component),
     meta: {
-      packageVersion: reactPkg.version,
-      setupImports: [
-        "@ui-organized/tokens/variables.css",
-        "@ui-organized/react/styles",
-        // Registers the icon set. Omit it and every <Icon> renders nothing —
-        // the library imports no icon package itself.
-        "@ui-organized/react/icons/lucide",
-      ],
-      siteUrl: `${SITE_ORIGIN}/docs/${component.slug}`,
-      docUrl: `${SITE_ORIGIN}/ai/${entry.codeName}.md`,
+      packageVersion: VERSIONS[framework],
+      setupImports: setupImportsFor(framework, { table: component.slug === "data-table" }),
+      siteUrl: `${SITE_ORIGIN}/docs/${component.slug}${query}`,
+      docUrl: `${SITE_ORIGIN}${aiSpecPath(framework, entry.codeName)}`,
       indexUrl: `${SITE_ORIGIN}/llms.txt`,
       componentCount: docsComponents.length,
       storybookUrl: options.storybookUrl,
@@ -88,7 +138,7 @@ export function aiContextInputFor(
   };
 }
 
-/** `{ CanonicalIconName: ["plus", "trash", …] }`, from the story's argTypes. */
+/** `{ ControlSize: ["sm", "md", "lg"] }`, from the story's argTypes. */
 function typeValuesFromArgTypes(component: DocsComponent): Record<string, string[]> {
   const out: Record<string, string[]> = {};
   const { entry, argTypes } = component;

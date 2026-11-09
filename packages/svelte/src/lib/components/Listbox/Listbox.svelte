@@ -9,6 +9,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { ListboxProps, ListboxOption } from "./Listbox.types.js";
   import "@ui-organized/core/components/Listbox/Listbox.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /**
    * zag's listbox focuses its content on every item `mousedown`, and calls
@@ -101,7 +102,7 @@
         {/snippet}
       </ArkListbox.ItemText>
       <ArkListbox.ItemIndicator class="listbox__item-indicator">
-        <Icon name="check" size={iconSize} />
+        <Icon name={glyph("check")} size={iconSize} />
       </ArkListbox.ItemIndicator>
     </ArkListbox.Item>
   {/each}

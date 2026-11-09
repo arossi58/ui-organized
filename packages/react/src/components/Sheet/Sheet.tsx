@@ -17,6 +17,7 @@ import "@ui-organized/core/components/Sheet/Sheet.css";
 import { projectRender } from "../../utils/projectRender.js";
 import { popupControls } from "@ui-organized/core";
 import { useContainedDialogProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 /** Sheet root — an edge-anchored panel built on the Dialog primitive. */
 export function Sheet({ open, defaultOpen, onOpenChange, modal, children }: SheetProps) {
@@ -99,7 +100,7 @@ export function SheetContent({
         >
           {showClose && (
             <ArkDialog.CloseTrigger className="dialog__close" aria-label="Close">
-              <Icon name="close" size={20} />
+              <Icon name={glyph("close")} size={20} />
             </ArkDialog.CloseTrigger>
           )}
           {children}

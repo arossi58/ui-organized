@@ -3,7 +3,7 @@
  * suite so `Icon` resolves without a provider as well as with one.
  */
 
-import { registerIconSet, type IconComponent } from "@ui-organized/svelte";
+import { registerIconSet, registerLibraryIcons, type IconComponent } from "@ui-organized/svelte";
 import { makeStubIconSet } from "./stubIconSet.js";
 import StubIcon from "./StubIcon.svelte";
 import StubSolidIcon from "./StubSolidIcon.svelte";
@@ -14,3 +14,8 @@ export const SVELTE_STUB_SET = makeStubIconSet<IconComponent>(
 );
 
 registerIconSet(SVELTE_STUB_SET);
+
+// The names a consumer would register. Native Lucide names, so `x`, not the
+// glyph key `close` the stub set is indexed by.
+registerLibraryIcons("lucide", { check: StubIcon, x: StubIcon, info: StubIcon });
+registerLibraryIcons("lucide", { check: StubSolidIcon }, { style: "solid" });

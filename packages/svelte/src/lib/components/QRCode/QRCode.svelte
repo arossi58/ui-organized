@@ -5,6 +5,7 @@
   import Button from "../Button/Button.svelte";
   import type { QRCodeProps } from "./QRCode.types.js";
   import "@ui-organized/core/components/QRCode/QRCode.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const DEFAULT_PIXEL_SIZE = 10;
 
@@ -67,7 +68,7 @@
           intent="secondary"
           {size}
           type="button"
-          icon="download"
+          icon={glyph("download")}
           class={clsx(arkClass)}
           {...triggerProps}
         >

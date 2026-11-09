@@ -85,13 +85,6 @@ export {
   type WeightRole,
 } from "./weightFallback.js";
 
-export {
-  CANONICAL_ICON_NAMES,
-  ICON_MAP,
-  resolveIconName,
-  type CanonicalIconName,
-  type IconLibraryNames,
-} from "./iconMapping.js";
 
 export {
   adjustStrokeWidth,

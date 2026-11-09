@@ -17,7 +17,7 @@ result, different engine underneath.
 ## Install
 
 ```sh
-npm install @ui-organized/angular @ui-organized/tokens @angular/cdk
+npm install @ui-organized/angular @ui-organized/tokens @angular/cdk @angular/forms
 ```
 
 `@angular/core`, `@angular/common`, `@angular/forms` and `@angular/cdk` (>=21)
@@ -36,8 +36,19 @@ replaces Vite's whole default list, so restore it alongside:
 // vite.config.js
 export default {
   resolve: { conditions: ["style", "module", "browser", "development|production"] },
+  esbuild: {
+    tsconfigRaw: {
+      compilerOptions: { experimentalDecorators: true, useDefineForClassFields: false },
+    },
+  },
 };
 ```
+
+The `esbuild` block is not optional either. Angular's decorators need
+`experimentalDecorators`, and with `useDefineForClassFields` on, a decorated
+field's initializer overwrites what the decorator installed, so every component
+silently loses its inputs. Without a compiler plugin Vite also runs Angular in
+JIT mode, so `import "@angular/compiler";` must be the first line of `main.ts`.
 
 ## Icons
 
@@ -50,8 +61,17 @@ npm install @ng-icons/lucide        # or @ng-icons/tabler-icons, or @ng-icons/he
 
 ```ts
 // once, near your app entry
-import "@ui-organized/angular/icons/lucide";
+import { registerIcons } from "@ui-organized/angular/icons/lucide";
+import { lucideChevronDown, lucideSearch, lucideX } from "@ng-icons/lucide";
+
+registerIcons({ lucideChevronDown, lucideSearch, lucideX });
 ```
+
+Names are the icon library's own, exactly as it publishes them: `search` and
+`x` in Lucide, `x-mark` in Heroicons. Nothing is renamed, so a name belongs to
+one library, and only the icons you register reach your bundle. The subpath
+import alone is enough for the components' own icons (a dialog's close button,
+a select's chevron), which follow whichever library is active.
 
 ```ts
 import { provideIconConfig } from "@ui-organized/angular";
@@ -83,19 +103,25 @@ Import the stylesheets once, at your app entry, **in this order**:
 ```ts
 // src/main.ts
 import "@ui-organized/tokens/variables.css"; // 1. token baseline
-import "@ui-organized/angular/styles"; // 2. component styles
-import "@ui-organized/angular/overlay.css"; // 3. CDK overlay positioning
-import "./styles/theme.css"; // 4. your theme — last, so it wins
+import "@angular/cdk/overlay-prebuilt.css"; // 2. the CDK's overlay pane
+import "@ui-organized/angular/styles"; // 3. component styles
+import "@ui-organized/angular/overlay.css"; // 4. overlay stacking
+import "./styles/theme.css"; // 5. your theme — last, so it wins
 ```
 
 Order is load-bearing. A theme and the baseline both declare on `:root`, and
 `:root` vs `:root` is a specificity tie — decided by source order. Import the
 theme earlier and the baseline silently wins.
 
-`overlay.css` is this library's only extra: the CDK renders an overlay into a
-pane it positions itself, and these rules are what make a dialog, popover or menu
-land where the other three libraries put theirs. Skipping it leaves every overlay
-unpositioned.
+The two overlay sheets are this library's only extra. The CDK renders every
+dialog, popover and menu into a container it positions itself, and
+`overlay-prebuilt.css` is what lays that container out; skip it and overlays
+render unpositioned. `overlay.css` then stacks the container on the design
+system's z-index scale, so overlays land above the page the way they do in the
+other three libraries.
+
+On the Angular CLI, list the same five files in the `styles` array of
+`angular.json`, in the same order, instead of importing them from `main.ts`.
 
 Most components are **attribute directives** on your own element, so the tag
 stays yours:
@@ -120,7 +146,7 @@ Form controls implement `ControlValueAccessor`, so `[(ngModel)]` and
 ## Theming
 
 Components reference semantic _roles_ — `--color-surface-primary`,
-`--color-interactive-primary-default` — never literal colours, so re-theming
+`--color-interactive-primary-default` — never literal colors, so re-theming
 means redefining those properties. The contract is shared with every other
 library in the system, so a theme written once themes all four.
 

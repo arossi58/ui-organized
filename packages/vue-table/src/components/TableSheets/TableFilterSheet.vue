@@ -26,6 +26,7 @@ import {
 import { useTableContext } from "../../core/tableContext.js";
 import TableFilterSheetSection from "./TableFilterSheetSection.vue";
 import TableSheetButton from "./TableSheetButton.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = withDefaults(defineProps<{ label?: string; class?: string }>(), {
   label: "Filter",
@@ -102,7 +103,7 @@ const items = computed(() =>
   <Sheet v-if="fields.length > 0" :open="open" @update:open="onOpenChange">
     <SheetTrigger as-child>
       <TableSheetButton
-        icon="filter"
+        :icon="glyph('filter')"
         :label="props.label"
         :count="count"
         unit="applied"

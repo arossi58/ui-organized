@@ -12,10 +12,12 @@ import {
 } from "@angular/core";
 import { clsx } from "clsx";
 import { navItemStyles, navSubItemStyles } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioNavContext } from "./nav-context.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
 
 /** The sizes every library asks `Icon` for in each position. */
 const ITEM_ICON_SIZE = 18;
@@ -43,7 +45,7 @@ export interface NavSubItem {
   /** Text label for the sub-page. */
   label: string;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconGlyph;
   /** Marks this sub-page as the current page. */
   selected?: boolean;
   disabled?: boolean;
@@ -85,7 +87,7 @@ export interface NavSubItem {
 export class UioNavSubItem {
   /** Text label for the sub-page. */
   readonly label = input("");
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   /** Marks this sub-page as the current page. */
   readonly selected = input(false, { transform: booleanAttribute });
   /**
@@ -204,7 +206,7 @@ export class UioNavProvider {
             <span
               uioIcon
               class="sidebar__toggle-icon"
-              [name]="collapsed() ? 'chevron-right' : 'chevron-left'"
+              [name]="glyph(collapsed() ? 'chevron-right' : 'chevron-left')"
               [size]="TOGGLE_ICON_SIZE"
             ></span>
             <span class="sidebar__toggle-label">{{ collapsed() ? "Expand" : "Collapse" }}</span>
@@ -216,6 +218,7 @@ export class UioNavProvider {
   host: { "[class]": "hostClass()" },
 })
 export class UioSidebar {
+  protected readonly glyph = glyph;
   /** Logo / wordmark pinned to the top. A string, or a template for markup. */
   readonly logo = input<string | TemplateRef<unknown> | undefined>(undefined);
   /** Compact mark shown when collapsed. Falls back to `logo` when omitted. */
@@ -304,7 +307,7 @@ export class UioSidebar {
         <span
           uioIcon
           class="nav-item__caret"
-          [name]="expanded() ? 'chevron-up' : 'chevron-down'"
+          [name]="glyph(expanded() ? 'chevron-up' : 'chevron-down')"
           [size]="CARET_SIZE"
         ></span>
       }
@@ -341,9 +344,10 @@ export class UioSidebar {
   host: { "[class]": "hostClass()" },
 })
 export class UioNavItem {
+  protected readonly glyph = glyph;
   /** Text label for the page. */
   readonly label = input("");
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   /** Marks this page as the current page — the filled, emphasized appearance. */
   readonly selected = input(false, { transform: booleanAttribute });
   /**

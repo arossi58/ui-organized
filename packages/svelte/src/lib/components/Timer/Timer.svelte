@@ -5,6 +5,7 @@
   import Button from "../Button/Button.svelte";
   import type { TimerPart, TimerProps } from "./Timer.types.js";
   import "@ui-organized/core/components/Timer/Timer.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const DEFAULT_PARTS: TimerPart[] = ["hours", "minutes", "seconds"];
 
@@ -76,7 +77,7 @@
       <ArkTimer.ActionTrigger action="start">
         {#snippet asChild(props)}
           {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="primary" {size} icon="play" type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="primary" {size} icon={glyph("play")} type="button" class={clsx(arkClass)} {...triggerProps}>
             Start
           </Button>
         {/snippet}
@@ -84,7 +85,7 @@
       <ArkTimer.ActionTrigger action="pause">
         {#snippet asChild(props)}
           {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="secondary" {size} icon="pause" type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} icon={glyph("pause")} type="button" class={clsx(arkClass)} {...triggerProps}>
             Pause
           </Button>
         {/snippet}
@@ -92,7 +93,7 @@
       <ArkTimer.ActionTrigger action="resume">
         {#snippet asChild(props)}
           {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="secondary" {size} icon="play" type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} icon={glyph("play")} type="button" class={clsx(arkClass)} {...triggerProps}>
             Resume
           </Button>
         {/snippet}
@@ -100,7 +101,7 @@
       <ArkTimer.ActionTrigger action="reset">
         {#snippet asChild(props)}
           {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="ghost" {size} icon="refresh" type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="ghost" {size} icon={glyph("refresh")} type="button" class={clsx(arkClass)} {...triggerProps}>
             Reset
           </Button>
         {/snippet}

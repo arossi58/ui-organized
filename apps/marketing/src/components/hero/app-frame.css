@@ -3,7 +3,7 @@
  * render of the Branding mockup (Figma node 142:8348). The whole mockup is laid
  * out in Figma units (FRAME_W×FRAME_H, set inline on `__mockup`) and scaled to
  * the viewport by `--frame-scale`; the engine sets the root's size / left / top /
- * font-size / opacity / transform / --frame-scale each measure. All colour comes
+ * font-size / opacity / transform / --frame-scale each measure. All color comes
  * from the DS semantic tokens, so the mockup follows the site's single global
  * theme (light, set once on <html>) — no local override. Decorative.
  */

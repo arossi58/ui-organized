@@ -8,10 +8,10 @@
 <script setup lang="ts" generic="T extends RowData">
 import { computed } from "vue";
 import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import type { RowAction } from "../../core/types.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = withDefaults(
   defineProps<{
@@ -35,14 +35,14 @@ const items = computed(() => props.actions ?? table.options.rowActions ?? []);
 <template>
   <Menu v-if="items.length > 0">
     <MenuTrigger as-child>
-      <Button intent="ghost" :size="table.size.value" icon="menu" :aria-label="label" />
+      <Button intent="ghost" :size="table.size.value" :icon="glyph('menu')" :aria-label="label" />
     </MenuTrigger>
     <MenuContent align="end">
       <MenuItem
         v-for="action in items"
         :key="action.id"
         :value="action.id"
-        :icon="action.icon as CanonicalIconName | undefined"
+        :icon="action.icon"
         :destructive="action.destructive"
         :disabled="action.disabled?.(row)"
         @select="action.onRun(row)"

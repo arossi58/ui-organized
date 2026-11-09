@@ -20,7 +20,7 @@ export const imageCropperUsage: UsageGuide = {
       instead: ["avatar", "card"],
     },
     {
-      text: "As a general photo editor for rotating, filtering or adjusting colour.",
+      text: "As a general photo editor for rotating, filtering or adjusting color.",
     },
   ],
   guidance: [

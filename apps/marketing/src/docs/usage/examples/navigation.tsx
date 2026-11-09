@@ -17,8 +17,8 @@ export const navigationExamples: UsageExampleSet = {
   selected: {
     Do: () => (
       <div style={rail}>
-        <NavItem label="Home" icon="home" />
-        <NavItem label="Projects" icon="grid" selected />
+        <NavItem label="Home" icon="house" />
+        <NavItem label="Projects" icon="grid-2x2" selected />
         <NavItem label="Messages" icon="mail" />
         <NavItem label="Settings" icon="settings" />
       </div>
@@ -26,8 +26,8 @@ export const navigationExamples: UsageExampleSet = {
     // Nothing says which of these the reader is currently looking at.
     Dont: () => (
       <div style={rail}>
-        <NavItem label="Home" icon="home" />
-        <NavItem label="Projects" icon="grid" />
+        <NavItem label="Home" icon="house" />
+        <NavItem label="Projects" icon="grid-2x2" />
         <NavItem label="Messages" icon="mail" />
         <NavItem label="Settings" icon="settings" />
       </div>
@@ -37,16 +37,16 @@ export const navigationExamples: UsageExampleSet = {
   "plain-names": {
     Do: () => (
       <div style={rail}>
-        <NavItem label="Home" icon="home" />
-        <NavItem label="Projects" icon="grid" selected />
+        <NavItem label="Home" icon="house" />
+        <NavItem label="Projects" icon="grid-2x2" selected />
         <NavItem label="Reports" icon="list" />
         <NavItem label="Settings" icon="settings" />
       </div>
     ),
     Dont: () => (
       <div style={rail}>
-        <NavItem label="Home" icon="home" />
-        <NavItem label="Core Platform" icon="grid" selected />
+        <NavItem label="Home" icon="house" />
+        <NavItem label="Core Platform" icon="grid-2x2" selected />
         <NavItem label="Insights Engine" icon="list" />
         <NavItem label="Admin Console" icon="settings" />
       </div>

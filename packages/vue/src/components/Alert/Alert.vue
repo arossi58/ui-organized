@@ -2,7 +2,7 @@
   A prominent message about the state of something.
 
   `role="alert"` is the component's own, not the caller's job: an alert that
-  assistive technology does not announce is a coloured box.
+  assistive technology does not announce is a colored box.
 
   There is no Ark machine behind this one — Ark UI has no Alert primitive — so
   the markup here *is* the contract, and it is compared against the React
@@ -12,13 +12,14 @@
 import { computed, useAttrs } from "vue";
 import { clsx } from "clsx";
 import { alertStyles } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { SystemGlyph } from "@ui-organized/core";
 import Icon from "../Icon/Icon.vue";
 import type { AlertProps } from "./Alert.types.js";
 import "@ui-organized/core/components/Alert/Alert.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Each variant announces itself with its own glyph before anyone reads the text. */
-const VARIANT_ICONS: Record<NonNullable<AlertProps["variant"]>, CanonicalIconName> = {
+const VARIANT_ICONS: Record<NonNullable<AlertProps["variant"]>, SystemGlyph> = {
   info:    "info",
   success: "check-circle",
   warning: "alert-triangle",
@@ -38,7 +39,7 @@ const rootClass = computed(() =>
 <template>
   <div role="alert" :class="rootClass" v-bind="{ ...$attrs, class: undefined }">
     <span class="alert__icon">
-      <Icon :name="VARIANT_ICONS[variant]" :size="ICON_SIZE" />
+      <Icon :name="glyph(VARIANT_ICONS[variant])" :size="ICON_SIZE" />
     </span>
     <div class="alert__body">
       <div v-if="title" class="alert__title text-strong-body-medium">{{ title }}</div>
@@ -51,7 +52,7 @@ const rootClass = computed(() =>
       aria-label="Dismiss alert"
       @click="onDismiss()"
     >
-      <Icon name="close" :size="ICON_SIZE" />
+      <Icon :name="glyph('close')" :size="ICON_SIZE" />
     </button>
   </div>
 </template>

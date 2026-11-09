@@ -150,7 +150,7 @@ export class UioInput extends UioPart implements ControlValueAccessor {
   readonly value = model<string>("");
   /**
    * A name for a control the design does not print a label above — a channel
-   * field inside the colour picker, say. Prefer `label`: a visible one names
+   * field inside the color picker, say. Prefer `label`: a visible one names
    * the control for everyone rather than only for a screen reader.
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: "aria-label" });

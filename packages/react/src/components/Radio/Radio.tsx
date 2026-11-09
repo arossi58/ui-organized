@@ -6,6 +6,7 @@ import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA } from "@ui-organized/core";
 import type { RadioGroupProps } from "./Radio.types.js";
 import "@ui-organized/core/components/Radio/Radio.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function RadioGroup({
   options,
@@ -73,7 +74,7 @@ export function RadioGroup({
             </ArkRadioGroup.Item>
             {opt.error && (
               <div className="radio-item__error-message">
-                <Icon name="alert-circle" size={16} />
+                <Icon name={glyph("alert-circle")} size={16} />
                 <span className="radio-item__error-text text-emphasis-body-small">{opt.error}</span>
               </div>
             )}

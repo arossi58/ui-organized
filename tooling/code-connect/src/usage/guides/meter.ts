@@ -40,7 +40,7 @@ export const meterUsage: UsageGuide = {
     },
     {
       do: "Use `variant` to reinforce a threshold the label already states.",
-      dont: "Let the fill colour be the only thing saying a value is in trouble.",
+      dont: "Let the fill color be the only thing saying a value is in trouble.",
       example: "threshold",
     },
   ],

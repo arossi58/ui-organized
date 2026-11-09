@@ -119,8 +119,8 @@ function BlogSpecimen() {
 // ─── 3 · Marketing hero ─────────────────────────────────────────────────────
 
 const FEATURES = [
-  { icon: "grid" as const, title: "One scale", text: "Every size derives from a single base and ratio." },
-  { icon: "refresh" as const, title: "Live theming", text: "Re-skin type across the system from one source." },
+  { icon: "grid-2x2" as const, title: "One scale", text: "Every size derives from a single base and ratio." },
+  { icon: "refresh-cw" as const, title: "Live theming", text: "Re-skin type across the system from one source." },
   { icon: "star" as const, title: "Readable by default", text: "Leading and weight tuned for long-form reading." },
 ];
 

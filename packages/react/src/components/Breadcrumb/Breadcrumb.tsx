@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import type { BreadcrumbProps } from "./Breadcrumb.types.js";
 import "@ui-organized/core/components/Breadcrumb/Breadcrumb.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** A trail of links showing the current page's location in a hierarchy. */
 export function Breadcrumb({ items, separator, className, ...props }: BreadcrumbProps) {
@@ -28,7 +29,7 @@ export function Breadcrumb({ items, separator, className, ...props }: Breadcrumb
               )}
               {!isLast && (
                 <span className="breadcrumb__separator" aria-hidden="true">
-                  {separator ?? <Icon name="chevron-right" size={16} />}
+                  {separator ?? <Icon name={glyph("chevron-right")} size={16} />}
                 </span>
               )}
             </li>

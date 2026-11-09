@@ -61,7 +61,7 @@
 /* ─── Viewport ────────────────────────────────────────────────────────────────
    Our own scroll container, not `ScrollArea`: that component exposes no viewport
    ref and no `onScroll`, so a virtualizer has nothing to attach to. The
-   scrollbar is styled to match `scroll-area__scrollbar` — same thumb colour,
+   scrollbar is styled to match `scroll-area__scrollbar` — same thumb color,
    same 10px track — so the two read as one system. */
 
 .data-table__viewport {
@@ -92,7 +92,7 @@
    included, and its transparent track shows the body's surface — so beside the
    sticky header there is a white notch, obvious once the thumb moves down. A
    viewport's own background does not scroll with its content, so a header-
-   coloured band painted on it stays put exactly as the sticky header does and
+   colored band painted on it stays put exactly as the sticky header does and
    shows through the track there. Border-box origin, so the band reaches under
    the scrollbar; the line at the bottom continues the header's border.
 
@@ -261,7 +261,7 @@
    scrolling text showing through it.
 
    Head cells are excluded: they carry their own opaque background already, and
-   overriding it here would paint the pinned corner cell in the body's colour. */
+   overriding it here would paint the pinned corner cell in the body's color. */
 .data-table__cell--sticky:not(.data-table__head-cell) {
   background-color: var(--color-surface-primary);
   background-image: linear-gradient(var(--data-table-cell-bg), var(--data-table-cell-bg));

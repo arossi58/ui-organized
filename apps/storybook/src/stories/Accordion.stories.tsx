@@ -30,7 +30,7 @@ const meta: Meta<typeof Accordion> = {
     docs: {
       description: {
         component:
-          "A vertically stacked set of expandable panels. Pass an `items` array; use `multiple`, `variant`, and `size`.",
+          "A vertically stacked set of expandable panels.",
       },
     },
   },

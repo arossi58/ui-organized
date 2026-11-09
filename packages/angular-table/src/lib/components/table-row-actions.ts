@@ -1,9 +1,10 @@
 import { Component, computed, input } from "@angular/core";
 import { UioButton, UioMenu, UioMenuItem, UioMenuTrigger } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
 import type { RowAction } from "../core/types.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
+import type { IconName } from "@ui-organized/angular";
 
 /**
  * Per-row actions, as a menu rather than a row of buttons.
@@ -33,7 +34,7 @@ import type { RowAction } from "../core/types.js";
         [menu]="menu"
         intent="ghost"
         [size]="table.size()"
-        icon="menu"
+        [icon]="glyph('menu')"
         [attr.aria-label]="label()"
       ></button>
       <!--
@@ -58,6 +59,7 @@ import type { RowAction } from "../core/types.js";
   `,
 })
 export class UioTableRowActions<T extends RowData> {
+  protected readonly glyph = glyph;
   /** The row the actions operate on. */
   readonly row = input.required<T>();
   /**
@@ -76,7 +78,7 @@ export class UioTableRowActions<T extends RowData> {
     if (action && !action.disabled?.(this.row())) void action.onRun(this.row());
   }
 
-  protected iconOf(action: RowAction<T>): CanonicalIconName | undefined {
-    return action.icon as CanonicalIconName | undefined;
+  protected iconOf(action: RowAction<T>): IconName | undefined {
+    return action.icon;
   }
 }

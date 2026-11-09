@@ -81,9 +81,9 @@ const ACCEPTED: Array<{ component: string; scenario: string; framework: string; 
 /**
  * How much difference is still "the same picture".
  *
- * `threshold` is pixelmatch's per-pixel colour tolerance — 0.1 is its own
+ * `threshold` is pixelmatch's per-pixel color tolerance — 0.1 is its own
  * recommended default and forgives antialiasing at an edge without forgiving a
- * changed colour. `MAX_DIFF_RATIO` is how many pixels may differ at all: a
+ * changed color. `MAX_DIFF_RATIO` is how many pixels may differ at all: a
  * quarter of one percent, which covers a few hundred edge pixels on a
  * 1280×800 mount and nothing that would read as a visual difference.
  */

@@ -7,6 +7,7 @@
   import type { TableFilterCondition } from "@ui-organized/table-core";
   import { getTable } from "../../core/tableContext.js";
   import TableFilterValueEditor from "../TableFilters/TableFilterValueEditor.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { condition, fieldLabel }: { condition: TableFilterCondition; fieldLabel: string } =
     $props();
@@ -41,7 +42,7 @@
     <Button
       intent="ghost"
       size={table.size}
-      icon="close"
+      icon={glyph("close")}
       class="data-table__sheet-remove"
       aria-label={`Clear filter: ${description.text}`}
       onclick={() => table.filters.remove(condition.id)}

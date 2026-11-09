@@ -3,11 +3,12 @@
  * manifest.
  *
  * Why read the story files directly instead of extracting them at build time —
- * every one of the 68 files in `apps/storybook/src/stories/` imports only `react`
- * and `@ui-organized/react` at runtime (the sole Storybook import is
- * `import type { Meta, StoryObj }`, which is erased). So they are ordinary React
- * modules to this app, and globbing them gives us the component prose, the
- * argTypes, the live `render()` functions, and the 78 hand-curated
+ * every file in `apps/storybook/src/stories/` imports only `react`,
+ * `@ui-organized/react` and (for the data table) `@ui-organized/react-table` at
+ * runtime (the sole Storybook import is `import type { Meta, StoryObj }`, which
+ * is erased). So they are ordinary React modules to this app, and globbing them
+ * gives us the component prose, the argTypes, the live `render()` functions, and
+ * the hand-curated
  * `docs.source.code` snippets with no extraction step and no way for the docs to
  * drift from Storybook.
  *
@@ -36,6 +37,12 @@ interface StoryDocsParams {
 interface StoryParameters {
   layout?: PreviewLayout;
   docs?: StoryDocsParams;
+  /**
+   * Contain overlays on the Docs tab too. For components whose stories render
+   * already open (Tour, FloatingPanel): left uncontained, every example on the
+   * page takes the window at once on load.
+   */
+  containOverlays?: boolean;
   /** Escape hatch for a story the join can't infer: `codePath::codeName`. */
   codeConnect?: { entryId?: string; codeName?: string };
 }
@@ -81,6 +88,8 @@ export interface DocsStory {
   /** Hand-curated snippet from `parameters.docs.source.code`, when pinned. */
   code?: string;
   layout: PreviewLayout;
+  /** From `parameters.containOverlays`; see `StoryParameters`. */
+  containOverlays: boolean;
   /**
    * The canonical single-instance story — Storybook's `Inspect` (the one story
    * tagged `dev`, so the only one in its sidebar). Drives the Inspect view.
@@ -313,6 +322,7 @@ export function buildRegistry(
         args,
         code: params.docs?.source?.code,
         layout: params.layout ?? metaParams.layout ?? "padded",
+        containOverlays: params.containOverlays ?? metaParams.containOverlays ?? false,
         // Storybook hides every story in these files except the one that re-adds
         // the `dev` tag — that one is the canonical single instance.
         isInspect: exportName === "Inspect" || (story.tags?.includes("dev") ?? false),

@@ -5,6 +5,7 @@ import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, treeViewStyles, type ControlSize } from "@ui-organized/core";
 import type { TreeViewProps, TreeViewNode } from "./TreeView.types.js";
 import "@ui-organized/core/components/TreeView/TreeView.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Chevron and node icons stay one step below the text size — they mark the row
  *  rather than compete with it. */
@@ -46,9 +47,9 @@ function TreeNode({ node, indexPath, iconSize, showIndentGuides }: NodeRenderPro
       <ArkTreeView.Branch className="tree-view__branch">
         <ArkTreeView.BranchControl className="tree-view__branch-control">
           <ArkTreeView.BranchIndicator className="tree-view__branch-indicator">
-            <Icon name="chevron-right" size={INDICATOR_SIZE} />
+            <Icon name={glyph("chevron-right")} size={INDICATOR_SIZE} />
           </ArkTreeView.BranchIndicator>
-          <Icon name={node.icon ?? "folder"} size={iconSize} className="tree-view__node-icon" />
+          <Icon name={node.icon ?? glyph("folder")} size={iconSize} className="tree-view__node-icon" />
           <ArkTreeView.BranchText className="tree-view__node-text">
             {node.label}
           </ArkTreeView.BranchText>

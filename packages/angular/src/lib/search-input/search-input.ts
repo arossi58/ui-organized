@@ -20,6 +20,7 @@ import { UioFieldContext } from "../field/field-context.js";
 import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
 import { flushNow } from "../overlay/flush.js";
+import { glyph } from "../icons/glyph.js";
 
 export type SearchInputSize = NonNullable<InputVariants["size"]>;
 
@@ -71,7 +72,7 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
     }
     <div class="input-affix">
       <span class="input-affix__adornment input-affix__adornment--start" aria-hidden="true">
-        <span uioIcon name="search" [size]="iconSize()"></span>
+        <span uioIcon [name]="glyph('search')" [size]="iconSize()"></span>
       </span>
       <input
         [class]="controlClass()"
@@ -99,7 +100,7 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
           tabindex="-1"
           (click)="clear()"
         >
-          <span uioIcon name="close" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('close')" [size]="iconSize()"></span>
         </button>
       }
     </div>
@@ -121,6 +122,7 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
   },
 })
 export class UioSearchInput extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";
 

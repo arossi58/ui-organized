@@ -33,6 +33,7 @@ export function PrimaryExample({
     <PreviewSurface
       layout={story.layout}
       label={component.name}
+      containOverlays={story.containOverlays}
       footer={
         snippet ? (
           <CodeBlock code={snippet.code} language={snippet.language} attached />

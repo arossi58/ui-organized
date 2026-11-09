@@ -36,7 +36,7 @@ export interface SelectProps {
   size?: ControlSize;
   /**
    * Visual variant. Defaults to 'default'. `'ghost'` renders a borderless,
-   * label-less trigger that mirrors the ghost Button's colour states.
+   * label-less trigger that mirrors the ghost Button's color states.
    */
   variant?: "default" | "ghost";
   /** Whether the select should ignore user interaction. */

@@ -12,10 +12,10 @@ export const iconUsage: UsageGuide = {
   ],
   avoid: [
     {
-      text: "For a concept with no conventional glyph, where the picture becomes a riddle.",
+      text: "For a concept with no conventional glyph.",
     },
     {
-      text: "As the only carrier of a status, since colour and shape are read differently by everyone.",
+      text: "As the only carrier of a status, since color and shape are read differently by everyone.",
       instead: ["tag"],
     },
     {
@@ -32,6 +32,10 @@ export const iconUsage: UsageGuide = {
       do: "Use one glyph for one meaning across the whole product.",
       dont: "Let the same glyph mean edit here and settings there.",
       example: "one-meaning",
+    },
+    {
+      do: "Name an icon exactly as your icon library does, and register it once with `registerIcons`.",
+      dont: "Invent a name, or borrow another library's: Lucide's `x` is Heroicons' `x-mark`.",
     },
     {
       do: "Keep icons at the sizes the control expects, so they sit on the text's baseline.",

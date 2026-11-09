@@ -29,6 +29,7 @@ import Button from "../Button/Button.vue";
 import Select from "../Select/Select.vue";
 import type { CalendarProps, CalendarRange } from "./Calendar.types.js";
 import "@ui-organized/core/components/Calendar/Calendar.css";
+import { glyph } from "../../icons/glyph.js";
 
 const props = withDefaults(defineProps<CalendarProps>(), {
   value: null,
@@ -242,7 +243,7 @@ const monthViews = computed(() =>
       <Button
         intent="ghost"
         size="sm"
-        icon="chevron-left"
+        :icon="glyph('chevron-left')"
         class="calendar__nav"
         :disabled="prevDisabled"
         aria-label="Previous month"
@@ -267,7 +268,7 @@ const monthViews = computed(() =>
       <Button
         intent="ghost"
         size="sm"
-        icon="chevron-right"
+        :icon="glyph('chevron-right')"
         class="calendar__nav"
         :disabled="nextDisabled"
         aria-label="Next month"

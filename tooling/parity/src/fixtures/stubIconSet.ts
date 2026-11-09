@@ -11,7 +11,7 @@
  * business, and comparing them would compare Lucide against itself rather than
  * our three `Icon` implementations against each other. What *is* ours is
  * everything that happens before the icon component is reached — reading the
- * provider config, resolving the canonical name, picking the outline or solid
+ * provider config, resolving the registered name, picking the outline or solid
  * cut, and computing the optical stroke — and all of it is shared code in
  * `@ui-organized/core` that each framework has to call correctly.
  *
@@ -38,7 +38,7 @@ export function stubSvgProps(size: number, stroke: number | undefined): Record<s
 
 /**
  * `close` has an outline cut but no solid one, which is the case that matters:
- * Lucide ships no solid set at all, so `resolveIconComponent`'s fall back to
+ * Lucide ships no solid set at all, so `resolveSystemGlyph`'s fall back to
  * outline is the normal path rather than an edge case. `star` is registered in
  * neither, so "this library has no icon for that name" is covered too.
  *

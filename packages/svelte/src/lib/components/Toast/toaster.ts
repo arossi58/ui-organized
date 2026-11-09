@@ -10,7 +10,7 @@
  * caller can import the manager without importing a component.
  */
 import { createToaster } from "@ark-ui/svelte";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { SystemGlyph } from "@ui-organized/core";
 import type { ToastOptions, ToastStatus } from "./Toast.types.js";
 
 export const toaster = createToaster({
@@ -20,7 +20,7 @@ export const toaster = createToaster({
   duration: 5000,
 });
 
-export const STATUS_ICON: Record<ToastStatus, CanonicalIconName> = {
+export const STATUS_ICON: Record<ToastStatus, SystemGlyph> = {
   info: "info",
   success: "check-circle",
   warning: "alert-triangle",

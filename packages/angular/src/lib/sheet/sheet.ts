@@ -38,6 +38,7 @@ import {
   raiseSurface,
   setSurfaceInteractive,
 } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type SheetSide = NonNullable<SheetVariants["side"]>;
 export type SheetSize = NonNullable<SheetVariants["size"]>;
@@ -130,7 +131,7 @@ export type SheetSize = NonNullable<SheetVariants["size"]>;
               [id]="dialogContext.partId('close')"
               (click)="hide()"
             >
-              <span uioIcon name="close" [size]="CLOSE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
           }
           <ng-content />
@@ -140,6 +141,7 @@ export type SheetSize = NonNullable<SheetVariants["size"]>;
   `,
 })
 export class UioSheet implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly open = model(false);
   /** The edge the panel slides in from. */
   readonly side = input<SheetSide>("right");

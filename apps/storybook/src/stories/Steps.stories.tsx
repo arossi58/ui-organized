@@ -16,7 +16,7 @@ const meta: Meta<typeof Steps> = {
     docs: {
       description: {
         component:
-          "Progress through a linear task such as checkout, onboarding or a multi-part form. `count` is derived from `steps` rather than passed in, so the indicator row and the progress state always agree. Set `linear` to stop people jumping ahead.",
+          "Progress through a linear task such as checkout, onboarding or a multi-part form.",
       },
     },
   },

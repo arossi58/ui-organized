@@ -39,6 +39,7 @@ import {
 } from "@ui-organized/table-core";
 import { HostPresence } from "@ui-organized/angular";
 import { injectDataTable } from "../core/table-context.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
 
 /** Options above this many get a search box — the article's "search in the panel". */
 const SEARCHABLE_ABOVE = 8;
@@ -303,7 +304,7 @@ export class UioTableFilterValueEditor {
       uioButton
       intent="ghost"
       [size]="table.size()"
-      icon="trash"
+      [icon]="glyph('trash')"
       class="data-table__filter-editor-remove"
       (click)="remove()"
     >
@@ -312,6 +313,7 @@ export class UioTableFilterValueEditor {
   `,
 })
 export class UioTableFilterEditor {
+  protected readonly glyph = glyph;
   readonly condition = input.required<TableFilterCondition>();
 
   protected readonly table = injectDataTable();
@@ -589,11 +591,11 @@ export class UioTableFilterChip {
           [menu]="menu"
           intent="secondary"
           [size]="table.size()"
-          icon="filter"
+          [icon]="glyph('filter')"
           [attr.aria-label]="label()"
         ></button>
       } @else {
-        <button uioButton uioMenuTrigger [menu]="menu" intent="ghost" size="sm" icon="plus">
+        <button uioButton uioMenuTrigger [menu]="menu" intent="ghost" size="sm" [icon]="glyph('plus')">
           {{ label() }}
         </button>
       }
@@ -618,6 +620,7 @@ export class UioTableFilterChip {
   `,
 })
 export class UioTableFilterAdd {
+  protected readonly glyph = glyph;
   readonly label = input("Add filter");
   readonly iconOnly = input(false);
 
@@ -662,7 +665,7 @@ export class UioTableFilterAdd {
         conditions on one column is the point — with a count so it is obvious
         this adds another rather than replacing.
       -->
-      <button uioButton uioMenuTrigger [menu]="addSurface" intent="ghost" size="sm" icon="plus">
+      <button uioButton uioMenuTrigger [menu]="addSurface" intent="ghost" size="sm" [icon]="glyph('plus')">
         Add
       </button>
       <uio-menu
@@ -678,7 +681,7 @@ export class UioTableFilterAdd {
         }
       </uio-menu>
 
-      <button uioButton intent="ghost" size="sm" icon="rotate-ccw" (click)="table.filters.clear()">
+      <button uioButton intent="ghost" size="sm" [icon]="glyph('rotate-ccw')" (click)="table.filters.clear()">
         Reset
       </button>
 
@@ -694,6 +697,7 @@ export class UioTableFilterAdd {
   `,
 })
 export class UioTableFilters {
+  protected readonly glyph = glyph;
   private readonly presence = inject(HostPresence);
 
   constructor() {

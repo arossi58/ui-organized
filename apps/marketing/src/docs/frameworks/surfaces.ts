@@ -33,10 +33,8 @@
  */
 
 import {
-  parseAngularInputs,
-  parseAngularSelectors,
-  parseBarrelExports,
   resolveTarget,
+  surfaceFromSources,
   type DocFramework,
   type FrameworkSurface,
   type FrameworkTarget,
@@ -103,10 +101,6 @@ const angularTableSources = import.meta.glob<string>(
 
 const allAngularSources = [...Object.values(angularSources), ...Object.values(angularTableSources)];
 
-function exportsOf(modules: Record<string, string>): string[] {
-  return Object.values(modules).flatMap(parseBarrelExports);
-}
-
 export const frameworkSurfaces: Record<DocFramework, FrameworkSurface> = {
   // React's surface is the manifest — the scanned record of what the package
   // really exports, which is the same evidence every other page element uses.
@@ -122,13 +116,24 @@ export const frameworkSurfaces: Record<DocFramework, FrameworkSurface> = {
       .filter((component) => component.status !== "deprecated")
       .map((component) => component.codeName),
   },
-  svelte: { exports: [...exportsOf(svelteBarrel), ...exportsOf(svelteTableBarrel)] },
-  vue: { exports: [...exportsOf(vueBarrel), ...exportsOf(vueTableBarrel)] },
-  angular: {
-    exports: [...exportsOf(angularBarrel), ...exportsOf(angularTableBarrel)],
-    selectors: parseAngularSelectors(allAngularSources),
-    inputs: parseAngularInputs(allAngularSources),
-  },
+  // The other three are built by the same function the static `/ai/*` specs
+  // use, so a sample here and a spec there can't disagree.
+  svelte: surfaceFromSources("svelte", {
+    barrels: Object.values(svelteBarrel),
+    table: { packageName: "@ui-organized/svelte-table", barrels: Object.values(svelteTableBarrel) },
+  }),
+  vue: surfaceFromSources("vue", {
+    barrels: Object.values(vueBarrel),
+    table: { packageName: "@ui-organized/vue-table", barrels: Object.values(vueTableBarrel) },
+  }),
+  angular: surfaceFromSources("angular", {
+    barrels: Object.values(angularBarrel),
+    table: {
+      packageName: "@ui-organized/angular-table",
+      barrels: Object.values(angularTableBarrel),
+    },
+    angularSources: allAngularSources,
+  }),
 };
 
 /**

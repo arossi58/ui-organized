@@ -5,7 +5,7 @@
    The ink's *width* is a canvas stroke in device pixels and is set through the
    machine's `drawing.size`, not from here — it is geometry, and scaling it with
    the type ramp would change how a signature looks rather than how the control
-   is themed. The ink's *colour* is a token, below.
+   is themed. The ink's *color* is a token, below.
 
    `--signature-pad-height` is local geometry in the same category as
    `--calendar-cell`: a pad's aspect is what makes a signature legible, not a
@@ -47,7 +47,7 @@
 }
 
 /* Focus ring geometry (a 2px outline) is constant across the package; only the
-   colour is themed. Drawn from :focus-within — focus lands on the surface
+   color is themed. Drawn from :focus-within — focus lands on the surface
    inside, not the container. */
 .signature-pad__control:focus-within {
   outline: 2px solid var(--color-interactive-focus);
@@ -70,7 +70,7 @@
 /* ─── Ink ─────────────────────────────────────────────────────────────────────
    Strokes are filled paths, not stroked ones: zag's drawing model outlines the
    pressure envelope of each stroke and hands back a closed path, so `fill` is
-   what colours the ink and `stroke` would outline it. */
+   what colors the ink and `stroke` would outline it. */
 
 .signature-pad__segment {
   fill: var(--color-content-primary);
@@ -89,7 +89,7 @@
   left: var(--spacing-space-04);
   right: var(--spacing-space-04);
   bottom: var(--spacing-space-05);
-  /* The primary border colour, not the secondary one a divider would use: this
+  /* The primary border color, not the secondary one a divider would use: this
      rule is an instruction about where to sign, so it has to be legible on the
      pad's own surface rather than receding into it. */
   border-bottom: 1px solid var(--color-border-primary);

@@ -40,7 +40,7 @@ describe("token contract", () => {
       for (const fallback of fallbacks) {
         if (!fallback) continue;
         const real = shipped.get(name);
-        // Tokens whose shipped value is itself a var() reference (the colour
+        // Tokens whose shipped value is itself a var() reference (the color
         // aliases) can't be compared literally. Fallbacks are only used on the
         // layout constants, which resolve to plain values.
         if (!real || real.startsWith("var(")) continue;

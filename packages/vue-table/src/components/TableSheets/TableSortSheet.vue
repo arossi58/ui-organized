@@ -20,6 +20,7 @@ import {
 } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
 import TableSheetButton from "./TableSheetButton.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = withDefaults(defineProps<{ label?: string; class?: string }>(), { label: "Sort" });
 const table = useTableContext();
@@ -30,7 +31,7 @@ const active = computed(() => sorting.value[0]);
 const activeId = computed(() => active.value?.id ?? "");
 const direction = computed(() => (active.value?.desc ? "desc" : "asc"));
 const icon = computed(() =>
-  activeId.value ? (active.value?.desc ? "sort-desc" : "sort-asc") : "sort",
+  glyph(activeId.value ? (active.value?.desc ? "sort-desc" : "sort-asc") : "sort"),
 );
 const options = computed(() =>
   columns.value.map((column) => ({

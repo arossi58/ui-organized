@@ -27,6 +27,7 @@ import { openDatePicker } from "../date-field/open-date-picker.js";
 import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
 import { nextMachineId } from "../part-ids.js";
+import { glyph } from "../icons/glyph.js";
 
 export type DateRangeInputSize = NonNullable<DateRangeInputVariants["size"]>;
 
@@ -104,7 +105,7 @@ const ADORNMENT =
             [disabled]="disabled()"
             (click)="onStartPicker()"
           >
-            <span uioIcon name="calendar" [size]="iconSize()"></span>
+            <span uioIcon [name]="glyph('calendar')" [size]="iconSize()"></span>
           </button>
           <ng-container [ngTemplateOutlet]="startInput" />
         </div>
@@ -120,7 +121,7 @@ const ADORNMENT =
             [attr.aria-label]="startPickerLabel()"
             [disabled]="disabled()"
           >
-            <span uioIcon name="calendar" [size]="iconSize()"></span>
+            <span uioIcon [name]="glyph('calendar')" [size]="iconSize()"></span>
           </button>
           <ng-container [ngTemplateOutlet]="startInput" />
         </div>
@@ -151,7 +152,7 @@ const ADORNMENT =
         or "aria-live" either — which is what React renders here too.
       -->
       <span class="field-error text-emphasis-caption" [id]="errorId"
-        ><span uioIcon class="field-error__icon" name="alert-circle" [size]="ERROR_ICON_SIZE"></span
+        ><span uioIcon class="field-error__icon" [name]="glyph('alert-circle')" [size]="ERROR_ICON_SIZE"></span
         >{{ errorMessage() }}</span
       >
     }
@@ -186,7 +187,7 @@ const ADORNMENT =
           [disabled]="disabled()"
           (click)="onEndPicker()"
         >
-          <span uioIcon name="calendar" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('calendar')" [size]="iconSize()"></span>
         </button>
         <input
           #endControl
@@ -208,6 +209,7 @@ const ADORNMENT =
   `,
 })
 export class UioDateRangeInput implements AfterViewInit {
+  protected readonly glyph = glyph;
   readonly label = input<string | undefined>(undefined);
   readonly helperText = input<string | undefined>(undefined);
   /** A string shows an error message; `true` marks the range invalid without one. */

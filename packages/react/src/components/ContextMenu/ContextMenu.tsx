@@ -20,6 +20,7 @@ import { useContainedPositioning, useOverlayPortal } from "../../preview/useOver
 // Reuse the design-system Checkbox / Radio control visuals inside menu items.
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
 import "@ui-organized/core/components/Radio/Radio.css";
+import { glyph } from "../../icons/glyph.js";
 
 type Positioning = NonNullable<React.ComponentProps<typeof ArkMenu.Root>["positioning"]>;
 const SetPositioningContext = React.createContext<((p: Positioning) => void) | null>(null);
@@ -172,7 +173,7 @@ export function ContextMenuCheckboxItem({
           visibility is toggled in ContextMenu.css. */}
       <span className="checkbox__control context-menu__control">
         <span className="checkbox__indicator">
-          <Icon name="check" size={16} className="checkbox__check" />
+          <Icon name={glyph("check")} size={16} className="checkbox__check" />
         </span>
       </span>
       <span className="context-menu__item-label">{children}</span>

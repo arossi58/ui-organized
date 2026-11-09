@@ -2,7 +2,6 @@ import { useState, type ComponentType } from "react";
 
 interface OverviewCardProps {
   title: string;
-  body: string;
   /** Decorative SVG art; receives the card's selected (panel-open) state. */
   Art: ComponentType<{ selected: boolean }>;
   /** Whether this card's detail panel is currently open. */
@@ -15,12 +14,12 @@ interface OverviewCardProps {
 
 /**
  * One overview card: a tall paper panel whose top half holds an SVG UI
- * animation and whose foot holds the title + blurb. The whole card is a
+ * animation and whose foot holds the title. The whole card is a
  * disclosure button that toggles a shared detail panel below the row (per the
  * design brief). Selecting the card (opening its panel) plays its art once; the
  * card still lifts on hover/focus so it reads as interactive.
  */
-export function OverviewCard({ title, body, Art, open, panelId, onToggle }: OverviewCardProps) {
+export function OverviewCard({ title, Art, open, panelId, onToggle }: OverviewCardProps) {
   const [hover, setHover] = useState(false);
   const active = hover || open;
 
@@ -41,7 +40,6 @@ export function OverviewCard({ title, body, Art, open, panelId, onToggle }: Over
       </div>
       <div className="ov-card__foot">
         <h3 className="ov-card__title">{title}</h3>
-        <p className="ov-card__body">{body}</p>
       </div>
     </button>
   );

@@ -9,6 +9,7 @@
   import { getTable } from "../../core/tableContext.js";
   import { focusAfterRemoval } from "./useAutoFocusField.js";
   import TableFilterValueEditor from "./TableFilterValueEditor.svelte";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let {
     condition,
@@ -31,7 +32,7 @@
 <Button
   intent="ghost"
   size={table.size}
-  icon="trash"
+  icon={glyph("trash")}
   class="data-table__filter-editor-remove"
   onclick={remove}
 >

@@ -8,6 +8,7 @@ import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { TagsInputProps } from "./TagsInput.types.js";
 import "@ui-organized/core/components/TagsInput/TagsInput.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Delete affordance inside a tag — always the small edge, at every control
  *  size, because it sits inside the chip rather than beside it. */
@@ -88,7 +89,7 @@ function onValueChange(details: { value: string[] }) {
           <ArkTagsInput.ItemPreview class="tags-input__tag">
             <ArkTagsInput.ItemText class="tags-input__tag-label">{{ tag }}</ArkTagsInput.ItemText>
             <ArkTagsInput.ItemDeleteTrigger class="tags-input__tag-delete">
-              <Icon name="close" :size="DELETE_ICON_SIZE" />
+              <Icon :name="glyph('close')" :size="DELETE_ICON_SIZE" />
             </ArkTagsInput.ItemDeleteTrigger>
           </ArkTagsInput.ItemPreview>
           <ArkTagsInput.ItemInput class="tags-input__tag-input" />

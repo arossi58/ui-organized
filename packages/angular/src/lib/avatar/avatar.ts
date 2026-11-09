@@ -13,6 +13,7 @@ import { avatarStyles, initials, type AvatarVariants } from "@ui-organized/core"
 import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
 
 export type AvatarSize = NonNullable<AvatarVariants["size"]>;
 export type AvatarShape = NonNullable<AvatarVariants["shape"]>;
@@ -80,7 +81,7 @@ const ICON_SIZE: Record<AvatarSize, number> = { xs: 14, sm: 16, md: 20, lg: 24, 
       } @else if (name(); as person) {
         {{ toInitials(person) }}
       } @else {
-        <span uioIcon name="user" [size]="iconSize()"></span>
+        <span uioIcon [name]="glyph('user')" [size]="iconSize()"></span>
       }
     </span>
   `,
@@ -90,6 +91,7 @@ const ICON_SIZE: Record<AvatarSize, number> = { xs: 14, sm: 16, md: 20, lg: 24, 
   },
 })
 export class UioAvatar extends UioPart implements AfterViewInit {
+  protected readonly glyph = glyph;
   readonly scope = "avatar";
   readonly part = "root";
 
