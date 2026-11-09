@@ -42,6 +42,7 @@ export const DOCS_COMPACT_QUERY = "(max-width: 900px)";
 const FIXED_LINKS = [
   { to: "/docs", label: "Introduction", exact: true },
   { to: "/docs/get-started", label: "Get started" },
+  { to: "/docs/use-with-ai", label: "Use with AI" },
   { to: "/docs/theming", label: "Theming" },
   { to: "/docs/foundations/color", label: "Color" },
   { to: "/docs/foundations/typography", label: "Typography" },

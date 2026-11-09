@@ -1,0 +1,12 @@
+[
+  { "id": "settings-form", "prompt": "A profile settings form with name and email fields, a notifications toggle, and save and cancel actions." },
+  { "id": "pricing-card", "prompt": "A pricing card with a plan name, a price, a short feature list, and a call to action." },
+  { "id": "delete-confirm", "prompt": "A delete button that asks the user to confirm before the destructive action happens." },
+  { "id": "status-list", "prompt": "A list of three deployments, each showing a name and a non-clickable status of running, failed or queued." },
+  { "id": "login", "prompt": "A sign-in panel with email and password fields, an inline error message, and a submit action." },
+  { "id": "empty-state", "prompt": "An empty state for a projects page: an icon, a heading, a sentence of explanation, and a create action." },
+  { "id": "tabs-panel", "prompt": "An account page with Overview and Billing tabs, each with a short paragraph of content." },
+  { "id": "stat-tiles", "prompt": "A row of three metric tiles with a label and a large number, on a slightly raised surface, separated by comfortable spacing." },
+  { "id": "alert-banner", "prompt": "A warning banner saying a trial ends in three days, with a dismiss action, above a custom panel with a subtle border and rounded corners." },
+  { "id": "themed-section", "prompt": "A custom marketing section built with plain divs and CSS: a surface background, secondary-coloured body text, a primary heading, generous padding and rounded corners, plus one button." }
+]

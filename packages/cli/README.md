@@ -46,6 +46,21 @@ uiorg theme <bundle> --check  # report only, write nothing
 
 Exit code is non-zero when a check blocks, so it works in CI.
 
+## Set up AI agents
+
+```sh
+npx @ui-organized/cli init
+```
+
+In a project using `@ui-organized/react`, this adds the design system's rules to
+`AGENTS.md` and `CLAUDE.md` and registers
+[`@ui-organized/mcp`](https://github.com/arossi58/ui-organized/tree/main/packages/mcp)
+in `.mcp.json`. It also sets up Cursor if there's a `.cursor/` directory, or if you
+pass `--cursor`. Your own content in those files is kept, and re-running only
+replaces its own block. `--check` reports without writing.
+
+Svelte, Vue and Angular projects aren't covered yet, so `init` stops there.
+
 ## What it won't assume
 
 - **Where your files go.** `src/styles/theme.css` is one project's convention,

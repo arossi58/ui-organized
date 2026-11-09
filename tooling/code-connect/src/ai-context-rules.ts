@@ -99,6 +99,32 @@ export function globalRules(packageName: string, hints: string[]): string[] {
 }
 
 /**
+ * The same rules for a whole project rather than one component, written into a
+ * consumer's agent files by `uiorg init`. Keep these in step with `globalRules`;
+ * they're beside it so a change to one shows up next to the other.
+ */
+export function projectRules(packageName: string): string[] {
+  return [
+    `Build UI from \`${packageName}\`, importing only from that package. Never from a ` +
+      "relative path, `shadcn/ui`, `@/components/ui/*`, or any other component library. " +
+      "Never re-declare, wrap or fork a component to add a variant.",
+    "Before using a component, read its spec: the `get_component` MCP tool, or " +
+      "https://uiorganized.com/ai/<Component>.md. To find one, use `search_components` or " +
+      "https://uiorganized.com/llms.txt. A prop, value or component that isn't in the spec " +
+      "does not exist. Union props are closed sets.",
+    "Vary components with their props. For custom layout and custom elements, use design " +
+      `tokens only — ${TOKEN_FAMILIES.map((t) => `\`${t}\``).join(", ")} — never utility ` +
+      "classes, hex colours or px literals. Check a name with `search_tokens` or " +
+      "https://uiorganized.com/ai/tokens.md first. A token that isn't listed resolves to nothing.",
+    "For a Figma link, call `get_figma_frame` first. It returns real components and tokens " +
+      "as compact JSX; read a full spec only for what it leaves unclear. Report anything in " +
+      "`unmapped` or `unbound` rather than rebuilding it by eye.",
+    "If the design needs something the system can't express, say so. Do not approximate it " +
+      "with custom markup, and do not invent a component, prop or token.",
+  ];
+}
+
+/**
  * Why this exists: the scanner reads a component's OWN declared members and
  * deliberately skips inherited DOM attributes (scan-react.ts), so `children`,
  * `onClick`, `disabled` and `className` are absent from `props` for most entries.
