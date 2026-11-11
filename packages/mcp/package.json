@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/mcp",
-  "version": "0.1.0",
+  "version": "6.0.0",
   "description": "MCP server for the UI Organized design system: real components and design tokens for AI coding agents, so generated code uses what exists instead of inventing it.",
   "keywords": [
     "design-system",

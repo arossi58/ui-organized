@@ -12,14 +12,15 @@ The quickest way is to let the CLI write the config and agent rules:
 npx @ui-organized/cli init
 ```
 
-Or add the server to your agent's MCP config yourself:
+Or add the server to your agent's MCP config yourself, pinned to the version of
+the library you have installed:
 
 ```json
 {
   "mcpServers": {
     "ui-organized": {
       "command": "npx",
-      "args": ["-y", "@ui-organized/mcp"]
+      "args": ["-y", "@ui-organized/mcp@6.0.0"]
     }
   }
 }
@@ -38,9 +39,12 @@ Or add the server to your agent's MCP config yourself:
 
 When something doesn't exist, the tools return `found: false` with real alternatives.
 
-The data ships inside the package, so answers match the version you installed. Pin
-the version to match your UI Organized library. Only `get_figma_frame` uses the
-network or a key.
+The data ships inside the package, and the server releases with the libraries at
+the same version: `@ui-organized/mcp@6.0.0` describes 6.0.0 of `@ui-organized/react`,
+`svelte`, `vue` and `angular`. Pin it to the version you have installed. Unpinned,
+npx runs the newest server, which can describe props your version doesn't have.
+`uiorg init` writes the pin, and re-running it after an upgrade moves it. Only
+`get_figma_frame` uses the network or a key.
 
 ## Svelte, Vue and Angular
 
@@ -49,7 +53,7 @@ The server answers for one library, set with `--framework` (or the
 sets it for you:
 
 ```json
-{ "command": "npx", "args": ["-y", "@ui-organized/mcp", "--framework", "vue"] }
+{ "command": "npx", "args": ["-y", "@ui-organized/mcp@6.0.0", "--framework", "vue"] }
 ```
 
 Every answer then describes that library: its own props, scanned from its source

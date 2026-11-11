@@ -17,7 +17,7 @@ import {
   checkTokenCoverage,
   type Finding,
 } from "./checks.js";
-import { commitInit, InitError, planInit } from "./init.js";
+import { commitInit, InitError, LIBRARIES, planInit } from "./init.js";
 import { display, inspectProject, installCommand, type Project } from "./project.js";
 
 /**
@@ -169,9 +169,9 @@ function runInit(args: string[]): number {
     }
   }
 
-  let writes;
+  let plan;
   try {
-    writes = planInit(options);
+    plan = planInit(options);
   } catch (error) {
     if (error instanceof InitError) {
       process.stderr.write(`✗ ${error.message}\n`);
@@ -180,16 +180,22 @@ function runInit(args: string[]): number {
     throw error;
   }
 
+  const from = plan.packages.some((dir) => dir !== ".") ? ` in ${plan.packages.join(", ")}` : "";
   process.stdout.write(`\n${bold("UI Organized")} — AI agent setup\n\n`);
-  for (const write of writes) process.stdout.write(`  ${write.status.padEnd(9)} ${write.path}\n`);
+  process.stdout.write(`  ${dim(`${LIBRARIES[plan.framework]} ${plan.version}${from}; MCP server pinned to match`)}\n\n`);
+  for (const write of plan.writes) process.stdout.write(`  ${write.status.padEnd(9)} ${write.path}\n`);
 
   if (options.check) {
     process.stdout.write(`\n${dim("Nothing written (--check).")}\n\n`);
     return 0;
   }
 
-  commitInit(options.cwd, writes);
-  process.stdout.write(`\n✓ Done. Restart your agent so it picks up the MCP server.\n\n`);
+  commitInit(options.cwd, plan.writes);
+  process.stdout.write(
+    `\n✓ Done. Restart your agent so it picks up the MCP server.\n` +
+      `${dim("  Building from Figma links: get_figma_frame needs FIGMA_TOKEN in your shell, not in .mcp.json.")}\n` +
+      `${dim("  Without it, the ui-organized-figma skill uses Figma's own MCP server.")}\n\n`,
+  );
   return 0;
 }
 

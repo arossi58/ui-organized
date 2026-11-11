@@ -1,5 +1,11 @@
 # @ui-organized/mcp
 
+## 6.0.0
+
+### Major Changes
+
+- The server now releases with the UI Organized libraries and shares their version: `@ui-organized/mcp@6.0.0` describes `@ui-organized/react`, `svelte`, `vue` and `angular` 6.0.0. Its data is the same as 0.1.0's, which was built from 6.0.0 too. Pin it to your library's version; `uiorg init` does this for you, and re-running it after an upgrade moves the pin.
+
 ## 0.1.0
 
 ### Minor Changes
