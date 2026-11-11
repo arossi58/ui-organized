@@ -45,11 +45,18 @@
  *   node scripts/quality/affected.mjs --full        # force a full run
  *   node scripts/quality/affected.mjs --base <ref>  # diff against something else
  *   node scripts/quality/affected.mjs --paths a,b   # classify these paths, no git
+ *   node scripts/quality/affected.mjs --skip <why>  # test nothing, and say why
  *
  * `--paths` exists because the interesting question about a run is usually "why
  * did it decide that?", and answering it by constructing a branch is absurd. It
  * is also how the mapping is checked: every layout in COMPONENT below can be
  * fed in directly and the answer read off.
+ *
+ * `--skip` is for a push to main that needs no testing at all: a PR merge whose
+ * own run already tested the exact tree that landed (see last-green.mjs), or a
+ * nightly run on a commit that has already had a full one. It goes through here
+ * rather than around it so that every run's outputs, including the ones that
+ * test nothing, come from one writer and print one summary.
  */
 import { spawnSync } from "node:child_process";
 import { appendFileSync } from "node:fs";
@@ -222,10 +229,13 @@ function classify(files) {
 const argv = process.argv.slice(2);
 const baseFlag = argv.indexOf("--base");
 const pathsFlag = argv.indexOf("--paths");
+const skipFlag = argv.indexOf("--skip");
 const forced = argv.includes("--full");
 
 let result;
-if (forced) {
+if (skipFlag !== -1) {
+  result = { mode: "skipped", components: [], reason: argv[skipFlag + 1] || "--skip was passed" };
+} else if (forced) {
   result = { mode: "full", components: [], reason: "--full was passed" };
 } else if (pathsFlag !== -1) {
   const files = (argv[pathsFlag + 1] ?? "")
@@ -303,10 +313,14 @@ const runSmoke =
   result.mode === "full" ||
   (publishable ? publishable.length > 0 : (result.touchedPackages ?? false));
 
+// Lint and unit run on every change, docs included; only a skip turns them off.
+const runChecks = result.mode !== "skipped";
+
 const outputs = {
   mode: result.mode,
   components: result.components.join(","),
   packages: packages ? packages.join(",") : "",
+  "run-checks": String(runChecks),
   "run-gates": String(runGates),
   "run-smoke": String(runSmoke),
   reason: result.reason || "",
@@ -316,7 +330,9 @@ console.log(`Affected: ${result.mode}${result.base ? ` (vs ${result.base.slice(0
 if (result.reason) console.log(`  why: ${result.reason}`);
 if (result.components.length) console.log(`  components: ${result.components.join(", ")}`);
 if (packages?.length) console.log(`  packages: ${packages.join(", ")}`);
-console.log(`  gates: ${runGates ? "run" : "skip"}   smoke: ${runSmoke ? "run" : "skip"}`);
+console.log(
+  `  checks: ${runChecks ? "run" : "skip"}   gates: ${runGates ? "run" : "skip"}   smoke: ${runSmoke ? "run" : "skip"}`,
+);
 
 if (process.env.GITHUB_OUTPUT) {
   appendFileSync(

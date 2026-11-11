@@ -11,12 +11,44 @@ name: CI
 # The `push: [main]` trigger is required for production: a successful main run
 # uploads the artifact that ci-report.yml deploys to production. `roadmap-sync.yml`
 # also dispatches this workflow to redeploy the site with fresh roadmap.json.
+#
+# ── How much each run tests ──────────────────────────────────────────────────
+#   pull_request   the components the PR's diff can reach (affected.mjs).
+#                  A draft runs nothing until it is marked ready for review.
+#   push to main   nothing, when the merged PR's own run already tested this
+#                  exact tree; otherwise the diff since main was last green
+#                  (last-green.mjs). Either way the site is rebuilt and deployed.
+#   schedule       everything, nightly, unless main has not changed since its
+#                  last full run. This is what keeps the production docs' test
+#                  status complete; see "Use main's last full status" below.
+#   dispatch       everything, unless `full` is unticked (roadmap-sync does).
+#
+# ── Shape ────────────────────────────────────────────────────────────────────
+#   classify → lint-unit, gate (×11), smoke, in parallel → report → ci-ok
+# Every gate used to run in one job, one after another, for an hour and three
+# quarters. As separate jobs a run takes as long as its slowest gate. Public
+# repository, so the extra runners cost nothing.
+#
+# `ci-ok` is the one job to require in branch protection: matrix job names
+# change whenever a gate is added, and a gate skipped for a narrowed run must
+# not read as a missing check.
 on:
   push:
     branches: [main]
   pull_request:
+    # `ready_for_review` is what starts a draft's first real run.
+    types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron: "0 7 * * *"
   workflow_dispatch:
     inputs:
+      full:
+        description: >
+          Run every gate. Untick to test only what changed since main was last
+          green, which is how roadmap-sync.yml redeploys a roadmap edit without
+          the whole suite.
+        type: boolean
+        default: true
       update-visual-baselines:
         description: >
           Re-render the Linux visual baselines and upload them as an artifact
@@ -28,20 +60,120 @@ on:
 
 permissions:
   contents: read
+  # Read-only, for last-green.mjs: which runs passed, and on which commits.
+  actions: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  # The event is in the key so the nightly run and a push to main never cancel
+  # each other. Two pushes to main still do, which last-green.mjs makes safe:
+  # the newer run diffs from the last green commit, so it covers the older one.
+  group: ci-${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build-and-test:
+  # ── What this change can possibly have broken ──────────────────────────────
+  # This is the half of the design that decides what NOT to run, so read
+  # scripts/quality/affected.mjs before trusting it — in particular its rule
+  # that an unrecognised path forces a full run. A narrowed suite is only worth
+  # having if it cannot go quiet by accident. last-green.mjs follows the same
+  # rule: if it cannot ask GitHub, the answer is a full run.
+  classify:
+    name: Classify the change
+    # A draft runs nothing: every other job needs this one, so skipping it
+    # skips the run. Marking the PR ready for review starts the real one.
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.affected.outputs.mode }}
+      components: ${{ steps.affected.outputs.components }}
+      packages: ${{ steps.affected.outputs.packages }}
+      run-checks: ${{ steps.affected.outputs.run-checks }}
+      run-gates: ${{ steps.affected.outputs.run-gates }}
+      run-smoke: ${{ steps.affected.outputs.run-smoke }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Both scripts walk history: the merge base, the last green commit,
+          # a merge's parents.
+          fetch-depth: 0
+
+      # pnpm version comes from the "packageManager" field in package.json.
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # affected.mjs asks pnpm which packages depend on the diff, and pnpm
+      # answers "No projects matched", exit 0, from a checkout it has not
+      # installed. Lifecycle scripts are skipped because this job builds nothing.
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
+      # The nightly run has nothing to add on a commit that already had a full
+      # run: the report job keys main's full-run status by commit.
+      - name: Has this commit already had a full run?
+        id: measured
+        if: github.event_name == 'schedule'
+        uses: actions/cache/restore@v4
+        with:
+          path: manifest/test-status.json
+          key: test-status-full-${{ github.sha }}
+          lookup-only: true
+
+      - name: Find main's last green commit
+        id: green
+        if: >
+          github.event_name == 'push' ||
+          (github.event_name == 'workflow_dispatch' && !inputs.full && !inputs.update-visual-baselines)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/quality/last-green.mjs
+
+      # A PR is narrowed to the components its diff can reach. A push to main
+      # is narrowed to the diff since main was last green, or skipped outright
+      # when its PR already tested this exact tree. No base to diff against
+      # means a full run, never an empty one.
+      - name: Classify the change
+        id: affected
+        env:
+          EVENT: ${{ github.event_name }}
+          MEASURED: ${{ steps.measured.outputs.cache-hit }}
+          BASE: ${{ steps.green.outputs.base }}
+          VERIFIED: ${{ steps.green.outputs.verified }}
+          WHY: ${{ steps.green.outputs.reason }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            node scripts/quality/affected.mjs
+          elif [ "$MEASURED" = "true" ]; then
+            node scripts/quality/affected.mjs --skip "main has not changed since its last full run"
+          elif [ "$VERIFIED" = "true" ]; then
+            node scripts/quality/affected.mjs --skip "$WHY"
+          elif [ -n "$BASE" ]; then
+            node scripts/quality/affected.mjs --base "$BASE"
+          else
+            node scripts/quality/affected.mjs --full
+          fi
+
+  # Gate 4 — lint, stylelint, prettier (advisory), the derived token contract,
+  # typecheck, and orphaned visual baselines. Then Vitest across the workspace,
+  # with a machine-readable report so component tests land on their own docs
+  # page.
+  lint-unit:
+    name: Lint and unit
+    needs: classify
+    if: needs.classify.outputs.run-checks == 'true'
     runs-on: ubuntu-latest
 
-    # The whole job runs in the pinned Playwright image, which is what makes
-    # screenshot baselines mean anything: font rasterisation differs between
-    # macOS, a bare ubuntu-latest runner and this container, so a baseline is
-    # only comparable if everyone renders it the same way. Developers regenerate
-    # baselines through the same image
+    # Every job that renders or builds runs in the pinned Playwright image,
+    # which is what makes screenshot baselines mean anything: font rasterisation
+    # differs between macOS, a bare ubuntu-latest runner and this container, so
+    # a baseline is only comparable if everyone renders it the same way.
+    # Developers regenerate baselines through the same image
     # (`pnpm --filter @ui-organized/storybook run test:visual:docker`).
     #
     # It also ships the three browser builds, so nothing has to download ~400 MB
@@ -49,8 +181,9 @@ jobs:
     #
     # Keep this version in step with `@playwright/test` in apps/storybook —
     # the browser build is what determines the pixels, and bumping one without
-    # the other silently invalidates every baseline.
-    container:
+    # the other silently invalidates every baseline. Defined once here; the
+    # other jobs reuse it by anchor.
+    container: &playwright
       image: mcr.microsoft.com/playwright:v1.61.0-noble
       options: --ipc=host
 
@@ -65,291 +198,242 @@ jobs:
       - name: Set up workspace
         uses: ./.github/actions/setup
 
-      # ── What this change can possibly have broken ─────────────────────────
-      # A PR is narrowed to the components its diff can reach; everything else
-      # runs the whole suite. `--full` rather than "no base to diff against"
-      # because they are different facts: a push to main is a deliberate full
-      # run, and letting it fall through to the merge-base path would silently
-      # test nothing at all (on main, the merge base with main is HEAD).
-      #
-      # This is the half of the design that decides what NOT to run, so read
-      # scripts/quality/affected.mjs before trusting it — in particular its
-      # rule that an unrecognised path forces a full run. A narrowed suite is
-      # only worth having if it cannot go quiet by accident.
-      #
-      # Every push to main runs unfiltered, which is what keeps
-      # manifest/test-status.json complete for the production docs and means no
-      # untested combination reaches production.
-      - name: Classify the change
-        id: affected
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            node scripts/quality/affected.mjs
-          else
-            node scripts/quality/affected.mjs --full
-          fi
-
-      # ── The eight gates ───────────────────────────────────────────────────
-      # Ordered cheapest-and-blocking first, and deliberately run BEFORE the
-      # site build: each gate writes a report into .quality/, the aggregator
-      # turns those into manifest/test-status.json, and the marketing app
-      # imports that file at build time. Build the site first and every deployed
-      # docs page shows the results of the *previous* run.
-      #
-      # Five of these measure React through Storybook, which depends on
-      # `@ui-organized/react` alone. The three `· svelte/vue/angular` gates below
-      # measure the other libraries, on the parity harness. They are listed
-      # individually here rather than run through `pnpm quality`, matching how
-      # the rest of this job invokes them — but that means a gate added to
-      # `scripts/quality/run.mjs` and not added *here* runs on nobody's machine
-      # but its author's, which is how these three first shipped.
-      #
-      # Gate 4 — lint, stylelint, prettier (advisory), the derived token
-      # contract, typecheck, and orphaned visual baselines.
       - name: Lint and token validation
         run: pnpm quality:lint
 
-      # Vitest across the workspace, with a machine-readable report so component
-      # tests land on their own docs page.
       # Narrowed to the affected packages rather than skipped: this is where the
       # marketing app's own suite lives, and a docs-only change still has to run
       # it — `surfaces.test.ts` asserts against the real library barrels and has
       # caught a real bug doing so.
       - name: Unit tests
+        if: ${{ !cancelled() }}
         env:
-          QUALITY_PACKAGES: ${{ steps.affected.outputs.packages }}
+          QUALITY_PACKAGES: ${{ needs.classify.outputs.packages }}
         run: pnpm quality:unit
 
-      # One build, four gates.
-      - name: Build Storybook
-        run: pnpm --filter @ui-organized/storybook exec storybook build --quiet
-
-      # Before any browser gate, not just the parity one at the end.
-      #
-      # The container ships the browsers and `@playwright/test` matches its
-      # version, which is why the Storybook gates have always worked without
-      # this. It sat at the bottom next to the parity gate anyway — and when the
-      # three `· svelte/vue/angular` gates landed *above* it, they became the
-      # first Playwright steps in the job with nothing guaranteeing a browser.
-      # Cheap insurance, and it now covers every gate rather than the last one.
-      - name: Install Chromium for the browser gates
-        if: steps.affected.outputs.run-gates == 'true'
-        run: pnpm --filter @ui-organized/parity exec playwright install --with-deps chromium
-
-      # Gate 3 — axe-core over every story on Chromium, and each component's
-      # canonical story on Firefox and WebKit. Blocking.
-      - name: Accessibility
-        if: steps.affected.outputs.run-gates == 'true'
-        # Firefox and WebKit refuse to launch when $HOME is owned by another
-        # user, which it is here: the container runs steps as root while
-        # /github/home belongs to pwuser. Playwright says so itself —
-        # "Firefox is unable to launch if the $HOME folder isn't owned by the
-        # current user. Workaround: Set the HOME=/root environment variable".
-        # Scoped to the browser steps rather than the job, so the install and
-        # build steps keep the HOME they already work with.
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        run: pnpm quality:a11y
-
-      # The same question for Svelte, Vue and Angular, which Storybook cannot
-      # reach. Compared against React's own axe result at the same scenario
-      # rather than scored absolutely — a violation all four share belongs to the
-      # fixture or the shared CSS, and blaming a port for it would be wrong.
-      # Blocking, like its React counterpart.
-      - name: Accessibility · svelte/vue/angular
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        run: pnpm quality:a11y:frameworks
-
-      # Gate 2 — the keyboard contract on every component, plus hand-written
-      # behaviour specs, across all three engines. Blocking.
-      - name: Interaction
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        run: pnpm quality:interaction
-
-      # The keyboard contract in the other three libraries: hidden parts stay
-      # unrendered, interactive parts are reachable, a focused control looks
-      # focused. Absolute rather than compared — a port that broke one of these
-      # the same way React did would still be broken. Blocking.
-      - name: Interaction · svelte/vue/angular
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        run: pnpm quality:interaction:frameworks
-
-      # Gate 1 — pixel diffs against the committed Linux baselines.
-      #
-      # Advisory: a diff is very often an intended redesign, and a gate that
-      # cries wolf on every deliberate restyle is one people learn to force-merge
-      # past. It still reports, and the result still shows on the component's
-      # docs page and on /quality.
-      # Baselines are per-platform, and the committed set is macOS
-      # (`-darwin`) — a developer's local set. CI renders Linux (`-linux`), so
-      # until those are committed the gate reports them as "not yet recorded"
-      # rather than as diffs: the aggregator distinguishes a missing baseline
-      # from a changed one, because "we have never measured this" and "this
-      # changed" are different facts and only one of them is a regression.
-      #
-      # Bootstrap them with the `update-visual-baselines` dispatch input above,
-      # or locally through the same container with
-      # `pnpm --filter @ui-organized/storybook run test:visual:docker -- --update-snapshots`.
-      - name: Visual regression
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        id: visual
-        continue-on-error: true
-        run: |
-          if [ "${{ inputs.update-visual-baselines }}" = "true" ]; then
-            pnpm --filter @ui-organized/storybook exec playwright test \
-              --project=visual --update-snapshots --reporter=list
-          else
-            pnpm quality:visual
-          fi
-
-      # Whether the three ports still *look* like React's. Advisory for the same
-      # reason as the gate above — but note it needs no baselines at all: it
-      # screenshots each library and React in the same run, in the same browser,
-      # so a difference is unambiguously the stylesheet rather than the platform.
-      # That is also why it is unaffected by the missing Linux baselines above.
-      - name: Visual · svelte/vue/angular
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        id: visual-frameworks
-        continue-on-error: true
-        run: pnpm quality:visual:frameworks
-
-      # Gate 5 — every story renders on Firefox and WebKit with no console
-      # errors. Advisory for the same reason: engine-specific console noise from
-      # third-party code is real, and this is most useful as a signal.
-      - name: Cross-browser smoke
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        id: browsers
-        continue-on-error: true
-        run: pnpm quality:browsers
-
-      # `always()` so a blocking-gate failure still produces a report: the whole
-      # point of the docs surface is to say what failed. The aggregator reads the
-      # JSON reports rather than exit codes, which is what keeps the advisory
-      # gates' failures visible above rather than swallowed by continue-on-error.
-      #
-      # The `hashFiles` guard is there because `always()` has a failure mode of
-      # its own. If a step *before* `Build Storybook` fails, that build is skipped
-      # — and this step still runs, then dies with "No Storybook build at
-      # storybook-static/index.json", which reads as a broken aggregator and sends
-      # you looking in the wrong place. It has done exactly that twice. With the
-      # guard the step is skipped instead, and the only red step in the run is the
-      # one that actually failed.
-      - name: Aggregate test results
-        if: always() && hashFiles('apps/storybook/storybook-static/index.json') != ''
-        run: pnpm quality:aggregate
-
-      # Say so out loud, rather than leaving a silently-skipped step above as the
-      # only clue.
-      - name: Explain a skipped aggregation
-        if: always() && hashFiles('apps/storybook/storybook-static/index.json') == ''
-        run: |
-          echo "::warning::Aggregation skipped — there is no Storybook build, which"
-          echo "::warning::means a step before 'Build Storybook' failed. The first red"
-          echo "::warning::step in this run is the real failure; this one is downstream."
-
-      # ── Site ──────────────────────────────────────────────────────────────
-      # Storybook is already built, so it is not rebuilt here. The marketing
-      # build picks up the manifest/test-status.json written a moment ago.
-      - name: Build and assemble site
-        uses: ./.github/actions/build-site
-        with:
-          cf-analytics-token: ${{ vars.VITE_CF_ANALYTICS_TOKEN }}
-          contact-endpoint: ${{ vars.VITE_CONTACT_ENDPOINT }}
-          turnstile-site-key: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
-          skip-storybook-build: "true"
-
-      # Two gates against bugs that only exist in the published/production
-      # artifact, which unit tests cannot reach. Both have already caught a
-      # shipped regression; `pnpm release` runs them too, so a manual publish is
-      # gated the same way.
-      #
-      #  · CLI — packs the tarball, installs it, runs the bin THROUGH npm's bin
-      #    symlink. An import-based test calls main() directly and bypasses the
-      #    entry point, which is exactly where the CLI shipped as a silent no-op:
-      #    no output, exit 0, whole suite green.
-      #
-      #  · Icons — builds examples/icon-smoke for production and counts the <svg>
-      #    elements a browser renders. Icon registration happens by import side
-      #    effect, so a wrong `sideEffects` field tree-shakes it away in `vite
-      #    build` only; dev renders fine and nothing throws. Grepping the bundle
-      #    can't substitute — it's minified.
-      - name: Smoke-test the published artifacts
-        if: steps.affected.outputs.run-smoke == 'true'
-        run: pnpm smoke
-
-      # The other half of the cross-framework parity gate, and the only half not
-      # already covered above. `pnpm test` runs the SSR half through turbo; this
-      # one needs a browser, so it sits outside the task graph and would
-      # otherwise run only when someone remembered to.
-      #
-      # It covers everything static rendering cannot see: portalled overlay
-      # content, `[data-state="open"]` and `[data-highlighted]`, toasts, and the
-      # whole Angular library — which is compared in the browser only, because
-      # putting it in the SSR gate would mean a rendering path no consumer of
-      # that package uses.
-      #
-      # Blocking, unlike the visual gate. A pixel diff is often an intended
-      # redesign; four libraries disagreeing about the DOM they render against
-      # one shared stylesheet never is.
-      - name: Cross-framework parity (browser)
-        if: steps.affected.outputs.run-gates == 'true'
-        env:
-          QUALITY_COMPONENTS: ${{ steps.affected.outputs.components }}
-          HOME: /root
-        run: pnpm --filter @ui-organized/parity test:browser
-
-      # Consumed by ci-report.yml via cross-workflow download. include-hidden-files
-      # is required or the assembled _site/.assetsignore (a dotfile) is dropped.
-      - name: Upload site artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: site
-          path: _site
-          include-hidden-files: true
-          if-no-files-found: error
-          retention-days: 7
-
-      # Separate from the site so ci-report.yml can render the gate summary onto
-      # the PR without unpacking the whole build.
-      - name: Upload test status
+      # The aggregator in the report job reads these, so they are uploaded even
+      # when a check failed: the whole point of the docs surface is to say what.
+      - name: Upload reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-status
-          path: manifest/test-status.json
-          if-no-files-found: warn
+          name: quality-lint-unit
+          path: .quality
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # ── The browser gates ──────────────────────────────────────────────────────
+  # Five of these measure React through Storybook, which depends on
+  # `@ui-organized/react` alone. The `· svelte/vue/angular` entries measure the
+  # other libraries, on the parity harness.
+  #
+  # A gate added to `scripts/quality/run.mjs` and not added to this matrix runs
+  # on nobody's machine but its author's, which is how the three framework gates
+  # first shipped.
+  gate:
+    name: ${{ matrix.label }}
+    needs: classify
+    if: needs.classify.outputs.run-gates == 'true'
+    runs-on: ubuntu-latest
+    container: *playwright
+    strategy:
+      # One gate failing must not cancel the rest: the report wants every
+      # gate's result, and a cancelled gate can only report "not run".
+      fail-fast: false
+      matrix:
+        include:
+          # Gate 3 — axe-core over every story on Chromium, and each component's
+          # canonical story on Firefox and WebKit. Blocking.
+          - name: a11y
+            label: Accessibility
+            run: pnpm quality:a11y
+            storybook: true
+            advisory: false
+
+          # The same question for Svelte, Vue and Angular, which Storybook cannot
+          # reach. Compared against React's own axe result at the same scenario
+          # rather than scored absolutely — a violation all four share belongs to
+          # the fixture or the shared CSS, and blaming a port for it would be
+          # wrong. Blocking, like its React counterpart.
+          - name: a11y-frameworks
+            label: Accessibility · svelte/vue/angular
+            run: pnpm quality:a11y:frameworks
+            storybook: false
+            advisory: false
+
+          # Gate 2 — the keyboard contract on every component, plus hand-written
+          # behaviour specs, across all three engines. Blocking.
+          - name: interaction
+            label: Interaction
+            run: pnpm quality:interaction
+            storybook: true
+            advisory: false
+
+          # The keyboard contract in the other three libraries: hidden parts stay
+          # unrendered, interactive parts are reachable, a focused control looks
+          # focused. Absolute rather than compared — a port that broke one of
+          # these the same way React did would still be broken. Blocking.
+          - name: interaction-frameworks
+            label: Interaction · svelte/vue/angular
+            run: pnpm quality:interaction:frameworks
+            storybook: false
+            advisory: false
+
+          # Gate 1 — pixel diffs against the committed Linux baselines.
+          #
+          # Advisory: a diff is very often an intended redesign, and a gate that
+          # cries wolf on every deliberate restyle is one people learn to
+          # force-merge past. It still reports, and the result still shows on the
+          # component's docs page and on /quality.
+          # Baselines are per-platform. A platform with none committed reports
+          # "not yet recorded" rather than diffs: the aggregator distinguishes a
+          # missing baseline from a changed one, because "we have never measured
+          # this" and "this changed" are different facts and only one of them is
+          # a regression.
+          #
+          # Bootstrap them with the `update-visual-baselines` dispatch input, or
+          # locally through the same container with
+          # `pnpm --filter @ui-organized/storybook run test:visual:docker -- --update-snapshots`.
+          - name: visual
+            label: Visual regression
+            run: pnpm quality:visual
+            storybook: true
+            advisory: true
+            warning: Pixel diffs found. Advisory, so CI stays green — check the playwright-reports-visual artifact and manifest/test-status.json.
+
+          # Whether the three ports still *look* like React's. Advisory for the
+          # same reason as the gate above — but note it needs no baselines at
+          # all: it screenshots each library and React in the same run, in the
+          # same browser, so a difference is unambiguously the stylesheet rather
+          # than the platform.
+          - name: visual-frameworks
+            label: Visual · svelte/vue/angular
+            run: pnpm quality:visual:frameworks
+            storybook: false
+            advisory: true
+            warning: The ports render differently from React. Advisory, so CI stays green — see manifest/test-status.json.
+
+          # Gate 5 — every story renders on Firefox and WebKit with no console
+          # errors. Advisory for the same reason: engine-specific console noise
+          # from third-party code is real, and this is most useful as a signal.
+          - name: browsers
+            label: Cross-browser smoke
+            run: pnpm quality:browsers
+            storybook: true
+            advisory: true
+            warning: A story failed to render cleanly on Firefox or WebKit. Advisory, so CI stays green — see the playwright-reports-browsers artifact.
+
+          # The other half of the cross-framework parity gate. `pnpm test` runs
+          # the SSR half through turbo; this one needs a browser, so it sits
+          # outside the task graph.
+          #
+          # It covers everything static rendering cannot see: portalled overlay
+          # content, `[data-state="open"]` and `[data-highlighted]`, toasts, and
+          # the whole Angular library — which is compared in the browser only,
+          # because putting it in the SSR gate would mean a rendering path no
+          # consumer of that package uses.
+          #
+          # Blocking, unlike the visual gate. A pixel diff is often an intended
+          # redesign; four libraries disagreeing about the DOM they render
+          # against one shared stylesheet never is.
+          #
+          # Sharded four ways because at 35–40 minutes it was the slowest gate by
+          # a factor of three. It is the one gate whose report the aggregator
+          # does not read, so its shards have no reports to merge.
+          - name: parity-1
+            label: Cross-framework parity (browser) 1/4
+            run: pnpm --filter @ui-organized/parity test:browser --shard=1/4
+            storybook: false
+            advisory: false
+          - name: parity-2
+            label: Cross-framework parity (browser) 2/4
+            run: pnpm --filter @ui-organized/parity test:browser --shard=2/4
+            storybook: false
+            advisory: false
+          - name: parity-3
+            label: Cross-framework parity (browser) 3/4
+            run: pnpm --filter @ui-organized/parity test:browser --shard=3/4
+            storybook: false
+            advisory: false
+          - name: parity-4
+            label: Cross-framework parity (browser) 4/4
+            run: pnpm --filter @ui-organized/parity test:browser --shard=4/4
+            storybook: false
+            advisory: false
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+
+      - name: Build Storybook
+        if: matrix.storybook
+        run: pnpm --filter @ui-organized/storybook exec storybook build --quiet
+
+      # The container ships the browsers and `@playwright/test` matches its
+      # version, which is why the Storybook gates always worked without this.
+      # The three `· svelte/vue/angular` gates were once the first Playwright
+      # steps in the job with nothing guaranteeing a browser; cheap insurance.
+      - name: Install Chromium
+        run: pnpm --filter @ui-organized/parity exec playwright install --with-deps chromium
+
+      # Firefox and WebKit refuse to launch when $HOME is owned by another user,
+      # which it is here: the container runs steps as root while /github/home
+      # belongs to pwuser. Playwright says so itself — "Firefox is unable to
+      # launch if the $HOME folder isn't owned by the current user. Workaround:
+      # Set the HOME=/root environment variable". Scoped to the gate step rather
+      # than the job, so the install and build steps keep the HOME they already
+      # work with.
+      - name: ${{ matrix.label }}
+        id: gate
+        if: ${{ !(matrix.name == 'visual' && inputs.update-visual-baselines) }}
+        continue-on-error: ${{ matrix.advisory }}
+        env:
+          QUALITY_COMPONENTS: ${{ needs.classify.outputs.components }}
+          HOME: /root
+        run: ${{ matrix.run }}
+
+      - name: Re-render the visual baselines
+        if: matrix.name == 'visual' && inputs.update-visual-baselines
+        continue-on-error: true
+        env:
+          HOME: /root
+        run: >
+          pnpm --filter @ui-organized/storybook exec playwright test
+          --project=visual --update-snapshots --reporter=list
+
+      # The advisory gates deliberately do not fail the job. Surface them in the
+      # run summary so "green with a warning" is still visible at a glance.
+      - name: Note an advisory failure
+        if: always() && matrix.advisory && steps.gate.outcome == 'failure'
+        run: echo "::warning title=${{ matrix.label }}::${{ matrix.warning }}"
+
+      # Read by the aggregator in the report job. Uploaded on failure too: a
+      # failed gate's report is the one that says what failed.
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-${{ matrix.name }}
+          path: .quality
+          include-hidden-files: true
+          if-no-files-found: ignore
           retention-days: 7
 
       # The HTML reports and, crucially, the actual/expected/diff PNGs — the only
       # way to judge whether a pixel diff is a regression or an intended change.
-      # Uploaded on failure too, which is when they matter most.
       - name: Upload Playwright reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-reports
+          name: playwright-reports-${{ matrix.name }}
           path: |
             apps/storybook/playwright-report
             apps/storybook/test-results
+            tooling/parity/test-results
           if-no-files-found: ignore
           retention-days: 7
 
@@ -358,7 +442,7 @@ jobs:
       # records that as "no results", not as a failure). This hands the freshly
       # rendered PNGs over so a maintainer can commit them once.
       - name: Upload visual baselines
-        if: always()
+        if: always() && matrix.name == 'visual'
         uses: actions/upload-artifact@v4
         with:
           name: visual-baselines
@@ -366,14 +450,169 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-      # The advisory gates deliberately do not fail the job. Surface them in the
-      # run summary so "green with a warning" is still visible at a glance.
-      - name: Note advisory gate failures
-        if: always()
+  # Two gates against bugs that only exist in the published/production artifact,
+  # which unit tests cannot reach. Both have already caught a shipped regression;
+  # `pnpm release` runs them too, so a manual publish is gated the same way.
+  #
+  #  · CLI — packs the tarball, installs it, runs the bin THROUGH npm's bin
+  #    symlink. An import-based test calls main() directly and bypasses the
+  #    entry point, which is exactly where the CLI shipped as a silent no-op:
+  #    no output, exit 0, whole suite green.
+  #
+  #  · Icons — builds examples/icon-smoke for production and counts the <svg>
+  #    elements a browser renders. Icon registration happens by import side
+  #    effect, so a wrong `sideEffects` field tree-shakes it away in `vite
+  #    build` only; dev renders fine and nothing throws. Grepping the bundle
+  #    can't substitute — it's minified.
+  #
+  # Its own job, which also keeps the CLI smoke's nested `pnpm build` from
+  # racing anything else on the runner.
+  smoke:
+    name: Smoke-test the published artifacts
+    needs: classify
+    if: needs.classify.outputs.run-smoke == 'true'
+    runs-on: ubuntu-latest
+    container: *playwright
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+
+      - name: Smoke-test the published artifacts
+        run: pnpm smoke
+
+  # ── Report and site ────────────────────────────────────────────────────────
+  # Runs after every gate, and deliberately before the site build: each gate
+  # wrote a report, the aggregator turns those into manifest/test-status.json,
+  # and the marketing app imports that file at build time. Build the site first
+  # and every deployed docs page shows the results of the *previous* run.
+  #
+  # `!cancelled()` so a blocking-gate failure still produces a report: the whole
+  # point of the docs surface is to say what failed. The aggregator reads the
+  # JSON reports rather than exit codes, which is what keeps the advisory gates'
+  # failures visible rather than swallowed by continue-on-error.
+  report:
+    name: Report and build the site
+    needs: [classify, lint-unit, gate, smoke]
+    if: ${{ !cancelled() && needs.classify.result == 'success' }}
+    runs-on: ubuntu-latest
+    container: *playwright
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up workspace
+        uses: ./.github/actions/setup
+
+      - name: Download gate reports
+        if: needs.classify.outputs.mode != 'skipped'
+        uses: actions/download-artifact@v4
+        with:
+          pattern: quality-*
+          path: .quality
+          merge-multiple: true
+
+      # The site serves it at /storybook/, and the aggregator reads its story
+      # index to know which components exist.
+      - name: Build Storybook
+        run: pnpm --filter @ui-organized/storybook exec storybook build --quiet
+
+      - name: Aggregate test results
+        if: needs.classify.outputs.mode != 'skipped'
+        run: pnpm quality:aggregate
+
+      # Separate from the site so ci-report.yml can render the gate summary onto
+      # the PR without unpacking the whole build.
+      - name: Upload test status
+        if: always() && needs.classify.outputs.mode != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-status
+          path: manifest/test-status.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      # A full run on main that passed every blocking gate is what later main
+      # runs build the production docs from (below). Keyed by commit, which is
+      # also how the nightly run knows main has not moved since. Not a baseline
+      # re-render: its visual gate updated snapshots instead of measuring them.
+      - name: Keep this run as main's full status
+        if: >
+          needs.classify.outputs.mode == 'full' &&
+          github.event_name != 'pull_request' &&
+          !inputs.update-visual-baselines &&
+          needs.lint-unit.result == 'success' &&
+          needs.gate.result == 'success' &&
+          needs.smoke.result != 'failure'
+        uses: actions/cache/save@v4
+        with:
+          path: manifest/test-status.json
+          key: test-status-full-${{ github.sha }}
+
+      # A narrowed or skipped run measured only part of the library, and the
+      # production docs show every component's results. Publishing this run's
+      # file would blank the rest; instead the site gets the status of main's
+      # last full run, real results at a named commit, which the page states.
+      # That is at most a day old, because of the nightly run. With nothing
+      # cached it falls back to the committed file, which says its commit too.
+      - name: Fall back to the committed status
+        if: needs.classify.outputs.mode != 'full' && github.event_name != 'pull_request'
+        run: git checkout -- manifest/test-status.json
+
+      - name: Use main's last full status
+        id: baseline
+        if: needs.classify.outputs.mode != 'full' && github.event_name != 'pull_request'
+        uses: actions/cache/restore@v4
+        with:
+          path: manifest/test-status.json
+          key: test-status-full-${{ github.sha }}
+          restore-keys: test-status-full-
+
+      - name: Say so when there is no full status
+        if: steps.baseline.outcome == 'success' && steps.baseline.outputs.cache-matched-key == ''
         run: |
-          if [ "${{ steps.visual.outcome }}" = "failure" ]; then
-            echo "::warning title=Visual regression::Pixel diffs found. Advisory, so CI stays green — check the playwright-reports artifact and manifest/test-status.json."
-          fi
-          if [ "${{ steps.browsers.outcome }}" = "failure" ]; then
-            echo "::warning title=Cross-browser::A story failed to render cleanly on Firefox or WebKit. Advisory, so CI stays green — see the playwright-reports artifact."
-          fi
+          echo "::warning::No full run on main is cached yet, so the site is built with the"
+          echo "::warning::committed manifest/test-status.json. Dispatch CI (full) to refresh it."
+
+      # Storybook is already built, so it is not rebuilt here. Skipped when a
+      # blocking job failed: neither the preview nor production deploys a red
+      # run, so the site would be built for nobody.
+      - name: Build and assemble site
+        if: ${{ !contains(needs.*.result, 'failure') }}
+        uses: ./.github/actions/build-site
+        with:
+          cf-analytics-token: ${{ vars.VITE_CF_ANALYTICS_TOKEN }}
+          contact-endpoint: ${{ vars.VITE_CONTACT_ENDPOINT }}
+          turnstile-site-key: ${{ vars.VITE_TURNSTILE_SITE_KEY }}
+          skip-storybook-build: "true"
+
+      # Consumed by ci-report.yml via cross-workflow download. include-hidden-files
+      # is required or the assembled _site/.assetsignore (a dotfile) is dropped.
+      - name: Upload site artifact
+        if: ${{ !contains(needs.*.result, 'failure') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: _site
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+
+  ci-ok:
+    name: CI passed
+    needs: [classify, lint-unit, gate, smoke, report]
+    # Skipped along with everything else on a draft, rather than reporting a
+    # pass for a run that tested nothing.
+    if: ${{ always() && needs.classify.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    steps:
+      # Skipped is a pass: it is how a narrowed run leaves out what it did not
+      # need. The advisory gates already fail only their own step.
+      - name: Every job passed or was not needed
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          echo "$RESULTS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          echo "$RESULTS" | jq -e 'all(.[]; .result == "success" or .result == "skipped")' > /dev/null

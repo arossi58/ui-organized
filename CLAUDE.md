@@ -85,16 +85,29 @@ run Svelte/Vue/Angular on the parity harness because Storybook depends on
 report but never fail.
 
 **A gate added to `scripts/quality/run.mjs` is not a gate until it is also added
-to `.github/workflows/ci.yml`.** CI invokes the individual `quality:*` scripts
-and never bare `pnpm quality`, so the three framework gates above shipped running
-on nobody's machine but their author's.
+to the `gate` matrix in `.github/workflows/ci.yml`.** CI runs each `quality:*`
+script as its own parallel job and never bare `pnpm quality`, so the three
+framework gates above shipped running on nobody's machine but their author's.
 
 ### Selective CI
 
-**On a PR the gates run only for the components the diff can reach; every push
-to main runs everything.** `scripts/quality/affected.mjs` classifies the diff and
-CI's `Classify the change` step exports the result. Local runs and main are
-unfiltered, so `pnpm quality` is unchanged.
+**On a PR the gates run only for the components the diff can reach. A push to
+main runs nothing when the merged PR already tested that exact tree, and
+otherwise runs the diff since main was last green. Everything runs nightly.**
+`scripts/quality/affected.mjs` classifies the diff, `scripts/quality/last-green.mjs`
+decides a main push's base, and CI's `classify` job exports the result. Local
+runs are unfiltered, so `pnpm quality` is unchanged. Drafts run nothing until
+marked ready.
+
+- Ask why a main push was skipped or narrowed, from a laptop:
+  `GITHUB_REPOSITORY=arossi58/ui-organized node scripts/quality/last-green.mjs --sha <merge>`.
+  A merge verifies only if main was green just before it and the PR's latest run
+  passed after main last moved. A merge made while that run was still going
+  (#36) falls back to narrowing.
+- **The production docs' test status comes from main's last full run**, cached by
+  commit (`test-status-full-<sha>`), not from narrowed runs, which would blank
+  every component they skipped. It lags main by at most a day.
+- `roadmap-sync.yml` dispatches CI with `full=false`; a manual dispatch is full.
 
 - `QUALITY_COMPONENTS` — comma-separated slugs. Read in **one place per harness**:
   `apps/storybook/shared/story.ts` (which narrows visual, interaction, a11y and
@@ -139,12 +152,12 @@ are deliberately out of its allowlist in `store.ts`.
   Firefox and WebKit refuse to launch at all. Fixed by `safe.directory` in
   `.github/actions/setup` and `HOME: /root` on the browser steps. If something
   else in CI fails in a way that makes no sense locally, check this third.
-- **A CI failure at `quality:aggregate` is almost never about the aggregator.**
-  That step is `if: always()`, so it runs even when an earlier step failed —
-  "No Storybook build at …/storybook-static/index.json" means `Build Storybook`
-  was *skipped* because something before it failed. Read the first red step, not
-  the last. (`.github/actions/setup` builds `./packages/*` plus each app's
-  dependency closure; a gate that reaches further than that is the usual cause.)
+- **A CI failure in the `report` job is almost never about the aggregator.**
+  It runs after every gate even when one failed, so read the first red *job*,
+  not the last. A gate showing "not-run" on the docs means that gate's job
+  uploaded no `quality-<name>` report, usually because it died in setup.
+  (`.github/actions/setup` builds `./packages/*` plus each app's dependency
+  closure; a gate that reaches further than that is the usual cause.)
 - **Apps consume `dist`, not `src`.** `packages/react`'s `exports` map points only at `dist/`
   with no source condition, so Storybook and marketing load the *built* package. Rebuild the
   package (and restart Storybook) before believing any browser check or screenshot.

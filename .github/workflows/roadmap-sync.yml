@@ -66,11 +66,15 @@ jobs:
       # A push made with the default GITHUB_TOKEN does NOT trigger other
       # workflows (GitHub's recursion guard), so CI won't fire on the commit
       # above. Dispatch it explicitly — workflow_dispatch is exempt from that
-      # guard. CI (ci.yml) builds + tests the site on main, and ci-report.yml then
-      # deploys the fresh roadmap.json to production (its guard accepts
-      # workflow_dispatch runs on main).
+      # guard. ci-report.yml then deploys the fresh roadmap.json to production
+      # (its guard accepts workflow_dispatch runs on main).
+      #
+      # `full=false` because a roadmap edit cannot break a component: CI tests
+      # only what changed since main was last green, which for roadmap.json is
+      # the marketing app's unit suite, and rebuilds the site. A full run here
+      # used to cost an hour and a half per board change.
       - name: Trigger site deploy
         if: steps.commit.outputs.committed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh workflow run ci.yml
+        run: gh workflow run ci.yml -f full=false
