@@ -63,6 +63,11 @@ tooling/token-editor/
 apps/marketing/SITE.md
 # Anchored, so a future packages/*/TABLE.md readme isn't swallowed too.
 /TABLE.md
+# Competitive gap analyses vs Untitled UI, Relume and shadcn/ui (local reference, not published).
+# COMPETITIVE-ANALYSIS.html combines the other two and adds the parity matrix and board.
+/UNTITLED-UI-COMPARISON.html
+/RELUME-COMPARISON.html
+/COMPETITIVE-ANALYSIS.html
 
 # Internal operational docs (kept local, not published).
 # Anchored to the repo root: an unanchored `docs/` also swallows source

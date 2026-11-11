@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/parity",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "description": "Asserts that every ui-organized framework library renders the same DOM contract.",
   "type": "module",

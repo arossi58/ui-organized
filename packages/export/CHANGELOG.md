@@ -1,5 +1,15 @@
 # @ui-organized/export
 
+## 0.2.2
+
+### Patch Changes
+
+- Updated dependencies [e6613d2]
+- Updated dependencies
+  - @ui-organized/tokens@3.5.0
+  - @ui-organized/resolver@0.1.5
+  - @ui-organized/token-io@0.1.5
+
 ## 0.2.1
 
 ### Patch Changes

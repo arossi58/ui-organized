@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/vue-table",
-  "version": "0.1.0",
+  "version": "6.0.0",
   "description": "Vue data table for the ui-organized design system: headless composable, styled parts, and a batteries-included <DataTable>, built on @ui-organized/table-core.",
   "keywords": [
     "design-system",
@@ -54,7 +54,7 @@
     "test:smoke": "node ../../scripts/smoke-table.mjs vue"
   },
   "peerDependencies": {
-    "@ui-organized/vue": ">=0.1.0",
+    "@ui-organized/vue": ">=6.0.0",
     "vue": ">=3.5.0"
   },
   "dependencies": {
