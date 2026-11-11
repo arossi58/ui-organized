@@ -16,6 +16,7 @@ import { TableSelectionBar } from "../TableSelectionBar/index.js";
 import { TableFilterSheet, TableSortSheet } from "../TableSheets/index.js";
 import TableActions from "./TableActions.vue";
 import TableExportMenu from "./TableExportMenu.vue";
+import TableReorderToggle from "./TableReorderToggle.vue";
 import TableScrollButtons from "./TableScrollButtons.vue";
 import TableSearch from "./TableSearch.vue";
 import TableSortMenu from "./TableSortMenu.vue";
@@ -55,6 +56,7 @@ const render = computed(
     filterable.value ||
     sortMenu.value ||
     table.scroll.state.value.overflowing ||
+    table.reorder.mode.value === "toggle" ||
     actions.value.length > 0,
 );
 </script>
@@ -112,6 +114,7 @@ const render = computed(
       </template>
       <TableExportMenu v-if="exportable" />
       <TableViewOptions v-if="hideable" />
+      <TableReorderToggle />
     </template>
     <!-- Last, and only while the viewport is actually hiding columns. -->
     <TableScrollButtons />

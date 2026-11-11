@@ -5,12 +5,24 @@
  */
 
 .contact-section {
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
 }
 
-/* Narrow the shared page wrap down to a single readable form column. */
+/* Narrow the shared page wrap down to a single readable form column, set on a
+   surface-primary panel like the roadmap board. The max-width grows by the
+   padding so the form column itself stays 600px. */
 .contact-section__wrap {
-  max-width: 600px;
+  --contact-panel-pad: var(--spacing-space-08);
+  max-width: calc(600px + 2 * var(--contact-panel-pad));
+  padding: var(--contact-panel-pad);
+  background: var(--color-surface-primary);
+  border-radius: var(--border-radius-08);
+}
+
+@media (max-width: 600px) {
+  .contact-section__wrap {
+    --contact-panel-pad: var(--spacing-space-05);
+  }
 }
 
 .contact-section__header {

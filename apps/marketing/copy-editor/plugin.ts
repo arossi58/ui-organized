@@ -18,7 +18,7 @@ const isLocalHost = (host: string | undefined): boolean => {
  * reach them. Requiring a same-host Origin and a JSON body stops cross-site form
  * posts; checking Host stops DNS rebinding.
  */
-function isAllowed(req: IncomingMessage): boolean {
+export function isAllowed(req: IncomingMessage): boolean {
   if (!isLocalHost(req.headers.host)) return false;
   const origin = req.headers.origin;
   if (req.method === "GET") return !origin || origin.endsWith(`//${req.headers.host}`);
@@ -26,7 +26,7 @@ function isAllowed(req: IncomingMessage): boolean {
   return (req.headers["content-type"] ?? "").startsWith("application/json");
 }
 
-const readJson = (req: IncomingMessage): Promise<Record<string, unknown>> =>
+export const readJson = (req: IncomingMessage): Promise<Record<string, unknown>> =>
   new Promise((resolve, reject) => {
     let body = "";
     req.on("data", (chunk) => {
@@ -43,7 +43,7 @@ const readJson = (req: IncomingMessage): Promise<Record<string, unknown>> =>
     req.on("error", reject);
   });
 
-const send = (res: ServerResponse, status: number, body: unknown) => {
+export const send = (res: ServerResponse, status: number, body: unknown) => {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify(body));

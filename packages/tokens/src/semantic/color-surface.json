@@ -6,11 +6,11 @@
     },
     "primary": {
       "$type": "color",
-      "$value": "{grey.2300}"
+      "$value": "{grey.2200}"
     },
     "secondary": {
       "$type": "color",
-      "$value": "{grey.2200}"
+      "$value": "{grey.2300}"
     },
     "overlay-primary": {
       "$type": "color",

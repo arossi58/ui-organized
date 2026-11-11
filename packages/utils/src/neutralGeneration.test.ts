@@ -24,11 +24,11 @@ const TOKEN_PAIRS: [label: string, fg: string, bg: string][] = [
   ["light content-placeholder on surface-primary", "1700", "100"],
   ["light border-primary on surface-primary", "800", "100"],
   ["light border-data-entry on surface-base", "1400", "400"],
-  ["dark content-primary on surface-primary", "100", "2300"],
+  ["dark content-primary on surface-primary", "100", "2200"],
   ["dark content-primary on surface-base", "100", "2400"],
-  ["dark content-secondary on surface-primary", "1100", "2300"],
-  ["dark content-tertiary on surface-secondary", "1300", "2200"],
-  ["dark border-primary on surface-secondary", "2100", "2200"],
+  ["dark content-secondary on surface-primary", "1100", "2200"],
+  ["dark content-tertiary on surface-secondary", "1300", "2300"],
+  ["dark border-primary on surface-primary", "2000", "2200"],
 ];
 
 const SAMPLE_HUES = [0, 18, 65, 141, 196, 228, 265, 292, 338];

@@ -23,6 +23,7 @@ import {
   type Staleness,
 } from "@ui-organized/code-connect/browser";
 import { getUsageGuide } from "@ui-organized/code-connect/usage";
+import type { ComponentManifest } from "@ui-organized/code-connect/schema";
 import angularPkg from "../../../../../packages/angular/package.json";
 import reactPkg from "../../../../../packages/react/package.json";
 import sveltePkg from "../../../../../packages/svelte/package.json";
@@ -82,6 +83,17 @@ export interface AiContextOptions {
   liveArgs?: Record<string, unknown>;
   /** Deep link into Storybook, when its index is available. */
   storybookUrl?: string;
+  /**
+   * The chosen library's own scan (`manifest/frameworks/<fw>.json`). Given, the
+   * copied props are that library's — Vue's `modelValue`, Svelte's snippets —
+   * matching the published `/ai/<fw>/<Component>.md` exactly.
+   */
+  frameworkManifest?: ComponentManifest;
+}
+
+/** The library entry implementing a React export, found by its `reactName` link. */
+function implementing(manifest: ComponentManifest | undefined, reactName: string) {
+  return manifest?.components.find((c) => c.reactName === reactName && c.status !== "deprecated");
 }
 
 /**
@@ -108,11 +120,21 @@ export function aiContextInputFor(
     }
   }
   const query = framework === "react" ? "" : `?framework=${framework}`;
+  const own = target ? implementing(options.frameworkManifest, entry.codeName) : undefined;
+  const relatedOwn = Object.fromEntries(
+    target
+      ? component.related.flatMap((sibling) => {
+          const match = implementing(options.frameworkManifest, sibling.codeName);
+          return match ? [[sibling.codeName, match]] : [];
+        })
+      : [],
+  );
 
   return {
     entry,
     related: component.related,
     ...(target ? { target, relatedTargets } : {}),
+    ...(own ? { frameworkEntry: own, relatedFrameworkEntries: relatedOwn } : {}),
     staleness: options.staleness,
     confidence: "exact",
     description: component.description,
@@ -131,7 +153,7 @@ export function aiContextInputFor(
       setupImports: setupImportsFor(framework, { table: component.slug === "data-table" }),
       siteUrl: `${SITE_ORIGIN}/docs/${component.slug}${query}`,
       docUrl: `${SITE_ORIGIN}${aiSpecPath(framework, entry.codeName)}`,
-      indexUrl: `${SITE_ORIGIN}/llms.txt`,
+      indexUrl: `${SITE_ORIGIN}/${framework === "react" ? "llms.txt" : `llms-${framework}.txt`}`,
       componentCount: docsComponents.length,
       storybookUrl: options.storybookUrl,
     },

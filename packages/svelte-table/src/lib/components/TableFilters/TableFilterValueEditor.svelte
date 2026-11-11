@@ -150,9 +150,13 @@
     </div>
   {:else}
     <div class="data-table__filter-editor-value">
+      <!-- Into the editor, like the Select above: the calendar portalled to
+           <body> sits on the same popover tier as this editor, and the editor,
+           mounted later, painted over it. -->
       <DateInput
         {size}
         label={arity === "two" ? "From" : "Date"}
+        {portalContainer}
         class={clsx(
           "data-table__filter-field",
           arity !== "two" && "data-table__filter-field--unlabelled",
@@ -164,6 +168,7 @@
         <DateInput
           {size}
           label="To"
+          {portalContainer}
           value={stringAt(1)}
           oninput={(event) => setAt(1, event.currentTarget.value || null)}
         />

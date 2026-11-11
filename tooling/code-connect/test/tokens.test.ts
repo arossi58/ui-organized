@@ -95,3 +95,24 @@ describe("against the real token build", () => {
     expect(rows.filter((name) => /^--(grey|brand)-/.test(name))).toEqual([]);
   });
 });
+
+describe("getToken with Figma variable names", async () => {
+  const { getToken: lookup, parseTokens: parse } = await import("../src/tokens/catalog.js");
+  const { readFileSync: read } = await import("node:fs");
+  const { resolve: res, dirname: dir } = await import("node:path");
+  const { fileURLToPath: toPath } = await import("node:url");
+  const tokens = parse(read(res(dir(toPath(import.meta.url)), "../../../packages/tokens/output/variables.css"), "utf8"));
+  it.each([
+    ["spacing/space-02", "--spacing-space-02"],
+    ["--content/primary", "--color-content-primary"],
+    ["var(--spacing\\/space-02,8px)", "--spacing-space-02"],
+    ["component/radius/interactive", "--radius-interactive"],
+  ])("%s → %s", (figma, css) => {
+    const r = lookup(tokens, figma);
+    expect(r.found && r.token.name).toBe(css);
+  });
+  it("rejects a Figma name with no token, with real suggestions", () => {
+    const r = lookup(tokens, "spacing/space-200");
+    expect(r.found).toBe(false);
+  });
+});

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useAttrs, useId } from "vue";
+import { computed, useAttrs, useId, onMounted } from "vue";
 import { NumberInput, Field } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, numberFieldStyles } from "@ui-organized/core";
@@ -9,6 +9,10 @@ import FieldError from "../FieldError/FieldError.vue";
 import type { NumberFieldProps } from "./NumberField.types.js";
 import "@ui-organized/core/components/NumberField/NumberField.css";
 import { glyph } from "../../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+// Text fields read pointer vs keyboard for a quiet focus state on click.
+onMounted(() => trackFocusModality());
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts

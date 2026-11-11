@@ -124,6 +124,203 @@ describe("the selection's bulk actions", () => {
   });
 });
 
+/**
+ * Column reordering: header move buttons, a toolbar-switched mode, and
+ * Alt+Arrow on a focused header. Mirrors React's "column reordering"; dragging
+ * is native drag and drop, which jsdom does not implement.
+ */
+describe("column reordering", () => {
+  async function reorderable(setting: "always" | "toggle", extra: Record<string, unknown> = {}) {
+    const container = document.createElement("div");
+    document.body.append(container);
+    app = createApp({
+      render: () =>
+        h(DataTable as never, {
+          label: "Team",
+          columns: COLUMNS,
+          data: DATA,
+          getRowId: (row: Row) => row.id,
+          reorderable: setting,
+          ...extra,
+        }),
+    });
+    app.mount(container);
+    await nextTick();
+    return container;
+  }
+  const headers = (dom: HTMLElement) =>
+    [...dom.querySelectorAll("thead th")]
+      .map((cell) => cell.textContent?.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+  const button = (dom: HTMLElement, label: string) =>
+    dom.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`);
+  const click = async (element: HTMLElement | null) => {
+    element?.click();
+    await nextTick();
+    await nextTick();
+  };
+
+  it("moves a column one place with its header buttons, disabled at the ends", async () => {
+    const dom = await reorderable("always");
+    const names = COLUMNS.map((column) => column.header as string);
+    expect(headers(dom)).toEqual(names);
+    expect(button(dom, `Move ${names[0]} left`)?.disabled).toBe(true);
+    expect(button(dom, `Move ${names[names.length - 1]} right`)?.disabled).toBe(true);
+
+    await click(button(dom, `Move ${names[0]} right`));
+    expect(headers(dom)).toEqual([names[1], names[0], ...names.slice(2)]);
+  });
+
+  it("in toggle mode, offers moving only inside reorder mode", async () => {
+    const dom = await reorderable("toggle");
+    const first = COLUMNS[0]!.header as string;
+    expect(button(dom, `Move ${first} right`)).toBeNull();
+    expect(dom.querySelector('.data-table__head-inner[draggable="true"]')).toBeNull();
+
+    await click(button(dom, "Reorder columns"));
+    expect(button(dom, `Move ${first} right`)).not.toBeNull();
+    expect(dom.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(COLUMNS.length);
+
+    await click(button(dom, "Done reordering columns"));
+    expect(button(dom, `Move ${first} right`)).toBeNull();
+  });
+
+  it("leaves the table's own columns where they are", async () => {
+    const dom = await reorderable("always", { selection: "multiple" });
+    const select = dom.querySelector("th.data-table__select-cell");
+    expect(select?.querySelector('[draggable="true"]')).toBeNull();
+    expect(select?.querySelector(".data-table__move")).toBeNull();
+    expect(button(dom, `Move ${COLUMNS[0]!.header as string} left`)?.disabled).toBe(true);
+  });
+
+  it("moves the focused header's column with Alt+Arrow, and focus goes with it", async () => {
+    const dom = await reorderable("always", { selection: "multiple" });
+    const names = COLUMNS.map((column) => column.header as string);
+    // Column 0 is the checkbox column; 1 is the first data column.
+    const first = dom.querySelector<HTMLElement>('[data-cell="-1:1"]');
+    first?.focus();
+    await nextTick();
+    first?.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", altKey: true, bubbles: true }),
+    );
+    await nextTick();
+    await nextTick();
+    expect(headers(dom)).toEqual([names[1], names[0], ...names.slice(2)]);
+    expect(dom.querySelector('[data-cell][tabindex="0"]')?.getAttribute("data-cell")).toBe("-1:2");
+  });
+});
+
+/**
+ * `meta.date`: US-formatted strings in, the column's own format out, sorted as
+ * dates. Mirrors React's "date columns".
+ */
+describe("date columns", () => {
+  it("shows each date in the column's format, sorted as dates rather than strings", async () => {
+    const parseUs = (value: unknown) => {
+      const [m, d, y] = String(value).split("/").map(Number);
+      return y && m && d ? new Date(y, m - 1, d) : null;
+    };
+    const dmy = (date: Date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+    const container = document.createElement("div");
+    document.body.append(container);
+    app = createApp({
+      render: () =>
+        h(DataTable as never, {
+          label: "Hires",
+          data: [
+            { id: "a", name: "Ada", joined: "2/1/2026" },
+            { id: "b", name: "Grace", joined: "11/10/2025" },
+            { id: "c", name: "Alan", joined: "12/31/2025" },
+          ],
+          columns: [
+            { accessorKey: "name", header: "Name", meta: { primary: true } },
+            { accessorKey: "joined", header: "Joined", meta: { date: { parse: parseUs, format: dmy } } },
+          ],
+          getRowId: (row: { id: string }) => row.id,
+          defaultSorting: [{ id: "joined", desc: false }],
+        }),
+    });
+    app.mount(container);
+    await nextTick();
+    const joined = [...container.querySelectorAll("tbody tr")].map((row) =>
+      row.lastElementChild?.textContent?.trim(),
+    );
+    expect(joined).toEqual(["10.11.2025", "31.12.2025", "1.2.2026"]);
+  });
+});
+
+/**
+ * How many rows are selected, and the offer to reach the ones off screen, sit
+ * under the rows rather than in the toolbar. Mirrors React's "the selection
+ * footer".
+ */
+describe("the selection footer", () => {
+  async function paged() {
+    const container = document.createElement("div");
+    document.body.append(container);
+    app = createApp({
+      render: () =>
+        h(DataTable as never, {
+          label: "Team",
+          columns: COLUMNS,
+          data: DATA,
+          getRowId: (row: Row) => row.id,
+          selection: "multiple",
+          paginated: true,
+          pageSize: 2,
+        }),
+    });
+    app.mount(container);
+    await nextTick();
+    return container;
+  }
+  async function shiftDown(element: Element | null) {
+    element?.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowDown", shiftKey: true, bubbles: true }),
+    );
+    await nextTick();
+    await nextTick();
+  }
+  const footer = (dom: HTMLElement) => dom.querySelector(".data-table__selection-footer");
+
+  it("is absent while nothing is selected", async () => {
+    const dom = await paged();
+    expect(footer(dom)).toBeNull();
+  });
+
+  it("rides inside the viewport, after the table, and holds the count", async () => {
+    const dom = await paged();
+    await press(dom.querySelector('[data-cell="0:1"]'), " ");
+
+    expect(footer(dom)?.parentElement?.classList.contains("data-table__viewport")).toBe(true);
+    expect(footer(dom)?.previousElementSibling?.tagName).toBe("TABLE");
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent?.trim()).toBe(
+      "1 row selected",
+    );
+    expect(dom.querySelectorAll(".data-table__selection-count")).toHaveLength(1);
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+
+  it("offers the hidden rows as a real button once the page is fully selected", async () => {
+    const dom = await paged();
+    const cell = dom.querySelector('[data-cell="0:1"]');
+    await press(cell, " ");
+    await shiftDown(cell);
+
+    const offer = footer(dom)?.querySelector("button");
+    expect(offer?.classList.contains("btn")).toBe(true);
+    expect(offer?.textContent?.trim()).toBe("Select 1 hidden row");
+
+    offer?.click();
+    await nextTick();
+    await nextTick();
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent?.trim()).toBe(
+      "3 rows selected",
+    );
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+});
+
 describe("inline editing", () => {
   async function editable() {
     const container = document.createElement("div");

@@ -10,6 +10,7 @@ import type { SearchInputProps } from "./SearchInput.types.js";
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function SearchInput({
   label,
@@ -26,6 +27,7 @@ export function SearchInput({
   onChange,
   ...inputProps
 }: SearchInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

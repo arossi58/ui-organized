@@ -1,9 +1,10 @@
-import { Switch } from "@ui-organized/react";
+import { Moon, Sun } from "lucide-react";
+import { Toggle, ToggleGroup } from "@ui-organized/react";
 import { useTheme } from "../../theme/ThemeProvider";
 import { trackEvent } from "../../lib/analytics";
 
 /**
- * The theme controls — a dark-mode toggle plus the brand-color list. Shared by
+ * The theme controls — a Light/Dark toggle group plus the brand-color list. Shared by
  * the desktop nav's popover (ThemeMenu) and the mobile menu's accordion, so both
  * surfaces drive the site theme identically. Keyed off the `theme-menu__*`
  * classes (theme-menu.css) so the styling stays in one place.
@@ -15,8 +16,11 @@ import { trackEvent } from "../../lib/analytics";
 export function ThemeControls() {
   const { mode, brand, options, setMode, setBrand } = useTheme();
 
-  function handleModeChange(checked: boolean) {
-    const next = checked ? "dark" : "light";
+  function handleModeChange(value: string[]) {
+    // Single-select, but pressing the active toggle again empties the group;
+    // the mode can't be "neither", so ignore that.
+    const next = value[0];
+    if (next !== "light" && next !== "dark") return;
     setMode(next);
     trackEvent("theme_change", { change: "mode", mode: next });
   }
@@ -29,11 +33,21 @@ export function ThemeControls() {
   return (
     <>
       <div className="theme-menu__switch-row">
-        <Switch
-          label="Dark Mode"
-          checked={mode === "dark"}
-          onCheckedChange={handleModeChange}
-        />
+        <ToggleGroup
+          aria-label="Color mode"
+          className="theme-menu__mode"
+          value={[mode]}
+          onValueChange={handleModeChange}
+        >
+          {/* Components, not registered names, so the icons don't depend on
+              which icon library the site happens to register. */}
+          <Toggle value="light" size="md" icon={Sun}>
+            Light
+          </Toggle>
+          <Toggle value="dark" size="md" icon={Moon}>
+            Dark
+          </Toggle>
+        </ToggleGroup>
       </div>
 
       <div className="theme-menu__list" role="radiogroup" aria-label="Brand color">

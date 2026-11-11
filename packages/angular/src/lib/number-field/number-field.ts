@@ -13,6 +13,7 @@ import {
   signal,
   untracked,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { CONTROL_ICON_SIZE, numberFieldStyles, type NumberFieldVariants } from "@ui-organized/core";
@@ -24,6 +25,7 @@ import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
 import { flushNow } from "../overlay/flush.js";
 import { glyph } from "../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type NumberFieldSize = NonNullable<NumberFieldVariants["size"]>;
 
@@ -211,6 +213,9 @@ export function stepValue(value: number, step: number, direction: 1 | -1): numbe
   },
 })
 export class UioNumberField extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";

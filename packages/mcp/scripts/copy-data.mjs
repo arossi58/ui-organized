@@ -5,6 +5,7 @@
  * which an agent would believe.
  */
 
+import { spawnSync } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -30,6 +31,19 @@ for (const source of [
 // Optional: it only exists once figma:sync has run, and the server reports unnamed variables.
 const variables = join(repo, "manifest/figma-variables.json");
 if (existsSync(variables)) copyFileSync(variables, join(out, "figma-variables.json"));
+
+// Svelte, Vue and Angular: each library's export surface, own scanned manifest and
+// version, so the server can answer for a project in any of the four.
+const codeConnect = join(repo, "tooling/code-connect");
+const exported = spawnSync(
+  join(codeConnect, "node_modules/.bin/tsx"),
+  [join(codeConnect, "scripts/export-framework-data.ts"), join(out, "frameworks.json")],
+  { stdio: "inherit" },
+);
+if (exported.status !== 0) {
+  process.stderr.write("✗ Couldn't export the Svelte/Vue/Angular data. Run the code-connect scan first.\n");
+  process.exit(1);
+}
 
 const { version: reactVersion } = JSON.parse(readFileSync(join(repo, "packages/react/package.json"), "utf8"));
 writeFileSync(join(out, "meta.json"), `${JSON.stringify({ reactVersion })}\n`);

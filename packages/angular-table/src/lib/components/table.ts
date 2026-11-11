@@ -12,6 +12,7 @@ import { UioTableProps } from "../core/element-props.js";
 import { UioTablePropsHost } from "../core/table-props-host.js";
 import { injectDataTable } from "../core/table-context.js";
 import { UioTableHeadCell } from "./table-head-cell.js";
+import { UioTableSelectionFooter } from "./table-selection-footer.js";
 import { UioTableRow } from "./table-row.js";
 import { UioTableEmpty, UioTableError, UioTableLoading } from "./table-states.js";
 
@@ -75,7 +76,7 @@ export class UioTable extends UioTablePropsHost {
 @Component({
   selector: "div[uioTableViewport]",
   standalone: true,
-  imports: [UioTableProps],
+  imports: [UioTableProps, UioTableSelectionFooter],
   template: `
     <!--
       One key handler for the whole grid rather than one per cell: the cursor is
@@ -97,6 +98,12 @@ export class UioTable extends UioTablePropsHost {
       </colgroup>
       <ng-content />
     </table>
+    <!--
+      After the table, inside the scroll container: it sticks to the viewport's
+      bottom edge, so it costs a capped table scroll length rather than page
+      height.
+    -->
+    <div uioTableSelectionFooter></div>
   `,
 })
 export class UioTableViewport extends UioTablePropsHost {

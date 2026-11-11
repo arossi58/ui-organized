@@ -25,16 +25,6 @@
 
 /* ── Shared type roles: each maps to the live type scale ──────────────────── */
 
-.eyebrow {
-  font-family: var(--type-font-body);
-  font-size: var(--type-size-caption);
-  line-height: var(--type-leading-caption);
-  font-weight: var(--type-weight-body-strong);
-  color: var(--color-content-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
 .displayXl {
   --leading: var(--type-leading-display-xlarge);
   font-family: var(--type-font-heading);
@@ -200,18 +190,23 @@
 
 /* ── 2 · Blog index ──────────────────────────────────────────────────────── */
 
+/* Two columns shared by every row (subgrid): the tag column is as wide as the
+   widest tag, so no tag is squeezed into an ellipsis and every title starts at
+   the same x. */
 .postList {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
 }
 
 .post {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: start;
+  column-gap: 16px;
   padding: 18px 0;
   border-top: 1px solid var(--color-border-secondary);
 }
@@ -223,6 +218,10 @@
 
 .post:last-child {
   padding-bottom: 0;
+}
+
+.postTag {
+  justify-self: start;
 }
 
 .postText {

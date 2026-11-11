@@ -10,6 +10,7 @@ import type { PasswordInputProps } from "./PasswordInput.types.js";
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function PasswordInput({
   label,
@@ -22,6 +23,7 @@ export function PasswordInput({
   disabled,
   ...inputProps
 }: PasswordInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const [visible, setVisible] = useState(false);

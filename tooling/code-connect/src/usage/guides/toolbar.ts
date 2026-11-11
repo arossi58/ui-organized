@@ -44,6 +44,11 @@ export const toolbarUsage: UsageGuide = {
       dont: "Fill the strip with primary buttons that each claim to be the next step.",
       example: "ghost",
     },
+    {
+      do: "Put occasional actions in a `Menu` whose trigger is a ghost toolbar button, so they stay one click away and grouped under a name.",
+      dont: "Give every occasional action its own icon button, leaving a long strip of glyphs to decode.",
+      example: "menus",
+    },
   ],
   accessibility: [
     "Icon-only controls need an `aria-label`: inside a dense strip the glyph is the only thing naming the action.",

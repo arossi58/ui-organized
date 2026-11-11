@@ -5,6 +5,11 @@ import {
   Button,
   Input,
   Divider,
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuItem,
+  MenuSeparator,
 } from "@ui-organized/react";
 
 const meta: Meta<typeof Toolbar> = {
@@ -16,7 +21,7 @@ const meta: Meta<typeof Toolbar> = {
     docs: {
       description: {
         component:
-          'A layout container that groups related controls.',
+          "A layout container that groups related controls. It has no menu of its own: for actions behind a menu, put a `Menu` in the toolbar with a ghost `Button` as its `MenuTrigger` (see With Menus).",
       },
     },
   },
@@ -82,6 +87,62 @@ export const WithIconButtons: Story = {
       </ToolbarGroup>
       <Divider orientation="vertical" />
       <Input placeholder="Filter…" />
+    </Toolbar>
+  ),
+};
+
+/** Menus are composed, not built in: each is a `Menu` whose trigger is a ghost toolbar button. */
+export const WithMenus: Story = {
+  render: () => (
+    <Toolbar aria-label="Editing tools">
+      <Menu>
+        <MenuTrigger
+          render={
+            <Button intent="ghost" size="sm" icon="chevron-down" iconPosition="right">
+              File
+            </Button>
+          }
+        />
+        <MenuContent>
+          <MenuItem icon="file-plus">New</MenuItem>
+          <MenuItem icon="folder-open">Open…</MenuItem>
+          <MenuSeparator />
+          <MenuItem icon="download">Export</MenuItem>
+        </MenuContent>
+      </Menu>
+      <Menu>
+        <MenuTrigger
+          render={
+            <Button intent="ghost" size="sm" icon="chevron-down" iconPosition="right">
+              Edit
+            </Button>
+          }
+        />
+        <MenuContent>
+          <MenuItem icon="undo-2">Undo</MenuItem>
+          <MenuItem icon="redo-2">Redo</MenuItem>
+          <MenuSeparator />
+          <MenuItem icon="copy">Duplicate</MenuItem>
+          <MenuItem icon="trash-2" destructive>
+            Delete
+          </MenuItem>
+        </MenuContent>
+      </Menu>
+      <Menu>
+        <MenuTrigger
+          render={
+            <Button intent="ghost" size="sm" icon="chevron-down" iconPosition="right">
+              View
+            </Button>
+          }
+        />
+        <MenuContent>
+          <MenuItem icon="grid-2x2">Grid</MenuItem>
+          <MenuItem icon="list">List</MenuItem>
+        </MenuContent>
+      </Menu>
+      <Divider orientation="vertical" />
+      <Button intent="ghost" size="sm" icon="search" aria-label="Search" />
     </Toolbar>
   ),
 };

@@ -4,6 +4,7 @@
  */
 
 import { bind, type CodeNode, type PageSpec } from "./composeSample";
+import { EXPORT_FORMATS, RADIOS, SEGMENTS } from "./parts";
 
 const el = (element: string, className: string, children: (CodeNode | string)[]): CodeNode => ({
   element,
@@ -68,18 +69,16 @@ export const DASHBOARD_SPEC: PageSpec = {
     ]),
     el("section", "panel", [
       el("div", "column", [
-        c("SegmentedControl", {
-          items: [1, 2, 3, 4, 5].map((n) => ({ value: `tab-${n}`, label: "Tab" })),
-          defaultValue: "tab-1",
-        }),
+        c("SegmentedControl", { items: SEGMENTS, defaultValue: "week" }),
         c("RadioGroup", {
-          label: "Label",
+          label: "Corner radius",
           orientation: "horizontal",
-          options: [1, 2, 3, 4].map((n) => ({ value: `radio-${n}`, label: "Radio" })),
+          options: RADIOS,
+          defaultValue: "medium",
         }),
-        c("Input", { label: "Input", placeholder: "Data" }),
-        c("TextArea", { label: "Text Area", placeholder: "Your input" }),
-        c("DateInput", { label: "Date" }),
+        c("Input", { label: "Project name", placeholder: "Acme Design System" }),
+        c("TextArea", { label: "Description", placeholder: "What is this theme for?" }),
+        c("DateInput", { label: "Release date" }),
       ]),
       c("Divider", { orientation: "vertical" }),
       el("div", "column", [
@@ -90,17 +89,19 @@ export const DASHBOARD_SPEC: PageSpec = {
           menu("Select", undefined, ["Select all", "Select none", "Invert selection"]),
           c("Input", { placeholder: "Search" }),
         ]),
-        el("div", "row", [
-          c("Checkbox", { label: "Checkbox" }),
-          c("Checkbox", { label: "Checkbox" }),
-          c("Checkbox", { label: "Checkbox" }),
-        ]),
+        el(
+          "div",
+          "row",
+          EXPORT_FORMATS.map((format) =>
+            c("Checkbox", format === "Figma" ? { label: format } : { label: format, defaultChecked: true }),
+          ),
+        ),
         c("Meter", { label: "Storage remaining", value: 62 }),
-        c("Switch", { label: "Switch" }),
-        c("ColorPicker", { label: "Color", defaultValue: "#bc4900" }),
+        c("Switch", { label: "Sync to Figma", defaultChecked: true }),
+        c("ColorPicker", { label: "Brand color", defaultValue: "#bc4900" }),
         c("Select", {
-          label: "Label",
-          placeholder: "Select",
+          label: "Framework",
+          placeholder: "Choose a framework",
           options: [
             { value: "react", label: "React" },
             { value: "svelte", label: "Svelte" },
@@ -109,7 +110,7 @@ export const DASHBOARD_SPEC: PageSpec = {
           ],
         }),
         el("div", "row", [
-          c("Button", { intent: "primary" }, ["Button"]),
+          c("Button", { intent: "primary" }, ["Save changes"]),
           c("Button", { intent: "secondary" }, ["Dialog"]),
           c("Button", { intent: "tertiary" }, ["Sheet"]),
         ]),

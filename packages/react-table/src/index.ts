@@ -65,6 +65,7 @@ export {
   TableSortMenu,
   TableToolbar,
   TableViewOptions,
+  TableReorderToggle,
 } from "./components/TableToolbar/index.js";
 export type {
   TableActionsProps,
@@ -74,6 +75,7 @@ export type {
   TableSortMenuProps,
   TableToolbarProps,
   TableViewOptionsProps,
+  TableReorderToggleProps,
 } from "./components/TableToolbar/index.js";
 
 export {
@@ -95,6 +97,7 @@ export { TablePagination } from "./components/TablePagination/index.js";
 export type { TablePaginationProps } from "./components/TablePagination/index.js";
 
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
+export { TableSelectionFooter } from "./components/TableSelectionFooter/index.js";
 export {
   TableFilterSheet,
   TableSheetButton,
@@ -106,6 +109,7 @@ export type {
   TableSortSheetProps,
 } from "./components/TableSheets/index.js";
 export type { TableSelectionBarProps } from "./components/TableSelectionBar/index.js";
+export type { TableSelectionFooterProps } from "./components/TableSelectionFooter/index.js";
 
 export { TableSubBar } from "./components/TableSubBar/index.js";
 export type { TableSubBarProps } from "./components/TableSubBar/index.js";
@@ -135,6 +139,8 @@ export type {
   TableColumnMeta,
   TableEditContext,
   TableEditDef,
+  TableDateDef,
+  TableDateSetting,
   TableEditPatch,
   TableFilterCondition,
   TableFilterDef,

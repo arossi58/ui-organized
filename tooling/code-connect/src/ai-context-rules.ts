@@ -30,6 +30,18 @@ export const TOKEN_FAMILIES = [
 ] as const;
 
 /**
+ * How the token names are built. Agents guess a 100–900 numeric scale
+ * (`--spacing-space-200`, `--type-size-200`) because most systems use one; this
+ * system doesn't, and the eval caught exactly those inventions. Stating the
+ * pattern beats listing every name in every rule.
+ */
+export const TOKEN_NAMING =
+  "Token names are not a 100–900 scale. Spacing steps run `--spacing-space-005` (2px), " +
+  "`-01` (4px), `-02` (8px), `-04` (16px) up to `-32` (128px); type sizes are named by role, " +
+  "e.g. `--type-size-body-medium`, `--type-size-heading-small`. A `-100` or `-200` suffix " +
+  "does not exist.";
+
+/**
  * Derived, component-specific warnings. Nothing here is stored in the manifest —
  * it's all computed from the entry's own prop set, so it stays correct as the
  * code changes and costs no authoring.
@@ -91,7 +103,7 @@ export function globalRules(packageName: string, hints: string[]): string[] {
     "Union props are closed sets. A value not listed below is invalid.",
     "Do not style this component with utility classes, hex colors, or px literals. " +
       "Vary it with its props. If extra layout is genuinely required, use design " +
-      `tokens only — ${TOKEN_FAMILIES.map((t) => `\`${t}\``).join(", ")}.`,
+      `tokens only — ${TOKEN_FAMILIES.map((t) => `\`${t}\``).join(", ")}. ${TOKEN_NAMING}`,
     "Do not wrap or fork this component to add a variant.",
     "If the design needs something this component cannot express, say so — do not " +
       "approximate it with custom markup.",
@@ -103,22 +115,58 @@ export function globalRules(packageName: string, hints: string[]): string[] {
  * consumer's agent files by `uiorg init`. Keep these in step with `globalRules`;
  * they're beside it so a change to one shows up next to the other.
  */
-export function projectRules(packageName: string): string[] {
+/**
+ * How each library's markup differs from React's, in the terms an agent
+ * writing that markup needs. One rule each; the spec of every component
+ * carries the details.
+ */
+const FRAMEWORK_CONVENTIONS: Record<"svelte" | "vue" | "angular", string> = {
+  svelte:
+    "Write Svelte 5: pass content as `children` and named snippets, style with `class` (never " +
+    "`className`), use `bind:` for two-way values and `on…` callback props for events, exactly " +
+    "as each spec's prop table names them.",
+  vue:
+    "Write Vue 3 `<script setup>`: bind a component's value with `v-model` (its `modelValue` " +
+    "prop), listen with `@event` (a spec's `onValueChange` is `@value-change`), pass content " +
+    "through slots, and use `asChild` to render a slot's root element as the component.",
+  angular:
+    "Write standalone Angular: import each `Uio…` class you use into the component's " +
+    "`imports`. Many components are directives on a native element — use the selector from " +
+    "the spec (`<button uioButton>`), bind inputs with `[input]`, two-way values with " +
+    "`[(model)]`, and outputs with `(output)`.",
+};
+
+/** The markup `get_figma_frame` hands back, per library. */
+const FRAME_OUTPUT: Record<"react" | "svelte" | "vue" | "angular", string> = {
+  react: "compact JSX",
+  svelte: "compact Svelte markup",
+  vue: "a compact Vue template",
+  angular: "a compact Angular template",
+};
+
+export function projectRules(
+  packageName: string,
+  framework: "react" | "svelte" | "vue" | "angular" = "react",
+): string[] {
+  const specPath = framework === "react" ? "/ai/<Component>.md" : `/ai/${framework}/<Component>.md`;
+  const index = framework === "react" ? "/llms.txt" : `/llms-${framework}.txt`;
   return [
     `Build UI from \`${packageName}\`, importing only from that package. Never from a ` +
       "relative path, `shadcn/ui`, `@/components/ui/*`, or any other component library. " +
       "Never re-declare, wrap or fork a component to add a variant.",
     "Before using a component, read its spec: the `get_component` MCP tool, or " +
-      "https://uiorganized.com/ai/<Component>.md. To find one, use `search_components` or " +
-      "https://uiorganized.com/llms.txt. A prop, value or component that isn't in the spec " +
+      `https://uiorganized.com${specPath}. To find one, use \`search_components\` or ` +
+      `https://uiorganized.com${index}. A prop, value or component that isn't in the spec ` +
       "does not exist. Union props are closed sets.",
+    ...(framework === "react" ? [] : [FRAMEWORK_CONVENTIONS[framework]]),
     "Vary components with their props. For custom layout and custom elements, use design " +
       `tokens only — ${TOKEN_FAMILIES.map((t) => `\`${t}\``).join(", ")} — never utility ` +
       "classes, hex colours or px literals. Check a name with `search_tokens` or " +
-      "https://uiorganized.com/ai/tokens.md first. A token that isn't listed resolves to nothing.",
+      "https://uiorganized.com/ai/tokens.md first. A token that isn't listed resolves to nothing. " +
+      TOKEN_NAMING,
     "For a Figma link, call `get_figma_frame` first. It returns real components and tokens " +
-      "as compact JSX; read a full spec only for what it leaves unclear. Report anything in " +
-      "`unmapped` or `unbound` rather than rebuilding it by eye.",
+      `as ${FRAME_OUTPUT[framework]}; read a full spec only for what it leaves unclear. Report ` +
+      "anything in `unmapped` or `unbound` rather than rebuilding it by eye.",
     "If the design needs something the system can't express, say so. Do not approximate it " +
       "with custom markup, and do not invent a component, prop or token.",
   ];
@@ -172,3 +220,67 @@ export const COMPOUND_SCOPE_NOTE =
   "The props table applies to the root component only. Its subcomponents are layout " +
   "containers that take `children` plus standard element attributes — do not pass " +
   "the root's variant props to them.";
+
+/**
+ * The skill `uiorg init` installs for building from a Figma link with Figma's OWN
+ * MCP server (`get_design_context`), for teams without a `FIGMA_TOKEN` for
+ * `get_figma_frame`. Figma's output is React + Tailwind with Figma variable
+ * names; this turns it into the project's library and real tokens, and says
+ * what to do where Figma didn't identify a component.
+ */
+export function figmaSkillMarkdown(
+  packageName: string,
+  framework: "react" | "svelte" | "vue" | "angular" = "react",
+): string {
+  const lib = { react: "React", svelte: "Svelte", vue: "Vue", angular: "Angular" }[framework];
+  return `---
+name: ui-organized-figma
+description: Build a Figma design or component with ${packageName}. Use whenever the user shares a figma.com link, or asks to implement, build or code a Figma design, screen or component in this project.
+---
+
+# Figma design → ${packageName}
+
+Two MCP servers work together here. Figma's MCP shows what the design is; the
+\`ui-organized\` MCP says what code it becomes. Never ship Figma's generated
+markup: it is React and Tailwind written from layers, not this project's code.
+
+## 1. Read the frame
+
+- If \`ui-organized\`'s \`get_figma_frame\` works (a \`FIGMA_TOKEN\` is set), call it
+  first: it returns ${lib} code with real components and tokens already resolved.
+  Use the rest of this skill only for what it lists as \`unmapped\` or \`unbound\`.
+- Otherwise call Figma's \`get_design_context\` on the node, with the screenshot.
+  The screenshot is the visual target. The code is a reference, not the answer.
+
+## 2. Map every component to ${packageName}
+
+- Figma's output names library components (functions such as \`Chip\`,
+  \`ChipSegment\`) and passes on each component's description, which says what it
+  is in code ("Code: <Chip label operator value> from @ui-organized/react"). Layer
+  names (\`data-name\`) often name the rest.
+- For each one, call \`get_component\` on \`ui-organized\` and use that spec: its
+  import, its props and their allowed values. Figma's variant values usually
+  equal the prop values (\`intent=ghost\` → \`intent="ghost"\`); \`state\` values
+  such as \`hover\` are interaction states, not props, except \`disabled\`.
+- Something drawn as plain \`div\`s that looks like a library component (a button,
+  an input) is still that component: confirm it with \`search_components\`, and
+  never rebuild a library component from markup.
+- If \`get_component\` returns \`found:false\`, the component does not exist in
+  ${packageName}. Say so; do not invent one or borrow another library's.
+
+## 3. Turn Figma's tokens into real ones
+
+- Figma writes variables as \`var(--spacing/space-02,8px)\` or
+  \`var(--content/primary,#030303)\`. Pass each to \`get_token\`: it returns the CSS
+  token (\`--spacing-space-02\`, \`--color-content-primary\`), or \`found:false\`.
+- Never keep the fallback value (\`8px\`, \`#030303\`), and never copy a raw hex or
+  px value from Figma's code. A value with no variable is unbound: report it.
+
+## 4. Write it
+
+${projectRules(packageName, framework).map((rule) => `- ${rule}`).join("\n")}
+
+Finish by listing anything that stayed unmapped or unbound, so the designer can
+fix it in Figma rather than the code approximating it.
+`;
+}

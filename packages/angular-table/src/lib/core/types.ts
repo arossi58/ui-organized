@@ -1,6 +1,9 @@
 import type { Signal, TemplateRef, WritableSignal } from "@angular/core";
 import type { ButtonIntent } from "@ui-organized/angular";
 import type {
+  DropSide,
+  ReorderMode,
+  ReorderSetting,
   BulkSelection,
   DataTableQuery,
   DetailState,
@@ -211,7 +214,19 @@ export interface UseDataTableOptions<T extends RowData> {
   paginated?: boolean;
   pageSize?: number;
   resizable?: boolean;
-  reorderable?: boolean;
+  /**
+   * Lets people rearrange the columns by dragging a header, or with its move
+   * buttons (and Alt+Arrow on a focused header). Adds "Reset column order" to
+   * the Columns menu.
+   *
+   * - `true` / `"always"`: movable at any time; the move buttons appear on
+   *   hover and focus.
+   * - `"toggle"`: movable only in a reorder mode, switched from the toolbar.
+   *
+   * The table's own columns (selection, row actions) and pinned columns stay
+   * where they are.
+   */
+  reorderable?: ReorderSetting;
   hideableColumns?: boolean;
   /** The header's sort button. On by default whenever any column is sortable. */
   sortMenu?: boolean;
@@ -335,6 +350,31 @@ export interface HorizontalScrollApi {
   by: (direction: -1 | 1) => void;
 }
 
+/** A header drag in progress: what is moving, and where it would land. */
+export interface ColumnDrag {
+  source: string;
+  target: string | null;
+  side: DropSide;
+}
+
+/** Same members as React's `ReorderApi`, with state as signals. */
+export interface ReorderApi {
+  /** The `reorderable` setting, resolved. */
+  mode: Signal<ReorderMode>;
+  /** Columns can be moved right now: always, or inside toggle mode. */
+  active: Signal<boolean>;
+  /** Enters or leaves reorder mode. Only meaningful when `mode` is `"toggle"`. */
+  setActive: (active: boolean) => void;
+  /** Visible, not pinned, and not one of the table's own columns. */
+  isMovable: (columnId: string) => boolean;
+  canMove: (columnId: string, direction: -1 | 1) => boolean;
+  /** One place left or right, past the nearest movable visible column. */
+  move: (columnId: string, direction: -1 | 1) => void;
+  drop: (sourceId: string, targetId: string, side: DropSide) => void;
+  drag: Signal<ColumnDrag | null>;
+  setDrag: (drag: ColumnDrag | null) => void;
+}
+
 /** One row as the renderer sees it: the model, plus both of its indices. */
 export interface RenderRow<T extends RowData> {
   row: TableRowModel<T>;
@@ -387,6 +427,7 @@ export interface DataTableApi<T extends RowData> {
   focus: FocusApi;
   virtual: VirtualApi;
   scroll: HorizontalScrollApi;
+  reorder: ReorderApi;
   columnWidths: Signal<Record<string, number>>;
   /**
    * The root and viewport nodes, as writable signals a directive fills in.

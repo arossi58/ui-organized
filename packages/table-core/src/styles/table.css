@@ -29,9 +29,14 @@
 
 /* ─── Size axis ─────────────────────────────────────────────────────────────
    Row height is the control height plus the cell's vertical padding, so a row
-   with an inline editor in it is exactly as tall as a row without one. */
+   with an inline editor in it is exactly as tall as a row without one.
+   `--data-table-control-height` is the height of the buttons the table renders
+   at its own size, for chrome that has to hold one whether or not it is there
+   (the selection footer). */
 
 .data-table--sm {
+  --data-table-control-height: var(--control-height-sm);
+  --data-table-move-size: var(--spacing-space-06);
   --data-table-row-height: calc(var(--control-height-sm) + 2 * var(--spacing-space-01));
   --data-table-header-height: calc(var(--control-height-sm) + 2 * var(--spacing-space-01));
   --data-table-cell-padding-y: var(--spacing-space-01);
@@ -41,6 +46,8 @@
 }
 
 .data-table--md {
+  --data-table-control-height: var(--control-height-md);
+  --data-table-move-size: var(--spacing-space-07);
   --data-table-row-height: calc(var(--control-height-md) + 2 * var(--spacing-space-02));
   --data-table-header-height: calc(var(--control-height-md) + 2 * var(--spacing-space-015));
   --data-table-cell-padding-y: var(--spacing-space-02);
@@ -50,6 +57,8 @@
 }
 
 .data-table--lg {
+  --data-table-control-height: var(--control-height-lg);
+  --data-table-move-size: var(--spacing-space-08);
   --data-table-row-height: calc(var(--control-height-lg) + 2 * var(--spacing-space-02));
   --data-table-header-height: calc(var(--control-height-lg) + 2 * var(--spacing-space-015));
   --data-table-cell-padding-y: var(--spacing-space-02);

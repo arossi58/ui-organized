@@ -78,8 +78,12 @@
 }
 
 /* Focus ring — double outline (inner dark, outer light). Focus lives on Ark's
-   visually-hidden input, so key off data-focus-visible not :focus-visible. */
-.radio-item__control[data-focus-visible] {
+   visually-hidden input, so key off data-focus-visible.
+   zag's data-focus-visible alone also lights on a mouse click (it reads the click a
+   <label> forwards to its hidden input as a virtual, keyboard-like click), so the
+   ring also requires the browser's own :focus-visible inside the root, which is
+   false for pointer focus. Both agree only for keyboard focus. */
+.radio-item:has(:focus-visible) .radio-item__control[data-focus-visible] {
   /* Outer ring as an outline so a consumer box-shadow can't erase it; the
      inner contrast ring rides on box-shadow. */
   outline: 1px solid var(--color-interactive-focus);

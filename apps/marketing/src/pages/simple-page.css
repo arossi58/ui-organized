@@ -13,7 +13,7 @@
      sits above us), rather than owning a full viewport. */
   flex: 1 1 auto;
   min-height: 0;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   /* Contain the dot layer's stacking so the nav + content stay on top. */
   isolation: isolate;
   /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */

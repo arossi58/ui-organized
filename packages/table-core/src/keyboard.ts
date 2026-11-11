@@ -42,6 +42,8 @@ export interface GridState {
   selectable?: boolean;
   /** Multiple rows can be selected — gates range extension and select-all. */
   multiSelect?: boolean;
+  /** The focused header's column can be moved right now — gates Alt+Arrow. */
+  reorderable?: boolean;
 }
 
 export type GridAction =
@@ -61,7 +63,9 @@ export type GridAction =
   | { type: "activate" }
   | { type: "toggle-select" }
   | { type: "select-all" }
-  | { type: "copy"; scope: TableRowScope };
+  | { type: "copy"; scope: TableRowScope }
+  /** Alt+Arrow on a header: move that column one place. */
+  | { type: "move-column"; direction: -1 | 1 };
 
 const clamp = (value: number, min: number, max: number) =>
   value < min ? min : value > max ? max : value;
@@ -107,6 +111,22 @@ export function gridKeyDown(state: GridState, event: KeyEvent): GridAction {
       default:
         return { type: "none" };
     }
+  }
+
+  // ── Column reordering ───────────────────────────────────────────────────────
+  // On a header, Alt+Arrow moves the column rather than the cursor: the
+  // keyboard half of dragging, for a grid whose header buttons are not tab
+  // stops of their own. Alt alone, so it never collides with Shift's range
+  // extension or Ctrl/Cmd's jump-to-edge.
+  if (
+    cursor.row < 0 &&
+    state.reorderable &&
+    event.alt &&
+    !event.shift &&
+    !mod &&
+    (event.key === "ArrowLeft" || event.key === "ArrowRight")
+  ) {
+    return { type: "move-column", direction: event.key === "ArrowLeft" ? -1 : 1 };
   }
 
   switch (event.key) {

@@ -12,7 +12,7 @@ const meta: Meta<typeof AngleSlider> = {
     docs: {
       description: {
         component:
-          "A dial for picking a rotation in degrees, such as a gradient angle, an image rotation or a compass bearing. Values wrap at 360, so unlike a `Range` it has no start or end.",
+          "A dial for picking a rotation in degrees, such as a gradient angle, an image rotation or a compass bearing.",
       },
     },
   },

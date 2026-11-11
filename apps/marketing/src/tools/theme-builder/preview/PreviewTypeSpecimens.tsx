@@ -32,7 +32,6 @@ function Specimen({ children }: { children: React.ReactNode }) {
 function EditorialSpecimen() {
   return (
     <article className={styles.article}>
-      <span className={styles.eyebrow}>Field notes</span>
       <h1 className={styles.displayLg}>The quiet craft of a type scale</h1>
       <p className={styles.lede}>
         A well-tuned scale disappears into the reading. Every step earns its
@@ -91,7 +90,7 @@ const POSTS = [
   },
   {
     tag: "Opinion",
-    variant: "warning" as const,
+    variant: "caution" as const,
     title: "You probably have one weight too many",
     excerpt:
       "Every extra weight is a decision your reader has to make. Here's how to prune a type system to what earns its keep.",
@@ -104,7 +103,9 @@ function BlogSpecimen() {
     <ul className={styles.postList}>
       {POSTS.map((p) => (
         <li key={p.title} className={styles.post}>
-          <Tag variant={p.variant} size="sm" emphasized={false}>{p.tag}</Tag>
+          <Tag variant={p.variant} size="sm" emphasized={false} className={styles.postTag}>
+            {p.tag}
+          </Tag>
           <div className={styles.postText}>
             <h3 className={styles.headingSm}>{p.title}</h3>
             <p className={styles.bodySm}>{p.excerpt}</p>

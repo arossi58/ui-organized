@@ -31,7 +31,8 @@ const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/schema", "Zod schema / types for the theme config"],
   ["@ui-organized/utils", "Color, type-scale, spacing & semantic-token utilities"],
   ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens (any framework)"],
-  ["@ui-organized/cli", "uiorg: applies a theme bundle and checks that it works"],
+  ["@ui-organized/cli", "uiorg: applies a theme bundle, and sets up AI coding agents"],
+  ["@ui-organized/mcp", "MCP server giving AI agents each library's real components and tokens"],
 ];
 
 export function DocsIntroPage() {
@@ -92,6 +93,12 @@ export function DocsIntroPage() {
               applies an export. Before it writes, it checks that the theme covers every token
               the components read, that its typefaces load, and that your own CSS doesn't
               override it. See <Link to="/docs/theming">Theming</Link>.
+            </li>
+            <li>
+              <strong>AI agents.</strong> Run <code>npx @ui-organized/cli init</code> once, then
+              ask your coding agent for a screen, a component or a Figma link. It builds with
+              your library&apos;s real components and tokens instead of inventing them. See{" "}
+              <Link to="/docs/use-with-ai">Use with AI</Link>.
             </li>
           </ul>
         </DocsSection>

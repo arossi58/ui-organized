@@ -116,7 +116,7 @@ export function VisionFilterMenu({
       className={className}
       size="sm"
       variant="ghost"
-      aria-label="Simulate color vision"
+      label="Simulate color vision"
       options={[
         { value: NONE, label: "No vision filter" },
         ...VISION_SIMULATIONS.map((simulation) => ({

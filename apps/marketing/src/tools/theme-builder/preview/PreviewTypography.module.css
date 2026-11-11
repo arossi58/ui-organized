@@ -1,35 +1,23 @@
-.root {
+/* ── Specs / Examples tabs ───────────────────────────────────────────────── */
+
+/* Tighter than the panel default: the content starts right under the tab rule,
+   and nothing follows it in the preview, so no bottom padding. Child
+   combinators so this outranks ThemeBuilder.module.css's `.tabs .tabs__panel`
+   (padding: 0), which reaches this nested Tabs as well as its own. */
+.tabs > :global(.tabs__panels) > :global(.tabs__panel) {
+  padding: var(--spacing-space-04) 0 0;
+}
+
+/* A secondary tab row: a thinner indicator than the builder's own bar, so it
+   doesn't compete with the main navigation above it. */
+.tabs > :global(.tabs__list) :global(.tabs__tab) {
+  border-bottom-width: 2px;
+}
+
+.specs {
   display: flex;
   flex-direction: column;
   gap: 48px;
-}
-
-/* ── Specs / Examples segmented control ──────────────────────────────────── */
-
-.tabs {
-  align-self: flex-start;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  background-color: var(--color-surface-primary);
-  padding: 24px;
-  border-radius: var(--border-radius-06, 16px);
-}
-
-.sectionTitle {
-  font-family: var(--type-font-heading);
-  font-size: var(--type-size-body-medium);
-  font-weight: var(--type-weight-heading-strong);
-  color: var(--color-content-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin: 0 0 12px;
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
 }
 
 /* ── Weight-column grid ──────────────────────────────────────────────────── */
@@ -37,6 +25,7 @@
 .grid {
   display: flex;
   flex-direction: column;
+  background: var(--color-surface-primary);
   border: 1px solid var(--color-border-secondary);
   border-radius: 8px;
   overflow: hidden;
@@ -45,7 +34,7 @@
 .headRow,
 .row {
   display: grid;
-  grid-template-columns: 120px repeat(4, minmax(0, 1fr));
+  grid-template-columns: 140px repeat(4, minmax(0, 1fr));
   gap: 20px;
   padding: 14px 20px;
   border-bottom: 1px solid var(--color-border-secondary);
@@ -85,8 +74,8 @@
 
 .colHeadWeight {
   font-family: monospace;
-  font-size: 10px;
-  color: var(--color-content-tertiary);
+  font-size: 12px;
+  color: var(--color-content-secondary);
   font-variant-numeric: tabular-nums;
 }
 
@@ -94,29 +83,28 @@
 .meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   min-width: 0;
 }
 
 .stepName {
   font-family: monospace;
-  font-size: 11px;
-  color: var(--color-content-tertiary);
+  font-size: 13px;
+  color: var(--color-content-primary);
   white-space: nowrap;
 }
 
 .stepSize {
   font-family: monospace;
-  font-size: 10px;
-  color: var(--color-content-tertiary);
-  opacity: 0.6;
+  font-size: 12px;
+  color: var(--color-content-secondary);
 }
 
 /* Resolved line height: the multiplier and computed leading in px. */
 .stepLeading {
   font-family: monospace;
-  font-size: 10px;
-  color: var(--color-content-tertiary);
+  font-size: 12px;
+  color: var(--color-content-secondary);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }

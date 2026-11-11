@@ -1,5 +1,5 @@
 /**
- * Board — one design-system panel (`surface-secondary`) holding three columns
+ * Board — one design-system panel (`surface-primary`) holding three columns
  * split by hairline rules, the Branding "kanban-baord" frame. The panel owns a
  * generous min-height so it reads as a board even when sparsely filled; the
  * columns stretch to it, which lets the dividers run the full height.
@@ -7,7 +7,7 @@
 .roadmap-board {
   display: flex;
   flex-direction: column;
-  background: var(--color-surface-secondary);
+  background: var(--color-surface-primary);
   border-radius: var(--border-radius-08);
   padding: var(--spacing-space-04);
   min-height: clamp(420px, 52vh, 620px);

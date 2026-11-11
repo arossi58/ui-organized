@@ -10,12 +10,14 @@ import {
   output,
   signal,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { pinInputStyles, type ControlSize, type PinInputVariants } from "@ui-organized/core";
 import { UioPart, stateFlag } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type PinInputSize = ControlSize;
 export type PinInputVariant = NonNullable<PinInputVariants["variant"]>;
@@ -186,6 +188,9 @@ export function toCells(code: string, length: number): string[] {
   },
 })
 export class UioPinInput extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   readonly scope = "pin-input";
   readonly part = "root";
 

@@ -14,7 +14,7 @@
   position: relative;
   /* 2.4 viewports of scroll drive the timeline, then the sticky releases. */
   height: 340vh;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   /* Light hero: tone the dot lattice to ink so it shows on the light surface. */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
 }
@@ -42,12 +42,16 @@
   padding-bottom: var(--spacing-space-08);
 }
 
-/* The dot lattice behind everything. */
+/* The dot lattice behind everything. It fades out over the bottom of the stage
+   so it dissolves into the plain surface instead of ending on a hard line. */
 .hero-showcase__dots {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  --hero-dots-fade: min(40svh, 360px);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hero-dots-fade)), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hero-dots-fade)), transparent);
 }
 
 /* ── Heading + CTA ───────────────────────────────────────────────────────── */

@@ -22,7 +22,6 @@ import { ComponentDocsPage } from "./pages/ComponentDocsPage";
 import { ComponentUsagePage } from "./pages/ComponentUsagePage";
 import { ComponentInspectPage } from "./pages/ComponentInspectPage";
 import { DocsNotFound } from "./pages/DocsNotFound";
-import "../components/gradient/dot-grid.css";
 import "./docs.css";
 
 export default function DocsRoutes() {
@@ -33,8 +32,6 @@ export default function DocsRoutes() {
     // component pages rather than resetting on each one.
     <DocsFrameworkProvider>
       <div className="docs-page">
-        {/* Same flat-surface dot lattice the home hero sits on, behind the frame. */}
-        <div className="docs-page__dots dot-grid" aria-hidden="true" />
         <div className="docs-page__stage">
           <div className="docs-page__frame">
             <DocsRouteTree overlayHost={overlayHost} />

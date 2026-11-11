@@ -18,6 +18,7 @@ import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 /**
  * A from–to date range built from two native `<input type="date">` controls on
@@ -50,6 +51,7 @@ export function DateRangeInput({
   id,
   portalContainer,
 }: DateRangeInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const containedPositioning = useContainedPositioning();

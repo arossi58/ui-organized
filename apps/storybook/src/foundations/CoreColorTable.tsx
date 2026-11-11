@@ -44,12 +44,9 @@ export function CoreColorTable() {
   return (
     <div className="core-colors">
       <p className="core-colors__lede">
-        The core palette is deliberately large — {FAMILY_COUNT} families, each a{" "}
-        {CORE_STEPS.length}-step ramp — so you can theme expressively without ever leaving the
-        system. Every ramp is a hand-tuned <strong>OKLCH</strong> palette with even, perceptually
-        spaced steps, so you get production-ready, accessible color <em>out of the box</em>. There's
-        no need to reverse-engineer how a ramp was built to make a new color — just pick a family
-        and a step. Hover any swatch for its hex and OKLCH value.
+        {FAMILY_COUNT} families, each a {CORE_STEPS.length}-step <strong>OKLCH</strong> ramp
+        with evenly spaced lightness. Pick a family and a step. Hover any swatch for its hex and
+        OKLCH value.
       </p>
       <p className="core-colors__axis">
         Each family runs <code>100</code> (lightest) → <code>2400</code> (darkest).

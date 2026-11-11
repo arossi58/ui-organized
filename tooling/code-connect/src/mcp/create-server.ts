@@ -11,6 +11,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+import { loadFrameworkData } from "../framework-data.js";
 import { ManifestLoader } from "./manifest-loader.js";
 import { json, registerReadTools } from "./read-tools.js";
 import { buildComponentContext, validateMapping, listStale } from "./tools.js";
@@ -88,6 +89,8 @@ export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): 
     packageVersion: (
       JSON.parse(readFileSync(resolve(REPO, "packages/react/package.json"), "utf8")) as { version: string }
     ).version,
+    // Read from the checkout, so a spec for Svelte, Vue or Angular is as current as the repo.
+    frameworks: loadFrameworkData(REPO),
   });
 
   return server;

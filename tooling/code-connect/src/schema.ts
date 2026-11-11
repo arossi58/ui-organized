@@ -57,6 +57,13 @@ export interface ComponentManifestEntry {
   importStatement: string;
   /** Angular selector, if applicable. Absent for React. */
   selector?: string;
+  /**
+   * For a Svelte, Vue or Angular entry: the React export it implements
+   * (`UioButton` → `Button`). Figma keys and usage guides live on the React
+   * entry, so this is how a framework entry finds them. Absent for React, and
+   * for an export React doesn't have.
+   */
+  reactName?: string;
   props: PropDefinition[];
   /** Canonical real-world usage example. */
   usageSnippet: string;

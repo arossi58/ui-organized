@@ -362,3 +362,58 @@ describe("against the real token build", () => {
     expect(index.size).toBe(semantic.length);
   });
 });
+
+describe("resolveFrame — other libraries' markup", () => {
+  const SELECTORS = {
+    Button: { element: "button", attribute: "uioButton" },
+    Card: { element: "div", attribute: "uioCard" },
+    CardBody: { element: "div", attribute: "uioCardBody" },
+  } as const;
+  const markupCtx = (framework: "svelte" | "vue" | "angular", ship = ["Button", "Card", "CardBody"]): ResolveContext => ({
+    ...ctx,
+    markup: {
+      framework,
+      targetOf: (name) =>
+        ship.includes(name)
+          ? framework === "angular"
+            ? { framework, symbol: `Uio${name}`, selector: SELECTORS[name as keyof typeof SELECTORS] }
+            : { framework, symbol: name }
+          : undefined,
+    },
+  });
+  const frame: FigmaNode = {
+    id: "f",
+    name: "Panel",
+    type: "FRAME",
+    layoutMode: "VERTICAL",
+    itemSpacing: 16,
+    boundVariables: { itemSpacing: { type: "VARIABLE_ALIAS", id: "VariableID:lib-key-spacing/1:1" } },
+    children: [instance({ intent: "ghost", size: "sm" })],
+  };
+
+  it("writes a Vue template with Vue's import and a CSS style string", () => {
+    const out = resolveFrame(doc(frame), markupCtx("vue"));
+    expect(out.code).toContain('import { Button } from "@ui-organized/vue";');
+    expect(out.code).toContain('<div style="display: flex; flex-direction: column; gap: var(--spacing-space-04)">');
+    expect(out.code).toContain('<Button intent="ghost" size="sm">Save</Button>');
+    expect(out.code).not.toContain("{{");
+  });
+
+  it("writes Angular as a directive on its host element", () => {
+    const out = resolveFrame(doc(instance({ intent: "ghost" })), markupCtx("angular"));
+    expect(out.code).toContain('import { UioButton } from "@ui-organized/angular";');
+    expect(out.code).toMatch(/<button uioButton intent="ghost">\s*Save\s*<\/button>/);
+    expect(out.imports).toEqual(["UioButton"]);
+  });
+
+  it("reports a component the library doesn't ship instead of writing React", () => {
+    const out = resolveFrame(doc(instance({ intent: "ghost" })), markupCtx("svelte", []));
+    expect(out.code).not.toContain("<Button");
+    expect(out.unmapped).toEqual(["Button (not in this library)"]);
+  });
+
+  it("escapes template braces in text", () => {
+    const text: FigmaNode = { id: "x", name: "t", type: "TEXT", characters: "Total {count}" };
+    expect(resolveFrame(doc(text), markupCtx("svelte")).code).toContain("Total &#123;count&#125;");
+  });
+});

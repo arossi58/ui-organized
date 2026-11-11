@@ -670,7 +670,8 @@ export const ColumnTools: Story = {
         code: `
 // Resize handles are focusable separators (arrows resize, Shift+arrow
 // fine-tunes, Enter resets), so the column widths are keyboard-reachable
-// rather than drag-only.
+// rather than drag-only. \`reorderable\` lets a header be dragged, or moved
+// with the arrows that appear on hover and focus.
 <DataTable
   label="Team members"
   columns={columns}
@@ -680,6 +681,41 @@ export const ColumnTools: Story = {
   reorderable
   hideableColumns
   exportable
+  maxHeight={480}
+/>
+`.trim(),
+      },
+    },
+  },
+};
+
+export const ReorderColumns: Story = {
+  render: () => (
+    <DataTable<Member>
+      label="Team members"
+      columns={columns}
+      data={MEMBERS}
+      getRowId={(row) => row.id}
+      reorderable="toggle"
+      hideableColumns
+      maxHeight={480}
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// "toggle": columns move only inside a reorder mode, switched by the
+// toolbar's Reorder button. Drag a header, or use its arrows; Alt+Arrow on a
+// focused header does the same from the keyboard. "always" (or \`true\`)
+// leaves them movable at any time. Reset lives in the Columns menu.
+<DataTable
+  label="Team members"
+  columns={columns}
+  data={members}
+  getRowId={(row) => row.id}
+  reorderable="toggle"
+  hideableColumns
   maxHeight={480}
 />
 `.trim(),

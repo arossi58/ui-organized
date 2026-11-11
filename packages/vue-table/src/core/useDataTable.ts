@@ -100,11 +100,21 @@ import {
   type TableRowScope,
   type HorizontalScrollState,
   type UioTableFeatures,
+  withDateColumns,
+  canSelectHiddenRows,
+  canStepColumn,
+  currentColumnOrder,
+  dropColumn,
+  isMovableColumn,
+  reorderModeOf,
+  stepColumn,
+  type DropSide,
 } from "@ui-organized/table-core";
 import { useStore } from "./useStore.js";
 import { useDeferred } from "./useDeferred.js";
 import { actionsColumn, selectionColumn } from "./systemColumns.js";
 import type {
+  ColumnDrag,
   DataTableApi,
   HorizontalScrollApi,
   RenderRow,
@@ -274,14 +284,19 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
   const scroll = useHorizontalScroll(viewportRef);
 
   // ── Columns ───────────────────────────────────────────────────────────────
+  // Date columns rewritten once, up front: everything below — filter types,
+  // chips, sorting, export — then sees ISO days and the column's own format.
+  // Same array back when no column declares `meta.date`.
+  const userColumns = computed(() => withDateColumns(options.columns));
+
   const allColumns = computed(() => {
-    const out: TableColumn<T>[] = [...options.columns];
+    const out: TableColumn<T>[] = [...userColumns.value];
     if (selectionMode.value !== "none") out.unshift(selectionColumn<T>());
     if (options.rowActions?.length) out.push(actionsColumn<T>());
     return out;
   });
 
-  const primaryId = computed(() => primaryColumnId(options.columns));
+  const primaryId = computed(() => primaryColumnId(userColumns.value));
   const basePinning = computed(() => pinningFromMeta(allColumns.value));
 
   // Created once, outside any computed: these are stores, not derived values,
@@ -292,7 +307,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
 
   const editableColumns = computed(
     () =>
-      new Set(options.columns.filter((def) => metaOf<T>(def)?.edit).map((def) => columnIdOf(def))),
+      new Set(userColumns.value.filter((def) => metaOf<T>(def)?.edit).map((def) => columnIdOf(def))),
   );
 
   const interactive = computed(
@@ -314,7 +329,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
    */
   const filterTypes = computed(() => {
     const types: Record<string, TableFilterType> = {};
-    for (const def of options.columns) {
+    for (const def of userColumns.value) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (!filter) continue;
       const id = columnIdOf(def);
@@ -717,6 +732,39 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
   const copySelection = (scope: TableRowScope = "selected") =>
     copyRowsToClipboard(table, { scope });
 
+  // ── Column reordering ───────────────────────────────────────────────────────
+  // `reorderable: true | "always"` keeps headers movable all the time;
+  // `"toggle"` only inside a reorder mode the toolbar switches. Card mode has
+  // no headers to move, so it is never live there.
+  const reorderMode = computed(() => reorderModeOf(options.reorderable));
+  const reorderOn = ref(false);
+  const reorderActive = computed(
+    () =>
+      mode.value !== "cards" &&
+      (reorderMode.value === "always" || (reorderMode.value === "toggle" && reorderOn.value)),
+  );
+  const drag = ref<ColumnDrag | null>(null) as Ref<ColumnDrag | null>;
+
+  const isMovable = (id: string) => {
+    const column = table.getColumn(id);
+    return Boolean(column?.getIsVisible()) && isMovableColumn(id, column!.getIsPinned() !== false);
+  };
+  const orderNow = () =>
+    currentColumnOrder(
+      columnOrder.value,
+      table.getAllLeafColumns().map((column) => column.id),
+    );
+  const canMoveColumn = (id: string, direction: -1 | 1) =>
+    reorderActive.value && canStepColumn(orderNow(), id, direction, isMovable);
+  const moveColumnBy = (id: string, direction: -1 | 1) => {
+    if (!canMoveColumn(id, direction)) return;
+    table.setColumnOrder(stepColumn(orderNow(), id, direction, isMovable));
+  };
+  const dropColumnOn = (source: string, target: string, side: DropSide) => {
+    if (!reorderActive.value || !isMovable(source) || !isMovable(target)) return;
+    table.setColumnOrder(dropColumn(orderNow(), source, target, side));
+  };
+
   // ── Keyboard ──────────────────────────────────────────────────────────────
   const onGridKeyDown = (event: KeyboardEvent) => {
     if (!interactive.value) return;
@@ -736,6 +784,8 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
         editable: column ? editableColumns.value.has(column.id) : false,
         selectable: selectionMode.value !== "none",
         multiSelect: selectionMode.value === "multiple",
+        reorderable:
+          Boolean(column) && cursor.row < 0 && reorderActive.value && isMovable(column!.id),
       },
       {
         key: event.key,
@@ -751,6 +801,15 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
     switch (action.type) {
       case "move":
         focusCell(action.cursor);
+        break;
+      case "move-column":
+        // Stepping trades places with the next movable visible column, which
+        // is the neighbouring header, so the column is now one index over.
+        // Focus follows it there once the new order has rendered.
+        if (column && canMoveColumn(column.id, action.direction)) {
+          moveColumnBy(column.id, action.direction);
+          focusCell({ row: -1, col: cursor.col + action.direction });
+        }
         break;
       case "page":
         if (virtualizing.value) {
@@ -862,7 +921,7 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
 
   const filterDefs = computed(() => {
     const defs = new Map<string, ReturnType<typeof normalizeFilterDef>>();
-    for (const def of options.columns) {
+    for (const def of userColumns.value) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (filter) defs.set(columnIdOf(def), filter);
     }
@@ -1024,12 +1083,13 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
       selectAllMatching: selectEverythingMatching,
       clear: clearSelectionState,
       header: headerState,
-      canSelectAllMatching: computed(
-        () =>
-          selectionMode.value === "multiple" &&
-          headerState.value.checked &&
-          !selection.value.allMatching &&
-          totalMatching.value > visibleRowIds.value.length,
+      canSelectAllMatching: computed(() =>
+        canSelectHiddenRows(
+          selection.value,
+          headerState.value,
+          totalMatching.value,
+          selectionMode.value,
+        ),
       ),
       totalMatching,
       asBulk: () => toBulkSelection(selection.value),
@@ -1086,6 +1146,21 @@ export function useDataTable<T extends RowData>(options: UseDataTableOptions<T>)
     },
     virtual: { enabled: virtualizing, virtualizer, spacers },
     scroll,
+    reorder: {
+      mode: reorderMode,
+      active: reorderActive,
+      setActive: (active: boolean) => {
+        reorderOn.value = active;
+      },
+      isMovable,
+      canMove: canMoveColumn,
+      move: moveColumnBy,
+      drop: dropColumnOn,
+      drag,
+      setDrag: (next: ColumnDrag | null) => {
+        drag.value = next;
+      },
+    },
     columnWidths: computed(() => layout.value.widths),
     rootRef,
     viewportRef,

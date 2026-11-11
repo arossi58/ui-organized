@@ -7,7 +7,6 @@ import { TOOL_COMPONENTS } from "../lib/toolComponents";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { useDocumentMeta } from "../hooks/useDocumentMeta";
 import { trackEvent } from "../lib/analytics";
-import "../components/gradient/dot-grid.css";
 import "./tools-page.css";
 
 /**
@@ -57,7 +56,6 @@ export function ToolsPage() {
   if (isMobile) {
     return (
       <div className="tools-page">
-        <div className="tools-page__dots dot-grid" aria-hidden="true" />
         <main className="tools-page__stage" id="main">
           <div className="tools-note">
             <span className="tools-note__art" aria-hidden="true">
@@ -76,8 +74,6 @@ export function ToolsPage() {
 
   return (
     <div className="tools-page">
-      {/* Same flat-surface dot lattice the home hero + docs route sit on. */}
-      <div className="tools-page__dots dot-grid" aria-hidden="true" />
 
       <main className="tools-page__stage" id="main">
         <div className="tools-shell">

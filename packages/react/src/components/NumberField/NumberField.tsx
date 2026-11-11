@@ -7,6 +7,7 @@ import { FieldError } from "../FieldError/index.js";
 import type { NumberFieldProps } from "./NumberField.types.js";
 import "@ui-organized/core/components/NumberField/NumberField.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function NumberField({
   value,
@@ -28,6 +29,7 @@ export function NumberField({
   id,
   className,
 }: NumberFieldProps) {
+  useFocusModality();
   const reactId = React.useId();
   const fieldId = id ?? reactId;
   const isInvalid = !!error;

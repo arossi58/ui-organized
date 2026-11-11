@@ -3,6 +3,7 @@ import { FlexRender } from "@tanstack/angular-table";
 import { UioIcon } from "@ui-organized/angular";
 import {
   alignOf,
+  dropSideAt,
   getHeadCellProps,
   getResizeHandleProps,
   metaOf,
@@ -106,9 +107,25 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
     "[attr.data-cell]": "'-1:' + index()",
     "[attr.tabindex]": "tabIndex()",
     "(focus)": "onFocus()",
+    // The whole header is a drop target; only its label area (in the
+    // template) is a drag source.
+    "[attr.data-dragging]": "dragging() ? '' : null",
+    "[attr.data-drop]": "dropSide() ?? null",
+    "(dragover)": "onDragOver($event)",
+    "(drop)": "onDrop($event)",
   },
   template: `
-    <div class="data-table__head-inner">
+    <!--
+      The drag source is the label area, not the <th>: with the <th>
+      draggable, pressing the resize handle started a native drag that took
+      the pointer away from the resize. The handle sits outside this element.
+    -->
+    <div
+      class="data-table__head-inner"
+      [attr.draggable]="movable() ? 'true' : null"
+      (dragstart)="onDragStart($event)"
+      (dragend)="onDragEnd()"
+    >
       <!--
         The roving tabindex covers the header row too, so ArrowUp out of the
         first body row lands somewhere focusable and Enter sorts from there.
@@ -157,6 +174,38 @@ export class UioTableResizeHandle<T extends RowData> extends UioTablePropsHost {
           </span>
         }
       }
+      @if (movable()) {
+        <!--
+          Left and right, for a column that can be moved: the click-and-keyboard
+          half of dragging the header. In an interactive grid they are not tab
+          stops, like every control inside a cell; Alt+Arrow on the focused
+          header is the keyboard route there.
+        -->
+        <span class="data-table__move" [attr.data-mode]="table.reorder.mode()">
+          <button
+            #moveLeft
+            type="button"
+            class="data-table__move-button"
+            [attr.aria-label]="'Move ' + headerText() + ' left'"
+            [disabled]="!table.reorder.canMove(column().id, -1)"
+            [attr.tabindex]="interactive() ? -1 : null"
+            (click)="pressMove(-1, $event, moveLeft, moveRight)"
+          >
+            <span uioIcon [name]="glyph('chevron-left')" [size]="16"></span>
+          </button>
+          <button
+            #moveRight
+            type="button"
+            class="data-table__move-button"
+            [attr.aria-label]="'Move ' + headerText() + ' right'"
+            [disabled]="!table.reorder.canMove(column().id, 1)"
+            [attr.tabindex]="interactive() ? -1 : null"
+            (click)="pressMove(1, $event, moveRight, moveLeft)"
+          >
+            <span uioIcon [name]="glyph('chevron-right')" [size]="16"></span>
+          </button>
+        </span>
+      }
     </div>
     @if (column().getCanResize()) {
       <button uioTableResizeHandle [header]="header()"></button>
@@ -204,6 +253,87 @@ export class UioTableHeadCell<T extends RowData> extends UioTablePropsHost {
 
   protected onFocus(): void {
     if (this.interactive()) this.table.focus.setCursor({ row: -1, col: this.index() });
+  }
+
+  // ── Column reordering ─────────────────────────────────────────────────────
+
+  protected readonly movable = computed(
+    () => this.table.reorder.active() && this.table.reorder.isMovable(this.column().id),
+  );
+  protected readonly headerText = computed(() => {
+    const header = this.column().columnDef.header;
+    return typeof header === "string" ? header : this.column().id;
+  });
+  protected readonly dragging = computed(
+    () => this.table.reorder.drag()?.source === this.column().id,
+  );
+  protected readonly dropSide = computed(() => {
+    const drag = this.table.reorder.drag();
+    const id = this.column().id;
+    return drag && drag.target === id && drag.source !== id ? drag.side : undefined;
+  });
+
+  protected onDragStart(event: DragEvent): void {
+    if (!this.movable()) return;
+    const origin = event.target as Element | null;
+    if (origin?.closest(".data-table__move")) {
+      event.preventDefault();
+      return;
+    }
+    if (event.dataTransfer) {
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("text/plain", this.column().id);
+    }
+    this.table.reorder.setDrag({ source: this.column().id, target: null, side: "before" });
+  }
+
+  protected onDragOver(event: DragEvent): void {
+    const drag = this.table.reorder.drag();
+    if (!this.movable() || !drag) return;
+    event.preventDefault();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    const side = dropSideAt(
+      event.clientX,
+      (event.currentTarget as HTMLElement).getBoundingClientRect(),
+    );
+    const id = this.column().id;
+    if (drag.target !== id || drag.side !== side) {
+      this.table.reorder.setDrag({ ...drag, target: id, side });
+    }
+  }
+
+  protected onDrop(event: DragEvent): void {
+    const drag = this.table.reorder.drag();
+    if (!this.movable() || !drag) return;
+    event.preventDefault();
+    const side = dropSideAt(
+      event.clientX,
+      (event.currentTarget as HTMLElement).getBoundingClientRect(),
+    );
+    this.table.reorder.drop(drag.source, this.column().id, side);
+    this.table.reorder.setDrag(null);
+  }
+
+  protected onDragEnd(): void {
+    if (this.movable()) this.table.reorder.setDrag(null);
+  }
+
+  /**
+   * Re-rendering in the new order moves this header's DOM node, and a moved
+   * node drops focus. Put it back on the same button — or on the other one,
+   * when this move took the column to the end it pointed at. Only after a
+   * keyboard press: a mouse click does not leave focus on the button.
+   */
+  protected pressMove(
+    direction: -1 | 1,
+    event: MouseEvent,
+    own: HTMLButtonElement,
+    other: HTMLButtonElement,
+  ): void {
+    const hadFocus = document.activeElement === event.currentTarget;
+    this.table.reorder.move(this.column().id, direction);
+    if (!hadFocus || typeof requestAnimationFrame !== "function") return;
+    requestAnimationFrame(() => (own.disabled ? other : own).focus());
   }
 
   protected toggleSort(event: Event): void {

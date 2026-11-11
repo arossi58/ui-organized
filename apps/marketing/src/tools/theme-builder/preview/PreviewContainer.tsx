@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { IconProvider } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import { usePreviewProperties } from "./usePreviewProperties";
@@ -9,9 +9,14 @@ import { PreviewTypography } from "./PreviewTypography";
 import { PreviewSizing } from "./PreviewSizing";
 import { PreviewExamples } from "./PreviewExamples";
 import { PreviewExport } from "./PreviewExport";
+import { visionFilterValue } from "../../../docs/a11y/VisionFilters";
 import styles from "./PreviewContainer.module.css";
 
-export function PreviewContainer() {
+/**
+ * @param vision  A vision simulation id from `VISION_SIMULATIONS`, or null.
+ *                Filters the themed preview only, never the builder chrome.
+ */
+export function PreviewContainer({ vision = null }: { vision?: string | null }) {
   const { icons, activePanel } = useBuilderStore();
   const previewStyle = usePreviewProperties();
   // State-backed callback ref so portaled overlays re-render once the themed
@@ -28,8 +33,7 @@ export function PreviewContainer() {
         <div
           ref={setThemedEl}
           className={`${styles.content} ${activePanel === "examples" ? styles.contentFlush : ""}`}
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          style={previewStyle as any}
+          style={{ ...previewStyle, filter: visionFilterValue(vision) } as CSSProperties}
         >
           <PreviewPortalContext.Provider value={themedEl}>
             <IconProvider

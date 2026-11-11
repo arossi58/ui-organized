@@ -31,6 +31,7 @@ import { useDocsFramework } from "../frameworks";
 import { targetFor } from "../frameworks/surfaces";
 import type { DocsComponent } from "../registry";
 import { aiContextFor } from "./aiContextInput";
+import { useFrameworkManifest } from "./frameworkManifests";
 import styles from "./ai.module.css";
 
 const FORMATS: Array<{ id: AiContextFormat; label: string; title: string }> = [
@@ -69,6 +70,8 @@ export function CopyAiContext({
   storybookUrl,
 }: CopyAiContextProps) {
   const { framework } = useDocsFramework();
+  // That library's own props, so the copy matches its published spec.
+  const frameworkManifest = useFrameworkManifest(framework);
   const [copied, setCopied] = useState<AiContextFormat | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout>>();
 
@@ -82,6 +85,7 @@ export function CopyAiContext({
       staleness,
       liveArgs,
       storybookUrl,
+      frameworkManifest,
     });
     if (!result) return;
     await copyText(result.text);

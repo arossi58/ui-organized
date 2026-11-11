@@ -5,6 +5,11 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { PinInputProps } from "./PinInput.types.js";
   import "@ui-organized/core/components/PinInput/PinInput.css";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   const DEFAULT_LENGTH = 4;
 

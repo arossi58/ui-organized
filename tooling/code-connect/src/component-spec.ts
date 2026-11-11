@@ -33,6 +33,16 @@ export interface SpecFrameworkOptions {
   framework?: DocFramework;
   target?: FrameworkTarget;
   relatedTargets?: Record<string, FrameworkTarget>;
+  /**
+   * That library's own scan (`manifest/frameworks/<framework>.json`). With it,
+   * the spec lists the library's real props; without it, React's.
+   */
+  frameworkManifest?: ComponentManifest;
+}
+
+/** The framework entry implementing a React export, found by its `reactName` link. */
+function implementing(manifest: ComponentManifest | undefined, reactName: string) {
+  return manifest?.components.find((c) => c.reactName === reactName && c.status !== "deprecated");
 }
 
 export function buildComponentSpec(
@@ -65,6 +75,17 @@ export function buildComponentSpec(
     confidence: "exact",
     usage,
     ...(options.target ? { target: options.target, relatedTargets: options.relatedTargets ?? {} } : {}),
+    ...(options.target && options.frameworkManifest
+      ? {
+          frameworkEntry: implementing(options.frameworkManifest, entry.codeName),
+          relatedFrameworkEntries: Object.fromEntries(
+            related.flatMap((r) => {
+              const own = implementing(options.frameworkManifest, r.codeName);
+              return own ? [[r.codeName, own]] : [];
+            }),
+          ),
+        }
+      : {}),
     meta: {
       packageVersion,
       // Includes the icon set: omit it and every icon renders nothing — no

@@ -56,8 +56,18 @@ export const STATS = [
   { value: "$0", label: "Open Source" },
 ];
 
-const SEGMENTS = [1, 2, 3, 4, 5].map((n) => ({ value: `tab-${n}`, label: "Tab" }));
-const RADIOS = [1, 2, 3, 4].map((n) => ({ value: `radio-${n}`, label: "Radio" }));
+// Content for a design-system project's settings, so every control reads as
+// part of one real screen rather than a labelled specimen. DASHBOARD_SPEC in
+// showcaseSpecs.ts prints the same values — change one, change the other.
+export const SEGMENTS = ["Day", "Week", "Month", "Year", "All"].map((label) => ({
+  value: label.toLowerCase(),
+  label,
+}));
+export const RADIOS = ["None", "Small", "Medium", "Full"].map((label) => ({
+  value: label.toLowerCase(),
+  label,
+}));
+export const EXPORT_FORMATS = ["CSS", "JSON", "Figma"];
 const FRAMEWORK_OPTIONS = FRAMEWORKS.map(({ value, label }) => ({ value, label }));
 
 // ─── Shell parts ─────────────────────────────────────────────────────────────
@@ -84,7 +94,16 @@ export function MockupSidebar({
       collapsible={collapsible}
       collapsed={collapsed}
       onCollapsedChange={onCollapsedChange}
-      logo={<img src={logoUrl} alt="UI Organized" width={208} height={33.84} />}
+      logo={
+        // Masked rather than an <img>: the asset's fill is fixed, while the mask
+        // paints with currentColor and so follows light/dark like <BrandMark>.
+        <span
+          className="showcase-logo"
+          role="img"
+          aria-label="UI Organized"
+          style={{ maskImage: `url(${logoUrl})`, WebkitMaskImage: `url(${logoUrl})` }}
+        />
+      }
       logoCollapsed={<BrandMark glyphOnly />}
     >
       {(Object.keys(PAGES) as ShowcasePage[]).map((key) => (
@@ -151,15 +170,23 @@ export interface ControlHandlers {
 export function DashboardControl({ id, onDialog, onSheet }: { id: ControlId } & ControlHandlers) {
   switch (id) {
     case "segments":
-      return <SegmentedControl items={SEGMENTS} defaultValue="tab-1" aria-label="View" />;
+      return <SegmentedControl items={SEGMENTS} defaultValue="week" aria-label="Time range" />;
     case "radios":
-      return <RadioGroup label="Label" orientation="horizontal" options={RADIOS} />;
+      return (
+        <RadioGroup label="Corner radius" orientation="horizontal" options={RADIOS} defaultValue="medium" />
+      );
     case "input":
-      return <Input label="Input" placeholder="Data" />;
+      return <Input label="Project name" placeholder="Acme Design System" />;
     case "textarea":
-      return <TextArea label="Text Area" placeholder="Your input" className="showcase-textarea" />;
+      return (
+        <TextArea
+          label="Description"
+          placeholder="What is this theme for?"
+          className="showcase-textarea"
+        />
+      );
     case "date":
-      return <DateInput label="Date" />;
+      return <DateInput label="Release date" />;
     case "toolbar":
       // Actions, each opening its options — not toggles, which would claim
       // an on/off state these commands don't have. Kept identical to the
@@ -198,21 +225,21 @@ export function DashboardControl({ id, onDialog, onSheet }: { id: ControlId } & 
     case "checks":
       return (
         <div className="showcase-row">
-          <Checkbox label="Checkbox" />
-          <Checkbox label="Checkbox" />
-          <Checkbox label="Checkbox" />
+          {EXPORT_FORMATS.map((format) => (
+            <Checkbox key={format} label={format} defaultChecked={format !== "Figma"} />
+          ))}
         </div>
       );
     case "meter":
       return <Meter label="Storage remaining" value={62} />;
     case "switch":
-      return <Switch label="Switch" />;
+      return <Switch label="Sync to Figma" defaultChecked />;
     case "color":
-      return <ColorPicker label="Color" defaultValue="#bc4900" />;
+      return <ColorPicker label="Brand color" defaultValue="#bc4900" />;
     case "select":
-      return <Select label="Label" placeholder="Select" options={FRAMEWORK_OPTIONS} />;
+      return <Select label="Framework" placeholder="Choose a framework" options={FRAMEWORK_OPTIONS} />;
     case "btn-primary":
-      return <Button intent="primary">Button</Button>;
+      return <Button intent="primary">Save changes</Button>;
     case "btn-dialog":
       return (
         <Button intent="secondary" onClick={onDialog}>

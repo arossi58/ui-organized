@@ -2,6 +2,9 @@ import type { ReactNode } from "react";
 import type { ButtonProps } from "@ui-organized/react";
 import type {
   BulkSelection,
+  DropSide,
+  ReorderMode,
+  ReorderSetting,
   DataTableQuery,
   DetailState,
   EditState,
@@ -191,7 +194,19 @@ export interface UseDataTableOptions<T extends RowData> {
   paginated?: boolean;
   pageSize?: number;
   resizable?: boolean;
-  reorderable?: boolean;
+  /**
+   * Lets people rearrange the columns by dragging a header, or with its move
+   * buttons (and Alt+Arrow on a focused header). Adds "Reset column order" to
+   * the Columns menu.
+   *
+   * - `true` / `"always"`: movable at any time; the move buttons appear on
+   *   hover and focus.
+   * - `"toggle"`: movable only in a reorder mode, switched from the toolbar.
+   *
+   * The table's own columns (selection, row actions) and pinned columns stay
+   * where they are.
+   */
+  reorderable?: ReorderSetting;
   hideableColumns?: boolean;
   /**
    * The header's sort button. On by default whenever any column is sortable —
@@ -319,6 +334,30 @@ export interface VirtualApi {
  * when there is something to scroll to, rather than sitting there permanently
  * disabled.
  */
+/** A header drag in progress: what is moving, and where it would land. */
+export interface ColumnDrag {
+  source: string;
+  target: string | null;
+  side: DropSide;
+}
+
+export interface ReorderApi {
+  /** The `reorderable` setting, resolved. */
+  mode: ReorderMode;
+  /** Columns can be moved right now: always, or inside toggle mode. */
+  active: boolean;
+  /** Enters or leaves reorder mode. Only meaningful when `mode` is `"toggle"`. */
+  setActive: (active: boolean) => void;
+  /** Visible, not pinned, and not one of the table's own columns. */
+  isMovable: (columnId: string) => boolean;
+  canMove: (columnId: string, direction: -1 | 1) => boolean;
+  /** One place left or right, past the nearest movable visible column. */
+  move: (columnId: string, direction: -1 | 1) => void;
+  drop: (sourceId: string, targetId: string, side: DropSide) => void;
+  drag: ColumnDrag | null;
+  setDrag: (drag: ColumnDrag | null) => void;
+}
+
 export interface HorizontalScrollApi extends HorizontalScrollState {
   /** Move most of a viewport width: `-1` towards the first column, `1` away. */
   by: (direction: -1 | 1) => void;
@@ -364,6 +403,7 @@ export interface DataTableApi<T extends RowData> {
   focus: FocusApi;
   virtual: VirtualApi;
   scroll: HorizontalScrollApi;
+  reorder: ReorderApi;
 
   rootRef: (element: HTMLElement | null) => void;
   /** The scroll container: the viewport in table mode, the list in card mode. */

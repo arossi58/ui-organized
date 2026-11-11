@@ -22,6 +22,7 @@ import { TableFilterSheet, TableSortSheet } from "../TableSheets/index.js";
 import type {
   TableActionsProps,
   TableExportMenuProps,
+  TableReorderToggleProps,
   TableScrollButtonsProps,
   TableSearchProps,
   TableSortMenuProps,
@@ -39,7 +40,7 @@ import { internalGlyph as glyph } from "@ui-organized/react";
  * text input.
  */
 export function TableToolbar({ children, className }: TableToolbarProps) {
-  const { options, table, scroll, selection, mode } = useTableContext();
+  const { options, table, scroll, selection, mode, reorder } = useTableContext();
   if (children) {
     return <div className={clsx("data-table__toolbar", className)}>{children}</div>;
   }
@@ -68,6 +69,7 @@ export function TableToolbar({ children, className }: TableToolbarProps) {
     !filterable &&
     !sortMenu &&
     !scroll.overflowing &&
+    reorder.mode !== "toggle" &&
     actions.length === 0
   ) {
     return null;
@@ -120,6 +122,7 @@ export function TableToolbar({ children, className }: TableToolbarProps) {
           )}
           {exportable && <TableExportMenu />}
           {hideable && <TableViewOptions />}
+          <TableReorderToggle />
         </>
       )}
       {/* Last, and only while the viewport is actually hiding columns. */}
@@ -316,6 +319,31 @@ export function TableViewOptions({ label = "Columns", className }: TableViewOpti
         )}
       </MenuContent>
     </Menu>
+  );
+}
+
+/**
+ * Enters and leaves reorder mode, for `reorderable: "toggle"`. Absent for any
+ * other setting, and in card mode, which has no headers to move.
+ *
+ * The label says what a press does next — "Reorder", then "Done" — rather
+ * than carrying a pressed state, so the button reads the same to a screen
+ * reader as it does on screen, and "Done" is the obvious way out.
+ */
+export function TableReorderToggle({ className }: TableReorderToggleProps) {
+  const { reorder, size, mode } = useTableContext();
+  if (reorder.mode !== "toggle" || mode === "cards") return null;
+
+  return (
+    <Button
+      intent={reorder.active ? "primary" : "secondary"}
+      size={size}
+      className={className}
+      aria-label={reorder.active ? "Done reordering columns" : "Reorder columns"}
+      onClick={() => reorder.setActive(!reorder.active)}
+    >
+      {reorder.active ? "Done" : "Reorder"}
+    </Button>
   );
 }
 

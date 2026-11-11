@@ -348,7 +348,8 @@ test.describe("Data Table select-all", () => {
       // The header checkbox used to enumerate all 100,000 ids on one click,
       // which took minutes of blocking work and read to the user as a crashed
       // tab. It now governs the rendered window, and the selection bar offers
-      // the whole set as a flag that costs nothing.
+      // the whole set as a flag that costs nothing. The count and that offer
+      // live in the footer under the rows; the bar holds the bulk actions.
       const rendered = await page.locator(ROW).count();
       expect(rendered).toBeLessThan(200); // virtualized, not 100,000
 
@@ -363,11 +364,19 @@ test.describe("Data Table select-all", () => {
       // Exactly the rendered rows, not the dataset.
       await expect(page.locator(".data-table__selection-count")).toContainText(String(rendered));
 
-      // …and the escape hatch to everything is right there.
-      const all = page.getByRole("button", { name: /Select all 100000 matching/ });
+      // …and the escape hatch to everything is right there, counted as the
+      // rows it would add.
+      const hidden = (100_000 - rendered).toLocaleString("en-US");
+      const all = page.getByRole("button", { name: `Select ${hidden} hidden rows` });
       await expect(all).toBeVisible();
+      // The footer grows open over 200ms and the button rides up with it.
+      // Playwright's stability check can pass in the slow tail of that ease,
+      // and in Firefox and WebKit the click then lands where the button was.
+      await page
+        .locator(".data-table__selection-footer")
+        .evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
       await all.click();
-      await expect(page.locator(".data-table__selection-count")).toContainText("100000");
+      await expect(page.locator(".data-table__selection-count")).toContainText("100,000");
     },
   );
 });

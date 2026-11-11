@@ -5,6 +5,7 @@ import { flexRender, type RowData } from "@tanstack/react-table";
 import { Icon } from "@ui-organized/react";
 import {
   alignOf,
+  dropSideAt,
   getCaptionProps,
   getCellProps,
   getColProps,
@@ -22,6 +23,7 @@ import {
   type TableInstance,
 } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
+import { TableSelectionFooter } from "../TableSelectionFooter/index.js";
 import { reactProps } from "../../core/props.js";
 import { TableEmpty, TableError, TableLoading } from "../TableStates/index.js";
 import type {
@@ -45,10 +47,11 @@ import { internalGlyph as glyph } from "@ui-organized/react";
  *
  *   <Table>              <div class="data-table">        root, size + variant
  *     <TableToolbar>     <div class="data-table__toolbar">
- *     <TableSubBar>      <div class="data-table__subbar">   filters + selection
+ *     <TableSubBar>      <div class="data-table__subbar">   filters
  *     <TableViewport>    <div class="data-table__viewport"><table>
  *       <TableHeader>    <thead>
  *       <TableBody>      <tbody>   spacer / rows / spacer
+ *                        </table><div class="data-table__selection-footer">
  *     <TablePagination>
  *
  * `TableViewport` owns both the scroll container and the `<table>` element
@@ -115,6 +118,10 @@ export function TableViewport({ children, className, maxHeight }: TableViewportP
         </colgroup>
         {children}
       </table>
+      {/* After the table, inside the scroll container: it sticks to the
+          viewport's bottom edge, so it costs a capped table scroll length
+          rather than page height. */}
+      <TableSelectionFooter />
     </div>
   );
 }
@@ -137,8 +144,14 @@ export function TableHeader({ className }: TableHeaderProps) {
 }
 
 export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCellProps<T>) {
-  const { table, interactive, focus } = useTableContext<T>();
+  const { table, interactive, focus, reorder } = useTableContext<T>();
   const column = header.column;
+  const movable = reorder.active && reorder.isMovable(column.id);
+  const drag = reorder.drag;
+  const dropSide =
+    drag && drag.target === column.id && drag.source !== column.id ? drag.side : undefined;
+  const headerText =
+    typeof column.columnDef.header === "string" ? column.columnDef.header : column.id;
   const sortable = column.getCanSort();
   const sorted = column.getIsSorted();
   const focused = interactive && focus.cursor.row === -1 && focus.cursor.col === index;
@@ -168,8 +181,56 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
       // first body row lands somewhere focusable and Enter sorts from there.
       tabIndex={interactive ? (focused ? 0 : -1) : undefined}
       onFocus={interactive ? () => focus.setCursor({ row: -1, col: index }) : undefined}
+      // The whole header is a drop target; only its label area (below) is a
+      // drag source.
+      data-dragging={drag?.source === column.id || undefined}
+      data-drop={dropSide}
+      onDragOver={
+        movable && drag
+          ? (event) => {
+              event.preventDefault();
+              event.dataTransfer.dropEffect = "move";
+              const side = dropSideAt(event.clientX, event.currentTarget.getBoundingClientRect());
+              if (drag.target !== column.id || drag.side !== side) {
+                reorder.setDrag({ ...drag, target: column.id, side });
+              }
+            }
+          : undefined
+      }
+      onDrop={
+        movable && drag
+          ? (event) => {
+              event.preventDefault();
+              const side = dropSideAt(event.clientX, event.currentTarget.getBoundingClientRect());
+              reorder.drop(drag.source, column.id, side);
+              reorder.setDrag(null);
+            }
+          : undefined
+      }
     >
-      <div className="data-table__head-inner">
+      {/* The drag source is the label area, not the <th>. With the <th>
+          draggable, pressing the resize handle — a child of it — started a
+          native drag that took the pointer away from the resize after its
+          first step; cancelling the drag in dragstart is already too late.
+          The handle sits outside this element, so it can never start one. */}
+      <div
+        className="data-table__head-inner"
+        draggable={movable || undefined}
+        onDragStart={
+          movable
+            ? (event) => {
+                if ((event.target as Element).closest(".data-table__move")) {
+                  event.preventDefault();
+                  return;
+                }
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", column.id);
+                reorder.setDrag({ source: column.id, target: null, side: "before" });
+              }
+            : undefined
+        }
+        onDragEnd={movable ? () => reorder.setDrag(null) : undefined}
+      >
         {sortable ? (
           <button
             type="button"
@@ -190,9 +251,67 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
             {editable && <EditMark />}
           </>
         )}
+        {movable && <MoveButtons columnId={column.id} name={headerText} />}
       </div>
       {column.getCanResize() && <ResizeHandle header={header} />}
     </th>
+  );
+}
+
+/**
+ * Left and right, for a column that can be moved — the click-and-keyboard half
+ * of dragging the header. Over the header's end rather than in its flow, so
+ * showing them does not shove the label. In `"always"` mode the stylesheet
+ * shows them on hover and focus; in `"toggle"` mode they are up for as long as
+ * reorder mode is.
+ *
+ * In an interactive grid they are not tab stops, like every control inside a
+ * cell; Alt+Arrow on the focused header is the keyboard route there.
+ */
+function MoveButtons({ columnId, name }: { columnId: string; name: string }) {
+  const { reorder, interactive } = useTableContext();
+  const left = useRef<HTMLButtonElement>(null);
+  const right = useRef<HTMLButtonElement>(null);
+
+  const press = (direction: -1 | 1, event: React.MouseEvent<HTMLButtonElement>) => {
+    const hadFocus = document.activeElement === event.currentTarget;
+    reorder.move(columnId, direction);
+    if (!hadFocus) return;
+    // Re-rendering in the new order moves this header's DOM node, and a moved
+    // node drops focus. Put it back on the same button — or on the other one,
+    // when this move took the column to the end it pointed at.
+    requestAnimationFrame(() => {
+      const own = direction === -1 ? left.current : right.current;
+      const other = direction === -1 ? right.current : left.current;
+      (own && !own.disabled ? own : other)?.focus();
+    });
+  };
+
+  return (
+    <span className="data-table__move" data-mode={reorder.mode}>
+      <button
+        ref={left}
+        type="button"
+        className="data-table__move-button"
+        aria-label={`Move ${name} left`}
+        disabled={!reorder.canMove(columnId, -1)}
+        tabIndex={interactive ? -1 : undefined}
+        onClick={(event) => press(-1, event)}
+      >
+        <Icon name={glyph("chevron-left")} size={16} />
+      </button>
+      <button
+        ref={right}
+        type="button"
+        className="data-table__move-button"
+        aria-label={`Move ${name} right`}
+        disabled={!reorder.canMove(columnId, 1)}
+        tabIndex={interactive ? -1 : undefined}
+        onClick={(event) => press(1, event)}
+      >
+        <Icon name={glyph("chevron-right")} size={16} />
+      </button>
+    </span>
   );
 }
 

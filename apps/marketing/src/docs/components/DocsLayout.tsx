@@ -9,7 +9,8 @@
  * fronted by a sticky bar (`DocsNavSheet`). One or the other is mounted, never
  * both — see `DocsNav` for why.
  */
-import type { ReactNode, RefObject } from "react";
+import { useEffect, type ReactNode, type RefObject } from "react";
+import { useLocation } from "react-router-dom";
 import { ScrollArea } from "@ui-organized/react";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { DocsNav, DOCS_COMPACT_QUERY } from "./DocsNav";
@@ -24,6 +25,20 @@ interface DocsLayoutProps {
 
 export function DocsLayout({ children, overlayHost }: DocsLayoutProps) {
   const compact = useMediaQuery(DOCS_COMPACT_QUERY);
+  const { pathname, hash } = useLocation();
+
+  // A link from outside the docs (the Theme Builder's export steps, say) lands
+  // before the section it names has rendered, and the content scrolls inside
+  // its own column, so the browser's fragment jump never happens. Do it once
+  // the page is on screen.
+  useEffect(() => {
+    const target = hash.replace(/^#/, "");
+    if (!target) return;
+    const frame = requestAnimationFrame(() => {
+      document.getElementById(decodeURIComponent(target))?.scrollIntoView({ block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
 
   const content = (
     <main className={styles.mainInner} id="main">

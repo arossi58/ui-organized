@@ -1,3 +1,4 @@
+import { useLayoutEffect, useRef } from "react";
 import { Reveal } from "../Reveal";
 import "../gradient/dot-grid.css";
 import "./about.css";
@@ -10,8 +11,27 @@ import "./about.css";
  * site uses.
  */
 export function AboutHero() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // The in-flow nav sits above this section, so a lattice anchored to the
+  // section would start that far down the page and sit out of step with the
+  // home hero's, which runs from the very top. Extend it up by the section's
+  // distance from the page top; the nav's height changes with the viewport, so
+  // re-measure on resize.
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const measure = () => {
+      const offset = section.getBoundingClientRect().top + window.scrollY;
+      section.style.setProperty("--about-hero-offset", `${offset}px`);
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
   return (
-    <section className="section about-hero">
+    <section ref={sectionRef} className="section about-hero">
       {/* Decorative lattice, behind the copy. */}
       <div className="about-hero__dots dot-grid" aria-hidden="true" />
 

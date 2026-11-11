@@ -50,6 +50,19 @@
   outline-color: var(--color-status-error);
 }
 
+/* Pointer focus (data-focus-modality from @ui-organized/core/focus-modality):
+   browsers match :focus-visible on every focus of a text field, so a click would
+   draw the full ring. After a click the border takes the focus color instead;
+   keyboard focus, and pages that never install the tracker, keep the ring. */
+:root[data-focus-modality="pointer"] .tags-input__control:focus-within {
+  outline: none;
+  border-color: var(--color-interactive-focus);
+}
+
+:root[data-focus-modality="pointer"] .tags-input__control[data-invalid]:focus-within {
+  border-color: var(--color-status-error);
+}
+
 .tags-input__control[data-disabled] {
   cursor: not-allowed;
   opacity: 0.4;

@@ -210,12 +210,6 @@ export default function IconScalerApp() {
 
         {/* Header */}
         <div className="is-header">
-          <div className="is-header-brand">
-            <h2 className="is-header-title" style={{ margin: 0 }}>Icon Scaler</h2>
-            {workspace.length > 0 && (
-              <span className="is-header-count">{workspace.length} icon{workspace.length !== 1 ? "s" : ""}</span>
-            )}
-          </div>
           {workspace.length > 0 && (
             <Button intent="ghost" size="sm" onClick={clearAll}>Clear all</Button>
           )}

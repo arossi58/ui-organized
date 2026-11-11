@@ -78,20 +78,66 @@ describe("uiorg init", () => {
     expect(readFileSync(join(cwd, ".cursor/rules/ui-organized.mdc"), "utf8")).toContain("alwaysApply: true");
   });
 
+  it("installs the Figma skill for the project's library", async () => {
+    pkg({ "@ui-organized/vue": "^1.0.0" });
+    mkdirSync(join(cwd, ".cursor"));
+    await run(["init", "--cwd", cwd]);
+    const skill = readFileSync(join(cwd, ".claude/skills/ui-organized-figma/SKILL.md"), "utf8");
+    expect(skill).toMatch(/^---\nname: ui-organized-figma\n/);
+    expect(skill).toContain("get_design_context");
+    expect(skill).toContain("@ui-organized/vue");
+    const cursor = readFileSync(join(cwd, ".cursor/rules/ui-organized-figma.mdc"), "utf8");
+    expect(cursor).toContain("alwaysApply: false");
+    expect(cursor).not.toContain("name: ui-organized-figma");
+  });
+
   it("writes nothing with --check", async () => {
     pkg({ "@ui-organized/react": "^5.0.0" });
     expect(await run(["init", "--check", "--cwd", cwd])).toBe(0);
     expect(existsSync(join(cwd, "AGENTS.md"))).toBe(false);
   });
 
-  it.each([["@ui-organized/vue"], ["@ui-organized/svelte"], ["@ui-organized/angular"]])(
-    "refuses %s rather than teach its agent React",
-    async (name) => {
-      pkg({ [name]: "^1.0.0" });
-      expect(await run(["init", "--cwd", cwd])).toBe(1);
-      expect(existsSync(join(cwd, "AGENTS.md"))).toBe(false);
-    },
-  );
+  it.each([
+    ["vue", "@ui-organized/vue"],
+    ["svelte", "@ui-organized/svelte"],
+    ["angular", "@ui-organized/angular"],
+  ])("writes %s's own rules and MCP entry", async (framework, name) => {
+    pkg({ [name]: "^1.0.0" });
+    expect(await run(["init", "--cwd", cwd])).toBe(0);
+    const agents = readFileSync(join(cwd, "AGENTS.md"), "utf8");
+    expect(agents).toContain(`\`${name}\``);
+    expect(agents).toContain(`/ai/${framework}/<Component>.md`);
+    expect(agents).not.toContain("@ui-organized/react");
+    expect(JSON.parse(readFileSync(join(cwd, ".mcp.json"), "utf8")).mcpServers["ui-organized"].args).toEqual([
+      "-y",
+      "@ui-organized/mcp",
+      "--framework",
+      framework,
+    ]);
+  });
+
+  it("keeps React's MCP entry exactly as before", async () => {
+    pkg({ "@ui-organized/react": "^5.0.0" });
+    await run(["init", "--cwd", cwd]);
+    expect(JSON.parse(readFileSync(join(cwd, ".mcp.json"), "utf8")).mcpServers["ui-organized"].args).toEqual([
+      "-y",
+      "@ui-organized/mcp",
+    ]);
+  });
+
+  it("asks which library when the project installs two, and writes nothing", async () => {
+    pkg({ "@ui-organized/react": "^5.0.0", "@ui-organized/vue": "^1.0.0" });
+    expect(await run(["init", "--cwd", cwd])).toBe(1);
+    expect(existsSync(join(cwd, "AGENTS.md"))).toBe(false);
+    expect(await run(["init", "--cwd", cwd, "--framework", "vue"])).toBe(0);
+    expect(readFileSync(join(cwd, "AGENTS.md"), "utf8")).toContain("Vue");
+  });
+
+  it("refuses --framework for a library that isn't installed", async () => {
+    pkg({ "@ui-organized/react": "^5.0.0" });
+    expect(await run(["init", "--cwd", cwd, "--framework", "svelte"])).toBe(1);
+    expect(existsSync(join(cwd, "AGENTS.md"))).toBe(false);
+  });
 
   it("refuses a project without the library", async () => {
     pkg({});

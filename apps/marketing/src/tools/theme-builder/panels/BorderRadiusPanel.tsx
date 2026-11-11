@@ -17,11 +17,6 @@ export function BorderRadiusPanel() {
         formatValue={(v) => `${v}px`}
         onValueChange={setRadiusBase}
       />
-      <p className={styles.hint}>
-        All radius values are derived from this single unit. At 4px the scale
-        matches the canonical system values exactly. The live preview shows
-        the full scale.
-      </p>
     </div>
   );
 }

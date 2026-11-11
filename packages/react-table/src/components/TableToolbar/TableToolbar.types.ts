@@ -19,6 +19,10 @@ export interface TableViewOptionsProps {
   className?: string;
 }
 
+export interface TableReorderToggleProps {
+  className?: string;
+}
+
 export interface TableExportMenuProps {
   label?: string;
   className?: string;

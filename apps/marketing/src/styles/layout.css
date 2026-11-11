@@ -29,7 +29,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   color: var(--site-ink);
   font-family: var(--font-body);
   font-size: 17px;

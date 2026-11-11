@@ -59,6 +59,26 @@ export function selectionCount(state: SelectionState, totalMatching: number): nu
   return selectedIds(state).length;
 }
 
+/**
+ * The selection footer's count. Shared so the four libraries say it the same
+ * way, down to the thousands separator.
+ */
+export function selectionCountLabel(count: number): string {
+  return count === 1 ? "1 row selected" : `${count.toLocaleString()} rows selected`;
+}
+
+/**
+ * The selection footer's offer to reach past the page: "Select 99,981 hidden
+ * rows". Counted as the rows it would *add* — every matching row not already
+ * selected — rather than the matching total, because the total reads as though
+ * the rows on screen were not already in it. "Hidden" is the point: the user
+ * has ticked what they can see, and this is what they cannot.
+ */
+export function selectHiddenLabel(totalMatching: number, count: number): string {
+  const hidden = Math.max(0, totalMatching - count);
+  return hidden === 1 ? "Select 1 hidden row" : `Select ${hidden.toLocaleString()} hidden rows`;
+}
+
 export function isEmpty(state: SelectionState): boolean {
   return selectionCount(state, Number.POSITIVE_INFINITY) === 0;
 }
@@ -141,24 +161,32 @@ export function rangeSelect(
 }
 
 /**
- * The header checkbox: select or clear the rows it governs.
+ * The header checkbox. Ticking it selects the rows it governs; unticking it
+ * clears the **whole** selection.
  *
  * "The rows it governs" is the page when the table is paginated and the
- * *rendered window* when it is virtualized — see `useDataTable`. It is
+ * *rendered window* when it is virtualized — see `useDataTable`. Ticking is
  * deliberately never the whole dataset: enumerating 100,000 ids to answer one
  * click is work no one asked for, and `selectAllMatching` already expresses
  * "all of them" as a flag that costs nothing.
+ *
+ * Unticking is not symmetric, on purpose. A checked header box reads as "all
+ * selected", so unticking it reads as "none" — and clearing only the rows in
+ * view left any selected on another page, or scrolled out of a virtualized
+ * window, still selected: the count stayed above zero, the bulk actions stayed
+ * up, and the table never left selection mode. Clearing costs nothing, so
+ * "none" can mean none. The anchor survives, as it does for `clearSelection`.
  */
 export function selectPage(
   state: SelectionState,
   orderedIds: readonly string[],
   checked: boolean,
 ): SelectionState {
-  const base: SelectionState = checked ? state : { ...state, allMatching: false, excluded: {} };
-  return setRows(base, orderedIds, checked);
+  if (!checked) return clearSelection(state);
+  return setRows(state, orderedIds, checked);
 }
 
-/** "Select all N matching" — the escape hatch from page-scoped selection. */
+/** "Select N hidden rows" — the escape hatch from page-scoped selection. */
 export function selectAllMatching(state: SelectionState): SelectionState {
   return { ...state, allMatching: true, rows: {}, excluded: {} };
 }
@@ -167,7 +195,16 @@ export function clearSelection(state: SelectionState): SelectionState {
   return { ...EMPTY_SELECTION, anchor: state.anchor };
 }
 
-/** Header checkbox state: all / none / mixed. */
+/**
+ * Header checkbox state: all / none / mixed.
+ *
+ * Checked when every row in view is selected. Mixed whenever anything is
+ * selected short of that — **including rows out of view**. Counting only the
+ * rows in view showed an empty box over a selection the user had made a
+ * moment earlier, as soon as they scrolled a virtualized table or turned a
+ * page; the box then *added* the new rows instead of offering to clear, and
+ * the table could not be got out of selection mode from the header at all.
+ */
 export function headerCheckboxState(
   state: SelectionState,
   orderedIds: readonly string[],
@@ -175,10 +212,47 @@ export function headerCheckboxState(
   if (orderedIds.length === 0) return { checked: false, indeterminate: false };
   let selected = 0;
   for (const id of orderedIds) if (isSelected(state, id)) selected += 1;
+  const checked = selected === orderedIds.length;
   return {
-    checked: selected === orderedIds.length,
-    indeterminate: selected > 0 && selected < orderedIds.length,
+    checked,
+    indeterminate: !checked && (selected > 0 || !isEmpty(state)),
   };
+}
+
+/**
+ * Whether the selection footer offers "Select N hidden rows".
+ *
+ * Every row in view selected is the cue, and the condition is that some
+ * matching row is **still unselected** — not that more rows match than are in
+ * view. Those are different the moment a selection outlives a smaller view:
+ * select all 100 rows at 100 per page, drop to 10 per page, and the old test
+ * (100 matching, 10 in view) offered to "Select 0 hidden rows".
+ */
+export function canSelectHiddenRows(
+  state: SelectionState,
+  header: { checked: boolean },
+  totalMatching: number,
+  mode: "none" | "single" | "multiple",
+): boolean {
+  return (
+    mode === "multiple" &&
+    header.checked &&
+    !state.allMatching &&
+    selectionCount(state, totalMatching) < totalMatching
+  );
+}
+
+/**
+ * What a click on the header checkbox does: select the rows in view from an
+ * empty box, and clear the whole selection from a checked or mixed one.
+ *
+ * Decided here, from the state the box shows, rather than from the checkbox's
+ * own `checked` change — a mixed box clicks through to *checked*, which would
+ * select more rows when the user is reaching for "none". This is the
+ * convention of every mail client and data grid with a mixed header.
+ */
+export function headerToggleTarget(header: { checked: boolean; indeterminate: boolean }): boolean {
+  return !(header.checked || header.indeterminate);
 }
 
 /**

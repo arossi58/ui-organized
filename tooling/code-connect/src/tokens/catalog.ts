@@ -224,12 +224,41 @@ export function searchTokens(tokens: Token[], query: string): TokenResult[] {
 }
 
 export type TokenLookup =
-  | { found: true; token: TokenResult; warning?: string }
+  | { found: true; token: TokenResult; warning?: string; figmaVariable?: string }
   | { found: false; warning: string; suggestions: string[] };
 
-/** One token by exact name. A miss returns real alternatives, never a guess. */
+const figmaIndexCache = new WeakMap<Token[], Map<string, string>>();
+
+/**
+ * One token by exact name. A miss returns real alternatives, never a guess.
+ *
+ * Also takes a Figma Variable name in any of the shapes Figma's own MCP writes
+ * — `spacing/space-02`, `--spacing/space-02`, `var(--spacing/space-02,8px)` —
+ * and answers with the CSS token it binds to, so an agent reading Figma's
+ * output can turn its names into real tokens in one call.
+ */
 export function getToken(tokens: Token[], rawName: string): TokenLookup {
-  const name = rawName.trim().replace(/^var\(\s*/, "").replace(/\s*\)$/, "");
+  const name = rawName
+    .trim()
+    // Figma's Tailwind output escapes the slash: `var(--spacing\/space-02,8px)`.
+    .replace(/\\/g, "")
+    .replace(/^var\(\s*/, "")
+    .replace(/\s*\)$/, "")
+    // Figma's MCP appends a fallback: `var(--spacing/space-02,8px)`.
+    .replace(/\s*,.*$/, "");
+  if (name.includes("/")) {
+    const variable = name.replace(/^--/, "");
+    let index = figmaIndexCache.get(tokens);
+    if (!index) figmaIndexCache.set(tokens, (index = figmaVariableIndex(tokens)));
+    const css = index.get(variable);
+    const token = css ? tokens.find((t) => t.name === css) : undefined;
+    if (token) return { found: true, token: shape(token), figmaVariable: variable };
+    return {
+      found: false,
+      warning: `Figma variable "${variable}" has no matching token. Do not invent one.`,
+      suggestions: searchTokens(tokens, variable.replace(/[/-]/g, " ")).slice(0, 5).map((t) => t.name),
+    };
+  }
   const wanted = name.startsWith("--") ? name : `--${name}`;
   const token = tokens.find((t) => t.name === wanted);
   if (token) {
@@ -279,7 +308,7 @@ export function renderTokensMarkdown(tokens: Token[], packageVersion: string): s
 1. A component's own props come first. Reach for tokens only in custom layout and custom elements.
 2. Write every colour, space, radius and font value as \`var(--token)\` from this file. Never a hex colour or a px literal.
 3. Values are shown so you can choose between tokens. Never copy a value into code: themes change them.
-4. If a token isn't listed here, it does not exist. Stop and ask; do not invent one.
+4. If a token isn't listed here, it does not exist. Stop and ask; do not invent one. There is no 100–900 scale: spacing is \`--spacing-space-005\` to \`--spacing-space-32\`, and type sizes are named by role (\`--type-size-body-medium\`).
 5. Never use raw palette steps such as \`--grey-1400\`. They ignore the theme.
 
 Load the tokens once at the app entry: \`import "@ui-organized/tokens/variables.css";\`

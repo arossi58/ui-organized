@@ -20,6 +20,7 @@
   import TableSearch from "./TableSearch.svelte";
   import TableSortMenu from "./TableSortMenu.svelte";
   import TableViewOptions from "./TableViewOptions.svelte";
+  import TableReorderToggle from "./TableReorderToggle.svelte";
 
   let { class: className, children }: { class?: string; children?: Snippet } = $props();
   const table = getTable();
@@ -51,6 +52,7 @@
       filterable ||
       sortMenu ||
       table.scroll.state.overflowing ||
+      table.reorder.mode === "toggle" ||
       actions.length > 0,
   );
 </script>
@@ -103,6 +105,7 @@
       {/if}
       {#if exportable}<TableExportMenu />{/if}
       {#if hideable}<TableViewOptions />{/if}
+      <TableReorderToggle />
     {/if}
     <!-- Last, and only while the viewport is actually hiding columns. -->
     <TableScrollButtons />

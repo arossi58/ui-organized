@@ -21,10 +21,10 @@ function check(label, ok, detail = "") {
 }
 
 /** Sends JSON-RPC requests in order and collects the responses. */
-function session(bin, requests) {
+function session(bin, requests, args = []) {
   return new Promise((done, fail) => {
     const { FIGMA_TOKEN: _unset, ...env } = process.env;
-    const child = spawn(bin, [], { stdio: ["pipe", "pipe", "inherit"], env });
+    const child = spawn(bin, args, { stdio: ["pipe", "pipe", "inherit"], env });
     const replies = new Map();
     let buffer = "";
     const timer = setTimeout(() => {
@@ -113,6 +113,33 @@ try {
   check("resolve_figma_components refuses an unknown key", body(replies.get(7)).results[0].found === false);
   const frame = body(replies.get(8));
   check("get_figma_frame explains a missing token without calling out", !frame.found && frame.warning.includes("FIGMA_TOKEN"), JSON.stringify(frame));
+
+  // A Vue project's server: Vue answers by default, any library on request.
+  const vue = await session(
+    join(work, "node_modules/.bin/ui-organized-mcp"),
+    [
+      call("get_component", { name: "Button" }),
+      call("get_component", { name: "Select" }),
+      call("search_components", { query: "Select" }),
+      call("get_component", { name: "TableProvider" }),
+      call("get_component", { name: "UioButton", framework: "angular" }),
+      call("get_component", { name: "Button", framework: "svelte" }),
+    ],
+    ["--framework", "vue"],
+  );
+  const vueButton = body(vue.get(1));
+  check(
+    "--framework vue: get_component answers with Vue's own props and package",
+    vueButton.found && vueButton.spec.includes('import { Button } from "@ui-organized/vue"') && vueButton.spec.includes("| `asChild` |"),
+    vueButton.spec?.slice(0, 300),
+  );
+  check("Vue Select lists v-model's modelValue", body(vue.get(2)).spec?.includes("| `modelValue` |"));
+  const vueSearch = body(vue.get(3));
+  check("search_components searches Vue's own scan", vueSearch.framework === "vue" && vueSearch.results.some((r) => r.name === "Select" && r.codePath.startsWith("packages/vue/")), JSON.stringify(vueSearch).slice(0, 300));
+  const reactOnly = body(vue.get(4));
+  check("a React-only component is refused, never substituted", !reactOnly.found && reactOnly.warning.includes("@ui-organized/vue"), JSON.stringify(reactOnly));
+  check("framework argument overrides the default (Angular)", body(vue.get(5)).spec?.includes("@ui-organized/angular"));
+  check("framework argument overrides the default (Svelte)", body(vue.get(6)).spec?.includes('import { Button } from "@ui-organized/svelte"'));
 } catch (error) {
   check("the packed server runs", false, error.message);
 } finally {

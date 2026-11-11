@@ -5,7 +5,7 @@ pnpm@9 workspaces + turbo. Node ESM throughout.
 
 ## graphify
 
-Knowledge graph at `graphify-out/`: **13,142 nodes, 24,107 edges, 810 curated communities.**
+Knowledge graph at `graphify-out/`: **17,302 nodes, 35,653 edges, 646 curated communities.**
 
 **The `graphify` binary is at `~/.local/bin/graphify`, which is NOT on this shell's PATH.**
 Run `export PATH="$HOME/.local/bin:$PATH"` once per session before the commands below.

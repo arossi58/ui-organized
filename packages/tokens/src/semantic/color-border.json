@@ -2,11 +2,11 @@
   "color-border": {
     "primary": {
       "$type": "color",
-      "$value": "{grey.2100}"
+      "$value": "{grey.2000}"
     },
     "secondary": {
       "$type": "color",
-      "$value": "{grey.2000}"
+      "$value": "{grey.2100}"
     },
     "data-entry": {
       "$type": "color",

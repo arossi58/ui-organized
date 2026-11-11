@@ -16,7 +16,7 @@ import { defineConfig } from "tsup";
  * Output names are chosen to match the `exports` map in package.json:
  * `dist/icons/lucide.mjs` ← `src/icons/entry-lucide.ts`.
  */
-export default defineConfig({
+export default defineConfig((options) => ({
   entry: {
     index: "src/index.ts",
     "icons/lucide": "src/icons/entry-lucide.ts",
@@ -48,5 +48,9 @@ export default defineConfig({
   // from carrying two copies of the component library.
   splitting: true,
   sourcemap: false,
-  clean: true,
-});
+  // Clean only for one-off builds. A watcher that wipes dist on start races
+  // every package reading it: under `pnpm dev` all watchers start together, and
+  // a dependent whose first build lands in that gap fails and stays broken until
+  // one of its own files changes. Watch builds overwrite in place instead.
+  clean: !options.watch,
+}));

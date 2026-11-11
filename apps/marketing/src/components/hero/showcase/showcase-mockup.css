@@ -13,6 +13,11 @@
   overflow: hidden;
   background: var(--color-surface-base);
   border-radius: var(--border-radius-05);
+  /* An outline, not a border: the hero engine measures piece slots against
+     this box, and a border would shift every slot by its width. */
+  outline: 1px solid var(--color-border-primary);
+  /* Its reach (8px + 30px) is reserved below the mockup by SHADOW_ROOM in
+     HeroShowcase.tsx; grow one, grow the other, or the hero clips it. */
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   color: var(--color-content-primary);
   text-align: start;
@@ -360,4 +365,16 @@
   .showcase-toolbar {
     flex-wrap: wrap;
   }
+}
+
+/* Sidebar wordmark, masked so it paints with the sidebar's text color in both themes. */
+.showcase-logo {
+  display: block;
+  width: 208px;
+  height: 33.84px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
 }

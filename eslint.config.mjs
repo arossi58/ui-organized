@@ -24,8 +24,11 @@ export default [
      *
      * This has cost a red gate twice: once from a copy that got committed, and
      * once from a stray one on disk. Ignoring the pattern fixes both shapes.
+     *
+     * The eval's results are agent-written samples, kept on disk to score and
+     * gitignored; a baseline sample is often not even valid TypeScript.
      */
-    ignores: ["**/*.timestamp-*.mjs"],
+    ignores: ["**/*.timestamp-*.mjs", "tooling/code-connect/eval/results/**"],
   },
 
   {

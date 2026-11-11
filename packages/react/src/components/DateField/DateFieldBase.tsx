@@ -20,6 +20,7 @@ import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 function splitDateTime(value: string): { date: string; time: string } {
   const [date = "", time = ""] = value.split("T");
@@ -52,6 +53,7 @@ export function DateFieldBase({
   portalContainer,
   ...inputProps
 }: DateFieldBaseProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const isDateTime = type === "datetime-local";

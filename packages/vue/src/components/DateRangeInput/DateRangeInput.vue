@@ -9,7 +9,7 @@
   (`defaultValue`).
 -->
 <script setup lang="ts">
-import { computed, ref, useAttrs, useId } from "vue";
+import { computed, ref, useAttrs, useId, onMounted } from "vue";
 import { Popover as ArkPopover } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import {
@@ -34,6 +34,10 @@ import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
 import { glyph } from "../../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+// Text fields read pointer vs keyboard for a quiet focus state on click.
+onMounted(() => trackFocusModality());
 
 type Side = "start" | "end";
 const SIDES = ["start", "end"] as const;

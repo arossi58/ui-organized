@@ -5,6 +5,7 @@ import { FieldError } from "../FieldError/index.js";
 import { editableStyles } from "@ui-organized/core";
 import type { EditableProps } from "./Editable.types.js";
 import "@ui-organized/core/components/Editable/Editable.css";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function Editable({
   label,
@@ -27,6 +28,7 @@ export function Editable({
   name,
   className,
 }: EditableProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

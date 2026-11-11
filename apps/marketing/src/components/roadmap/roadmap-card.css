@@ -1,8 +1,9 @@
 /**
  * Roadmap card — the library `Card` recolored to the design system's own
- * surfaces (the mockup's status-card): `surface-primary` fill, `border-secondary`
- * hairline, system radius. A soft lift + brand-orange edge on hover marks the
- * whole card as a link to the issue. Spacing/radius from system tokens.
+ * tokens (the mockup's status-card): `interactive-secondary` fill,
+ * `border-secondary` hairline, system radius. A soft lift, the secondary hover
+ * fill and a brand-orange edge on hover mark the whole card as a link to the
+ * issue. Spacing/radius from system tokens.
  */
 
 /* Whole-card link wrapper (cards with a url). */
@@ -19,13 +20,19 @@
 }
 
 .roadmap-card {
-  background: var(--color-surface-primary);
+  background: var(--color-interactive-secondary-default);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-06);
   transition:
     transform 0.16s ease,
     box-shadow 0.16s ease,
-    border-color 0.16s ease;
+    border-color 0.16s ease,
+    background-color 0.16s ease;
+}
+
+/* Outside the motion query: a color change, not movement. */
+.roadmap-card__link:hover .roadmap-card {
+  background: var(--color-interactive-secondary-hover);
 }
 
 @media (prefers-reduced-motion: no-preference) {

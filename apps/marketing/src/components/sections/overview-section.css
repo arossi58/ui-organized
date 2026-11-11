@@ -3,7 +3,7 @@
    light paper/cream surfaces and DS tokens. */
 
 .overview {
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
 }
 
 /* Section header — editorial serif title (Branding mockup). */
@@ -308,7 +308,7 @@
   padding: var(--spacing-space-04);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-06, 16px);
-  background: var(--color-surface-secondary);
+  background: var(--color-interactive-secondary-default);
   color: inherit;
   text-decoration: none;
 }
@@ -317,7 +317,8 @@ a.ov-detail__item--link {
   transition:
     transform 0.18s ease,
     border-color 0.18s ease,
-    box-shadow 0.18s ease;
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -327,6 +328,7 @@ a.ov-detail__item--link {
 }
 
 a.ov-detail__item--link:hover {
+  background: var(--color-interactive-secondary-hover);
   border-color: color-mix(in srgb, var(--site-orange) 45%, transparent);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
 }

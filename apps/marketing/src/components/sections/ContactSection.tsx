@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert, Button, Input, TextArea } from "@ui-organized/react";
 import { Reveal } from "../Reveal";
@@ -9,6 +9,7 @@ import {
   TURNSTILE_SITE_KEY,
   type ContactInquiryType,
 } from "../../lib/contact";
+import { CONTRIBUTE_EVENT } from "../../lib/contributors";
 import "./contact-section.css";
 
 interface InquiryOption {
@@ -51,6 +52,13 @@ export function ContactSection() {
 
   const honeypotRef = useRef<HTMLInputElement>(null);
   const mountedAtRef = useRef<number>(Date.now());
+
+  // The contributors grid's "This could be you!" slots land here pre-set.
+  useEffect(() => {
+    const onContribute = () => setInquiryType("contribution");
+    window.addEventListener(CONTRIBUTE_EVENT, onContribute);
+    return () => window.removeEventListener(CONTRIBUTE_EVENT, onContribute);
+  }, []);
 
   const handleCaptchaVerify = useCallback((token: string) => setCaptchaToken(token), []);
   const handleCaptchaExpire = useCallback(() => setCaptchaToken(null), []);
@@ -173,6 +181,7 @@ export function ContactSection() {
 
           <Input
             label="Name"
+            size="lg"
             required
             name="name"
             autoComplete="name"
@@ -183,6 +192,7 @@ export function ContactSection() {
           />
           <Input
             label="Email"
+            size="lg"
             required
             type="email"
             name="email"
@@ -194,6 +204,7 @@ export function ContactSection() {
           />
           <TextArea
             label="Message"
+            size="lg"
             required
             name="message"
             placeholder="Your message"

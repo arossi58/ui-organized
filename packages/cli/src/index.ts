@@ -46,6 +46,8 @@ Options
   --offline       Skip the Google Fonts weight verification (no network)
   --cwd <dir>     Treat <dir> as the project root. Default: the current directory
   --cursor        (init) Write Cursor's files even without a .cursor/ directory
+  --framework <f> (init) react, svelte, vue or angular — needed only when the
+                  project installs more than one UI Organized library
   -h, --help      Show this
   -v, --version   Show the version
 
@@ -150,12 +152,17 @@ function parseOptions(args: string[]): Options {
 }
 
 function runInit(args: string[]): number {
-  const options = { cwd: process.cwd(), check: false, cursor: false };
+  const options: { cwd: string; check: boolean; cursor: boolean; framework?: string } = {
+    cwd: process.cwd(),
+    check: false,
+    cursor: false,
+  };
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]!;
     if (arg === "--check" || arg === "--dry-run") options.check = true;
     else if (arg === "--cursor") options.cursor = true;
     else if (arg === "--cwd" && args[i + 1]) options.cwd = args[++i]!;
+    else if (arg === "--framework" && args[i + 1]) options.framework = args[++i]!;
     else {
       process.stderr.write(`Unknown option "${arg}" for init.\n\n${USAGE}`);
       return 2;

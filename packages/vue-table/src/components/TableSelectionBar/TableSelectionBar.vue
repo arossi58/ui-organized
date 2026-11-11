@@ -2,7 +2,8 @@
   Appears only while something is selected, and then takes the place of the
   toolbar's sort, filter and table actions: with rows selected, what to do with
   them is the decision in front of the user, so it sits where they were already
-  looking rather than on a line of its own.
+  looking rather than on a line of its own. The count, and the offer to select
+  the rows off screen, are in `TableSelectionFooter` under the rows.
 
   Plain buttons in a labelled group, with no surface of its own. It shares the
   toolbar row with the search box, so `role="toolbar"`'s roving focus would make
@@ -55,20 +56,6 @@ const confirm = () => {
     :class="clsx('data-table__selection-bar', $props.class)"
     aria-label="Bulk actions"
   >
-    <span class="data-table__selection-count" aria-live="polite">
-      {{ count === 1 ? "1 row selected" : `${count} rows selected` }}
-    </span>
-
-    <span v-if="table.selection.canSelectAllMatching.value" class="data-table__selection-all">
-      <button
-        type="button"
-        class="data-table__selection-link"
-        @click="table.selection.selectAllMatching()"
-      >
-        Select all {{ table.selection.totalMatching.value }} matching rows
-      </button>
-    </span>
-
     <Button
       v-for="action in items"
       :key="action.id"

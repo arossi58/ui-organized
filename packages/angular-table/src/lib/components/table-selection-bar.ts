@@ -18,7 +18,9 @@ import type { IconName } from "@ui-organized/angular";
  * Appears only while something is selected, and then takes the place of the
  * toolbar's sort, filter and table actions: with rows selected, what to do
  * with them is the decision in front of the user, so it sits where they were
- * already looking rather than on a line of its own.
+ * already looking rather than on a line of its own. The count, and the offer
+ * to select the rows off screen, are in `UioTableSelectionFooter` under the
+ * rows.
  *
  * Plain buttons in a labelled group, with no surface of its own. It shares the
  * toolbar row with the search box, so `role="toolbar"`'s roving focus would
@@ -50,20 +52,6 @@ import type { IconName } from "@ui-organized/angular";
   ],
   template: `
     @if (count() > 0) {
-      <span class="data-table__selection-count" aria-live="polite">{{ countLabel() }}</span>
-
-      @if (table.selection.canSelectAllMatching()) {
-        <span class="data-table__selection-all">
-          <button
-            type="button"
-            class="data-table__selection-link"
-            (click)="table.selection.selectAllMatching()"
-          >
-            Select all {{ table.selection.totalMatching() }} matching rows
-          </button>
-        </span>
-      }
-
       @for (action of items(); track action.id) {
         <button
           uioButton
@@ -114,9 +102,6 @@ export class UioTableSelectionBar<T extends RowData> {
 
   protected readonly items = computed(() => this.actions() ?? this.table.options.bulkActions ?? []);
   protected readonly count = computed(() => this.table.selection.count());
-  protected readonly countLabel = computed(() =>
-    this.count() === 1 ? "1 row selected" : `${this.count()} rows selected`,
-  );
   private readonly rowsWord = computed(() =>
     this.count() === 1 ? "1 row" : `${this.count()} rows`,
   );

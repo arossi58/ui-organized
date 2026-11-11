@@ -6,8 +6,7 @@
  * utility the kit's labels rely on.
  */
 
-/* The route sits on the same flat cream surface + dot lattice as the home hero
-   and the tools gallery, with the content "windowed" in a framed panel so it
+/* The route sits on the plain page surface, like the tools gallery, with the content "windowed" in a framed panel so it
    reads as a page of the site. Carried over from the previous docs route
    (docs-page.css), which framed the Storybook iframe the same way. */
 .docs-page {
@@ -16,11 +15,9 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
-  background: var(--color-surface-primary);
-  /* Contain the dot layer's stacking so the nav stays above it. */
+  background: var(--color-surface-base);
+  /* Scope the nav sheet's stacking below the site nav (see .docs-page__overlays). */
   isolation: isolate;
-  /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */
-  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
 }
 
 /* The two scrolling columns and the element tree use the kit's `ScrollArea`.
@@ -65,18 +62,11 @@
   background-color: var(--color-content-tertiary);
 }
 
-.docs-page__dots {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
 /* Portal target for the compact nav sheet (DocsNavSheet). Zero-height — it only
-   exists to place the sheet in the DOM: above the stage (z 1) and the dot
-   lattice (z 0), but still inside `.docs-page`'s `isolation: isolate`, so the
-   sheet's own `z-index: 1100` is scoped *below* the site nav's 500 rather than
-   competing with it. That's what keeps the nav pill visible over the sheet's
+   exists to place the sheet in the DOM: above the stage (z 1), but still
+   inside `.docs-page`'s `isolation: isolate`, so the sheet's own
+   `z-index: 1100` is scoped *below* the site nav's 500 rather than competing
+   with it. That's what keeps the nav pill visible over the sheet's
    backdrop — the docs nav is a second navigation surface, not a replacement for
    the primary one. */
 .docs-page__overlays {

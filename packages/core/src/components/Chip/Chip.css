@@ -46,7 +46,11 @@
 .chip__segment {
   display: block;
   flex: none;
-  min-width: 0;
+  /* A floor for the click target: an "is" operator or a one-character value
+     would otherwise be a sliver. Border-box so the button and span forms both
+     measure it including their padding. The value still truncates, down to it. */
+  box-sizing: border-box;
+  min-width: var(--spacing-space-06);
   margin: 0;
   /* 2px above and below, 4px either side of every hairline — the label, the
      operator and the value are spaced alike (Figma 2462:2636). */
@@ -55,7 +59,9 @@
   border: 0;
   color: inherit;
   font: inherit;
-  text-align: left;
+  /* Centres a segment narrower than its min-width; a line that overflows is
+     start-aligned regardless, so truncation still reads from the left. */
+  text-align: center;
   white-space: nowrap;
 }
 

@@ -10,6 +10,7 @@ import {
 import { TableCards } from "../components/TableCards/index.js";
 import { TableDetailSheet } from "../components/TableDetailSheet/index.js";
 import { TablePagination } from "../components/TablePagination/index.js";
+import { TableSelectionFooter } from "../components/TableSelectionFooter/index.js";
 import { TableSubBar } from "../components/TableSubBar/index.js";
 import { TableToolbar } from "../components/TableToolbar/index.js";
 import type { DataTableProps } from "./DataTable.types.js";
@@ -32,7 +33,12 @@ export function DataTable<T extends RowData>({ className, ...options }: DataTabl
         <TableSubBar />
 
         {api.mode === "cards" ? (
-          <TableCards />
+          <>
+            <TableCards />
+            {/* No viewport to ride in: the table view's footer lives inside
+                TableViewport, so only card mode places one here. */}
+            <TableSelectionFooter />
+          </>
         ) : (
           <TableViewport>
             <TableHeader />

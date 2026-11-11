@@ -83,6 +83,8 @@ export {
 } from "./lib/components/table-filters.js";
 export { UioTablePagination } from "./lib/components/table-pagination.js";
 export { UioTableSelectionBar } from "./lib/components/table-selection-bar.js";
+export { UioTableReorderToggle } from "./lib/components/table-reorder-toggle.js";
+export { UioTableSelectionFooter } from "./lib/components/table-selection-footer.js";
 export { UioTableSubBar } from "./lib/components/table-sub-bar.js";
 export { UioTableRowActions } from "./lib/components/table-row-actions.js";
 export { UioTableCards, UioTableCard } from "./lib/components/table-cards.js";
@@ -106,6 +108,9 @@ export { UioDataTable } from "./lib/data-table.js";
 export type {
   DataTableQuery,
   SelectionMode,
+  TableDateDef,
+  ReorderSetting,
+  TableDateSetting,
   TableFilterCondition,
   TableFilterType,
   TableMode,

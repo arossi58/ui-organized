@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-06T15:27:28.005Z",
+  "generatedAt": "2026-11-09T18:48:46.264Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -7100,14 +7100,14 @@
         },
         {
           "name": "variant",
-          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\"",
           "required": false,
           "description": "Status color variant."
         }
       ],
       "usageSnippet": "<Tag>…</Tag>",
-      "propSignatureHash": "sha256:9c3b46b6a171ee43",
-      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "propSignatureHash": "sha256:a7b5818327447e8e",
+      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
       "status": "draft"
     },
     {

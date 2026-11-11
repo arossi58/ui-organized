@@ -603,6 +603,196 @@ describe("the selection's bulk actions", () => {
 });
 
 /**
+ * Column reordering: header move buttons, a toolbar-switched mode, and
+ * Alt+Arrow on a focused header. Dragging is native drag and drop, which jsdom
+ * does not implement; it is checked in a browser.
+ */
+describe("column reordering", () => {
+  const headers = (dom: HTMLElement) =>
+    [...dom.querySelectorAll("thead th")].map((cell) => cell.textContent?.replace(/\s+/g, " ").trim());
+  const reorderable = (setting: "always" | "toggle", extra: Partial<Parameters<typeof DataTable<Row>>[0]> = {}) =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        reorderable={setting}
+        {...extra}
+      />,
+    );
+  const button = (dom: HTMLElement, label: string) =>
+    dom.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`);
+
+  it("moves a column one place with its header buttons, disabled at the ends", () => {
+    const dom = reorderable("always");
+    expect(headers(dom)).toEqual(["Name", "Role", "Seats"]);
+    expect(button(dom, "Move Name left")?.disabled).toBe(true);
+    expect(button(dom, "Move Seats right")?.disabled).toBe(true);
+
+    act(() => button(dom, "Move Name right")?.click());
+    expect(headers(dom)).toEqual(["Role", "Name", "Seats"]);
+    act(() => button(dom, "Move Seats left")?.click());
+    expect(headers(dom)).toEqual(["Role", "Seats", "Name"]);
+  });
+
+  it("in toggle mode, offers moving only inside reorder mode", () => {
+    const dom = reorderable("toggle");
+    expect(button(dom, "Move Name right")).toBeNull();
+    expect(dom.querySelector('.data-table__head-inner[draggable="true"]')).toBeNull();
+
+    act(() => button(dom, "Reorder columns")?.click());
+    expect(button(dom, "Move Name right")).not.toBeNull();
+    expect(dom.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(3);
+
+    act(() => button(dom, "Done reordering columns")?.click());
+    expect(button(dom, "Move Name right")).toBeNull();
+  });
+
+  it("never puts the resize handle inside the drag source", () => {
+    // With the <th> draggable, pressing the handle started a native drag that
+    // stole the pointer from the resize after its first step.
+    const dom = reorderable("always", { resizable: true });
+    const handles = dom.querySelectorAll(".data-table__resize-handle");
+    expect(handles.length).toBeGreaterThan(0);
+    for (const handle of handles) expect(handle.closest('[draggable="true"]')).toBeNull();
+    expect(dom.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(3);
+  });
+
+  it("leaves the table's own columns where they are", () => {
+    const dom = reorderable("always", { selection: "multiple" });
+    const select = dom.querySelector("th.data-table__select-cell");
+    expect(select?.querySelector('[draggable="true"]')).toBeNull();
+    expect(select?.querySelector(".data-table__move")).toBeNull();
+    // The first data column cannot step left past the checkbox column.
+    expect(button(dom, "Move Name left")?.disabled).toBe(true);
+  });
+
+  it("moves the focused header's column with Alt+Arrow, and focus goes with it", () => {
+    const dom = reorderable("always", { selection: "multiple" });
+    // Column 0 is the checkbox column; 1 is Name.
+    const name = dom.querySelector<HTMLElement>('[data-cell="-1:1"]');
+    act(() => name?.focus());
+    act(() => press(name, "ArrowRight", { altKey: true }));
+    expect(headers(dom).slice(1)).toEqual(["Role", "Name", "Seats"]);
+    expect(focusedCell(dom)).toBe("-1:2");
+  });
+});
+
+/**
+ * `meta.date`: the data arrives as US-formatted strings, the table holds ISO
+ * days, and the cell and the filter chip read in the column's own format.
+ */
+describe("date columns", () => {
+  interface Hire {
+    id: string;
+    name: string;
+    joined: string;
+  }
+  const HIRES: Hire[] = [
+    { id: "a", name: "Ada", joined: "2/1/2026" },
+    { id: "b", name: "Grace", joined: "11/10/2025" },
+    { id: "c", name: "Alan", joined: "12/31/2025" },
+  ];
+  const parseUs = (value: unknown) => {
+    const [m, d, y] = String(value).split("/").map(Number);
+    return y && m && d ? new Date(y, m - 1, d) : null;
+  };
+  const dmy = (date: Date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  const HIRE_COLUMNS: TableColumn<Hire>[] = [
+    { accessorKey: "name", header: "Name", meta: { primary: true } },
+    { accessorKey: "joined", header: "Joined", meta: { filter: true, date: { parse: parseUs, format: dmy } } },
+  ];
+  const hires = (defaultFilters?: TableFilterInput[]) =>
+    render(
+      <DataTable<Hire>
+        label="Hires"
+        columns={HIRE_COLUMNS}
+        data={HIRES}
+        getRowId={(row) => row.id}
+        defaultSorting={[{ id: "joined", desc: false }]}
+        defaultFilters={defaultFilters}
+      />,
+    );
+  const joined = (dom: HTMLElement) =>
+    [...dom.querySelectorAll("tbody tr")].map((row) => row.lastElementChild?.textContent);
+
+  it("shows each date in the column's format, sorted as dates rather than strings", () => {
+    // As strings "2/1/2026" would sort after "12/31/2025"... and before it as
+    // well as everything else, depending on the first digit. As dates it is last.
+    expect(joined(hires())).toEqual(["10.11.2025", "31.12.2025", "1.2.2026"]);
+  });
+
+  it("filters on the date and words the chip in the same format", () => {
+    const dom = hires([{ columnId: "joined", operator: "gt", values: ["2025-12-01"] }]);
+    expect(joined(dom)).toEqual(["31.12.2025", "1.2.2026"]);
+    expect(dom.querySelector(".data-table__filter-chip")?.textContent).toContain("1.12.2025");
+  });
+});
+
+/**
+ * How many rows are selected, and the offer to reach the ones off screen, sit
+ * under the rows rather than in the toolbar: at the end of the list the user
+ * has been ticking down. The offer is a real button that counts the rows it
+ * would add.
+ */
+describe("the selection footer", () => {
+  const paged = () =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        paginated
+        pageSize={2}
+      />,
+    );
+  const footer = (dom: HTMLElement) => dom.querySelector(".data-table__selection-footer");
+
+  it("is absent while nothing is selected", () => {
+    const dom = paged();
+    expect(footer(dom)).toBeNull();
+  });
+
+  it("rides inside the viewport, after the table, and holds the count", () => {
+    const dom = paged();
+    act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
+
+    // Inside the scroll container, so it never adds a row to the page's layout.
+    expect(footer(dom)?.parentElement?.classList.contains("data-table__viewport")).toBe(true);
+    expect(footer(dom)?.previousElementSibling?.tagName).toBe("TABLE");
+
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent).toBe(
+      "1 row selected",
+    );
+    // Said once, at the bottom — not in the toolbar's bar as well.
+    expect(dom.querySelectorAll(".data-table__selection-count")).toHaveLength(1);
+    // A page only partly ticked has nothing hidden to offer.
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+
+  it("offers the hidden rows as a real button once the page is fully selected", () => {
+    const dom = paged();
+    const cell = dom.querySelector('[data-cell="0:1"]');
+    act(() => press(cell, " "));
+    act(() => press(cell, "ArrowDown", { shiftKey: true }));
+
+    const offer = footer(dom)?.querySelector("button");
+    expect(offer?.classList.contains("btn")).toBe(true);
+    // Counts what it adds: two of three are selected, so one is hidden.
+    expect(offer?.textContent).toBe("Select 1 hidden row");
+
+    act(() => offer?.click());
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent).toBe(
+      "3 rows selected",
+    );
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+});
+
+/**
  * Card mode is the phone layout. Sort and filter open sheets from labelled
  * buttons that count what is applied, the chips row goes away, and each card
  * puts its controls in the top-right corner, checkbox last.

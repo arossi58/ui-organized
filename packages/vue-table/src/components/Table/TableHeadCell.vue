@@ -5,6 +5,7 @@ import { FlexRender } from "@tanstack/vue-table";
 import { Icon } from "@ui-organized/vue";
 import {
   alignOf,
+  dropSideAt,
   getHeadCellProps,
   metaOf,
   stickyPositionOf,
@@ -15,6 +16,7 @@ import {
 import { useTableContext } from "../../core/tableContext.js";
 import { vueProps } from "../../core/props.js";
 import ResizeHandle from "./ResizeHandle.vue";
+import MoveButtons from "./MoveButtons.vue";
 import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{ header: TableHeaderInstance<T>; index: number }>();
@@ -31,6 +33,68 @@ const focused = computed(
     table.focus.cursor.value.col === props.index,
 );
 const editable = computed(() => Boolean(metaOf<T>(column.value.columnDef)?.edit));
+
+const movable = computed(
+  () => table.reorder.active.value && table.reorder.isMovable(column.value.id),
+);
+const drag = computed(() => table.reorder.drag.value);
+const dropSide = computed(() => {
+  const current = drag.value;
+  return current && current.target === column.value.id && current.source !== column.value.id
+    ? current.side
+    : undefined;
+});
+const headerText = computed(() => {
+  const header = column.value.columnDef.header;
+  return typeof header === "string" ? header : column.value.id;
+});
+
+// The drag source is the label area, not the <th>: with the <th> draggable,
+// pressing the resize handle started a native drag that took the pointer away
+// from the resize. A drag starting on the move buttons is theirs.
+function onDragStart(event: DragEvent) {
+  if (!movable.value) return;
+  const origin = event.target as Element;
+  if (origin.closest(".data-table__move")) {
+    event.preventDefault();
+    return;
+  }
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", column.value.id);
+  }
+  table.reorder.setDrag({ source: column.value.id, target: null, side: "before" });
+}
+
+function onDragOver(event: DragEvent) {
+  const current = drag.value;
+  if (!movable.value || !current) return;
+  event.preventDefault();
+  if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+  const side = dropSideAt(
+    event.clientX,
+    (event.currentTarget as HTMLElement).getBoundingClientRect(),
+  );
+  if (current.target !== column.value.id || current.side !== side) {
+    table.reorder.setDrag({ ...current, target: column.value.id, side });
+  }
+}
+
+function onDrop(event: DragEvent) {
+  const current = drag.value;
+  if (!movable.value || !current) return;
+  event.preventDefault();
+  const side = dropSideAt(
+    event.clientX,
+    (event.currentTarget as HTMLElement).getBoundingClientRect(),
+  );
+  table.reorder.drop(current.source, column.value.id, side);
+  table.reorder.setDrag(null);
+}
+
+function onDragEnd() {
+  if (movable.value) table.reorder.setDrag(null);
+}
 
 const cellProps = computed(() =>
   getHeadCellProps({
@@ -53,8 +117,17 @@ const cellProps = computed(() =>
     :data-cell="`-1:${index}`"
     :tabindex="interactive ? (focused ? 0 : -1) : undefined"
     @focus="interactive ? table.focus.setCursor({ row: -1, col: index }) : undefined"
+    :data-dragging="drag?.source === column.id || undefined"
+    :data-drop="dropSide"
+    @dragover="onDragOver"
+    @drop="onDrop"
   >
-    <div class="data-table__head-inner">
+    <div
+      class="data-table__head-inner"
+      :draggable="movable || undefined"
+      @dragstart="onDragStart"
+      @dragend="onDragEnd"
+    >
       <!--
         The roving tabindex covers the header row too, so ArrowUp out of the
         first body row lands somewhere focusable and Enter sorts from there.
@@ -93,6 +166,7 @@ const cellProps = computed(() =>
           <span class="data-table__sr-only">, editable</span>
         </span>
       </template>
+      <MoveButtons v-if="movable" :column-id="column.id" :name="headerText" />
     </div>
     <ResizeHandle v-if="column.getCanResize()" :header="header" />
   </th>

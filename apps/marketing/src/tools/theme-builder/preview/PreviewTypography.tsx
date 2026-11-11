@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from "react";
-import { SegmentedControl } from "@ui-organized/react";
+import { Tabs } from "@ui-organized/react";
 import { useBuilderStore, DEFAULT_HEADING_PREVIEW, DEFAULT_BODY_PREVIEW } from "../state/themeState";
 import { PreviewTypeSpecimens } from "./PreviewTypeSpecimens";
 import styles from "./PreviewTypography.module.css";
@@ -117,11 +117,6 @@ function WeightGrid({
   );
 }
 
-const TAB_ITEMS = [
-  { value: "specs", label: "Specs" },
-  { value: "examples", label: "Examples" },
-];
-
 type TypeTab = "specs" | "examples";
 
 export function PreviewTypography() {
@@ -136,50 +131,43 @@ export function PreviewTypography() {
   } = useBuilderStore();
   const [tab, setTab] = useState<TypeTab>("specs");
 
-  return (
-    <div className={styles.root}>
-      <SegmentedControl
-        className={styles.tabs}
-        aria-label="Typography view"
-        items={TAB_ITEMS}
-        value={tab}
-        onValueChange={(v) => setTab(v as TypeTab)}
+  const specs = (
+    <div className={styles.specs}>
+      <WeightGrid
+        steps={HEADING_STEPS}
+        fontVar="var(--type-font-heading)"
+        weightVars={HEADING_WEIGHT_VARS}
+        weights={headingWeights}
+        sizes={typeScaleSteps}
+        leadings={leadingSteps}
+        guides={lineHeightGuides}
+        sample={headingPreviewText || DEFAULT_HEADING_PREVIEW}
       />
 
-      {tab === "examples" ? (
-        <PreviewTypeSpecimens />
-      ) : (
-        <>
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Headings</h2>
-        <WeightGrid
-          steps={HEADING_STEPS}
-          fontVar="var(--type-font-heading)"
-          weightVars={HEADING_WEIGHT_VARS}
-          weights={headingWeights}
-          sizes={typeScaleSteps}
-          leadings={leadingSteps}
-          guides={lineHeightGuides}
-          sample={headingPreviewText || DEFAULT_HEADING_PREVIEW}
-        />
-      </section>
-
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Body &amp; caption</h2>
-        <WeightGrid
-          steps={BODY_STEPS}
-          fontVar="var(--type-font-body)"
-          weightVars={BODY_WEIGHT_VARS}
-          weights={bodyWeights}
-          sizes={typeScaleSteps}
-          leadings={leadingSteps}
-          guides={lineHeightGuides}
-          sample={bodyPreviewText || DEFAULT_BODY_PREVIEW}
-          flagSmallSizes
-        />
-      </section>
-        </>
-      )}
+      <WeightGrid
+        steps={BODY_STEPS}
+        fontVar="var(--type-font-body)"
+        weightVars={BODY_WEIGHT_VARS}
+        weights={bodyWeights}
+        sizes={typeScaleSteps}
+        leadings={leadingSteps}
+        guides={lineHeightGuides}
+        sample={bodyPreviewText || DEFAULT_BODY_PREVIEW}
+        flagSmallSizes
+      />
     </div>
+  );
+
+  return (
+    <Tabs
+      className={styles.tabs}
+      size="small"
+      value={tab}
+      onValueChange={(v) => setTab(v as TypeTab)}
+      tabs={[
+        { value: "specs", label: "Specs", content: specs },
+        { value: "examples", label: "Examples", content: <PreviewTypeSpecimens /> },
+      ]}
+    />
   );
 }

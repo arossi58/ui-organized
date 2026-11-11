@@ -182,7 +182,7 @@
 }
 
 .dot[data-bump="major"] {
-  background: var(--color-status-warning);
+  background: var(--color-status-caution);
 }
 
 .dot[data-bump="minor"] {

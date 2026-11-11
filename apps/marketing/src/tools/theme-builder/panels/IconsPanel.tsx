@@ -126,10 +126,6 @@ export function IconsPanel() {
       {/* ── Library ─────────────────────────────────────────────────── */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Icon library</h3>
-        <p className={styles.hint}>
-          Choose which icon library your project uses. You only need to install
-          the one you select.
-        </p>
         <div className={styles.libraryGrid}>
           {LIBRARIES.map((lib) => (
             <LibraryCard

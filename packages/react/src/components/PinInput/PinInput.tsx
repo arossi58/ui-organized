@@ -4,6 +4,7 @@ import { FieldError } from "../FieldError/index.js";
 import { pinInputStyles } from "@ui-organized/core";
 import type { PinInputProps } from "./PinInput.types.js";
 import "@ui-organized/core/components/PinInput/PinInput.css";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 const DEFAULT_LENGTH = 4;
 
@@ -38,6 +39,7 @@ export function PinInput({
   name,
   className,
 }: PinInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

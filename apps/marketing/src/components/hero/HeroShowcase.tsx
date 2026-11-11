@@ -22,6 +22,10 @@ const MOCKUP_W = 1422;
 const MOCKUP_H = 832;
 /** Breathing room around the scaled mockup, and the phone breakpoint. */
 const GUTTER = 24;
+/** Room kept below the mockup for its shadow (0 8px 30px in showcase-mockup.css,
+ * so it reaches ~38px down). The sticky clips at its bottom edge, so with only
+ * GUTTER below, the shadow was cut off in a straight line at the next section. */
+const SHADOW_ROOM = 40;
 const NARROW = 720;
 
 /** localStorage key holding the local date (YYYY-MM-DD) the falling intro last
@@ -160,6 +164,11 @@ export function HeroShowcase() {
  * changed well before the hand-off at 0.8. */
 const CODE_RESET_AT = 0.9;
 
+/** The CTA rises in as the answer's last character lands (0.31 + 11 × 0.009 +
+ * 0.1 ≈ 0.51), and takes focus once it is half faded in. */
+const CTA_AT = 0.52;
+const CTA_FADE = 0.08;
+
 function HeroStage() {
   const reduced = useReducedMotion();
   const { page, code, setCode, host } = useShowcase();
@@ -216,7 +225,7 @@ function HeroStage() {
         sticky.style.setProperty("--hero-nav-bottom", `${navBottom}px`);
       }
       const width = sticky.clientWidth;
-      const available = Math.max(sticky.clientHeight - stage.offsetTop - GUTTER, 320);
+      const available = Math.max(sticky.clientHeight - stage.offsetTop - SHADOW_ROOM, 320);
       if (width <= NARROW) {
         stage.style.setProperty("--showcase-scale", "1");
         stage.style.width = `${width - 2 * 16}px`;
@@ -267,7 +276,8 @@ function HeroStage() {
 
       // The link can't take focus until it has faded in. (The mockup goes
       // live when the engine hands off to it.)
-      const syncInert = (progress: number) => cta.toggleAttribute("inert", progress < 0.75);
+      const syncInert = (progress: number) =>
+        cta.toggleAttribute("inert", progress < CTA_AT + CTA_FADE / 2);
 
       const onScroll = (progress: number) => {
         syncInert(progress);
@@ -338,7 +348,7 @@ function HeroStage() {
           },
           0.4,
         )
-        .from(cta, { y: 12, opacity: 0, duration: 0.08, ease: "power1.out" }, 0.72)
+        .from(cta, { y: 12, opacity: 0, duration: CTA_FADE, ease: "power1.out" }, CTA_AT)
         // 4. Pad the timeline to exactly 1 so its progress maps 1:1 to the track.
         .to({}, { duration: 0.01 }, 0.99);
 

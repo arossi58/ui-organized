@@ -8,7 +8,7 @@
     "dev:copy": "COPY_EDITOR=1 vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p copy-editor",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p copy-editor && tsc --noEmit -p contributors-manager",
     "test": "vitest run"
   },
   "dependencies": {

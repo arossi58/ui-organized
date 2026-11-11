@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T15:27:28.005Z",
+  "generatedAt": "2026-11-09T18:48:46.264Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -160,7 +160,7 @@
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
-    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:9c3b46b6a171ee43",
+    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:a7b5818327447e8e",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
@@ -5242,7 +5242,7 @@
       },
       {
         "name": "variant",
-        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\"",
         "required": false,
         "description": "Status color variant."
       }

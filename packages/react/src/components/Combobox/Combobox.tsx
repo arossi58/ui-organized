@@ -14,6 +14,7 @@ import type { ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 // Module-level so `useFilter`'s memo key is stable (it keys on the props object
 // identity); otherwise `contains` — and the derived collection — would churn
@@ -40,6 +41,7 @@ export function Combobox({
   emptyMessage = "No results found.",
   portalContainer,
 }: ComboboxProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const portal = useOverlayPortal();

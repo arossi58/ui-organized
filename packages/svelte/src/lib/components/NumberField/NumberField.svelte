@@ -7,6 +7,11 @@
   import type { NumberFieldProps } from "./NumberField.types.js";
   import "@ui-organized/core/components/NumberField/NumberField.css";
   import { glyph } from "../../icons/glyph.js";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   let {
     value = $bindable(),

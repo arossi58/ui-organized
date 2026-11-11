@@ -18,8 +18,8 @@ export type SemanticRefMap = Record<string, string>;
 
 export const semanticColorMap: { dark: SemanticRefMap; light: SemanticRefMap } = {
   dark: {
-    "--color-border-primary": "grey.2100",
-    "--color-border-secondary": "grey.2000",
+    "--color-border-primary": "grey.2000",
+    "--color-border-secondary": "grey.2100",
     "--color-border-data-entry": "grey.1900",
     "--color-interactive-primary-default": "brand.1400",
     "--color-interactive-primary-hover": "brand.1600",
@@ -80,8 +80,8 @@ export const semanticColorMap: { dark: SemanticRefMap; light: SemanticRefMap } =
     "--color-status-error-bg": "crimson.2000",
     "--color-status-error-content": "crimson.300",
     "--color-surface-base": "grey.2400",
-    "--color-surface-primary": "grey.2300",
-    "--color-surface-secondary": "grey.2200",
+    "--color-surface-primary": "grey.2200",
+    "--color-surface-secondary": "grey.2300",
     "--color-surface-overlay-primary": "grey.100",
     "--color-surface-overlay-secondary": "grey.100",
     "--color-surface-overlay-tertiary": "grey.100",

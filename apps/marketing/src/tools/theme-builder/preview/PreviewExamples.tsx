@@ -61,7 +61,7 @@ const STATS = [
     meter: 54,
   },
   { label: "Orders", value: "862", delta: "-2.3%", variant: "error" as const, meter: 38 },
-  { label: "Refund rate", value: "1.8%", delta: "+0.2%", variant: "warning" as const, meter: 18 },
+  { label: "Refund rate", value: "1.8%", delta: "+0.2%", variant: "caution" as const, meter: 18 },
 ];
 
 const ORDERS = [
@@ -76,7 +76,7 @@ const ORDERS = [
     id: "#10240",
     name: "Marcus Lee",
     status: "Pending",
-    variant: "warning" as const,
+    variant: "caution" as const,
     amount: "$59.00",
   },
   {

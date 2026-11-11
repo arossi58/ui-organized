@@ -6,7 +6,13 @@
  * so the repo's own source and CLAUDE.md can't help it. Each reply is scored with
  * `verify`, a token check and `tsc`. It does not render the output.
  *
- *   pnpm --filter @ui-organized/code-connect eval <surfaceDir> <label> [--model <id>]
+ *   pnpm --filter @ui-organized/code-connect eval <surfaceDir> <label> [--model <id>] [--framework <f>]
+ *
+ * `--timeout <minutes>` (default 5) bounds each prompt.
+ * `--framework svelte|vue|angular` asks for that library's markup and scores it
+ * with the same `verify`, against that library's own scan. React's `tsc` check
+ * becomes a compile check there: `svelte/compiler`, `@vue/compiler-sfc`, or
+ * Angular's template parser.
  *
  * Spends model usage on every run, so it is a manual tool and not a CI gate.
  * Results go to `eval/results/<label>.json`, generated files beside them.
@@ -18,7 +24,9 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
+import { createRequire } from "node:module";
 import { verifyGeneratedCode } from "../src/flagging/verify.js";
+import { loadFrameworkData } from "../src/framework-data.js";
 import { ManifestLoader } from "../src/mcp/manifest-loader.js";
 import {
   declaredTokens,
@@ -32,12 +40,19 @@ import {
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "../../..");
 const CONCURRENCY = 3;
-const TIMEOUT_MS = 5 * 60_000;
+
 
 const args = process.argv.slice(2);
-const modelFlag = args.indexOf("--model");
-const model = modelFlag >= 0 ? args[modelFlag + 1]! : "claude-sonnet-5-5";
-const [surfaceArg, label] = args.filter((_, i) => modelFlag < 0 || (i !== modelFlag && i !== modelFlag + 1));
+const flagValue = (flag: string): string | undefined => {
+  const at = args.indexOf(flag);
+  return at >= 0 ? args[at + 1] : undefined;
+};
+const model = flagValue("--model") ?? "claude-sonnet-5-5";
+const framework = (flagValue("--framework") ?? "react") as "react" | "svelte" | "vue" | "angular";
+/** Minutes per prompt. Angular sessions read more files and needed longer than the default. */
+const TIMEOUT_MS = Number(flagValue("--timeout") ?? 5) * 60_000;
+const flagged = new Set(["--model", "--framework", "--timeout"]);
+const [surfaceArg, label] = args.filter((arg, i) => !flagged.has(arg) && !flagged.has(args[i - 1] ?? ""));
 
 if (!surfaceArg || !label) {
   console.error("usage: eval <surfaceDir> <label> [--model <id>]");
@@ -55,10 +70,24 @@ const prompts = JSON.parse(readFileSync(join(HERE, "prompts.json"), "utf8")) as 
 
 const known = declaredTokens(readFileSync(join(REPO, "packages/tokens/output/variables.css"), "utf8"));
 
+/** Per library: what to ask for, the fence to reply in, and the file it's scored as. */
+const TASK = {
+  react: { index: "llms.txt", what: "one self-contained React TSX file", pkg: "@ui-organized/react", fence: "tsx", ext: ".tsx" },
+  svelte: { index: "llms-svelte.txt", what: "one self-contained Svelte 5 component (.svelte)", pkg: "@ui-organized/svelte", fence: "svelte", ext: ".svelte" },
+  vue: { index: "llms-vue.txt", what: "one self-contained Vue 3 single-file component with <script setup lang=\"ts\">", pkg: "@ui-organized/vue", fence: "vue", ext: ".vue" },
+  angular: {
+    index: "llms-angular.txt",
+    what: "one self-contained standalone Angular component in a single .ts file with an inline template",
+    pkg: "@ui-organized/angular",
+    fence: "ts",
+    ext: ".component.ts",
+  },
+}[framework];
+// A surface without this library's own index (the React-only baseline) still starts at llms.txt.
 const INSTRUCTIONS =
-  "This directory documents the UI Organized design system; start at llms.txt. " +
-  "Write one self-contained React TSX file for the UI below, using @ui-organized/react. " +
-  "Reply with only one fenced tsx code block. Put any custom CSS inline in that file. " +
+  `This directory documents the UI Organized design system; start at ${TASK.index}, or llms.txt if that file isn't here. ` +
+  `Write ${TASK.what} for the UI below, using ${TASK.pkg}. ` +
+  `Reply with only one fenced ${TASK.fence} code block. Put any custom CSS in that file. ` +
   "Do not write files.\n\nThe UI: ";
 
 function ask(prompt: string, cwd: string): Promise<string> {
@@ -113,7 +142,44 @@ function typeErrors(file: string): number {
     .filter((d) => d.category === ts.DiagnosticCategory.Error && d.file?.fileName === file).length;
 }
 
+/** Svelte, Vue and Angular: does the file compile? React keeps the stricter `tsc` check. */
+const requireCompiler = createRequire(import.meta.url);
+function compileErrors(code: string, file: string): number {
+  try {
+    if (framework === "svelte") {
+      (requireCompiler("svelte/compiler") as typeof import("svelte/compiler")).compile(code, { filename: file });
+      return 0;
+    }
+    if (framework === "vue") {
+      const sfc = requireCompiler("@vue/compiler-sfc") as typeof import("@vue/compiler-sfc");
+      const { descriptor, errors } = sfc.parse(code, { filename: file });
+      if (errors.length) return errors.length;
+      const template = descriptor.template
+        ? sfc.compileTemplate({ source: descriptor.template.content, filename: file, id: "eval" }).errors.length
+        : 0;
+      return template;
+    }
+    if (framework === "angular") {
+      const template = /template\s*:\s*`([\s\S]*?)`/.exec(code)?.[1];
+      if (!template) return 1;
+      const ng = requireCompiler("@angular/compiler") as typeof import("@angular/compiler");
+      return ng.parseTemplate(template, file).errors?.length ?? 0;
+    }
+  } catch {
+    return 1;
+  }
+  return 0;
+}
+
 const loader = new ManifestLoader();
+const frameworkData = loadFrameworkData(REPO);
+const verifyOptions = {
+  frameworkManifests: {
+    svelte: frameworkData.svelte.manifest,
+    vue: frameworkData.vue.manifest,
+    angular: frameworkData.angular.manifest,
+  },
+};
 
 async function runOne({ id, prompt }: { id: string; prompt: string }): Promise<RunScore> {
   const empty = { id, hallucinatedImports: 0, unknownProps: 0, unknownTokens: [], hardcoded: 0, typeErrors: 0 };
@@ -121,9 +187,9 @@ async function runOne({ id, prompt }: { id: string; prompt: string }): Promise<R
   try {
     cpSync(surface, cwd, { recursive: true });
     const code = extractCode(await ask(prompt, cwd));
-    const file = join(outDir, `${id}.tsx`);
+    const file = join(outDir, `${id}${TASK.ext}`);
     writeFileSync(file, code);
-    const findings = verifyGeneratedCode([file], loader, outDir);
+    const findings = verifyGeneratedCode([file], loader, outDir, verifyOptions);
     const score: RunScore = {
       ...empty,
       failed: false,
@@ -131,7 +197,7 @@ async function runOne({ id, prompt }: { id: string; prompt: string }): Promise<R
       unknownProps: findings.filter((f) => f.kind === "unknown-prop").length,
       unknownTokens: unknownTokens(code, known),
       hardcoded: hardcodedValues(code).length,
-      typeErrors: typeErrors(file),
+      typeErrors: framework === "react" ? typeErrors(file) : compileErrors(code, file),
     };
     console.error(`  ${id}: ${JSON.stringify(score)}`);
     return score;
@@ -152,6 +218,6 @@ await Promise.all(
 );
 scores.sort((a, b) => a.id.localeCompare(b.id));
 
-const result = { label, model, surface, totals: totals(scores), scores };
+const result = { label, model, framework, surface, totals: totals(scores), scores };
 writeFileSync(join(outDir, "..", `${label}.json`), JSON.stringify(result, null, 2) + "\n");
 process.stdout.write(`${JSON.stringify(result.totals, null, 2)}\n`);

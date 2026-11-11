@@ -118,6 +118,15 @@ export interface AiContextInput {
    * not exist.
    */
   relatedTargets?: Record<string, FrameworkTarget>;
+  /**
+   * The component as scanned from that library's OWN source
+   * (`manifest/frameworks/<framework>.json`). When given, its props replace
+   * React's — Vue's `modelValue` and `asChild`, Svelte's snippets — so the table
+   * describes what the package really accepts.
+   */
+  frameworkEntry?: ComponentManifestEntry;
+  /** The same, for compound siblings, keyed by the React `codeName`. */
+  relatedFrameworkEntries?: Record<string, ComponentManifestEntry>;
 }
 
 export interface AiContextProp {
@@ -371,7 +380,12 @@ function buildData(input: AiContextInput): AiContextData {
   const component = fw ? fw.symbol : entry.codeName;
   const confidence = input.confidence ?? "exact";
 
-  const props = frameworkProps(entry.props, fw, typeValues);
+  // The library's own scan wins when there is one; React's props are the
+  // fallback (Angular, until it has a scanner of its own).
+  const own = fw ? input.frameworkEntry : undefined;
+  const props = own
+    ? own.props.map((p) => toContextProp(p, typeValues))
+    : frameworkProps(entry.props, fw, typeValues);
   // Under another framework, only the siblings it ships, by its own names.
   const siblings = fw
     ? related.flatMap((r) => {
@@ -379,10 +393,15 @@ function buildData(input: AiContextInput): AiContextData {
         return target ? [{ entry: r, name: target.symbol, target }] : [];
       })
     : related.map((r) => ({ entry: r, name: r.codeName, target: undefined }));
-  const subcomponents = siblings.map((s) => ({
-    name: s.name,
-    props: frameworkProps(s.entry.props, s.target, typeValues),
-  }));
+  const subcomponents = siblings.map((s) => {
+    const sibling = fw ? input.relatedFrameworkEntries?.[s.entry.codeName] : undefined;
+    return {
+      name: s.name,
+      props: sibling
+        ? sibling.props.map((p) => toContextProp(p, typeValues))
+        : frameworkProps(s.entry.props, s.target, typeValues),
+    };
+  });
 
   const ownImport = fw
     ? frameworkImport(fw.framework, [component], packageName)
@@ -418,7 +437,7 @@ function buildData(input: AiContextInput): AiContextData {
       ? [{ name: "Usage", code: entry.usageSnippet, source: "manifest-usage" as const }]
       : [];
 
-  const propOrder = entry.props.map((p) => p.name);
+  const propOrder = (own ?? entry).props.map((p) => p.name);
   const currentJsx = input.liveArgs
     ? fw
       ? frameworkUsage(fw, input.liveArgs, propOrder)
@@ -427,7 +446,7 @@ function buildData(input: AiContextInput): AiContextData {
 
   const provenance: Record<string, string> = {
     package: meta.packageVersion ? `${packageName}@${meta.packageVersion}` : packageName,
-    source: entry.codePath,
+    source: (own ?? entry).codePath,
     confidence,
   };
   if (input.staleness) {
@@ -444,9 +463,10 @@ function buildData(input: AiContextInput): AiContextData {
       : meta.indexUrl;
   }
   if (fw) {
-    provenance.api =
-      `scanned from the React component; ${FRAMEWORK_INFO[fw.framework].label} ` +
-      "implements the same API from the same core";
+    provenance.api = own
+      ? `scanned from the ${FRAMEWORK_INFO[fw.framework].label} component's own source`
+      : `scanned from the React component; ${FRAMEWORK_INFO[fw.framework].label} ` +
+        "implements the same API from the same core";
   }
   if (meta.generatedAt) provenance.generated = meta.generatedAt;
 
@@ -634,7 +654,12 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
 
   out.push(`# ${data.component} — ${data.package}`);
   out.push(
-    fw
+    fw && input.frameworkEntry
+      ? `Verified context from the UI Organized design system, for its ${FRAMEWORK_INFO[fw.framework].label} ` +
+          `library, scanned directly from \`${input.frameworkEntry.codePath}\`. Everything below is ` +
+          `generated from \`${data.package}\`'s own type signature — it is not a summary, not a ` +
+          "translation of another library's API, and not a guess."
+      : fw
       ? `Verified context from the UI Organized design system, for its ${FRAMEWORK_INFO[fw.framework].label} ` +
           `library. The API is scanned from the React component at \`${entry.codePath}\`, which ` +
           `\`${data.package}\` implements from the same shared core` +

@@ -23,6 +23,7 @@ import {
   signal,
   untracked,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { clsx } from "clsx";
@@ -38,6 +39,7 @@ import { pushLayer, removeLayer, type DismissibleLayer } from "../overlay/dismis
 import { flushNow } from "../overlay/flush.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
 import { glyph } from "../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type ComboboxSize = ControlSize;
 
@@ -284,6 +286,9 @@ export class UioCombobox
   extends UioPart
   implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor
 {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";

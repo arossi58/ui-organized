@@ -56,6 +56,7 @@ export {
   TableSearch,
   TableSortMenu,
   TableViewOptions,
+  TableReorderToggle,
   TableExportMenu,
   TableScrollButtons,
 } from "./components/TableToolbar/index.js";
@@ -70,6 +71,7 @@ export {
 } from "./components/TableFilters/index.js";
 export { TablePagination } from "./components/TablePagination/index.js";
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
+export { TableSelectionFooter } from "./components/TableSelectionFooter/index.js";
 export {
   TableFilterSheet,
   TableSheetButton,
@@ -87,6 +89,8 @@ export { DataTable } from "./DataTable/index.js";
 export type {
   DataTableQuery,
   SelectionMode,
+  TableDateDef,
+  TableDateSetting,
   TableFilterCondition,
   TableFilterType,
   TableMode,

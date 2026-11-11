@@ -16,6 +16,7 @@ import {
 } from "@ui-organized/angular";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
+import { UioTableReorderToggle } from "./table-reorder-toggle.js";
 import { UioTableSelectionBar } from "./table-selection-bar.js";
 import { UioTableFilterSheet, UioTableSortSheet } from "./table-sheets.js";
 import type { TableAction } from "../core/types.js";
@@ -65,6 +66,7 @@ import type { IconName } from "@ui-organized/angular";
     UioMenuSeparator,
     UioSearchInput,
     UioTableSelectionBar,
+    UioTableReorderToggle,
     UioTableSortSheet,
     UioTableFilterSheet,
     NgTemplateOutlet,
@@ -270,6 +272,22 @@ import type { IconName } from "@ui-organized/angular";
           }
         </uio-menu>
       }
+
+      <!--
+        Reorder mode, for reorderable: "toggle". Card mode has no headers to
+        move, so it never offers it.
+      -->
+      @if (reorderToggle()) {
+        <button
+          uioButton
+          uioTableReorderToggle
+          #reorder="uioTableReorderToggle"
+          [intent]="reorder.active() ? 'primary' : 'secondary'"
+          [size]="table.size()"
+        >
+          {{ reorder.text() }}
+        </button>
+      }
     }
 
     <!--
@@ -349,6 +367,9 @@ export class UioTableToolbar {
   protected readonly scroll = computed(() => this.table.scroll.state());
   protected readonly cards = computed(() => this.table.mode() === "cards");
   protected readonly hasSelection = computed(() => this.table.selection.count() > 0);
+  protected readonly reorderToggle = computed(
+    () => this.table.reorder.mode() === "toggle" && !this.cards(),
+  );
   /**
    * The export menu's items report through `UioMenu (select)`, not their own:
    * `UioMenuItem` has no `select` output, so `(select)` on an item binds a DOM

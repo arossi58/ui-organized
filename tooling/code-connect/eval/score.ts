@@ -38,7 +38,7 @@ export function declaredTokens(css: string): Set<string> {
 
 /** The first fenced code block, or the whole reply when the agent didn't fence it. */
 export function extractCode(reply: string): string {
-  const fence = /```(?:tsx|jsx|typescript|ts)?\s*\n([\s\S]*?)```/.exec(reply);
+  const fence = /```(?:tsx|jsx|typescript|ts|svelte|vue|html)?\s*\n([\s\S]*?)```/.exec(reply);
   return (fence ? fence[1]! : reply).trim() + "\n";
 }
 

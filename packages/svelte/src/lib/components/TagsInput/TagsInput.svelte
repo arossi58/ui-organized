@@ -7,6 +7,11 @@
   import type { TagsInputProps } from "./TagsInput.types.js";
   import "@ui-organized/core/components/TagsInput/TagsInput.css";
   import { glyph } from "../../icons/glyph.js";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   /** Delete affordance inside a tag — always the small edge, at every control
    *  size, because it sits inside the chip rather than beside it. */

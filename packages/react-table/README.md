@@ -149,16 +149,40 @@ two of them:
 
 A `Date` is the one that bites: the default rendering is long, and it is _timezone
 dependent_, so the same row reads differently on two machines and any screenshot test of it
-is unstable. Format it, or hold the date as an ISO string in the first place.
+is unstable. Declare the column as dates with `meta.date` and give it a `format`:
+
+### Dates in any format
+
+Inside the table a date is always an ISO day, `YYYY-MM-DD` — that is what lets 100,000
+rows sort and filter without building a `Date` per row. `meta.date` converts on both sides
+of it:
+
+- **`parse`** reads whatever the data holds — `"11/10/2026"`, a timestamp, `{ y, m, d }` —
+  and returns a `Date` or an ISO string. Not needed when the data is already a `Date` or ISO.
+- **`format`** is how the date reads, as `Intl.DateTimeFormat` options (with `locale`) or a
+  function. The cell, the filter chip and the CSV export all use it, so they never disagree.
 
 ```tsx
 {
-  accessorKey: "joined",
+  accessorKey: "joined", // "11/10/2026"
   header: "Joined",
-  // A cell renderer is just a component — compose the library freely.
-  cell: ({ getValue }) => getValue<Date>().toLocaleDateString(),
+  meta: {
+    filter: true, // a date filter, no `type` needed
+    date: {
+      parse: (value) => {
+        const [m, d, y] = String(value).split("/").map(Number);
+        return y ? new Date(y, m - 1, d) : null;
+      },
+      format: { dateStyle: "medium" }, // "Nov 10, 2026"
+      locale: "en-US",
+    },
+  },
 }
 ```
+
+`date: true` marks a column as dates without changing how they read. A column's own `cell`
+still wins, and receives the ISO day from `getValue()`; so does inline editing, whose
+`onEdit` gets the ISO day. Global search matches the ISO day, not the formatted text.
 
 ## Telling it what the data _is_
 
@@ -170,6 +194,7 @@ first non-empty values in the column:
 | `true` / `false`                                 | `boolean` |
 | `3`, `7`                                         | `number`  |
 | `Date`, `"2024-01-15"`, `"2024-01-15T09:30:00Z"` | `date`    |
+| any column declaring `meta.date`                 | `date`    |
 | anything else                                    | `text`    |
 | any column declaring `filter.options`            | `enum`    |
 
@@ -201,6 +226,7 @@ TanStack's.
 | `filter`                          | `true`, or `{ type, operators, defaultOperator, options, label, single, counts }` |
 | `edit`                            | `{ render, validate }` — makes the cell editable in place                         |
 | `exportValue`                     | `(row) => …` — what CSV and the clipboard use instead of the cell value           |
+| `date`                            | `true`, or `{ parse, format, locale }` — see [Dates in any format](#dates-in-any-format) |
 | `hideFromViewOptions`             | Keep the column out of the show/hide menu                                         |
 
 ```tsx
@@ -229,15 +255,39 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 | Filtering                            | Composable `Chip`s under the header — see below                                       |
 | Pagination                           | Wraps `Pagination`, converts row count to page count                                  |
 | Virtualization                       | On above 50 rows; spacer rows, so table semantics survive                             |
-| Selection                            | Shift-range, and "select all 40,000 matching" for server tables                       |
+| Selection                            | Shift-range; a footer counts it and offers "Select 39,980 hidden rows"                |
 | Bulk actions                         | Replace the toolbar's controls while rows are selected; destructive confirms first    |
 | Column resize / reorder / visibility | Resize handle is a focusable `role="separator"`, not a drag-only target               |
+| Column reorder                       | Drag a header, or its ‹ › buttons, or Alt+←/→ on a focused header — see below         |
 | Inline editing                       | Optimistic, with rollback on a rejected `onEdit`                                      |
 | Row detail                           | A `Sheet` with prev/next and a dirty guard                                            |
 | Responsive                           | Cards below the breakpoint; pinned first column above it                              |
 | Horizontal scroll                    | Toolbar arrows while columns run off the edge; absent when everything fits            |
 | Export                               | CSV download and TSV clipboard, respecting filters, sort and visibility               |
 | Server mode                          | `manual` reports `{ sorting, filters, pagination }`; `onLoadMore` for infinite scroll |
+
+## Reordering columns
+
+`reorderable` lets people rearrange the columns. Every way of doing it moves the same
+thing, one column, and stops at the same places:
+
+- **Drag a header** onto another. A line on the near or far edge shows where it lands.
+- **Click its ‹ › buttons**, which step it one place, past any hidden column.
+- **Alt+← / Alt+→** on a focused header, in an interactive table, where the header's
+  buttons are not tab stops of their own.
+
+```tsx
+<DataTable reorderable … />          // or "always": movable at any time
+<DataTable reorderable="toggle" … /> // only inside a reorder mode
+```
+
+With `"always"` (or `true`), the move buttons appear when a header is hovered or
+focused. With `"toggle"`, the toolbar gets a **Reorder** button; while it is on, every
+movable header shows its buttons and can be dragged, and **Done** puts them away — for
+tables whose headers are busy enough that a stray drag would surprise.
+
+The table's own columns (the checkbox and row actions) and pinned columns never move,
+and card mode has no headers to move. **Reset column order** is in the Columns menu.
 
 ## The header
 

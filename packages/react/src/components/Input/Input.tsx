@@ -4,6 +4,7 @@ import { inputFieldStyles } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
 import type { InputProps } from "./Input.types.js";
 import "@ui-organized/core/components/Input/Input.css";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function Input({
   label,
@@ -15,6 +16,7 @@ export function Input({
   className,
   ...inputProps
 }: InputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

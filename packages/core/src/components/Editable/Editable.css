@@ -104,6 +104,19 @@
   outline-color: var(--color-status-error);
 }
 
+/* Pointer focus (data-focus-modality from @ui-organized/core/focus-modality):
+   browsers match :focus-visible on every focus of a text field, so a click would
+   draw the full ring. After a click the border takes the focus color instead;
+   keyboard focus, and pages that never install the tracker, keep the ring. */
+:root[data-focus-modality="pointer"] .editable__input:focus-visible {
+  outline: none;
+  border-color: var(--color-interactive-focus);
+}
+
+:root[data-focus-modality="pointer"] .editable__input[data-invalid]:focus-visible {
+  border-color: var(--color-status-error);
+}
+
 .editable__preview[data-disabled],
 .editable__input[data-disabled] {
   cursor: not-allowed;

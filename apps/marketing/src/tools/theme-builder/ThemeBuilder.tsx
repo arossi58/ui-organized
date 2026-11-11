@@ -1,4 +1,6 @@
-import { SegmentedControl } from "@ui-organized/react";
+import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { SegmentedControl, Tabs } from "@ui-organized/react";
 import { useBuilderStore, type ActivePanel } from "./state/themeState";
 import { ColorPanel } from "./panels/ColorPanel";
 import { TypographyPanel } from "./panels/TypographyPanel";
@@ -7,6 +9,7 @@ import { IconsPanel } from "./panels/IconsPanel";
 import { ExamplesPanel } from "./panels/ExamplesPanel";
 import { ExportPanel } from "./panels/ExportPanel";
 import { PreviewContainer } from "./preview/PreviewContainer";
+import { VisionFilterDefs, VisionFilterMenu } from "../../docs/a11y/VisionFilters";
 import "./builder.css";
 import styles from "./ThemeBuilder.module.css";
 
@@ -19,9 +22,6 @@ const TABS: { id: ActivePanel; label: string }[] = [
   { id: "export",     label: "Export" },
 ];
 
-// The section switcher is a DS SegmentedControl driven by `activePanel`; the
-// two-pane body below reacts to the same state.
-const TAB_ITEMS = TABS.map((t) => ({ value: t.id, label: t.label }));
 
 function PanelContent({ active }: { active: ActivePanel }) {
   switch (active) {
@@ -34,75 +34,69 @@ function PanelContent({ active }: { active: ActivePanel }) {
   }
 }
 
-const SunIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="12" cy="12" r="4" />
-    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-  </svg>
-);
-
-const MoonIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-  </svg>
-);
-
-/** Segmented Light/Dark control that drives the live preview's render mode. */
+/** Light/Dark control that drives the live preview's render mode. */
 function PreviewModeSwitch() {
   const { previewMode, setPreviewMode } = useBuilderStore();
-  const modes: { id: "light" | "dark"; label: string; Icon: () => JSX.Element }[] = [
-    { id: "light", label: "Light", Icon: SunIcon },
-    { id: "dark",  label: "Dark",  Icon: MoonIcon },
-  ];
 
   return (
-    <div className={styles.modeSwitch} role="group" aria-label="Preview color mode">
-      {modes.map(({ id, label, Icon }) => (
-        <button
-          key={id}
-          type="button"
-          className={`${styles.modeButton} ${previewMode === id ? styles.modeButtonActive : ""}`}
-          aria-pressed={previewMode === id}
-          onClick={() => setPreviewMode(id)}
-        >
-          <Icon />
-          {label}
-        </button>
-      ))}
-    </div>
+    <SegmentedControl
+      size="sm"
+      aria-label="Preview color mode"
+      items={[
+        // Components, not registered names: the builder lets you switch icon
+        // library, and this control should not change with it.
+        { value: "light", label: "Light", icon: Sun },
+        { value: "dark", label: "Dark", icon: Moon },
+      ]}
+      value={previewMode}
+      onValueChange={(v) => setPreviewMode(v as "light" | "dark")}
+    />
   );
 }
 
 export default function ThemeBuilder() {
   const { activePanel, setActivePanel } = useBuilderStore();
+  const [vision, setVision] = useState<string | null>(null);
+
+  // Controls (left) + contextual live preview (right). Only the active tab's
+  // panel carries it, so the preview mounts once rather than once per tab.
+  const body = (
+    <div className={styles.body}>
+      <aside className={styles.controls}>
+        <div className={styles.panelContent}>
+          <PanelContent active={activePanel} />
+        </div>
+      </aside>
+
+      <main className={styles.preview}>
+        <PreviewContainer vision={vision} />
+      </main>
+    </div>
+  );
 
   return (
     <div className={`${styles.layout} theme-builder-tool`}>
-      {/* ── Top bar: section segmented control · preview mode ─────────────── */}
-      <header className={styles.topBar}>
-        <SegmentedControl
-          className={styles.tabs}
-          aria-label="Theme section"
-          items={TAB_ITEMS}
-          value={activePanel}
-          onValueChange={(v) => setActivePanel(v as ActivePanel)}
-        />
+      {/* The tab list runs along the top edge, its underline sitting on the
+          bar's bottom rule; the preview mode switch floats in the same row. */}
+      <Tabs
+        className={styles.tabs}
+        size="small"
+        tabs={TABS.map((t) => ({
+          value: t.id,
+          label: t.label,
+          content: t.id === activePanel ? body : null,
+        }))}
+        value={activePanel}
+        onValueChange={(v) => setActivePanel(v as ActivePanel)}
+      />
 
+      <div className={styles.modeSwitchSlot}>
+        {/* The export preview is code, not themed UI, so there is nothing to
+            simulate there. */}
+        {activePanel !== "export" && <VisionFilterMenu value={vision} onChange={setVision} />}
         <PreviewModeSwitch />
-      </header>
-
-      {/* ── Body: controls (left) + contextual live preview (right) ───────── */}
-      <div className={styles.body}>
-        <aside className={styles.controls}>
-          <div className={styles.panelContent}>
-            <PanelContent active={activePanel} />
-          </div>
-        </aside>
-
-        <main className={styles.preview}>
-          <PreviewContainer />
-        </main>
       </div>
+      <VisionFilterDefs />
     </div>
   );
 }

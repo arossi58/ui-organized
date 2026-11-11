@@ -37,6 +37,11 @@
       "import": "./dist/contract.mjs",
       "require": "./dist/contract.js"
     },
+    "./focus-modality": {
+      "types": "./dist/focus-modality.d.ts",
+      "import": "./dist/focus-modality.mjs",
+      "require": "./dist/focus-modality.js"
+    },
     "./components/*": "./dist/components/*",
     "./typography.css": "./dist/typography.css",
     "./base.css": "./dist/base.css",
@@ -58,7 +63,7 @@
   },
   "scripts": {
     "build": "tsup && node scripts/build-css.mjs",
-    "dev": "tsup --watch",
+    "dev": "tsup --watch --onSuccess \"node scripts/build-css.mjs\"",
     "test": "vitest run",
     "gen:contract": "tsx scripts/token-contract.ts",
     "gen:state-contract": "tsx scripts/state-contract.ts",

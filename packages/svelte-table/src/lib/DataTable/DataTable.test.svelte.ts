@@ -133,6 +133,175 @@ describe("the selection's bulk actions", () => {
 });
 
 /**
+ * Column reordering: header move buttons, a toolbar-switched mode, and
+ * Alt+Arrow on a focused header. Mirrors React's "column reordering"; dragging
+ * is native drag and drop, which jsdom does not implement.
+ */
+describe("column reordering", () => {
+  const COLS = [
+    { accessorKey: "name", header: "Name", meta: { primary: true } },
+    { accessorKey: "role", header: "Role" },
+    { accessorKey: "seats", header: "Seats" },
+  ];
+  const ROWS = [
+    { id: "a", name: "Ada", role: "Engineer", seats: 3 },
+    { id: "b", name: "Grace", role: "Admin", seats: 1 },
+  ];
+  const reorderable = (setting: "always" | "toggle", extra: Record<string, unknown> = {}) =>
+    render({ data: ROWS, columns: COLS, label: "Team", reorderable: setting, ...extra });
+  const headers = (target: HTMLElement) =>
+    [...target.querySelectorAll("thead th")]
+      .map((cell) => cell.textContent?.replace(/\s+/g, " ").trim())
+      .filter(Boolean);
+  const button = (target: HTMLElement, label: string) =>
+    target.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`);
+  const click = (element: HTMLElement | null) => {
+    element?.click();
+    flushSync();
+  };
+
+  it("moves a column one place with its header buttons, disabled at the ends", () => {
+    const view = reorderable("always");
+    expect(headers(view.target)).toEqual(["Name", "Role", "Seats"]);
+    expect(button(view.target, "Move Name left")?.disabled).toBe(true);
+    expect(button(view.target, "Move Seats right")?.disabled).toBe(true);
+
+    click(button(view.target, "Move Name right"));
+    expect(headers(view.target)).toEqual(["Role", "Name", "Seats"]);
+    click(button(view.target, "Move Seats left"));
+    expect(headers(view.target)).toEqual(["Role", "Seats", "Name"]);
+    view.destroy();
+  });
+
+  it("in toggle mode, offers moving only inside reorder mode", () => {
+    const view = reorderable("toggle");
+    expect(button(view.target, "Move Name right")).toBeNull();
+    expect(view.target.querySelector('.data-table__head-inner[draggable="true"]')).toBeNull();
+
+    click(button(view.target, "Reorder columns"));
+    expect(button(view.target, "Move Name right")).not.toBeNull();
+    expect(view.target.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(3);
+
+    click(button(view.target, "Done reordering columns"));
+    expect(button(view.target, "Move Name right")).toBeNull();
+    view.destroy();
+  });
+
+  it("leaves the table's own columns where they are", () => {
+    const view = reorderable("always", { selection: "multiple" });
+    const select = view.target.querySelector("th.data-table__select-cell");
+    expect(select?.querySelector('[draggable="true"]')).toBeNull();
+    expect(select?.querySelector(".data-table__move")).toBeNull();
+    expect(button(view.target, "Move Name left")?.disabled).toBe(true);
+    view.destroy();
+  });
+
+  it("moves the focused header's column with Alt+Arrow, and focus goes with it", () => {
+    const view = reorderable("always", { selection: "multiple" });
+    const name = view.target.querySelector<HTMLElement>('[data-cell="-1:1"]');
+    name?.focus();
+    flushSync();
+    name?.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "ArrowRight", altKey: true, bubbles: true }),
+    );
+    flushSync();
+    expect(headers(view.target)).toEqual(["Role", "Name", "Seats"]);
+    expect(
+      view.target.querySelector('[data-cell][tabindex="0"]')?.getAttribute("data-cell"),
+    ).toBe("-1:2");
+    view.destroy();
+  });
+});
+
+/**
+ * `meta.date`: US-formatted strings in, the column's own format out, sorted as
+ * dates. Mirrors React's "date columns".
+ */
+describe("date columns", () => {
+  const parseUs = (value: unknown) => {
+    const [m, d, y] = String(value).split("/").map(Number);
+    return y && m && d ? new Date(y, m - 1, d) : null;
+  };
+  const dmy = (date: Date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+
+  it("shows each date in the column's format, sorted as dates rather than strings", () => {
+    const view = render({
+      data: [
+        { id: "a", name: "Ada", joined: "2/1/2026" },
+        { id: "b", name: "Grace", joined: "11/10/2025" },
+        { id: "c", name: "Alan", joined: "12/31/2025" },
+      ],
+      columns: [
+        { accessorKey: "name", header: "Name", meta: { primary: true } },
+        { accessorKey: "joined", header: "Joined", meta: { date: { parse: parseUs, format: dmy } } },
+      ],
+      defaultSorting: [{ id: "joined", desc: false }],
+    });
+    const joined = [...view.target.querySelectorAll("tbody tr")].map((row) =>
+      row.lastElementChild?.textContent?.trim(),
+    );
+    expect(joined).toEqual(["10.11.2025", "31.12.2025", "1.2.2026"]);
+    view.destroy();
+  });
+});
+
+/**
+ * How many rows are selected, and the offer to reach the ones off screen, sit
+ * under the rows rather than in the toolbar. Mirrors React's "the selection
+ * footer".
+ */
+describe("the selection footer", () => {
+  const paged = () => render({ selection: "multiple", paginated: true, pageSize: 4 });
+  const key = (target: HTMLElement, init: KeyboardEventInit) => {
+    target
+      .querySelector('[data-cell="0:1"]')
+      ?.dispatchEvent(new KeyboardEvent("keydown", { bubbles: true, ...init }));
+    flushSync();
+  };
+  const footer = (target: HTMLElement) => target.querySelector(".data-table__selection-footer");
+
+  it("is absent while nothing is selected", () => {
+    const view = paged();
+    expect(footer(view.target)).toBeNull();
+    view.destroy();
+  });
+
+  it("rides inside the viewport, after the table, and holds the count", () => {
+    const view = paged();
+    key(view.target, { key: " " });
+
+    const bar = footer(view.target);
+    expect(bar?.parentElement?.classList.contains("data-table__viewport")).toBe(true);
+    expect(bar?.previousElementSibling?.tagName).toBe("TABLE");
+    expect(
+      footer(view.target)?.querySelector(".data-table__selection-count")?.textContent?.trim(),
+    ).toBe("1 row selected");
+    expect(view.target.querySelectorAll(".data-table__selection-count")).toHaveLength(1);
+    expect(footer(view.target)?.querySelector("button")).toBeNull();
+    view.destroy();
+  });
+
+  it("offers the hidden rows as a real button once the page is fully selected", () => {
+    const view = paged();
+    key(view.target, { key: " " });
+    for (let i = 0; i < 3; i++) key(view.target, { key: "ArrowDown", shiftKey: true });
+
+    const offer = footer(view.target)?.querySelector("button");
+    expect(offer?.classList.contains("btn")).toBe(true);
+    // Four of eight on the page are selected, so four are hidden.
+    expect(offer?.textContent?.trim()).toBe("Select 4 hidden rows");
+
+    offer?.click();
+    flushSync();
+    expect(
+      footer(view.target)?.querySelector(".data-table__selection-count")?.textContent?.trim(),
+    ).toBe("8 rows selected");
+    expect(footer(view.target)?.querySelector("button")).toBeNull();
+    view.destroy();
+  });
+});
+
+/**
  * Card mode is the phone layout. Sort and filter open sheets from labelled
  * buttons that count what is applied, the chips row goes away, and each card
  * puts its controls in the top-right corner, checkbox last.

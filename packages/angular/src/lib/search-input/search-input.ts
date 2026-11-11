@@ -11,6 +11,7 @@ import {
   output,
   signal,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { CONTROL_ICON_SIZE, searchInputFieldStyles, type InputVariants } from "@ui-organized/core";
@@ -21,6 +22,7 @@ import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
 import { flushNow } from "../overlay/flush.js";
 import { glyph } from "../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type SearchInputSize = NonNullable<InputVariants["size"]>;
 
@@ -122,6 +124,9 @@ export type SearchInputSize = NonNullable<InputVariants["size"]>;
   },
 })
 export class UioSearchInput extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   protected readonly glyph = glyph;
   readonly scope = "field";
   readonly part = "root";

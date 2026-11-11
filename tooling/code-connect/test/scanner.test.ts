@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { scanReact } from "../src/scanner/scan-react.js";
+import { scanReact, scanLibrary, LIBRARIES } from "../src/scanner/scan-react.js";
 import { reconcile } from "../src/scanner/manifest-writer.js";
 import type { ComponentManifest } from "../src/schema.js";
 
@@ -65,5 +65,77 @@ describe("reconcile", () => {
     expect(btn).toBeDefined();
     expect(btn.status).toBe("deprecated");
     expect(changes.find((c) => c.component === "Button")?.kind).toBe("deprecated");
+  });
+});
+
+describe("scanLibrary — Svelte and Vue, from their own source", () => {
+  const svelte = scanLibrary(REPO, LIBRARIES.svelte);
+  const vue = scanLibrary(REPO, LIBRARIES.vue);
+  const byName = (list: typeof svelte, name: string) => list.find((s) => s.codeName === name);
+
+  it("covers the same component set as React, bar React-only plumbing", () => {
+    const react = new Set(scanned.map((s) => s.codeName));
+    for (const list of [svelte, vue]) {
+      const missing = [...react].filter((n) => !list.some((s) => s.codeName === n));
+      expect(missing).toEqual(["TableProvider"]);
+    }
+  });
+
+  it("keeps Vue's asChild, which React's scan skips as plumbing", () => {
+    const names = byName(vue, "Button")!.props.map((p) => p.name);
+    expect(names).toContain("asChild");
+    expect(names).toContain("intent");
+    expect(byName(vue, "Button")!.importStatement).toBe("import { Button } from '@ui-organized/vue';");
+  });
+
+  it("reports Vue's v-model prop, not React's", () => {
+    const names = byName(vue, "Select")!.props.map((p) => p.name);
+    expect(names).toContain("modelValue");
+    expect(names).not.toContain("onValueChange");
+  });
+
+  it("reads props declared inside a .svelte file, with destructured defaults", () => {
+    const actions = byName(svelte, "TableActions")!;
+    expect(actions.codePath).toMatch(/TableActions\.svelte$/);
+    expect(actions.props.map((p) => p.name)).toEqual(["actions", "class"]);
+  });
+
+  it("lists a Vue compound part that declares no props of its own", () => {
+    const header = byName(vue, "CardHeader")!;
+    expect(header.codePath).toMatch(/CardHeader\.vue$/);
+    expect(header.props).toEqual([]);
+  });
+});
+
+describe("scanAngular — signal inputs, through the type checker", async () => {
+  const { scanAngular } = await import("../src/scanner/scan-angular.js");
+  const angular = scanAngular(REPO);
+  const byName = (name: string) => angular.find((s) => s.codeName === name);
+
+  it("reads selectors from the decorator", () => {
+    expect(byName("UioButton")!.selector).toBe("button[uioButton], a[uioButton]");
+    expect(byName("UioTag")!.selector).toBe("span[uioTag]");
+  });
+
+  it("resolves an aliased input type to its literal union, with its default", () => {
+    const variant = byName("UioTag")!.props.find((p) => p.name === "variant")!;
+    expect(variant.type).toBe('"info" | "success" | "error" | "info-secondary" | "caution"');
+    expect(variant.defaultValue).toBe("success");
+    const intent = byName("UioButton")!.props.find((p) => p.name === "intent")!;
+    expect(intent.type).toContain('"destructive-ghost"');
+  });
+
+  it("infers an untyped input's type from its default", () => {
+    expect(byName("UioTag")!.props.find((p) => p.name === "emphasized")!.type).toBe("boolean");
+  });
+
+  it("marks input.required as required and imports from the table package", () => {
+    const table = byName("UioDataTable")!;
+    expect(table.props.find((p) => p.name === "columns")!.required).toBe(true);
+    expect(table.importStatement).toBe("import { UioDataTable } from '@ui-organized/angular-table';");
+  });
+
+  it("never leaves a type unresolved", () => {
+    expect(angular.flatMap((c) => c.props).filter((p) => p.type === "unknown" || p.type === "any")).toEqual([]);
   });
 });

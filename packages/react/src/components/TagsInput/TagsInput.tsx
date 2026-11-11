@@ -6,6 +6,7 @@ import { tagsInputStyles } from "@ui-organized/core";
 import type { TagsInputProps } from "./TagsInput.types.js";
 import "@ui-organized/core/components/TagsInput/TagsInput.css";
 import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 /** Delete affordance inside a tag — always the small edge, at every control
  *  size, because it sits inside the chip rather than beside it. */
@@ -30,6 +31,7 @@ export function TagsInput({
   name,
   className,
 }: TagsInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

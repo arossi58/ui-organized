@@ -778,6 +778,7 @@
         "data-invalid": []
       },
       "classes": [
+        "pin-input--default",
         "pin-input--lg",
         "pin-input--md",
         "pin-input--sm",

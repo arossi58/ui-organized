@@ -112,9 +112,12 @@
 
 /* ─── Intent: destructive ─────────────────────────────────────────────────── */
 
+/* Light label, not --color-interactive-contents: that one is derived from the
+   brand fill and turns dark for a light brand, while this crimson fill never
+   changes with the brand. Same label as the destructive-ghost's filled states. */
 .btn--destructive {
   background-color: var(--color-interactive-destructive-default);
-  color: var(--color-interactive-contents);
+  color: var(--color-content-light);
   border-color: transparent;
 }
 

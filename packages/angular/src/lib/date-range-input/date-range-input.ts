@@ -10,6 +10,7 @@ import {
   inject,
   input,
   model,
+  afterNextRender,
 } from "@angular/core";
 import { clsx } from "clsx";
 import {
@@ -28,6 +29,7 @@ import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
 import { nextMachineId } from "../part-ids.js";
 import { glyph } from "../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type DateRangeInputSize = NonNullable<DateRangeInputVariants["size"]>;
 
@@ -209,6 +211,9 @@ const ADORNMENT =
   `,
 })
 export class UioDateRangeInput implements AfterViewInit {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   protected readonly glyph = glyph;
   readonly label = input<string | undefined>(undefined);
   readonly helperText = input<string | undefined>(undefined);

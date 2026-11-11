@@ -7,6 +7,7 @@ import type { TextAreaProps } from "./TextArea.types.js";
 // multi-line specifics (min-height, resize).
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/TextArea/TextArea.css";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function TextArea({
   label,
@@ -18,6 +19,7 @@ export function TextArea({
   className,
   ...textareaProps
 }: TextAreaProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 

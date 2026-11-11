@@ -9,7 +9,7 @@ interface RoadmapCardProps {
 
 /**
  * One roadmap card (SITE.md §7.4): the library `Card` on the design system's
- * `surface-primary` with a `border-secondary` hairline (the mockup's
+ * `interactive-secondary` fill with a `border-secondary` hairline (the mockup's
  * status-card), a heading-small task name, and the category as a DS `Tag`.
  * Cards with a `url` are whole-card links to the issue with a visible focus
  * ring; draft items render the badge + a subtle `draft` label and no link.

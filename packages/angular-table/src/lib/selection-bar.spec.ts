@@ -4,6 +4,7 @@ import { TestBed } from "@angular/core/testing";
 import { createDataTable } from "./core/create-data-table.js";
 import { UIO_DATA_TABLE } from "./core/table-context.js";
 import { UioTableSubBar } from "./components/table-sub-bar.js";
+import { UioTableSelectionFooter } from "./components/table-selection-footer.js";
 import { UioTableToolbar } from "./components/table-toolbar.js";
 import type { BulkAction, DataTableApi, TableColumn, UseDataTableOptions } from "./core/types.js";
 
@@ -118,5 +119,88 @@ describe("the selection's bulk actions", () => {
     expect(
       dom.querySelector(".data-table__selection-bar")?.closest(".data-table__toolbar"),
     ).not.toBeNull();
+  });
+});
+
+/**
+ * How many rows are selected, and the offer to reach the ones off screen, sit
+ * under the rows rather than in the toolbar. Mirrors React's "the selection
+ * footer".
+ */
+@Component({
+  standalone: true,
+  imports: [UioTableToolbar, UioTableSelectionFooter],
+  providers: [{ provide: UIO_DATA_TABLE, useFactory: () => api }],
+  template: `
+    <div uioTableToolbar></div>
+    <div uioTableSelectionFooter></div>
+  `,
+})
+class FooterHost {}
+
+function mountFooter() {
+  const options: UseDataTableOptions<Row> = {
+    label: "Team",
+    columns: COLUMNS,
+    data: DATA,
+    getRowId: (row: Row) => row.id,
+    selection: "multiple",
+    paginated: true,
+    pageSize: 2,
+  };
+  api = TestBed.runInInjectionContext(() => createDataTable<Row>(() => options));
+  const fixture = TestBed.createComponent(FooterHost);
+  fixture.detectChanges();
+  const dom = fixture.nativeElement as HTMLElement;
+  const settle = async () => {
+    TestBed.tick();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  };
+  return { dom, settle };
+}
+
+const footer = (dom: HTMLElement) => dom.querySelector(".data-table__selection-footer");
+
+describe("the selection footer", () => {
+  beforeEach(() => {
+    TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
+  });
+  afterEach(() => TestBed.resetTestingModule());
+
+  it("is absent while nothing is selected", () => {
+    const { dom } = mountFooter();
+    expect(footer(dom)).toBeNull();
+  });
+
+  it("holds the count, which the toolbar no longer repeats", async () => {
+    const { dom, settle } = mountFooter();
+    api.selection.toggle("1", true);
+    await settle();
+
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent?.trim()).toBe(
+      "1 row selected",
+    );
+    expect(dom.querySelectorAll(".data-table__selection-count")).toHaveLength(1);
+    // A page only partly ticked has nothing hidden to offer.
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+
+  it("offers the hidden rows as a real button once the page is fully selected", async () => {
+    const { dom, settle } = mountFooter();
+    api.selection.togglePage(true);
+    await settle();
+
+    const offer = footer(dom)?.querySelector("button");
+    expect(offer?.classList.contains("btn")).toBe(true);
+    // Counts what it adds: two of three are selected, so one is hidden.
+    expect(offer?.textContent?.trim()).toBe("Select 1 hidden row");
+
+    offer?.click();
+    await settle();
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent?.trim()).toBe(
+      "3 rows selected",
+    );
+    expect(footer(dom)?.querySelector("button")).toBeNull();
   });
 });

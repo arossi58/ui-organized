@@ -19,26 +19,19 @@
  *
  * Each component is also written for Svelte, Vue and Angular, at
  * `<out>/ai/<framework>/<Component>.md`, wherever that library ships it. The
- * surfaces come from `surfaceFromSources()` over the packages' own source, the
+ * surfaces come from `loadFrameworkData()` (src/framework-data.ts) over the packages' source, the
  * same function the docs site's framework switcher uses.
  *
  *   pnpm --filter @ui-organized/code-connect exec tsx scripts/generate-ai-docs.ts [outDir]
  */
 
-import { readFileSync, mkdirSync, writeFileSync, existsSync, readdirSync } from "node:fs";
+import { readFileSync, mkdirSync, writeFileSync, existsSync } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildComponentSpec, SITE_ORIGIN } from "../src/component-spec.js";
 import { parseTokens, renderTokensMarkdown } from "../src/tokens/catalog.js";
-import {
-  FRAMEWORK_INFO,
-  aiSpecPath,
-  resolveTarget,
-  surfaceFromSources,
-  type DocFramework,
-  type FrameworkSurface,
-  type FrameworkTarget,
-} from "../src/frameworks.js";
+import { FRAMEWORK_INFO, aiSpecPath, resolveTarget, type DocFramework, type FrameworkTarget } from "../src/frameworks.js";
+import { loadFrameworkData, OTHER_FRAMEWORKS as OTHER_FRAMEWORK_LIST } from "../src/framework-data.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -67,67 +60,26 @@ const versionOf = (dir: string): string =>
   ).version;
 const reactPkg = { version: versionOf("react") };
 
-// ─── The other three libraries' surfaces ─────────────────────────────────────
-
-/** A file's text, or nothing when the package isn't in this checkout. */
-function source(path: string): string[] {
-  const abs = join(REPO, path);
-  return existsSync(abs) ? [readFileSync(abs, "utf8")] : [];
-}
-
-/** `.ts` files directly in `dir`, then one level down — the globs the docs site uses. */
-function angularSourcesIn(dir: string, depths: Array<1 | 2>): string[] {
-  const root = join(REPO, dir);
-  if (!existsSync(root)) return [];
-  const isSource = (name: string) => name.endsWith(".ts") && !name.endsWith(".spec.ts");
-  const out: string[] = [];
-  for (const item of readdirSync(root, { withFileTypes: true })) {
-    if (depths.includes(1) && item.isFile() && isSource(item.name)) {
-      out.push(readFileSync(join(root, item.name), "utf8"));
-    }
-    if (depths.includes(2) && item.isDirectory()) {
-      for (const name of readdirSync(join(root, item.name)).filter(isSource)) {
-        out.push(readFileSync(join(root, item.name, name), "utf8"));
-      }
-    }
-  }
-  return out;
-}
-
-const OTHER_SURFACES: Record<Exclude<DocFramework, "react">, FrameworkSurface> = {
-  svelte: surfaceFromSources("svelte", {
-    barrels: source("packages/svelte/src/lib/index.ts"),
-    table: {
-      packageName: "@ui-organized/svelte-table",
-      barrels: source("packages/svelte-table/src/lib/index.ts"),
-    },
-  }),
-  vue: surfaceFromSources("vue", {
-    barrels: source("packages/vue/src/index.ts"),
-    table: {
-      packageName: "@ui-organized/vue-table",
-      barrels: source("packages/vue-table/src/index.ts"),
-    },
-  }),
-  angular: surfaceFromSources("angular", {
-    barrels: source("packages/angular/src/public-api.ts"),
-    table: {
-      packageName: "@ui-organized/angular-table",
-      barrels: source("packages/angular-table/src/public-api.ts"),
-    },
-    angularSources: [
-      ...angularSourcesIn("packages/angular/src/lib", [2]),
-      ...angularSourcesIn("packages/angular-table/src/lib", [1, 2]),
-    ],
-  }),
+// ─── The other three libraries ───────────────────────────────────────────────
+const FRAMEWORK_DATA = loadFrameworkData(REPO);
+const OTHER_SURFACES = {
+  svelte: FRAMEWORK_DATA.svelte.surface,
+  vue: FRAMEWORK_DATA.vue.surface,
+  angular: FRAMEWORK_DATA.angular.surface,
 };
-
-const OTHER_FRAMEWORKS = Object.keys(OTHER_SURFACES) as Array<Exclude<DocFramework, "react">>;
+const OTHER_FRAMEWORKS = [...OTHER_FRAMEWORK_LIST];
 const VERSIONS: Record<DocFramework, string> = {
   react: reactPkg.version,
   svelte: versionOf("svelte"),
   vue: versionOf("vue"),
   angular: versionOf("angular"),
+};
+
+/** Each library's own scan, when `scan` has written one; absent, its specs use React's props. */
+const FRAMEWORK_MANIFESTS: Partial<Record<DocFramework, ComponentManifest>> = {
+  svelte: FRAMEWORK_DATA.svelte.manifest,
+  vue: FRAMEWORK_DATA.vue.manifest,
+  angular: FRAMEWORK_DATA.angular.manifest,
 };
 
 /** Deprecated entries stay React-only: they exist so old links resolve. */
@@ -157,6 +109,9 @@ interface IndexRow {
 }
 const rows: IndexRow[] = [];
 const specs: string[] = [];
+/** Per library: its own index rows (by its own export names) and full spec texts. */
+const frameworkRows: Record<string, Array<{ symbol: string; file: string; summary: string }>> = { svelte: [], vue: [], angular: [] };
+const frameworkSpecs: Record<string, string[]> = { svelte: [], vue: [], angular: [] };
 
 for (const entry of manifest.components) {
   const related = (byCodePath.get(entry.codePath) ?? []).filter(
@@ -177,11 +132,20 @@ for (const entry of manifest.components) {
         if (t) relatedTargets[sibling.codeName] = t;
       }
       mkdirSync(join(aiDir, framework), { recursive: true });
-      writeFileSync(
-        join(out, aiSpecPath(framework, entry.codeName)),
-        buildComponentSpec(entry, manifest, latest, VERSIONS[framework], { framework, target, relatedTargets }),
-      );
+      const fwText = buildComponentSpec(entry, manifest, latest, VERSIONS[framework], {
+        framework,
+        target,
+        relatedTargets,
+        frameworkManifest: FRAMEWORK_MANIFESTS[framework],
+      });
+      writeFileSync(join(out, aiSpecPath(framework, entry.codeName)), fwText);
       frameworkCounts[framework]!.push(entry.codeName);
+      frameworkSpecs[framework]!.push(fwText);
+      frameworkRows[framework]!.push({
+        symbol: target.symbol,
+        file: entry.codeName,
+        summary: summarise(entry, related),
+      });
     }
   }
 
@@ -268,12 +232,12 @@ ${
 }
 ## Other frameworks
 
-The same components ship for Svelte, Vue and Angular. Each spec has a per-library
-copy with that library's import, markup and conventions — swap the path segment:
+The same components ship for Svelte, Vue and Angular. Each library has its own index
+and specs, with its own props, import, markup and conventions:
 
 ${OTHER_FRAMEWORKS.map(
   (fw) =>
-    `- ${FRAMEWORK_INFO[fw].label} (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
+    `- [${FRAMEWORK_INFO[fw].label}](${SITE_ORIGIN}/llms-${fw}.txt) (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
     `${frameworkCounts[fw]!.length} components): ${SITE_ORIGIN}/ai/${fw}/<Component>.md`,
 ).join("\n")}
 
@@ -294,6 +258,44 @@ writeFileSync(join(out, "llms.txt"), llms);
 writeFileSync(join(aiDir, "llms.txt"), llms);
 // `specs` follows the manifest's order, which is stable across scans.
 writeFileSync(join(out, "llms-full.txt"), [tokensMd, ...specs].join("\n\n---\n\n"));
+
+// One index and one full document per other library, so an agent in a Vue
+// project never has to read React's names to find its own.
+for (const fw of OTHER_FRAMEWORKS) {
+  const info = FRAMEWORK_INFO[fw];
+  const fwRows = [...frameworkRows[fw]!].sort((a, b) => a.symbol.localeCompare(b.symbol));
+  const index = `# UI Organized — ${info.label}
+
+> \`${info.packageName}\` v${VERSIONS[fw]}, ${fwRows.length} components. Each link below is the complete,
+> machine-verified spec for one component as ${info.label} ships it: its exact import, ${
+    FRAMEWORK_MANIFESTS[fw]
+      ? "every\n> prop scanned from the library's own source,"
+      : "the\n> props of the shared API it implements,"
+  } and the rules for using it.
+>
+> Do not generate code against this design system without reading the relevant file.
+> If a component you want is not listed here, it does not exist in ${info.packageName} — ask rather than invent one.
+>
+> For custom layout and custom elements, use only the design tokens in tokens.md.
+
+## Design tokens
+
+- [Tokens](${SITE_ORIGIN}/ai/tokens.md): Every colour, spacing, radius and type token, with its theme values and when to use it.
+
+## Components
+
+${fwRows.map((r) => `- [${r.symbol}](${SITE_ORIGIN}${aiSpecPath(fw, r.file)}): ${r.summary}`).join("\n")}
+
+## Optional
+
+- [Everything in one file](${SITE_ORIGIN}/llms-full-${fw}.txt): The tokens and every ${info.label} spec.
+- [Other libraries](${SITE_ORIGIN}/llms.txt): React, and the index of every library.
+
+Generated ${generatedAt} from manifest version ${manifest.manifestVersion}.
+`;
+  writeFileSync(join(out, `llms-${fw}.txt`), index);
+  writeFileSync(join(out, `llms-full-${fw}.txt`), [tokensMd, ...frameworkSpecs[fw]!].join("\n\n---\n\n"));
+}
 
 console.log(
   `✓ AI surface: ${rows.length} specs → ${aiDir.replace(`${REPO}/`, "")}/  + tokens.md, llms.txt, llms-full.txt` +
