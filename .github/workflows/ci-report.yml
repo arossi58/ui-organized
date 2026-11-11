@@ -8,7 +8,8 @@ name: CI Report
 # runs untrusted code with a writable token — which this repo deliberately avoids.
 #
 #   - PR (incl. forks)     → deploy a preview version + sticky PR comment
-#   - push/dispatch on main → deploy production (consumes the same tested artifact)
+#   - push/dispatch/nightly on main → deploy production (consumes the same tested
+#     artifact), if that commit is still main's newest
 #
 # Staging is deployed separately and manually (deploy-staging.yml).
 on:
@@ -23,11 +24,44 @@ permissions:
   deployments: write # surfaces the deploy in the PR/commit UI
 
 jobs:
+  # ── What there is to deploy ────────────────────────────────────────────────
+  # Asked rather than assumed. A draft PR's CI run skips every job, so it built
+  # no site, and a deploy that went looking for one would fail here instead.
+  # And since the nightly run and a push to main can overlap, whichever finished
+  # last would otherwise win production: a slow run of an older commit could put
+  # it back over a newer one. Only main's newest commit deploys; when main has
+  # moved on, the newer commit's own run deploys when it finishes.
+  check:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      site: ${{ steps.check.outputs.site }}
+      newest: ${{ steps.check.outputs.newest }}
+    steps:
+      - name: Look at the run and at main
+        id: check
+        uses: actions/github-script@v7
+        env:
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const { data: artifacts } = await github.rest.actions.listWorkflowRunArtifacts({
+              owner, repo, run_id: context.payload.workflow_run.id, name: 'site',
+            });
+            const { data: main } = await github.rest.repos.getBranch({ owner, repo, branch: 'main' });
+            const site = artifacts.total_count > 0;
+            const newest = main.commit.sha === process.env.HEAD_SHA;
+            if (!site) core.notice('This CI run built no site, so there is nothing to deploy.');
+            core.setOutput('site', String(site));
+            core.setOutput('newest', String(newest));
+
   # ── Per-PR preview ─────────────────────────────────────────────────────────
   preview:
+    needs: check
     if: >
       github.event.workflow_run.event == 'pull_request' &&
-      github.event.workflow_run.conclusion == 'success'
+      needs.check.outputs.site == 'true'
     runs-on: ubuntu-latest
     concurrency:
       group: preview-${{ github.event.workflow_run.head_branch }}
@@ -209,12 +243,18 @@ jobs:
   # The event-type clause is load-bearing: a fork PR opened from a branch literally
   # named `main` has head_branch == 'main', but its event is `pull_request`.
   # Requiring push/workflow_dispatch keeps production maintainer-only.
+  #
+  # `schedule` is the nightly full run, which deploys so the docs pick up its
+  # fresh test status.
   production:
+    needs: check
     if: >
-      github.event.workflow_run.conclusion == 'success' &&
+      needs.check.outputs.site == 'true' &&
+      needs.check.outputs.newest == 'true' &&
       github.event.workflow_run.head_branch == 'main' &&
       (github.event.workflow_run.event == 'push' ||
-       github.event.workflow_run.event == 'workflow_dispatch')
+       github.event.workflow_run.event == 'workflow_dispatch' ||
+       github.event.workflow_run.event == 'schedule')
     runs-on: ubuntu-latest
     concurrency:
       group: production-deploy
