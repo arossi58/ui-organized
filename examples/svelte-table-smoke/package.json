@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-svelte-table-smoke",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "type": "module",
   "description": "The smallest Svelte app that uses the documented data-table setup. Built and rendered by the svelte-table smoke gate.",

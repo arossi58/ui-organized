@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/table-core",
-  "version": "0.1.0",
+  "version": "6.0.0",
   "description": "Framework-neutral data table engine for the ui-organized design system: column model, prop builders, keyboard and selection behaviours, state stores, and the entire stylesheet.",
   "keywords": [
     "design-system",

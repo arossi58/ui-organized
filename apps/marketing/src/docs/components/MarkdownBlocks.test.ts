@@ -1,7 +1,6 @@
 /**
  * The block markdown renderer, checked against the real changelog bodies it
- * exists to render — plus the pending changeset, whose GFM table lands in
- * `packages/react/CHANGELOG.md` on the next release.
+ * exists to render, including the GFM tables in the 6.0.0 entries.
  */
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
@@ -12,7 +11,16 @@ import { getChangelogs } from "../changelog";
 const render = (markdown: string) =>
   renderToStaticMarkup(createElement(MarkdownBlocks, { markdown }));
 
-const [react, tokens] = getChangelogs();
+// By name, not position: a library's tab joins the list once its CHANGELOG.md
+// exists, which shifts everything after it.
+const changelogs = getChangelogs();
+function changelogOf(name: string) {
+  const found = changelogs.find((pkg) => pkg.name === name);
+  if (!found) throw new Error(`no changelog for ${name}`);
+  return found;
+}
+const react = changelogOf("@ui-organized/react");
+const tokens = changelogOf("@ui-organized/tokens");
 const release = (pkg: typeof react, version: string) =>
   pkg.releases.find((item) => item.version === version);
 
@@ -104,13 +112,14 @@ describe("MarkdownBlocks", () => {
     expect(html).not.toContain("**");
   });
 
-  it("renders every entry in both changelogs without leaving raw markers", () => {
-    for (const pkg of [react, tokens]) {
+  it("renders every entry in every changelog without leaving raw markers", () => {
+    for (const pkg of changelogs) {
       for (const item of pkg.releases) {
         for (const group of item.groups) {
           for (const entry of group.entries) {
             const html = render(entry.body);
             expect(html, `${pkg.slug}@${item.version}`).not.toContain("```");
+            expect(html, `${pkg.slug}@${item.version}`).not.toMatch(/>#{1,6} |\| --- \|/);
           }
         }
       }

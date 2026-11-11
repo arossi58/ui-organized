@@ -1,5 +1,14 @@
 # @ui-organized/resolver
 
+## 0.1.5
+
+### Patch Changes
+
+- Updated dependencies [e6613d2]
+- Updated dependencies
+- Updated dependencies [83201b5]
+  - @ui-organized/utils@4.0.0
+
 ## 0.1.4
 
 ### Patch Changes

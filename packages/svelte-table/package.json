@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/svelte-table",
-  "version": "0.1.0",
+  "version": "6.0.0",
   "description": "Svelte data table for the ui-organized design system: headless runes, styled parts, and a batteries-included <DataTable>, built on @ui-organized/table-core.",
   "keywords": [
     "design-system",
@@ -54,7 +54,7 @@
     "test:smoke": "node ../../scripts/smoke-table.mjs svelte"
   },
   "peerDependencies": {
-    "@ui-organized/svelte": ">=0.1.0",
+    "@ui-organized/svelte": ">=6.0.0",
     "svelte": ">=5.20.0"
   },
   "dependencies": {

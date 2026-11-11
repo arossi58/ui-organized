@@ -1,5 +1,12 @@
 # @ui-organized/figma-token-plugin
 
+## 0.1.5
+
+### Patch Changes
+
+- @ui-organized/resolver@0.1.5
+- @ui-organized/token-io@0.1.5
+
 ## 0.1.4
 
 ### Patch Changes

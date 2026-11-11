@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/angular-table",
-  "version": "0.1.0",
+  "version": "6.0.0",
   "description": "Angular data table for the ui-organized design system: headless signals, styled directives, and a batteries-included div[uioDataTable], built on @ui-organized/table-core.",
   "keywords": [
     "design-system",
@@ -53,7 +53,7 @@
     "@angular/cdk": ">=21.0.0",
     "@angular/common": ">=21.0.0",
     "@angular/core": ">=21.0.0",
-    "@ui-organized/angular": ">=0.1.0"
+    "@ui-organized/angular": ">=6.0.0"
   },
   "dependencies": {
     "@tanstack/angular-table": "^9.2.4",
