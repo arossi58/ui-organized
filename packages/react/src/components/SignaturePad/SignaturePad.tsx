@@ -5,6 +5,7 @@ import { FieldError } from "../FieldError/index.js";
 import { signaturePadStyles } from "@ui-organized/core";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
 import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_STROKE_WIDTH = 2;
 
@@ -39,7 +40,7 @@ export function SignaturePad({
       onDraw={onDraw && ((details) => onDraw(details.paths))}
       onDrawEnd={onDrawEnd && ((details) => onDrawEnd(details.paths, details.getDataUrl))}
       /* The ink is a canvas stroke in device pixels, so its width is a prop
-         rather than CSS. Its colour is themed — see SignaturePad.css. */
+         rather than CSS. Its color is themed — see SignaturePad.css. */
       drawing={{ size: strokeWidth }}
       required={required}
       disabled={disabled}
@@ -69,7 +70,7 @@ export function SignaturePad({
 
       {showClear && (
         <ArkSignaturePad.ClearTrigger asChild>
-          <Button intent="ghost" size={size} type="button" icon="refresh">
+          <Button intent="ghost" size={size} type="button" icon={glyph("refresh")}>
             {clearLabel}
           </Button>
         </ArkSignaturePad.ClearTrigger>

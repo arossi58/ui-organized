@@ -45,7 +45,7 @@ export const fieldErrorUsage: UsageGuide = {
   ],
   accessibility: [
     "Tie the message to its control so assistive technology reads the two together, and mark the control invalid.",
-    "Colour carries none of the meaning: the words have to say that something is wrong.",
+    "Color carries none of the meaning: the words have to say that something is wrong.",
     "Move focus to the first invalid control on submit, rather than expecting the reader to hunt for it.",
   ],
   content: [

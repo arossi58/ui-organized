@@ -11,7 +11,7 @@ const meta: Meta<typeof Range> = {
     docs: {
       description: {
         component:
-          "Range is a slider for picking a numeric value; configure it with `min` / `max` / `step` (or `snapValues` for uneven stops), `value` / `defaultValue` and `onValueChange` for state, `size`, and display options like `rangeLabels`, `hideValue`, and `formatValue`.",
+          "A slider for picking a numeric value.",
       },
     },
   },

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs } from "vue";
+import { computed, ref, useAttrs, onMounted } from "vue";
 import { Combobox as ArkCombobox, Field, createListCollection, useFilter } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, comboboxFieldStyles } from "@ui-organized/core";
@@ -8,6 +8,11 @@ import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
+import { glyph } from "../../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+// Text fields read pointer vs keyboard for a quiet focus state on click.
+onMounted(() => trackFocusModality());
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -98,7 +103,7 @@ const rootProps = computed(() =>
           :placeholder="placeholder"
         />
         <ArkCombobox.Trigger class="combobox-field__trigger" aria-label="Toggle options">
-          <Icon name="chevron-down" :size="iconSize" />
+          <Icon :name="glyph('chevron-down')" :size="iconSize" />
         </ArkCombobox.Trigger>
       </ArkCombobox.Control>
       <!-- Vue has no Ark Portal component — Teleport is built into the framework. -->
@@ -122,7 +127,7 @@ const rootProps = computed(() =>
             >
               <span class="combobox-popup__item-label">{{ item.label }}</span>
               <ArkCombobox.ItemIndicator class="combobox-popup__item-indicator">
-                <Icon name="check" :size="iconSize" />
+                <Icon :name="glyph('check')" :size="iconSize" />
               </ArkCombobox.ItemIndicator>
             </ArkCombobox.Item>
           </ArkCombobox.Content>

@@ -10,7 +10,7 @@ const spec: ParitySpec = {
   /**
    * Everything here happens before the icon component is reached, and all of
    * it is shared code in core that each framework has to call correctly:
-   * reading the provider config, resolving the canonical name, choosing the
+   * reading the provider config, resolving the registered name, choosing the
    * outline or solid cut, and computing the optical stroke. The stub renders
    * the two numbers that come out of it as attributes.
    *
@@ -58,7 +58,7 @@ const spec: ParitySpec = {
     // normal path rather than an edge case.
     {
       name: "provider/solid falls back to outline",
-      props: { name: "close", provider: { style: "solid" } },
+      props: { name: "x", provider: { style: "solid" } },
     },
     // The optical stroke curve, which is where a framework reading the config
     // wrongly shows up as a number rather than as a missing attribute.

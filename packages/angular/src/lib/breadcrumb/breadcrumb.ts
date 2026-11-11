@@ -1,7 +1,9 @@
 import { NgTemplateOutlet } from "@angular/common";
 import { Component, TemplateRef, computed, input } from "@angular/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 /** The icon size every library asks `Icon` for inside a crumb. */
 const ICON_SIZE = 16;
@@ -12,7 +14,7 @@ export interface BreadcrumbItem {
   /** Link target. Omit on the current (last) crumb. */
   href?: string;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconGlyph;
 }
 
 /**
@@ -69,7 +71,7 @@ export interface BreadcrumbItem {
               } @else if (separator() !== undefined) {
                 {{ separator() }}
               } @else {
-                <span uioIcon name="chevron-right" [size]="ICON_SIZE"></span>
+                <span uioIcon [name]="glyph('chevron-right')" [size]="ICON_SIZE"></span>
               }
             </span>
           }
@@ -83,6 +85,7 @@ export interface BreadcrumbItem {
   },
 })
 export class UioBreadcrumb {
+  protected readonly glyph = glyph;
   /** The crumb trail, ordered from root to current page. */
   readonly items = input<readonly BreadcrumbItem[]>([]);
   /**

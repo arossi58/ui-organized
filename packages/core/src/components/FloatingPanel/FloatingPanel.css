@@ -78,10 +78,11 @@
   cursor: grabbing;
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. Inset so it stays inside the panel's own border. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. Inset so it stays inside the panel's own border. */
 .floating-panel__drag:focus-visible {
-  box-shadow: inset 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
 }
 
 .floating-panel__title {
@@ -124,7 +125,8 @@
 }
 
 .floating-panel__close:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Resize handles ──────────────────────────────────────────────────────────

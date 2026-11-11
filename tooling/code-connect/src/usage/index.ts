@@ -65,11 +65,33 @@ import { dividerUsage } from "./guides/divider.js";
 import { scrollAreaUsage } from "./guides/scroll-area.js";
 import { avatarUsage } from "./guides/avatar.js";
 import { iconUsage } from "./guides/icon.js";
+import { pinInputUsage } from "./guides/pin-input.js";
+import { tagsInputUsage } from "./guides/tags-input.js";
+import { editableUsage } from "./guides/editable.js";
+import { ratingGroupUsage } from "./guides/rating-group.js";
+import { angleSliderUsage } from "./guides/angle-slider.js";
+import { colorPickerUsage } from "./guides/color-picker.js";
+import { signaturePadUsage } from "./guides/signature-pad.js";
+import { listboxUsage } from "./guides/listbox.js";
+import { treeViewUsage } from "./guides/tree-view.js";
+import { dataTableUsage } from "./guides/data-table.js";
+import { stepsUsage } from "./guides/steps.js";
+import { carouselUsage } from "./guides/carousel.js";
+import { chipUsage } from "./guides/chip.js";
+import { clipboardUsage } from "./guides/clipboard.js";
+import { qrCodeUsage } from "./guides/qr-code.js";
+import { timerUsage } from "./guides/timer.js";
+import { marqueeUsage } from "./guides/marquee.js";
+import { fileUploadUsage } from "./guides/file-upload.js";
+import { imageCropperUsage } from "./guides/image-cropper.js";
+import { floatingPanelUsage } from "./guides/floating-panel.js";
+import { splitterUsage } from "./guides/splitter.js";
+import { tourUsage } from "./guides/tour.js";
 
 /**
  * Keyed on `WrittenUsageSlug`, not `ComponentSlug` — every component that has a
  * page *except* the ones listed as pending in `slugs.ts`. That is what keeps
- * "you added a component and forgot its guide" a compile error while 23 known
+ * "you added a component and forgot its guide" a compile error while any known
  * gaps sit in an explicit, reviewed list rather than behind a `Partial`.
  */
 export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
@@ -118,6 +140,28 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "scroll-area": scrollAreaUsage,
   avatar: avatarUsage,
   icon: iconUsage,
+  "pin-input": pinInputUsage,
+  "tags-input": tagsInputUsage,
+  editable: editableUsage,
+  "rating-group": ratingGroupUsage,
+  "angle-slider": angleSliderUsage,
+  "color-picker": colorPickerUsage,
+  "signature-pad": signaturePadUsage,
+  listbox: listboxUsage,
+  "tree-view": treeViewUsage,
+  "data-table": dataTableUsage,
+  steps: stepsUsage,
+  carousel: carouselUsage,
+  chip: chipUsage,
+  clipboard: clipboardUsage,
+  "qr-code": qrCodeUsage,
+  timer: timerUsage,
+  marquee: marqueeUsage,
+  "file-upload": fileUploadUsage,
+  "image-cropper": imageCropperUsage,
+  "floating-panel": floatingPanelUsage,
+  splitter: splitterUsage,
+  tour: tourUsage,
 };
 
 export function getUsageGuide(slug: string | undefined): UsageGuide | undefined {

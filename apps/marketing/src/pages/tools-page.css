@@ -30,32 +30,19 @@
      sits above us now), rather than owning a full viewport. */
   flex: 1 1 auto;
   min-height: 0;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   /* Intentionally NOT `isolation: isolate`: isolating makes the whole tools area
      a single stacking context below the nav (z 500), which traps full-screen tool
      modals (icon browser, export dialogs) beneath the nav no matter their
-     z-index. The dot layer + stage already self-order via explicit z-index (0/1)
-     and the nav's own z-index keeps it above page content, so leaving this
+     z-index. The nav's own z-index keeps it above page content, so leaving this
      un-isolated lets a dialog-level modal sit above the nav. */
-  /* Re-tone the lattice to ink so it reads on cream (mirrors .docs-page). */
-  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
-}
-
-/* Hero dot lattice as the page backdrop, behind the nav + windowed shell. */
-.tools-page__dots {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
 }
 
 /* Fills the space under the in-flow nav. Side + bottom padding form the
    "window" inset (the nav already supplies the top gap). */
 .tools-page__stage {
   /* No z-index here: a positive z-index makes this a stacking context, which
-     would re-trap full-screen tool modals below the nav (z 500). The stage still
-     paints above the dot lattice via DOM order (the dots come first), so it
-     doesn't need an explicit z-index. */
+     would re-trap full-screen tool modals below the nav (z 500). */
   position: relative;
   display: flex;
   flex: 1 1 auto;
@@ -123,7 +110,7 @@
   /* Shared backdrop for every embedded tool. One surface across the whole
      gallery: each tool used to paint its own canvas (`surface-base` in the
      builder, palette and icon scaler; `surface-secondary` here), so switching
-     rail entries changed the page colour. Every tool root now inherits this
+     rail entries changed the page color. Every tool root now inherits this
      `surface-primary` — the same surface the UI Inspect guide reads on. */
   background: var(--color-surface-primary);
   overflow: hidden;
@@ -210,7 +197,7 @@
 
 /* Mobile note (≤720px): the tools are canvas-heavy apps built for a wide
    workspace, so on phones ToolsPage renders this instead of the sidebar + tool
-   panel. Centered on the same dot-lattice backdrop the route uses. */
+   panel. Centered on the route's page surface. */
 .tools-note {
   margin: auto;
   max-width: 420px;

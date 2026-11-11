@@ -32,6 +32,12 @@
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
   import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
+  import { glyph } from "../../icons/glyph.js";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   let {
     label,
@@ -125,7 +131,7 @@
     {disabled}
     aria-label={ariaLabel}
   >
-    <Icon name="calendar" size={iconSize} />
+    <Icon name={glyph("calendar")} size={iconSize} />
   </button>
 {/snippet}
 
@@ -135,7 +141,7 @@
     {@render calendarButton()}
     <!--
       Native date inputs are never `:placeholder-shown`; flag empty so the
-      mm/dd/yyyy chrome renders in the placeholder colour.
+      mm/dd/yyyy chrome renders in the placeholder color.
     -->
     <input
       use:captureInput={side}
@@ -183,7 +189,7 @@
           "aria-label": `${startLabel} — choose date`,
         })}
       >
-        <Icon name="calendar" size={iconSize} />
+        <Icon name={glyph("calendar")} size={iconSize} />
       </button>
     {/snippet}
   </ArkPopover.Trigger>

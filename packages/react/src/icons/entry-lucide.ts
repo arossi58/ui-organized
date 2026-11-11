@@ -1,8 +1,9 @@
 /**
  * `@ui-organized/react/icons/lucide` — the Lucide adapter.
  *
- * Importing this module registers Lucide, so `<IconProvider library="lucide">`
- * resolves canonical names. This is the *only* module in the package that
+ * Importing this module registers Lucide, so `<IconProvider library=\"lucide\">`
+ * draws the components' own glyphs from it; `registerIcons` below adds the
+ * icons you name. This is the *only* module in the package that
  * imports `lucide-react`; nothing here is reachable from the main entry, which
  * is what keeps the other two icon libraries out of your bundle.
  *
@@ -19,7 +20,13 @@
  */
 
 import { lucideIconSet } from "./lucide.js";
-import { registerIconSet, type IconSet } from "./registry.js";
+import type { ComponentType } from "react";
+import {
+  registerIconSet,
+  type IconSet,
+  registerIcons as registerNamedIcons,
+  type RegisterIconsOptions,
+} from "./registry.js";
 
 export const lucideIcons: IconSet = {
   library: "lucide",
@@ -34,3 +41,23 @@ export const lucideIcons: IconSet = {
 registerIconSet(lucideIcons);
 
 export { lucideIconSet };
+
+/**
+ * Make Lucide icons available to `<Icon name>` under their own Lucide names.
+ *
+ * Pass them as imported and the names follow from the exports
+ * (`Camera` → `"camera"`), or key them by native name yourself where
+ * the export can't be read back unambiguously (`{ "arrow-down-0-1": ArrowDown01 }`).
+ * Only what you register reaches your bundle.
+ *
+ * ```ts
+ * import { Camera, Rocket } from "lucide-react";
+ * registerIcons({ Camera, Rocket });
+ * ```
+ */
+export function registerIcons(
+  icons: Record<string, ComponentType<any>>,
+  options?: RegisterIconsOptions,
+): void {
+  registerNamedIcons("lucide", icons, options);
+}

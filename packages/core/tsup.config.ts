@@ -7,6 +7,10 @@ import { defineConfig } from "tsup";
  * imported by every framework package and must stay free of DOM and framework
  * references.
  *
+ * `focus-modality` is the one DOM-touching helper (pointer vs keyboard, for the
+ * text fields' focus state). It stays out of `index` so `index` never touches
+ * the DOM; the libraries import it by subpath.
+ *
  * `styles` exists only for its side effects: it imports every component
  * stylesheet in cascade order, so esbuild emits `dist/styles.css` as one
  * bundle. This is deliberately the *same mechanism* `@ui-organized/react` uses
@@ -18,15 +22,20 @@ import { defineConfig } from "tsup";
  * `scripts/build-css.mjs`, because bundlers cannot do that and the framework
  * packages import those files individually to keep CSS tree-shakeable.
  */
-export default defineConfig({
+export default defineConfig((options) => ({
   entry: {
     index: "src/index.ts",
     contract: "src/contract.ts",
+    "focus-modality": "src/focusModality.ts",
     styles: "src/styles.ts",
   },
   format: ["esm", "cjs"],
-  dts: { entry: ["src/index.ts", "src/contract.ts"] },
+  dts: { entry: { index: "src/index.ts", contract: "src/contract.ts", "focus-modality": "src/focusModality.ts" } },
   splitting: false,
   sourcemap: false,
-  clean: true,
-});
+  // Clean only for one-off builds. A watcher that wipes dist on start races
+  // every package reading it: under `pnpm dev` all watchers start together, and
+  // a dependent whose first build lands in that gap fails and stays broken until
+  // one of its own files changes. Watch builds overwrite in place instead.
+  clean: !options.watch,
+}));

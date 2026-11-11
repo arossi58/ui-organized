@@ -9,17 +9,30 @@
  */
 import { Link } from "react-router-dom";
 import { DocsPageHeader, DocsProse, DocsSection, EcosystemDiagram } from "../components";
-import { docsComponents } from "../registry";
 import { LINKS } from "../../lib/links";
 import styles from "../components/content.module.css";
 
+// The ones an app installs, grouped the way a reader picks them: one library,
+// optionally its table, plus the shared token and tooling packages. Internal
+// packages (resolver, export, token-io) are published as dependencies of these
+// and left out on purpose.
 const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/react", "React component library, built on Ark UI"],
+  ["@ui-organized/svelte", "Svelte 5 component library, built on Ark UI"],
+  ["@ui-organized/vue", "Vue 3 component library, built on Ark UI"],
+  ["@ui-organized/angular", "Angular component library, built on the Angular CDK"],
+  [
+    "@ui-organized/{react,svelte,vue,angular}-table",
+    "The data table for each library, installed alongside it",
+  ],
+  ["@ui-organized/core", "The framework-neutral stylesheets and variant recipes all four share"],
+  ["@ui-organized/table-core", "The framework-neutral table engine the four table packages share"],
   ["@ui-organized/tokens", "Design tokens: typed exports and generated CSS variables"],
   ["@ui-organized/schema", "Zod schema / types for the theme config"],
-  ["@ui-organized/utils", "Colour, type-scale, spacing & semantic-token utilities"],
-  ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens"],
-  ["@ui-organized/cli", "uiorg: applies a theme bundle, then checks it actually works"],
+  ["@ui-organized/utils", "Color, type-scale, spacing & semantic-token utilities"],
+  ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens (any framework)"],
+  ["@ui-organized/cli", "uiorg: applies a theme bundle, and sets up AI coding agents"],
+  ["@ui-organized/mcp", "MCP server giving AI agents each library's real components and tokens"],
 ];
 
 export function DocsIntroPage() {
@@ -29,19 +42,16 @@ export function DocsIntroPage() {
         title="UI Organized"
         lede={
           <>
-            <strong>An open-source, token-driven design system ecosystem.</strong> One theme
-            config drives design and code, so a brand colour chosen once looks identical in
-            Figma, in the component library, and in the products built with it. These docs are
-            the live component reference, built with the system itself.
+            UI Organized is an open-source, token-driven design system. One
+            theme config drives design and code, so a brand color chosen once
+            looks identical in Figma, in the component library, and in the
+            products built with it.
           </>
         }
       />
 
       <DocsProse>
-        <DocsSection
-          title="The ecosystem"
-          subtitle="One config flows through every layer."
-        >
+        <DocsSection title="The ecosystem">
           <EcosystemDiagram />
         </DocsSection>
 
@@ -71,8 +81,8 @@ export function DocsIntroPage() {
         <DocsSection title="Tools">
           <ul>
             <li>
-              <strong>Figma plugin.</strong> Pushes the same config into Figma as variables,
-              modes and styles, so design and code stay in step.
+              <strong>Figma plugin.</strong> Pushes the same config into Figma as variables
+              and modes, so design and code stay in step.
             </li>
             <li>
               <strong>Theme builder.</strong> <Link to="/tools">A web tool</Link> to pick a
@@ -85,9 +95,10 @@ export function DocsIntroPage() {
               override it. See <Link to="/docs/theming">Theming</Link>.
             </li>
             <li>
-              <strong>Storybook.</strong> The interactive playground, with per-story controls
-              and the visual-regression harness, at{" "}
-              <a href={LINKS.storybook}>{LINKS.storybook}</a>.
+              <strong>AI agents.</strong> Run <code>npx @ui-organized/cli init</code> once, then
+              ask your coding agent for a screen, a component or a Figma link. It builds with
+              your library&apos;s real components and tokens instead of inventing them. See{" "}
+              <Link to="/docs/use-with-ai">Use with AI</Link>.
             </li>
           </ul>
         </DocsSection>
@@ -101,20 +112,20 @@ export function DocsIntroPage() {
             </li>
             <li>
               <strong>Design ↔ code parity.</strong> The Figma plugin emits the <em>same</em>{" "}
-              config the code consumes, so there's no hand-translation to drift.
+              config the code consumes, so there's no hand-translation.
             </li>
             <li>
-              <strong>Accessible by construction.</strong> Brand steps are contrast-checked
-              against on-brand text, and each token carries its own assignment per mode, so
-              light and dark are both first-class.
+              <strong>Accessible by construction.</strong> Brand steps are contrast-checked against on-brand text, and each token carries its own assignment per mode.
             </li>
             <li>
-              <strong>Framework-agnostic foundation.</strong> Tokens ship as plain CSS
-              variables and typed exports; the React library is one consumer, not the boundary.
+              <strong>One core, four libraries.</strong> Tokens ship as plain CSS variables, and every component's styles and variants live in <code>@ui-organized/core</code>.
+              React, Svelte, Vue and Angular render the same classes from it, and a parity gate
+              checks that their markup agrees.
             </li>
             <li>
-              <strong>Built on Ark UI.</strong> Behaviour, focus management and accessibility
-              come from a headless layer; the design system owns only the look.
+              <strong>Headless behaviour underneath.</strong> Focus management, keyboard
+              handling and accessibility come from a headless layer: Ark UI for React, Svelte
+              and Vue, the Angular CDK for Angular. The design system owns only the look.
             </li>
           </ul>
         </DocsSection>
@@ -122,7 +133,7 @@ export function DocsIntroPage() {
         <DocsSection title="Resources">
           <ul>
             <li>
-              <a href={LINKS.npmReact} target="_blank" rel="noreferrer">
+              <a href={LINKS.npmOrg} target="_blank" rel="noreferrer">
                 npm: @ui-organized packages
               </a>
             </li>
@@ -137,12 +148,6 @@ export function DocsIntroPage() {
               </a>
             </li>
           </ul>
-          <p>
-            <Link to="/docs/get-started">Get started</Link> covers installing and wiring up the
-            stylesheets. <Link to="/docs/theming">Theming</Link> covers changing the tokens,{" "}
-            <Link to="/docs/foundations/color">Foundations</Link> is the token reference, and
-            all {docsComponents.length} components are in the sidebar.
-          </p>
         </DocsSection>
       </DocsProse>
     </>

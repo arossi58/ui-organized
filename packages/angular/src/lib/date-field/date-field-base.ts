@@ -11,6 +11,7 @@ import {
   model,
   signal,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor } from "@angular/forms";
 import {
@@ -30,6 +31,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { coarsePointer } from "./coarse-pointer.js";
 import { openDatePicker } from "./open-date-picker.js";
 import { UioDatePopover } from "./date-popover.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type DateFieldSize = NonNullable<InputVariants["size"]>;
 
@@ -66,6 +68,9 @@ export abstract class UioDateFieldBase
   extends UioPart
   implements AfterViewInit, ControlValueAccessor
 {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   readonly scope = "field";
   readonly part = "root";
 

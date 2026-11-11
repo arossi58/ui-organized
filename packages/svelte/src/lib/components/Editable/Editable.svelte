@@ -6,6 +6,11 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { EditableProps } from "./Editable.types.js";
   import "@ui-organized/core/components/Editable/Editable.css";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   let {
     label,

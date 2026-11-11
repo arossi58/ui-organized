@@ -17,6 +17,7 @@ import type {
   TableSize,
   TableVariant,
   VirtualConfig,
+  ReorderSetting,
 } from "@ui-organized/table-core";
 import { createDataTable } from "./core/create-data-table.js";
 import { UIO_DATA_TABLE } from "./core/table-context.js";
@@ -34,7 +35,9 @@ import type {
 } from "./core/types.js";
 import { UioToolbar } from "@ui-organized/angular";
 import { UioTable, UioTableBody, UioTableHeader, UioTableViewport } from "./components/table.js";
+import { UioTableCards } from "./components/table-cards.js";
 import { UioTablePagination } from "./components/table-pagination.js";
+import { UioTableSelectionFooter } from "./components/table-selection-footer.js";
 import { UioTableSubBar } from "./components/table-sub-bar.js";
 import { UioTableToolbar } from "./components/table-toolbar.js";
 
@@ -69,6 +72,8 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
     UioTableHeader,
     UioTableBody,
     UioTablePagination,
+    UioTableSelectionFooter,
+    UioTableCards,
   ],
   providers: [
     {
@@ -85,10 +90,22 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
     <div uioTableToolbar></div>
     <div uioTableSubBar></div>
 
-    <div uioTableViewport>
-      <thead uioTableHeader></thead>
-      <tbody uioTableBody></tbody>
-    </div>
+    <!--
+      Below the breakpoint the table is replaced by one card per row, not
+      hidden: both trees at once would double the DOM and defeat
+      virtualization on exactly the devices that can least afford it.
+    -->
+    @if (cards()) {
+      <div uioTableCards></div>
+      <!-- No viewport to ride in: the table view's footer lives inside the
+           viewport, so only card mode places one here. -->
+      <div uioTableSelectionFooter></div>
+    } @else {
+      <div uioTableViewport>
+        <thead uioTableHeader></thead>
+        <tbody uioTableBody></tbody>
+      </div>
+    }
 
     @if (paginated()) {
       <div uioTablePagination></div>
@@ -117,7 +134,19 @@ export class UioDataTable<T extends RowData> implements OnInit {
   readonly paginated = input(false);
   readonly pageSize = input<number | undefined>(undefined);
   readonly resizable = input(false);
-  readonly reorderable = input(false);
+  /**
+   * Lets people rearrange the columns by dragging a header, or with its move
+   * buttons (and Alt+Arrow on a focused header). Adds "Reset column order" to
+   * the Columns menu.
+   *
+   * - `true` / `"always"`: movable at any time; the move buttons appear on
+   *   hover and focus.
+   * - `"toggle"`: movable only in a reorder mode, switched from the toolbar.
+   *
+   * The table's own columns (selection, row actions) and pinned columns stay
+   * where they are.
+   */
+  readonly reorderable = input<ReorderSetting>(false);
   readonly hideableColumns = input(false);
   readonly sortMenu = input(true);
   readonly exportable = input(false);
@@ -222,4 +251,6 @@ export class UioDataTable<T extends RowData> implements OnInit {
   ngOnInit(): void {
     this.ensureApi();
   }
+
+  protected readonly cards = computed(() => this.ensureApi().mode() === "cards");
 }

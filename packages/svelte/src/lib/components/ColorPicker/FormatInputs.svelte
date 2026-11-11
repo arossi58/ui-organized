@@ -46,7 +46,7 @@
   <Select
     class="color-picker__format"
     size="sm"
-    label="Colour notation"
+    label="Color notation"
     options={COLOR_NOTATIONS}
     value={format}
     onValueChange={(value) => onFormatChange(value as ColorNotation)}

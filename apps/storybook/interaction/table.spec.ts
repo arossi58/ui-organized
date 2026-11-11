@@ -170,6 +170,92 @@ test.describe("Data Table inline editing", () => {
       expect(original).not.toBe("42");
     },
   );
+
+  storyTest(
+    "components-data-display-data-table--inline-editing",
+    "marks editable columns, and opens an editor with one click",
+    async (page) => {
+      // The pencil is on the editable column's header and no other, and says
+      // so in words too: it is part of the header every cell is announced with.
+      const seatsHead = page.locator('.data-table thead th[data-column-id="seats"]');
+      await expect(seatsHead.locator(".data-table__edit-icon")).toBeVisible();
+      await expect(seatsHead).toContainText("editable");
+      await expect(page.locator(".data-table thead .data-table__edit-icon")).toHaveCount(1);
+
+      // Hovering draws the cell as the field it becomes; a read-only cell
+      // beside it stays as it was.
+      const seatsCell = page.locator('.data-table [data-cell="0:5"]');
+      const outline = (cell: typeof seatsCell) =>
+        cell.evaluate((el) => getComputedStyle(el).outlineStyle);
+      await seatsCell.hover();
+      expect(await outline(seatsCell)).toBe("solid");
+      const nameCell = page.locator('.data-table [data-cell="0:0"]');
+      await nameCell.hover();
+      expect(await outline(nameCell)).not.toBe("solid");
+
+      // One click, not two: the editor opens with focus in it.
+      await seatsCell.click();
+      const editor = page.locator(".data-table__editor input");
+      await expect(editor).toBeFocused();
+
+      // A click inside the open editor keeps the draft rather than restarting.
+      await editor.fill("9");
+      await editor.click();
+      await expect(editor).toHaveValue("9");
+      await page.keyboard.press("Enter");
+      await expect(seatsCell).toHaveText("9");
+    },
+  );
+});
+
+// ── Card mode ────────────────────────────────────────────────────────────────
+test.describe("Data Table card mode", () => {
+  storyTest(
+    "components-data-display-data-table--cards",
+    "filters and sorts from sheets, counted on their buttons",
+    async (page) => {
+      // Everything is reached by role. The sheet is modal, so anything it
+      // opens that portals outside it is aria-hidden — and `getByRole` skips
+      // aria-hidden content, so this would time out on an unreachable menu.
+      await page.getByRole("button", { name: /^Filter/ }).click();
+      const sheet = page.getByRole("dialog", { name: "Filter" });
+      await expect(sheet).toBeVisible();
+      // Every filterable field is already there, one collapsed section each,
+      // so the whole list fits: nothing to add before choosing a value.
+      for (const field of ["Role", "Team", "Status"]) {
+        await expect(sheet.getByRole("button", { name: new RegExp(`^${field}`) })).toHaveAttribute(
+          "aria-expanded",
+          "false",
+        );
+      }
+      const role = sheet.getByRole("button", { name: /^Role/ });
+      await role.click();
+      await expect(role).toHaveAttribute("aria-expanded", "true");
+      await sheet.getByRole("option", { name: /Engineer/ }).click();
+      await expect(sheet.getByRole("option", { name: /Engineer/ })).toHaveAttribute(
+        "aria-selected",
+        "true",
+      );
+      // Collapsed again, the section keeps saying what it filters by.
+      await role.click();
+      await expect(role).toHaveAttribute("aria-expanded", "false");
+      await expect(role).toContainText("Engineer");
+      await sheet.getByRole("button", { name: "Done" }).click();
+      await expect(sheet).toBeHidden();
+
+      // Applied filters are a count on the button, not a row of chips.
+      const filter = page.getByRole("button", { name: /^Filter/ });
+      await expect(filter).toHaveAccessibleName(/1 applied/);
+      await expect(page.locator(".data-table__subbar")).toHaveCount(0);
+      await expect(page.locator(".data-table__card")).toHaveCount(1);
+
+      await page.getByRole("button", { name: /^Sort/ }).click();
+      const sortSheet = page.getByRole("dialog", { name: "Sort" });
+      await sortSheet.locator("label").filter({ hasText: /^Name$/ }).click();
+      await sortSheet.getByRole("button", { name: "Done" }).click();
+      await expect(page.getByRole("button", { name: /^Sort/ })).toHaveAccessibleName(/1 applied/);
+    },
+  );
 });
 
 // ── Row detail ───────────────────────────────────────────────────────────────
@@ -237,14 +323,18 @@ test.describe("Data Table header", () => {
       const first = async () =>
         (await page.locator(".data-table__card-title").first().innerText()).trim();
 
-      await page.getByRole("button", { name: "Sort" }).click();
-      await page.getByRole("menuitemradio", { name: "Name" }).click();
+      // A sheet from a labelled button, rather than the desktop's icon menu.
+      // Ark's radios hide their <input>; the label is what a finger hits.
+      const sheet = page.getByRole("dialog", { name: "Sort" });
+      await page.getByRole("button", { name: /^Sort/ }).click();
+      await sheet.locator("label").filter({ hasText: /^Name$/ }).click();
       await expect.poll(first).not.toBe("");
       const ascending = await first();
 
-      await page.getByRole("button", { name: "Sort" }).click();
-      await page.getByRole("menuitemradio", { name: "Descending" }).click();
+      await sheet.locator("label").filter({ hasText: "Descending" }).click();
       await expect.poll(first).not.toBe(ascending);
+      await sheet.getByRole("button", { name: "Done" }).click();
+      await expect(sheet).toBeHidden();
     },
   );
 });
@@ -258,7 +348,8 @@ test.describe("Data Table select-all", () => {
       // The header checkbox used to enumerate all 100,000 ids on one click,
       // which took minutes of blocking work and read to the user as a crashed
       // tab. It now governs the rendered window, and the selection bar offers
-      // the whole set as a flag that costs nothing.
+      // the whole set as a flag that costs nothing. The count and that offer
+      // live in the footer under the rows; the bar holds the bulk actions.
       const rendered = await page.locator(ROW).count();
       expect(rendered).toBeLessThan(200); // virtualized, not 100,000
 
@@ -273,11 +364,19 @@ test.describe("Data Table select-all", () => {
       // Exactly the rendered rows, not the dataset.
       await expect(page.locator(".data-table__selection-count")).toContainText(String(rendered));
 
-      // …and the escape hatch to everything is right there.
-      const all = page.getByRole("button", { name: /Select all 100000 matching/ });
+      // …and the escape hatch to everything is right there, counted as the
+      // rows it would add.
+      const hidden = (100_000 - rendered).toLocaleString("en-US");
+      const all = page.getByRole("button", { name: `Select ${hidden} hidden rows` });
       await expect(all).toBeVisible();
+      // The footer grows open over 200ms and the button rides up with it.
+      // Playwright's stability check can pass in the slow tail of that ease,
+      // and in Firefox and WebKit the click then lands where the button was.
+      await page
+        .locator(".data-table__selection-footer")
+        .evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));
       await all.click();
-      await expect(page.locator(".data-table__selection-count")).toContainText("100000");
+      await expect(page.locator(".data-table__selection-count")).toContainText("100,000");
     },
   );
 });
@@ -285,19 +384,19 @@ test.describe("Data Table select-all", () => {
 // ── Filters ──────────────────────────────────────────────────────────────────
 test.describe("Data Table filters", () => {
   const CHIP = ".data-table__filter-chip";
-  // Every prop but `className` lands on the design-system Chip's body, so the
-  // `data-*` hooks are on the button rather than on the wrapper.
-  const BODY = `${CHIP} .chip__body`;
-  const column = (id: string) => `${BODY}[data-column-id="${id}"]`;
+  // The chip is segmented: field, operator and value are each a button that
+  // opens the menu for that one part. The `data-*` hooks are on the chip.
+  const column = (id: string) => `${CHIP}[data-column-id="${id}"]`;
+  const filter = (id: string) => `${CHIP}[data-filter-id="${id}"]`;
+  const FIELD = ".chip__segment--label";
+  const OPERATOR = ".chip__segment--operator";
+  const VALUE = ".chip__segment--value";
   const chipText = async (page: import("@playwright/test").Page, index = 0) =>
-    (await page.locator(BODY).nth(index).innerText()).replace(/\s+/g, " ").trim();
-  /** Removal lives inside the chip's editor, where the design puts it. */
+    (await page.locator(CHIP).nth(index).innerText()).replace(/\s+/g, " ").trim();
+  /** Removal lives in the field segment's menu, which every chip has. */
   const removeChip = async (page: import("@playwright/test").Page, selector: string) => {
-    await page.locator(selector).click();
-    await page
-      .locator('[role="dialog"][data-state="open"]')
-      .getByRole("button", { name: "Remove" })
-      .click();
+    await page.locator(selector).locator(FIELD).click();
+    await page.getByRole("menuitem", { name: "Remove filter" }).click();
   };
 
   storyTest(
@@ -338,7 +437,7 @@ test.describe("Data Table filters", () => {
 
       // Removing it must not change the rows, because it was never filtering.
       const before = await page.locator(ROW).count();
-      await removeChip(page, `${CHIP}.chip--incomplete .chip__body`);
+      await removeChip(page, `${CHIP}.chip--incomplete`);
       await expect(page.locator(CHIP)).toHaveCount(2);
       expect(await page.locator(ROW).count()).toBe(before);
     },
@@ -346,23 +445,33 @@ test.describe("Data Table filters", () => {
 
   storyTest(
     "components-data-display-data-table--filtering",
-    "edits the operator in place and re-filters",
+    "edits the operator from its own segment and re-filters",
     async (page) => {
       const before = await page.locator(ROW).count();
-      await page.locator('[data-filter-id="f1"]').click();
+      await page.locator(filter("f1")).locator(OPERATOR).click();
 
-      const editor = page.getByRole("dialog", { name: "Role" });
-      await expect(editor).toBeVisible();
-
-      // The operator picker is portalled INTO the editor: a popup portalled to
-      // <body> would read as an outside click and dismiss the non-modal
-      // popover on the first interaction.
-      await editor.locator('[data-scope="select"][data-part="trigger"]').click();
-      await expect(editor).toBeVisible();
-      await page.getByRole("option", { name: "is none of" }).click();
+      // The chip being changed fills with brand while its menu is open.
+      await expect(page.locator(filter("f1"))).toHaveClass(/chip--selected/);
+      await page.getByRole("menuitemradio", { name: "is none of" }).click();
 
       await expect.poll(() => chipText(page, 0)).toContain("is none of");
       await expect.poll(async () => page.locator(ROW).count()).not.toBe(before);
+      await expect(page.locator(filter("f1"))).not.toHaveClass(/chip--selected/);
+    },
+  );
+
+  storyTest(
+    "components-data-display-data-table--filtering",
+    "moves a condition to another field from its field segment",
+    async (page) => {
+      // "Role is any of …" moved to Status: both are enums, but one column's
+      // option ids mean nothing on another, so the value starts over.
+      await page.locator(filter("f1")).locator(FIELD).click();
+      await page.getByRole("menuitemradio", { name: "Status" }).click();
+
+      await expect(page.locator(filter("f1"))).toHaveAttribute("data-column-id", "status");
+      await expect(page.locator(filter("f1")).locator(FIELD)).toHaveText("Status");
+      await expect(page.locator(filter("f1"))).toHaveClass(/chip--incomplete/);
     },
   );
 
@@ -378,15 +487,20 @@ test.describe("Data Table filters", () => {
         .getByRole("menuitem", { name: /Joined/ })
         .click();
 
-      // Every chip owns a Popover, so several dialogs share the name "Joined";
-      // the open one is the only unambiguous handle.
+      // The new chip's value editor opens on its own; the operator is its own
+      // segment, so it is changed there.
+      const added = page.locator(column("joined")).last();
+      await added.locator(OPERATOR).click();
+      await page.getByRole("menuitemradio", { name: "is before" }).click();
+
+      // Every chip owns a Popover, so several dialogs share a name; the open
+      // one is the only unambiguous handle.
+      await added.locator(VALUE).click();
       const editor = page.locator('[role="dialog"][data-state="open"]');
-      await editor.locator('[data-scope="select"][data-part="trigger"]').click();
-      await page.getByRole("option", { name: "is before" }).click();
       await editor.locator('input[type="date"]').fill("2021-06-01");
-      // Closing by clicking the chip again, not with Escape — Escape reverts
+      // Closing by clicking the segment again, not with Escape — Escape reverts
       // the draft by design, which is asserted separately below.
-      await page.locator(column("joined")).last().click();
+      await added.locator(VALUE).click();
 
       const joinedChips = page.locator(column("joined"));
       await expect(joinedChips).toHaveCount(2);
@@ -409,7 +523,7 @@ test.describe("Data Table filters", () => {
       // The pattern analysis asks for this explicitly, and it is the single
       // most fragile thing here: Ark focuses the popover's first focusable
       // child a frame after mount, which is the operator picker.
-      await page.locator('[data-filter-id="f3"]').click();
+      await page.locator(filter("f3")).locator(VALUE).click();
       await expect
         .poll(async () => page.evaluate(() => document.activeElement?.tagName))
         .toBe("INPUT");
@@ -424,7 +538,7 @@ test.describe("Data Table filters", () => {
     "Escape abandons an edit rather than committing it",
     async (page) => {
       const before = await chipText(page, 1);
-      await page.locator('[data-filter-id="f2"]').click();
+      await page.locator(filter("f2")).locator(VALUE).click();
       await page
         .locator('[role="dialog"][data-state="open"] input[type="date"]')
         .fill("2022-03-03");
@@ -440,11 +554,12 @@ test.describe("Data Table filters", () => {
     "components-data-display-data-table--filtering",
     "names every control, and never nests a button inside a button",
     async (page) => {
-      // The design-system Chip keeps its dismiss control a SIBLING of its body.
-      // The filter chip uses no dismiss at all — removal lives in the editor —
-      // so the chip is one target the width of the words it shows.
+      // Each segment is its own button, and they are SIBLINGS: a button inside
+      // a button is invalid HTML and an axe `nested-interactive` violation.
       expect(await page.locator(`${CHIP} button button`).count()).toBe(0);
-      await expect(page.locator(`${CHIP} button`).first()).toHaveClass(/chip__body/);
+      await expect(page.locator(`${CHIP} > button`).first()).toHaveClass(/chip__segment--label/);
+      // The group carries the whole sentence, so each segment is heard in context.
+      await expect(page.locator(filter("f1"))).toHaveAttribute("aria-label", /^Filter: Role /);
 
       // The header's filter button is icon-only, so `aria-label` is its whole
       // name — and, because zag names a menu after its trigger, the menu's too.
@@ -456,7 +571,7 @@ test.describe("Data Table filters", () => {
     "components-data-display-data-table--filtering",
     "moves focus somewhere deliberate when a chip is removed",
     async (page) => {
-      await removeChip(page, `${BODY} >> nth=0`);
+      await removeChip(page, `${CHIP} >> nth=0`);
       // Never dropped to <body>, which would lose a keyboard user entirely.
       await expect
         .poll(async () => page.evaluate(() => document.activeElement?.tagName))
@@ -501,25 +616,11 @@ test.describe("Data Table filters", () => {
 
   storyTest(
     "components-data-display-data-table--filtering",
-    "draws the relation for the six operators that have a glyph",
+    "spells every relation, with no glyphs",
     async (page) => {
-      // "Role is any of …" is drawn; "Joined is after …" is spelled. Both chips
-      // are on screen at once, which is the only place the two can be compared.
-      const drawn = page.locator(`${column("role")} .chip__operator`);
-      await expect(drawn).toHaveCount(1);
-      await expect(drawn.locator("svg")).toHaveCount(1);
-      // The glyph replaces the words on screen but not in the accessible name.
-      await expect(drawn).toHaveAttribute("aria-label", "is any of");
-      await expect(page.locator(column("joined")).locator(".chip__operator")).toHaveCount(0);
-      await expect(page.locator(column("joined"))).toContainText("is after");
-
-      // Switching to an operator without a glyph swaps drawn back to spelled.
-      await page.locator(column("role")).click();
-      const editor = page.locator('[role="dialog"][data-state="open"]');
-      await editor.locator('[data-scope="select"][data-part="trigger"]').click();
-      await page.getByRole("option", { name: "is none of" }).click();
-      await expect(page.locator(`${column("role")} .chip__operator`)).toHaveCount(0);
-      await expect.poll(() => chipText(page, 0)).toContain("is none of");
+      await expect(page.locator(column("role")).locator(OPERATOR)).toHaveText("is any of");
+      await expect(page.locator(column("joined")).locator(OPERATOR)).toHaveText("is after");
+      await expect(page.locator(`${CHIP} svg`)).toHaveCount(0);
     },
   );
 
@@ -527,8 +628,8 @@ test.describe("Data Table filters", () => {
     "components-data-display-data-table--filtering",
     "shows how many rows each value would leave",
     async (page) => {
-      await page.locator('[data-filter-id="f1"]').click();
-      const editor = page.getByRole("dialog", { name: "Role" });
+      await page.locator(filter("f1")).locator(VALUE).click();
+      const editor = page.getByRole("dialog", { name: /^Role/ });
       // Counts come from TanStack's faceted model, which applies every OTHER
       // filter — so they say what ticking this value would actually do.
       await expect(editor.getByRole("option").first()).toContainText("·");
@@ -618,7 +719,7 @@ test.describe("Data Table pinned columns", () => {
         .locator(".data-table__cell--sticky")
         .first()
         .evaluate((cell) => {
-          // Component-count rather than a colour parse: three means opaque, four
+          // Component-count rather than a color parse: three means opaque, four
           // carries the alpha. Handles `rgb(r, g, b)` and `rgb(r g b / a)` alike.
           const parts =
             getComputedStyle(cell)

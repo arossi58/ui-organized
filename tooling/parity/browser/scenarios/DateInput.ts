@@ -181,7 +181,7 @@ const scenarios: BrowserScenario[] = [
     /**
      * No value, so the field starts `data-empty` and the click has something
      * visible to change — the native `value` is not part of the compared
-     * contract, and `data-empty` is the attribute the placeholder colour hangs
+     * contract, and `data-empty` is the attribute the placeholder color hangs
      * off. `min`/`max` in 2024 pin the view to December 2024 (the anchor is
      * today clamped into the window), which is what makes the row and column
      * below name a fixed day.

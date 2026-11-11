@@ -1,5 +1,5 @@
 /* Foundations · Core palette.
-   Chrome colours come from DS tokens (resolved against the docs container's
+   Chrome colors come from DS tokens (resolved against the docs container's
    `data-theme` + brand vars) so it flips with the theme; the ramp swatches
    themselves are the authored hexes. */
 .core-colors {

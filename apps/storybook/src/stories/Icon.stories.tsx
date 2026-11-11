@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Icon } from "@ui-organized/react";
+import { STORY_ICON_NAMES } from "../storyIcons";
 
 const meta: Meta<typeof Icon> = {
   title: "Foundation/Icon",
@@ -10,25 +11,14 @@ const meta: Meta<typeof Icon> = {
     docs: {
       description: {
         component:
-          "Icon renders a named glyph from the active icon library. Choose the glyph with `name`, its pixel `size`, and pass an optional `label` to expose it to assistive tech (otherwise it is treated as decorative).\n\n" +
-          "Two things select the library, and both are required: `IconProvider` picks it (`library=\"lucide\"`), and a one-time subpath import registers the set with `import '@ui-organized/react/icons/lucide'`. The package imports no icon library itself, which is what keeps the ones you don't use out of your bundle; without the import every icon renders nothing and logs how to fix it.",
+          "Renders an icon from your icon library, by the library's own name. Pass a `label` when the icon carries meaning; without one it's hidden from assistive tech.",
       },
     },
   },
   argTypes: {
     name: {
       control: "select",
-      options: [
-        "chevron-down", "chevron-up", "chevron-left", "chevron-right",
-        "arrow-left", "arrow-right", "close", "check", "plus", "minus",
-        "copy", "edit", "trash", "download", "upload", "refresh",
-        "check-circle", "alert-circle", "alert-triangle", "info", "loader",
-        "search", "eye", "eye-off", "user", "users", "lock", "unlock",
-        "mail", "phone", "settings", "home", "calendar", "clock",
-        "star", "heart", "bookmark", "tag", "menu", "grid", "list",
-        "sort-asc", "sort-desc", "filter", "external-link",
-        "arrow-up", "arrow-down",
-      ],
+      options: [...STORY_ICON_NAMES],
     },
     size: { control: { type: "range", min: 12, max: 48, step: 2 } },
     label: { control: "text" },
@@ -41,7 +31,7 @@ type Story = StoryObj<typeof Icon>;
 export const Inspect: Story = {
   tags: ["dev"],
   args: {
-    name: "check-circle",
+    name: "circle-check-big",
     size: 24,
   },
 };
@@ -51,16 +41,12 @@ export const AllIcons: Story = {
     docs: {
       source: {
         code: `
-const names = [
-  "chevron-down", "chevron-up", "chevron-left", "chevron-right",
-  "arrow-left", "arrow-right", "arrow-up", "arrow-down", "external-link",
-  "close", "check", "plus", "minus", "copy", "edit", "trash",
-  "download", "upload", "refresh", "sort-asc", "sort-desc", "filter",
-  "check-circle", "alert-circle", "alert-triangle", "info", "loader",
-  "search", "eye", "eye-off", "bookmark", "star", "heart", "tag",
-  "menu", "grid", "list", "user", "users", "lock", "unlock",
-  "mail", "phone", "settings", "home", "calendar", "clock",
-] as const;
+import { registerIcons } from "@ui-organized/react/icons/lucide";
+import { ChevronDown, X, Check /* … */ } from "lucide-react";
+
+registerIcons({ ChevronDown, X, Check /* … */ });
+
+const names = ["chevron-down", "x", "check" /* … */];
 
 {names.map((name) => (
   <Icon key={name} name={name} size={20} />
@@ -70,16 +56,7 @@ const names = [
     },
   },
   render: () => {
-    const icons = [
-      "chevron-down", "chevron-up", "chevron-left", "chevron-right",
-      "arrow-left", "arrow-right", "arrow-up", "arrow-down", "external-link",
-      "close", "check", "plus", "minus", "copy", "edit", "trash",
-      "download", "upload", "refresh", "sort-asc", "sort-desc", "filter",
-      "check-circle", "alert-circle", "alert-triangle", "info", "loader",
-      "search", "eye", "eye-off", "bookmark", "star", "heart", "tag",
-      "menu", "grid", "list", "user", "users", "lock", "unlock",
-      "mail", "phone", "settings", "home", "calendar", "clock",
-    ] as const;
+    const icons = STORY_ICON_NAMES;
 
     return (
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))", gap: "16px" }}>
@@ -131,7 +108,7 @@ export const Sizes: Story = {
 
 export const WithLabel: Story = {
   args: {
-    name: "alert-triangle",
+    name: "triangle-alert",
     size: 24,
     label: "Warning",
   },

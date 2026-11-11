@@ -7,6 +7,7 @@ import Button from "../Button/Button.vue";
 import Icon from "../Icon/Icon.vue";
 import type { ClipboardProps } from "./Clipboard.types.js";
 import "@ui-organized/core/components/Clipboard/Clipboard.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 const props = withDefaults(defineProps<ClipboardProps>(), {
@@ -68,8 +69,8 @@ function onStatusChange(details: { copied: boolean }) {
             Indicator knows the state.
           -->
           <ArkClipboard.Indicator class="clipboard__indicator">
-            <template #copied><Icon name="check" :size="iconSize" /></template>
-            <Icon name="copy" :size="iconSize" />
+            <template #copied><Icon :name="glyph('check')" :size="iconSize" /></template>
+            <Icon :name="glyph('copy')" :size="iconSize" />
           </ArkClipboard.Indicator>
           <ArkClipboard.Indicator>
             <template #copied>{{ copiedLabel }}</template>

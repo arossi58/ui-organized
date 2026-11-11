@@ -111,11 +111,11 @@ export function buildFontsModule(state: BuilderState): string {
   return `/**
  * Font configuration exported from the UI Organized Theme Builder.
  *
- * theme.css names these families but cannot load them — a stylesheet @import
+ * theme.css names these families but cannot load them. A stylesheet @import
  * would sit behind an extra round trip (it's invisible to the browser's preload
  * scanner) and would hard-code a CDN into your tokens. Add the tags below to
- * your document head instead, or use \`themeFonts\` to generate them at build
- * time — or ignore both and self-host the files.
+ * your document head instead, use \`themeFonts\` to generate them at build
+ * time, or ignore both and self-host the files.
  *
 ${fontLinkTags(fonts)
   .split("\n")

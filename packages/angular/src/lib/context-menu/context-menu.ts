@@ -26,7 +26,6 @@ import {
 } from "@angular/core";
 import { clsx } from "clsx";
 import { dividerStyles } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { HostPresence } from "../host-presence.js";
@@ -38,6 +37,9 @@ import { restoreFocus } from "../overlay/focus.js";
 import { inDomOrder, moveHighlight } from "../overlay/roving.js";
 import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
 import { PointerSurface, type AnchorPoint } from "./pointer-surface.js";
+import { glyph } from "../icons/glyph.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 /** Zag's own long-press threshold, for the touch equivalent of a right-click. */
 const LONG_PRESS = 700;
@@ -470,7 +472,7 @@ export class UioContextMenuItem extends UioPart implements OnInit, OnDestroy {
 
   /** Optional, and falls back to a generated id — the same fork React takes. */
   readonly value = input<string | undefined>(undefined);
-  readonly icon = input<CanonicalIconName | undefined>(undefined);
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   /** Red text at rest, filling solid on highlight — the destructive-ghost button. */
   readonly destructive = input(false, { transform: booleanAttribute });
   override readonly disabled = input(false, { transform: booleanAttribute });
@@ -606,7 +608,7 @@ export class UioContextMenuGroupLabel extends UioPart {
   template: `
     <span class="checkbox__control context-menu__control">
       <span class="checkbox__indicator">
-        <span uioIcon class="checkbox__check" name="check" [size]="CHECK_SIZE"></span>
+        <span uioIcon class="checkbox__check" [name]="glyph('check')" [size]="CHECK_SIZE"></span>
       </span>
     </span>
     <span class="context-menu__item-label"><ng-content /></span>
@@ -626,6 +628,7 @@ export class UioContextMenuGroupLabel extends UioPart {
   },
 })
 export class UioContextMenuCheckboxItem extends UioPart implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly scope = "menu";
   readonly part = "item";
 

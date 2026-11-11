@@ -622,7 +622,7 @@ function terminateRun(history: number[], runDark: boolean, run: number, size: nu
 /**
  * The penalty score used to choose a mask. ISO/IEC 18004 §8.8.2.
  *
- * Four rules: runs of five or more, 2x2 blocks of one colour, finder-lookalikes,
+ * Four rules: runs of five or more, 2x2 blocks of one color, finder-lookalikes,
  * and the overall dark/light balance. The mask with the lowest total wins.
  */
 function penaltyScore(grid: Grid): number {
@@ -669,7 +669,7 @@ function penaltyScore(grid: Grid): number {
     score += terminateRun(history, runDark, run, size) * PENALTY_FINDER_LIKE;
   }
 
-  // Rule 2: every 2x2 block of one colour.
+  // Rule 2: every 2x2 block of one color.
   for (let y = 0; y < size - 1; y++) {
     for (let x = 0; x < size - 1; x++) {
       const colour = dark[y]![x];

@@ -26,6 +26,7 @@
     "storybook": "^10.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.0",
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@ui-organized/tsconfig": "workspace:*",

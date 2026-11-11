@@ -18,7 +18,7 @@
   color: var(--color-status-error-content);
 }
 
-/* The icon inherits the error-content colour via currentColor. */
+/* The icon inherits the error-content color via currentColor. */
 .field-error__icon {
   display: inline-flex;
   flex-shrink: 0;

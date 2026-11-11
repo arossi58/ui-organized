@@ -2,6 +2,7 @@ import { Component, computed, input, model, output } from "@angular/core";
 import { getPageItems, withEllipsisPages } from "@ui-organized/core";
 import { UioButton } from "../button/button.js";
 import { UioMenu, UioMenuItem, UioMenuTrigger } from "../menu/menu.js";
+import { glyph } from "../icons/glyph.js";
 
 /**
  * The page window, flattened into one uniform shape before it reaches the
@@ -55,7 +56,7 @@ type PageEntry =
           <button
             uioButton
             intent="ghost"
-            icon="chevron-left"
+            [icon]="glyph('chevron-left')"
             aria-label="Previous page"
             [disabled]="page() <= 1"
             (click)="goTo(page() - 1)"
@@ -99,7 +100,7 @@ type PageEntry =
           <button
             uioButton
             intent="ghost"
-            icon="chevron-right"
+            [icon]="glyph('chevron-right')"
             aria-label="Next page"
             [disabled]="page() >= count()"
             (click)="goTo(page() + 1)"
@@ -114,6 +115,7 @@ type PageEntry =
   },
 })
 export class UioPagination {
+  protected readonly glyph = glyph;
   /** The current page (1-based). Uncontrolled until something binds it. */
   readonly page = model(1);
   /** Total number of pages. Defaulted rather than required — see `UioMeter.value`. */

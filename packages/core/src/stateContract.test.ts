@@ -1,6 +1,11 @@
 import { readFileSync } from "node:fs";
 import { describe, it, expect } from "vitest";
-import { STATE_CONTRACT_PATH, deriveStateContract, type StateContract } from "./stateContract.js";
+import {
+  STATE_CONTRACT_PATH,
+  attributeSelectors,
+  deriveStateContract,
+  type StateContract,
+} from "./stateContract.js";
 
 /**
  * Guards the state contract — what a library must *emit* for the shared
@@ -109,6 +114,16 @@ describe("state contract", () => {
     // distinction is not being derived at all.
     const withRuntime = entries().filter(([, entry]) => entry.runtime.length > 0);
     expect(withRuntime.length).toBeGreaterThan(0);
+  });
+
+  it("leaves page-level :root attributes out of every component", () => {
+    const found = attributeSelectors([
+      ':root[data-focus-modality="pointer"] .field__control[data-invalid]:focus-visible',
+    ]);
+    expect([...found.keys()]).toEqual(["data-invalid"]);
+    for (const [, entry] of entries()) {
+      expect(entry.attributes).not.toHaveProperty("data-focus-modality");
+    }
   });
 
   it("matches the checked-in state-contract.json", () => {

@@ -78,11 +78,11 @@ export default function IconBrowser({ onAddToWorkspace, onClose, existingIds }) 
       className="is-browser-overlay"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="is-browser-modal" role="dialog" aria-modal="true" aria-label="Icon Library">
+      <div className="is-browser-modal" role="dialog" aria-modal="true" aria-label="Icon library">
 
         {/* Header */}
         <div className="is-browser-header">
-          <span className="is-browser-header-title">Icon Library</span>
+          <span className="is-browser-header-title">Icon library</span>
           <div className="is-browser-spacer" />
           {selected.size > 0 && (
             <span className="is-browser-selected-count">{selected.size} selected</span>

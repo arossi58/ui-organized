@@ -13,7 +13,14 @@
  * entry file, and anything above that is a TS6059.
  */
 import { lucideIconSet } from "./lucide.js";
-import { ngIconsSvgProps, registerIconSet, type IconSet } from "./registry.js";
+import {
+  ngIconsSvgProps,
+  registerIconSet,
+  type IconSet,
+  registerIcons as registerNamedIcons,
+  type RegisterIconsOptions,
+  type IconMarkup,
+} from "./registry.js";
 
 export const lucideIcons: IconSet = {
   library: "lucide",
@@ -23,3 +30,23 @@ export const lucideIcons: IconSet = {
 };
 
 registerIconSet(lucideIcons);
+
+/**
+ * Make Lucide icons available to `<Icon name>` under their own Lucide names.
+ *
+ * Pass them as imported and the names follow from the exports
+ * (`lucideCamera` → `"camera"`), or key them by native name yourself where
+ * the export can't be read back unambiguously (`{ "arrow-down-0-1": lucideArrowDown01 }`).
+ * Only what you register reaches your bundle.
+ *
+ * ```ts
+ * import { lucideCamera, lucideRocket } from "@ng-icons/lucide";
+ * registerIcons({ lucideCamera, lucideRocket });
+ * ```
+ */
+export function registerIcons(
+  icons: Record<string, IconMarkup>,
+  options?: RegisterIconsOptions,
+): void {
+  registerNamedIcons("lucide", icons, options);
+}

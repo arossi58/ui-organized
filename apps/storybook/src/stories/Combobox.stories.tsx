@@ -20,7 +20,7 @@ const meta: Meta<typeof Combobox> = {
     docs: {
       description: {
         component:
-          "A searchable Select. Type to filter `options` by label; shows an empty state when nothing matches. Mirrors Select's field API (label, helper text, error, sizes).",
+          "A searchable Select. Type to filter `options` by label. ",
       },
     },
   },

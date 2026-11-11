@@ -131,13 +131,17 @@ export {
   EMPTY_SELECTION,
   clearSelection,
   headerCheckboxState,
+  headerToggleTarget,
+  canSelectHiddenRows,
   isEmpty,
   isSelected,
   rangeSelect,
   selectAllMatching,
+  selectHiddenLabel,
   selectPage,
   selectedIds,
   selectionCount,
+  selectionCountLabel,
   toBulkSelection,
 } from "./selection.js";
 export type { BulkSelection, SelectionState } from "./selection.js";
@@ -168,10 +172,21 @@ export type { DetailAction, DetailIntent, DetailState } from "./detail.js";
 // ─── Responsive ──────────────────────────────────────────────────────────────
 export { resolveMode, watchWidth } from "./responsive.js";
 export type { ResponsiveConfig, TableMode } from "./responsive.js";
+export { afterRowEntrance } from "./motion.js";
 
 // ─── Column resize and reorder ───────────────────────────────────────────────
 export { moveColumn, resizeKeyDown, resizeStep } from "./resize.js";
 export type { ResizeAction, ResizeBounds } from "./resize.js";
+export {
+  canStepColumn,
+  currentColumnOrder,
+  dropColumn,
+  dropSideAt,
+  isMovableColumn,
+  reorderModeOf,
+  stepColumn,
+} from "./reorder.js";
+export type { DropSide, ReorderMode, ReorderSetting } from "./reorder.js";
 
 // ─── Filters ─────────────────────────────────────────────────────────────────
 // The model is identifier + relative + value; see ./filters.
@@ -210,9 +225,15 @@ export {
   createFilterStore,
   filterReducer,
   fromColumnFilters,
+  retargetCondition,
   toColumnFilters,
 } from "./filters/state.js";
-export type { ColumnFilterEntry, TableFilterAction, TableFilterState } from "./filters/state.js";
+export type {
+  ColumnFilterEntry,
+  RetargetColumn,
+  TableFilterAction,
+  TableFilterState,
+} from "./filters/state.js";
 
 export {
   VALUE_PLACEHOLDER,
@@ -236,6 +257,10 @@ export {
 export type { OrderableField, TableFilterFacetOption } from "./filters/facets.js";
 
 export { normalizeFilterDef } from "./filters/types.js";
+
+// ─── Date columns ────────────────────────────────────────────────────────────
+export { dateFormatter, isoDayToDate, withDateColumns } from "./dates.js";
+export type { TableDateDef, TableDateSetting } from "./dates.js";
 
 // ─── Column layout ───────────────────────────────────────────────────────────
 export { layoutColumns } from "./layout.js";

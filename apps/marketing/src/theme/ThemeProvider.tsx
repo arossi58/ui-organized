@@ -1,5 +1,5 @@
 /**
- * Site-wide theme: a brand colour + light/dark mode, applied to the document
+ * Site-wide theme: a brand color + light/dark mode, applied to the document
  * root and shared with the nav's theme menu.
  *
  * Light/dark is driven by `data-theme` on `<html>`: the shipped
@@ -35,7 +35,7 @@ export type ThemeMode = "light" | "dark";
 interface ThemeContextValue {
   mode: ThemeMode;
   brand: string;
-  /** Resolved primary-colour hex of the active brand (swatch / accent). */
+  /** Resolved primary-color hex of the active brand (swatch / accent). */
   brandHex: string;
   setMode: (mode: ThemeMode) => void;
   toggleMode: () => void;
@@ -63,6 +63,8 @@ const BRAND_TOKEN_KEYS = [
   "--color-interactive-tertiary-hover",
   "--color-interactive-tertiary-active",
   "--color-interactive-tertiary-selected",
+  // Derived from the primary fill: near-black on light brands, so it must follow the brand.
+  "--color-interactive-contents",
   "--brand",
 ] as const;
 
@@ -73,7 +75,7 @@ interface StoredTheme {
   brand: string;
 }
 
-/** The OS colour-scheme preference; defaults to light where it can't be read. */
+/** The OS color-scheme preference; defaults to light where it can't be read. */
 function systemMode(): ThemeMode {
   if (typeof window === "undefined" || !window.matchMedia) return "light";
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
@@ -130,7 +132,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setModeState((m) => (m === "dark" ? "light" : "dark"));
   }, []);
 
-  // Until the visitor makes an explicit choice, follow live OS colour-scheme
+  // Until the visitor makes an explicit choice, follow live OS color-scheme
   // changes so the site stays in sync with their system theme.
   useEffect(() => {
     if (explicitMode || typeof window === "undefined" || !window.matchMedia) return;

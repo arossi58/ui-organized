@@ -51,10 +51,7 @@ export function valueLabel(value: unknown): string {
  * `propOrder` (normally the manifest's prop order) makes the output stable across
  * callers whose arg objects were built in different orders.
  */
-export function normalizeArgs(
-  args: Record<string, unknown>,
-  propOrder: string[] = [],
-): MarkupArgs {
+export function normalizeArgs(args: Record<string, unknown>, propOrder: string[] = []): MarkupArgs {
   const rank = new Map(propOrder.map((name, i) => [name, i]));
   const names = Object.keys(args ?? {}).sort((a, b) => {
     const ra = rank.get(a) ?? Number.MAX_SAFE_INTEGER;
@@ -84,7 +81,12 @@ export function normalizeArgs(
     attrs.push({ name, value });
   }
 
-  return { attrs, ...(text !== undefined ? { text } : {}), ...(slotLabel ? { slotLabel } : {}), omittedHandlers };
+  return {
+    attrs,
+    ...(text !== undefined ? { text } : {}),
+    ...(slotLabel ? { slotLabel } : {}),
+    omittedHandlers,
+  };
 }
 
 // ─── Value serialization ─────────────────────────────────────────────────────
@@ -176,8 +178,7 @@ export interface ElementLayout {
 export function layoutElement({ tag, attrs, children, selfClose }: ElementLayout): string {
   const inlineAttrs = attrs.length ? ` ${attrs.join(" ")}` : "";
   const empty = selfClose ? `<${tag}${inlineAttrs} />` : `<${tag}${inlineAttrs}></${tag}>`;
-  const oneLine =
-    children !== undefined ? `<${tag}${inlineAttrs}>${children}</${tag}>` : empty;
+  const oneLine = children !== undefined ? `<${tag}${inlineAttrs}>${children}</${tag}>` : empty;
 
   if (oneLine.length <= ONE_LINE_LIMIT && !oneLine.includes("\n")) return oneLine;
 
@@ -192,4 +193,16 @@ export function layoutElement({ tag, attrs, children, selfClose }: ElementLayout
     return `<${tag}\n${block}\n>\n  ${children.replace(/\n/g, "\n  ")}\n</${tag}>`;
   }
   return selfClose ? `<${tag}\n${block}\n/>` : `<${tag}\n${block}\n></${tag}>`;
+}
+
+/** One arg as a JSX attribute. */
+export function jsxAttr({ name, value }: MarkupAttr): string {
+  if (value === true) return name;
+  if (typeof value === "number") return `${name}={${value}}`;
+  if (typeof value === "string") {
+    return value.includes('"') || value.includes("\n")
+      ? `${name}={${JSON.stringify(value)}}`
+      : `${name}="${value}"`;
+  }
+  return `${name}={${jsonValue(value)}}`;
 }

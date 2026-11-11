@@ -18,6 +18,8 @@ import "@ui-organized/react-table/styles";
 import "@ui-organized/react/icons/lucide";
 import "@ui-organized/react/icons/tabler";
 import "@ui-organized/react/icons/heroicons";
+// The Lucide icons the site names, by Lucide's own names.
+import "./icons";
 // Site layers: the one home for site-only values, then shared layout primitives.
 import "./styles/site-tokens.css";
 import "./styles/layout.css";

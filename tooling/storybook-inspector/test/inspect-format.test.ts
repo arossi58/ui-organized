@@ -1,6 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
+  isKeywordValue,
   parseVarRefs,
+  selectorSpecificity,
+  splitSelectorList,
   usesVar,
   textClassOf,
   isIconTag,
@@ -10,6 +13,28 @@ import {
   isZeroLength,
   matchesQuery,
 } from "../src/inspect/format.js";
+
+describe("inspect/format selectors", () => {
+  it("scores specificity per Selectors Level 4", () => {
+    expect(selectorSpecificity(".a.b")).toEqual([0, 2, 0]);
+    expect(selectorSpecificity("#a div.b::before")).toEqual([1, 1, 2]);
+    expect(selectorSpecificity('.a[data-x="y.z"]:hover')).toEqual([0, 3, 0]);
+    expect(selectorSpecificity(".a:where(.b, #c)")).toEqual([0, 1, 0]);
+    expect(selectorSpecificity(".a:not(.b, #c)")).toEqual([1, 1, 0]);
+    expect(selectorSpecificity(".a:is(:hover:not(:disabled))")).toEqual([0, 3, 0]);
+  });
+
+  it("splits selector lists on top-level commas only", () => {
+    expect(splitSelectorList(".a, .b:is(.c, .d)")).toEqual([".a", ".b:is(.c, .d)"]);
+  });
+
+  it("treats keywords and zeros as nothing to tokenise", () => {
+    for (const v of ["transparent", "currentcolor", "currentColor", "0", "0px", "none", "initial"]) {
+      expect(isKeywordValue(v), v).toBe(true);
+    }
+    expect(isKeywordValue("2px")).toBe(false);
+  });
+});
 
 describe("inspect/format", () => {
   it("parses design-token var references from a value", () => {

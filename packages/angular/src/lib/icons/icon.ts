@@ -1,14 +1,29 @@
 import { Directive, ElementRef, computed, effect, inject, input } from "@angular/core";
 import { HostPresence } from "../host-presence.js";
 import {
-  resolveIconComponent,
   resolveIconStroke,
   resolveIconSvgProps,
+  resolveSystemGlyph,
 } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import { glyphOf, type IconGlyph } from "./glyph.js";
 import { injectIconConfig } from "./icon-config.js";
-import { getIconSet, registeredLibraries, type IconMarkup, type IconSet } from "./registry.js";
-import { warnMissingIconSet } from "./warn-missing-icon-set.js";
+import {
+  getIcon,
+  getIconSet,
+  registeredLibraries,
+  registeredNames,
+  type IconMarkup,
+  type IconSet,
+} from "./registry.js";
+import { warnMissingIcon, warnMissingIconSet } from "./warn-missing-icon-set.js";
+
+/**
+ * An icon's name as its library publishes it: `"x"` or `"chevron-down"` in
+ * Lucide and Tabler, `"x-mark"` in Heroicons. Nothing is renamed, so a name
+ * belongs to one library. Register the icon first with `registerIcons` from
+ * that library's subpath.
+ */
+export type IconName = string;
 
 /**
  * Parse SVG markup into a real element.
@@ -104,11 +119,11 @@ export function applySvgProps(
   },
 })
 export class UioIcon {
-  /** A canonical name from the design system's set. */
-  readonly name = input<CanonicalIconName | undefined>(undefined);
+  /** The icon's native name in the active library, registered with `registerIcons`. */
+  readonly name = input<IconName | IconGlyph | undefined>(undefined);
   /**
-   * SVG markup supplied directly, which needs no registered set and no
-   * canonical name.
+   * SVG markup supplied directly, which needs no registration and no
+   * registered set.
    *
    * A separate input rather than an overload of `name`, which is how React
    * spells it (`typeof name !== "string"`). With markup *being* a string that
@@ -132,11 +147,16 @@ export class UioIcon {
     return this.config().icons ?? getIconSet(this.config().library);
   });
 
-  private readonly markup = computed<IconMarkup | undefined>(
-    () =>
-      this.svg() ??
-      resolveIconComponent(this.set(), this.name() as CanonicalIconName, this.config().style),
-  );
+  private readonly markup = computed<IconMarkup | undefined>(() => {
+    const svg = this.svg();
+    if (svg) return svg;
+    const set = this.set();
+    const name = this.name();
+    if (!set || name === undefined) return undefined;
+    const glyph = glyphOf(name);
+    if (glyph) return resolveSystemGlyph(set, glyph, this.config().style);
+    return getIcon(set.library, name as string, this.config().style);
+  });
 
   private readonly stroke = computed(() =>
     resolveIconStroke({
@@ -174,8 +194,12 @@ export class UioIcon {
       if (!markup) {
         // Once per library, globally — see the warning's own note on why it
         // fires in production too.
-        if (!this.svg() && !this.set()) {
+        const set = this.set();
+        const name = this.name();
+        if (!this.svg() && !set) {
           warnMissingIconSet(this.config().library, registeredLibraries());
+        } else if (set && typeof name === "string") {
+          warnMissingIcon(set.library, name, registeredNames(set.library));
         }
         return;
       }

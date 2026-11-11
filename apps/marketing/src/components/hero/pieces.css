@@ -3,7 +3,7 @@
  * (see PhysicsPiece.tsx) rendered into a `__fit` wrapper the engine sizes to the
  * slot and scales by S. This file owns the positioning shell, arrange-mode
  * interactivity, and the few fills that let components occupy their slot — the
- * components carry their own surface/colour from tokens, so they follow the
+ * components carry their own surface/color from tokens, so they follow the
  * site's single global theme (light, set once on <html>).
  */
 
@@ -134,7 +134,7 @@
 }
 
 /* Mobile bottom tab bar — a row of icon buttons filling its slot; the first is
-   the active (brand-coloured) tab. Only used by the mobile manifest. */
+   the active (brand-colored) tab. Only used by the mobile manifest. */
 .physics-piece__tabbar {
   display: flex;
   width: 100%;

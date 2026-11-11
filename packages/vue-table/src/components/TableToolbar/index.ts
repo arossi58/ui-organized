@@ -4,4 +4,5 @@ export { default as TableSearch } from "./TableSearch.vue";
 export { default as TableSortMenu } from "./TableSortMenu.vue";
 export { default as TableViewOptions } from "./TableViewOptions.vue";
 export { default as TableExportMenu } from "./TableExportMenu.vue";
+export { default as TableReorderToggle } from "./TableReorderToggle.vue";
 export { default as TableScrollButtons } from "./TableScrollButtons.vue";

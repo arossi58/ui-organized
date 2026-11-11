@@ -8,8 +8,11 @@ server's `instructions` and each tool's `description`.
 
 ## 1. Never invent a component (Layer 1 — §6.4)
 
-- Call `get_component_context` with the Figma component key (read from the node's
-  `figmaCodeConnect:componentKey` pluginData).
+- For a Figma link, call `get_figma_frame` first. It returns the frame as JSX using real
+  components and tokens. Report anything in `unmapped` or `unbound`; don't rebuild it by eye.
+- If you already hold a node's component set key, use `resolve_figma_components` or
+  `get_component_context`. Keys come from Figma itself, written to the manifest by
+  `pnpm figma:sync`, and nodes carry no pluginData.
 - If it returns **`found: false`** or **`confidence` other than `"exact"`**: do NOT
   synthesize a component. State that no verified mapping exists and either ask the
   user or call `search_components` to present real options.

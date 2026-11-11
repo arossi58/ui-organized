@@ -149,16 +149,40 @@ two of them:
 
 A `Date` is the one that bites: the default rendering is long, and it is _timezone
 dependent_, so the same row reads differently on two machines and any screenshot test of it
-is unstable. Format it, or hold the date as an ISO string in the first place.
+is unstable. Declare the column as dates with `meta.date` and give it a `format`:
+
+### Dates in any format
+
+Inside the table a date is always an ISO day, `YYYY-MM-DD` — that is what lets 100,000
+rows sort and filter without building a `Date` per row. `meta.date` converts on both sides
+of it:
+
+- **`parse`** reads whatever the data holds — `"11/10/2026"`, a timestamp, `{ y, m, d }` —
+  and returns a `Date` or an ISO string. Not needed when the data is already a `Date` or ISO.
+- **`format`** is how the date reads, as `Intl.DateTimeFormat` options (with `locale`) or a
+  function. The cell, the filter chip and the CSV export all use it, so they never disagree.
 
 ```tsx
 {
-  accessorKey: "joined",
+  accessorKey: "joined", // "11/10/2026"
   header: "Joined",
-  // A cell renderer is just a component — compose the library freely.
-  cell: ({ getValue }) => getValue<Date>().toLocaleDateString(),
+  meta: {
+    filter: true, // a date filter, no `type` needed
+    date: {
+      parse: (value) => {
+        const [m, d, y] = String(value).split("/").map(Number);
+        return y ? new Date(y, m - 1, d) : null;
+      },
+      format: { dateStyle: "medium" }, // "Nov 10, 2026"
+      locale: "en-US",
+    },
+  },
 }
 ```
+
+`date: true` marks a column as dates without changing how they read. A column's own `cell`
+still wins, and receives the ISO day from `getValue()`; so does inline editing, whose
+`onEdit` gets the ISO day. Global search matches the ISO day, not the formatted text.
 
 ## Telling it what the data _is_
 
@@ -170,6 +194,7 @@ first non-empty values in the column:
 | `true` / `false`                                 | `boolean` |
 | `3`, `7`                                         | `number`  |
 | `Date`, `"2024-01-15"`, `"2024-01-15T09:30:00Z"` | `date`    |
+| any column declaring `meta.date`                 | `date`    |
 | anything else                                    | `text`    |
 | any column declaring `filter.options`            | `enum`    |
 
@@ -201,6 +226,7 @@ TanStack's.
 | `filter`                          | `true`, or `{ type, operators, defaultOperator, options, label, single, counts }` |
 | `edit`                            | `{ render, validate }` — makes the cell editable in place                         |
 | `exportValue`                     | `(row) => …` — what CSV and the clipboard use instead of the cell value           |
+| `date`                            | `true`, or `{ parse, format, locale }` — see [Dates in any format](#dates-in-any-format) |
 | `hideFromViewOptions`             | Keep the column out of the show/hide menu                                         |
 
 ```tsx
@@ -229,9 +255,10 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 | Filtering                            | Composable `Chip`s under the header — see below                                       |
 | Pagination                           | Wraps `Pagination`, converts row count to page count                                  |
 | Virtualization                       | On above 50 rows; spacer rows, so table semantics survive                             |
-| Selection                            | Shift-range, and "select all 40,000 matching" for server tables                       |
-| Bulk actions                         | A `Toolbar` that appears with a selection; destructive routes through `AlertDialog`   |
+| Selection                            | Shift-range; a footer counts it and offers "Select 39,980 hidden rows"                |
+| Bulk actions                         | Replace the toolbar's controls while rows are selected; destructive confirms first    |
 | Column resize / reorder / visibility | Resize handle is a focusable `role="separator"`, not a drag-only target               |
+| Column reorder                       | Drag a header, or its ‹ › buttons, or Alt+←/→ on a focused header — see below         |
 | Inline editing                       | Optimistic, with rollback on a rejected `onEdit`                                      |
 | Row detail                           | A `Sheet` with prev/next and a dirty guard                                            |
 | Responsive                           | Cards below the breakpoint; pinned first column above it                              |
@@ -239,20 +266,47 @@ column whose renderer _derives_ what it shows, the raw value is not what the use
 | Export                               | CSV download and TSV clipboard, respecting filters, sort and visibility               |
 | Server mode                          | `manual` reports `{ sorting, filters, pagination }`; `onLoadMore` for infinite scroll |
 
+## Reordering columns
+
+`reorderable` lets people rearrange the columns. Every way of doing it moves the same
+thing, one column, and stops at the same places:
+
+- **Drag a header** onto another. A line on the near or far edge shows where it lands.
+- **Click its ‹ › buttons**, which step it one place, past any hidden column.
+- **Alt+← / Alt+→** on a focused header, in an interactive table, where the header's
+  buttons are not tab stops of their own.
+
+```tsx
+<DataTable reorderable … />          // or "always": movable at any time
+<DataTable reorderable="toggle" … /> // only inside a reorder mode
+```
+
+With `"always"` (or `true`), the move buttons appear when a header is hovered or
+focused. With `"toggle"`, the toolbar gets a **Reorder** button; while it is on, every
+movable header shows its buttons and can be dragged, and **Done** puts them away — for
+tables whose headers are busy enough that a stray drag would surprise.
+
+The table's own columns (the checkbox and row actions) and pinned columns never move,
+and card mode has no headers to move. **Reset column order** is in the Columns menu.
+
 ## The header
 
-One row of controls above the table, and under it a second row — `TableSubBar` — for what
-is currently _applied_: the filter chips on the left, and, while rows are ticked, the
-bulk-action toolbar at the right-hand end. Neither is there until it has something to say,
-and the row itself is absent when neither is.
+One row of controls above the table, and under it a second row — `TableSubBar` — for the
+filter chips. The second row is absent until a filter is applied.
 
 ```
 [ Search            ]   [ your actions ] │ [sort] [filter] [export] [columns] [‹][›]
-Filters (Role is any of Owner, Admin) ＋ Add ↺ Reset      [ 2 rows selected · Export · Clear ]
+Filters (Role is any of Owner, Admin) ＋ Add ↺ Reset
 ```
 
-The chips wrap onto further lines before the bulk-action toolbar gives up its place beside
-them, so a narrow viewport grows the row downwards rather than hiding either half.
+While rows are ticked, the bulk actions take the place of everything right of the search
+box, as plain buttons in the same row. What to do with the selection is the decision in
+front of the user, so it goes where they were already looking; clearing the selection
+brings the table's controls back.
+
+```
+[ Search            ]              2 rows selected  [Export] [Archive] [Clear] [‹][›]
+```
 
 `actions` are yours; everything right of the rule belongs to the table. The rule appears
 only when there is something on both sides of it.
@@ -278,6 +332,26 @@ buttons rather than an overflow menu, because these are the actions a page is _f
 headers; in **card mode it is the only sort control there is**, which is why it is not
 opt-in.
 
+### Card mode
+
+Card mode is the phone layout, so its controls are sized for a thumb:
+
+- **Sort and Filter are labelled buttons that open a bottom sheet each**
+  (`TableSortSheet`, `TableFilterSheet`). The sort sheet holds the field and direction.
+  The filter sheet lists **every filterable field at once**, one accordion section each,
+  all open to start. A section holds that field's condition and value, and shows what is
+  applied in its header so it still reads when collapsed. Nothing has to be added first:
+  the sheet keeps an empty draft condition per field while open, which the filter model
+  ignores until it has a value, and removes the unfilled drafts on close.
+- **What is applied is a badge on the button**, read out as ", 2 applied". The filter chips
+  row is not shown, because the sheet is where filters are edited.
+- **Each card's controls sit in its top-right corner**: the row-actions menu, then the
+  checkbox. Card type is one step larger than the table's.
+
+Anything the sheets open (the selects, the value list) portals into
+the sheet. The sheet is modal, so it hides everything outside itself from assistive tech,
+and a menu portalled to `<body>` would be on screen but unreachable.
+
 The last pair are the **scroll buttons**, and they are there only while the viewport is
 actually hiding columns — a table whose columns all fit never renders them. They move most
 of a viewport width at a time, keeping the trailing columns in view so the movement reads
@@ -294,19 +368,19 @@ const { scroll } = useDataTable({ … });
 
 ## Filtering
 
-A filter is **identifier + relative + value** — "Role · is any of · Owner, Admin". Users
-start one from the funnel in the header, each becomes a `Chip` on the line below, and
-clicking a chip opens an editor holding its operator, its value, and **Remove**.
+A filter is **identifier + relative + value**: "Role · is any of · Owner, Admin". Users
+start one from the funnel in the header, and each becomes a segmented `Chip` on the line
+below. Each segment opens the control for the one part it shows: the field segment a menu
+of columns (plus **Remove filter**), the operator segment a menu of operators, and the
+value segment the value editor. An operator that takes no value ("is empty") has no value
+segment.
 
-The relation is **drawn** for the six operators the design system has a glyph for — `is`,
-`is any of`, `contains`, `does not contain`, `starts with`, `ends with` — and written for
-the rest, because there is no glyph for "is in the last 7 days" that anyone would read
-correctly. The words stay the glyph's accessible name either way, so the chip reads as
-"Name contains ada" whether it is seen or heard. A custom operator can name a glyph too:
+Every relation is spelled, using the operator's `label` (or its per-type `labelByType`), so
+the chip reads as "Name contains ada" whether it is seen or heard.
 
-```ts
-filterOperators={[{ id: "matches", label: "matches", icon: "contains", /* … */ }]}
-```
+Moving a condition to another field keeps its operator and value when both columns read
+them the same way, and starts over on the new column's default otherwise
+(`retargetCondition` in `@ui-organized/table-core`).
 
 ```tsx
 { accessorKey: "joined", header: "Joined", meta: { filter: true } }              // inferred

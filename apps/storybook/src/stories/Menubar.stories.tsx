@@ -17,7 +17,7 @@ const meta: Meta<typeof Menubar> = {
     docs: {
       description: {
         component:
-          "A horizontal bar of menus (File / Edit / View …). Place one `<Menu>` per entry inside `<Menubar>` and style each `<MenuTrigger>` with the `menubar__trigger` class.",
+          "A horizontal bar of menus.",
       },
     },
   },
@@ -45,13 +45,13 @@ export const Inspect: Story = {
         <MenuTrigger className="menubar__trigger">Edit</MenuTrigger>
         <MenuContent>
           <MenuItem icon="copy">Copy</MenuItem>
-          <MenuItem icon="edit">Find &amp; replace</MenuItem>
+          <MenuItem icon="pencil">Find &amp; replace</MenuItem>
         </MenuContent>
       </Menu>
       <Menu>
         <MenuTrigger className="menubar__trigger">View</MenuTrigger>
         <MenuContent>
-          <MenuItem icon="grid">Grid</MenuItem>
+          <MenuItem icon="grid-2x2">Grid</MenuItem>
           <MenuItem icon="list">List</MenuItem>
         </MenuContent>
       </Menu>

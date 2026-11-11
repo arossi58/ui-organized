@@ -16,11 +16,26 @@
 import { computed } from "vue";
 import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
-const props = withDefaults(defineProps<{ label?: string; iconOnly?: boolean; class?: string }>(), {
-  label: "Add filter",
-  iconOnly: false,
-});
+const props = withDefaults(
+  defineProps<{
+    label?: string;
+    iconOnly?: boolean;
+    /**
+     * Where the field menu portals. Inside a modal sheet it has to be the
+     * sheet: a modal hides everything outside itself from assistive tech, and a
+     * menu portalled to <body> is outside it — painted, but unreachable.
+     */
+    container?: HTMLElement | null;
+    class?: string;
+  }>(),
+  {
+    label: "Add filter",
+    iconOnly: false,
+    container: undefined,
+  },
+);
 const table = useTableContext();
 const fields = computed(() => table.filters.fields.value);
 </script>
@@ -42,15 +57,15 @@ const fields = computed(() => table.filters.fields.value);
         v-if="iconOnly"
         intent="secondary"
         :size="table.size.value"
-        icon="filter"
+        :icon="glyph('filter')"
         :aria-label="props.label"
         :class="$props.class"
       />
-      <Button v-else intent="ghost" size="sm" icon="plus" :class="$props.class">
+      <Button v-else intent="ghost" size="sm" :icon="glyph('plus')" :class="$props.class">
         {{ props.label }}
       </Button>
     </MenuTrigger>
-    <MenuContent align="end" class="data-table__filter-picker">
+    <MenuContent align="end" class="data-table__filter-picker" :container="props.container">
       <!--
         A field that already carries conditions stays in the list — several
         conditions on one column is the point — with a count so it is obvious

@@ -15,6 +15,7 @@ import type { ColorPickerProps } from "./ColorPicker.types.js";
 import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 import { FormatInputs, toRgba, type ColorLike, type InputFormat } from "./channelFields.js";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_COLOR = "#000000";
 
@@ -74,12 +75,12 @@ export function ColorPicker({
   const colorDefault = useMemo(() => parseColor(defaultValue), [defaultValue]);
 
   /* Which notation the picker's fields are showing. Local, because it is a way
-     of reading the colour rather than a property of it — see `format`. */
+     of reading the color rather than a property of it — see `format`. */
   const [inputFormat, setInputFormat] = useState<InputFormat>(INITIAL_INPUT_FORMAT[format]);
 
   /* Every string this component hands back goes through here, so a reader
      switching the fields to OKLCH cannot change the shape of what the consumer
-     receives. `toString` covers the notations the colour object knows; OKLCH is
+     receives. `toString` covers the notations the color object knows; OKLCH is
      the one it does not. */
   const emit = (color: ColorLike) =>
     format === "oklch" ? formatOklch(toRgba(color)) : color.toString(format);
@@ -157,7 +158,7 @@ export function ColorPicker({
               unnamed dialog (axe `aria-dialog-name`). */}
           <ArkColorPicker.Content
             className="color-picker__popup"
-            aria-label={label ? `${label} colour picker` : "Colour picker"}
+            aria-label={label ? `${label} color picker` : "Color picker"}
           >
             <ArkColorPicker.Area className="color-picker__area">
               <ArkColorPicker.AreaBackground className="color-picker__area-bg" />
@@ -175,7 +176,7 @@ export function ColorPicker({
                 </ArkColorPicker.ChannelSlider>
                 {showEyeDropper && (
                   <ArkColorPicker.EyeDropperTrigger className="color-picker__eyedropper">
-                    <Icon name="pipette" size={iconSize} />
+                    <Icon name={glyph("pipette")} size={iconSize} />
                   </ArkColorPicker.EyeDropperTrigger>
                 )}
               </div>

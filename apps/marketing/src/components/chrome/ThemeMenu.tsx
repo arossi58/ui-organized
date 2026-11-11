@@ -5,11 +5,11 @@ import "./theme-menu.css";
 
 /**
  * The nav's theme control (Branding mockup): a circular swatch trigger that
- * opens a popover with a dark-mode toggle and the brand-colour list. Picking a
- * colour or flipping the toggle re-themes the whole site via `useTheme`.
+ * opens a popover with a dark-mode toggle and the brand-color list. Picking a
+ * color or flipping the toggle re-themes the whole site via `useTheme`.
  *
- * The swatch shows the live brand primary so the control reads as a colour
- * picker; the panel matches the mockup (DS Switch + a single-select colour
+ * The swatch shows the live brand primary so the control reads as a color
+ * picker; the panel matches the mockup (DS Switch + a single-select color
  * list, shared with the mobile menu via ThemeControls) and is wired for
  * keyboard use — Escape and outside-click close it.
  */

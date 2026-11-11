@@ -6,7 +6,8 @@ import { Icon } from "../Icon/index.js";
 import { tourStyles } from "@ui-organized/core";
 import type { TourProps } from "./Tour.types.js";
 import "@ui-organized/core/components/Tour/Tour.css";
-import { useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { useContainedTourProps, useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 const CLOSE_ICON_SIZE = 16;
 
@@ -29,6 +30,7 @@ export function Tour({
   className,
 }: TourProps) {
   const portal = useOverlayPortal();
+  const contained = useContainedTourProps();
 
   /* Steps carry render data our card reads back; the machine only needs the
      shape it defines. Defaults are filled in here so a caller who writes only
@@ -61,7 +63,7 @@ export function Tour({
     onStepChange: (details) => onStepChange?.(details.stepId),
     spotlightRadius,
     preventInteraction,
-    closeOnInteractOutside,
+    closeOnInteractOutside: closeOnInteractOutside ?? contained.closeOnInteractOutside,
     closeOnEscape,
   });
 
@@ -102,7 +104,7 @@ export function Tour({
             <div className="tour__header">
               <ArkTour.Title className="tour__title text-strong-body-large" />
               <ArkTour.CloseTrigger className="tour__close" aria-label="End tour">
-                <Icon name="close" size={CLOSE_ICON_SIZE} />
+                <Icon name={glyph("close")} size={CLOSE_ICON_SIZE} />
               </ArkTour.CloseTrigger>
             </div>
 

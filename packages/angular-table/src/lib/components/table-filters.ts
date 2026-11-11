@@ -11,29 +11,35 @@ import {
 import {
   UioButton,
   UioChip,
+  UioChipSegment,
   UioDateInput,
   UioDivider,
   UioInput,
   UioListbox,
   UioMenu,
   UioMenuItem,
+  UioMenuRadioGroup,
+  UioMenuRadioItem,
+  UioMenuSeparator,
   UioMenuTrigger,
   UioNumberField,
   UioPopover,
   UioPopoverTitle,
+  UioPopoverTrigger,
   UioSearchInput,
   UioSegmentedControl,
   UioSelect,
 } from "@ui-organized/angular";
-import type { ComparisonIconName } from "@ui-organized/angular";
 import {
   searchOptions,
   type FilterOperatorArity,
   type TableFilterCondition,
   type TableFilterValue,
+  afterRowEntrance,
 } from "@ui-organized/table-core";
 import { HostPresence } from "@ui-organized/angular";
 import { injectDataTable } from "../core/table-context.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
 
 /** Options above this many get a search box — the article's "search in the panel". */
 const SEARCHABLE_ABOVE = 8;
@@ -47,9 +53,11 @@ export function focusAfterRemoval(removedId: string): void {
   requestAnimationFrame(() => {
     const bar = document.querySelector(".data-table__filters");
     if (!bar) return;
-    const triggers = [...bar.querySelectorAll<HTMLElement>("[data-filter-id]")];
-    const next = triggers.find((element) => element.dataset["filterId"] !== removedId);
-    (next ?? bar.querySelector<HTMLElement>("button"))?.focus();
+    const chips = [...bar.querySelectorAll<HTMLElement>("[data-filter-id]")];
+    const next = chips.find((element) => element.dataset["filterId"] !== removedId);
+    (
+      next?.querySelector<HTMLElement>("button") ?? bar.querySelector<HTMLElement>("button")
+    )?.focus();
   });
 }
 
@@ -64,6 +72,10 @@ export function focusAfterRemoval(removedId: string): void {
 @Component({
   selector: "[uioTableFilterValueEditor]",
   standalone: true,
+  // A real element, not <ng-container>: Angular cannot host a component on a
+  // container, and the failure is a runtime assertion that leaves the filter bar
+  // empty. `display: contents` keeps the host out of the surrounding layout.
+  host: { style: "display: contents" },
   imports: [
     UioDateInput,
     UioInput,
@@ -271,25 +283,20 @@ export class UioTableFilterValueEditor {
 }
 
 /**
- * One condition's editor (Figma 2298:726): the field name, the operator, the
- * value, then a rule and a remove.
+ * One condition's value editor (Figma 2298:726): the value, then a rule and a
+ * remove. The field and the operator have segments of their own on the chip,
+ * so the editor carries only what the value segment opens.
  */
 @Component({
   selector: "[uioTableFilterEditor]",
   standalone: true,
-  imports: [UioButton, UioDivider, UioSelect, UioTableFilterValueEditor],
+  // A real element, not <ng-container>: Angular cannot host a component on a
+  // container, and the failure is a runtime assertion that leaves the filter bar
+  // empty. `display: contents` keeps the host out of the surrounding layout.
+  host: { style: "display: contents" },
+  imports: [UioButton, UioDivider, UioTableFilterValueEditor],
   template: `
-    <div
-      uioSelect
-      class="data-table__filter-field data-table__filter-field--unlabelled"
-      [size]="table.size()"
-      label="Condition"
-      [value]="condition().operator"
-      [options]="operatorOptions()"
-      (valueChange)="setOperator($event)"
-    ></div>
-
-    <ng-container uioTableFilterValueEditor [condition]="condition()" [arity]="arity()" />
+    <div uioTableFilterValueEditor [condition]="condition()" [arity]="arity()"></div>
 
     <div uioDivider class="data-table__filter-editor-rule"></div>
 
@@ -297,7 +304,7 @@ export class UioTableFilterValueEditor {
       uioButton
       intent="ghost"
       [size]="table.size()"
-      icon="trash"
+      [icon]="glyph('trash')"
       class="data-table__filter-editor-remove"
       (click)="remove()"
     >
@@ -306,19 +313,11 @@ export class UioTableFilterValueEditor {
   `,
 })
 export class UioTableFilterEditor {
+  protected readonly glyph = glyph;
   readonly condition = input.required<TableFilterCondition>();
 
   protected readonly table = injectDataTable();
   protected readonly arity = computed(() => this.table.filters.arityOf(this.condition()));
-  protected readonly operatorOptions = computed(() =>
-    this.table.filters
-      .operatorsFor(this.condition())
-      .map((operator) => ({ value: operator.id, label: operator.label })),
-  );
-
-  protected setOperator(operator: string): void {
-    this.table.filters.update(this.condition().id, { operator });
-  }
 
   protected remove(): void {
     const id = this.condition().id;
@@ -327,61 +326,127 @@ export class UioTableFilterEditor {
   }
 }
 
+type ChipMenu = "field" | "operator";
+
 /**
- * One condition, as a chip that opens its own editor (Figma 2298:376).
+ * One condition, as a segmented chip (Figma 2462:2636): "Name | is greater than
+ * | 30". Each segment opens the control for the one parameter it shows — the
+ * field menu, the operator menu, the value editor — so changing a filter is one
+ * click on the part you mean rather than a trip through a form.
  *
- * No dismiss button on the chip itself: removal lives inside the editor, where
- * the design puts it. That keeps the chip a single target the whole width of the
- * words it shows — a 20px-tall pill with a second 20px hit area inside it is a
- * coin-flip on touch.
+ * Removal lives in the field menu and at the foot of the value editor, not in a
+ * dismiss button: a fourth 24px target in a row of segments is a coin-flip on
+ * touch, and an operator that takes no value ("is empty") has no value editor to
+ * put it in.
  */
 @Component({
   selector: "[uioTableFilterChip]",
   standalone: true,
-  imports: [UioChip, UioPopover, UioPopoverTitle, UioTableFilterEditor],
+  // A real element, not <ng-container>: Angular cannot host a component on a
+  // container, and the failure is a runtime assertion that leaves the filter bar
+  // empty. `display: contents` keeps the host out of the surrounding layout.
+  host: { style: "display: contents" },
+  imports: [
+    UioChip,
+    UioChipSegment,
+    UioMenu,
+    UioMenuItem,
+    UioMenuRadioGroup,
+    UioMenuRadioItem,
+    UioMenuSeparator,
+    UioMenuTrigger,
+    UioPopover,
+    UioPopoverTitle,
+    UioPopoverTrigger,
+    UioTableFilterEditor,
+  ],
   template: `
     <!--
-      React, Svelte and Vue put the popover *trigger* on the Chip itself: their
-      Chip forwards its rest props to the body button, so the trigger's id,
-      aria-expanded and click handler land on the button that opens the popover.
+      The group's name is the whole sentence, so a screen reader moving into any
+      one segment hears what the filter *is* before what the button does.
 
-      Angular's "UioChip" owns that button — it renders one internally, because a
-      dismiss button beside a clickable body cannot be nested inside it — so a
-      "button[uioPopoverTrigger]" cannot be put on the chip from outside. The
-      chip therefore *asks* to open through its own "activate" output, the
-      popover is controlled by filter state (which it already was, in all four),
-      and the surface is anchored to the chip's host element.
+      The menus and the popover sit *beside* the chip, not inside it: segments
+      have to be its direct children for the dividers and the pill's end padding
+      to land, and their surfaces are overlays anchored to the trigger anyway.
     -->
     <span
-      #chip
       uioChip
       class="data-table__filter-chip"
-      [label]="description().field"
-      [operator]="operatorIcon()"
-      [operatorLabel]="description().relative"
-      [detail]="description().relative"
-      [selected]="open()"
+      [attr.aria-label]="'Filter: ' + description().text"
+      [selected]="editing() || menu() !== null"
       [incomplete]="!description().complete"
       [attr.data-column-id]="condition().columnId"
       [attr.data-filter-id]="condition().id"
-      (activate)="setOpen(!open())"
     >
-      {{ description().value }}
+      <button uioChipSegment part="label" uioMenuTrigger [menu]="fieldMenu">
+        {{ description().field }}
+      </button>
+      <button uioChipSegment part="operator" uioMenuTrigger [menu]="operatorMenu">
+        {{ description().relative }}
+      </button>
+      @if (takesValue()) {
+        <button uioChipSegment part="value" uioPopoverTrigger [popover]="popover">
+          {{ description().value }}
+        </button>
+      }
     </span>
+
+    <!-- \`select\` is the menu's output, not the item's: an item reports its value
+         through the menu, and \`(select)\` on an item binds a DOM event that never
+         fires. Radio items report through their group instead. -->
+    <uio-menu
+      #fieldMenu="uioMenu"
+      class="data-table__filter-picker"
+      [open]="menu() === 'field'"
+      (openChange)="setMenu('field', $event)"
+      (select)="$event === 'remove' && remove()"
+    >
+      <div
+        uioMenuRadioGroup
+        [value]="condition().columnId"
+        (valueChange)="table.filters.changeField(condition().id, $event)"
+      >
+        @for (field of table.filters.fields(); track field.columnId) {
+          <div uioMenuRadioItem [value]="field.columnId">{{ field.label }}</div>
+        }
+      </div>
+      <div uioMenuSeparator></div>
+      <div uioMenuItem value="remove" icon="trash">Remove filter</div>
+    </uio-menu>
+
+    <uio-menu
+      #operatorMenu="uioMenu"
+      class="data-table__filter-picker"
+      [open]="menu() === 'operator'"
+      (openChange)="setMenu('operator', $event)"
+    >
+      <div
+        uioMenuRadioGroup
+        [value]="condition().operator"
+        (valueChange)="table.filters.update(condition().id, { operator: $event })"
+      >
+        @for (operator of operators(); track operator.id) {
+          <div uioMenuRadioItem [value]="operator.id">{{ operator.label }}</div>
+        }
+      </div>
+    </uio-menu>
+
+    <!-- Always present, opened only while the condition takes a value: a
+         reference cannot cross from one @if block into another. -->
     <uio-popover
       #popover="uioPopover"
       class="data-table__filter-editor-popup"
       side="bottom"
       align="start"
-      [open]="open()"
+      [open]="open() && takesValue()"
       (openChange)="setOpen($event)"
       (keydown)="onKeyDown($event)"
     >
       <div #editor class="data-table__filter-editor">
         <h2 uioPopoverTitle class="data-table__filter-editor-title">
-          {{ description().field }}
+          {{ description().field }} {{ description().relative }}
         </h2>
-        <ng-container uioTableFilterEditor [condition]="condition()" />
+        <div uioTableFilterEditor [condition]="condition()"></div>
       </div>
     </uio-popover>
   `,
@@ -391,28 +456,50 @@ export class UioTableFilterChip {
 
   protected readonly table = injectDataTable();
   private readonly editor = viewChild<ElementRef<HTMLElement>>("editor");
-  private readonly chip = viewChild<ElementRef<HTMLElement>>("chip");
-  private readonly popover = viewChild<UioPopover>("popover");
 
-  // Which chip is open is filter state, not chip state: the chip that opens is
-  // often the one the *header* just created, and removing an open condition has
-  // to close its editor rather than leave a dangling id behind.
-  protected readonly open = computed(() => this.table.filters.editing() === this.condition().id);
-  protected readonly description = computed(() => this.table.filters.describe(this.condition()));
-  protected readonly operatorIcon = computed(
-    () => this.description().icon as ComparisonIconName | undefined,
+  // Which chip's editor is open is filter state, not chip state: the chip that
+  // opens is often the one the *header* just created, and removing an open
+  // condition has to close its editor rather than leave a dangling id behind.
+  protected readonly editing = computed(
+    () => this.table.filters.editing() === this.condition().id,
   );
+  // The first chip arrives inside a row that is still animating open, so the
+  // editor waits for the row to settle rather than open against a moving
+  // anchor and jump. An existing chip settles at once.
+  private readonly settled = signal(false);
+  protected readonly open = computed(() => this.editing() && this.settled());
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  // The two menus are this chip's alone, so they are local.
+  protected readonly menu = signal<ChipMenu | null>(null);
+  protected readonly description = computed(() => this.table.filters.describe(this.condition()));
+  protected readonly takesValue = computed(
+    () => this.table.filters.arityOf(this.condition()) !== "none",
+  );
+  protected readonly operators = computed(() => this.table.filters.operatorsFor(this.condition()));
 
   // The condition as it was when the editor opened, so Escape can revert it.
   private snapshot: TableFilterCondition | null = null;
 
   constructor() {
-    // What `uioPopoverTrigger` does in its own `ngOnInit`: without an opener the
-    // surface anchors to `document.body` and the editor opens in the corner.
-    effect(() => {
-      const chip = this.chip()?.nativeElement;
-      const popover = this.popover();
-      if (chip && popover) popover.rememberOpener(chip);
+    effect((onCleanup) => {
+      if (!this.editing()) {
+        this.settled.set(false);
+        return;
+      }
+      if (typeof requestAnimationFrame !== "function") {
+        this.settled.set(true);
+        return;
+      }
+      // A frame first: the effect can run before a new chip is attached, and a
+      // detached row reports no animations.
+      let cancel = () => {};
+      const frame = requestAnimationFrame(() => {
+        cancel = afterRowEntrance(this.host.nativeElement, () => this.settled.set(true));
+      });
+      onCleanup(() => {
+        cancelAnimationFrame(frame);
+        cancel();
+      });
     });
 
     effect(() => {
@@ -423,11 +510,9 @@ export class UioTableFilterChip {
     /**
      * Put focus in the first typeable field once the popover opens.
      *
-     * **Two** frames, not one. A focus trace in the React adapter showed this
-     * landing correctly and then the operator `Select` taking focus a
-     * millisecond later, because it is the first focusable child. Waiting a
-     * second frame puts this last, which is the only thing that sticks — and it
-     * is the overlay's behaviour, not React's, so it is the same here.
+     * **Two** frames, not one: the overlay moves focus into the surface on its
+     * own first, and waiting a second frame puts this last, which is the only
+     * thing that sticks.
      *
      * Deliberately only an `<input>`: a text, number, date or search field is
      * something you type into immediately. An enum list without a search box has
@@ -442,8 +527,11 @@ export class UioTableFilterChip {
           const field = host.querySelector<HTMLInputElement>(
             'input:not([type="hidden"]):not([disabled])',
           );
-          field?.focus();
-          field?.select();
+          // Already there — Ark's own initial focus can land on the field, and
+          // the user may be typing by now. Selecting would eat what they typed.
+          if (!field || field === document.activeElement) return;
+          field.focus();
+          field.select();
         });
       });
       onCleanup(() => {
@@ -455,6 +543,17 @@ export class UioTableFilterChip {
 
   protected setOpen(next: boolean): void {
     this.table.filters.setEditing(next ? this.condition().id : null);
+  }
+
+  protected setMenu(name: ChipMenu, next: boolean): void {
+    if (next) this.menu.set(name);
+    else if (this.menu() === name) this.menu.set(null);
+  }
+
+  protected remove(): void {
+    const id = this.condition().id;
+    this.table.filters.remove(id);
+    focusAfterRemoval(id);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
@@ -492,22 +591,27 @@ export class UioTableFilterChip {
           [menu]="menu"
           intent="secondary"
           [size]="table.size()"
-          icon="filter"
+          [icon]="glyph('filter')"
           [attr.aria-label]="label()"
         ></button>
       } @else {
-        <button uioButton uioMenuTrigger [menu]="menu" intent="ghost" size="sm" icon="plus">
+        <button uioButton uioMenuTrigger [menu]="menu" intent="ghost" size="sm" [icon]="glyph('plus')">
           {{ label() }}
         </button>
       }
-      <uio-menu #menu="uioMenu" align="end" class="data-table__filter-picker">
+      <uio-menu
+        #menu="uioMenu"
+        align="end"
+        class="data-table__filter-picker"
+        (select)="table.filters.add($event)"
+      >
         <!--
           A field that already carries conditions stays in the list — several
           conditions on one column is the point — with a count so it is obvious
           this adds another rather than replacing.
         -->
         @for (field of fields(); track field.columnId) {
-          <div uioMenuItem [value]="field.columnId" (select)="table.filters.add(field.columnId)">
+          <div uioMenuItem [value]="field.columnId">
             {{ field.count > 0 ? field.label + " (" + field.count + ")" : field.label }}
           </div>
         }
@@ -516,6 +620,7 @@ export class UioTableFilterChip {
   `,
 })
 export class UioTableFilterAdd {
+  protected readonly glyph = glyph;
   readonly label = input("Add filter");
   readonly iconOnly = input(false);
 
@@ -547,7 +652,7 @@ export class UioTableFilterAdd {
       <span class="data-table__filters-label">Filters</span>
 
       @for (condition of conditions(); track condition.id) {
-        <ng-container uioTableFilterChip [condition]="condition" />
+        <span uioTableFilterChip [condition]="condition"></span>
       }
 
       <!--
@@ -560,18 +665,23 @@ export class UioTableFilterAdd {
         conditions on one column is the point — with a count so it is obvious
         this adds another rather than replacing.
       -->
-      <button uioButton uioMenuTrigger [menu]="addSurface" intent="ghost" size="sm" icon="plus">
+      <button uioButton uioMenuTrigger [menu]="addSurface" intent="ghost" size="sm" [icon]="glyph('plus')">
         Add
       </button>
-      <uio-menu #addSurface="uioMenu" align="end" class="data-table__filter-picker">
+      <uio-menu
+        #addSurface="uioMenu"
+        align="end"
+        class="data-table__filter-picker"
+        (select)="table.filters.add($event)"
+      >
         @for (field of filterFields(); track field.columnId) {
-          <div uioMenuItem [value]="field.columnId" (select)="table.filters.add(field.columnId)">
+          <div uioMenuItem [value]="field.columnId">
             {{ field.count > 0 ? field.label + " (" + field.count + ")" : field.label }}
           </div>
         }
       </uio-menu>
 
-      <button uioButton intent="ghost" size="sm" icon="rotate-ccw" (click)="table.filters.clear()">
+      <button uioButton intent="ghost" size="sm" [icon]="glyph('rotate-ccw')" (click)="table.filters.clear()">
         Reset
       </button>
 
@@ -587,6 +697,7 @@ export class UioTableFilterAdd {
   `,
 })
 export class UioTableFilters {
+  protected readonly glyph = glyph;
   private readonly presence = inject(HostPresence);
 
   constructor() {

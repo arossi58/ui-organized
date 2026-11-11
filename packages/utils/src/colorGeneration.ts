@@ -71,7 +71,7 @@ const RAMP_STEPS: Record<string, number> = {
 /**
  * Chroma scale factor per step — a normalized envelope that rises to a plateau
  * across the mid-dark steps (1000–1300) and tapers at the light/dark ends, so
- * those stops read as near-neutral tints rather than saturated colours.
+ * those stops read as near-neutral tints rather than saturated colors.
  * Derived from the core library's brand-typical families.
  */
 const CHROMA_SCALE: Record<string, number> = {

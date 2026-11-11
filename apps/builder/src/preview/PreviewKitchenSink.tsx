@@ -168,7 +168,6 @@ export function PreviewKitchenSink() {
           <div className={styles.row}>
             <Tag variant="success">Success</Tag>
             <Tag variant="info">Info</Tag>
-            <Tag variant="warning">Warning</Tag>
             <Tag variant="error">Error</Tag>
             <Tag>Default</Tag>
           </div>

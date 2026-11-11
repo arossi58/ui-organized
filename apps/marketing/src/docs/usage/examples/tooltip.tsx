@@ -28,7 +28,7 @@ export const tooltipExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Tooltip content="Removed after 30 days" open side="bottom">
-        <Button intent="secondary" icon="trash" aria-label="Delete" />
+        <Button intent="secondary" icon="trash-2" aria-label="Delete" />
       </Tooltip>
     ),
     // A control inside a bubble that closes as soon as the pointer leaves the
@@ -46,7 +46,7 @@ export const tooltipExamples: UsageExampleSet = {
         open
         side="bottom"
       >
-        <Button intent="secondary" icon="trash" aria-label="Delete" />
+        <Button intent="secondary" icon="trash-2" aria-label="Delete" />
       </Tooltip>
     ),
   },

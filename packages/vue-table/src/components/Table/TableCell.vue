@@ -33,6 +33,7 @@ const editing = computed(() =>
   props.editContext?.columnId === column.value.id ? props.editContext : null,
 );
 const interactive = computed(() => table.interactive.value);
+const editable = computed(() => Boolean(meta.value?.edit));
 
 const cellProps = computed(() =>
   getCellProps({
@@ -42,6 +43,7 @@ const cellProps = computed(() =>
     primary: props.primary,
     sticky: stickyPositionOf(table.table as unknown as TableInstance<T>, column.value),
     focused: props.focused,
+    editable: editable.value,
     editing: Boolean(editing.value),
     invalid: Boolean(editing.value?.invalid),
     interactive: interactive.value,
@@ -55,8 +57,13 @@ const tag = computed(() => (props.primary ? "th" : "td"));
 const onFocus = () => {
   if (interactive.value) table.focus.setCursor({ row: props.rowIndex, col: props.index });
 };
-const onDoubleClick = () => {
-  if (meta.value?.edit) table.edit.start(props.row, column.value.id);
+// One click opens the editor. The click stops here either way: it must not
+// also activate the row (open its detail sheet), and a click *inside* the open
+// editor must not restart the edit and throw the draft away.
+const onClick = (event: MouseEvent) => {
+  if (!editable.value) return;
+  event.stopPropagation();
+  if (!editing.value) table.edit.start(props.row, column.value.id);
 };
 </script>
 
@@ -66,7 +73,7 @@ const onDoubleClick = () => {
     v-bind="vueProps(cellProps)"
     :data-cell="`${rowIndex}:${index}`"
     @focus="onFocus"
-    @dblclick="onDoubleClick"
+    @click="onClick"
   >
     <CellEditor v-if="editing">
       <component :is="() => meta?.edit?.render(editing!)" />

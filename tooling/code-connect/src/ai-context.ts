@@ -18,17 +18,25 @@
 
 import type { ComponentManifestEntry, Confidence, PropDefinition, Staleness } from "./schema.js";
 import { parseEnumValues } from "./controls-core.js";
-import { jsonValue, layoutElement, normalizeArgs, type MarkupAttr } from "./markup.js";
+import { jsxAttr, layoutElement, normalizeArgs } from "./markup.js";
 import { contextForEntry } from "./serialize-core.js";
 import { usageReferenceName } from "./usage/index.js";
 import type { UsageGuide } from "./usage/types.js";
 import {
   CLOSING_RULE,
   COMPOUND_SCOPE_NOTE,
+  FRAMEWORK_PASSTHROUGH_NOTES,
   PASSTHROUGH_NOTE,
   derivePropHints,
   globalRules,
 } from "./ai-context-rules.js";
+import {
+  FRAMEWORK_INFO,
+  frameworkUsage,
+  importStatement as frameworkImport,
+  type DocFramework,
+  type FrameworkTarget,
+} from "./frameworks.js";
 
 // ─── Public contract ─────────────────────────────────────────────────────────
 
@@ -88,9 +96,37 @@ export interface AiContextInput {
   examples?: AiContextExample[];
   /** Current control values → the "current state" JSX. */
   liveArgs?: Record<string, unknown>;
-  /** Named-alias expansions, e.g. `{ CanonicalIconName: ["plus", …] }`. */
+  /** Named-alias expansions, e.g. `{ ControlSize: ["sm", "md", "lg"] }`. */
   typeValues?: Record<string, string[]>;
   meta?: AiContextMeta;
+  /**
+   * Write the block for this library instead of React's — from
+   * `resolveTarget()`. Omitted, or a React target, renders exactly what it
+   * always has.
+   *
+   * The API is still the manifest's: it is scanned from the React component,
+   * and the other three implement it from the same core. What changes is
+   * everything an agent copies — the import, the package, the markup of the
+   * examples — plus a section on the library's own conventions. Angular also
+   * narrows the prop table to the inputs its directive really declares.
+   */
+  target?: FrameworkTarget;
+  /**
+   * Compound siblings as this framework ships them, keyed by the React
+   * `codeName`. A sibling missing here is one this library has not got, and it
+   * is left out of the composition rather than named under a symbol that does
+   * not exist.
+   */
+  relatedTargets?: Record<string, FrameworkTarget>;
+  /**
+   * The component as scanned from that library's OWN source
+   * (`manifest/frameworks/<framework>.json`). When given, its props replace
+   * React's — Vue's `modelValue` and `asChild`, Svelte's snippets — so the table
+   * describes what the package really accepts.
+   */
+  frameworkEntry?: ComponentManifestEntry;
+  /** The same, for compound siblings, keyed by the React `codeName`. */
+  relatedFrameworkEntries?: Record<string, ComponentManifestEntry>;
 }
 
 export interface AiContextProp {
@@ -128,6 +164,12 @@ export interface AiContextData {
   /** Stale / deprecated / non-exact confidence. Empty when everything is clean. */
   warnings: string[];
   provenance: Record<string, string>;
+  /** Set when the block is written for a library other than React. */
+  framework?: DocFramework;
+  /** Angular only: outputs, `(checkedChange)`. */
+  outputs?: string[];
+  /** Angular only: inputs that bind two-way, `[(checked)]`. */
+  models?: string[];
 }
 
 export interface AiContextResult {
@@ -171,16 +213,20 @@ function code(text: string): string {
  * Resolve a prop's type text into its legal values where the type is a closed
  * set — inline string-literal unions directly, named aliases via `typeValues`.
  *
- * This is the single highest-value transform in the payload: `icon?:
- * CanonicalIconName` tells an agent nothing, while the same prop with its 61
- * members listed tells it everything.
+ * This is the single highest-value transform in the payload: `size?:
+ * ControlSize` tells an agent nothing, while the same prop with its members
+ * listed tells it everything.
  *
- * A named alias is also matched when it is one arm of a wider union, which is
- * what `Button.icon` (`CanonicalIconName | IconComponent`) is: the prop accepts
- * a component too, but the name arm is still a closed set and is still the arm
- * an agent gets wrong. `valuesType` reports which arm was expanded so the
- * rendered sentence names that type rather than the whole union — the values
- * are exhaustive for `CanonicalIconName`, not for the prop.
+ * A named alias is also matched when it is one arm of a wider union: the other
+ * arms may be open, but the named arm is still a closed set. `valuesType`
+ * reports which arm was expanded so the rendered sentence names that type
+ * rather than the whole union — the values are exhaustive for that arm, not
+ * for the prop.
+ *
+ * Open types are never expanded, whatever `typeValues` says. `IconName` is the
+ * icon library's own name for any of its icons; a Storybook control lists a
+ * handful for convenience, and presenting those as "exactly these values" would
+ * tell an agent every other icon is invalid.
  */
 export function expandPropType(
   prop: PropDefinition,
@@ -190,12 +236,14 @@ export function expandPropType(
   if (inline) return { type: prop.type, values: inline };
 
   const whole = prop.type.trim();
+  if (OPEN_TYPES.has(whole)) return { type: prop.type };
   const named = typeValues?.[whole];
   if (named?.length) return { type: prop.type, values: [...named] };
 
   // Split on top-level `|` only. A nested union inside `Array<A | B>` or an
   // object literal is not an arm of this type and must not be treated as one.
   for (const arm of topLevelUnionArms(whole)) {
+    if (OPEN_TYPES.has(arm)) continue;
     const armValues = typeValues?.[arm];
     if (armValues?.length) {
       return { type: prop.type, values: [...armValues], valuesType: arm };
@@ -204,6 +252,9 @@ export function expandPropType(
 
   return { type: prop.type };
 }
+
+/** Named types that are open sets, so never listed as their only legal values. */
+const OPEN_TYPES = new Set(["IconName"]);
 
 /** Arms of a union, ignoring `|` nested inside brackets, braces or parens. */
 function topLevelUnionArms(type: string): string[] {
@@ -240,17 +291,9 @@ function toContextProp(prop: PropDefinition, typeValues?: Record<string, string[
 
 // ─── JSX rendering ───────────────────────────────────────────────────────────
 
-/** One arg as a JSX attribute. */
-export function jsxAttr({ name, value }: MarkupAttr): string {
-  if (value === true) return name;
-  if (typeof value === "number") return `${name}={${value}}`;
-  if (typeof value === "string") {
-    return value.includes('"') || value.includes("\n")
-      ? `${name}={${JSON.stringify(value)}}`
-      : `${name}="${value}"`;
-  }
-  return `${name}={${jsonValue(value)}}`;
-}
+// `jsxAttr` lives in `markup.ts` so `frameworks.ts` can use it without
+// importing this module, which imports `frameworks.ts` in turn.
+export { jsxAttr };
 
 /**
  * Concrete JSX for a set of arg values — the "copy what I'm looking at" output.
@@ -283,19 +326,90 @@ export function jsxFromArgs(
 /** Long unions go in a fenced block under the table rather than in a cell. */
 const INLINE_VALUE_LIMIT = 12;
 
+/** The target, when the block is for a library other than React. */
+type OtherTarget = FrameworkTarget & { framework: Exclude<DocFramework, "react"> };
+
+function otherFramework(input: AiContextInput): OtherTarget | undefined {
+  const { target } = input;
+  return target && target.framework !== "react" ? (target as OtherTarget) : undefined;
+}
+
+/**
+ * Angular's directive declares its own inputs, and the port is partial in
+ * props, so the table lists what the directive has rather than what React has.
+ * Types come from React's prop of the same name; an input React lacks is named
+ * without one rather than given a guessed type.
+ */
+function angularProps(
+  props: PropDefinition[],
+  target: FrameworkTarget,
+  typeValues?: Record<string, string[]>,
+): AiContextProp[] {
+  if (!target.inputs) return props.map((p) => toContextProp(p, typeValues));
+  return target.inputs
+    .filter((name) => name !== "class")
+    .map((name) => {
+      const react = props.find((p) => p.name === name);
+      return react
+        ? toContextProp(react, typeValues)
+        : {
+            name,
+            type: "—",
+            required: false,
+            description: "Angular-only input; not part of the React API.",
+          };
+    });
+}
+
+function frameworkProps(
+  props: PropDefinition[],
+  target: FrameworkTarget | undefined,
+  typeValues?: Record<string, string[]>,
+): AiContextProp[] {
+  return target?.framework === "angular"
+    ? angularProps(props, target, typeValues)
+    : props.map((p) => toContextProp(p, typeValues));
+}
+
 function buildData(input: AiContextInput): AiContextData {
   const { entry, related = [], typeValues, meta = {} } = input;
-  const packageName = meta.packageName ?? packageFromImport(entry.importStatement);
+  const fw = otherFramework(input);
+  const packageName = fw
+    ? (fw.packageName ?? FRAMEWORK_INFO[fw.framework].packageName)
+    : (meta.packageName ?? packageFromImport(entry.importStatement));
+  const component = fw ? fw.symbol : entry.codeName;
   const confidence = input.confidence ?? "exact";
 
-  const props = entry.props.map((p) => toContextProp(p, typeValues));
-  const subcomponents = related.map((r) => ({
-    name: r.codeName,
-    props: r.props.map((p) => toContextProp(p, typeValues)),
-  }));
+  // The library's own scan wins when there is one; React's props are the
+  // fallback (Angular, until it has a scanner of its own).
+  const own = fw ? input.frameworkEntry : undefined;
+  const props = own
+    ? own.props.map((p) => toContextProp(p, typeValues))
+    : frameworkProps(entry.props, fw, typeValues);
+  // Under another framework, only the siblings it ships, by its own names.
+  const siblings = fw
+    ? related.flatMap((r) => {
+        const target = input.relatedTargets?.[r.codeName];
+        return target ? [{ entry: r, name: target.symbol, target }] : [];
+      })
+    : related.map((r) => ({ entry: r, name: r.codeName, target: undefined }));
+  const subcomponents = siblings.map((s) => {
+    const sibling = fw ? input.relatedFrameworkEntries?.[s.entry.codeName] : undefined;
+    return {
+      name: s.name,
+      props: sibling
+        ? sibling.props.map((p) => toContextProp(p, typeValues))
+        : frameworkProps(s.entry.props, s.target, typeValues),
+    };
+  });
 
-  const compositionImport = related.length
-    ? `import { ${[entry.codeName, ...related.map((r) => r.codeName)].join(", ")} } from '${packageName}';`
+  const ownImport = fw
+    ? frameworkImport(fw.framework, [component], packageName)
+    : entry.importStatement;
+  const compositionImport = siblings.length
+    ? fw
+      ? frameworkImport(fw.framework, [component, ...siblings.map((s) => s.name)], packageName)
+      : `import { ${[entry.codeName, ...related.map((r) => r.codeName)].join(", ")} } from '${packageName}';`
     : undefined;
 
   // Reuse the MCP server's exact deprecated/stale wording so an agent reading a
@@ -313,25 +427,26 @@ function buildData(input: AiContextInput): AiContextData {
 
   const hints = derivePropHints(entry);
   const rules = globalRules(packageName, hints);
-  if (related.length) rules.push(COMPOUND_SCOPE_NOTE);
+  if (siblings.length) rules.push(COMPOUND_SCOPE_NOTE);
 
+  // The manifest's usage snippet is React source, so it is no fallback for
+  // another library: an example in the wrong syntax is worse than none.
   const examples = input.examples?.length
     ? input.examples
-    : entry.usageSnippet
+    : entry.usageSnippet && !fw
       ? [{ name: "Usage", code: entry.usageSnippet, source: "manifest-usage" as const }]
       : [];
 
+  const propOrder = (own ?? entry).props.map((p) => p.name);
   const currentJsx = input.liveArgs
-    ? jsxFromArgs(
-        entry.codeName,
-        input.liveArgs,
-        entry.props.map((p) => p.name),
-      )
+    ? fw
+      ? frameworkUsage(fw, input.liveArgs, propOrder)
+      : jsxFromArgs(entry.codeName, input.liveArgs, propOrder)
     : undefined;
 
   const provenance: Record<string, string> = {
     package: meta.packageVersion ? `${packageName}@${meta.packageVersion}` : packageName,
-    source: entry.codePath,
+    source: (own ?? entry).codePath,
     confidence,
   };
   if (input.staleness) {
@@ -347,26 +462,91 @@ function buildData(input: AiContextInput): AiContextData {
       ? `${meta.componentCount} components — ${meta.indexUrl}`
       : meta.indexUrl;
   }
+  if (fw) {
+    provenance.api = own
+      ? `scanned from the ${FRAMEWORK_INFO[fw.framework].label} component's own source`
+      : `scanned from the React component; ${FRAMEWORK_INFO[fw.framework].label} ` +
+        "implements the same API from the same core";
+  }
   if (meta.generatedAt) provenance.generated = meta.generatedAt;
 
+  const outputs = fw?.outputs?.length ? [...fw.outputs] : undefined;
+  const models = fw?.models?.length ? [...fw.models] : undefined;
+
   return {
-    component: entry.codeName,
+    component,
     package: packageName,
     ...(meta.packageVersion ? { version: meta.packageVersion } : {}),
-    importStatement: entry.importStatement,
+    importStatement: ownImport,
     ...(compositionImport ? { compositionImport } : {}),
     ...(input.description ? { description: input.description } : {}),
     ...(input.usage ? { usage: input.usage } : {}),
     props,
     ...(subcomponents.length ? { subcomponents } : {}),
-    passthrough: PASSTHROUGH_NOTE,
+    passthrough: fw ? FRAMEWORK_PASSTHROUGH_NOTES[fw.framework] : PASSTHROUGH_NOTE,
     ...(entry.customInstructions ? { customInstructions: entry.customInstructions } : {}),
     ...(currentJsx ? { currentJsx } : {}),
     examples,
     rules,
     warnings,
     provenance,
+    ...(fw ? { framework: fw.framework } : {}),
+    ...(outputs ? { outputs } : {}),
+    ...(models ? { models } : {}),
   };
+}
+
+/**
+ * How this library differs from the React spelling of the same API — the part
+ * an agent would otherwise fill in from React habit. Every claim here is a
+ * convention the library applies to all of its components, not to one.
+ */
+function conventionsSection(data: AiContextData, target: OtherTarget): string[] {
+  const label = FRAMEWORK_INFO[target.framework].label;
+  const lines: string[] = [];
+  switch (target.framework) {
+    case "svelte":
+      lines.push(
+        "- Props keep the names in the table, callback props included (`onValueChange`).",
+        "- Controllable values are bindable: `bind:value`, `bind:checked`, `bind:open`.",
+      );
+      break;
+    case "vue":
+      lines.push(
+        "- Write props kebab-cased in templates: `helperText` is `helper-text`.",
+        "- A callback prop in the table is an emitted event here: `onValueChange` is " +
+          "`@value-change`, `onCheckedChange` is `@checked-change`.",
+        "- Controllable values support `v-model` (`v-model:checked`, `v-model:open`).",
+        "- `style` is reserved by Vue, so `IconProvider`'s outline/solid prop is `icon-style`.",
+      );
+      break;
+    case "angular": {
+      const selector = target.selector;
+      if (selector?.attribute) {
+        lines.push(
+          `- \`${data.component}\` is an attribute directive. Put it on a ` +
+            `\`<${selector.element}>\` you write yourself: \`<${selector.element} ${selector.attribute}>\`.`,
+        );
+      } else if (selector) {
+        lines.push(`- \`${data.component}\` owns its host element: \`<${selector.element}>\`.`);
+      }
+      lines.push(
+        `- Components are standalone: add \`${data.component}\` to your component's \`imports\` array.`,
+        '- Bind a string input as an attribute (`intent="primary"`); bind anything else ' +
+          'with brackets (`[disabled]="true"`).',
+        "- Form controls implement `ControlValueAccessor`, so `[(ngModel)]` and " +
+          "`[formControl]` work directly.",
+      );
+      break;
+    }
+  }
+  const content = { svelte: "a snippet", vue: "a slot", angular: "projected content" }[
+    target.framework
+  ];
+  lines.push(
+    `- Types are written in React's terms. Where one says \`ReactNode\`, pass ${content} instead.`,
+  );
+  return [`## ${label} conventions`, lines.join("\n")];
 }
 
 // ─── Markdown ────────────────────────────────────────────────────────────────
@@ -437,9 +617,7 @@ function usageSections(usage: UsageGuide): string[] {
   );
 
   out.push("## Usage rules");
-  out.push(
-    usage.guidance.map(({ do: yes, dont }) => `- ${yes} **Not:** ${dont}`).join("\n"),
-  );
+  out.push(usage.guidance.map(({ do: yes, dont }) => `- ${yes} **Not:** ${dont}`).join("\n"));
 
   out.push("## Accessibility obligations");
   out.push(usage.accessibility.map((line) => `- ${line}`).join("\n"));
@@ -465,11 +643,33 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
   const out: string[] = [];
   const { entry } = input;
 
+  const fw = otherFramework(input);
+  // Angular's templates are HTML; the other two have their own fence tags.
+  const fence = fw
+    ? fw.framework === "angular"
+      ? "html"
+      : FRAMEWORK_INFO[fw.framework].language
+    : "tsx";
+  const importFence = fw ? "ts" : "tsx";
+
   out.push(`# ${data.component} — ${data.package}`);
   out.push(
-    "Verified context from the UI Organized design system, scanned directly from " +
-      `\`${entry.codePath}\`. Everything below is generated from the component's real ` +
-      "type signature — it is not a summary and not a guess.",
+    fw && input.frameworkEntry
+      ? `Verified context from the UI Organized design system, for its ${FRAMEWORK_INFO[fw.framework].label} ` +
+          `library, scanned directly from \`${input.frameworkEntry.codePath}\`. Everything below is ` +
+          `generated from \`${data.package}\`'s own type signature — it is not a summary, not a ` +
+          "translation of another library's API, and not a guess."
+      : fw
+      ? `Verified context from the UI Organized design system, for its ${FRAMEWORK_INFO[fw.framework].label} ` +
+          `library. The API is scanned from the React component at \`${entry.codePath}\`, which ` +
+          `\`${data.package}\` implements from the same shared core` +
+          (fw.framework === "angular"
+            ? "; the inputs, outputs and selector are read from the Angular source itself. "
+            : ". ") +
+          "It is generated, not a summary and not a guess."
+      : "Verified context from the UI Organized design system, scanned directly from " +
+          `\`${entry.codePath}\`. Everything below is generated from the component's real ` +
+          "type signature — it is not a summary and not a guess.",
   );
 
   if (data.warnings.length) {
@@ -480,10 +680,16 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
   out.push(data.rules.map((r, i) => `${i + 1}. ${r}`).join("\n"));
 
   out.push("## Import");
-  out.push(["```tsx", data.compositionImport ?? data.importStatement, "```"].join("\n"));
+  out.push(
+    [`\`\`\`${importFence}`, data.compositionImport ?? data.importStatement, "```"].join("\n"),
+  );
   if (input.meta?.setupImports?.length) {
     out.push("Once per app (already done in any existing UI Organized app):");
-    out.push(["```tsx", ...input.meta.setupImports.map((i) => `import '${i}';`), "```"].join("\n"));
+    out.push(
+      [`\`\`\`${importFence}`, ...input.meta.setupImports.map((i) => `import '${i}';`), "```"].join(
+        "\n",
+      ),
+    );
     // The icon subpath is the one setup line whose absence fails *silently*:
     // `@ui-organized/react` imports no icon library itself, so without it
     // `<Icon>` renders nothing at all. An agent that copies the block verbatim
@@ -491,13 +697,19 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
     const iconImport = input.meta.setupImports.find((i) => i.includes("/icons/"));
     if (iconImport) {
       const library = iconImport.split("/").pop();
+      // Svelte has no heroicons adapter; naming one would send an agent to a
+      // subpath that does not exist.
+      const alternatives = fw?.framework === "svelte" ? "`tabler`" : "`tabler` or `heroicons`";
+      const icon = fw?.framework === "angular" ? "`uioIcon`" : "`<Icon>`";
       out.push(
-        `The \`icons/${library}\` line registers the icon set — \`@ui-organized/react\` imports no icon ` +
-          `library itself, so without it every \`<Icon>\` renders nothing. Swap \`${library}\` for ` +
-          `\`tabler\` or \`heroicons\` to match the project, and make sure the matching package is installed.`,
+        `The \`icons/${library}\` line registers the icon set — \`${data.package}\` imports no icon ` +
+          `library itself, so without it every ${icon} renders nothing. Swap \`${library}\` for ` +
+          `${alternatives} to match the project, and make sure the matching package is installed.`,
       );
     }
   }
+
+  if (fw) out.push(...conventionsSection(data, fw));
 
   if (data.description) {
     out.push("## What it is");
@@ -530,7 +742,10 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
   }
 
   const count = data.props.length;
-  out.push(`## Props — complete (${count} own ${count === 1 ? "prop" : "props"})`);
+  const noun = fw?.framework === "angular" ? "input" : "prop";
+  out.push(
+    `## ${noun === "input" ? "Inputs" : "Props"} — complete (${count} own ${count === 1 ? noun : `${noun}s`})`,
+  );
   if (count === 0) {
     out.push(
       "This component declares no props of its own. It is driven entirely by its " +
@@ -547,6 +762,17 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
       out.push(["```", wrapValues(values), "```"].join("\n"));
     }
   }
+  if (data.models?.length) {
+    out.push(`Two-way bindable: ${data.models.map((m) => `\`[(${m})]\``).join(", ")}.`);
+  }
+  if (data.outputs?.length) {
+    out.push(
+      `Outputs — complete: ${data.outputs.map((o) => `\`(${o})\``).join(", ")}. ` +
+        "A React callback prop with no output listed here has no Angular equivalent.",
+    );
+  } else if (fw?.framework === "angular") {
+    out.push("This directive declares no outputs.");
+  }
   out.push(data.passthrough);
 
   if (data.customInstructions) {
@@ -556,14 +782,14 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
 
   if (data.currentJsx) {
     out.push("## Current state (what the human is looking at)");
-    out.push(["```tsx", data.currentJsx, "```"].join("\n"));
+    out.push([`\`\`\`${fence}`, data.currentJsx, "```"].join("\n"));
   }
 
   if (data.examples.length) {
     out.push("## Verified examples");
     for (const ex of data.examples) {
       out.push(`**${ex.label ?? humanizeLabel(ex.name)}**`);
-      out.push(["```tsx", ex.code, "```"].join("\n"));
+      out.push([`\`\`\`${fence}`, ex.code, "```"].join("\n"));
     }
   }
 
@@ -599,6 +825,8 @@ function renderJsx(data: AiContextData, input: AiContextInput): string {
   if (data.currentJsx) return data.currentJsx;
   const first = data.examples[0];
   if (first) return first.code;
+  const fw = otherFramework(input);
+  if (fw) return frameworkUsage(fw, {});
   return input.entry.usageSnippet || `<${data.component} />`;
 }
 

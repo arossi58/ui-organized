@@ -12,6 +12,7 @@ import Button from "../Button/Button.vue";
 import Icon from "../Icon/Icon.vue";
 import type { TourProps, TourStepAction } from "./Tour.types.js";
 import "@ui-organized/core/components/Tour/Tour.css";
+import { glyph } from "../../icons/glyph.js";
 
 const CLOSE_ICON_SIZE = 16;
 
@@ -124,7 +125,7 @@ watch(() => props.stepId, syncStep);
           <div class="tour__header">
             <ArkTour.Title class="tour__title text-strong-body-large" />
             <ArkTour.CloseTrigger class="tour__close" aria-label="End tour">
-              <Icon name="close" :size="CLOSE_ICON_SIZE" />
+              <Icon :name="glyph('close')" :size="CLOSE_ICON_SIZE" />
             </ArkTour.CloseTrigger>
           </div>
 

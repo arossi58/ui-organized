@@ -38,7 +38,8 @@
 /* The well is not itself focusable — focus lands on the entry field inside it,
    so the ring is drawn from that descendant onto the container. */
 .tags-input__control:focus-within {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .tags-input__control[data-invalid] {
@@ -46,7 +47,20 @@
 }
 
 .tags-input__control[data-invalid]:focus-within {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
+}
+
+/* Pointer focus (data-focus-modality from @ui-organized/core/focus-modality):
+   browsers match :focus-visible on every focus of a text field, so a click would
+   draw the full ring. After a click the border takes the focus color instead;
+   keyboard focus, and pages that never install the tracker, keep the ring. */
+:root[data-focus-modality="pointer"] .tags-input__control:focus-within {
+  outline: none;
+  border-color: var(--color-interactive-focus);
+}
+
+:root[data-focus-modality="pointer"] .tags-input__control[data-invalid]:focus-within {
+  border-color: var(--color-status-error);
 }
 
 .tags-input__control[data-disabled] {
@@ -55,7 +69,7 @@
 }
 
 /* ─── Tag chip ────────────────────────────────────────────────────────────────
-   Deliberately not the `<Tag>` component: Tag's variants are status colours
+   Deliberately not the `<Tag>` component: Tag's variants are status colors
    (success / warning / error) and a tag here carries no status — it is a
    neutral chip for a value the user entered. */
 
@@ -103,7 +117,8 @@
 }
 
 .tags-input__tag-delete:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── In-place tag editing ────────────────────────────────────────────────────

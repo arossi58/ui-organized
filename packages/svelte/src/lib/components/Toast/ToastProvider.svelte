@@ -12,6 +12,7 @@
   import { STATUS_ICON, resolveStatus, toaster } from "./toaster.js";
   import type { ToastProviderProps } from "./Toast.types.js";
   import "@ui-organized/core/components/Toast/Toast.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let { children }: ToastProviderProps = $props();
 </script>
@@ -22,7 +23,7 @@
     {@const status = resolveStatus(toast().type)}
     <Toast.Root class={toastStyles({ status })}>
       <span class="toast__icon">
-        <Icon name={STATUS_ICON[status]} size={20} />
+        <Icon name={glyph(STATUS_ICON[status])} size={20} />
       </span>
       <div class="toast__content">
         <Toast.Title class="toast__title text-strong-body-medium">{toast().title}</Toast.Title>
@@ -36,7 +37,7 @@
         </Toast.ActionTrigger>
       {/if}
       <Toast.CloseTrigger class="toast__close" aria-label="Dismiss">
-        <Icon name="close" size={20} />
+        <Icon name={glyph("close")} size={20} />
       </Toast.CloseTrigger>
     </Toast.Root>
   {/snippet}

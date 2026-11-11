@@ -35,7 +35,7 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
-import { CANONICAL_ICON_NAMES } from "@ui-organized/utils";
+import { SYSTEM_GLYPHS } from "@ui-organized/core";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 
@@ -74,13 +74,13 @@ try {
   for (const { library, entry } of ADAPTERS) {
     await server.ssrLoadModule(entry);
 
-    const set = globalThis[REGISTRY_KEY]?.get(library);
+    const set = globalThis[REGISTRY_KEY]?.sets.get(library);
     if (!set) {
       problems.push(`${library}: importing ${entry} registered nothing`);
       continue;
     }
 
-    for (const name of CANONICAL_ICON_NAMES) {
+    for (const name of SYSTEM_GLYPHS) {
       if (typeof set.outline[name] !== "function") {
         problems.push(`${library}: outline "${name}" is ${String(set.outline[name])}`);
       }
@@ -120,8 +120,8 @@ if (problems.length) {
 }
 
 const summary = ADAPTERS.map(({ library }) => {
-  const solid = Object.keys(globalThis[REGISTRY_KEY].get(library).solid ?? {}).length;
-  return `${library} ${CANONICAL_ICON_NAMES.length}${solid ? `+${solid} solid` : ""}`;
+  const solid = Object.keys(globalThis[REGISTRY_KEY].sets.get(library).solid ?? {}).length;
+  return `${library} ${SYSTEM_GLYPHS.length}${solid ? `+${solid} solid` : ""}`;
 }).join(", ");
 console.log(`✓ icon adapters register real components: ${summary}`);
-console.log(`  registered: ${[...globalThis[REGISTRY_KEY].keys()].join(", ")}`);
+console.log(`  registered: ${[...globalThis[REGISTRY_KEY].sets.keys()].join(", ")}`);

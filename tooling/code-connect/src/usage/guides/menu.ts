@@ -4,7 +4,7 @@ export const menuUsage: UsageGuide = {
   slug: "menu",
   codeName: "Menu",
   summary:
-    "A list of actions behind one trigger. It keeps commands out of the way until they are wanted, which is what makes it the home for everything a surface can do but rarely does.",
+    "A list of actions behind one trigger. It keeps commands out of the way until they are wanted, so it suits the actions a surface offers but rarely needs.",
   useWhen: [
     "A surface has more actions than deserve permanent space.",
     "The actions relate to one object or one area.",

@@ -215,7 +215,7 @@ describe("UioEditable", () => {
     const { preview, area } = render({ placeholder: "Add a name" });
     expect(preview().textContent?.trim()).toBe("Add a name");
     // A span has no ::placeholder, so the state is an attribute the stylesheet
-    // colours off rather than a pseudo-element.
+    // colors off rather than a pseudo-element.
     expect(area().getAttribute("data-placeholder-shown")).toBe("");
     expect(preview().getAttribute("data-placeholder-shown")).toBe("");
   });

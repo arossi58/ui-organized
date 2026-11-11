@@ -36,7 +36,7 @@
 
 import { createSSRApp, h } from "vue";
 import { renderToString } from "vue/server-renderer";
-import { CANONICAL_ICON_NAMES } from "@ui-organized/utils";
+import { SYSTEM_GLYPHS } from "@ui-organized/core";
 
 /** The global key the registry is stored under. See src/icons/registry.ts. */
 const REGISTRY_KEY = Symbol.for("@ui-organized/vue.iconRegistry");
@@ -67,13 +67,13 @@ const problems = [];
 for (const { library, entry } of ADAPTERS) {
   await import(entry);
 
-  const set = globalThis[REGISTRY_KEY]?.get(library);
+  const set = globalThis[REGISTRY_KEY]?.sets.get(library);
   if (!set) {
     problems.push(`${library}: importing ${entry} registered nothing`);
     continue;
   }
 
-  for (const name of CANONICAL_ICON_NAMES) {
+  for (const name of SYSTEM_GLYPHS) {
     if (typeof set.outline[name] !== "function") {
       problems.push(`${library}: outline "${name}" is ${String(set.outline[name])}`);
     }
@@ -112,8 +112,8 @@ if (problems.length) {
 }
 
 const summary = ADAPTERS.map(({ library }) => {
-  const solid = Object.keys(globalThis[REGISTRY_KEY].get(library).solid ?? {}).length;
-  return `${library} ${CANONICAL_ICON_NAMES.length}${solid ? `+${solid} solid` : ""}`;
+  const solid = Object.keys(globalThis[REGISTRY_KEY].sets.get(library).solid ?? {}).length;
+  return `${library} ${SYSTEM_GLYPHS.length}${solid ? `+${solid} solid` : ""}`;
 }).join(", ");
 console.log(`✓ icon adapters register real components: ${summary}`);
-console.log(`  registered: ${[...globalThis[REGISTRY_KEY].keys()].join(", ")}`);
+console.log(`  registered: ${[...globalThis[REGISTRY_KEY].sets.keys()].join(", ")}`);

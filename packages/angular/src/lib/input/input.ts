@@ -8,6 +8,7 @@ import {
   model,
   signal,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { inputFieldStyles, type InputVariants } from "@ui-organized/core";
@@ -15,6 +16,7 @@ import { UioPart } from "../part.js";
 import { UioFieldContext } from "../field/field-context.js";
 import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type InputSize = NonNullable<InputVariants["size"]>;
 
@@ -110,6 +112,9 @@ export type InputSize = NonNullable<InputVariants["size"]>;
   },
 })
 export class UioInput extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   readonly scope = "field";
   readonly part = "root";
 
@@ -150,7 +155,7 @@ export class UioInput extends UioPart implements ControlValueAccessor {
   readonly value = model<string>("");
   /**
    * A name for a control the design does not print a label above — a channel
-   * field inside the colour picker, say. Prefer `label`: a visible one names
+   * field inside the color picker, say. Prefer `label`: a visible one names
    * the control for everyone rather than only for a screen reader.
    */
   readonly ariaLabel = input<string | undefined>(undefined, { alias: "aria-label" });

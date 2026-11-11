@@ -1,6 +1,6 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { Snippet } from "svelte";
 import type { HTMLAttributes } from "svelte/elements";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ArkForwardable } from "../../types.js";
 
 export interface ContextMenuProps {
@@ -46,8 +46,8 @@ export interface ContextMenuItemProps
   /** Stable value for the item. Generated when omitted. */
   value?: string;
   /** Icon rendered before the label. */
-  icon?: CanonicalIconName;
-  /** Renders the item in the destructive colour. */
+  icon?: IconName | IconComponent;
+  /** Renders the item in the destructive color. */
   destructive?: boolean;
   /** Fired when the item is selected (click or keyboard). */
   onSelect?: () => void;

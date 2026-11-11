@@ -9,8 +9,8 @@ import "./core-colors.css";
 /**
  * The full core palette — every authored family as a 24-step OKLCH ramp,
  * straight from `coreColors` in @ui-organized/utils. Grouped into neutrals and
- * brand/accent hues. Chrome is theme-agnostic (inherits the docs text colour);
- * swatch colours are the authored hexes, so they're correct regardless of the
+ * brand/accent hues. Chrome is theme-agnostic (inherits the docs text color);
+ * swatch colors are the authored hexes, so they're correct regardless of the
  * docs theme.
  */
 
@@ -44,12 +44,9 @@ export function CoreColorTable() {
   return (
     <div className="core-colors">
       <p className="core-colors__lede">
-        The core palette is deliberately large — {FAMILY_COUNT} families, each a{" "}
-        {CORE_STEPS.length}-step ramp — so you can theme expressively without ever leaving the
-        system. Every ramp is a hand-tuned <strong>OKLCH</strong> palette with even, perceptually
-        spaced steps, so you get production-ready, accessible colour <em>out of the box</em>. There's
-        no need to reverse-engineer how a ramp was built to make a new colour — just pick a family
-        and a step. Hover any swatch for its hex and OKLCH value.
+        {FAMILY_COUNT} families, each a {CORE_STEPS.length}-step <strong>OKLCH</strong> ramp
+        with evenly spaced lightness. Pick a family and a step. Hover any swatch for its hex and
+        OKLCH value.
       </p>
       <p className="core-colors__axis">
         Each family runs <code>100</code> (lightest) → <code>2400</code> (darkest).
@@ -69,7 +66,7 @@ export function CoreColorTable() {
       <section className="core-colors__group">
         <h3 className="core-colors__heading">Brand &amp; accent hues</h3>
         <p className="core-colors__blurb">
-          Saturated families — any can serve as the brand colour or an accent. The theme menu and the
+          Saturated families — any can serve as the brand color or an accent. The theme menu and the
           builder pick one of these as the brand, and the semantic tokens resolve <code>brand.*</code>{" "}
           against it.
         </p>

@@ -7,6 +7,8 @@ export {
   initTheme,
   type ThemeName,
   type BuiltInTheme,
+  type ThemePreference,
+  type InitThemeOptions,
 } from "./theme.js";
 export { transformConfig, type TransformResult } from "./pipeline/transform.js";
 export { buildCss, type CssBuildResult } from "./pipeline/buildCss.js";

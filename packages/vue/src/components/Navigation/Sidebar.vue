@@ -13,6 +13,7 @@ import Icon from "../Icon/Icon.vue";
 import { provideNavContext } from "./navContext.js";
 import type { SidebarProps } from "./Navigation.types.js";
 import "@ui-organized/core/components/Navigation/Navigation.css";
+import { glyph } from "../../icons/glyph.js";
 
 const TOGGLE_ICON_SIZE = 20;
 
@@ -92,7 +93,7 @@ const rootClass = computed(() =>
         @click="toggle"
       >
         <Icon
-          :name="isCollapsed ? 'chevron-right' : 'chevron-left'"
+          :name="glyph(isCollapsed ? 'chevron-right' : 'chevron-left')"
           :size="TOGGLE_ICON_SIZE"
           class="sidebar__toggle-icon"
         />

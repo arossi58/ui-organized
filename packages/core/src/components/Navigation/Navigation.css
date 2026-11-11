@@ -63,7 +63,8 @@
 /* focus ─ 2px ring */
 .nav-item__trigger:focus-visible {
   color: var(--color-content-secondary);
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* selected ─ filled primary, emphasized */
@@ -159,7 +160,8 @@
 /* focus ─ 2px ring */
 .nav-sub-item:focus-visible {
   color: var(--color-content-primary);
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* selected ─ overlay fill, emphasized */
@@ -323,6 +325,7 @@
 
 .sidebar__toggle:focus-visible {
   color: var(--color-content-primary);
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 

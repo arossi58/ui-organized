@@ -5,6 +5,7 @@ import { flexRender, type RowData } from "@tanstack/react-table";
 import { Icon } from "@ui-organized/react";
 import {
   alignOf,
+  dropSideAt,
   getCaptionProps,
   getCellProps,
   getColProps,
@@ -22,6 +23,7 @@ import {
   type TableInstance,
 } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
+import { TableSelectionFooter } from "../TableSelectionFooter/index.js";
 import { reactProps } from "../../core/props.js";
 import { TableEmpty, TableError, TableLoading } from "../TableStates/index.js";
 import type {
@@ -34,6 +36,7 @@ import type {
   TableRowProps,
   TableViewportProps,
 } from "./Table.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The parts, flat-exported — `TableHeader`, not `Table.Header`. That is the
@@ -44,10 +47,11 @@ import type {
  *
  *   <Table>              <div class="data-table">        root, size + variant
  *     <TableToolbar>     <div class="data-table__toolbar">
- *     <TableSubBar>      <div class="data-table__subbar">   filters + selection
+ *     <TableSubBar>      <div class="data-table__subbar">   filters
  *     <TableViewport>    <div class="data-table__viewport"><table>
  *       <TableHeader>    <thead>
  *       <TableBody>      <tbody>   spacer / rows / spacer
+ *                        </table><div class="data-table__selection-footer">
  *     <TablePagination>
  *
  * `TableViewport` owns both the scroll container and the `<table>` element
@@ -114,6 +118,10 @@ export function TableViewport({ children, className, maxHeight }: TableViewportP
         </colgroup>
         {children}
       </table>
+      {/* After the table, inside the scroll container: it sticks to the
+          viewport's bottom edge, so it costs a capped table scroll length
+          rather than page height. */}
+      <TableSelectionFooter />
     </div>
   );
 }
@@ -136,11 +144,18 @@ export function TableHeader({ className }: TableHeaderProps) {
 }
 
 export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCellProps<T>) {
-  const { table, interactive, focus } = useTableContext<T>();
+  const { table, interactive, focus, reorder } = useTableContext<T>();
   const column = header.column;
+  const movable = reorder.active && reorder.isMovable(column.id);
+  const drag = reorder.drag;
+  const dropSide =
+    drag && drag.target === column.id && drag.source !== column.id ? drag.side : undefined;
+  const headerText =
+    typeof column.columnDef.header === "string" ? column.columnDef.header : column.id;
   const sortable = column.getCanSort();
   const sorted = column.getIsSorted();
   const focused = interactive && focus.cursor.row === -1 && focus.cursor.col === index;
+  const editable = Boolean(metaOf<T>(column.columnDef)?.edit);
 
   const props = getHeadCellProps({
     columnId: column.id,
@@ -151,6 +166,7 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
     sticky: stickyPositionOf(table as TableInstance<T>, column),
     resizing: column.getIsResizing(),
     interactive,
+    editable,
   });
 
   const content = header.isPlaceholder
@@ -165,8 +181,56 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
       // first body row lands somewhere focusable and Enter sorts from there.
       tabIndex={interactive ? (focused ? 0 : -1) : undefined}
       onFocus={interactive ? () => focus.setCursor({ row: -1, col: index }) : undefined}
+      // The whole header is a drop target; only its label area (below) is a
+      // drag source.
+      data-dragging={drag?.source === column.id || undefined}
+      data-drop={dropSide}
+      onDragOver={
+        movable && drag
+          ? (event) => {
+              event.preventDefault();
+              event.dataTransfer.dropEffect = "move";
+              const side = dropSideAt(event.clientX, event.currentTarget.getBoundingClientRect());
+              if (drag.target !== column.id || drag.side !== side) {
+                reorder.setDrag({ ...drag, target: column.id, side });
+              }
+            }
+          : undefined
+      }
+      onDrop={
+        movable && drag
+          ? (event) => {
+              event.preventDefault();
+              const side = dropSideAt(event.clientX, event.currentTarget.getBoundingClientRect());
+              reorder.drop(drag.source, column.id, side);
+              reorder.setDrag(null);
+            }
+          : undefined
+      }
     >
-      <div className="data-table__head-inner">
+      {/* The drag source is the label area, not the <th>. With the <th>
+          draggable, pressing the resize handle — a child of it — started a
+          native drag that took the pointer away from the resize after its
+          first step; cancelling the drag in dragstart is already too late.
+          The handle sits outside this element, so it can never start one. */}
+      <div
+        className="data-table__head-inner"
+        draggable={movable || undefined}
+        onDragStart={
+          movable
+            ? (event) => {
+                if ((event.target as Element).closest(".data-table__move")) {
+                  event.preventDefault();
+                  return;
+                }
+                event.dataTransfer.effectAllowed = "move";
+                event.dataTransfer.setData("text/plain", column.id);
+                reorder.setDrag({ source: column.id, target: null, side: "before" });
+              }
+            : undefined
+        }
+        onDragEnd={movable ? () => reorder.setDrag(null) : undefined}
+      >
         {sortable ? (
           <button
             type="button"
@@ -176,16 +240,92 @@ export function TableHeadCell<T extends RowData>({ header, index }: TableHeadCel
             onClick={column.getToggleSortingHandler()}
           >
             <span className="data-table__head-label">{content}</span>
+            {editable && <EditMark />}
             <span className="data-table__sort-icon">
-              <Icon name={sorted === "desc" ? "sort-desc" : "sort-asc"} size={14} />
+              <Icon name={glyph(sorted === "desc" ? "sort-desc" : "sort-asc")} size={14} />
             </span>
           </button>
         ) : (
-          <span className="data-table__head-label">{content}</span>
+          <>
+            <span className="data-table__head-label">{content}</span>
+            {editable && <EditMark />}
+          </>
         )}
+        {movable && <MoveButtons columnId={column.id} name={headerText} />}
       </div>
       {column.getCanResize() && <ResizeHandle header={header} />}
     </th>
+  );
+}
+
+/**
+ * Left and right, for a column that can be moved — the click-and-keyboard half
+ * of dragging the header. Over the header's end rather than in its flow, so
+ * showing them does not shove the label. In `"always"` mode the stylesheet
+ * shows them on hover and focus; in `"toggle"` mode they are up for as long as
+ * reorder mode is.
+ *
+ * In an interactive grid they are not tab stops, like every control inside a
+ * cell; Alt+Arrow on the focused header is the keyboard route there.
+ */
+function MoveButtons({ columnId, name }: { columnId: string; name: string }) {
+  const { reorder, interactive } = useTableContext();
+  const left = useRef<HTMLButtonElement>(null);
+  const right = useRef<HTMLButtonElement>(null);
+
+  const press = (direction: -1 | 1, event: React.MouseEvent<HTMLButtonElement>) => {
+    const hadFocus = document.activeElement === event.currentTarget;
+    reorder.move(columnId, direction);
+    if (!hadFocus) return;
+    // Re-rendering in the new order moves this header's DOM node, and a moved
+    // node drops focus. Put it back on the same button — or on the other one,
+    // when this move took the column to the end it pointed at.
+    requestAnimationFrame(() => {
+      const own = direction === -1 ? left.current : right.current;
+      const other = direction === -1 ? right.current : left.current;
+      (own && !own.disabled ? own : other)?.focus();
+    });
+  };
+
+  return (
+    <span className="data-table__move" data-mode={reorder.mode}>
+      <button
+        ref={left}
+        type="button"
+        className="data-table__move-button"
+        aria-label={`Move ${name} left`}
+        disabled={!reorder.canMove(columnId, -1)}
+        tabIndex={interactive ? -1 : undefined}
+        onClick={(event) => press(-1, event)}
+      >
+        <Icon name={glyph("chevron-left")} size={16} />
+      </button>
+      <button
+        ref={right}
+        type="button"
+        className="data-table__move-button"
+        aria-label={`Move ${name} right`}
+        disabled={!reorder.canMove(columnId, 1)}
+        tabIndex={interactive ? -1 : undefined}
+        onClick={(event) => press(1, event)}
+      >
+        <Icon name={glyph("chevron-right")} size={16} />
+      </button>
+    </span>
+  );
+}
+
+/**
+ * The pencil on an editable column's header. The words go with it: as part of
+ * the column header, ", editable" is announced with every cell in the column,
+ * which is where a screen-reader user needs to learn that Enter opens an editor.
+ */
+function EditMark() {
+  return (
+    <span className="data-table__edit-icon">
+      <Icon name={glyph("edit")} size={14} />
+      <span className="data-table__sr-only">, editable</span>
+    </span>
   );
 }
 
@@ -349,6 +489,7 @@ export function TableCell<T extends RowData>({
   const column = cell.column;
   const meta = metaOf<T>(column.columnDef);
   const editing = editContext?.columnId === column.id ? editContext : null;
+  const editable = Boolean(meta?.edit) && onStartEdit !== undefined;
 
   const props = getCellProps({
     columnId: column.id,
@@ -357,6 +498,7 @@ export function TableCell<T extends RowData>({
     primary,
     sticky: stickyPositionOf(table, column),
     focused,
+    editable,
     editing: Boolean(editing),
     invalid: Boolean(editing?.invalid),
     interactive,
@@ -371,7 +513,17 @@ export function TableCell<T extends RowData>({
       {...reactProps<React.TdHTMLAttributes<HTMLTableCellElement>>(props)}
       data-cell={`${rowIndex}:${index}`}
       onFocus={interactive ? () => onFocusCell({ row: rowIndex, col: index }) : undefined}
-      onDoubleClick={meta?.edit && onStartEdit ? () => onStartEdit(row, column.id) : undefined}
+      // One click opens the editor. The click stops here either way: it must not
+      // also activate the row (open its detail sheet), and a click *inside* the
+      // open editor must not restart the edit and throw the draft away.
+      onClick={
+        editable
+          ? (event) => {
+              event.stopPropagation();
+              if (!editing) onStartEdit?.(row, column.id);
+            }
+          : undefined
+      }
     >
       {editing ? (
         <CellEditor>{meta?.edit?.render(editing) as ReactNode}</CellEditor>
@@ -413,6 +565,27 @@ function CellEditor({ children }: { children: ReactNode }) {
   );
 }
 
+/** Anything a click can mean something to on its own. */
+const CONTROL_SELECTOR =
+  "a, button, input, select, textarea, label, summary, [contenteditable], [role=button], [role=checkbox], [role=menuitem], [role=menuitemcheckbox], [role=menuitemradio], [role=option], [role=switch], [role=tab]";
+
+/**
+ * Whether a click on a row was aimed at the row itself, rather than at a
+ * control inside it. A selection checkbox, the row's action menu and an inline
+ * editor all live in the row, and opening the detail sheet over the top of
+ * them turns every one into a trap. React also bubbles events out of portals
+ * by component tree, so a click on the action menu's items — rendered in a
+ * popup far outside the row — arrives here too; that is the
+ * `contains` check.
+ */
+export function isRowActivationClick(event: React.MouseEvent<HTMLElement>): boolean {
+  const target = event.target as Element | null;
+  const row = event.currentTarget;
+  if (!target || !row.contains(target)) return false;
+  const control = target.closest(CONTROL_SELECTOR);
+  return !control || !row.contains(control);
+}
+
 function TableRowBase<T extends RowData>({
   row,
   index,
@@ -448,7 +621,13 @@ function TableRowBase<T extends RowData>({
       // so a re-themed row height corrects itself on the first frame.
       ref={measureElement}
       data-index={index}
-      onClick={onActivate ? () => onActivate(row) : undefined}
+      onClick={
+        onActivate
+          ? (event) => {
+              if (isRowActivationClick(event)) onActivate(row);
+            }
+          : undefined
+      }
     >
       {row.getVisibleCells().map((cell, colIndex) => (
         <TableCell

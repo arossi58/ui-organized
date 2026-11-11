@@ -42,12 +42,6 @@ export interface ConditionDescription {
   field: string;
   /** "is any of" */
   relative: string;
-  /**
-   * The comparison glyph to draw instead of `relative`, for the six operators
-   * that have one. `relative` is still the glyph's accessible name, so a chip
-   * that draws it does not lose the relation for anyone who cannot see it.
-   */
-  icon: string | undefined;
   /** "Platform, Growth +2" */
   value: string;
   /** "Team is any of Platform, Growth +2" — the accessible name. */
@@ -126,7 +120,6 @@ export function describeCondition(
   return {
     field: ctx.columnLabel,
     relative,
-    icon: operator?.icon,
     value,
     text: [ctx.columnLabel, relative, value].filter(Boolean).join(" "),
     overflowCount,

@@ -1,5 +1,6 @@
 import { Component, computed, input } from "@angular/core";
 import { UioCheckbox } from "@ui-organized/angular";
+import { headerToggleTarget } from "@ui-organized/table-core";
 import { injectDataTable } from "./table-context.js";
 
 /**
@@ -16,7 +17,11 @@ import { injectDataTable } from "./table-context.js";
  * host the element React renders.
  */
 
-/** The header's tri-state checkbox: it governs the rows on screen. */
+/**
+ * The header's tri-state checkbox: from empty it selects the rows on screen;
+ * from checked or mixed it clears the selection. What the box shows decides
+ * the click, not the box's own next state — see `headerToggleTarget`.
+ */
 @Component({
   selector: "span[uioTableSelectAllCell]",
   standalone: true,
@@ -28,18 +33,22 @@ import { injectDataTable } from "./table-context.js";
       [checked]="table.selection.header().checked"
       [indeterminate]="table.selection.header().indeterminate"
       [attr.aria-label]="selectAllLabel()"
-      (checkedChange)="table.selection.togglePage($event)"
+      (checkedChange)="toggle()"
     ></label>
   `,
 })
 export class UioTableSelectAllCell {
   protected readonly table = injectDataTable();
   // "shown", not "on this page": when the table is virtualized the checkbox
-  // governs the rendered window rather than a page, and the selection bar's
-  // "Select all N matching" is the way to reach the rest.
+  // governs the rendered window rather than a page, and the selection
+  // footer's "Select N hidden rows" is the way to reach the rest.
   protected readonly selectAllLabel = computed(
     () => `Select the rows shown in ${this.table.label()}`,
   );
+
+  protected toggle(): void {
+    this.table.selection.togglePage(headerToggleTarget(this.table.selection.header()));
+  }
 }
 
 /**

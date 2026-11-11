@@ -50,6 +50,10 @@ export const DEFAULT_BODY_PREVIEW = "The quick brown fox jumps over the lazy dog
 const DEFAULT_TYPE_BASE = 16;
 const DEFAULT_TYPE_RATIO = 1.25;
 const DEFAULT_SPACING_BASE = 4;
+/** The spacing unit's floor: below 4px the scale's smallest steps collapse to
+ *  sub-pixel gaps that read as touching. Enforced on every way in — the
+ *  slider, the setter, and an imported theme. */
+export const MIN_SPACING_BASE = 4;
 const DEFAULT_RADIUS_BASE = 4;
 
 const DEFAULT_HEADING_WEIGHTS = { ...typeWeightTokens.heading };
@@ -359,7 +363,7 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         brandRamp: ramp,
         brandHex: ramp["1400"]?.hex ?? DEFAULT_BRAND_HEX,
         // Keep the chosen primary accessible for the new ramp (snap if it isn't).
-        brandShade: pickAccessibleShade(ramp, state.brandShade),
+        brandShade: pickAccessibleShade(ramp, state.brandShade, state.neutralRamp),
       };
     }),
 
@@ -371,8 +375,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
         brandHex: hex,
         brandRamp: ramp,
         // A custom hue may push the current shade out of the accessible band —
-        // snap to the nearest shade that still reads with white button text.
-        brandShade: pickAccessibleShade(ramp, state.brandShade),
+        // snap to the nearest shade whose button label still reads.
+        brandShade: pickAccessibleShade(ramp, state.brandShade, state.neutralRamp),
       };
     }),
 
@@ -504,8 +508,8 @@ export const useBuilderStore = create<BuilderState>((set) => ({
 
   setSpacingBase: (base) =>
     set(() => ({
-      spacingBaseUnit: base,
-      spacingScale: generateSpacingScale(base),
+      spacingBaseUnit: Math.max(MIN_SPACING_BASE, base),
+      spacingScale: generateSpacingScale(Math.max(MIN_SPACING_BASE, base)),
     })),
 
   setIcons: (config) => set((state) => ({ icons: { ...state.icons, ...config } })),
@@ -674,8 +678,10 @@ function buildStateFromTheme(theme: unknown, state: BuilderState): Partial<Build
   // Radius / spacing base — prefer metadata, else recover the ×1 step from the tree.
   const radiusBase: number =
     ext.radius?.base ?? pxToNum(t["border-radius"]?.["02"]?.$value, state.radiusBase);
-  const spacingBaseUnit: number =
-    ext.spacing?.baseUnit ?? pxToNum(t.spacing?.["space-01"]?.$value, state.spacingBaseUnit);
+  const spacingBaseUnit: number = Math.max(
+    MIN_SPACING_BASE,
+    ext.spacing?.baseUnit ?? pxToNum(t.spacing?.["space-01"]?.$value, state.spacingBaseUnit),
+  );
 
   // Icons (drop the export-only `package` field).
   const ic = ext.icons ?? {};

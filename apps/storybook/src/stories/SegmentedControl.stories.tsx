@@ -19,7 +19,7 @@ const meta: Meta<typeof SegmentedControl> = {
     docs: {
       description: {
         component:
-          "A single-select control that lays out mutually exclusive options in a shared track, with a sliding pill marking the selection. Use `items` for the segments, `size` for density, and `value`/`onValueChange` (or `defaultValue`) to control selection.",
+          "A single-select control that lays out mutually exclusive options in a track.",
       },
     },
   },
@@ -76,7 +76,7 @@ export const WithIcons: Story = {
   render: () => (
     <SegmentedControl
       items={[
-        { value: "grid", label: "Grid", icon: "grid" },
+        { value: "grid", label: "Grid", icon: "grid-2x2" },
         { value: "list", label: "List", icon: "list" },
         { value: "settings", label: "Settings", icon: "settings" },
       ]}

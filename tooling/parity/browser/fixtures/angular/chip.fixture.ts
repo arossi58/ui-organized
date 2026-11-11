@@ -1,37 +1,39 @@
 import { Component } from "@angular/core";
-import { UioChip } from "@ui-organized/angular";
+import { UioChip, UioChipSegment } from "@ui-organized/angular";
 import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
 
 /**
- * `interactive` is passed through rather than derived: React makes the body a
- * button when it has an `onClick`, and a props object crossing the harness has
- * no handlers in it. Angular's own `dropdown`/`disabled` rules still apply on
- * top, so the four states the scenario drives line up either way.
+ * `segmented` is translated, exactly as the React builder in
+ * `src/cases/Chip.tsx` translates it: a props object crossing the harness has no
+ * handlers in it, so the intent — three segments that each open something —
+ * is spelled here as three `<button uioChipSegment>`s with a no-op click.
+ * `removable` is Angular's own input, so it passes straight through.
  */
 @Component({
   selector: ANGULAR_ROOT,
   standalone: true,
-  imports: [UioChip],
+  imports: [UioChip, UioChipSegment],
   template: `
     <span
       uioChip
-      [variant]="p['variant'] ?? 'outline'"
-      [size]="p['size'] ?? 'md'"
       [label]="p['label']"
-      [detail]="p['detail']"
       [operator]="p['operator']"
-      [operatorLabel]="p['operatorLabel']"
-      [icon]="p['icon']"
-      [dropdown]="p['dropdown'] ?? false"
+      [value]="p['value']"
       [selected]="p['selected'] ?? false"
       [incomplete]="p['incomplete'] ?? false"
       [disabled]="p['disabled'] ?? false"
       [removable]="p['removable'] ?? false"
       [removeLabel]="p['removeLabel']"
-      >Admin</span
     >
+      @if (p['segmented']) {
+        <button uioChipSegment part="label" (click)="noop()">Name</button>
+        <button uioChipSegment part="operator" (click)="noop()">is greater than</button>
+        <button uioChipSegment part="value" (click)="noop()">30</button>
+      }
+    </span>
   `,
 })
 export class ChipFixture {
   protected readonly p = parityProps();
+  protected noop(): void {}
 }

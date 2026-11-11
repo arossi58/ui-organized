@@ -45,7 +45,7 @@ export function useNavIndicator(activeIndex: number) {
     };
   }
 
-  // Recolour labels: the active one to on-brand contrast, the rest to ink.
+  // Recolor labels: the active one to on-brand contrast, the rest to ink.
   function paintLabels(index: number, animate: boolean) {
     linkRefs.current.forEach((el, i) => {
       if (!el) return;

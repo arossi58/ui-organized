@@ -197,25 +197,20 @@
       "runtime": []
     },
     "Chip": {
-      "attributes": {},
+      "attributes": {
+        "aria-expanded": [
+          "true"
+        ]
+      },
       "classes": [
         "chip",
         "chip--disabled",
         "chip--incomplete",
-        "chip--lg",
-        "chip--md",
-        "chip--outline",
         "chip--selected",
-        "chip--sm",
-        "chip--subtle",
-        "chip__body",
-        "chip__caret",
-        "chip__detail",
-        "chip__icon",
-        "chip__label",
-        "chip__operator",
         "chip__remove",
-        "chip__value"
+        "chip__segment",
+        "chip__segment--operator",
+        "chip__segment--value"
       ],
       "runtime": []
     },
@@ -409,7 +404,8 @@
     "Dialog": {
       "attributes": {
         "data-state": [
-          "closed"
+          "closed",
+          "open"
         ],
         "hidden": []
       },
@@ -782,6 +778,7 @@
         "data-invalid": []
       },
       "classes": [
+        "pin-input--default",
         "pin-input--lg",
         "pin-input--md",
         "pin-input--sm",
@@ -990,7 +987,8 @@
     "Sheet": {
       "attributes": {
         "data-state": [
-          "closed"
+          "closed",
+          "open"
         ],
         "hidden": []
       },
@@ -1127,7 +1125,6 @@
         "tag--sm",
         "tag--subdued",
         "tag--success",
-        "tag--warning",
         "tag__icon",
         "tag__label"
       ],

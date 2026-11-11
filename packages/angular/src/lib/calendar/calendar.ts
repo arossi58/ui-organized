@@ -39,6 +39,7 @@ import { moveHighlight } from "../overlay/roving.js";
 import { applyOverlayStacking } from "../overlay/stacking.js";
 import { stateFlag } from "../part.js";
 import { calendarKeyTarget } from "./calendar-keys.js";
+import { glyph } from "../icons/glyph.js";
 
 /** The start and end of a range selection; either end may be missing. */
 export interface CalendarRange {
@@ -181,7 +182,7 @@ const PARKED = "translate3d(0px, -100vh, 0px)";
         uioButton
         intent="ghost"
         size="sm"
-        icon="chevron-left"
+        [icon]="glyph('chevron-left')"
         class="calendar__nav"
         aria-label="Previous month"
         [disabled]="prevDisabled()"
@@ -240,7 +241,7 @@ const PARKED = "translate3d(0px, -100vh, 0px)";
                     aria-hidden="true"
                     [attr.data-state]="yearState(pane.index)"
                   >
-                    <span uioIcon name="chevron-down" [size]="HEADER_ICON_SIZE"></span>
+                    <span uioIcon [name]="glyph('chevron-down')" [size]="HEADER_ICON_SIZE"></span>
                   </div>
                 </button>
                 <!--
@@ -269,7 +270,7 @@ const PARKED = "translate3d(0px, -100vh, 0px)";
         uioButton
         intent="ghost"
         size="sm"
-        icon="chevron-right"
+        [icon]="glyph('chevron-right')"
         class="calendar__nav"
         aria-label="Next month"
         [disabled]="nextDisabled()"
@@ -389,7 +390,7 @@ const PARKED = "translate3d(0px, -100vh, 0px)";
                 [attr.data-state]="option.year === pane.anchor.year ? 'checked' : 'unchecked'"
                 [attr.hidden]="option.year === pane.anchor.year ? null : ''"
               >
-                <span uioIcon name="check" [size]="HEADER_ICON_SIZE"></span>
+                <span uioIcon [name]="glyph('check')" [size]="HEADER_ICON_SIZE"></span>
               </div>
             </div>
           }
@@ -399,6 +400,7 @@ const PARKED = "translate3d(0px, -100vh, 0px)";
   `,
 })
 export class UioCalendar implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   /** "single" selects one day; "range" selects a start-to-end pair. */
   readonly mode = input<"single" | "range">("single");
   /** Selected day in single mode. */

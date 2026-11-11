@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ToggleVariants } from "@ui-organized/core";
 
 export interface ToggleProps
@@ -15,7 +15,7 @@ export interface ToggleProps
   /** Size variant. Defaults to 'md'. */
   size?: ToggleVariants["size"];
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
 }
 
 export interface ToggleGroupProps

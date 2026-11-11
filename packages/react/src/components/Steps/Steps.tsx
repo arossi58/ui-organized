@@ -5,6 +5,7 @@ import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA, stepsStyles } from "@ui-organized/core";
 import type { StepsProps } from "./Steps.types.js";
 import "@ui-organized/core/components/Steps/Steps.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** The completed tick sits inside the indicator circle at every size — it marks
  *  the step rather than scaling with the surrounding text. */
@@ -68,7 +69,7 @@ export function Steps({
                 <span className="steps__indicator-number">
                   {variant === "numbered" ? index + 1 : null}
                 </span>
-                <Icon name="check" size={COMPLETE_ICON_SIZE} className="steps__indicator-check" />
+                <Icon name={glyph("check")} size={COMPLETE_ICON_SIZE} className="steps__indicator-check" />
               </ArkSteps.Indicator>
               <span className="steps__text">
                 <span className="steps__title">{item.title}</span>

@@ -5,38 +5,19 @@ import {
   CORE_STEPS,
   coreColors,
   getCoreFamily,
+  pickPrimaryLabel,
+  type ColorRamp,
 } from "@ui-organized/utils";
 import styles from "./ColorPanel.module.css";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-
-// White (#fcfcfc) is the primary text/icon color on brand buttons in the DS.
-const PRIMARY_TEXT_HEX = "#fcfcfc";
 
 // Representative steps shown on a family preview card.
 const CARD_STEPS = ["400", "800", "1200", "1600", "2000"];
 
 const titleCase = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-// ─── WCAG contrast utilities ──────────────────────────────────────────────────
-
-function hexToLinear(c: number): number {
-  const s = c / 255;
-  return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-}
-
-function relativeLuminance(hex: string): number {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return 0.2126 * hexToLinear(r) + 0.7152 * hexToLinear(g) + 0.0722 * hexToLinear(b);
-}
-
-function wcagContrast(hex1: string, hex2: string): number {
-  const l1 = relativeLuminance(hex1);
-  const l2 = relativeLuminance(hex2);
-  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
+// ─── WCAG contrast ───────────────────────────────────────────────────────────
 
 function contrastLevel(ratio: number): "AAA" | "AA" | "fail" {
   if (ratio >= 7)   return "AAA";
@@ -94,15 +75,20 @@ function FamilyCard({
 
 function PrimaryShadeSelector({
   ramp,
+  neutralRamp,
   selectedShade,
   onSelect,
 }: {
   ramp: Record<string, { hex: string }>;
+  neutralRamp: ColorRamp;
   selectedShade: string;
   onSelect: (shade: string) => void;
 }) {
+  // Each shade is judged by the label the resolver will put on it: near-white
+  // where that reads, near-black on light fills.
   const selectedHex = ramp[selectedShade]?.hex ?? "#000000";
-  const contrastRatio = wcagContrast(selectedHex, PRIMARY_TEXT_HEX);
+  const label = pickPrimaryLabel(selectedHex, neutralRamp);
+  const contrastRatio = label.ratio;
   const level = contrastLevel(contrastRatio);
   const passes = level !== "fail";
 
@@ -111,7 +97,7 @@ function PrimaryShadeSelector({
       <div className={styles.shadePalette}>
         {CORE_STEPS.map((s) => {
           const hex = ramp[s]?.hex ?? "#000000";
-          const ratio = wcagContrast(hex, PRIMARY_TEXT_HEX);
+          const ratio = pickPrimaryLabel(hex, neutralRamp).ratio;
           const ok = ratio >= 4.5;
           const isSelected = selectedShade === s;
           return (
@@ -138,14 +124,16 @@ function PrimaryShadeSelector({
       {/* ── Contrast readout ── */}
       <div className={`${styles.contrastReadout} ${passes ? styles.contrastReadoutPass : styles.contrastReadoutFail}`}>
         <div className={styles.contrastSwatch} style={{ backgroundColor: selectedHex }}>
-          <span className={styles.contrastSwatchLabel} style={{ color: PRIMARY_TEXT_HEX }}>Aa</span>
+          <span className={styles.contrastSwatchLabel} style={{ color: label.hex }}>Aa</span>
         </div>
         <div className={styles.contrastInfo}>
           <span className={styles.contrastRatio}>{contrastRatio.toFixed(2)}:1</span>
           <span className={styles.contrastLabel}>
             {passes ? `WCAG ${level}` : "Fails WCAG AA (4.5:1 min)"}
           </span>
-          <span className={styles.contrastShade}>Shade {selectedShade} · {selectedHex}</span>
+          <span className={styles.contrastShade}>
+            Shade {selectedShade} · {selectedHex} · {label.ref === "grey.100" ? "light" : "dark"} label
+          </span>
         </div>
         <div className={`${styles.contrastBadge} ${passes ? styles.contrastBadgePass : styles.contrastBadgeFail}`}>
           {level === "fail" ? "Fail" : level}
@@ -160,7 +148,7 @@ function PrimaryShadeSelector({
 export function ColorPanel() {
   const {
     brandMode, brandFamily, brandHex, brandRamp, brandShade,
-    neutralFamily,
+    neutralFamily, neutralRamp,
     setBrandFamily, setBrandColor, setBrandShade, setNeutralFamily,
   } = useBuilderStore();
 
@@ -223,10 +211,12 @@ export function ColorPanel() {
         <h3 className={styles.sectionTitle}>Primary Color</h3>
         <p className={styles.hint}>
           Choose which shade of the brand ramp is the primary interactive color.
-          Only shades that meet 4.5:1 contrast against white text are selectable.
+          Button text flips between light and dark to suit the shade; only shades where
+          it meets 4.5:1 are selectable.
         </p>
         <PrimaryShadeSelector
           ramp={brandRamp}
+          neutralRamp={neutralRamp}
           selectedShade={brandShade}
           onSelect={setBrandShade}
         />

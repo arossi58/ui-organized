@@ -123,6 +123,40 @@ export function exampleSnippet(
   return target ? derived(component, story, target) : undefined;
 }
 
+/** A live snippet, plus the props this library's component has no input for. */
+export interface LiveSnippet extends FrameworkSnippet {
+  dropped: string[];
+}
+
+/**
+ * The Inspect view's code: whatever the controls currently say, in the chosen
+ * library. Unlike an example, it always derives from the args, because the
+ * args are exactly what is on screen. A prop the library's component lacks is
+ * left out and named, rather than hiding the whole sample over one control.
+ */
+export function liveSnippet(
+  component: DocsComponent,
+  args: Record<string, unknown>,
+  framework: DocFramework,
+): LiveSnippet | undefined {
+  const { entry } = component;
+  if (!entry) return undefined;
+  const propOrder = propOrderOf(component);
+  const language = FRAMEWORK_INFO[framework].language;
+
+  if (framework === "react") {
+    const usage = jsxFromArgs(entry.codeName, args, propOrder);
+    const code = [importStatementFor(component), usage].filter(Boolean).join("\n\n");
+    return { code, language, dropped: [] };
+  }
+
+  const target = targetFor(framework, component.codeName);
+  if (!target) return undefined;
+  const dropped = unsupportedArgs(target, args, propOrder);
+  const kept = Object.fromEntries(Object.entries(args).filter(([name]) => !dropped.includes(name)));
+  return { code: frameworkSample(target, kept, propOrder), language, dropped };
+}
+
 interface GapBase {
   framework: DocFramework;
   label: string;

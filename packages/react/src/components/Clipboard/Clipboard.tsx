@@ -5,6 +5,7 @@ import { Icon } from "../Icon/Icon.js";
 import { CONTROL_ICON_SIZE, clipboardStyles, type ControlSize } from "@ui-organized/core";
 import type { ClipboardProps } from "./Clipboard.types.js";
 import "@ui-organized/core/components/Clipboard/Clipboard.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function Clipboard({
   value,
@@ -29,9 +30,9 @@ export function Clipboard({
       <Button intent="secondary" size={size} type="button">
         <ArkClipboard.Indicator
           className="clipboard__indicator"
-          copied={<Icon name="check" size={iconSize} />}
+          copied={<Icon name={glyph("check")} size={iconSize} />}
         >
-          <Icon name="copy" size={iconSize} />
+          <Icon name={glyph("copy")} size={iconSize} />
         </ArkClipboard.Indicator>
         <ArkClipboard.Indicator copied={copiedLabel}>{copyLabel}</ArkClipboard.Indicator>
       </Button>

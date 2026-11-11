@@ -1,6 +1,7 @@
 export {
   TableActions,
   TableExportMenu,
+  TableReorderToggle,
   TableScrollButtons,
   TableSearch,
   TableSortMenu,
@@ -10,6 +11,7 @@ export {
 export type {
   TableActionsProps,
   TableExportMenuProps,
+  TableReorderToggleProps,
   TableScrollButtonsProps,
   TableSearchProps,
   TableSortMenuProps,

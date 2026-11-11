@@ -2,29 +2,35 @@
   Foundational Icon component — the single interface for rendering icons.
 
   Reads the active library, style, and stroke adjustment from the nearest
-  IconProvider, resolves the canonical name against that library's registered
-  set, and renders it at the requested size with optical stroke correction when
-  enabled. Every decision it makes before rendering is shared with the other
+  IconProvider, looks the name up among the icons registered for that library,
+  and renders it at the requested size with optical stroke correction when
+  enabled. Names are the library's own (`x` in Lucide, `x-mark` in Heroicons). Every decision it makes before rendering is shared with the other
   framework libraries; see `resolveIcon*` in @ui-organized/core.
 
-  The set has to be registered by importing its subpath — see
-  ../../icons/registry.ts for why the package deliberately imports none of the
-  icon libraries itself:
+  Only the icons you register reach the bundle — see ../../icons/registry.ts
+  for why the package deliberately imports none of the icon libraries itself:
 
-      import "@ui-organized/vue/icons/lucide";
+      import { registerIcons } from "@ui-organized/vue/icons/lucide";
+      registerIcons({ Camera, Rocket });   // <Icon name="camera" />
 -->
 <script setup lang="ts">
 import { computed, watchEffect } from "vue";
 import { clsx } from "clsx";
 import {
-  resolveIconComponent,
   resolveIconStroke,
   resolveIconSvgProps,
+  resolveSystemGlyph,
 } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { useIconConfig } from "../../context/iconContext.js";
-import { getIconSet, registeredLibraries, type IconSet } from "../../icons/registry.js";
-import { warnMissingIconSet } from "./warnMissingIconSet.js";
+import { glyphOf } from "../../icons/glyph.js";
+import {
+  getIcon,
+  getIconSet,
+  registeredLibraries,
+  registeredNames,
+  type IconSet,
+} from "../../icons/registry.js";
+import { warnMissingIcon, warnMissingIconSet } from "./warnMissingIconSet.js";
 import type { IconProps } from "./Icon.types.js";
 import "@ui-organized/core/components/Icon/Icon.css";
 
@@ -32,9 +38,12 @@ const props = withDefaults(defineProps<IconProps>(), { size: 24 });
 
 const config = useIconConfig();
 
-// A directly-supplied component is used as-is — it keeps tree-shaking, needs no
-// canonical name, and needs no registered set.
-const supplied = computed(() => (typeof props.name === "string" ? undefined : props.name));
+// A supplied component is used as-is, unless it is one of the components' own
+// glyphs, which stands in for whichever cut the active library has.
+const glyph = computed(() => (typeof props.name === "string" ? undefined : glyphOf(props.name)));
+const supplied = computed(() =>
+  typeof props.name === "string" || glyph.value ? undefined : props.name,
+);
 
 // An explicit `icons` on the provider wins; otherwise use whatever the imported
 // subpath registered.
@@ -51,11 +60,18 @@ watchEffect(() => {
   }
 });
 
-const iconComponent = computed(
-  () =>
-    supplied.value ??
-    resolveIconComponent(set.value, props.name as CanonicalIconName, config.value.style),
-);
+const iconComponent = computed(() => {
+  if (supplied.value) return supplied.value;
+  if (!set.value) return undefined;
+  if (glyph.value) return resolveSystemGlyph(set.value, glyph.value, config.value.style);
+  return getIcon(set.value.library, props.name as string, config.value.style);
+});
+
+watchEffect(() => {
+  if (set.value && !iconComponent.value && typeof props.name === "string") {
+    warnMissingIcon(set.value.library, props.name, registeredNames(set.value.library));
+  }
+});
 
 const svgProps = computed(() =>
   resolveIconSvgProps(

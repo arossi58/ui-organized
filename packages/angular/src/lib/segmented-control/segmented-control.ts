@@ -15,11 +15,12 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { segmentedControlStyles, type SegmentedControlVariants } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { UioPart, stateFlag } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { flushNow } from "../overlay/flush.js";
+import type { IconGlyph } from "../icons/glyph.js";
+import type { IconName } from "../icons/icon.js";
 
 export type SegmentedControlSize = NonNullable<SegmentedControlVariants["size"]>;
 
@@ -27,7 +28,7 @@ export interface SegmentedControlItem {
   /** Unique value reported — and submitted — when this segment is selected. */
   value: string;
   label: string;
-  icon?: CanonicalIconName;
+  icon?: IconName | IconGlyph;
   /** Disable just this segment. */
   disabled?: boolean;
 }

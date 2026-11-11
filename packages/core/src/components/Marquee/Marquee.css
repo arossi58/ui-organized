@@ -71,14 +71,14 @@
    leave rather than being cut off. zag positions and sizes these absolutely;
    only the gradient is ours.
 
-   A fade can only be correct against the colour it is fading into, and this
-   component cannot know that — a marquee on a card, a curtain or a coloured
+   A fade can only be correct against the color it is fading into, and this
+   component cannot know that — a marquee on a card, a curtain or a colored
    band all need a different one. `--marquee-edge-color` defaults to the primary
    surface and is the supported override:
 
      .hero .marquee { --marquee-edge-color: var(--color-surface-secondary); }
 
-   Set `showEdges={false}` instead when the host surface has no flat colour to
+   Set `showEdges={false}` instead when the host surface has no flat color to
    fade into at all. */
 
 .marquee {

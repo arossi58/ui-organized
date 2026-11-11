@@ -27,7 +27,7 @@ export const tagExamples: UsageExampleSet = {
         <Tag variant="caution">Paused</Tag>
       </div>
     ),
-    // The same state in two colours: the reader now looks for a difference that
+    // The same state in two colors: the reader now looks for a difference that
     // isn't there.
     Dont: () => (
       <div style={row}>

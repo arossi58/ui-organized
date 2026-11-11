@@ -5,6 +5,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { AvatarProps } from "./Avatar.types.js";
   import "@ui-organized/core/components/Avatar/Avatar.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const ICON_SIZE: Record<NonNullable<AvatarProps["size"]>, number> = {
     xs: 14,
@@ -36,7 +37,7 @@
     {:else if name}
       {initials(name)}
     {:else}
-      <Icon name="user" size={ICON_SIZE[size]} />
+      <Icon name={glyph("user")} size={ICON_SIZE[size]} />
     {/if}
   </ArkAvatar.Fallback>
 </ArkAvatar.Root>

@@ -150,3 +150,121 @@
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: -2px;
 }
+
+/* ─── Column reordering ───────────────────────────────────────────────────────
+   A movable header's label area is `draggable` — not the <th>, so the resize
+   handle beside it keeps its own drag — and the move buttons sit over its end. */
+
+.data-table__head-inner[draggable="true"] {
+  cursor: grab;
+}
+
+.data-table__head-cell[data-dragging] {
+  opacity: 0.5;
+}
+
+/* Where the column will land: a line down the near or far edge of the header
+   under the pointer. Inset, so the sticky header's own border is untouched. */
+.data-table__head-cell[data-drop="before"] {
+  box-shadow: inset 2px 0 0 var(--color-interactive-primary-default);
+}
+
+.data-table__head-cell[data-drop="after"] {
+  box-shadow: inset -2px 0 0 var(--color-interactive-primary-default);
+}
+
+/* Over the header's end, clear of the resize handle, on the header's own
+   colour so a long label runs under it rather than through it. Laid over the
+   label rather than beside it, so showing them never reflows the header. */
+.data-table__move {
+  position: absolute;
+  top: 50%;
+  /* Clear of the resize handle (one `space-02` wide, at the edge), with a gap
+     of its own, so neither is aimed at by mistake for the other. */
+  right: calc(var(--spacing-space-02) + var(--spacing-space-01));
+  display: inline-flex;
+  gap: var(--spacing-space-005);
+  padding-inline-start: var(--spacing-space-01);
+  background-color: var(--color-surface-secondary);
+  transform: translateY(-50%);
+}
+
+/* An end-aligned header's label is at its right, where the buttons would
+   cover it; put them at the start instead. */
+.data-table__head-cell--end .data-table__move {
+  right: auto;
+  left: var(--spacing-space-02);
+  padding-inline: 0 var(--spacing-space-01);
+}
+
+/* "toggle": up for the whole of reorder mode, so they take their own room in
+   the header's row and the label truncates beside them instead of running
+   underneath. (The overlay above is for "always", where they come and go on
+   hover and taking room would reflow the header each time.) */
+.data-table__move[data-mode="toggle"] {
+  position: static;
+  flex: none;
+  margin-inline-start: auto;
+  padding-inline: 0;
+  background: none;
+  transform: none;
+}
+
+.data-table__head-cell--end .data-table__move[data-mode="toggle"] {
+  order: -1;
+  margin-inline: 0 auto;
+}
+
+/* "always": out of the way until the header is pointed at or focused.
+   Transparent and click-through, never `visibility: hidden` or `display:
+   none` — either takes the buttons out of the tab order, and then focus can
+   never land on them to bring them up. Touch screens have no hover, so they
+   stay up. */
+.data-table__move[data-mode="always"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.data-table__head-cell:hover .data-table__move[data-mode="always"],
+.data-table__head-cell:focus-within .data-table__move[data-mode="always"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (hover: none) {
+  .data-table__move[data-mode="always"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.data-table__move-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Per table size (table.css): a comfortable target in a header that is
+     itself only a control and a little padding tall. */
+  width: var(--data-table-move-size, var(--spacing-space-07));
+  height: var(--data-table-move-size, var(--spacing-space-07));
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-secondary);
+  cursor: pointer;
+}
+
+.data-table__move-button:hover:not(:disabled) {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.data-table__move-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.data-table__move-button:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}

@@ -3,7 +3,7 @@ import styles from "./ExamplesPanel.module.css";
 
 const EXAMPLES: { id: ExampleId; name: string; description: string }[] = [
   { id: "dashboard", name: "Dashboard",      description: "Sidebar nav, stat cards, and a recent-activity table." },
-  { id: "form",      name: "Form & Settings", description: "A profile form with inputs, selects, and switches." },
+  { id: "form",      name: "Form & settings", description: "A profile form with inputs, selects, and switches." },
   { id: "ecommerce", name: "E-commerce",     description: "Product grid with a filters rail and cart." },
   { id: "marketing", name: "Marketing site", description: "Landing page with hero, features, and pricing." },
 ];
@@ -16,8 +16,8 @@ export function ExamplesPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Examples</h3>
         <p className={styles.hint}>
-          See your theme applied to real-world layouts. Pick a page to preview —
-          every screen is built entirely from the design-system components.
+          Preview your theme on sample pages. Every screen is built from the
+          design-system components.
         </p>
 
         <div className={styles.list}>

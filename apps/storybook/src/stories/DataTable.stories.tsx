@@ -107,7 +107,7 @@ const meta: Meta<typeof DataTable> = {
     docs: {
       description: {
         component:
-          "A virtualized data table built on real `<table>` semantics. Ships as its own package — `@ui-organized/react-table` — so consumers of the component library do not pay for a table engine at install time. Three layers: the `useDataTable` hook, the styled parts (`TableHeader`, `TableRow`, …), and this batteries-included wrapper.",
+          "A virtualized data table for displaying large groups of information. ",
       },
     },
   },
@@ -308,7 +308,7 @@ export const DataTypes: Story = {
     docs: {
       description: {
         story:
-          "Every column reaches its value with `accessorKey` (including a dot path), or an `accessorFn` plus an explicit `id`. A value with no `cell` renderer is stringified, which is right for strings, numbers and ISO date strings — and wrong for a `Date` (long, and timezone-dependent) and for booleans. The filter type is inferred from the data, except where inference cannot see it: through an `accessorFn`, for numbers held as strings, and for enums, which are declared rather than guessed from cardinality.",
+          "Every column reaches its value with `accessorKey` (including a dot path), or an `accessorFn` plus an explicit `id`. A value with no `cell` renderer is stringified, which is right for strings, numbers and ISO date strings but wrong for a `Date` (long, and timezone-dependent) and for booleans. The filter type is inferred from the data, except where inference cannot see it: through an `accessorFn`, for numbers held as strings, and for enums, which are declared rather than guessed from cardinality.",
       },
       source: {
         code: `
@@ -327,14 +327,14 @@ const columns: TableColumn<Signal>[] = [
   // Text. \`primary\` makes it the row header and the card title.
   { accessorKey: "name", header: "Signal", meta: { primary: true, width: 200, filter: true } },
 
-  // A dot path reaches nested data, and its column id becomes \`owner_team\` —
-  // TanStack's rule. Enums are always declared, never inferred.
+  // A dot path reaches nested data, and its column id becomes \`owner_team\`
+  // (TanStack's rule). Enums are always declared, never inferred.
   { accessorKey: "owner.team", header: "Team", meta: { filter: { type: "enum" } } },
 
   // Numbers align end. The type is inferred.
   { accessorKey: "score", header: "Score", meta: { align: "end", filter: true } },
 
-  // A bare boolean renders as the word "false". Give it a renderer — and an
+  // A bare boolean renders as the word "false". Give it a renderer, and an
   // \`exportValue\`, so CSV gets a value rather than the rendered markup.
   {
     accessorKey: "active",
@@ -352,7 +352,7 @@ const columns: TableColumn<Signal>[] = [
     cell: ({ getValue }) => <Tag variant="info" size="sm" emphasized={false}>{getValue<string>()}</Tag>,
   },
 
-  // A Date renders as "Mon Jan 15 2024 00:00:00 GMT-0600 (…)" — long, and
+  // A Date renders as "Mon Jan 15 2024 00:00:00 GMT-0600 (…)", which is long and
   // timezone-dependent, so it differs between machines. Format it. The filter
   // reads the Date correctly either way.
   {
@@ -362,7 +362,7 @@ const columns: TableColumn<Signal>[] = [
     cell: ({ getValue }) => getValue<Date>().toISOString().slice(0, 10),
   },
 
-  // An ISO string needs nothing — the easiest way to hold a date.
+  // An ISO string needs nothing. It is the easiest way to hold a date.
   { accessorKey: "updatedIso", header: "Updated", meta: { filter: true } },
 
   // Computed values need an explicit \`id\`, and an explicit filter type.
@@ -445,8 +445,8 @@ export const Filtering: Story = {
     docs: {
       source: {
         code: `
-// A column is filterable when its meta says so. \`true\` is enough — the type
-// is inferred from the data — and only these columns are offered in the picker.
+// A column is filterable when its meta says so. \`true\` is enough (the type
+// is inferred from the data), and only these columns are offered in the picker.
 const columns: TableColumn<Member>[] = [
   { accessorKey: "name", header: "Name", meta: { primary: true, filter: true } },
   { accessorKey: "role", header: "Role", meta: { filter: { type: "enum" } } },
@@ -475,7 +475,7 @@ const columns: TableColumn<Member>[] = [
       },
       description: {
         story:
-          'Filters are built from **identifier + relative + value** — "Role · is any of · Owner, Admin". Start one from the funnel button in the header; each becomes a `Chip` on the line below, and clicking a chip opens its editor, where the operator, the value and **Remove** all live. Several conditions may target the same field and are combined with AND. The third chip here has no value yet: an incomplete condition is shown but deliberately does not filter, so adding one never blanks the table.',
+          'A filter is an identifier, a relation and a value, as in "Role · is any of · Owner, Admin". Start one from the funnel button in the header. Each filter becomes a segmented `Chip` on the line below. Click the field, the operator or the value to change just that part; the field menu also holds **Remove filter**. Several conditions can target the same field; they are combined with AND. The third chip here has no value yet. An incomplete condition is shown but does not filter, so adding one never blanks the table.',
       },
     },
   },
@@ -523,7 +523,7 @@ export const Selection: Story = {
       maxHeight={480}
       bulkActions={[
         { id: "export", label: "Export", icon: "download", onRun: () => {} },
-        { id: "archive", label: "Archive", icon: "trash", destructive: true, onRun: () => {} },
+        { id: "archive", label: "Archive", icon: "trash-2", destructive: true, onRun: () => {} },
       ]}
     />
   ),
@@ -545,7 +545,7 @@ export const Selection: Story = {
     {
       id: "archive",
       label: "Archive",
-      icon: "trash",
+      icon: "trash-2",
       destructive: true,
       // \`selection\` also expresses "all 40,000 matching", which an id list cannot.
       onRun: (rows, selection) => archive(selection),
@@ -567,8 +567,8 @@ export const RowActions: Story = {
       getRowId={(row) => row.id}
       maxHeight={420}
       rowActions={[
-        { id: "edit", label: "Edit member", icon: "edit", onRun: () => {} },
-        { id: "remove", label: "Remove", icon: "trash", destructive: true, onRun: () => {} },
+        { id: "edit", label: "Edit member", icon: "pencil", onRun: () => {} },
+        { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: () => {} },
       ]}
     />
   ),
@@ -585,11 +585,11 @@ export const RowActions: Story = {
   getRowId={(row) => row.id}
   maxHeight={420}
   rowActions={[
-    { id: "edit", label: "Edit member", icon: "edit", onRun: (row) => edit(row) },
+    { id: "edit", label: "Edit member", icon: "pencil", onRun: (row) => edit(row) },
     {
       id: "remove",
       label: "Remove",
-      icon: "trash",
+      icon: "trash-2",
       destructive: true,
       disabled: (row) => row.role === "Owner",
       onRun: (row) => remove(row),
@@ -626,8 +626,8 @@ export const HeaderActions: Story = {
     docs: {
       source: {
         code: `
-// Each action carries whatever hierarchy the page needs — exactly one of them
-// is usually the call to action, and the rest recede. \`iconOnly\` keeps the
+// Each action carries whatever hierarchy the page needs. Usually exactly one of them
+// is the call to action, and the rest recede. \`iconOnly\` keeps the
 // label as the accessible name and drops it from the screen.
 <DataTable
   label="Team members"
@@ -644,7 +644,7 @@ export const HeaderActions: Story = {
       },
       description: {
         story:
-          "Header actions are real buttons rather than an overflow menu: these are the actions a page is *for*, and a primary action hidden behind a “…” is one nobody finds. The divider only renders when there is something on both sides of it.",
+          'Header actions are real buttons rather than an overflow menu, because these are the actions the page is *for* and a primary action hidden behind a "…" menu is easy to miss. The divider only renders when there is something on both sides of it.',
       },
     },
   },
@@ -668,9 +668,10 @@ export const ColumnTools: Story = {
     docs: {
       source: {
         code: `
-// Resize handles are focusable separators — arrows resize, Shift+arrow
-// fine-tunes, Enter resets — so the column widths are keyboard-reachable
-// rather than drag-only.
+// Resize handles are focusable separators (arrows resize, Shift+arrow
+// fine-tunes, Enter resets), so the column widths are keyboard-reachable
+// rather than drag-only. \`reorderable\` lets a header be dragged, or moved
+// with the arrows that appear on hover and focus.
 <DataTable
   label="Team members"
   columns={columns}
@@ -680,6 +681,41 @@ export const ColumnTools: Story = {
   reorderable
   hideableColumns
   exportable
+  maxHeight={480}
+/>
+`.trim(),
+      },
+    },
+  },
+};
+
+export const ReorderColumns: Story = {
+  render: () => (
+    <DataTable<Member>
+      label="Team members"
+      columns={columns}
+      data={MEMBERS}
+      getRowId={(row) => row.id}
+      reorderable="toggle"
+      hideableColumns
+      maxHeight={480}
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+// "toggle": columns move only inside a reorder mode, switched by the
+// toolbar's Reorder button. Drag a header, or use its arrows; Alt+Arrow on a
+// focused header does the same from the keyboard. "always" (or \`true\`)
+// leaves them movable at any time. Reset lives in the Columns menu.
+<DataTable
+  label="Team members"
+  columns={columns}
+  data={members}
+  getRowId={(row) => row.id}
+  reorderable="toggle"
+  hideableColumns
   maxHeight={480}
 />
 `.trim(),
@@ -790,7 +826,7 @@ const columns: TableColumn<Member>[] = [
     header: "Seats",
     meta: {
       edit: {
-        // The editor is yours; the package owns the state machine around it —
+        // The editor is yours; the package owns the state machine around it:
         // when it opens, what Tab does, and putting focus in the field.
         render: ({ value, setValue, commit, cancel, size }) => (
           <Input
@@ -829,7 +865,7 @@ const columns: TableColumn<Member>[] = [
       },
       description: {
         story:
-          "Double-click or press Enter on a Seats cell. Tab commits and moves on, Escape reverts, and a rejected `onEdit` rolls the optimistic value back.",
+          "Seats is editable: its header carries a pencil, and its cells take a field outline on hover. Click a Seats cell, or press Enter on one. Tab commits and moves on, Escape reverts, and a rejected `onEdit` rolls the optimistic value back.",
       },
     },
   },
@@ -896,6 +932,10 @@ export const Cards: Story = {
         selection="multiple"
         responsive={{ mode: "cards" }}
         maxHeight={520}
+        rowActions={[
+          { id: "edit", label: "Edit member", icon: "pencil", onRun: () => {} },
+          { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: () => {} },
+        ]}
       />
     </div>
   ),
@@ -913,12 +953,16 @@ export const Cards: Story = {
   selection="multiple"
   responsive={{ mode: "auto", breakpoint: 640 }}
   maxHeight={520}
+  rowActions={[
+    { id: "edit", label: "Edit member", icon: "pencil", onRun: edit },
+    { id: "remove", label: "Remove", icon: "trash-2", destructive: true, onRun: remove },
+  ]}
 />
 `.trim(),
       },
       description: {
         story:
-          "Below the breakpoint the table is replaced by one card per row — not hidden with a container query, which would double the DOM and defeat virtualization.",
+          "Below the breakpoint the table is replaced by one card per row, in larger type. The checkbox sits in the card's top-right corner beside its actions menu. Sort and Filter become buttons that open a bottom sheet each, holding every control for that concern; a badge on each button counts what is applied, and the filter chips row is not shown. It is not hidden with a container query, which would double the DOM and defeat virtualization.",
       },
     },
   },
@@ -974,7 +1018,7 @@ export const Empty: Story = {
     docs: {
       source: {
         code: `
-// The empty state replaces the body, not the table — so the header, the
+// The empty state replaces the body, not the table, so the header, the
 // filters and the scroll position all survive.
 <DataTable
   label="Team members"
@@ -1043,7 +1087,7 @@ export const LargeDataset: Story = {
       source: {
         code: `
 // Nothing to switch on: rows virtualize above 50, and \`maxHeight\` is what
-// gives the viewport something to scroll. Pass a stable \`data\` reference —
+// gives the viewport something to scroll. Pass a stable \`data\` reference:
 // a new array every render invalidates every row model, and the table warns
 // about it in development.
 <DataTable
@@ -1132,7 +1176,7 @@ const { rows, total } = useMembers(query);
   manual
   paginated
   pageSize={10}
-  // Required — the client cannot count rows it does not have. It is what the
+  // Required: the client cannot count rows it does not have. It is what the
   // pager and aria-rowcount report.
   rowCount={total}
   // \`filters\` is a flat list of { columnId, operator, values } conditions, so
@@ -1143,7 +1187,7 @@ const { rows, total } = useMembers(query);
       },
       description: {
         story:
-          "`manual` hands `{ sorting, filters, search, pageIndex, pageSize }` to `onQueryChange` and renders exactly the rows it is given. `rowCount` is required — the client cannot count rows it does not have, and it is what the pager and `aria-rowcount` report.",
+          "`manual` hands `{ sorting, filters, search, pageIndex, pageSize }` to `onQueryChange` and renders exactly the rows it is given. `rowCount` is required because the client cannot count rows it does not have. The pager and `aria-rowcount` both report it.",
       },
     },
   },

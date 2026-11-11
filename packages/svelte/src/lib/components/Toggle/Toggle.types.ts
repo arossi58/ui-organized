@@ -1,7 +1,7 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { Snippet } from "svelte";
 import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
 import type { ControlSize } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { ArkForwardable } from "../../types.js";
 
 /**
@@ -26,7 +26,7 @@ export interface ToggleProps
   /** Size variant. Defaults to 'md'. */
   size?: ControlSize;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   class?: string;
   children?: Snippet;
 }

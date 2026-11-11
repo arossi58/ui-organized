@@ -3,7 +3,7 @@
  *
  * `extractInspection` reads a rendered DOM subtree and reports the
  * Figma-Dev-Mode facts — the element/class tree, and each style property tagged
- * `token` / `literal` / `inherited`. None of that is Storybook-specific: it takes
+ * by where its value came from (`PropSource`). None of that is Storybook-specific: it takes
  * a `Window` and a set of root elements, which the Storybook panel supplies from
  * the preview iframe and the native docs site supplies from a local ref.
  *

@@ -4,6 +4,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
 
 export type StepsSize = ControlSize;
 export type StepsOrientation = NonNullable<StepsVariants["orientation"]>;
@@ -132,7 +133,7 @@ const COMPLETE_ICON_SIZE = 16;
               }}</span>
               <span
                 uioIcon
-                name="check"
+                [name]="glyph('check')"
                 class="steps__indicator-check"
                 [size]="COMPLETE_ICON_SIZE"
               ></span>
@@ -213,6 +214,7 @@ const COMPLETE_ICON_SIZE = 16;
   },
 })
 export class UioSteps extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "steps";
   readonly part = "root";
 

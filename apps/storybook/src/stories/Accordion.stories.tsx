@@ -16,7 +16,7 @@ const ITEMS: AccordionItem[] = [
   {
     value: "themes",
     title: "Does it support dark mode?",
-    content: "Yes — toggle the data-theme attribute and every component re-themes instantly.",
+    content: "Yes. Toggle the data-theme attribute and every component re-themes instantly.",
     disabled: false,
   },
 ];
@@ -30,7 +30,7 @@ const meta: Meta<typeof Accordion> = {
     docs: {
       description: {
         component:
-          "A vertically stacked set of expandable panels. Pass an `items` array; use `multiple`, `variant`, and `size`.",
+          "A vertically stacked set of expandable panels.",
       },
     },
   },

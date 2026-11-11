@@ -10,7 +10,7 @@ const meta: Meta<typeof TagsInput> = {
     docs: {
       description: {
         component:
-          "Free-text entry that turns each committed value into a removable chip — recipients, labels, keywords. Enter adds, Backspace on an empty field removes the last chip, and a double-click edits one in place. Reach for `Combobox` instead when the values come from a known list.",
+          "Free-text entry that turns each entered value into a removable chip, for recipients, labels or keywords. Enter adds, Backspace on an empty field removes the last chip, and a double-click edits one in place.",
       },
     },
   },

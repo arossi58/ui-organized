@@ -1,14 +1,34 @@
-import { useMemo } from "react";
+import { useMemo, type MouseEvent } from "react";
 import { Listbox as ArkListbox, createListCollection } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import { CONTROL_ICON_SIZE, listboxStyles, type ControlSize } from "@ui-organized/core";
 import type { ListboxProps, ListboxOption } from "./Listbox.types.js";
 import "@ui-organized/core/components/Listbox/Listbox.css";
+import { glyph } from "../../icons/glyph.js";
 
 /** Options in declaration order, bucketed by `group`. Ungrouped options keep a
  *  `null` bucket so a partially grouped list still renders every option once,
  *  in the order it was given. */
+/**
+ * zag's listbox focuses its content on every item `mousedown`, and calls
+ * `focus()` without `preventScroll`. Inside any scroll container where the
+ * list's top is out of view — a bottom sheet scrolled down to the option the
+ * user wants — that focus scrolls the list's top into view between press and
+ * release, so the release lands on a different option and the tap selects the
+ * wrong thing or nothing.
+ *
+ * So the content is focused first, in the capture phase, without scrolling.
+ * By the time zag's own handler runs the element already has focus, and
+ * focusing the focused element is a no-op — including its scroll. The pressed
+ * option is already on screen, which is how it got pressed.
+ */
+function focusWithoutScrolling(event: MouseEvent<HTMLDivElement>) {
+  if (document.activeElement !== event.currentTarget) {
+    event.currentTarget.focus({ preventScroll: true });
+  }
+}
+
 function groupOptions(options: ListboxOption[]): [string | null, ListboxOption[]][] {
   const buckets = new Map<string | null, ListboxOption[]>();
   for (const option of options) {
@@ -65,13 +85,13 @@ export function Listbox({
       disabled={disabled}
     >
       {label && <ArkListbox.Label className="listbox__label">{label}</ArkListbox.Label>}
-      <ArkListbox.Content className="listbox__content">
+      <ArkListbox.Content className="listbox__content" onMouseDownCapture={focusWithoutScrolling}>
         {groups.map(([group, groupItems]) => {
           const items = groupItems.map((item) => (
             <ArkListbox.Item key={item.value} item={item} className="listbox__item">
               <ArkListbox.ItemText className="listbox__item-text">{item.label}</ArkListbox.ItemText>
               <ArkListbox.ItemIndicator className="listbox__item-indicator">
-                <Icon name="check" size={iconSize} />
+                <Icon name={glyph("check")} size={iconSize} />
               </ArkListbox.ItemIndicator>
             </ArkListbox.Item>
           ));

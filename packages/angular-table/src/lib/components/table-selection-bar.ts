@@ -7,35 +7,37 @@ import {
   UioAlertDialogFooter,
   UioAlertDialogTitle,
   UioButton,
-  UioToolbar,
 } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { HostPresence } from "@ui-organized/angular";
 import { injectDataTable } from "../core/table-context.js";
 import type { BulkAction } from "../core/types.js";
+import type { IconName } from "@ui-organized/angular";
 
 /**
- * Appears only while something is selected.
+ * Appears only while something is selected, and then takes the place of the
+ * toolbar's sort, filter and table actions: with rows selected, what to do
+ * with them is the decision in front of the user, so it sits where they were
+ * already looking rather than on a line of its own. The count, and the offer
+ * to select the rows off screen, are in `UioTableSelectionFooter` under the
+ * rows.
  *
- * A `UioToolbar` this time — it genuinely is a cluster of buttons, which is what
- * `role="toolbar"` and its roving focus are for. Destructive actions route
- * through `UioAlertDialog`; "archive 40,000 rows" is not an undo-able mis-click.
+ * Plain buttons in a labelled group, with no surface of its own. It shares the
+ * toolbar row with the search box, so `role="toolbar"`'s roving focus would
+ * make it the only cluster in that row that Tab skips through. Destructive
+ * actions route through `UioAlertDialog`; "archive 40,000 rows" is not an
+ * undo-able mis-click.
  */
 @Component({
   selector: "div[uioTableSelectionBar]",
   standalone: true,
   providers: [HostPresence],
   /**
-   * The host *is* the toolbar. Applying `UioToolbar` here rather than to a
-   * wrapper inside the template is what makes this one element instead of two:
-   * React renders a single `div.toolbar.data-table__selection-bar[role=toolbar]`,
-   * and an inner wrapper would nest a second `role="toolbar"` inside the first —
-   * which is both a DOM difference and a genuine a11y defect, since a nested
-   * toolbar captures the roving focus of the one containing it.
+   * The host is the group itself, so this is one element, as React's single
+   * `div.data-table__selection-bar[role=group]` is.
    */
-  hostDirectives: [UioToolbar],
   host: {
+    role: "group",
     class: "data-table__selection-bar",
     "aria-label": "Bulk actions",
   },
@@ -50,20 +52,6 @@ import type { BulkAction } from "../core/types.js";
   ],
   template: `
     @if (count() > 0) {
-      <span class="data-table__selection-count" aria-live="polite">{{ countLabel() }}</span>
-
-      @if (table.selection.canSelectAllMatching()) {
-        <span class="data-table__selection-all">
-          <button
-            type="button"
-            class="data-table__selection-link"
-            (click)="table.selection.selectAllMatching()"
-          >
-            Select all {{ table.selection.totalMatching() }} matching rows
-          </button>
-        </span>
-      }
-
       @for (action of items(); track action.id) {
         <button
           uioButton
@@ -114,9 +102,6 @@ export class UioTableSelectionBar<T extends RowData> {
 
   protected readonly items = computed(() => this.actions() ?? this.table.options.bulkActions ?? []);
   protected readonly count = computed(() => this.table.selection.count());
-  protected readonly countLabel = computed(() =>
-    this.count() === 1 ? "1 row selected" : `${this.count()} rows selected`,
-  );
   private readonly rowsWord = computed(() =>
     this.count() === 1 ? "1 row" : `${this.count()} rows`,
   );
@@ -133,8 +118,8 @@ export class UioTableSelectionBar<T extends RowData> {
     () => this.confirming()?.confirm?.confirmLabel ?? this.confirming()?.label ?? "Confirm",
   );
 
-  protected iconOf(action: BulkAction<T>): CanonicalIconName | undefined {
-    return action.icon as CanonicalIconName | undefined;
+  protected iconOf(action: BulkAction<T>): IconName | undefined {
+    return action.icon;
   }
 
   private run(action: BulkAction<T>): void {

@@ -31,9 +31,6 @@
      dimmed backdrop, with no drop shadow. */
   outline: none;
   overflow-y: auto;
-  transition:
-    transform 200ms ease,
-    opacity 200ms ease;
 }
 
 /* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
@@ -100,13 +97,51 @@
   min-width: 0;
 }
 
-/* ─── Slide animation (per side) ──────────────────────────────────────────── */
+/* ─── Slide animation (per side) ────────────────────────────────────────────
+   Keyframes, not transitions. The popup arrives from `hidden` (display: none),
+   and a transition never runs from display: none — the element has no previous
+   style to transition *from* — so the old `transition` + closed-state transform
+   drew the sheet at its final position on the first frame. An animation runs
+   from the moment the element is displayed.
 
-.sheet__popup--right[data-state="closed"] { transform: translateX(100%); }
-.sheet__popup--left[data-state="closed"] { transform: translateX(-100%); }
-.sheet__popup--top[data-state="closed"] { transform: translateY(-100%); }
-.sheet__popup--bottom[data-state="closed"] { transform: translateY(100%); }
+   Closing works because Ark's presence reads the closed state's
+   `animation-name` and keeps the popup displayed until `animationend`. A host
+   that hides it synchronously still opens with the slide, and just closes
+   without one. */
+
+.sheet__popup--right[data-state="open"] { animation: sheet-in-right var(--sheet-in); }
+.sheet__popup--left[data-state="open"] { animation: sheet-in-left var(--sheet-in); }
+.sheet__popup--top[data-state="open"] { animation: sheet-in-top var(--sheet-in); }
+.sheet__popup--bottom[data-state="open"] { animation: sheet-in-bottom var(--sheet-in); }
+
+.sheet__popup--right[data-state="closed"] { animation: sheet-out-right var(--sheet-out); }
+.sheet__popup--left[data-state="closed"] { animation: sheet-out-left var(--sheet-out); }
+.sheet__popup--top[data-state="closed"] { animation: sheet-out-top var(--sheet-out); }
+.sheet__popup--bottom[data-state="closed"] { animation: sheet-out-bottom var(--sheet-out); }
+
+/* Decelerate in, accelerate out, and leave faster than it arrived: the user
+   is waiting on the open, not on the close. `both` holds the end frame on the
+   way out, so the panel does not flash back into place before it is hidden. */
+.sheet__popup {
+  --sheet-in: 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --sheet-out: 160ms cubic-bezier(0.4, 0, 1, 1) both;
+}
+
+@keyframes sheet-in-right { from { transform: translateX(100%); } }
+@keyframes sheet-in-left { from { transform: translateX(-100%); } }
+@keyframes sheet-in-top { from { transform: translateY(-100%); } }
+@keyframes sheet-in-bottom { from { transform: translateY(100%); } }
+@keyframes sheet-out-right { to { transform: translateX(100%); } }
+@keyframes sheet-out-left { to { transform: translateX(-100%); } }
+@keyframes sheet-out-top { to { transform: translateY(-100%); } }
+@keyframes sheet-out-bottom { to { transform: translateY(100%); } }
+
+/* Reduced motion: nothing travels. The panel cross-fades instead, which still
+   says "this appeared" without a 400px slide across the screen. */
+@keyframes sheet-fade-in { from { opacity: 0; } }
+@keyframes sheet-fade-out { to { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .sheet__popup { transition: opacity 200ms ease; }
+  .sheet__popup[data-state="open"] { animation: sheet-fade-in 150ms ease-out both; }
+  .sheet__popup[data-state="closed"] { animation: sheet-fade-out 100ms ease-in both; }
 }

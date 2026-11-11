@@ -7,7 +7,6 @@ export const tagStyles = cva("tag", {
       info:             "tag--info",
       "info-secondary": "tag--info-secondary",
       caution:          "tag--caution",
-      warning:          "tag--warning",
       error:            "tag--error",
     },
     size: {

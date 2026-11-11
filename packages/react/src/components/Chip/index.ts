@@ -1,3 +1,3 @@
-export { Chip } from "./Chip.js";
-export type { ChipProps } from "./Chip.types.js";
-export type { ChipVariants, ComparisonIconName } from "@ui-organized/core";
+export { Chip, ChipSegment } from "./Chip.js";
+export type { ChipProps, ChipSegmentProps } from "./Chip.types.js";
+export type { ChipSegmentPart } from "@ui-organized/core";

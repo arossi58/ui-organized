@@ -5,6 +5,19 @@ The Svelte data table for the ui-organized design system, built on
 React, Vue and Angular tables use. Same class names, same stylesheet, same token contract,
 no fork of the logic.
 
+## Stylesheets
+
+The table's stylesheet goes after the component library's, once, at your app
+entry. The snippets below import it inline for brevity; in an app, keep all of
+these together in this order:
+
+```ts
+import "@ui-organized/tokens/variables.css";
+import "@ui-organized/svelte/styles";
+import "@ui-organized/svelte-table/styles"; // after the component styles
+import "./styles/theme.css"; // your theme, last
+```
+
 ## Three layers
 
 | Layer        | What it is                                                   |

@@ -205,7 +205,7 @@ export function TypographyPanel() {
         <h3 className={styles.sectionTitle}>Fonts</h3>
         <div className={styles.fontPickers}>
           <FontPicker
-            label="Heading Font"
+            label="Heading font"
             value={headingFamily}
             weights={headingWeights}
             fonts={fonts}
@@ -217,7 +217,7 @@ export function TypographyPanel() {
             onPreviewTextChange={setHeadingPreviewText}
           />
           <FontPicker
-            label="Body Font"
+            label="Body font"
             value={bodyFamily}
             weights={bodyWeights}
             fonts={fonts}
@@ -234,7 +234,7 @@ export function TypographyPanel() {
       {/* ── Type Scale ───────────────────────────────────────────────────── */}
       <section className={styles.section}>
         <div className={styles.sectionHead}>
-          <h3 className={styles.sectionTitle}>Type Scale</h3>
+          <h3 className={styles.sectionTitle}>Type scale</h3>
           {typeScaleMode === "system" ? (
             <span className={styles.systemBadge}>Design system default</span>
           ) : (

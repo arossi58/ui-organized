@@ -11,8 +11,11 @@
  *        DTCG primitive tokens consumed by the Style Dictionary build.
  *   2. packages/utils/src/coreColors.ts  (CORE_HEX + neutral/brand family lists)
  *        The core color library used across packages.
- *   3. apps/marketing/src/tools/color-palette/constants/defaultPalette.js
- *        The color palette generator tool's default "UI Organized" collection.
+ *
+ * The color palette tool's default "UI Organized" collection
+ * (apps/marketing/src/tools/color-palette/constants/defaultPalette.js) is NOT
+ * generated: it reads `getCoreFamily` from @ui-organized/utils at runtime, so it
+ * shows the derived neutrals themes actually resolve rather than the authored ones.
  *
  * Run after editing tokens-update/core-color.css:
  *   pnpm generate:palette
@@ -36,19 +39,11 @@ const ROOT = resolve(__dirname, "..");
 const SOURCE_CSS = resolve(ROOT, "tokens-update/core-color.css");
 const OUT_TOKENS_JSON = resolve(ROOT, "packages/tokens/src/primitive/core-color.json");
 const OUT_CORE_COLORS_TS = resolve(ROOT, "packages/utils/src/coreColors.ts");
-const OUT_DEFAULT_PALETTE = resolve(
-  ROOT,
-  "apps/marketing/src/tools/color-palette/constants/defaultPalette.js",
-);
 
 // ─── Palette conventions ──────────────────────────────────────────────────────
 
 // The 24 canonical ramp steps, lightest → darkest.
 const STEPS = Array.from({ length: 24 }, (_, i) => String((i + 1) * 100));
-
-// The base/primary weight of every family (the design system's main stop).
-const MAIN_STEP = "1200";
-const MAIN_STOP_INDEX = STEPS.indexOf(MAIN_STEP); // 11
 
 // Low-chroma tinted-grey families — drive surfaces, borders, and text. The
 // brand/neutral split is a curated classification that the flat CSS can't carry,
@@ -95,16 +90,6 @@ function validate(families) {
   }
 }
 
-/** Order a family's stops lightest → darkest as an array of hex strings. */
-function orderedStops(stops) {
-  return STEPS.map((s) => stops[s]);
-}
-
-/** "grey" → "Grey" (display name used by the palette tool). */
-function titleCase(name) {
-  return name.charAt(0).toUpperCase() + name.slice(1);
-}
-
 function rel(p) {
   return relative(ROOT, p);
 }
@@ -121,30 +106,6 @@ function buildTokensJson(families) {
     }
   }
   return JSON.stringify(tree, null, 2) + "\n";
-}
-
-/** apps/marketing/.../defaultPalette.js — the "UI Organized" default collection. */
-function buildDefaultPalette(families) {
-  const header = `// The default "UI Organized" collection IS the design system's global color
-// tokens. GENERATED from tokens-update/core-color.css by
-// scripts/generate-core-palette.mjs — every family is the canonical 24-step ramp
-// (100 lightest -> 2400 darkest). The base \`color\` is the ${MAIN_STEP} weight, the
-// design system's primary stop (mainStopIndex ${MAIN_STOP_INDEX}). Do not edit by hand; edit the
-// source CSS and re-run \`pnpm generate:palette\`.
-export const DEFAULT_PALETTE = [`;
-
-  const rows = [];
-  let id = 1;
-  for (const [family, stops] of families) {
-    const ordered = orderedStops(stops);
-    const customStops = ordered.map((h) => `'${h}'`).join(",");
-    rows.push(
-      `  { id: ${id}, name: '${titleCase(family)}', color: '${stops[MAIN_STEP]}', ` +
-        `customStops: [${customStops}] },`,
-    );
-    id += 1;
-  }
-  return `${header}\n${rows.join("\n")}\n];\n`;
 }
 
 /** A single CORE_HEX line: `  grey: { "100":"#...", ... },` */
@@ -222,7 +183,6 @@ function main() {
   );
 
   writeIfChanged(OUT_TOKENS_JSON, buildTokensJson(families));
-  writeIfChanged(OUT_DEFAULT_PALETTE, buildDefaultPalette(families));
 
   const coreColorsSrc = readFileSync(OUT_CORE_COLORS_TS, "utf-8");
   writeIfChanged(OUT_CORE_COLORS_TS, patchCoreColors(coreColorsSrc, families));

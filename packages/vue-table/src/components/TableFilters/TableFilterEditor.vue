@@ -1,18 +1,16 @@
 <!--
-  One condition's editor (Figma 2298:726): the field name, the operator, the
-  value, then a rule and a remove.
-
-  The operator and value controls carry no visible labels — the title above names
-  the field and each control's own content says the rest — but they keep real
-  `<label>`s for assistive tech, hidden in CSS rather than omitted.
+  One condition's value editor (Figma 2298:726): the value, then a rule and a
+  remove. The field and the operator have segments of their own on the chip, so
+  the editor carries only what the value segment opens.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
-import { Button, Divider, Select } from "@ui-organized/vue";
+import { Button, Divider } from "@ui-organized/vue";
 import type { TableFilterCondition } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import { focusAfterRemoval } from "./useAutoFocusField.js";
 import TableFilterValueEditor from "./TableFilterValueEditor.vue";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 const props = defineProps<{
   condition: TableFilterCondition;
@@ -20,7 +18,6 @@ const props = defineProps<{
 }>();
 
 const table = useTableContext();
-const operators = computed(() => table.filters.operatorsFor(props.condition));
 const arity = computed(() => table.filters.arityOf(props.condition));
 
 const remove = () => {
@@ -30,21 +27,6 @@ const remove = () => {
 </script>
 
 <template>
-  <!--
-    Portalled into the editor rather than to <body>: the popover is non-modal, so
-    a popup outside its subtree reads as an outside click and dismisses the
-    editor. Same escape Calendar uses for its year picker inside a date popover.
-  -->
-  <Select
-    :size="table.size.value"
-    label="Condition"
-    class="data-table__filter-field data-table__filter-field--unlabelled"
-    :portal-container="portalContainer"
-    :model-value="condition.operator"
-    :options="operators.map((operator) => ({ value: operator.id, label: operator.label }))"
-    @update:model-value="(operator: string) => table.filters.update(condition.id, { operator })"
-  />
-
   <TableFilterValueEditor
     :condition="condition"
     :arity="arity"
@@ -56,7 +38,7 @@ const remove = () => {
   <Button
     intent="ghost"
     :size="table.size.value"
-    icon="trash"
+    :icon="glyph('trash')"
     class="data-table__filter-editor-remove"
     @click="remove"
   >

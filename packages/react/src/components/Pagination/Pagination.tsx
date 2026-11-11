@@ -4,6 +4,7 @@ import { Button } from "../Button/index.js";
 import { Menu, MenuTrigger, MenuContent, MenuItem } from "../Menu/index.js";
 import type { PaginationProps } from "./Pagination.types.js";
 import "@ui-organized/core/components/Pagination/Pagination.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function Pagination({
   page,
@@ -24,7 +25,7 @@ export function Pagination({
           <li>
             <Button
               intent="ghost"
-              icon="chevron-left"
+              icon={glyph("chevron-left")}
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
               aria-label="Previous page"
@@ -75,7 +76,7 @@ export function Pagination({
           <li>
             <Button
               intent="ghost"
-              icon="chevron-right"
+              icon={glyph("chevron-right")}
               onClick={() => onPageChange(page + 1)}
               disabled={page >= count}
               aria-label="Next page"

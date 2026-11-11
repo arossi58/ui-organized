@@ -34,7 +34,7 @@ const scenarios: BrowserScenario[] = staticScenarios("Breadcrumb", [
     props: {
       items: [
         { label: "Home", href: "/", icon: "check" },
-        { label: "Data", icon: "close" },
+        { label: "Data", icon: "x" },
       ],
     },
   },

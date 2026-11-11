@@ -2,7 +2,7 @@
   A prominent message about the state of something.
 
   `role="alert"` is the component's own, not the caller's job: an alert that
-  assistive technology does not announce is a coloured box.
+  assistive technology does not announce is a colored box.
 
   There is no Ark machine behind this one — Ark UI has no Alert primitive — so
   the markup here *is* the contract, and the parity gate compares it element for
@@ -11,13 +11,14 @@
 <script lang="ts">
   import { clsx } from "clsx";
   import { alertStyles } from "@ui-organized/core";
-  import type { CanonicalIconName } from "@ui-organized/utils";
+  import type { SystemGlyph } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import type { AlertProps } from "./Alert.types.js";
   import "@ui-organized/core/components/Alert/Alert.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /** Each variant announces itself with its own glyph before anyone reads the text. */
-  const VARIANT_ICONS: Record<NonNullable<AlertProps["variant"]>, CanonicalIconName> = {
+  const VARIANT_ICONS: Record<NonNullable<AlertProps["variant"]>, SystemGlyph> = {
     info:    "info",
     success: "check-circle",
     warning: "alert-triangle",
@@ -31,7 +32,7 @@
 
 <div role="alert" class={clsx(alertStyles({ variant }), className)}>
   <span class="alert__icon">
-    <Icon name={VARIANT_ICONS[variant]} size={ICON_SIZE} />
+    <Icon name={glyph(VARIANT_ICONS[variant])} size={ICON_SIZE} />
   </span>
   <div class="alert__body">
     {#if title}
@@ -41,7 +42,7 @@
   </div>
   {#if onDismiss}
     <button type="button" class="alert__dismiss" aria-label="Dismiss alert" onclick={() => onDismiss()}>
-      <Icon name="close" size={ICON_SIZE} />
+      <Icon name={glyph("close")} size={ICON_SIZE} />
     </button>
   {/if}
 </div>

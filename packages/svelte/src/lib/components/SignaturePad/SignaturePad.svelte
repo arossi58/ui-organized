@@ -6,6 +6,7 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { SignaturePadProps } from "./SignaturePad.types.js";
   import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const DEFAULT_STROKE_WIDTH = 2;
 
@@ -86,7 +87,7 @@
           intent="ghost"
           {size}
           type="button"
-          icon="refresh"
+          icon={glyph("refresh")}
           class={clsx(arkClass)}
           {...triggerProps}
         >

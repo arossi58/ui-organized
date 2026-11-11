@@ -16,6 +16,7 @@ import type {
   TableFeatures,
 } from "@tanstack/table-core";
 import type { UioTableFeatures } from "./config.js";
+import type { TableDateSetting } from "./dates.js";
 import type { TableFilterCondition, TableFilterSetting } from "./filters/types.js";
 
 // ─── Shared axes ─────────────────────────────────────────────────────────────
@@ -119,6 +120,13 @@ export interface TableColumnMeta<T = unknown> {
   edit?: TableEditDef<T>;
   /** Value used by CSV/TSV export in preference to the raw cell value. */
   exportValue?: (row: T) => string | number | null;
+  /**
+   * Marks the column as dates and says how they are read and shown. Values are
+   * held as ISO days (`YYYY-MM-DD`) inside the table; `parse` reads any other
+   * shape the data arrives in, and `format` sets how the date reads in the
+   * cell, the filter chip and the CSV export. See `withDateColumns`.
+   */
+  date?: TableDateSetting;
   /** Hide from the column visibility menu (e.g. the selection checkbox column). */
   hideFromViewOptions?: boolean;
 }

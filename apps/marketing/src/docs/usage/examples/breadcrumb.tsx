@@ -7,7 +7,7 @@ export const breadcrumbExamples: UsageExampleSet = {
     Do: () => (
       <Breadcrumb
         items={[
-          { label: "Home", href: "#", icon: "home" },
+          { label: "Home", href: "#", icon: "house" },
           { label: "Projects", href: "#" },
           { label: "Quarterly report" },
         ]}
@@ -31,7 +31,7 @@ export const breadcrumbExamples: UsageExampleSet = {
     Do: () => (
       <Breadcrumb
         items={[
-          { label: "Home", href: "#", icon: "home" },
+          { label: "Home", href: "#", icon: "house" },
           { label: "Projects", href: "#" },
           { label: "Quarterly report" },
         ]}
@@ -40,7 +40,7 @@ export const breadcrumbExamples: UsageExampleSet = {
     Dont: () => (
       <Breadcrumb
         items={[
-          { label: "Home", href: "#", icon: "home" },
+          { label: "Home", href: "#", icon: "house" },
           { label: "Projects", href: "#" },
           { label: "Quarterly report", href: "#" },
         ]}

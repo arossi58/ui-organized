@@ -1,6 +1,6 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { Component } from "vue";
 import type { ControlSize } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface SegmentedControlItem {
   /** Unique value reported (and submitted) when this segment is selected. */
@@ -8,7 +8,7 @@ export interface SegmentedControlItem {
   /** Visible label. A string, or a component for anything richer. */
   label: string | Component;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   /** Disable just this segment. */
   disabled?: boolean;
 }

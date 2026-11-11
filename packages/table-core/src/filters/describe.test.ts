@@ -102,47 +102,28 @@ describe("announcements", () => {
 });
 
 /**
- * The six operators Figma draws a glyph for, and the thirteen it does not.
- *
- * Pinned as a list rather than asserted one at a time, because the failure this
- * guards against is an operator quietly *gaining* or *losing* a glyph in a
- * refactor — and a chip that silently swaps a drawn relation for a written one
- * still renders perfectly.
+ * Every operator is spelled on the chip. The glyphs are gone, so the words are
+ * the only thing carrying the relation — for sighted users and for the name.
  */
-describe("comparison glyphs", () => {
-  it("draws exactly the six the design system has icons for", () => {
-    const withIcons = DEFAULT_CATALOGUE.all()
-      .filter((operator) => operator.icon)
-      .map((operator) => [operator.id, operator.icon]);
-
-    expect(withIcons).toEqual([
-      ["is", "equals"],
-      ["is-any-of", "is-any-of"],
-      ["contains", "contains"],
-      ["not-contains", "does-not-contain"],
-      ["starts-with", "starts-with"],
-      ["ends-with", "ends-with"],
-    ]);
-  });
-
-  it("keeps the words as the glyph's accessible name", () => {
+describe("operator wording", () => {
+  it("spells the relation in the chip's own words", () => {
     const description = describeCondition(
       { id: "f1", columnId: "name", operator: "contains", values: ["ada"] },
       { type: "text", columnLabel: "Name", catalogue: DEFAULT_CATALOGUE },
     );
-    expect(description.icon).toBe("contains");
-    // The chip draws the glyph, but `relative` still carries the relation — and
-    // `text` is what the editor dialog and the live region are named from.
     expect(description.relative).toBe("contains");
     expect(description.text).toBe("Name contains ada");
   });
 
-  it("leaves an operator with no glyph to its words", () => {
+  it("uses the per-type label", () => {
     const description = describeCondition(
       { id: "f1", columnId: "joined", operator: "in-last", values: [7], unit: "day" },
       { type: "date", columnLabel: "Joined", catalogue: DEFAULT_CATALOGUE },
     );
-    expect(description.icon).toBeUndefined();
     expect(description.relative).toBe("is in the last");
+  });
+
+  it("carries no glyph on any built-in operator", () => {
+    expect(DEFAULT_CATALOGUE.all().some((operator) => "icon" in operator)).toBe(false);
   });
 });

@@ -13,6 +13,7 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { DatePickerProps } from "./DatePicker.types.js";
   import "@ui-organized/core/components/DatePicker/DatePicker.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /** Weekday header and navigation glyphs stay one step below the cell text. */
   const NAV_ICON_SIZE = 16;
@@ -89,7 +90,7 @@
       <ArkDatePicker.Input class="date-picker__input" index={1} />
     {/if}
     <ArkDatePicker.Trigger class="date-picker__trigger">
-      <Icon name="calendar" size={iconSize} />
+      <Icon name={glyph("calendar")} size={iconSize} />
     </ArkDatePicker.Trigger>
   </ArkDatePicker.Control>
 
@@ -106,13 +107,13 @@
             {#snippet render(api)}
               <ArkDatePicker.ViewControl class="date-picker__view-control">
                 <ArkDatePicker.PrevTrigger class="date-picker__nav">
-                  <Icon name="chevron-left" size={NAV_ICON_SIZE} />
+                  <Icon name={glyph("chevron-left")} size={NAV_ICON_SIZE} />
                 </ArkDatePicker.PrevTrigger>
                 <ArkDatePicker.ViewTrigger class="date-picker__view-trigger">
                   <ArkDatePicker.RangeText />
                 </ArkDatePicker.ViewTrigger>
                 <ArkDatePicker.NextTrigger class="date-picker__nav">
-                  <Icon name="chevron-right" size={NAV_ICON_SIZE} />
+                  <Icon name={glyph("chevron-right")} size={NAV_ICON_SIZE} />
                 </ArkDatePicker.NextTrigger>
               </ArkDatePicker.ViewControl>
 

@@ -10,7 +10,7 @@ const meta: Meta<typeof Toggle> = {
     docs: {
       description: {
         component:
-          "A two-state button that can be on or off. Use a standalone `<Toggle>` (`pressed`/`defaultPressed`) or group several inside `<ToggleGroup>` for single- or multi-select.",
+          "A two-state button that can be on or off.",
       },
     },
   },
@@ -53,7 +53,7 @@ export const SingleSelectGroup: Story = {
   render: () => (
     <ToggleGroup defaultValue={["grid"]}>
       <Toggle value="list" icon="list" aria-label="List view" />
-      <Toggle value="grid" icon="grid" aria-label="Grid view" />
+      <Toggle value="grid" icon="grid-2x2" aria-label="Grid view" />
     </ToggleGroup>
   ),
 };

@@ -34,7 +34,7 @@ export function PreviewSizing() {
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>Radius in context</h2>
         <p className={styles.hint}>
-          Interactive components pull their corner radius from the scale — adjust
+          Interactive components pull their corner radius from the scale. Adjust
           the base unit to see them reshape together.
         </p>
         <div className={styles.contextRow}>

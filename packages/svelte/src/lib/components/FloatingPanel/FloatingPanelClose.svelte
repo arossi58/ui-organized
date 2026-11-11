@@ -4,6 +4,7 @@
   import { clsx } from "clsx";
   import Icon from "../Icon/Icon.svelte";
   import type { FloatingPanelCloseProps } from "./FloatingPanel.types.js";
+  import { glyph } from "../../icons/glyph.js";
 
   /** Header affordances stay a fixed small edge — they mark the chrome rather
    *  than scaling with the panel's body text. */
@@ -17,5 +18,5 @@
   aria-label="Close panel"
   {...rest}
 >
-  {#if children}{@render children()}{:else}<Icon name="close" size={HEADER_ICON_SIZE} />{/if}
+  {#if children}{@render children()}{:else}<Icon name={glyph("close")} size={HEADER_ICON_SIZE} />{/if}
 </ArkFloatingPanel.CloseTrigger>

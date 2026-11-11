@@ -13,7 +13,7 @@
  * On GitHub Pages the marketing site and Storybook share an origin, so they
  * share `localStorage`: we read the visitor's chosen brand + light/dark from
  * the site's `ui-org-site-theme` key and theme the chrome to match. In local
- * dev (different ports → no shared storage) we fall back to the system colour
+ * dev (different ports → no shared storage) we fall back to the system color
  * scheme and the design system's default brand.
  */
 
@@ -50,6 +50,8 @@ export const BRAND_TOKEN_KEYS = [
   "--color-interactive-tertiary-hover",
   "--color-interactive-tertiary-active",
   "--color-interactive-tertiary-selected",
+  // Derived from the primary fill: near-black on light brands, so it must follow the brand.
+  "--color-interactive-contents",
   "--brand",
 ] as const;
 
@@ -85,7 +87,7 @@ export function resolveVars(mode: ThemeMode, brand: string): Record<string, stri
 // ── Brand mark ────────────────────────────────────────────────────────────────
 // The bracketed "UI" logomark (apps/assets/logo-mark.svg) + wordmark, the same
 // glyph the marketing nav inlines. Built as a data-URI so `brandImage` can be
-// tinted with the active theme's ink colour (Storybook shows the image instead
+// tinted with the active theme's ink color (Storybook shows the image instead
 // of `brandTitle`, so the wordmark is baked into the SVG).
 
 const GLYPH_PATHS = [

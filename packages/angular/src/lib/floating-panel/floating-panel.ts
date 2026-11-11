@@ -34,6 +34,7 @@ import { UioIcon } from "../icons/icon.js";
 import { nextMachineId } from "../part-ids.js";
 import { flushNow } from "../overlay/flush.js";
 import { createSurface, raiseSurface, setSurfaceInteractive } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type FloatingPanelSize = ControlSize;
 export type FloatingPanelVariant = NonNullable<FloatingPanelVariants["variant"]>;
@@ -216,7 +217,7 @@ export class UioFloatingPanelClose extends UioPart {
                   cannot drift apart.
                 -->
                 <button uioFloatingPanelClose>
-                  <span uioIcon name="close" [size]="HEADER_ICON_SIZE"></span>
+                  <span uioIcon [name]="glyph('close')" [size]="HEADER_ICON_SIZE"></span>
                 </button>
               }
             </div>
@@ -241,6 +242,7 @@ export class UioFloatingPanelClose extends UioPart {
   `,
 })
 export class UioFloatingPanel implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly open = model(false);
   readonly size = input<FloatingPanelSize>("md");
   readonly variant = input<FloatingPanelVariant>("default");

@@ -401,6 +401,35 @@ describe("inline editing", () => {
     expect(dom.querySelectorAll(".data-table__editor")).toHaveLength(0);
     expect(dom.querySelector('[data-cell="0:1"]')?.textContent).toBe("3");
   });
+
+  it("marks the editable column's header, and only that one", () => {
+    const dom = render(<Editable />);
+    const seats = dom.querySelector('thead th[data-column-id="seats"]');
+    expect(seats?.classList.contains("data-table__head-cell--editable")).toBe(true);
+    expect(seats?.querySelector(".data-table__edit-icon")).not.toBeNull();
+    expect(seats?.textContent).toContain(", editable");
+    expect(dom.querySelectorAll("thead .data-table__edit-icon")).toHaveLength(1);
+    expect(
+      dom.querySelector('[data-cell="0:1"]')?.classList.contains("data-table__cell--editable"),
+    ).toBe(true);
+    expect(
+      dom.querySelector('[data-cell="0:0"]')?.classList.contains("data-table__cell--editable"),
+    ).toBe(false);
+  });
+
+  it("opens with one click, and a click inside the editor keeps the draft", () => {
+    const dom = render(<Editable />);
+    const cell = dom.querySelector<HTMLElement>('[data-cell="0:1"]');
+
+    act(() => cell?.click());
+    const input = dom.querySelector<HTMLInputElement>(".data-table__editor input");
+    expect(input).not.toBeNull();
+    expect(document.activeElement).toBe(input);
+
+    act(() => typeInto(input!, "9"));
+    act(() => input?.click());
+    expect(dom.querySelector<HTMLInputElement>(".data-table__editor input")?.value).toBe("9");
+  });
 });
 
 describe("filters", () => {
@@ -435,31 +464,33 @@ describe("filters", () => {
   });
 
   /**
-   * The relation is *drawn* for the six operators the design system has a glyph
-   * for, and written for the rest. Both are asserted here, because the failure
-   * mode of getting it wrong is a chip that still renders perfectly and simply
-   * says something different from the one beside it.
+   * The chip is segmented, and every relation is spelled — the glyphs are gone,
+   * so the words are the only thing carrying "is any of" for anyone.
    */
-  it("draws the relation for an operator with a glyph", () => {
+  it("renders field, operator and value as three segments", () => {
     const dom = withFilters([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
     const chip = dom.querySelector(".data-table__filter-chip");
-    expect(chip?.querySelector(".chip__label")?.textContent).toBe("Role");
-    expect(chip?.querySelector(".chip__value")?.textContent).toBe("Engineer");
-
-    const glyph = chip?.querySelector(".chip__operator");
-    expect(glyph?.querySelector("svg")).not.toBeNull();
-    expect(chip?.querySelector(".chip__detail")).toBeNull();
-    // Drawn, but not silent: the words are still the glyph's accessible name,
-    // so the chip reads as "Role is any of Engineer" either way.
-    expect(glyph?.getAttribute("aria-label")).toBe("is any of");
-    expect(glyph?.getAttribute("role")).toBe("img");
+    const segments = [...(chip?.querySelectorAll(":scope > .chip__segment") ?? [])];
+    expect(segments.map((segment) => segment.textContent)).toEqual([
+      "Role",
+      "is any of",
+      "Engineer",
+    ]);
+    expect(chip?.querySelector("svg")).toBeNull();
+    expect(chip?.getAttribute("aria-label")).toBe("Filter: Role is any of Engineer");
   });
 
-  it("writes the relation for an operator without one", () => {
+  it("spells the per-type label", () => {
     const dom = withFilters([{ columnId: "seats", operator: "gte", values: [2] }]);
     const chip = dom.querySelector(".data-table__filter-chip");
-    expect(chip?.querySelector(".chip__detail")?.textContent).toBe("is at least");
-    expect(chip?.querySelector(".chip__operator")).toBeNull();
+    expect(chip?.querySelector(".chip__segment--operator")?.textContent).toBe("is at least");
+  });
+
+  it("drops the value segment for an operator that takes none", () => {
+    const dom = withFilters([{ columnId: "name", operator: "is-empty", values: [] }]);
+    const chip = dom.querySelector(".data-table__filter-chip");
+    expect(chip?.querySelectorAll(".chip__segment")).toHaveLength(2);
+    expect(chip?.querySelector(".chip__segment--value")).toBeNull();
   });
 
   it("applies the condition to the rows", () => {
@@ -472,19 +503,15 @@ describe("filters", () => {
 
   /**
    * The guard for axe's `nested-interactive`, as a unit test — feedback in
-   * milliseconds rather than after a full browser run. The chip does two
-   * things, so it is two buttons, and they must be siblings.
-   */
-  /**
-   * The guard for axe's `nested-interactive`, as a unit test — feedback in
-   * milliseconds rather than after a full browser run.
+   * milliseconds rather than after a full browser run. Each segment opens its
+   * own menu, so the chip is three buttons, and they must be siblings.
    */
   it("never nests a button inside a button", () => {
     const dom = withFilters([{ columnId: "name", operator: "contains", values: ["a"] }]);
     expect(dom.querySelectorAll("button button")).toHaveLength(0);
-    // The chip is one target the width of its words: removal lives in the
-    // editor it opens, not in a second hit area inside a 20px pill.
-    expect(dom.querySelectorAll(".data-table__filter-chip button")).toHaveLength(1);
+    const segments = dom.querySelectorAll(".data-table__filter-chip > button.chip__segment");
+    expect(segments).toHaveLength(3);
+    expect([...segments].every((segment) => segment.getAttribute("aria-haspopup"))).toBe(true);
   });
 
   it("shows an incomplete condition without letting it filter", () => {
@@ -506,13 +533,12 @@ describe("filters", () => {
 });
 
 /**
- * Both halves of the row under the toolbar are summaries of applied state, and
- * the point of the row is that they share it: the chips on the left, the bulk
- * actions at the right-hand end, directly under the sort and filter buttons
- * that produced them. Asserted as *siblings inside one element* rather than by
- * position, because that is the part a stylesheet cannot recover from.
+ * While rows are selected, the bulk actions take the place of the toolbar's
+ * own controls: deciding what to do with the selection comes before sorting or
+ * filtering further. Asserted structurally — which element holds what — because
+ * that is the part a stylesheet cannot recover from.
  */
-describe("the row under the toolbar", () => {
+describe("the selection's bulk actions", () => {
   const withBulk = (defaultFilters?: TableFilterInput[]) =>
     render(
       <DataTable<Row>
@@ -525,31 +551,423 @@ describe("the row under the toolbar", () => {
         bulkActions={[{ id: "export", label: "Export", onRun: () => {} }]}
       />,
     );
+  const toolbar = (dom: HTMLElement) => dom.querySelector(".data-table__toolbar");
 
-  it("is absent while nothing is filtered and nothing is selected", () => {
+  it("are absent, and the sub-bar too, while nothing is filtered or selected", () => {
     const dom = withBulk();
+    expect(dom.querySelector(".data-table__selection-bar")).toBeNull();
     expect(dom.querySelector(".data-table__subbar")).toBeNull();
+    expect(toolbar(dom)?.querySelector('[aria-label="Add filter"]')).not.toBeNull();
   });
 
-  it("holds the filter chips and the bulk actions on one line", () => {
+  it("replace the sort, filter and table actions in the toolbar row", () => {
+    const dom = withBulk();
+    act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
+
+    const bar = toolbar(dom)?.querySelector(".data-table__selection-bar");
+    expect(bar).not.toBeNull();
+    // A plain labelled group, not a `role="toolbar"` with its own surface.
+    expect(bar?.getAttribute("role")).toBe("group");
+    expect(bar?.classList.contains("toolbar")).toBe(false);
+    expect(toolbar(dom)?.querySelector('[aria-label="Add filter"]')).toBeNull();
+    // Search stays: it narrows what is on screen, not what is selected.
+    expect(toolbar(dom)?.querySelector('input[type="search"]')).not.toBeNull();
+    expect(dom.querySelectorAll(".data-table__selection-bar")).toHaveLength(1);
+  });
+
+  it("keep the export menu, whose selected-rows items act on the selection", () => {
+    const dom = render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        exportable
+        bulkActions={[{ id: "archive", label: "Archive", onRun: () => {} }]}
+      />,
+    );
+    act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
+    expect(toolbar(dom)?.querySelector(".data-table__selection-bar")).not.toBeNull();
+    expect(toolbar(dom)?.querySelector('[aria-label="Export"]')).not.toBeNull();
+  });
+
+  it("leave the filter chips on the line below", () => {
     const dom = withBulk([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
     act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
 
     const subbar = dom.querySelector(".data-table__subbar");
     expect(subbar?.querySelector(".data-table__filters")).not.toBeNull();
-    expect(subbar?.querySelector(".data-table__selection-bar")).not.toBeNull();
-    // And nowhere else: a second copy outside the row would look identical
-    // until the viewport narrowed.
-    expect(dom.querySelectorAll(".data-table__selection-bar")).toHaveLength(1);
+    expect(subbar?.querySelector(".data-table__selection-bar")).toBeNull();
+  });
+});
+
+/**
+ * Column reordering: header move buttons, a toolbar-switched mode, and
+ * Alt+Arrow on a focused header. Dragging is native drag and drop, which jsdom
+ * does not implement; it is checked in a browser.
+ */
+describe("column reordering", () => {
+  const headers = (dom: HTMLElement) =>
+    [...dom.querySelectorAll("thead th")].map((cell) => cell.textContent?.replace(/\s+/g, " ").trim());
+  const reorderable = (setting: "always" | "toggle", extra: Partial<Parameters<typeof DataTable<Row>>[0]> = {}) =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        reorderable={setting}
+        {...extra}
+      />,
+    );
+  const button = (dom: HTMLElement, label: string) =>
+    dom.querySelector<HTMLButtonElement>(`button[aria-label="${label}"]`);
+
+  it("moves a column one place with its header buttons, disabled at the ends", () => {
+    const dom = reorderable("always");
+    expect(headers(dom)).toEqual(["Name", "Role", "Seats"]);
+    expect(button(dom, "Move Name left")?.disabled).toBe(true);
+    expect(button(dom, "Move Seats right")?.disabled).toBe(true);
+
+    act(() => button(dom, "Move Name right")?.click());
+    expect(headers(dom)).toEqual(["Role", "Name", "Seats"]);
+    act(() => button(dom, "Move Seats left")?.click());
+    expect(headers(dom)).toEqual(["Role", "Seats", "Name"]);
   });
 
-  it("appears for a selection alone, with no filters applied", () => {
-    const dom = withBulk();
+  it("in toggle mode, offers moving only inside reorder mode", () => {
+    const dom = reorderable("toggle");
+    expect(button(dom, "Move Name right")).toBeNull();
+    expect(dom.querySelector('.data-table__head-inner[draggable="true"]')).toBeNull();
+
+    act(() => button(dom, "Reorder columns")?.click());
+    expect(button(dom, "Move Name right")).not.toBeNull();
+    expect(dom.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(3);
+
+    act(() => button(dom, "Done reordering columns")?.click());
+    expect(button(dom, "Move Name right")).toBeNull();
+  });
+
+  it("never puts the resize handle inside the drag source", () => {
+    // With the <th> draggable, pressing the handle started a native drag that
+    // stole the pointer from the resize after its first step.
+    const dom = reorderable("always", { resizable: true });
+    const handles = dom.querySelectorAll(".data-table__resize-handle");
+    expect(handles.length).toBeGreaterThan(0);
+    for (const handle of handles) expect(handle.closest('[draggable="true"]')).toBeNull();
+    expect(dom.querySelectorAll('.data-table__head-inner[draggable="true"]')).toHaveLength(3);
+  });
+
+  it("leaves the table's own columns where they are", () => {
+    const dom = reorderable("always", { selection: "multiple" });
+    const select = dom.querySelector("th.data-table__select-cell");
+    expect(select?.querySelector('[draggable="true"]')).toBeNull();
+    expect(select?.querySelector(".data-table__move")).toBeNull();
+    // The first data column cannot step left past the checkbox column.
+    expect(button(dom, "Move Name left")?.disabled).toBe(true);
+  });
+
+  it("moves the focused header's column with Alt+Arrow, and focus goes with it", () => {
+    const dom = reorderable("always", { selection: "multiple" });
+    // Column 0 is the checkbox column; 1 is Name.
+    const name = dom.querySelector<HTMLElement>('[data-cell="-1:1"]');
+    act(() => name?.focus());
+    act(() => press(name, "ArrowRight", { altKey: true }));
+    expect(headers(dom).slice(1)).toEqual(["Role", "Name", "Seats"]);
+    expect(focusedCell(dom)).toBe("-1:2");
+  });
+});
+
+/**
+ * `meta.date`: the data arrives as US-formatted strings, the table holds ISO
+ * days, and the cell and the filter chip read in the column's own format.
+ */
+describe("date columns", () => {
+  interface Hire {
+    id: string;
+    name: string;
+    joined: string;
+  }
+  const HIRES: Hire[] = [
+    { id: "a", name: "Ada", joined: "2/1/2026" },
+    { id: "b", name: "Grace", joined: "11/10/2025" },
+    { id: "c", name: "Alan", joined: "12/31/2025" },
+  ];
+  const parseUs = (value: unknown) => {
+    const [m, d, y] = String(value).split("/").map(Number);
+    return y && m && d ? new Date(y, m - 1, d) : null;
+  };
+  const dmy = (date: Date) => `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+  const HIRE_COLUMNS: TableColumn<Hire>[] = [
+    { accessorKey: "name", header: "Name", meta: { primary: true } },
+    { accessorKey: "joined", header: "Joined", meta: { filter: true, date: { parse: parseUs, format: dmy } } },
+  ];
+  const hires = (defaultFilters?: TableFilterInput[]) =>
+    render(
+      <DataTable<Hire>
+        label="Hires"
+        columns={HIRE_COLUMNS}
+        data={HIRES}
+        getRowId={(row) => row.id}
+        defaultSorting={[{ id: "joined", desc: false }]}
+        defaultFilters={defaultFilters}
+      />,
+    );
+  const joined = (dom: HTMLElement) =>
+    [...dom.querySelectorAll("tbody tr")].map((row) => row.lastElementChild?.textContent);
+
+  it("shows each date in the column's format, sorted as dates rather than strings", () => {
+    // As strings "2/1/2026" would sort after "12/31/2025"... and before it as
+    // well as everything else, depending on the first digit. As dates it is last.
+    expect(joined(hires())).toEqual(["10.11.2025", "31.12.2025", "1.2.2026"]);
+  });
+
+  it("filters on the date and words the chip in the same format", () => {
+    const dom = hires([{ columnId: "joined", operator: "gt", values: ["2025-12-01"] }]);
+    expect(joined(dom)).toEqual(["31.12.2025", "1.2.2026"]);
+    expect(dom.querySelector(".data-table__filter-chip")?.textContent).toContain("1.12.2025");
+  });
+});
+
+/**
+ * How many rows are selected, and the offer to reach the ones off screen, sit
+ * under the rows rather than in the toolbar: at the end of the list the user
+ * has been ticking down. The offer is a real button that counts the rows it
+ * would add.
+ */
+describe("the selection footer", () => {
+  const paged = () =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        paginated
+        pageSize={2}
+      />,
+    );
+  const footer = (dom: HTMLElement) => dom.querySelector(".data-table__selection-footer");
+
+  it("is absent while nothing is selected", () => {
+    const dom = paged();
+    expect(footer(dom)).toBeNull();
+  });
+
+  it("rides inside the viewport, after the table, and holds the count", () => {
+    const dom = paged();
     act(() => press(dom.querySelector('[data-cell="0:1"]'), " "));
 
-    const subbar = dom.querySelector(".data-table__subbar");
-    expect(subbar?.querySelector(".data-table__selection-bar")).not.toBeNull();
-    expect(subbar?.querySelector(".data-table__filters")).toBeNull();
+    // Inside the scroll container, so it never adds a row to the page's layout.
+    expect(footer(dom)?.parentElement?.classList.contains("data-table__viewport")).toBe(true);
+    expect(footer(dom)?.previousElementSibling?.tagName).toBe("TABLE");
+
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent).toBe(
+      "1 row selected",
+    );
+    // Said once, at the bottom — not in the toolbar's bar as well.
+    expect(dom.querySelectorAll(".data-table__selection-count")).toHaveLength(1);
+    // A page only partly ticked has nothing hidden to offer.
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+
+  it("offers the hidden rows as a real button once the page is fully selected", () => {
+    const dom = paged();
+    const cell = dom.querySelector('[data-cell="0:1"]');
+    act(() => press(cell, " "));
+    act(() => press(cell, "ArrowDown", { shiftKey: true }));
+
+    const offer = footer(dom)?.querySelector("button");
+    expect(offer?.classList.contains("btn")).toBe(true);
+    // Counts what it adds: two of three are selected, so one is hidden.
+    expect(offer?.textContent).toBe("Select 1 hidden row");
+
+    act(() => offer?.click());
+    expect(footer(dom)?.querySelector(".data-table__selection-count")?.textContent).toBe(
+      "3 rows selected",
+    );
+    expect(footer(dom)?.querySelector("button")).toBeNull();
+  });
+});
+
+/**
+ * Card mode is the phone layout. Sort and filter open sheets from labelled
+ * buttons that count what is applied, the chips row goes away, and each card
+ * puts its controls in the top-right corner, checkbox last.
+ */
+describe("row activation", () => {
+  const withControls = (onRowClick: (row: Row) => void) =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        onRowClick={onRowClick}
+        rowActions={[{ id: "edit", label: "Edit", onRun: () => {} }]}
+      />,
+    );
+  const click = (el: Element | null | undefined) =>
+    act(() => {
+      el?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+  it("activates on a click on the row itself", () => {
+    const clicked: string[] = [];
+    const dom = withControls((row) => clicked.push(row.id));
+    click(dom.querySelector('[data-cell="0:2"]'));
+    expect(clicked).toEqual(["a"]);
+  });
+
+  it("ignores clicks on the selection checkbox and the action menu", () => {
+    const clicked: string[] = [];
+    const dom = withControls((row) => clicked.push(row.id));
+    const row = dom.querySelectorAll("tbody tr")[0];
+    const targets = [
+      row?.querySelector('.data-table__select-hit input[type="checkbox"]'),
+      row?.querySelector(".data-table__select-hit label"),
+      row?.querySelector(".data-table__actions-cell button"),
+    ];
+    for (const target of targets) expect(target).toBeTruthy();
+    targets.forEach(click);
+    expect(clicked).toEqual([]);
+  });
+});
+
+describe("card mode", () => {
+  const cards = (defaultFilters?: TableFilterInput[]) =>
+    render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        selection="multiple"
+        responsive={{ mode: "cards" }}
+        defaultFilters={defaultFilters}
+        defaultSorting={[{ id: "name", desc: false }]}
+        rowActions={[{ id: "edit", label: "Edit", onRun: () => {} }]}
+      />,
+    );
+  const button = (dom: HTMLElement, name: RegExp) =>
+    [...dom.querySelectorAll<HTMLButtonElement>(".data-table__toolbar button")].find((b) =>
+      name.test(b.textContent ?? ""),
+    );
+
+  it("swaps the sort and filter menus for sheet buttons, counted by badges", () => {
+    const dom = cards([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
+    const filter = button(dom, /^Filter/);
+    const sort = button(dom, /^Sort/);
+    expect(filter?.querySelector(".data-table__badge")?.textContent).toBe("1");
+    expect(filter?.textContent).toContain(", 1 applied");
+    expect(sort?.querySelector(".data-table__badge")?.textContent).toBe("1");
+    // The desktop funnel is gone.
+    expect(dom.querySelector('.data-table__toolbar [aria-label="Add filter"]')).toBeNull();
+  });
+
+  it("shows no badge while nothing is applied", () => {
+    const dom = render(
+      <DataTable<Row>
+        label="Team"
+        columns={COLUMNS}
+        data={DATA}
+        getRowId={(row) => row.id}
+        responsive={{ mode: "cards" }}
+      />,
+    );
+    expect(button(dom, /^Filter/)?.querySelector(".data-table__badge")).toBeNull();
+  });
+
+  it("keeps filters out of the chips row, which the sheet replaces", () => {
+    const dom = cards([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
+    expect(dom.querySelector(".data-table__subbar")).toBeNull();
+    expect(dom.querySelector(".data-table__filter-chip")).toBeNull();
+  });
+
+  it("counts only complete conditions on the badge", () => {
+    const dom = cards([
+      { columnId: "role", operator: "is-any-of", values: ["Engineer"] },
+      { columnId: "role", operator: "is-any-of", values: [] },
+    ]);
+    expect(button(dom, /^Filter/)?.querySelector(".data-table__badge")?.textContent).toBe("1");
+  });
+
+  it("opens with every field as a section, and drops unfilled drafts on close", async () => {
+    const dom = cards([{ columnId: "role", operator: "is-any-of", values: ["Engineer"] }]);
+    await act(async () => {
+      button(dom, /^Filter/)?.click();
+      await Promise.resolve();
+    });
+    // Both sheets are mounted; the filter one is the one titled "Filter".
+    const sheet = [...document.querySelectorAll(".data-table__sheet")].find(
+      (el) => el.querySelector("h2")?.textContent === "Filter",
+    );
+    expect(sheet).not.toBeUndefined();
+    const titles = [...(sheet?.querySelectorAll(".data-table__sheet-section-title") ?? [])].map(
+      (title) => title.firstElementChild?.textContent,
+    );
+    // One per filterable column, with nothing added first.
+    expect(titles).toEqual(["Role"]);
+    // Every field has a condition to edit while the sheet is open.
+    expect(sheet?.querySelectorAll(".data-table__sheet-filter").length).toBe(titles.length);
+    // A section says what it applies, so it reads collapsed.
+    expect(sheet?.textContent).toContain("is any of Engineer");
+
+    const done = [...(sheet?.querySelectorAll("button") ?? [])].find(
+      (b) => b.textContent === "Done",
+    );
+    await act(async () => {
+      done?.click();
+      await Promise.resolve();
+    });
+    // The drafts are gone; the real filter stays.
+    expect(button(dom, /^Filter/)?.querySelector(".data-table__badge")?.textContent).toBe("1");
+    await act(async () => {
+      button(dom, /^Filter/)?.click();
+      await Promise.resolve();
+    });
+    const filled = [...(sheet?.querySelectorAll(".data-table__sheet-filter") ?? [])].filter((el) =>
+      el.querySelector('[aria-label^="Clear filter"]'),
+    );
+    expect(filled).toHaveLength(1);
+  });
+
+  it("seeds an empty draft for an unfiltered field, and never counts or keeps it", async () => {
+    const dom = cards();
+    const filterSheet = () =>
+      [...document.querySelectorAll(".data-table__sheet")].find(
+        (el) => el.querySelector("h2")?.textContent === "Filter",
+      );
+    await act(async () => {
+      button(dom, /^Filter/)?.click();
+      await Promise.resolve();
+    });
+    // Role has no filter, yet its section has a condition to edit.
+    expect(filterSheet()?.querySelectorAll(".data-table__sheet-filter")).toHaveLength(1);
+    expect(button(dom, /^Filter/)?.querySelector(".data-table__badge")).toBeNull();
+    await act(async () => {
+      [...(filterSheet()?.querySelectorAll("button") ?? [])]
+        .find((b) => b.textContent === "Done")
+        ?.click();
+      await Promise.resolve();
+    });
+    // Closed, the draft is gone: no condition is left behind to be reported.
+    expect(filterSheet()?.querySelectorAll(".data-table__sheet-filter")).toHaveLength(0);
+  });
+
+  it("puts the row actions and then the checkbox at the card's top-right", () => {
+    const dom = cards();
+    const header = dom.querySelector(".data-table__card-header");
+    const children = [...(header?.children ?? [])];
+    expect(children[0]?.classList.contains("data-table__card-title")).toBe(true);
+    const controls = header?.querySelector(".data-table__card-controls");
+    expect(controls).toBe(children[children.length - 1]);
+    const last = controls?.lastElementChild;
+    expect(last?.querySelector('input[type="checkbox"]') ?? last).not.toBeNull();
+    expect(controls?.querySelector('[aria-label^="Actions for"]')).not.toBeNull();
   });
 });
 

@@ -17,6 +17,8 @@ import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
 import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";
+import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 /**
  * A from–to date range built from two native `<input type="date">` controls on
@@ -49,6 +51,7 @@ export function DateRangeInput({
   id,
   portalContainer,
 }: DateRangeInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const containedPositioning = useContainedPositioning();
@@ -97,7 +100,7 @@ export function DateRangeInput({
           type="date"
           className="field__control field__control--affix-start"
           // Native date inputs are never `:placeholder-shown`; flag empty so the
-          // mm/dd/yyyy chrome renders in the placeholder colour.
+          // mm/dd/yyyy chrome renders in the placeholder color.
           data-empty={(isStart ? current.start : current.end) ? undefined : true}
           value={isStart ? current.start : current.end}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -129,7 +132,7 @@ export function DateRangeInput({
       disabled={disabled}
       aria-label={extra.ariaLabel}
     >
-      <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+      <Icon name={glyph("calendar")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
     </button>
   );
 
@@ -169,7 +172,7 @@ export function DateRangeInput({
           disabled={disabled}
           aria-label={`${startLabel} — choose date`}
         >
-          <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+          <Icon name={glyph("calendar")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
         </button>
       </ArkPopover.Trigger>
     );

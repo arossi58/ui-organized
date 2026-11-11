@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs } from "vue";
+import { computed, ref, useAttrs, onMounted } from "vue";
 import { Field } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, passwordInputFieldStyles } from "@ui-organized/core";
@@ -11,6 +11,11 @@ import type { PasswordInputProps } from "./PasswordInput.types.js";
 // trailing show/hide toggle.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+// Text fields read pointer vs keyboard for a quiet focus state on click.
+onMounted(() => trackFocusModality());
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -76,7 +81,7 @@ const visible = ref(false);
         :disabled="disabled"
         @click="visible = !visible"
       >
-        <Icon :name="visible ? 'eye-off' : 'eye'" :size="CONTROL_ICON_SIZE[size]" />
+        <Icon :name="glyph(visible ? 'eye-off' : 'eye')" :size="CONTROL_ICON_SIZE[size]" />
       </button>
     </div>
     <Field.HelperText v-if="helperText && !isInvalid" class="field__description">

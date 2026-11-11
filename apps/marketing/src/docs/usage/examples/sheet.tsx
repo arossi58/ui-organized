@@ -60,8 +60,8 @@ export const sheetExamples: UsageExampleSet = {
             <Checkbox label="Assigned to me" />
           </div>
           <SheetFooter>
-            <SheetClose className="btn btn--secondary btn--md">Cancel</SheetClose>
-            <SheetClose className="btn btn--primary btn--md">Apply</SheetClose>
+            <SheetClose className="text-default-body-large btn btn--secondary btn--md">Cancel</SheetClose>
+            <SheetClose className="text-default-body-large btn btn--primary btn--md">Apply</SheetClose>
           </SheetFooter>
         </SheetContent>
       </Sheet>

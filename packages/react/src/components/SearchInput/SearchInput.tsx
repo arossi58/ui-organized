@@ -9,6 +9,8 @@ import type { SearchInputProps } from "./SearchInput.types.js";
 // leading icon and clear button.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function SearchInput({
   label,
@@ -25,6 +27,7 @@ export function SearchInput({
   onChange,
   ...inputProps
 }: SearchInputProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
 
@@ -79,7 +82,7 @@ export function SearchInput({
           className="input-affix__adornment input-affix__adornment--start"
           aria-hidden="true"
         >
-          <Icon name="search" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+          <Icon name={glyph("search")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
         </span>
         <Field.Input
           ref={inputRef}
@@ -104,7 +107,7 @@ export function SearchInput({
             aria-label="Clear search"
             tabIndex={-1}
           >
-            <Icon name="close" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph("close")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </button>
         )}
       </div>

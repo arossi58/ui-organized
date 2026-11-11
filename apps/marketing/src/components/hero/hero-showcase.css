@@ -1,0 +1,171 @@
+/**
+ * Homepage hero (Figma 2427:20480 → 2472:22350). The section is the scroll
+ * track; the sticky viewport inside it holds the heading and the mockup in
+ * their *final* positions, and the GSAP timeline in HeroShowcase.tsx animates
+ * from the opening state back to these. Positions here are therefore the
+ * resting layout from the design: heading under the nav, mockup below it.
+ */
+
+.hero-showcase {
+  /* The heading block sits centred between the floating nav and the mockup:
+     this much space above it and below it. `--hero-nav-bottom` is the nav's
+     measured bottom edge (HeroShowcase sets it; 72px is the pill at rest). */
+  --hero-gap: 32px;
+  position: relative;
+  /* 2.4 viewports of scroll drive the timeline, then the sticky releases. */
+  height: 340vh;
+  background: var(--color-surface-base);
+  /* Light hero: tone the dot lattice to ink so it shows on the light surface. */
+  --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
+}
+
+.hero-showcase--static {
+  height: auto;
+}
+
+.hero-showcase__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: calc(var(--hero-nav-bottom, 72px) + var(--hero-gap));
+  overflow: hidden;
+  color: var(--color-content-primary);
+}
+
+.hero-showcase--static .hero-showcase__sticky {
+  position: relative;
+  min-height: 100svh;
+  height: auto;
+  padding-bottom: var(--spacing-space-08);
+}
+
+/* The dot lattice behind everything. It fades out over the bottom of the stage
+   so it dissolves into the plain surface instead of ending on a hard line. */
+.hero-showcase__dots {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  --hero-dots-fade: min(40svh, 360px);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hero-dots-fade)), transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hero-dots-fade)), transparent);
+}
+
+/* ── Heading + CTA ───────────────────────────────────────────────────────── */
+
+.hero-showcase__head {
+  position: relative;
+  /* Above the mockup while it lifts in underneath. */
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--spacing-space-02);
+  max-width: calc(100% - 2 * var(--spacing-space-04));
+  will-change: transform;
+}
+
+.hero-showcase__title {
+  /* Both lines share one grid cell: the answer is drawn exactly where the
+     question stood, so the heading reads as one line that changes. */
+  display: grid;
+  justify-items: center;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 9vw, var(--type-size-display-xlarge));
+  /* Tighter than the type scale's 1.6 display leading, so the box hugs the
+     glyphs and the block reads as centred between the nav and the mockup. */
+  line-height: 1.15;
+  font-weight: var(--type-weight-heading-strong);
+  letter-spacing: 0;
+  text-align: center;
+  color: var(--color-content-primary);
+}
+
+.hero-showcase__line {
+  grid-area: 1 / 1;
+  /* Depth for the characters' rotateX. */
+  perspective: 600px;
+}
+
+.hero-showcase__word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.hero-showcase__char {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  backface-visibility: hidden;
+}
+
+.hero-showcase__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hero-showcase__cta {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Mockup stage ────────────────────────────────────────────────────────── */
+
+.hero-showcase__stage {
+  position: relative;
+  z-index: 1;
+  /* Width/height and --showcase-scale are measured in HeroShowcase. The same
+     gap as above the heading, which is what centres it. */
+  margin-top: var(--hero-gap);
+  flex: none;
+  transform-origin: 50% 0;
+}
+
+.hero-showcase__scaler {
+  transform: scale(var(--showcase-scale, 1));
+  transform-origin: 0 0;
+}
+
+@media (max-width: 720px) {
+  .hero-showcase {
+    --hero-gap: var(--spacing-space-05);
+  }
+
+  .hero-showcase__scaler {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* ── Physics pieces ──────────────────────────────────────────────────────────
+   Above the heading and the window while they fall and fly in (pieces.css
+   puts the layer at z-index 10 and makes it click-through). Once every piece
+   has landed they hand off to the live mockup and hide. */
+
+/* Hidden until the engine has placed every piece (`is-ready`): a layer
+   mounted for a page switch would otherwise flash its pieces stacked at the
+   top-left for the frames before matter-js takes over. */
+.showcase-pieces:not(.is-ready),
+.showcase-pieces.is-done {
+  visibility: hidden;
+}
+
+/* A piece renders its part at the slot's measured size. */
+.showcase-pieces .physics-piece__fit > *,
+.showcase-pieces .physics-piece__fit > .showcase-part > * {
+  width: 100%;
+}
+
+.showcase-pieces .physics-piece__fit > .showcase-sidebar {
+  height: 100%;
+}

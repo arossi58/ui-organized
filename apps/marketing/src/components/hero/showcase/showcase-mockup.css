@@ -1,0 +1,380 @@
+/**
+ * The hero's app window (Figma 2472:22351). Laid out at the design's native
+ * 1422×832; the hero scales it with `--showcase-scale`. Library components
+ * bring their own styling, so this file is only the page layout around them.
+ */
+
+.showcase-mockup {
+  /* The offset parent the hero engine measures piece slots against. */
+  position: relative;
+  display: flex;
+  width: 1422px;
+  height: 832px;
+  overflow: hidden;
+  background: var(--color-surface-base);
+  border-radius: var(--border-radius-05);
+  /* An outline, not a border: the hero engine measures piece slots against
+     this box, and a border would shift every slot by its width. */
+  outline: 1px solid var(--color-border-primary);
+  /* Its reach (8px + 30px) is reserved below the mockup by SHADOW_ROOM in
+     HeroShowcase.tsx; grow one, grow the other, or the hero clips it. */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  color: var(--color-content-primary);
+  text-align: start;
+}
+
+.showcase-sidebar {
+  flex: none;
+  height: 100%;
+}
+
+.showcase-body {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+  padding: var(--spacing-space-04);
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+.showcase-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-04);
+}
+
+.showcase-header__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--type-size-display-large);
+  line-height: var(--type-leading-display-large);
+  font-weight: var(--type-weight-heading-strong);
+  color: var(--color-content-primary);
+}
+
+.showcase-header__info {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-04);
+}
+
+/* ── Framework tabs: the panel under them takes the rest of the window ─── */
+
+.showcase-tabs {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.showcase-tabs .tabs__panels {
+  display: flex;
+  min-height: 0;
+}
+
+.showcase-tabs .tabs__panel {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-space-04) 0 0;
+}
+
+.showcase-tabs .tabs__panel[hidden] {
+  display: none;
+}
+
+/* ── Dashboard ───────────────────────────────────────────────────────────── */
+
+.showcase-dashboard {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+.showcase-stats {
+  display: flex;
+  gap: var(--spacing-space-04);
+}
+
+.showcase-stat {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 11px var(--spacing-space-03);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-06);
+  white-space: nowrap;
+}
+
+.showcase-stat__value {
+  font-family: var(--font-display);
+  font-size: var(--type-size-display-large);
+  line-height: var(--type-leading-display-large);
+  font-weight: var(--type-weight-heading-strong);
+}
+
+.showcase-stat__label {
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.showcase-panel {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+  gap: var(--spacing-space-08);
+  padding: var(--spacing-space-04);
+  overflow: auto;
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.showcase-panel__column {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+/* Full-width controls, as in the design. */
+/* ── Piece slots ─────────────────────────────────────────────────────────
+   A part (parts.tsx) docks into a `.showcase-piece` slot as a `.showcase-part`
+   node that PartHost moves in and out. The hero measures the part's own
+   root, so slot and node only pass width through. */
+
+.showcase-piece {
+  min-width: 0;
+}
+
+.showcase-piece--fill > .showcase-part > * {
+  width: 100%;
+}
+
+.showcase-stats > .showcase-piece {
+  flex: 1 1 0;
+}
+
+/* While the pieces are in flight only the static shell shows: the window,
+   the panel backing, the divider. The chrome the mirror pieces stand in for
+   is hidden until they hand off to it. (The parts need no rule: they are
+   physically out in the pieces.) */
+.showcase-mockup[data-assembling] :is(.showcase-mirror > *, .showcase-sidebar) {
+  visibility: hidden;
+}
+
+/* The data table stays whole in its slot while copies of its pieces fly
+   (snapshot.ts). Hide what was copied; the grid's frame stays as the shell
+   the rows land in, like the dashboard's panel backing. */
+.showcase-mockup[data-assembling] [data-piece="table"] :is(
+    .data-table__toolbar,
+    .data-table__subbar,
+    thead > tr,
+    tbody > tr,
+    .data-table__pagination
+  ) {
+  visibility: hidden;
+}
+
+/* ── View switch ─────────────────────────────────────────────────────────
+   Keyed per view in ShowcaseMockup, so moving between the components and
+   their code (including the hero switching code off on the way back up)
+   fades the new view in rather than cutting. */
+.showcase-view {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  animation: showcase-view-in 0.32s ease both;
+}
+
+@keyframes showcase-view-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-view {
+    animation: none;
+  }
+}
+
+
+.showcase-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-space-04);
+}
+
+.showcase-row--fill {
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.showcase-row--fill > * {
+  flex: 1 1 0;
+}
+
+.showcase-textarea .field__control {
+  min-height: 136px;
+}
+
+.showcase-toolbar {
+  width: 100%;
+}
+
+.showcase-toolbar > :last-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.showcase-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  align-items: flex-start;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+
+/* The table sits on a primary surface, like the dashboard's panel — which
+   also makes it the static shell the table's pieces land in. Every level
+   between the panel and the grid is a flex column, so the grid takes all the
+   height left after the toolbar and pagination and scrolls inside it, rather
+   than stopping at a fixed cap. */
+.showcase-table {
+  flex: 1 1 0;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-space-04);
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.showcase-table > .showcase-piece,
+.showcase-table > .showcase-piece > .showcase-part,
+.showcase-table .showcase-part > .data-table {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-table .data-table__viewport {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+/* ── Code view ───────────────────────────────────────────────────────────── */
+
+.showcase-code {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+}
+
+/* CodeBlock's frame (a CSS module, so reached structurally): fill the panel
+   and scroll inside it rather than growing the window. */
+.showcase-code > div {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface-primary);
+  border-color: var(--color-border-primary);
+}
+
+.showcase-code pre {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+.showcase-code__loading {
+  flex: 1 1 0;
+  min-height: 0;
+  border-radius: var(--border-radius-05);
+}
+
+/* ── Narrow viewports: no scaling, a reflowed single column ─────────────── */
+
+@media (max-width: 720px) {
+  .showcase-mockup {
+    width: 100%;
+    height: 100%;
+  }
+
+  .showcase-header__title {
+    font-size: var(--type-size-heading-large);
+    line-height: var(--type-leading-heading-large);
+  }
+
+  .showcase-header__info .avatar {
+    display: none;
+  }
+
+  .showcase-tabs .tabs__list {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .showcase-stats {
+    flex-wrap: wrap;
+  }
+
+  .showcase-stats > .showcase-piece {
+    flex-basis: calc(50% - var(--spacing-space-02));
+  }
+
+  .showcase-stat__value {
+    font-size: var(--type-size-heading-large);
+    line-height: var(--type-leading-heading-large);
+  }
+
+  .showcase-dashboard {
+    overflow: auto;
+  }
+
+  .showcase-panel {
+    flex: none;
+    flex-direction: column;
+    gap: var(--spacing-space-04);
+    overflow: visible;
+  }
+
+  .showcase-panel > .divider {
+    display: none;
+  }
+
+  .showcase-toolbar {
+    flex-wrap: wrap;
+  }
+}
+
+/* Sidebar wordmark, masked so it paints with the sidebar's text color in both themes. */
+.showcase-logo {
+  display: block;
+  width: 208px;
+  height: 33.84px;
+  background-color: currentColor;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}

@@ -9,6 +9,7 @@ import {
   model,
   output,
   signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { editableStyles, type ControlSize } from "@ui-organized/core";
@@ -16,6 +17,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type EditableSize = ControlSize;
 /** What turns the preview into an input. */
@@ -203,6 +205,9 @@ export type EditableSubmitMode = "blur" | "enter" | "both" | "none";
   },
 })
 export class UioEditable extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
   readonly scope = "editable";
   readonly part = "root";
 

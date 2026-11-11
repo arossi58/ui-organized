@@ -1,9 +1,15 @@
 <!--
-  Appears only while something is selected.
+  Appears only while something is selected, and then takes the place of the
+  toolbar's sort, filter and table actions: with rows selected, what to do with
+  them is the decision in front of the user, so it sits where they were already
+  looking rather than on a line of its own. The count, and the offer to select
+  the rows off screen, are in `TableSelectionFooter` under the rows.
 
-  A `Toolbar` this time — it genuinely is a cluster of buttons, which is what
-  `role="toolbar"` and its roving focus are for. Destructive actions route
-  through `AlertDialog`; "archive 40,000 rows" is not an undo-able mis-click.
+  Plain buttons in a labelled group, with no surface of its own. It shares the
+  toolbar row with the search box, so `role="toolbar"`'s roving focus would make
+  it the only cluster in that row that Tab skips through. Destructive actions
+  route through `AlertDialog`; "archive 40,000 rows" is not an undo-able
+  mis-click.
 -->
 <script setup lang="ts" generic="T extends RowData">
 import { computed, ref } from "vue";
@@ -17,9 +23,7 @@ import {
   AlertDialogFooter,
   AlertDialogTitle,
   Button,
-  Toolbar,
 } from "@ui-organized/vue";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { RowData } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
 import type { BulkAction } from "../../core/types.js";
@@ -46,31 +50,18 @@ const confirm = () => {
 </script>
 
 <template>
-  <Toolbar
+  <div
     v-if="count > 0"
+    role="group"
     :class="clsx('data-table__selection-bar', $props.class)"
     aria-label="Bulk actions"
   >
-    <span class="data-table__selection-count" aria-live="polite">
-      {{ count === 1 ? "1 row selected" : `${count} rows selected` }}
-    </span>
-
-    <span v-if="table.selection.canSelectAllMatching.value" class="data-table__selection-all">
-      <button
-        type="button"
-        class="data-table__selection-link"
-        @click="table.selection.selectAllMatching()"
-      >
-        Select all {{ table.selection.totalMatching.value }} matching rows
-      </button>
-    </span>
-
     <Button
       v-for="action in items"
       :key="action.id"
       :size="table.size.value"
       :intent="action.destructive ? 'destructive-ghost' : 'ghost'"
-      :icon="action.icon as CanonicalIconName | undefined"
+      :icon="action.icon"
       @click="choose(action)"
     >
       {{ action.label }}
@@ -102,5 +93,5 @@ const confirm = () => {
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  </Toolbar>
+  </div>
 </template>

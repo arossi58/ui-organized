@@ -30,22 +30,22 @@ export const dividerExamples: UsageExampleSet = {
   grouping: {
     Do: () => (
       <div style={row}>
-        <Button intent="ghost" size="sm" icon="undo" aria-label="Undo" />
-        <Button intent="ghost" size="sm" icon="redo" aria-label="Redo" />
+        <Button intent="ghost" size="sm" icon="undo-2" aria-label="Undo" />
+        <Button intent="ghost" size="sm" icon="redo-2" aria-label="Redo" />
         <Divider orientation="vertical" />
         <Button intent="ghost" size="sm" icon="list" aria-label="List view" />
-        <Button intent="ghost" size="sm" icon="grid" aria-label="Grid view" />
+        <Button intent="ghost" size="sm" icon="grid-2x2" aria-label="Grid view" />
       </div>
     ),
     Dont: () => (
       <div style={row}>
-        <Button intent="ghost" size="sm" icon="undo" aria-label="Undo" />
+        <Button intent="ghost" size="sm" icon="undo-2" aria-label="Undo" />
         <Divider orientation="vertical" />
-        <Button intent="ghost" size="sm" icon="redo" aria-label="Redo" />
+        <Button intent="ghost" size="sm" icon="redo-2" aria-label="Redo" />
         <Divider orientation="vertical" />
         <Button intent="ghost" size="sm" icon="list" aria-label="List view" />
         <Divider orientation="vertical" />
-        <Button intent="ghost" size="sm" icon="grid" aria-label="Grid view" />
+        <Button intent="ghost" size="sm" icon="grid-2x2" aria-label="Grid view" />
       </div>
     ),
   },

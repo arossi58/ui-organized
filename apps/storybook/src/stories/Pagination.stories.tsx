@@ -11,7 +11,7 @@ const meta: Meta<typeof Pagination> = {
     docs: {
       description: {
         component:
-          "Numbered page navigation with previous/next controls. Controlled via `page`, `count`, and `onPageChange`. Collapses long ranges with an ellipsis.",
+          "Numbered page navigation with previous/next controls.",
       },
     },
   },

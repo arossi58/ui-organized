@@ -59,6 +59,7 @@ import {
   type ColorFormat,
   type ColorValue,
 } from "./color.js";
+import { glyph } from "../icons/glyph.js";
 
 export type ColorPickerSize = ControlSize;
 export type ColorPickerVariant = NonNullable<ColorPickerVariants["variant"]>;
@@ -78,38 +79,38 @@ const GRID_STYLE =
   "background-image: conic-gradient(#eeeeee 0 25%, transparent 0 50%, #eeeeee 0 75%, transparent 0); " +
   "background-size: var(--size) var(--size); inset: 0px; z-index: auto; pointer-events: none;";
 
-/** zag's hue rail, which is the same six stops whatever colour is selected. */
+/** zag's hue rail, which is the same six stops whatever color is selected. */
 const HUE_TRACK =
   "linear-gradient(to right, rgb(255, 0, 0) 0%, rgb(255, 255, 0) 17%, rgb(0, 255, 0) 33%, " +
   "rgb(0, 255, 255) 50%, rgb(0, 0, 255) 67%, rgb(255, 0, 255) 83%, rgb(255, 0, 0) 100%)";
 
 /**
- * A colour swatch that opens a picker.
+ * A color swatch that opens a picker.
  *
  * ```html
  * <div uioColorPicker label="Brand" [(value)]="brand" [swatches]="palette"></div>
  * ```
  *
- * ── The colour maths is this package's own ──────────────────────────────────
+ * ── The color maths is this package's own ──────────────────────────────────
  *
- * The other three libraries convert, parse and print colours with
+ * The other three libraries convert, parse and print colors with
  * `@zag-js/color-utils`. This package takes no dependency beyond the CDK, so
  * that arithmetic is written out in `color.ts` — and it is not cosmetic: the
- * machine puts the colour into the accessibility tree in three spaces at once,
+ * machine puts the color into the accessibility tree in three spaces at once,
  * so `aria-label`, `aria-valuenow` and `aria-valuetext` are all conversions
  * being compared to the hundredth. See the note there, and the reference values
  * captured from a running React picker in `color.spec.ts`.
  *
- * ── Two colours, not one ────────────────────────────────────────────────────
+ * ── Two colors, not one ────────────────────────────────────────────────────
  *
  * The value is held in whatever space it was *written in* — `#2563eb` is an RGB
- * colour, `hsl(221, 83%, 53%)` an HSL one — while the area and the sliders read
+ * color, `hsl(221, 83%, 53%)` an HSL one — while the area and the sliders read
  * an `areaValue` converted into HSB (or HSL, when the format is `hsla`). That is
  * why the hue thumb can read `221.21` while the trigger says `rgba(37, 99, 235,
- * 1)`: they are the same colour in two spaces, and the rounding happens on the
+ * 1)`: they are the same color in two spaces, and the rounding happens on the
  * way between them.
  *
- * It is also why alpha is read off the *converted* colour: `#2563eb80` has an
+ * It is also why alpha is read off the *converted* color: `#2563eb80` has an
  * alpha of `0.5019607843137255`, which the trigger prints in full and the alpha
  * slider reports as `0.5`, because the conversion rounds every channel to two
  * places. Reading alpha off the raw value instead is a one-character change that
@@ -213,7 +214,7 @@ const HUE_TRACK =
 
     <!--
       Not a hidden input in the "hidden" sense: it is visually hidden and out of
-      the tab order, so a form submits the colour and a label points at it. Same
+      the tab order, so a form submits the color and a label points at it. Same
       element the other three render.
     -->
     <input
@@ -350,7 +351,7 @@ const HUE_TRACK =
                   [attr.data-invalid]="flag(invalid())"
                   (click)="pickFromScreen()"
                 >
-                  <span uioIcon name="pipette" [size]="iconSize()"></span>
+                  <span uioIcon [name]="glyph('pipette')" [size]="iconSize()"></span>
                 </button>
               }
             </div>
@@ -415,7 +416,7 @@ const HUE_TRACK =
                 uioSelect
                 class="color-picker__format"
                 size="sm"
-                label="Colour notation"
+                label="Color notation"
                 [options]="notations"
                 [value]="inputFormat()"
                 [disabled]="disabled()"
@@ -513,6 +514,7 @@ const HUE_TRACK =
   },
 })
 export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly scope = "color-picker";
   readonly part = "root";
 
@@ -520,7 +522,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   readonly helperText = input<string | undefined>(undefined);
   /** A string shows a message; `true` marks the field invalid without one. */
   readonly error = input<string | boolean | undefined>(undefined);
-  /** A CSS colour string. Uncontrolled until something binds it. */
+  /** A CSS color string. Uncontrolled until something binds it. */
   readonly value = model<string>(DEFAULT_COLOR);
   readonly valueChange = output<string>();
   /** Fired once the interaction ends. */
@@ -621,7 +623,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   /**
    * The value, in the format the *machine* runs on.
    *
-   * The conversion is not cosmetic. zag holds its colour in the machine's format
+   * The conversion is not cosmetic. zag holds its color in the machine's format
    * from the moment it parses one, so an `hsl(221, 83%, 53%)` handed to a picker
    * running on rgba is rounded to `rgb(36, 99, 235)` first and every derived
    * number — the area's saturation and brightness, the hue thumb's
@@ -644,7 +646,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
    * Which notation the fields are showing.
    *
    * Local, and initialised from the *machine's* format once rather than derived
-   * from it: it is a way of reading the colour rather than a property of it, so
+   * from it: it is a way of reading the color rather than a property of it, so
    * switching it must not move the value string, the form value or which pair
    * of channels the area is — and a later change to `format` must not yank the
    * row out from under a reader who has switched it.
@@ -658,8 +660,8 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   /**
    * The field being typed into, and what has been typed.
    *
-   * `null` means every field shows the colour. While a field is mid-edit the
-   * colour must not overwrite what is being typed — which it otherwise would on
+   * `null` means every field shows the color. While a field is mid-edit the
+   * color must not overwrite what is being typed — which it otherwise would on
    * every pointer move over the area behind the field.
    */
   private readonly draft = signal<{ key: string; text: string } | null>(null);
@@ -686,7 +688,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
    * Applies a typed edit, which is a finished interaction — so it reports an
    * end as well as a change, unlike a drag, which reports many changes and one
    * end when the pointer lifts. An unreadable edit is dropped and the field
-   * falls back to the colour it was showing.
+   * falls back to the color it was showing.
    */
   protected commitField(field: ColorField): void {
     const draft = this.draft();
@@ -724,14 +726,14 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
    */
   protected readonly contentLabel = computed(() => {
     const text = this.label();
-    return text ? `${text} colour picker` : "Colour picker";
+    return text ? `${text} color picker` : "Color picker";
   });
 
   /**
-   * The colour the area and the sliders work in.
+   * The color the area and the sliders work in.
    *
    * HSB unless the format is HSL, which is zag's rule and the reason the area's
-   * second axis is labelled "brightness" for an RGB colour and "lightness" for
+   * second axis is labelled "brightness" for an RGB color and "lightness" for
    * an HSL one.
    */
   protected readonly areaValue = computed(() =>
@@ -750,7 +752,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
     return `${x} ${this.channel(x!)}, ${y} ${this.channel(y!)}`;
   });
 
-  /** Every channel the DOM reports comes from the converted colour. */
+  /** Every channel the DOM reports comes from the converted color. */
   protected channel(name: string): number {
     return channelValue(this.areaValue(), name);
   }
@@ -827,12 +829,12 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
   }
 
   /**
-   * The value's own swatch, which is checked whenever the colour survives a
+   * The value's own swatch, which is checked whenever the color survives a
    * round trip through its printed form.
    *
    * That is a strange thing for a swatch to be unsure about and it is the
    * machine's own arrangement: Ark hands `getSwatchProps` the value as a
-   * *string*, zag parses it back, and a colour whose printed form rounds — an
+   * *string*, zag parses it back, and a color whose printed form rounds — an
    * RGB value shown as `hsla(221.21, 83.19%, 53.33%, 1)` — no longer matches the
    * value it came from. The parity gate has an allowance for the resulting
    * disagreement between React, Svelte and Vue; this reproduces the mechanism
@@ -957,7 +959,7 @@ export class UioColorPicker extends UioPart implements OnInit, OnDestroy {
     this.hide();
   }
 
-  /** Set the colour and report it, in the caller's own notation. */
+  /** Set the color and report it, in the caller's own notation. */
   private commit(color: ColorValue, end = false): void {
     const next = colorToString(color, this.resolvedFormat());
     if (next !== this.value()) {

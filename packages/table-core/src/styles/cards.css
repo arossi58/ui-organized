@@ -42,13 +42,25 @@
   gap: var(--spacing-space-02);
 }
 
+/* The row's controls sit in the top-right corner, checkbox outermost. Centred
+   on the title's first line, so a two-line name does not pull them down. */
+.data-table__card-controls {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  margin-inline-start: auto;
+}
+
 /* The primary column is the card title — the same column that is the row header
    in table mode and the pinned one on a narrow viewport. One decision, three
    places it shows up. */
 .data-table__card-title {
   flex: 1 1 auto;
   min-width: 0;
-  font-size: var(--type-size-body-large);
+  /* Card mode is read on a phone at arm's length, so every text role in the
+     card is one step up from the table's: title, label and value. */
+  font-size: var(--type-size-heading-small);
   font-weight: var(--type-weight-body-strong);
   color: var(--color-content-primary);
   overflow-wrap: anywhere;
@@ -56,7 +68,7 @@
 
 .data-table__card-fields {
   display: grid;
-  /* The label is body-small and the value body-medium; aligning the boxes would
+  /* The label is body-medium and the value body-large; aligning the boxes would
      leave their text off by the difference. */
   align-items: baseline;
   grid-template-columns: minmax(0, auto) minmax(0, 1fr);
@@ -66,13 +78,13 @@
 
 .data-table__card-label {
   color: var(--color-content-secondary);
-  font-size: var(--type-size-body-small);
+  font-size: var(--type-size-body-medium);
 }
 
 .data-table__card-value {
   margin: 0;
   color: var(--color-content-primary);
-  font-size: var(--type-size-body-medium);
+  font-size: var(--type-size-body-large);
   overflow-wrap: anywhere;
 }
 
@@ -80,4 +92,107 @@
    estimates. This is the spacer it uses at each end. */
 .data-table__card-spacer {
   flex: none;
+}
+
+/* ─── Sort and filter sheets ──────────────────────────────────────────────────
+   Card mode opens sort and filter as bottom sheets. What is applied is counted
+   on the button that opens each one, as a badge inside its label. */
+
+.data-table__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--spacing-space-05, 20px);
+  height: var(--spacing-space-05, 20px);
+  padding: 0 var(--spacing-space-01);
+  box-sizing: border-box;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  font-size: var(--type-size-caption);
+  font-weight: var(--type-weight-body-strong);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table__sheet {
+  /* Portalled to <body>, out from under `.data-table`, so it does not inherit
+     the table's type; plain text in it would fall back to the page's. */
+  font-family: var(--type-font-body);
+}
+
+/* As tall as its content, up to most of the screen, rather than the Sheet's
+   fixed 480px: the sort sheet is a short list, and the filter sheet holds every
+   field at once and needs the room. The body scrolls; title and footer stay. */
+.sheet__popup--bottom.data-table__sheet {
+  height: auto;
+  max-height: 85dvh;
+}
+
+/* Large, evenly-split actions across the sheet's full width, as on the narrow
+   side sheets: on a phone this is a thumb's reach, and Done is the way out. */
+.data-table__sheet .sheet__footer > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.data-table__sheet-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-space-05);
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Field name, and under it what is applied, so a collapsed section still says
+   what it filters by. */
+.data-table__sheet-section-title {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+  text-align: start;
+}
+
+.data-table__sheet-section-summary {
+  color: var(--color-content-secondary);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.data-table__sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-04);
+}
+
+/* One condition: its relation, its value, and Clear. A field with two
+   conditions (a numeric window) separates them with a rule. */
+.data-table__sheet-filter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+}
+
+.data-table__sheet-filter + .data-table__sheet-filter {
+  padding-top: var(--spacing-space-04);
+  border-top: 1px solid var(--color-border-secondary);
+}
+
+.data-table__sheet-filter-value {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+}
+
+.data-table__sheet-filter-value:empty {
+  display: none;
+}
+
+.data-table__sheet-remove.btn {
+  align-self: flex-start;
 }

@@ -10,7 +10,7 @@ const meta: Meta<typeof Card> = {
     docs: {
       description: {
         component:
-          "Cards group related content in a surface. Compose `<Card>` with `<CardHeader>`, `<CardBody>`, and `<CardFooter>`, and use `variant` for emphasis and `padding` for density.",
+          "Cards group related content in a single container.",
       },
     },
   },

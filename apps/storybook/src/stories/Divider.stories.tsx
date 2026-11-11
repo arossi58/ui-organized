@@ -10,7 +10,7 @@ const meta: Meta<typeof Divider> = {
     docs: {
       description: {
         component:
-          "A thin visual rule for separating content or controls. Use `orientation` for horizontal or vertical, and `spacing` to control the surrounding margin. A vertical divider stretches to the height of its flex row.",
+          "A thin visual line for separating content or controls.",
       },
     },
   },

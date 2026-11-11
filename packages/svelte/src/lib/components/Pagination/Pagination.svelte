@@ -18,6 +18,7 @@
   import MenuTrigger from "../Menu/MenuTrigger.svelte";
   import type { PaginationProps } from "./Pagination.types.js";
   import "@ui-organized/core/components/Pagination/Pagination.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     page = $bindable(),
@@ -74,7 +75,7 @@
       <li>
         <Button
           intent="ghost"
-          icon="chevron-left"
+          icon={glyph("chevron-left")}
           disabled={page <= 1}
           aria-label="Previous page"
           onclick={() => goTo(page - 1)}
@@ -123,7 +124,7 @@
       <li>
         <Button
           intent="ghost"
-          icon="chevron-right"
+          icon={glyph("chevron-right")}
           disabled={page >= count}
           aria-label="Next page"
           onclick={() => goTo(page + 1)}

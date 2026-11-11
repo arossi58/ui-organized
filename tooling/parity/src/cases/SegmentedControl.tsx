@@ -30,7 +30,7 @@ const spec: ParitySpec = {
       props: {
         items: [
           { value: "yes", label: "Yes", icon: "check" },
-          { value: "no", label: "No", icon: "close" },
+          { value: "no", label: "No", icon: "x" },
         ],
       },
     },

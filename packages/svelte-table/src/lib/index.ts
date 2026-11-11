@@ -18,6 +18,7 @@ export { elementRef } from "./core/elementRef.js";
 
 export type {
   BulkAction,
+  ColumnDrag,
   DataTableApi,
   DetailApi,
   DetailConfig,
@@ -27,6 +28,7 @@ export type {
   FiltersApi,
   FocusApi,
   HorizontalScrollApi,
+  ReorderApi,
   RenderRow,
   RowAction,
   SelectionApi,
@@ -57,6 +59,7 @@ export {
   TableSearch,
   TableSortMenu,
   TableViewOptions,
+  TableReorderToggle,
   TableExportMenu,
   TableScrollButtons,
 } from "./components/TableToolbar/index.js";
@@ -71,6 +74,12 @@ export {
 } from "./components/TableFilters/index.js";
 export { TablePagination } from "./components/TablePagination/index.js";
 export { TableSelectionBar } from "./components/TableSelectionBar/index.js";
+export { TableSelectionFooter } from "./components/TableSelectionFooter/index.js";
+export {
+  TableFilterSheet,
+  TableSheetButton,
+  TableSortSheet,
+} from "./components/TableSheets/index.js";
 export { TableSubBar } from "./components/TableSubBar/index.js";
 export { TableCards, TableCard } from "./components/TableCards/index.js";
 export { TableDetailSheet } from "./components/TableDetailSheet/index.js";
@@ -83,6 +92,8 @@ export { DataTable } from "./DataTable/index.js";
 export type {
   DataTableQuery,
   SelectionMode,
+  TableDateDef,
+  TableDateSetting,
   TableFilterCondition,
   TableFilterType,
   TableMode,

@@ -87,7 +87,7 @@ function groupByCollection<T extends { collection: string; name: string }>(
 const STATUS_LABEL: Record<ChangeStatus, string> = { add: "New", update: "Changed", unchanged: "Same" };
 
 /**
- * A token reference (e.g. a semantic colour aliasing a primitive): shows the
+ * A token reference (e.g. a semantic color aliasing a primitive): shows the
  * token name, and reveals the raw resolved value in a tooltip when clicked.
  */
 function TokenValue({ name, color }: { name: string; color?: string }) {
@@ -165,7 +165,7 @@ function PlanModeCell({ row, mode }: { row: PlanRow; mode: string }) {
   );
 }
 
-/** Coloured count chips summarising a plan. */
+/** Colored count chips summarising a plan. */
 function PlanSummary({ counts }: { counts: ImportPlan["counts"] }) {
   return (
     <div className="summary">

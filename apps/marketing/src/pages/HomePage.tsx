@@ -1,6 +1,7 @@
-import { HeroStage } from "../components/hero/HeroStage";
+import { HeroShowcase } from "../components/hero/HeroShowcase";
 import { OverviewSection } from "../components/sections/OverviewSection";
 import { RoadmapSection } from "../components/sections/RoadmapSection";
+import { ContributorsSection } from "../components/sections/ContributorsSection";
 import { ContactSection } from "../components/sections/ContactSection";
 import { SiteFooter } from "../components/chrome/SiteFooter";
 
@@ -13,9 +14,10 @@ export function HomePage() {
   return (
     <>
       <main id="main">
-        <HeroStage />
+        <HeroShowcase />
         <OverviewSection />
         <RoadmapSection />
+        <ContributorsSection />
         <ContactSection />
       </main>
       <SiteFooter />

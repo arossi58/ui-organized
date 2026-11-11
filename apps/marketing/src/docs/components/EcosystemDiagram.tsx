@@ -5,7 +5,7 @@
  * only line up in a monospace font at one size, they carry no structure for a
  * screen reader, and the arrows can't be toned to separate the core pipeline
  * from the tooling that hangs off it. Here the geometry is laid out in user
- * units and every colour comes from the theme tokens, so the diagram re-themes
+ * units and every color comes from the theme tokens, so the diagram re-themes
  * with the rest of the page.
  *
  * Two drawings of the same flow, because a diagram is a layout and layouts don't
@@ -52,24 +52,26 @@ const CONFIG_LINES: Line[] = [
   { text: "Theme config", kind: "title" },
   { text: "@ui-organized/schema", kind: "pkg" },
 ];
+// Utils isn't a step after tokens: tokens are *built with* utils, so it rides
+// as a note on the tokens box rather than drawing an arrow the wrong way.
 const TOKENS_LINES: Line[] = [
   { text: "Design tokens", kind: "title" },
   { text: "@ui-organized/tokens", kind: "pkg" },
-  { text: "CSS variables + typed exports", kind: "note" },
+  { text: "generated with @ui-organized/utils", kind: "note" },
 ];
-const UTILS_LINES: Line[] = [
-  { text: "Generation utils", kind: "title" },
-  { text: "@ui-organized/utils", kind: "pkg" },
-  { text: "colour · type scale · spacing", kind: "note" },
+const CORE_LINES: Line[] = [
+  { text: "Shared core", kind: "title" },
+  { text: "@ui-organized/core", kind: "pkg" },
+  { text: "styles · variants · table engine", kind: "note" },
 ];
-const REACT_LINES: Line[] = [
-  { text: "React components", kind: "title" },
-  { text: "@ui-organized/react", kind: "pkg" },
-  { text: "behaviour from Ark UI", kind: "note" },
+const LIBRARY_LINES: Line[] = [
+  { text: "Four libraries", kind: "title" },
+  { text: "react/svelte/vue/angular", kind: "pkg" },
+  { text: "Ark UI, or the Angular CDK", kind: "note" },
 ];
 const FIGMA_LINES: Line[] = [
   { text: "Figma plugin", kind: "title" },
-  { text: "variables · modes · styles", kind: "note" },
+  { text: "variables · modes", kind: "note" },
 ];
 const BUILDER_LINES: Line[] = [
   { text: "Theme builder", kind: "title" },
@@ -164,7 +166,7 @@ const coreMid = CORE.y + CORE.h / 2;
 function WideFlow() {
   return (
     <>
-      {/* Config → tokens → utils → components: the accented spine. */}
+      {/* Config → tokens → core → libraries: the accented spine. */}
       <Edge d={`M${COL[0] + 126} ${CONFIG.y + CONFIG.h} V${CORE.y}`} />
       <Edge d={`M${COL[0] + NODE_W} ${coreMid} H${COL[1]}`} />
       <Edge d={`M${COL[1] + NODE_W} ${coreMid} H${COL[2]}`} />
@@ -199,8 +201,8 @@ function WideFlow() {
       />
 
       <DiagramNode x={COL[0]} y={CORE.y} w={NODE_W} h={CORE.h} lines={TOKENS_LINES} />
-      <DiagramNode x={COL[1]} y={CORE.y} w={NODE_W} h={CORE.h} lines={UTILS_LINES} />
-      <DiagramNode x={COL[2]} y={CORE.y} w={NODE_W} h={CORE.h} lines={REACT_LINES} />
+      <DiagramNode x={COL[1]} y={CORE.y} w={NODE_W} h={CORE.h} lines={CORE_LINES} />
+      <DiagramNode x={COL[2]} y={CORE.y} w={NODE_W} h={CORE.h} lines={LIBRARY_LINES} />
 
       <DiagramNode
         x={COL[0]}
@@ -251,11 +253,11 @@ const N_RETURN_X = 344;
 const N_MID = N_X + N_NODE_W / 2;
 const N_RIGHT = N_X + N_NODE_W;
 
-/** Rows, top to bottom: the config, the three pipeline layers, the three tools. */
+/** Rows, top to bottom: the config, the three pipeline layers (tokens, core, libraries), the three tools. */
 const N_CONFIG = { y: 8, h: 78 };
 const N_TOKENS = { y: 126, h: 80 };
-const N_UTILS = { y: 232, h: 80 };
-const N_REACT = { y: 338, h: 80 };
+const N_CORE = { y: 232, h: 80 };
+const N_LIBS = { y: 338, h: 80 };
 const N_FIGMA = { y: 462, h: 62 };
 const N_BUILDER = { y: 544, h: 62 };
 const N_VITE = { y: 626, h: 80 };
@@ -266,10 +268,10 @@ const bottom = (row: { y: number; h: number }) => row.y + row.h;
 function NarrowFlow() {
   return (
     <>
-      {/* Config → tokens → utils → components, straight down the middle. */}
+      {/* Config → tokens → core → libraries, straight down the middle. */}
       <Edge d={`M${N_MID} ${bottom(N_CONFIG)} V${N_TOKENS.y}`} />
-      <Edge d={`M${N_MID} ${bottom(N_TOKENS)} V${N_UTILS.y}`} />
-      <Edge d={`M${N_MID} ${bottom(N_UTILS)} V${N_REACT.y}`} />
+      <Edge d={`M${N_MID} ${bottom(N_TOKENS)} V${N_CORE.y}`} />
+      <Edge d={`M${N_MID} ${bottom(N_CORE)} V${N_LIBS.y}`} />
 
       {/* The tooling bus leaves the tokens sideways rather than downwards, so it
           reads as a branch off the spine instead of another step along it. */}
@@ -285,7 +287,7 @@ function NarrowFlow() {
       {/* …and back up the right margin: the Vite plugin injects the built tokens
           into the app the components run in. */}
       <Edge
-        d={`M${N_RIGHT} ${mid(N_VITE)} H${N_RETURN_X} V${mid(N_REACT)} H${N_RIGHT}`}
+        d={`M${N_RIGHT} ${mid(N_VITE)} H${N_RETURN_X} V${mid(N_LIBS)} H${N_RIGHT}`}
         tone="tool"
       />
 
@@ -316,19 +318,19 @@ function NarrowFlow() {
       />
       <DiagramNode
         x={N_X}
-        y={N_UTILS.y}
+        y={N_CORE.y}
         w={N_NODE_W}
-        h={N_UTILS.h}
+        h={N_CORE.h}
         inset={N_INSET}
-        lines={UTILS_LINES}
+        lines={CORE_LINES}
       />
       <DiagramNode
         x={N_X}
-        y={N_REACT.y}
+        y={N_LIBS.y}
         w={N_NODE_W}
-        h={N_REACT.h}
+        h={N_LIBS.h}
         inset={N_INSET}
-        lines={REACT_LINES}
+        lines={LIBRARY_LINES}
       />
 
       <DiagramNode
@@ -376,9 +378,11 @@ export function EcosystemDiagram() {
         <title id="eco-title">How the packages fit together</title>
         <desc id="eco-desc">
           A single theme config, validated by @ui-organized/schema, feeds the design
-          tokens in @ui-organized/tokens. The tokens feed the generation utils in
-          @ui-organized/utils, which feed the React components in @ui-organized/react,
-          built on Ark UI. The same tokens also feed three tools: the Figma plugin, the
+          tokens in @ui-organized/tokens, generated with @ui-organized/utils. The tokens
+          feed the shared core in @ui-organized/core, which holds every component's
+          styles and variants plus the table engine. The core feeds four component
+          libraries: React, Svelte and Vue, built on Ark UI, and Angular, built on the
+          Angular CDK. The same tokens also feed three tools: the Figma plugin, the
           theme builder, and the Vite plugin @ui-organized/react-vite, which builds and
           injects the tokens back into the app the components run in.
         </desc>

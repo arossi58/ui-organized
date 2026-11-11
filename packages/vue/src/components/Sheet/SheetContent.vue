@@ -9,6 +9,7 @@ import { clsx } from "clsx";
 import { sheetStyles } from "@ui-organized/core";
 import Icon from "../Icon/Icon.vue";
 import type { SheetContentProps } from "./Sheet.types.js";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // `side` and `size` are left undefined rather than given defaults here: the
@@ -27,7 +28,7 @@ const contentClass = computed(() =>
     <ArkDialog.Positioner class="dialog__positioner sheet__positioner">
       <ArkDialog.Content :class="contentClass" v-bind="{ ...$attrs, class: undefined }">
         <ArkDialog.CloseTrigger v-if="showClose" class="dialog__close" aria-label="Close">
-          <Icon name="close" :size="20" />
+          <Icon :name="glyph('close')" :size="20" />
         </ArkDialog.CloseTrigger>
         <slot />
       </ArkDialog.Content>

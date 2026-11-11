@@ -5,7 +5,7 @@
   background: var(--site-paper);
 }
 
-/* Token-coloured shimmer. Motion-gated: under reduced motion the cards are a
+/* Token-colored shimmer. Motion-gated: under reduced motion the cards are a
    calm static placeholder rather than a pulsing one. */
 .skeleton {
   position: relative;

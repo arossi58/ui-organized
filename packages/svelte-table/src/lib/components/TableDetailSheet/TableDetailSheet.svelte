@@ -23,6 +23,7 @@
     SheetTitle,
   } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { size = "md", class: className }: { size?: "sm" | "md" | "lg"; class?: string } = $props();
 
@@ -75,7 +76,7 @@
         <Button
           intent="ghost"
           size="sm"
-          icon="chevron-up"
+          icon={glyph("chevron-up")}
           aria-label="Previous row"
           disabled={!detail.canStep(-1)}
           onclick={() => detail.step(-1)}
@@ -83,7 +84,7 @@
         <Button
           intent="ghost"
           size="sm"
-          icon="chevron-down"
+          icon={glyph("chevron-down")}
           aria-label="Next row"
           disabled={!detail.canStep(1)}
           onclick={() => detail.step(1)}

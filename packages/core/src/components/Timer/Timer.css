@@ -10,7 +10,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-space-03);
-  align-items: flex-start;
+  /* Centred so the controls sit centred under the readout. */
+  align-items: center;
 }
 
 /* Aligned to the top, not centred. A segment is a column — value above label —
@@ -35,9 +36,9 @@
 
 .timer__value {
   font-family: var(--type-font-body);
-  font-size: var(--type-size-heading-small);
+  font-size: var(--type-size-heading-medium);
   font-weight: var(--type-weight-heading-emphasis);
-  line-height: var(--type-leading-heading-small);
+  line-height: var(--type-leading-heading-medium);
   color: var(--color-content-primary);
   font-variant-numeric: tabular-nums;
 }
@@ -48,8 +49,8 @@
 }
 
 .timer--lg .timer__value {
-  font-size: var(--type-size-heading-medium);
-  line-height: var(--type-leading-heading-medium);
+  font-size: var(--type-size-heading-large);
+  line-height: var(--type-leading-heading-large);
 }
 
 /* ─── Boxed variant ───────────────────────────────────────────────────────────
@@ -84,9 +85,9 @@
 
 .timer__separator {
   font-family: var(--type-font-body);
-  font-size: var(--type-size-heading-small);
+  font-size: var(--type-size-heading-medium);
   font-weight: var(--type-weight-heading-emphasis);
-  line-height: var(--type-leading-heading-small);
+  line-height: var(--type-leading-heading-medium);
   color: var(--color-content-tertiary);
 }
 
@@ -96,8 +97,8 @@
 }
 
 .timer--lg .timer__separator {
-  font-size: var(--type-size-heading-medium);
-  line-height: var(--type-leading-heading-medium);
+  font-size: var(--type-size-heading-large);
+  line-height: var(--type-leading-heading-large);
 }
 
 /* In the boxed variant the value carries vertical padding, so the separator has

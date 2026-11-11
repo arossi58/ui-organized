@@ -28,8 +28,17 @@ npm install @lucide/svelte        # or @tabler/icons-svelte
 
 ```ts
 // once, near your app entry
-import "@ui-organized/svelte/icons/lucide";
+import { registerIcons } from "@ui-organized/svelte/icons/lucide";
+import { ChevronDown, Search, X } from "@lucide/svelte";
+
+registerIcons({ ChevronDown, Search, X });
 ```
+
+Names are the icon library's own, exactly as it publishes them: `search` and
+`x` in Lucide, `x-mark` in Heroicons. Nothing is renamed, so a name belongs to
+one library, and only the icons you register reach your bundle. The subpath
+import alone is enough for the components' own icons (a dialog's close button,
+a select's chevron), which follow whichever library is active.
 
 ```svelte
 <script>
@@ -55,8 +64,7 @@ Prefer not to rely on import side effects? Pass the set explicitly:
 <IconProvider library="lucide" icons={lucideIcons}>
 ```
 
-You can also hand `<Icon>` a component directly, which needs no registration and
-no canonical name:
+You can also hand `<Icon>` a component directly, which needs no registration:
 
 ```svelte
 <script>
@@ -98,7 +106,7 @@ Handlers follow Svelte 5's convention rather than React's — `onclick`, `onremo
 ## Theming
 
 Components reference semantic _roles_ — `--color-surface-primary`,
-`--color-interactive-primary-default` — never literal colours, so re-theming
+`--color-interactive-primary-default` — never literal colors, so re-theming
 means redefining those properties. The contract is shared with every other
 library in the system, so a theme written once themes all four.
 

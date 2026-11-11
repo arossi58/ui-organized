@@ -32,7 +32,6 @@ function Specimen({ children }: { children: React.ReactNode }) {
 function EditorialSpecimen() {
   return (
     <article className={styles.article}>
-      <span className={styles.eyebrow}>Field notes</span>
       <h1 className={styles.displayLg}>The quiet craft of a type scale</h1>
       <p className={styles.lede}>
         A well-tuned scale disappears into the reading. Every step earns its
@@ -59,7 +58,7 @@ function EditorialSpecimen() {
         feel composed before you&apos;ve picked a single accent.
       </p>
       <blockquote className={styles.pullQuote}>
-        “Set the body text, and the rest of the page falls into place.”
+        &ldquo;Set the body text, and the rest of the page falls into place.&rdquo;
       </blockquote>
       <p className={styles.body}>
         When the scale is right, captions and labels can carry real information
@@ -91,7 +90,7 @@ const POSTS = [
   },
   {
     tag: "Opinion",
-    variant: "warning" as const,
+    variant: "caution" as const,
     title: "You probably have one weight too many",
     excerpt:
       "Every extra weight is a decision your reader has to make. Here's how to prune a type system to what earns its keep.",
@@ -104,7 +103,9 @@ function BlogSpecimen() {
     <ul className={styles.postList}>
       {POSTS.map((p) => (
         <li key={p.title} className={styles.post}>
-          <Tag variant={p.variant} size="sm" emphasized={false}>{p.tag}</Tag>
+          <Tag variant={p.variant} size="sm" emphasized={false} className={styles.postTag}>
+            {p.tag}
+          </Tag>
           <div className={styles.postText}>
             <h3 className={styles.headingSm}>{p.title}</h3>
             <p className={styles.bodySm}>{p.excerpt}</p>
@@ -119,8 +120,8 @@ function BlogSpecimen() {
 // ─── 3 · Marketing hero ─────────────────────────────────────────────────────
 
 const FEATURES = [
-  { icon: "grid" as const, title: "One scale", text: "Every size derives from a single base and ratio." },
-  { icon: "refresh" as const, title: "Live theming", text: "Re-skin type across the system from one source." },
+  { icon: "grid-2x2" as const, title: "One scale", text: "Every size derives from a single base and ratio." },
+  { icon: "refresh-cw" as const, title: "Live theming", text: "Re-skin type across the system from one source." },
   { icon: "star" as const, title: "Readable by default", text: "Leading and weight tuned for long-form reading." },
 ];
 
@@ -128,10 +129,10 @@ function MarketingSpecimen() {
   return (
     <div className={styles.hero}>
       <Tag variant="info" emphasized={false}>Typography · v2</Tag>
-      <h1 className={styles.displayXl}>Type that reads itself.</h1>
+      <h1 className={styles.displayXl}>One scale for every screen.</h1>
       <p className={styles.lede}>
-        A scale built from tokens, tuned once, and applied everywhere, from the
-        loudest hero to the smallest caption.
+        A type scale built from tokens and applied everywhere, from the largest
+        hero to the smallest caption.
       </p>
       <div className={styles.heroActions}>
         <Button intent="primary" size="lg" icon="arrow-right" iconPosition="right">

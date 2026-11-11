@@ -10,6 +10,7 @@ import {
   output,
   signal,
   type Signal,
+  afterNextRender,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { tagsInputStyles, type ControlSize } from "@ui-organized/core";
@@ -17,6 +18,8 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { glyph } from "../icons/glyph.js";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type TagsInputSize = ControlSize;
 
@@ -132,7 +135,7 @@ const DELETE_ICON_SIZE = 12;
               [disabled]="isDisabled()"
               (click)="removeAt($index)"
             >
-              <span uioIcon name="close" [size]="DELETE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="DELETE_ICON_SIZE"></span>
             </button>
           </div>
           <!--
@@ -211,6 +214,10 @@ const DELETE_ICON_SIZE = 12;
   },
 })
 export class UioTagsInput extends UioPart implements ControlValueAccessor {
+  /** Pointer vs keyboard, read by the field CSS for a quiet focus state on click. */
+  protected readonly focusModalityTracker = afterNextRender(() => trackFocusModality());
+
+  protected readonly glyph = glyph;
   readonly scope = "tags-input";
   readonly part = "root";
 

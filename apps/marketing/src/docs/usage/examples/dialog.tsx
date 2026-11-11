@@ -24,8 +24,8 @@ export const dialogExamples: UsageExampleSet = {
           <DialogTitle>Rename project</DialogTitle>
           <DialogDescription>The new name appears everywhere the old one did.</DialogDescription>
           <DialogFooter>
-            <DialogClose className="btn btn--secondary btn--md">Cancel</DialogClose>
-            <DialogClose className="btn btn--primary btn--md">Rename</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--secondary btn--md">Cancel</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--primary btn--md">Rename</DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -35,8 +35,8 @@ export const dialogExamples: UsageExampleSet = {
         <DialogContent size="sm" showClose={false}>
           <DialogDescription>The new name appears everywhere the old one did.</DialogDescription>
           <DialogFooter>
-            <DialogClose className="btn btn--secondary btn--md">Cancel</DialogClose>
-            <DialogClose className="btn btn--primary btn--md">Rename</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--secondary btn--md">Cancel</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--primary btn--md">Rename</DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -51,8 +51,8 @@ export const dialogExamples: UsageExampleSet = {
           <DialogTitle>Share access</DialogTitle>
           <DialogDescription>People you add can open this straight away.</DialogDescription>
           <DialogFooter>
-            <DialogClose className="btn btn--secondary btn--md">Cancel</DialogClose>
-            <DialogClose className="btn btn--primary btn--md">Share</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--secondary btn--md">Cancel</DialogClose>
+            <DialogClose className="text-default-body-large btn btn--primary btn--md">Share</DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

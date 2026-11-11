@@ -10,7 +10,7 @@ const meta: Meta<typeof ScrollArea> = {
     docs: {
       description: {
         component:
-          "A scrollable container with a themed scrollbar. Give the Root a bounded height via `style`/`className` so its content can overflow.",
+          "A scrollable container with a themed scrollbar.",
       },
     },
   },
@@ -44,7 +44,7 @@ export const Both: Story = {
       <div style={{ padding: 16, width: 600 }}>
         {Array.from({ length: 20 }, (_, i) => (
           <p key={i} style={{ whiteSpace: "nowrap", margin: "0 0 8px" }}>
-            Row {i + 1} — this line is wider than the viewport to force horizontal scrolling.
+            Row {i + 1}: this line is wider than the viewport to force horizontal scrolling.
           </p>
         ))}
       </div>

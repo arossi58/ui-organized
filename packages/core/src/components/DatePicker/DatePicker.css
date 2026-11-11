@@ -59,10 +59,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. */
 .date-picker__input:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .date-picker__input[data-invalid] {
@@ -109,7 +110,8 @@
 }
 
 .date-picker__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .date-picker__trigger[data-disabled] {
@@ -180,7 +182,8 @@
 }
 
 .date-picker__nav:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .date-picker__view-trigger {
@@ -202,7 +205,8 @@
 }
 
 .date-picker__view-trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Grid ────────────────────────────────────────────────────────────────── */
@@ -270,7 +274,8 @@
 }
 
 .date-picker__day:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* Days from the neighbouring month are shown for grid continuity but are not

@@ -28,8 +28,17 @@ npm install @lucide/vue        # or @tabler/icons-vue, or @heroicons/vue
 
 ```ts
 // once, near your app entry
-import "@ui-organized/vue/icons/lucide";
+import { registerIcons } from "@ui-organized/vue/icons/lucide";
+import { ChevronDown, Search, X } from "@lucide/vue";
+
+registerIcons({ ChevronDown, Search, X });
 ```
+
+Names are the icon library's own, exactly as it publishes them: `search` and
+`x` in Lucide, `x-mark` in Heroicons. Nothing is renamed, so a name belongs to
+one library, and only the icons you register reach your bundle. The subpath
+import alone is enough for the components' own icons (a dialog's close button,
+a select's chevron), which follow whichever library is active.
 
 ```vue
 <script setup>
@@ -37,7 +46,8 @@ import { Icon, IconProvider } from "@ui-organized/vue";
 </script>
 
 <template>
-  <IconProvider library="lucide" style="outline">
+  <!-- icon-style, not style: Vue reserves `style` for inline CSS -->
+  <IconProvider library="lucide" icon-style="outline">
     <Icon name="search" label="Search" />
   </IconProvider>
 </template>
@@ -59,8 +69,7 @@ import { lucideIcons } from "@ui-organized/vue/icons/lucide";
 </template>
 ```
 
-You can also hand `<Icon>` a component directly, which needs no registration and
-no canonical name:
+You can also hand `<Icon>` a component directly, which needs no registration:
 
 ```vue
 <script setup>
@@ -106,7 +115,7 @@ and the controllable ones support `v-model`: `<Select v-model="value" />`.
 ## Theming
 
 Components reference semantic _roles_ — `--color-surface-primary`,
-`--color-interactive-primary-default` — never literal colours, so re-theming
+`--color-interactive-primary-default` — never literal colors, so re-theming
 means redefining those properties. The contract is shared with every other
 library in the system, so a theme written once themes all four.
 

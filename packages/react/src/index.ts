@@ -11,14 +11,34 @@ import "@ui-organized/core/typography.css";
 import "@ui-organized/core/base.css";
 
 export { Icon } from "./components/Icon/index.js";
-export type { IconProps } from "./components/Icon/index.js";
+export type { IconComponent, IconName, IconProps } from "./components/Icon/index.js";
 
-export { IconProvider } from "./context/IconContext.js";
+export { IconProvider, useIconConfig } from "./context/IconContext.js";
 export type { IconConfig, IconProviderProps } from "./context/IconContext.js";
 // The registry, not the sets: this entry must not reach any icon library, or the
 // optional peers become mandatory again. See ./icons/registry.ts.
-export { registerIconSet, getIconSet, registeredLibraries } from "./icons/registry.js";
-export type { IconLibrary, IconSet, IconNameMap } from "./icons/registry.js";
+export {
+  registerIconSet, getIconSet, registeredLibraries,
+  // `registerIcons` with the library spelled out. Apps import the bound one from
+  // the library's subpath; this is for setups that pass `icons` explicitly.
+  registerIcons as registerLibraryIcons,
+  registeredNames,
+} from "./icons/registry.js";
+/**
+ * @internal For the sibling packages (`@ui-organized/react-table`) to draw the
+ * same glyphs the components do. Not an icon vocabulary: apps name icons the
+ * way their library does, with `<Icon name>` and `registerIcons`.
+ */
+export { glyph as internalGlyph } from "./icons/glyph.js";
+/** The native name an icon export registers under: `XMarkIcon` → `"x-mark"`. */
+export { toNativeName } from "@ui-organized/core";
+export type {
+  IconLibrary,
+  IconSet,
+  IconNameMap,
+  RegisterIconsOptions,
+  SystemGlyphMap,
+} from "./icons/registry.js";
 
 export { Button } from "./components/Button/index.js";
 export type { ButtonProps, ButtonVariants } from "./components/Button/index.js";
@@ -102,8 +122,8 @@ export type {
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps, TagVariants } from "./components/Tag/index.js";
 
-export { Chip } from "./components/Chip/index.js";
-export type { ChipProps, ChipVariants, ComparisonIconName } from "./components/Chip/index.js";
+export { Chip, ChipSegment } from "./components/Chip/index.js";
+export type { ChipProps, ChipSegmentPart, ChipSegmentProps } from "./components/Chip/index.js";
 
 export { Alert } from "./components/Alert/index.js";
 export type { AlertProps, AlertVariants } from "./components/Alert/index.js";

@@ -58,7 +58,7 @@ const meta: Meta<typeof Carousel> = {
     docs: {
       description: {
         component:
-          "A scroll-snap slide track with previous/next controls and dot indicators. `slideCount` is derived from `slides` rather than passed, so the snap points can never drift from what is rendered. The current indicator widens rather than only changing colour, so position is readable without relying on hue.",
+          "A controlled track for displaying images, videos, or other page content.",
       },
     },
   },
@@ -112,7 +112,7 @@ export const Minimal: Story = {
   parameters: {
     docs: {
       source: {
-        code: `{/* Indicators only — for a touch-first surface where swiping is the control. */}
+        code: `{/* Indicators only, for a touch-first surface where swiping is the control. */}
 <Carousel slides={SLIDES} label="Featured" variant="minimal" />`,
       },
     },

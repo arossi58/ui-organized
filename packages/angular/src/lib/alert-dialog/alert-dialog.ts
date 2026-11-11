@@ -38,6 +38,7 @@ import {
   raiseSurface,
   setSurfaceInteractive,
 } from "../overlay/surface.js";
+import { glyph } from "../icons/glyph.js";
 
 export type AlertDialogSize = NonNullable<DialogVariants["size"]>;
 /** The two intents a confirm action is ever given. Destructive for deletes. */
@@ -133,7 +134,7 @@ export type AlertDialogIntent = Extract<NonNullable<ButtonVariants["intent"]>, "
               [id]="dialogContext.partId('close')"
               (click)="hide()"
             >
-              <span uioIcon name="close" [size]="CLOSE_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
           }
           <ng-content />
@@ -143,6 +144,7 @@ export type AlertDialogIntent = Extract<NonNullable<ButtonVariants["intent"]>, "
   `,
 })
 export class UioAlertDialog implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly open = model(false);
   /** Narrower than a Dialog by default: an alert is one question, not a form. */
   readonly size = input<AlertDialogSize>("sm");

@@ -25,7 +25,7 @@ import {
  * other three libraries put in the accessibility tree, so they are the reference
  * — not a restatement of anything in `color.ts`.
  *
- * The rows are corners rather than pretty colours:
+ * The rows are corners rather than pretty colors:
  *
  *  - **black and white**, where the chroma is zero and the hue is undefined.
  *    Every library has to answer `0`, which a naive `atan2`-style derivation does
@@ -33,14 +33,14 @@ import {
  *  - **`#abc`**, where each hex digit doubles.
  *  - **`#2563eb80`**, whose alpha is `0.5019607843137255` — printed in full by
  *    the trigger and rounded to `0.5` by the alpha slider, because the slider
- *    reads a *converted* colour and conversion rounds every channel to two
+ *    reads a *converted* color and conversion rounds every channel to two
  *    places. Reading alpha off the raw value instead is a one-character mistake
  *    that this row is the only thing to catch.
  *  - **an HSL value**, which never passes through RGB at all and puts
  *    *lightness* on the area's second axis.
- *  - **a named colour**, resolved from the CSS Color 4 table before anything is
+ *  - **a named color**, resolved from the CSS Color 4 table before anything is
  *    parsed.
- *  - **`#2563eb` in all three notations**, where the same colour has to print as
+ *  - **`#2563eb` in all three notations**, where the same color has to print as
  *    `rgba(37, 99, 235, 1)`, `hsla(221.21, 83.19%, 53.33%, 1)` and
  *    `hsba(221.21, 84.26%, 92.16%, 1)`.
  *
@@ -230,7 +230,7 @@ const formatOf = (row: (typeof ZAG_COLORS)[number]): ColorFormat =>
 const areaFormat = (row: (typeof ZAG_COLORS)[number]): ColorFormat =>
   formatOf(row) === "hsla" ? "hsla" : "hsba";
 
-describe("the ColorPicker's colour maths, against a running zag machine", () => {
+describe("the ColorPicker's color maths, against a running zag machine", () => {
   it("prints the value the way the trigger and the value text do", () => {
     for (const row of ZAG_COLORS) {
       expect(colorToString(parseColor(row.value), formatOf(row)), row.value).toBe(
@@ -258,7 +258,7 @@ describe("the ColorPicker's colour maths, against a running zag machine", () => 
     for (const row of ZAG_COLORS) {
       const area = toColorFormat(parseColor(row.value), areaFormat(row));
       expect(channelValue(area, "hue"), `${row.value} hue`).toBe(row.hue);
-      // Read off the *converted* colour, which is why `#2563eb80` reports 0.5
+      // Read off the *converted* color, which is why `#2563eb80` reports 0.5
       // here and 0.5019607843137255 in the trigger's label.
       expect(channelValue(area, "alpha"), `${row.value} alpha`).toBe(row.alpha);
     }
@@ -294,22 +294,22 @@ describe("parseColor", () => {
 
   it("wraps a hue past the circle instead of clamping it", () => {
     // 400° is 40°, not 360°: a hue is an angle, and clamping one is a different
-    // colour rather than a rounded version of the same one.
+    // color rather than a rounded version of the same one.
     expect(parseColor("hsl(400, 50%, 50%)")).toMatchObject({ hue: 40 });
   });
 
-  it("resolves a CSS named colour", () => {
+  it("resolves a CSS named color", () => {
     expect(colorToString(parseColor("rebeccapurple"), "hex")).toBe("#663399");
     expect(colorToString(parseColor("white"), "hex")).toBe("#FFFFFF");
   });
 
   it("refuses what it cannot read", () => {
     expect(() => parseColor("#gg0000")).toThrow(/Invalid color value/);
-    expect(() => parseColor("not-a-colour")).toThrow(/Invalid color value/);
-    // Only 4, 5, 7 and 9 characters are hex colours — `#rgb`, `#rgba`,
+    expect(() => parseColor("not-a-color")).toThrow(/Invalid color value/);
+    // Only 4, 5, 7 and 9 characters are hex colors — `#rgb`, `#rgba`,
     // `#rrggbb`, `#rrggbbaa`. Anything else of that shape is not one, however
     // hexadecimal it looks, and a parser that split it into bytes anyway would
-    // read `#abcde` as a colour with two and a half channels.
+    // read `#abcde` as a color with two and a half channels.
     expect(() => parseColor("#abcde")).toThrow(/Invalid color value/);
     expect(() => parseColor("#abcdefa")).toThrow(/Invalid color value/);
     expect(() => parseColor("#abcd")).not.toThrow();
@@ -318,7 +318,7 @@ describe("parseColor", () => {
 
 describe("the conversions round-trip", () => {
   /**
-   * Every reference colour, out to the other two spaces and back.
+   * Every reference color, out to the other two spaces and back.
    *
    * A conversion that is self-consistent and wrong passes this and fails the
    * table above, which is why both are here: the table pins the *values*, and
@@ -387,14 +387,14 @@ describe("channels", () => {
     expect(channelValue(withChannelValue(blue, "alpha", -1), "alpha")).toBe(0);
   });
 
-  it("refuses a channel the colour's space does not have", () => {
+  it("refuses a channel the color's space does not have", () => {
     const rgb = parseColor("#2563eb");
     expect(() => channelValue(rgb, "hue")).toThrow(/Unsupported color channel/);
   });
 });
 
 describe("isSameColor", () => {
-  it("is false across spaces, however equivalent the colour", () => {
+  it("is false across spaces, however equivalent the color", () => {
     // The comparison the value swatch makes, and the reason a picker in `hsla`
     // reports its own swatch `unchecked`.
     expect(isSameColor(parseColor("#2563eb"), parseColor("hsla(221.21, 83.19%, 53.33%, 1)"))).toBe(
@@ -402,7 +402,7 @@ describe("isSameColor", () => {
     );
   });
 
-  it("is true for the same colour written two ways in one space", () => {
+  it("is true for the same color written two ways in one space", () => {
     expect(isSameColor(parseColor("#2563eb"), parseColor("rgb(37, 99, 235)"))).toBe(true);
   });
 

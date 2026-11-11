@@ -10,7 +10,7 @@ const meta: Meta<typeof PinInput> = {
     docs: {
       description: {
         component:
-          "A fixed-length code entered one character per cell — verification codes, PINs, 2FA. The public `value` is the whole code as a single string; the per-cell array stays inside the component. Set `otp` so browsers and password managers offer to autofill an SMS code.",
+          "A fixed-length field for a verification code, PIN or 2FA code. Set `otp` so browsers and password managers offer to autofill an SMS code.",
       },
     },
   },

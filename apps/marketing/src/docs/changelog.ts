@@ -17,6 +17,28 @@ import reactMarkdown from "../../../../packages/react/CHANGELOG.md?raw";
 import tokensMarkdown from "../../../../packages/tokens/CHANGELOG.md?raw";
 import releaseDates from "../../../../manifest/release-dates.json";
 
+// The other three libraries, globbed rather than imported: a package has no
+// CHANGELOG.md until `changeset version` writes its first release, and a static
+// import of a missing file fails the build. Each tab appears on its own once the
+// file exists.
+const libraryMarkdown = {
+  svelte: import.meta.glob<string>("../../../../packages/svelte/CHANGELOG.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }),
+  vue: import.meta.glob<string>("../../../../packages/vue/CHANGELOG.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }),
+  angular: import.meta.glob<string>("../../../../packages/angular/CHANGELOG.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  }),
+};
+
 export type BumpLevel = "major" | "minor" | "patch";
 
 export interface ChangelogEntry {
@@ -209,12 +231,19 @@ const dates = releaseDates as Record<string, Record<string, string>>;
 let cache: PackageChangelog[] | null = null;
 
 /**
- * The packages the page documents, in tab order. Deliberately just these two:
- * they're what a consumer of the design system installs and themes with.
+ * The packages the page documents, in tab order: the four component libraries,
+ * then the tokens that theme them. The table packages and core are left out on
+ * purpose. They version in lockstep with the libraries, so their entries would
+ * repeat the same release four more times.
  */
 export function getChangelogs(): PackageChangelog[] {
   cache ??= [
     parseChangelog(reactMarkdown, dates["@ui-organized/react"] ?? {}),
+    ...(["svelte", "vue", "angular"] as const).flatMap((lib) =>
+      Object.values(libraryMarkdown[lib]).map((markdown) =>
+        parseChangelog(markdown, dates[`@ui-organized/${lib}`] ?? {}),
+      ),
+    ),
     parseChangelog(tokensMarkdown, dates["@ui-organized/tokens"] ?? {}),
   ];
   return cache;

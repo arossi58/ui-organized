@@ -41,6 +41,19 @@
   min-width: var(--dimension-05);
 }
 
+/* Card mode (a phone): search takes the whole first row, and the buttons wrap
+   onto the second, left-aligned under it. The spacer, which pushes the buttons
+   to the right on a wide toolbar, has no job once they are on a row of their
+   own. Keyed off the card list's presence, so no adapter has to pass the mode
+   down. */
+.data-table:has(.data-table__cards) .data-table__search {
+  flex: 1 0 100%;
+}
+
+.data-table:has(.data-table__cards) .data-table__toolbar-spacer {
+  display: none;
+}
+
 /* ─── Horizontal scroll buttons ──────────────────────────────────────────────
    Rendered only while the viewport is hiding columns. Gapped tighter than the
    toolbar itself so the pair reads as one control with two ends, rather than as
@@ -54,17 +67,37 @@
 
 /* ─── Pagination row ────────────────────────────────────────────────────────── */
 
+/* Three columns, the outer two always equal: the page buttons sit at the
+   exact centre whatever the status says. `space-between` placed them in the
+   leftover space instead, so "1–10 of 100" against "91–100 of 100" moved them
+   7px on every page turn, and a 100,000-row table moved them 46px. */
 .data-table__pagination {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   gap: var(--spacing-space-03);
-  flex-wrap: wrap;
 }
 
 .data-table__pagination-status {
+  justify-self: start;
   color: var(--color-content-secondary);
   font-size: var(--type-size-body-small);
+  /* Every digit one width, so the status does not ripple either. */
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table__pagination > .data-table__page-size {
+  justify-self: end;
+}
+
+/* Too narrow for three columns side by side: wrap, as before. The table's own
+   card breakpoint, so phones get the layout the cards were designed with. */
+@media (max-width: 640px) {
+  .data-table__pagination {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
 }
 
 .data-table__page-size {
@@ -76,54 +109,87 @@
 }
 
 /* ─── The row under the toolbar ──────────────────────────────────────────────
-   One line holding both of the table's "what is currently applied" summaries:
-   the filter chips on the left, the selection's bulk actions on the right —
-   directly under the sort and filter buttons that produced them.
-
-   They were two stacked rows before, and read as two unrelated announcements:
-   ticking a row pushed the chips up a line and put the actions two rows away
-   from the controls they belong with. Same line, two clusters.
-
-   Rendered only while one of the halves has something to say, so a table with
-   neither filters nor a selection holds no layout for it — which is why there
-   is no `:empty` rule here to lean on. */
+   The filter chips. Rendered only while a filter is applied, so a table with
+   none holds no layout for it — which is why there is no `:empty` rule here to
+   lean on. The selection's bulk actions used to share this line; they now take
+   the toolbar's place while rows are selected. */
 
 .data-table__subbar {
   display: flex;
   align-items: center;
   gap: var(--spacing-space-03);
   flex-wrap: wrap;
+  /* Mounts with the first filter and unmounts with the last, so this plays
+     exactly when the row appears. It opens the row's height and its share of
+     the table's `gap` (the negative margin) along with the fade, so the table
+     underneath is pushed down rather than jumping by a row. */
+  animation: data-table-row-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* The filters take the slack, and that — rather than an auto margin — is what
-   puts the selection toolbar at the right-hand end. On a narrow viewport the
-   chips wrap inside their own group first; only once that group can shrink no
-   further does the toolbar drop to a line of its own. */
+/* `max-height` is the only way to animate to a content height that is not
+   known in advance. The ceiling is one control height — about one row of
+   chips, which is what the first filter makes — so the growth follows the
+   easing curve instead of finishing in its first frames. The animation does
+   not fill, so nothing is capped once it ends. `clip-path` keeps the chips
+   from painting over the table while the box is shorter than they are. */
+@keyframes data-table-row-in {
+  from {
+    max-height: 0;
+    margin-block-start: calc(-1 * var(--spacing-space-03));
+    opacity: 0;
+    clip-path: inset(0);
+  }
+  to {
+    max-height: var(--control-height-md);
+    margin-block-start: 0;
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
 .data-table__subbar .data-table__filters {
   flex: 1 1 auto;
 }
 
-/* With nothing filtered there is no group to take the slack, so the auto margin
-   does it. Without this the toolbar would jump from the right edge to the left
-   as the last chip was removed. Flex resolves growth before auto margins, so
-   the two never fight: when the filters are there, this is worth zero. */
-.data-table__subbar .data-table__selection-bar {
-  margin-inline-start: auto;
-}
-
 /* ─── Selection bar ──────────────────────────────────────────────────────────
-   Appears only when the selection is non-empty. It is a `Toolbar`, so it comes
-   with the library's own surface; this only positions it and states the count.
-
-   It shrink-wraps rather than filling the row: it shares that row with the
-   filter chips now, and the surface is what separates the two clusters. */
+   Appears only when the selection is non-empty, in the toolbar row, in place of
+   the sort, filter and table actions. No surface of its own: the bulk actions
+   sit in the row like the controls they replaced, at the same gap. How many
+   rows are selected is said at the bottom, in the selection footer. */
 
 .data-table__selection-bar {
   display: flex;
   align-items: center;
-  gap: var(--spacing-space-03);
+  gap: var(--spacing-space-02);
   flex-wrap: wrap;
   min-width: 0;
+  /* Mounts with the first ticked row and stays mounted while the count
+     changes, so this plays once per selection, not once per click. It slides a
+     few pixels in from the right edge it is anchored to. */
+  animation: data-table-actions-in 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes data-table-actions-in {
+  from {
+    opacity: 0;
+    transform: translateX(var(--spacing-space-03));
+  }
+}
+
+/* Reduced motion: nothing moves or grows — both arrive with a short fade, so
+   the change is still visible without the table sliding under the user. */
+@keyframes data-table-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .data-table__subbar,
+  .data-table__selection-bar,
+  .data-table__selection-footer {
+    animation: data-table-fade-in 120ms ease-out;
+  }
 }
 
 .data-table__selection-count {
@@ -133,32 +199,82 @@
   white-space: nowrap;
 }
 
-/* "Select all 40,000 matching" — the offer to escape page-scoped selection.
-   Inline in the bar rather than a separate banner, because it is only ever
-   relevant while a selection exists. */
-.data-table__selection-all {
-  color: var(--color-content-secondary);
-  font-size: var(--type-size-body-small);
+/* ─── Selection footer ────────────────────────────────────────────────────────
+   How many rows are selected, and the offer to reach the ones off screen
+   ("Select 99,981 hidden rows"), at the end of the list the user has just been
+   ticking down.
+
+   Inside the viewport, after the <table>, and sticky to its bottom and left
+   edges: it rides along the bottom of the visible rows rather than standing
+   under the table as a row of its own. In a capped viewport — a long or
+   virtualized table — it changes only how far the rows scroll, never the
+   height of the page around it, and at the end of the scroll it sits under the
+   last row rather than over it. `left: 0` holds it to the viewport's edge when
+   wide columns scroll sideways.
+
+   A short, uncapped table grows to fit its rows, so there the footer's height
+   is the table's to give. In card mode there is no viewport, and it follows the
+   cards. */
+.data-table__selection-footer {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  /* Over the pinned columns (1), the sticky header (2) and their corner (3). */
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  flex-wrap: wrap;
+  /* One button tall whether or not the "Select N hidden rows" button is in it,
+     so taking the offer does not shrink the bar under the pointer. The button
+     is the table's own size and its height is the control-height token —
+     padding sits inside it — so a theme that re-pads buttons changes nothing
+     here and one that changes control height moves both together. Border box,
+     with the padding and the 1px hairline counted in, so the open animation
+     can still grow it from zero. */
+  --data-table-footer-height: calc(
+    var(--data-table-control-height, var(--control-height-md)) + 2 * var(--spacing-space-03) + 1px
+  );
+  box-sizing: border-box;
+  min-height: var(--data-table-footer-height);
+  /* 12px above and below, not 8: a classic horizontal scrollbar paints across
+     the bottom of the viewport — exactly where this sticks — and at 8px it
+     clipped the count and the button. */
+  padding: var(--spacing-space-03);
+  background-color: var(--color-surface-primary);
+  border-top: 1px solid var(--color-border-secondary);
+  /* Opens the way the filter row does — its height along with the fade —
+     without the filter row's negative margin, which pays back a flex `gap`
+     the viewport does not have. */
+  animation: data-table-footer-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.data-table__selection-link {
+/* In card mode it is a row of the table's own column again: no viewport to
+   stick to, no rows to sit over. */
+.data-table > .data-table__selection-footer {
+  /* No padding and no hairline here, so the floor is the button alone. */
+  --data-table-footer-height: var(--data-table-control-height, var(--control-height-md));
+  position: static;
   padding: 0;
   background: none;
-  border: 0;
-  color: var(--color-interactive-primary-default);
-  font: inherit;
-  text-decoration: underline;
-  cursor: pointer;
+  border-top: 0;
 }
 
-.data-table__selection-link:hover {
-  color: var(--color-interactive-primary-hover);
-}
-
-.data-table__selection-link:focus-visible {
-  outline: 2px solid var(--color-interactive-focus);
-  outline-offset: 2px;
-  border-radius: var(--border-radius-01);
+@keyframes data-table-footer-in {
+  /* `min-height` wins over `max-height`, so the footer's own floor has to grow
+     from zero along with the cap or the first frame is already full height. */
+  from {
+    min-height: 0;
+    max-height: 0;
+    opacity: 0;
+    clip-path: inset(0);
+  }
+  to {
+    min-height: var(--data-table-footer-height);
+    max-height: var(--data-table-footer-height);
+    opacity: 1;
+    clip-path: inset(0);
+  }
 }
 
 /* ─── Selection and row-action columns ────────────────────────────────────────
@@ -177,8 +293,18 @@
 
 /* The checkbox has a closed prop API — no ref, no onClick, no data-* — so a
    shift-click range needs a wrapper that can see the modifier key before the
-   change event fires. This is that wrapper. */
+   change event fires. This is that wrapper. Block-level `flex`, not
+   `inline-flex`: an inline box sits on the cell's text baseline, and the
+   descender space under it held every checkbox ~3px above the row's centre. */
 .data-table__select-hit {
-  display: inline-flex;
+  display: flex;
   align-items: center;
+}
+
+/* The selection column is centre-aligned, and the header honours that through
+   its inner flex row. A block-level flex wrapper ignores `text-align`, so
+   without this the row checkboxes sat at the cell's start while the header's
+   sat centred — 3px apart in a 24px column. */
+.data-table__cell--center .data-table__select-hit {
+  justify-content: center;
 }

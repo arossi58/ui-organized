@@ -21,7 +21,7 @@
 .field__label {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: var(--spacing-space-005);
   font-family: var(--type-font-body);
   font-size: var(--type-size-body-small);
   font-weight: var(--type-weight-body-default);
@@ -35,7 +35,7 @@
   display: inline-block;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--brand);
   flex-shrink: 0;
 }
@@ -91,7 +91,7 @@
 }
 
 /* Entry — a filled control keeps the default surface (the background does NOT
-   change on fill); only the text colour shifts to the emphasized primary value
+   change on fill); only the text color shifts to the emphasized primary value
    (the placeholder is the lighter `--color-content-placeholder`). Ark's Field
    doesn't track a filled state (Base UI's data-filled), so key off the input
    showing content instead. (Inputs without a placeholder match when empty too;
@@ -108,11 +108,25 @@
 }
 
 .field__control:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .field__control[data-invalid]:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-status-error);
+  outline-color: var(--color-status-error);
+}
+
+/* Pointer focus (data-focus-modality from @ui-organized/core/focus-modality):
+   browsers match :focus-visible on every focus of a text field, so a click would
+   draw the full ring. After a click the border takes the focus color instead;
+   keyboard focus, and pages that never install the tracker, keep the ring. */
+:root[data-focus-modality="pointer"] .field__control:focus-visible {
+  outline: none;
+  border-color: var(--color-interactive-focus);
+}
+
+:root[data-focus-modality="pointer"] .field__control[data-invalid]:focus-visible {
+  border-color: var(--color-status-error);
 }
 
 .field__control:disabled,

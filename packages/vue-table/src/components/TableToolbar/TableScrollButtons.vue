@@ -17,6 +17,7 @@ import { computed } from "vue";
 import { clsx } from "clsx";
 import { Button } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
+import { internalGlyph as glyph } from "@ui-organized/vue";
 
 withDefaults(defineProps<{ leftLabel?: string; rightLabel?: string; class?: string }>(), {
   leftLabel: "Scroll left",
@@ -35,7 +36,7 @@ const scroll = computed(() => table.scroll.state.value);
     <Button
       intent="secondary"
       :size="table.size.value"
-      icon="chevron-left"
+      :icon="glyph('chevron-left')"
       :aria-label="leftLabel"
       :disabled="!scroll.canScrollLeft"
       @click="table.scroll.by(-1)"
@@ -43,7 +44,7 @@ const scroll = computed(() => table.scroll.state.value);
     <Button
       intent="secondary"
       :size="table.size.value"
-      icon="chevron-right"
+      :icon="glyph('chevron-right')"
       :aria-label="rightLabel"
       :disabled="!scroll.canScrollRight"
       @click="table.scroll.by(1)"

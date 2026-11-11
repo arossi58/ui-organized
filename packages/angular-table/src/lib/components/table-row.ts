@@ -31,7 +31,7 @@ import { injectDataTable } from "../core/table-context.js";
   host: {
     "[attr.data-cell]": "rowIndex() + ':' + index()",
     "(focus)": "onFocus()",
-    "(dblclick)": "onDoubleClick()",
+    "(click)": "onClick($event)",
   },
   template: `
     @if (editing()) {
@@ -55,6 +55,7 @@ export class UioTableCell<T extends RowData> extends UioTablePropsHost {
 
   protected readonly column = computed(() => this.cell().column);
   private readonly meta = computed(() => metaOf<T>(this.column().columnDef));
+  private readonly editable = computed(() => Boolean(this.meta()?.edit));
 
   protected readonly editing = computed(() =>
     this.table.edit.contextFor(this.row(), this.column().id),
@@ -74,6 +75,7 @@ export class UioTableCell<T extends RowData> extends UioTablePropsHost {
       primary: this.primary(),
       sticky: stickyPositionOf(this.table.table as unknown as TableInstance<T>, this.column()),
       focused: this.focused(),
+      editable: this.editable(),
       editing: Boolean(this.editing()),
       invalid: Boolean(this.editing()?.invalid),
       interactive: this.table.interactive(),
@@ -112,8 +114,15 @@ export class UioTableCell<T extends RowData> extends UioTablePropsHost {
     }
   }
 
-  protected onDoubleClick(): void {
-    if (this.meta()?.edit) this.table.edit.start(this.row(), this.column().id);
+  /**
+   * One click opens the editor. The click stops here either way: it must not
+   * also activate the row (open its detail sheet), and a click *inside* the open
+   * editor must not restart the edit and throw the draft away.
+   */
+  protected onClick(event: Event): void {
+    if (!this.editable()) return;
+    event.stopPropagation();
+    if (!this.editing()) this.table.edit.start(this.row(), this.column().id);
   }
 }
 

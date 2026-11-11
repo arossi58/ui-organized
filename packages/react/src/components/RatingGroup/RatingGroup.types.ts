@@ -20,7 +20,7 @@ export interface RatingGroupProps {
   allowHalf?: boolean;
   /** Size variant. Defaults to 'md'. */
   size?: "sm" | "md" | "lg";
-  /** Colour of the filled stars. Defaults to 'default'. */
+  /** Color of the filled stars. Defaults to 'default'. */
   variant?: "default" | "warning";
   /** Renders the rating without interaction while keeping it readable. */
   readOnly?: boolean;

@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:copy": "COPY_EDITOR=1 vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p copy-editor && tsc --noEmit -p contributors-manager",
     "test": "vitest run"
   },
   "dependencies": {
@@ -32,7 +33,9 @@
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@babel/parser": "^8.0.10",
     "@types/matter-js": "^0.19.8",
+    "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@ui-organized/ui-inspect": "^0.1.2",

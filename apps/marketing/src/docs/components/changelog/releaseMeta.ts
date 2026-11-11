@@ -10,13 +10,13 @@ import type { BumpLevel } from "../../changelog";
 /**
  * The design system's own `Tag` variant per bump level.
  *
- * `warning` for major deliberately, not `error`: a major release is a thing to
+ * `caution` for major deliberately, not `error`: a major release is a thing to
  * read carefully before upgrading, not a failure. It is also the token the
  * version rail's dot already uses for major, so the card and the rail keep
- * saying the same thing in the same colour.
+ * saying the same thing in the same color.
  */
 export const BUMP_VARIANT: Record<BumpLevel, NonNullable<TagProps["variant"]>> = {
-  major: "warning",
+  major: "caution",
   minor: "info",
   patch: "success",
 };

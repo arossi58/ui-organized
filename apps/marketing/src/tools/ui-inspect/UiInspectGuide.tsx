@@ -82,7 +82,7 @@ const FEATURES: Feature[] = [
   {
     icon: Shapes,
     title: "Matched by value type, not by name",
-    desc: "Matching runs on the resolved type (color, length, number, family), never on token names. A property is only audited when your system actually defines tokens of that type, so you never get an “everything is broken” score.",
+    desc: "Matching runs on the resolved type (color, length, number, family), never on token names. A property is only audited when your system defines tokens of that type, so you never get an 'everything is broken' score.",
   },
   {
     icon: Gauge,
@@ -92,7 +92,7 @@ const FEATURES: Feature[] = [
   {
     icon: Blocks,
     title: "A component inventory",
-    desc: "The components it recovered from the page, with the provenance and confidence of each identification rather than a bare guess.",
+    desc: "The components it recovered from the page, with the provenance and confidence of each identification.",
   },
 ];
 
@@ -191,9 +191,8 @@ export default function UiInspectGuide() {
               }
             >
               View on npm
-              {/* The DS Button's `icon` prop takes a canonical *name*, which
-                  needs the icon registry; every lucide glyph on the site is
-                  passed to `Icon` as a component instead. */}
+              {/* Passed as a component, so it needs no `registerIcons`
+                  entry. */}
               <Icon name={ArrowUpRight} size={16} />
             </Button>
           </div>

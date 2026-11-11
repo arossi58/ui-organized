@@ -6,6 +6,8 @@ import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
 import type { NumberFieldProps } from "./NumberField.types.js";
 import "@ui-organized/core/components/NumberField/NumberField.css";
+import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 export function NumberField({
   value,
@@ -27,6 +29,7 @@ export function NumberField({
   id,
   className,
 }: NumberFieldProps) {
+  useFocusModality();
   const reactId = React.useId();
   const fieldId = id ?? reactId;
   const isInvalid = !!error;
@@ -65,14 +68,14 @@ export function NumberField({
       >
         <NumberInput.Control className="number-field__group">
           <NumberInput.DecrementTrigger className="number-field__stepper" aria-label="Decrease">
-            <Icon name="minus" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph("minus")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </NumberInput.DecrementTrigger>
           <NumberInput.Input
             className="field__control number-field__input"
             placeholder={placeholder}
           />
           <NumberInput.IncrementTrigger className="number-field__stepper" aria-label="Increase">
-            <Icon name="plus" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph("plus")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </NumberInput.IncrementTrigger>
         </NumberInput.Control>
       </NumberInput.Root>

@@ -17,18 +17,28 @@ import {
   createIconRegistry,
   type IconNameMap as CoreIconNameMap,
   type IconSet as CoreIconSet,
+  type SystemGlyphMap as CoreSystemGlyphMap,
 } from "@ui-organized/core";
 
-export type { IconLibrary } from "@ui-organized/core";
+export type { IconLibrary, RegisterIconsOptions } from "@ui-organized/core";
 
-/** Canonical name → React component, for one library in one style. */
+/** Native name → React component, e.g. `{ "chevron-down": ChevronDown }`. */
 export type IconNameMap = CoreIconNameMap<ComponentType<any>>;
+
+/** The components' own glyphs → React component, for one library in one style. */
+export type SystemGlyphMap = CoreSystemGlyphMap<ComponentType<any>>;
 
 /** One library's adapter. See `IconSet` in @ui-organized/core. */
 export type IconSet = CoreIconSet<ComponentType<any>>;
 
-const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<
-  ComponentType<any>
->(Symbol.for("@ui-organized/react.iconRegistry"));
+const { registerIconSet, getIconSet, registeredLibraries, registerIcons, getIcon, registeredNames } =
+  createIconRegistry<ComponentType<any>>(Symbol.for("@ui-organized/react.iconRegistry"));
 
-export { registerIconSet, getIconSet, registeredLibraries };
+export {
+  registerIconSet,
+  getIconSet,
+  registeredLibraries,
+  registerIcons,
+  getIcon,
+  registeredNames,
+};

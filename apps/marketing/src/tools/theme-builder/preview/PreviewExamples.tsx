@@ -61,7 +61,7 @@ const STATS = [
     meter: 54,
   },
   { label: "Orders", value: "862", delta: "-2.3%", variant: "error" as const, meter: 38 },
-  { label: "Refund rate", value: "1.8%", delta: "+0.2%", variant: "warning" as const, meter: 18 },
+  { label: "Refund rate", value: "1.8%", delta: "+0.2%", variant: "caution" as const, meter: 18 },
 ];
 
 const ORDERS = [
@@ -76,7 +76,7 @@ const ORDERS = [
     id: "#10240",
     name: "Marcus Lee",
     status: "Pending",
-    variant: "warning" as const,
+    variant: "caution" as const,
     amount: "$59.00",
   },
   {
@@ -118,7 +118,7 @@ function DashboardExample() {
             </div>
           }
         >
-          <NavItem icon="grid" label="Dashboard" selected />
+          <NavItem icon="grid-2x2" label="Dashboard" selected />
           <NavItem icon="users" label="Customers" />
           <NavItem icon="tag" label="Orders" />
           <NavItem icon="calendar" label="Schedule" />
@@ -130,7 +130,7 @@ function DashboardExample() {
         <header className={styles.appBar}>
           <div>
             <h1 className={styles.pageTitle}>Dashboard</h1>
-            <p className={styles.pageSubtitle}>Welcome back — here&apos;s today at a glance.</p>
+            <p className={styles.pageSubtitle}>Welcome back. Here&apos;s today at a glance.</p>
           </div>
           <div className={styles.appBarActions}>
             <SearchInput size="sm" placeholder="Search…" aria-label="Search" />
@@ -418,7 +418,7 @@ function EcommerceExample({ portal }: { portal: HTMLElement | null }) {
 
 const FEATURES = [
   {
-    icon: "grid" as const,
+    icon: "grid-2x2" as const,
     title: "Composable",
     text: "Every screen is built from the same tokenized primitives.",
   },
@@ -428,7 +428,7 @@ const FEATURES = [
     text: "WCAG-checked color, focus, and keyboard support by default.",
   },
   {
-    icon: "refresh" as const,
+    icon: "refresh-cw" as const,
     title: "Themeable",
     text: "Re-skin the entire system from one source of truth.",
   },
@@ -469,7 +469,7 @@ function MarketingExample() {
         <div className={styles.siteLinks}>
           {/* Spans, not anchors: this is a mock site chrome inside the theme
               preview. Nothing here navigates, and `href="#"` would put three
-              dead links in the tab order of a page that only shows colours. */}
+              dead links in the tab order of a page that only shows colors. */}
           <span className={styles.siteLink}>Product</span>
           <span className={styles.siteLink}>Pricing</span>
           <span className={styles.siteLink}>Docs</span>
@@ -490,8 +490,8 @@ function MarketingExample() {
         </Tag>
         <h1 className={styles.heroTitle}>Design once. Ship everywhere.</h1>
         <p className={styles.heroText}>
-          A token-driven component library that keeps product, brand, and code in perfect sync —
-          from the first prototype to production.
+          A token-driven component library for product and brand teams, from the first
+          prototype to production.
         </p>
         <div className={styles.heroActions}>
           <Button intent="primary" size="lg" icon="arrow-right" iconPosition="right">
@@ -524,7 +524,7 @@ function MarketingExample() {
       </section>
 
       <section className={styles.pricing}>
-        <h2 className={styles.sectionHeading}>Simple, scalable pricing</h2>
+        <h2 className={styles.sectionHeading}>Pricing</h2>
         <div className={styles.pricingGrid}>
           {TIERS.map((t) => (
             <Card

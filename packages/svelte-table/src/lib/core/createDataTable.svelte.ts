@@ -74,6 +74,7 @@ import {
   normalizeFilterDef,
   operatorLabel,
   operatorsFor,
+  retargetCondition,
   orderFilterableFields,
   overscanFor,
   primaryColumnId,
@@ -101,11 +102,21 @@ import {
   type TableRowScope,
   type HorizontalScrollState,
   type UioTableFeatures,
+  withDateColumns,
+  canSelectHiddenRows,
+  canStepColumn,
+  currentColumnOrder,
+  dropColumn,
+  isMovableColumn,
+  reorderModeOf,
+  stepColumn,
+  type DropSide,
 } from "@ui-organized/table-core";
 import { trackStore } from "./trackStore.svelte.js";
 import { createDeferred } from "./createDeferred.svelte.js";
 import { actionsColumn, selectionColumn } from "./systemColumns.js";
 import type {
+  ColumnDrag,
   DataTableApi,
   RenderRow,
   TableColumn,
@@ -298,14 +309,19 @@ export function createDataTable<T extends RowData>(
   });
 
   // ── Columns ───────────────────────────────────────────────────────────────
+  // Date columns rewritten once, up front: everything below — filter types,
+  // chips, sorting, export — then sees ISO days and the column's own format.
+  // Same array back when no column declares `meta.date`.
+  const userColumns = $derived(withDateColumns(options().columns));
+
   const allColumns = $derived.by(() => {
-    const out: TableColumn<T>[] = [...options().columns];
+    const out: TableColumn<T>[] = [...userColumns];
     if (selectionMode !== "none") out.unshift(selectionColumn<T>());
     if (options().rowActions?.length) out.push(actionsColumn<T>());
     return out;
   });
 
-  const primaryId = $derived(primaryColumnId(options().columns));
+  const primaryId = $derived(primaryColumnId(userColumns));
   const basePinning = $derived(pinningFromMeta(allColumns));
 
   // Created once, outside any rune: these are stores, not derived values, and
@@ -337,7 +353,7 @@ export function createDataTable<T extends RowData>(
    */
   const filterTypes = $derived.by(() => {
     const types: Record<string, TableFilterType> = {};
-    for (const def of options().columns) {
+    for (const def of userColumns) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (!filter) continue;
       const id = columnIdOf(def);
@@ -809,6 +825,37 @@ export function createDataTable<T extends RowData>(
   const copySelection = (scope: TableRowScope = "selected") =>
     copyRowsToClipboard(table, { scope });
 
+  // ── Column reordering ───────────────────────────────────────────────────────
+  // `reorderable: true | "always"` keeps headers movable all the time;
+  // `"toggle"` only inside a reorder mode the toolbar switches. Card mode has
+  // no headers to move, so it is never live there.
+  const reorderMode = $derived(reorderModeOf(options().reorderable));
+  let reorderOn = $state(false);
+  const reorderActive = $derived(
+    mode !== "cards" && (reorderMode === "always" || (reorderMode === "toggle" && reorderOn)),
+  );
+  let drag = $state<ColumnDrag | null>(null);
+
+  const isMovable = (id: string) => {
+    const column = table.getColumn(id);
+    return Boolean(column?.getIsVisible()) && isMovableColumn(id, column!.getIsPinned() !== false);
+  };
+  const orderNow = () =>
+    currentColumnOrder(
+      columnOrder,
+      table.getAllLeafColumns().map((column) => column.id),
+    );
+  const canMoveColumn = (id: string, direction: -1 | 1) =>
+    reorderActive && canStepColumn(orderNow(), id, direction, isMovable);
+  const moveColumnBy = (id: string, direction: -1 | 1) => {
+    if (!canMoveColumn(id, direction)) return;
+    table.setColumnOrder(stepColumn(orderNow(), id, direction, isMovable));
+  };
+  const dropColumnOn = (source: string, target: string, side: DropSide) => {
+    if (!reorderActive || !isMovable(source) || !isMovable(target)) return;
+    table.setColumnOrder(dropColumn(orderNow(), source, target, side));
+  };
+
   // ── Keyboard ──────────────────────────────────────────────────────────────
   const onGridKeyDown = (event: KeyboardEvent) => {
     if (!interactive) return;
@@ -828,6 +875,7 @@ export function createDataTable<T extends RowData>(
         editable: column ? editableColumns.has(column.id) : false,
         selectable: selectionMode !== "none",
         multiSelect: selectionMode === "multiple",
+        reorderable: Boolean(column) && cursor.row < 0 && reorderActive && isMovable(column!.id),
       },
       {
         key: event.key,
@@ -843,6 +891,15 @@ export function createDataTable<T extends RowData>(
     switch (action.type) {
       case "move":
         focusCell(action.cursor);
+        break;
+      case "move-column":
+        // Stepping trades places with the next movable visible column, which
+        // is the neighbouring header, so the column is now one index over.
+        // Focus follows it there once the new order has rendered.
+        if (column && canMoveColumn(column.id, action.direction)) {
+          moveColumnBy(column.id, action.direction);
+          focusCell({ row: -1, col: cursor.col + action.direction });
+        }
         break;
       case "page":
         if (virtualizing) virtualizer.current.scrollToIndex(action.cursor.row, { align: "center" });
@@ -948,7 +1005,7 @@ export function createDataTable<T extends RowData>(
 
   const filterDefs = $derived.by(() => {
     const defs = new Map<string, ReturnType<typeof normalizeFilterDef>>();
-    for (const def of options().columns) {
+    for (const def of userColumns) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (filter) defs.set(columnIdOf(def), filter);
     }
@@ -1010,6 +1067,20 @@ export function createDataTable<T extends RowData>(
       single: def?.single,
     });
     return id;
+  };
+
+  /** The chip's field segment: move a condition to another column. */
+  const changeFilterField = (id: string, columnId: string) => {
+    const condition = conditions.find((entry) => entry.id === id);
+    if (!condition || condition.columnId === columnId) return;
+    dispatchFilter(
+      retargetCondition(
+        condition,
+        { type: typeOfColumn(condition.columnId) },
+        { columnId, type: typeOfColumn(columnId), def: filterDefs.get(columnId) },
+        catalogue,
+      ),
+    );
   };
 
   const removeFilter = (id: string) => {
@@ -1144,12 +1215,7 @@ export function createDataTable<T extends RowData>(
         return headerState;
       },
       get canSelectAllMatching() {
-        return (
-          selectionMode === "multiple" &&
-          headerState.checked &&
-          !selection.allMatching &&
-          totalMatching > visibleRowIds.length
-        );
+        return canSelectHiddenRows(selection, headerState, totalMatching, selectionMode);
       },
       get totalMatching() {
         return totalMatching;
@@ -1165,6 +1231,7 @@ export function createDataTable<T extends RowData>(
       },
       add: addFilter,
       update: (id, patch) => dispatchFilter({ type: "update", id, ...patch }),
+      changeField: changeFilterField,
       restore: (condition) => dispatchFilter({ type: "restore", condition }),
       remove: removeFilter,
       clear: clearFilters,
@@ -1244,6 +1311,27 @@ export function createDataTable<T extends RowData>(
         return scrollState;
       },
       by: scrollBy,
+    },
+    reorder: {
+      get mode() {
+        return reorderMode;
+      },
+      get active() {
+        return reorderActive;
+      },
+      setActive: (active) => {
+        reorderOn = active;
+      },
+      isMovable,
+      canMove: canMoveColumn,
+      move: moveColumnBy,
+      drop: dropColumnOn,
+      get drag() {
+        return drag;
+      },
+      setDrag: (next) => {
+        drag = next;
+      },
     },
     get columnWidths() {
       return layout.widths;

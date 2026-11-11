@@ -32,6 +32,9 @@ export function CopyButton({
 
 interface CodeBlockProps {
   code: string;
+  /** What the snippet is for, e.g. "Install the data table", shown at the
+   * left of the bar ahead of the language. */
+  title?: string;
   /** Language tag shown at the left of the bar, e.g. `tsx`. */
   language?: string;
   /** Extra note on the bar, e.g. a line count or token estimate. */
@@ -44,6 +47,7 @@ interface CodeBlockProps {
 
 export function CodeBlock({
   code,
+  title,
   language = "tsx",
   meta,
   bare = false,
@@ -53,6 +57,7 @@ export function CodeBlock({
     <div className={styles.code} data-attached={attached || undefined}>
       {!bare && (
         <div className={styles.codeBar}>
+          {title && <span className={styles.codeTitle}>{title}</span>}
           <span className={styles.codeLabel}>{language}</span>
           <span className={styles.codeMeta}>{meta}</span>
           <CopyButton text={code} />

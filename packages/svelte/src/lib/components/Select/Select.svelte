@@ -7,6 +7,7 @@
   import SelectTrigger from "./SelectTrigger.svelte";
   import type { SelectProps } from "./Select.types.js";
   import "@ui-organized/core/components/Select/Select.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     options,
@@ -100,7 +101,7 @@
       {#snippet children()}
         <ArkSelect.ValueText class="select-field__value" {placeholder} />
         <ArkSelect.Indicator class="select-field__icon">
-          <Icon name="chevron-down" size={iconSize} />
+          <Icon name={glyph("chevron-down")} size={iconSize} />
         </ArkSelect.Indicator>
       {/snippet}
     </SelectTrigger>
@@ -121,7 +122,7 @@
             <ArkSelect.Item item={opt} class="select-popup__item text-default-body-large">
               <ArkSelect.ItemText>{opt.label}</ArkSelect.ItemText>
               <ArkSelect.ItemIndicator class="select-popup__item-indicator">
-                <Icon name="check" size={iconSize} />
+                <Icon name={glyph("check")} size={iconSize} />
               </ArkSelect.ItemIndicator>
             </ArkSelect.Item>
           {/each}

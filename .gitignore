@@ -98,3 +98,5 @@ graphify-out/
 /apps/token-manager/
 /tooling/figma-code-connect-plugin/
 /tooling/figma-component-bridge/
+# Local-only Figma plugin, never published or committed.
+/tooling/figma-component-organizer/

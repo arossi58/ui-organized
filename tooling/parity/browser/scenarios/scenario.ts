@@ -54,7 +54,17 @@ export type Step =
    * lost. Without this the two libraries looked broken — and worse, the case
    * passed for a while by all three highlighting nothing.
    */
-  | { do: "awaitFocus"; target: string };
+  | { do: "awaitFocus"; target: string }
+  /**
+   * Wait until `target` is no longer painted (absent, `hidden`, or zero-size).
+   *
+   * For an overlay with a closing animation. Ark keeps the popup displayed
+   * until its exit `animationend`; a host that hides it synchronously (the
+   * CDK-based Angular sheet) does not animate the close at all. Both end in
+   * the same place, and a capture taken before the animation finishes would
+   * compare one library mid-close with another already settled.
+   */
+  | { do: "awaitHidden"; target: string };
 
 export interface BrowserScenario {
   /** A key in BROWSER_SPECS. */

@@ -1,7 +1,7 @@
 /**
  * OKLCH ⇄ sRGB.
  *
- * The colour machines the four libraries drive model `rgba`/`hsla`/`hsba` and
+ * The color machines the four libraries drive model `rgba`/`hsla`/`hsba` and
  * their parsers reject `oklch(...)` outright, so OKLCH cannot be a machine
  * format the way RGB and HSL are — it has to be converted at the edge.
  * Everything here is arithmetic on plain numbers: no DOM, no `Color` objects,
@@ -11,13 +11,13 @@
  * The transform is Björn Ottosson's OKLab, which is what CSS Color 4 defines
  * `oklch()` against: https://bottosson.github.io/posts/oklab/
  *
- * sRGB is the destination gamut, and OKLCH can address colours sRGB cannot show
+ * sRGB is the destination gamut, and OKLCH can address colors sRGB cannot show
  * — `oklch(0.7 0.35 150)` is well outside it. Those are clipped per channel on
- * the way in rather than rejected: a picker that refuses a valid CSS colour is
- * worse than one that shows the nearest colour it can actually display.
+ * the way in rather than rejected: a picker that refuses a valid CSS color is
+ * worse than one that shows the nearest color it can actually display.
  */
 
-/** sRGB with 8-bit channels, the form the colour machine works in. */
+/** sRGB with 8-bit channels, the form the color machine works in. */
 export interface Rgba {
   /** 0–255 */
   r: number;
@@ -50,7 +50,7 @@ const toGamma = (c: number) => (c <= 0.0031308 ? c * 12.92 : 1.055 * c ** (1 / 2
 
 const clamp01 = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
 
-/** The clip that keeps an out-of-gamut OKLCH colour displayable. */
+/** The clip that keeps an out-of-gamut OKLCH color displayable. */
 const to8Bit = (n: number) => Math.round(clamp01(n) * 255);
 
 export function rgbaToOklch({ r, g, b, a }: Rgba): Oklch {
@@ -99,11 +99,11 @@ export function oklchToRgba({ l, c, h, a }: Oklch): Rgba {
 
 /* ─── Strings ───────────────────────────────────────────────────────────────
    The bar for the printed precision is that every one of the 16.7M 8-bit sRGB
-   colours survives `format` → `parse` unchanged: a reader who opens the text
+   colors survives `format` → `parse` unchanged: a reader who opens the text
    field and presses enter without editing must not have silently shifted their
-   colour. Four decimals is not quite enough — saturated colours near the gamut
+   color. Four decimals is not quite enough — saturated colors near the gamut
    edge, where a hair of hue moves a whole channel, came back off by one. Five
-   holds (see the round-trip test). Trailing zeros are trimmed, so the colours
+   holds (see the round-trip test). Trailing zeros are trimmed, so the colors
    people actually type stay legible: white is `oklch(1 0 0)`. */
 
 const trim = (n: number, places: number) => Number(n.toFixed(places)).toString();
@@ -111,7 +111,7 @@ const trim = (n: number, places: number) => Number(n.toFixed(places)).toString()
 /**
  * `0.62796 0.25768 29.234` — the components alone, for the picker's text field,
  * which the notation select already labels. Dropping the wrapper is what makes
- * an OKLCH colour fit a field this narrow at full precision.
+ * an OKLCH color fit a field this narrow at full precision.
  */
 export function formatOklchComponents(rgba: Rgba): string {
   const { l, c, h, a } = rgbaToOklch(rgba);
@@ -119,7 +119,7 @@ export function formatOklchComponents(rgba: Rgba): string {
   return a >= 1 ? base : `${base} / ${trim(a, 4)}`;
 }
 
-/** `oklch(0.62796 0.25768 29.234)`, with ` / a` only when the colour is not opaque. */
+/** `oklch(0.62796 0.25768 29.234)`, with ` / a` only when the color is not opaque. */
 export function formatOklch(rgba: Rgba): string {
   return `oklch(${formatOklchComponents(rgba)})`;
 }
@@ -131,7 +131,7 @@ export function formatOklch(rgba: Rgba): string {
  * (CSS Color 4 allows it and it resolves to zero here).
  *
  * Returns `null` for anything it cannot read, which the caller shows as a
- * rejected edit rather than guessing at a colour.
+ * rejected edit rather than guessing at a color.
  */
 export function parseOklch(input: string): Rgba | null {
   const body = input

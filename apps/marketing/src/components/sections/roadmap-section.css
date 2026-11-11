@@ -5,7 +5,7 @@
  * "last updated" status badge on the right.
  */
 .roadmap-section {
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
 }
 
 /* Header row: intro on the left, the freshness badge pinned top-right. */

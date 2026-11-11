@@ -1,4 +1,4 @@
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 
 export type MenuSide = "top" | "right" | "bottom" | "left";
 export type MenuAlign = "start" | "center" | "end";
@@ -25,8 +25,8 @@ export interface MenuContentProps {
 
 export interface MenuItemProps {
   /** Icon rendered before the label. */
-  icon?: CanonicalIconName;
-  /** Renders the item in the destructive colour. */
+  icon?: IconName | IconComponent;
+  /** Renders the item in the destructive color. */
   destructive?: boolean;
   /** Stable value for the item. Generated when omitted. */
   value?: string;

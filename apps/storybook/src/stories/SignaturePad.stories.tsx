@@ -21,7 +21,7 @@ const meta: Meta<typeof SignaturePad> = {
     docs: {
       description: {
         component:
-          "A pad that records a signature as SVG stroke paths. The hidden input submits those paths — lossless and resolution independent. When a server wants a PNG instead, `onDrawEnd` hands you a `getDataUrl` to rasterise with.\n\nInk width is a canvas stroke in device pixels, so it is a prop rather than CSS; the ink's colour is themed.",
+          "A pad that records a signature as SVG stroke paths.",
       },
     },
   },

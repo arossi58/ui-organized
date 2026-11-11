@@ -15,7 +15,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          "Transient notifications. Wrap your app once in `<ToastProvider>`, then call `useToastManager().add({ title, description, type })`. Status (`info`/`success`/`warning`/`error`) drives the accent and icon.",
+          "Surfaces alerts regardless of page navigation. ",
       },
     },
   },
@@ -38,7 +38,7 @@ export const Inspect: Story = {
     return (
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
         <button
-          className="btn btn--secondary btn--md"
+          className="text-default-body-large btn btn--secondary btn--md"
           onClick={() =>
             toast.add({ title: "Heads up", description: "Something happened.", type: "info" })
           }
@@ -46,7 +46,7 @@ export const Inspect: Story = {
           Info
         </button>
         <button
-          className="btn btn--secondary btn--md"
+          className="text-default-body-large btn btn--secondary btn--md"
           onClick={() =>
             toast.add({ title: "Saved", description: "Your changes are live.", type: "success" })
           }
@@ -54,7 +54,7 @@ export const Inspect: Story = {
           Success
         </button>
         <button
-          className="btn btn--secondary btn--md"
+          className="text-default-body-large btn btn--secondary btn--md"
           onClick={() =>
             toast.add({ title: "Careful", description: "This may need attention.", type: "warning" })
           }
@@ -62,7 +62,7 @@ export const Inspect: Story = {
           Warning
         </button>
         <button
-          className="btn btn--secondary btn--md"
+          className="text-default-body-large btn btn--secondary btn--md"
           onClick={() =>
             toast.add({ title: "Error", description: "Something went wrong.", type: "error" })
           }
@@ -79,7 +79,7 @@ export const WithAction: Story = {
     const toast = useToastManager();
     return (
       <button
-        className="btn btn--primary btn--md"
+        className="text-default-body-large btn btn--primary btn--md"
         onClick={() =>
           toast.add({
             title: "Item deleted",

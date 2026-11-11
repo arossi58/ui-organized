@@ -46,6 +46,25 @@ uiorg theme <bundle> --check  # report only, write nothing
 
 Exit code is non-zero when a check blocks, so it works in CI.
 
+## Set up AI agents
+
+```sh
+npx @ui-organized/cli init
+```
+
+In a project using a UI Organized library — React, Svelte, Vue or Angular — this
+detects which one and adds that library's rules to
+`AGENTS.md` and `CLAUDE.md` and registers
+[`@ui-organized/mcp`](https://github.com/arossi58/ui-organized/tree/main/packages/mcp)
+in `.mcp.json`. It also sets up Cursor if there's a `.cursor/` directory, or if you
+pass `--cursor`. Your own content in those files is kept, and re-running only
+replaces its own block. `--check` reports without writing.
+
+The MCP server is set to answer for that library. It also installs a
+`ui-organized-figma` skill (`.claude/skills/`, and a Cursor rule when Cursor is set
+up) for building from a Figma link with Figma's own MCP server. A project with more than one
+UI Organized library installed chooses with `--framework react|svelte|vue|angular`.
+
 ## What it won't assume
 
 - **Where your files go.** `src/styles/theme.css` is one project's convention,

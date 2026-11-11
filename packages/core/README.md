@@ -12,7 +12,7 @@ any one framework:
   and Angular.
 - **Variant recipes** — the `cva` maps that turn a component's props into class
   names. Pure functions returning strings; no framework involved.
-- **Pure helpers** — OKLCH colour maths, date arithmetic, the pagination
+- **Pure helpers** — OKLCH color maths, date arithmetic, the pagination
   page-window algorithm, control sizing tables.
 
 ## Consuming it
@@ -38,6 +38,18 @@ import "@ui-organized/tokens/variables.css";
 import "@ui-organized/core/styles.css";
 import "./theme.css";
 ```
+
+## Overriding component styles
+
+Component state rules are kept at the specificity of **one class**. Hover and
+press are wrapped in `:where()` (`.btn--secondary:where(:hover:not(:disabled))`),
+so a single class of your own, loaded after this stylesheet, restyles every
+state. You never need to stack classes to win.
+
+Focus rings are drawn with `outline` (2px, `--color-interactive-focus`), never
+`box-shadow`. Give a component a shadow of your own and the ring stays, and it
+survives forced-colors mode, which drops shadows. Don't set `outline: none` on
+a focusable part unless you draw a replacement.
 
 ## What must never end up here
 

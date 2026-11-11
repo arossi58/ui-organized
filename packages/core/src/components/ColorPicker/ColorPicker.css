@@ -73,10 +73,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. */
 .color-picker__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .color-picker__trigger[data-invalid] {
@@ -88,7 +89,7 @@
   opacity: 0.4;
 }
 
-/* The swatch sits over the checkerboard, so a translucent colour reads as
+/* The swatch sits over the checkerboard, so a translucent color reads as
    translucent rather than as a darker opaque one.
 
    Its edge follows the control icon ramp — 16 / 20 / 24 — so the swatch is to a
@@ -114,10 +115,10 @@
 }
 
 /* Sized rather than inset. Ark writes `position: relative` inline on every swatch
-   (it carries the colour as `background` on the same declaration), so an
+   (it carries the color as `background` on the same declaration), so an
    `absolute` + `inset: 0` rule here lost to the inline `relative` and left the
    swatch in flow at zero height — the well showed its checkerboard and never the
-   colour. Filling the well in flow needs no positioning at all, and the swatch
+   color. Filling the well in flow needs no positioning at all, and the swatch
    still paints over the grid because it comes second in the DOM. */
 .color-picker__value-swatch {
   width: 100%;
@@ -126,7 +127,7 @@
 
 /* No type of its own: the trigger carries the size's `CONTROL_TEXT_CLASS` and
    this inherits it, which is what keeps the value in step with a Button's label
-   at the same size rather than fixed at body-medium. Only the colour and the
+   at the same size rather than fixed at body-medium. Only the color and the
    casing — hex codes read better capitalised — belong to the value itself. */
 .color-picker__value-text {
   color: var(--color-content-primary);
@@ -238,7 +239,7 @@
   /* Deliberately not `overflow: hidden`. The thumb is a child of this box and
      sits at `left: 0%` / `left: 100%` at the ends of the range, so clipping here
      cuts the handle in half — and the alpha handle, which rests at 100% for an
-     opaque colour, disappeared entirely. The pill shape is carried by the track
+     opaque color, disappeared entirely. The pill shape is carried by the track
      and the transparency grid instead; they are the only children that paint. */
 }
 
@@ -265,7 +266,7 @@
   width: var(--spacing-space-03);
   height: var(--spacing-space-03);
   border-radius: var(--border-radius-full);
-  /* A 2px light ring is what keeps the thumb visible over any colour beneath
+  /* A 2px light ring is what keeps the thumb visible over any color beneath
      it, including white. Geometry, not a themed value. */
   border: 2px solid var(--color-content-light);
   box-shadow: 0 0 0 1px rgb(0 0 0 / 0.2);
@@ -283,7 +284,8 @@
 }
 
 .color-picker__thumb:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Eyedropper ──────────────────────────────────────────────────────────── */
@@ -309,7 +311,8 @@
 }
 
 .color-picker__eyedropper:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Notation row ────────────────────────────────────────────────────────────
@@ -380,7 +383,7 @@
   width: 100%;
 }
 
-/* Hex is one field for the whole colour with only alpha beside it, so it takes
+/* Hex is one field for the whole color with only alpha beside it, so it takes
    the share of the row that three numeric channels would have had. (OKLCH needs
    no such rule: it is the row's only field and already fills it.) */
 .color-picker__inputs[data-format="hex"] .color-picker__field:first-child {
@@ -426,7 +429,8 @@
 }
 
 .color-picker__swatch-trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .color-picker__swatch {

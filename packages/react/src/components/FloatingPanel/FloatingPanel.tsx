@@ -14,6 +14,7 @@ import type {
 } from "./FloatingPanel.types.js";
 import "@ui-organized/core/components/FloatingPanel/FloatingPanel.css";
 import { useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 /** Header affordances stay a fixed small edge — they mark the chrome rather
  *  than scaling with the panel's body text. */
@@ -156,7 +157,7 @@ export function FloatingPanelClose({ children, className, ...props }: FloatingPa
       aria-label="Close panel"
       {...props}
     >
-      {children ?? <Icon name="close" size={HEADER_ICON_SIZE} />}
+      {children ?? <Icon name={glyph("close")} size={HEADER_ICON_SIZE} />}
     </ArkFloatingPanel.CloseTrigger>
   );
 }

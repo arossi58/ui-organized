@@ -1,6 +1,11 @@
-<!-- The header's tri-state checkbox: it governs the rows on screen. -->
+<!--
+  The header's tri-state checkbox: from empty it selects the rows on screen;
+  from checked or mixed it clears the selection. What the box shows decides the
+  click, not the box's own next state — see `headerToggleTarget`.
+-->
 <script setup lang="ts">
 import { Checkbox } from "@ui-organized/vue";
+import { headerToggleTarget } from "@ui-organized/table-core";
 import { useTableContext } from "./tableContext.js";
 
 const table = useTableContext();
@@ -12,7 +17,7 @@ const table = useTableContext();
       :checked="table.selection.header.value.checked"
       :indeterminate="table.selection.header.value.indeterminate"
       :aria-label="`Select the rows shown in ${table.label.value}`"
-      @update:checked="(checked: boolean) => table.selection.togglePage(checked)"
+      @update:checked="() => table.selection.togglePage(headerToggleTarget(table.selection.header.value))"
     />
   </span>
 </template>

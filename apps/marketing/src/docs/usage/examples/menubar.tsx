@@ -18,13 +18,13 @@ export const menubarExamples: UsageExampleSet = {
           <MenuTrigger className="menubar__trigger">Edit</MenuTrigger>
           <MenuContent>
             <MenuItem icon="copy">Copy</MenuItem>
-            <MenuItem icon="undo">Undo</MenuItem>
+            <MenuItem icon="undo-2">Undo</MenuItem>
           </MenuContent>
         </Menu>
         <Menu>
           <MenuTrigger className="menubar__trigger">View</MenuTrigger>
           <MenuContent>
-            <MenuItem icon="grid">Grid</MenuItem>
+            <MenuItem icon="grid-2x2">Grid</MenuItem>
             <MenuItem icon="list">List</MenuItem>
           </MenuContent>
         </Menu>
@@ -48,7 +48,7 @@ export const menubarExamples: UsageExampleSet = {
         <Menu>
           <MenuTrigger className="menubar__trigger">Other</MenuTrigger>
           <MenuContent>
-            <MenuItem icon="grid">Grid</MenuItem>
+            <MenuItem icon="grid-2x2">Grid</MenuItem>
           </MenuContent>
         </Menu>
       </Menubar>

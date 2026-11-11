@@ -32,7 +32,7 @@ const meta: Meta<typeof Marquee> = {
     docs: {
       description: {
         component:
-          "Continuously scrolling content — logo walls, ticker rows. Timing is measured from the content rather than fixed, so short and long lists travel at the same speed. Every story here starts paused: continuous motion with no way to stop it fails WCAG 2.2.2, and the animation is dropped entirely under `prefers-reduced-motion`.",
+          "Continuously scrolling content, such as logo walls and ticker rows.",
       },
     },
   },
@@ -63,7 +63,7 @@ export const PauseOnHover: Story = {
   parameters: {
     docs: {
       source: {
-        code: `{/* pauseOnInteraction gives people a way to stop the motion — WCAG 2.2.2. */}
+        code: `{/* pauseOnInteraction gives people a way to stop the motion (WCAG 2.2.2). */}
 <Marquee items={TAGS} pauseOnInteraction speed={40} />`,
       },
     },

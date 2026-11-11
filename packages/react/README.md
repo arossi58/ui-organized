@@ -23,8 +23,17 @@ npm install lucide-react        # or @tabler/icons-react, or @heroicons/react
 
 ```ts
 // once, near your app entry
-import "@ui-organized/react/icons/lucide";
+import { registerIcons } from "@ui-organized/react/icons/lucide";
+import { ChevronDown, Search, X } from "lucide-react";
+
+registerIcons({ ChevronDown, Search, X });
 ```
+
+Names are the icon library's own, exactly as it publishes them: `search` and
+`x` in Lucide, `x-mark` in Heroicons. Nothing is renamed, so a name belongs to
+one library, and only the icons you register reach your bundle. The subpath
+import alone is enough for the components' own icons (a dialog's close button,
+a select's chevron), which follow whichever library is active.
 
 ```tsx
 import { Icon, IconProvider } from "@ui-organized/react";
@@ -46,8 +55,7 @@ import { lucideIcons } from "@ui-organized/react/icons/lucide";
 <IconProvider library="lucide" icons={lucideIcons}>
 ```
 
-You can also hand `<Icon>` a component directly, which needs no registration and
-no canonical name:
+You can also hand `<Icon>` a component directly, which needs no registration:
 
 ```tsx
 import { Rocket } from "lucide-react";
@@ -85,7 +93,7 @@ export function Example() {
 ## Theming
 
 Components reference semantic *roles* — `--color-surface-primary`,
-`--color-interactive-primary-default` — never literal colours, so re-theming
+`--color-interactive-primary-default` — never literal colors, so re-theming
 means redefining those properties.
 
 `token-contract.json` ships with this package: the complete, generated list of

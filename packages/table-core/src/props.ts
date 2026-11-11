@@ -162,6 +162,8 @@ export interface HeadCellContext {
   sticky?: StickyPosition;
   resizing?: boolean;
   interactive?: boolean;
+  /** The column has `meta.edit`: its header carries the pencil. */
+  editable?: boolean;
 }
 
 /**
@@ -184,6 +186,7 @@ export function getHeadCellProps(cell: HeadCellContext): ElementProps {
       systemColumnClass(cell.columnId),
       cell.sticky && "data-table__cell--sticky",
       cell.sticky?.last && `data-table__cell--sticky-${cell.sticky.side}-edge`,
+      cell.editable && "data-table__head-cell--editable",
     ),
     scope: "col",
     // Announced as "sorted ascending" / "not sorted". Omitted entirely when the
@@ -277,6 +280,11 @@ export interface CellContext {
   primary?: boolean;
   sticky?: StickyPosition;
   focused?: boolean;
+  /**
+   * The column has `meta.edit`, so one click opens the editor. Draws the
+   * field-style hover that says so before the user commits to the click.
+   */
+  editable?: boolean;
   editing?: boolean;
   invalid?: boolean;
   interactive: boolean;
@@ -300,6 +308,7 @@ export function getCellProps(cell: CellContext): ElementProps {
       cell.primary && "data-table__cell--primary",
       cell.sticky && "data-table__cell--sticky",
       cell.sticky?.last && `data-table__cell--sticky-${cell.sticky.side}-edge`,
+      cell.editable && "data-table__cell--editable",
       cell.editing && "data-table__cell--editing",
       cell.invalid && "data-table__cell--invalid",
     ),

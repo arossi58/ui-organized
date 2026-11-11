@@ -37,7 +37,7 @@ export const iconExamples: UsageExampleSet = {
     Do: () => (
       <div style={row}>
         <span style={item}>
-          <Icon name="edit" size={16} /> Edit
+          <Icon name="pencil" size={16} /> Edit
         </span>
         <span style={item}>
           <Icon name="settings" size={16} /> Settings

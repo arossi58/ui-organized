@@ -10,7 +10,7 @@
  * export is `undefined` rather than an error. `Icon` then renders nothing, for
  * one icon, silently.
  *
- * **An entry that is not markup.** `resolveIconComponent` picks the solid cut
+ * **An entry that is not markup.** `resolveSystemGlyph` picks the solid cut
  * with `solid ?? outline`, and `??` passes an empty string straight through. A
  * blank entry would render an empty `<svg>` rather than falling back.
  *
@@ -23,7 +23,7 @@
 // without either the Angular Linker or the JIT compiler. Importing the compiler
 // is what a JIT consumer does, and it has to come before the package.
 import "@angular/compiler";
-import { CANONICAL_ICON_NAMES } from "@ui-organized/utils";
+import { SYSTEM_GLYPHS } from "@ui-organized/core";
 import { getIconSet, registeredLibraries } from "../dist/fesm2022/ui-organized-angular.mjs";
 
 const ADAPTERS = [
@@ -42,7 +42,7 @@ for (const { library, entry } of ADAPTERS) {
     continue;
   }
 
-  for (const name of CANONICAL_ICON_NAMES) {
+  for (const name of SYSTEM_GLYPHS) {
     const markup = set.outline[name];
     if (typeof markup !== "string" || !markup.trimStart().startsWith("<svg")) {
       problems.push(`${library}: outline "${name}" is ${JSON.stringify(markup)?.slice(0, 40)}`);
@@ -72,7 +72,7 @@ if (problems.length) {
 
 const solid = ADAPTERS.map(({ library }) => {
   const count = Object.keys(getIconSet(library).solid ?? {}).length;
-  return `${library} ${CANONICAL_ICON_NAMES.length}${count ? `+${count} solid` : ""}`;
+  return `${library} ${SYSTEM_GLYPHS.length}${count ? `+${count} solid` : ""}`;
 }).join(", ");
 console.log(`✓ icon adapters register real markup: ${solid}`);
 console.log(`  registered: ${registeredLibraries().join(", ")}`);

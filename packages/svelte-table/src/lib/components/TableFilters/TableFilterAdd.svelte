@@ -14,12 +14,24 @@
 <script lang="ts">
   import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let {
     label = "Add filter",
     iconOnly = false,
+    container,
     class: className,
-  }: { label?: string; iconOnly?: boolean; class?: string } = $props();
+  }: {
+    label?: string;
+    iconOnly?: boolean;
+    /**
+     * Where the field menu portals. Inside a modal sheet it has to be the
+     * sheet: a modal hides everything outside itself from assistive tech, and a
+     * menu portalled to <body> is outside it — painted, but unreachable.
+     */
+    container?: HTMLElement | null;
+    class?: string;
+  } = $props();
 
   const table = getTable();
   const fields = $derived(table.filters.fields);
@@ -44,7 +56,7 @@
             {...(props() as Record<string, never>)}
             intent="secondary"
             size={table.size}
-            icon="filter"
+            icon={glyph("filter")}
             aria-label={label}
             class={className}
           />
@@ -53,7 +65,7 @@
             {...(props() as Record<string, never>)}
             intent="ghost"
             size="sm"
-            icon="plus"
+            icon={glyph("plus")}
             class={className}
           >
             {label}
@@ -61,7 +73,7 @@
         {/if}
       {/snippet}
     </MenuTrigger>
-    <MenuContent align="end" class="data-table__filter-picker">
+    <MenuContent align="end" class="data-table__filter-picker" {container}>
       <!--
         A field that already carries conditions stays in the list — several
         conditions on one column is the point — with a count so it is obvious

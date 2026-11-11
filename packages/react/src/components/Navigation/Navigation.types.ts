@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Logo / wordmark pinned to the top of the sidebar. */
@@ -33,10 +33,11 @@ export interface NavItemProps
   /** Text label for the page. */
   label: React.ReactNode;
   /**
-   * Optional leading icon, rendered via the Icon component — either a canonical
-   * name or a library icon component supplied directly (e.g. from lucide-react).
+   * Optional leading icon, rendered via the Icon component — either the icon's
+   * native name in the active library or a library icon component supplied
+   * directly (e.g. from lucide-react).
    */
-  icon?: CanonicalIconName | React.ComponentType<Record<string, unknown>>;
+  icon?: IconName | React.ComponentType<Record<string, unknown>>;
   /** Marks this page as the current page — renders the filled, emphasized appearance. */
   selected?: boolean;
   /**
@@ -61,7 +62,7 @@ export interface NavSubItemProps extends React.ComponentPropsWithRef<"button"> {
   /** Text label for the sub-page. */
   label: React.ReactNode;
   /** Optional leading icon, rendered via the Icon component. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   /** Marks this sub-page as the current page. */
   selected?: boolean;
   /**

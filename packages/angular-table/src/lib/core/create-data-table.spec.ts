@@ -138,6 +138,20 @@ describe("createDataTable", () => {
     expect(api.filters.conditions()).toHaveLength(1);
   });
 
+  it("moves a condition to another column from the chip's field segment", () => {
+    // Enum to text: an enum id never means anything on another column, so the
+    // condition starts over on the new column's default rather than carrying it.
+    const { api } = mount({
+      defaultFilters: [{ columnId: "role", operator: "is-any-of", values: ["Admin"] }],
+    });
+    const [condition] = api.filters.conditions();
+    api.filters.changeField(condition!.id, "name");
+    TestBed.tick();
+    expect(api.filters.conditions()).toEqual([
+      { id: condition!.id, columnId: "name", operator: "contains", values: [] },
+    ]);
+  });
+
   it("selects rows, and reports what the header checkbox should show", () => {
     const { api } = mount({ selection: "multiple" });
     expect(api.selection.header()).toEqual({ checked: false, indeterminate: false });

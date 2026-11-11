@@ -17,7 +17,7 @@ const meta: Meta<typeof RadioGroup> = {
     docs: {
       description: {
         component:
-          "RadioGroup lets the user pick one option from a set; pass `options` (each with `value`, `label`, and optional `disabled`), a group `label`, `defaultValue` / `value` for selection, and `orientation` to lay items out vertically or horizontally.",
+          "RadioGroup lets the user pick one option from a set.",
       },
     },
   },

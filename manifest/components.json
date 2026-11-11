@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-09-09T16:17:18.120Z",
+  "generatedAt": "2026-11-09T18:48:46.264Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -460,6 +460,12 @@
           "required": false
         },
         {
+          "name": "container",
+          "type": "RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "Where the field menu portals."
+        },
+        {
           "name": "iconOnly",
           "type": "boolean",
           "required": false,
@@ -473,8 +479,8 @@
         }
       ],
       "usageSnippet": "<TableFilterAdd />",
-      "propSignatureHash": "sha256:fde2af977ec00d75",
-      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "propSignatureHash": "sha256:53c2a2ccb7c2e955",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -669,6 +675,94 @@
       "usageSnippet": "<TableSelectionBar />",
       "propSignatureHash": "sha256:8ac9e9cad8f9dda2",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableFilterSheet",
+      "codeName": "TableFilterSheet",
+      "codePath": "packages/react-table/src/components/TableSheets/TableSheets.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableFilterSheet } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Filter",
+          "description": "Button label and sheet title."
+        }
+      ],
+      "usageSnippet": "<TableFilterSheet />",
+      "propSignatureHash": "sha256:dbe0d21a6d0db58a",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSheetButton",
+      "codeName": "TableSheetButton",
+      "codePath": "packages/react-table/src/components/TableSheets/TableSheets.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSheetButton } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "count",
+          "type": "number",
+          "required": true,
+          "description": "What is applied."
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "unit",
+          "type": "string",
+          "required": true,
+          "description": "The word the count is read with: \"2 applied\"."
+        }
+      ],
+      "usageSnippet": "<TableSheetButton count={/* number */} icon={/* IconName | IconComponent */} label={/* string */} unit={/* string */} />",
+      "propSignatureHash": "sha256:9000daf69bd710be",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSortSheet",
+      "codeName": "TableSortSheet",
+      "codePath": "packages/react-table/src/components/TableSheets/TableSheets.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSortSheet } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Sort",
+          "description": "Button label and sheet title."
+        }
+      ],
+      "usageSnippet": "<TableSortSheet />",
+      "propSignatureHash": "sha256:c6a930f97323ee0d",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -1719,7 +1813,7 @@
       "props": [
         {
           "name": "icon",
-          "type": "CanonicalIconName | IconComponent",
+          "type": "IconName | IconComponent",
           "required": false,
           "description": "Optional icon to render inside the button."
         },
@@ -1746,8 +1840,8 @@
         }
       ],
       "usageSnippet": "<Button />",
-      "propSignatureHash": "sha256:f812888fdf6764f8",
-      "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "propSignatureHash": "sha256:68ec7bd6e371fc24",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -2036,36 +2130,13 @@
           "name": "children",
           "type": "React.ReactNode",
           "required": false,
-          "description": "The value half."
-        },
-        {
-          "name": "className",
-          "type": "string",
-          "required": false,
-          "description": "Class for the chip's wrapper."
-        },
-        {
-          "name": "detail",
-          "type": "React.ReactNode",
-          "required": false,
-          "description": "The quiet middle."
+          "description": "`ChipSegment`s, rendered after any shorthand segments."
         },
         {
           "name": "disabled",
           "type": "boolean",
-          "required": false
-        },
-        {
-          "name": "dropdown",
-          "type": "boolean",
           "required": false,
-          "description": "Draws a trailing chevron, for a chip that opens a menu or popover."
-        },
-        {
-          "name": "icon",
-          "type": "CanonicalIconName | IconComponent",
-          "required": false,
-          "description": "Leading icon — a canonical name, or a library icon component."
+          "description": "Disables every segment and the dismiss control."
         },
         {
           "name": "incomplete",
@@ -2077,25 +2148,19 @@
           "name": "label",
           "type": "React.ReactNode",
           "required": false,
-          "description": "The emphasized half — what the chip is *about*."
+          "description": "Shorthand for a static label segment — what the chip is *about*."
         },
         {
           "name": "onRemove",
           "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
           "required": false,
-          "description": "Renders a dismiss button as a **sibling** of the chip's body."
+          "description": "Renders a dismiss button as the chip's last segment — a **sibling** of the others, never nested: a button inside a button is invalid HTML and an axe `nested-interactive` violation."
         },
         {
           "name": "operator",
-          "type": "ComparisonIconName",
+          "type": "React.ReactNode",
           "required": false,
-          "description": "The relation between label and value, **drawn**: one of the design system's six comparison glyphs."
-        },
-        {
-          "name": "operatorLabel",
-          "type": "string",
-          "required": false,
-          "description": "The glyph's accessible name — \"contains\"."
+          "description": "Shorthand for a static operator segment — the grammar between label and value: \"is any of\", \"is before\", \"is greater than\"."
         },
         {
           "name": "removeLabel",
@@ -2107,12 +2172,38 @@
           "name": "selected",
           "type": "boolean",
           "required": false,
-          "description": "Its popover is open, or it is toggled on."
+          "description": "One of its menus is open, or it is toggled on."
+        },
+        {
+          "name": "value",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Shorthand for a static value segment."
         }
       ],
       "usageSnippet": "<Chip>…</Chip>",
-      "propSignatureHash": "sha256:19545bed9418f849",
-      "lastSyncedAt": "2026-08-27T17:09:40.870Z",
+      "propSignatureHash": "sha256:4cd111a1f868c3b9",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ChipSegment",
+      "codeName": "ChipSegment",
+      "codePath": "packages/react/src/components/Chip/Chip.types.ts",
+      "framework": "react",
+      "importStatement": "import { ChipSegment } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "part",
+          "type": "ChipSegmentPart",
+          "required": false,
+          "description": "Which part of the chip's sentence this is."
+        }
+      ],
+      "usageSnippet": "<ChipSegment />",
+      "propSignatureHash": "sha256:d85400644ba09e1d",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -2287,7 +2378,7 @@
           "name": "defaultValue",
           "type": "string",
           "required": false,
-          "description": "Initial colour for the uncontrolled case."
+          "description": "Initial color for the uncontrolled case."
         },
         {
           "name": "disabled",
@@ -2336,7 +2427,7 @@
           "name": "onValueChange",
           "type": "(value: string) => void",
           "required": false,
-          "description": "Called continuously as the colour changes, with a CSS colour string."
+          "description": "Called continuously as the color changes, with a CSS color string."
         },
         {
           "name": "onValueChangeEnd",
@@ -2354,7 +2445,7 @@
           "name": "readOnly",
           "type": "boolean",
           "required": false,
-          "description": "Makes the colour read-only while keeping the trigger focusable."
+          "description": "Makes the color read-only while keeping the trigger focusable."
         },
         {
           "name": "required",
@@ -2393,7 +2484,7 @@
           "name": "value",
           "type": "string",
           "required": false,
-          "description": "Controlled colour, as a CSS colour string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
+          "description": "Controlled color, as a CSS color string — `#2563eb`, `rgb(37 99 235)`, `hsl(221 83% 53%)`."
         },
         {
           "name": "variant",
@@ -2682,7 +2773,7 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "IconName | IconComponent",
           "required": false,
           "description": "Leading icon."
         },
@@ -2701,8 +2792,8 @@
         }
       ],
       "usageSnippet": "<ContextMenuItem />",
-      "propSignatureHash": "sha256:a65b7948801ee2b1",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:84938aebaed54770",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -4121,9 +4212,9 @@
         },
         {
           "name": "name",
-          "type": "CanonicalIconName | IconComponent",
+          "type": "IconName | IconComponent",
           "required": true,
-          "description": "Either a canonical icon name from the design system's set, or a library icon component supplied directly (e.g."
+          "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g."
         },
         {
           "name": "size",
@@ -4133,9 +4224,9 @@
           "description": "Icon size in pixels."
         }
       ],
-      "usageSnippet": "<Icon name={/* CanonicalIconName | IconComponent */} />",
-      "propSignatureHash": "sha256:90f0ac6deaa84765",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "usageSnippet": "<Icon name=\"chevron-down\" />",
+      "propSignatureHash": "sha256:bef6759e7e844295",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -4648,7 +4739,7 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "IconName | IconComponent",
           "required": false,
           "description": "Leading icon."
         },
@@ -4667,8 +4758,8 @@
         }
       ],
       "usageSnippet": "<MenuItem />",
-      "propSignatureHash": "sha256:a65b7948801ee2b1",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:84938aebaed54770",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -4914,9 +5005,9 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName | React.ComponentType<Record<string, unknown>>",
+          "type": "IconName | React.ComponentType<Record<string, unknown>>",
           "required": false,
-          "description": "Optional leading icon, rendered via the Icon component — either a canonical name or a library icon component supplied directly (e.g."
+          "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g."
         },
         {
           "name": "label",
@@ -4938,8 +5029,8 @@
         }
       ],
       "usageSnippet": "<NavItem label={/* React.ReactNode */}>…</NavItem>",
-      "propSignatureHash": "sha256:73f77a5acd96b251",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:6e365b82364e442b",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -4959,7 +5050,7 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "IconName | IconComponent",
           "required": false,
           "description": "Optional leading icon, rendered via the Icon component."
         },
@@ -4977,8 +5068,8 @@
         }
       ],
       "usageSnippet": "<NavSubItem label={/* React.ReactNode */} />",
-      "propSignatureHash": "sha256:b6749d0feda0a0f7",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:4eec07fc20eae447",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {
@@ -6040,7 +6131,7 @@
           "type": "\"default\" | \"warning\"",
           "required": false,
           "defaultValue": "default",
-          "description": "Colour of the filled stars."
+          "description": "Color of the filled stars."
         }
       ],
       "usageSnippet": "<RatingGroup />",
@@ -6989,9 +7080,9 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName | IconComponent",
+          "type": "IconName | IconComponent",
           "required": false,
-          "description": "Optional icon rendered inside the tag — a canonical icon name or an icon component."
+          "description": "Optional icon rendered inside the tag — the icon's native name in the active library or an icon component."
         },
         {
           "name": "iconPosition",
@@ -7009,14 +7100,14 @@
         },
         {
           "name": "variant",
-          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
+          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\"",
           "required": false,
           "description": "Status color variant."
         }
       ],
       "usageSnippet": "<Tag>…</Tag>",
-      "propSignatureHash": "sha256:e022f7c3635671e2",
-      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "propSignatureHash": "sha256:a7b5818327447e8e",
+      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
       "status": "draft"
     },
     {
@@ -7310,7 +7401,7 @@
         },
         {
           "name": "icon",
-          "type": "CanonicalIconName",
+          "type": "IconName | IconComponent",
           "required": false,
           "description": "Optional leading icon."
         },
@@ -7341,8 +7432,8 @@
         }
       ],
       "usageSnippet": "<Toggle />",
-      "propSignatureHash": "sha256:acde0a4546711e5e",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:dc5a165a6654b913",
+      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
       "status": "draft"
     },
     {

@@ -21,8 +21,8 @@ const props = defineProps<{
 }>();
 const emit = defineEmits<{ commit: [next: ColorLike] }>();
 
-/* `null` means "show the colour". A string means the reader is mid-edit, and
-   the colour must not overwrite what they are typing — which it otherwise
+/* `null` means "show the color". A string means the reader is mid-edit, and
+   the color must not overwrite what they are typing — which it otherwise
    would on every pointer move over the area behind the field. */
 const draft = ref<string | null>(null);
 

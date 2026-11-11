@@ -21,6 +21,7 @@ import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldError } from "../field-error/field-error.js";
+import { glyph } from "../icons/glyph.js";
 
 export type RatingGroupSize = ControlSize;
 export type RatingGroupVariant = NonNullable<RatingGroupVariants["variant"]>;
@@ -134,14 +135,14 @@ const EMPTY = -1;
           (keydown)="onKeydown($event)"
           (blur)="onBlur()"
         >
-          <span uioIcon name="star" class="rating-group__star" [size]="iconSize()"></span>
+          <span uioIcon [name]="glyph('star')" class="rating-group__star" [size]="iconSize()"></span>
           @if (allowHalf()) {
             <!--
               A clipped copy of the same star laid over the empty one. The width
               does the clipping, so the two stay pixel-aligned at every size.
             -->
             <span class="rating-group__half" aria-hidden="true">
-              <span uioIcon name="star" class="rating-group__star" [size]="iconSize()"></span>
+              <span uioIcon [name]="glyph('star')" class="rating-group__star" [size]="iconSize()"></span>
             </span>
           }
         </span>
@@ -168,6 +169,7 @@ const EMPTY = -1;
   },
 })
 export class UioRatingGroup extends UioPart implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   readonly scope = "rating-group";
   readonly part = "root";
 

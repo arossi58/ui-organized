@@ -14,6 +14,7 @@ import { radioGroupStyles, type RadioGroupVariants } from "@ui-organized/core";
 import { stateFlag } from "../part.js";
 import { VISUALLY_HIDDEN_INPUT, nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
+import { glyph } from "../icons/glyph.js";
 
 export type RadioOrientation = NonNullable<RadioGroupVariants["orientation"]>;
 
@@ -152,7 +153,7 @@ export interface RadioOption {
           </label>
           @if (option.error; as message) {
             <div class="radio-item__error-message">
-              <span uioIcon name="alert-circle" [size]="ERROR_ICON_SIZE"></span>
+              <span uioIcon [name]="glyph('alert-circle')" [size]="ERROR_ICON_SIZE"></span>
               <span class="radio-item__error-text text-emphasis-body-small">{{ message }}</span>
             </div>
           }
@@ -163,6 +164,7 @@ export interface RadioOption {
   host: { "[class]": "hostClass()" },
 })
 export class UioRadioGroup implements ControlValueAccessor {
+  protected readonly glyph = glyph;
   /** Which item the pointer is over, and which one holds focus. */
   protected readonly hovered = signal<string | null>(null);
   protected readonly focused = signal<string | null>(null);

@@ -57,10 +57,11 @@
   background-color: var(--color-interactive-primary-active);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. */
 .splitter__trigger:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .splitter__trigger[data-disabled] {

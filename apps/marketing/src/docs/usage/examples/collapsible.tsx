@@ -13,7 +13,7 @@ export const collapsibleExamples: UsageExampleSet = {
     layout: "padded",
     Do: () => (
       <Collapsible defaultOpen>
-        <CollapsibleTrigger className="btn btn--ghost btn--sm">Delivery options</CollapsibleTrigger>
+        <CollapsibleTrigger className="text-default-body-medium btn btn--ghost btn--sm">Delivery options</CollapsibleTrigger>
         <CollapsibleContent>
           <p style={body}>Standard arrives in three to five days. Express arrives tomorrow.</p>
         </CollapsibleContent>
@@ -21,7 +21,7 @@ export const collapsibleExamples: UsageExampleSet = {
     ),
     Dont: () => (
       <Collapsible defaultOpen>
-        <CollapsibleTrigger className="btn btn--ghost btn--sm">Show more</CollapsibleTrigger>
+        <CollapsibleTrigger className="text-default-body-medium btn btn--ghost btn--sm">Show more</CollapsibleTrigger>
         <CollapsibleContent>
           <p style={body}>Standard arrives in three to five days. Express arrives tomorrow.</p>
         </CollapsibleContent>
@@ -33,7 +33,7 @@ export const collapsibleExamples: UsageExampleSet = {
     layout: "padded",
     Do: () => (
       <Collapsible>
-        <CollapsibleTrigger className="btn btn--ghost btn--sm">Delivery options</CollapsibleTrigger>
+        <CollapsibleTrigger className="text-default-body-medium btn btn--ghost btn--sm">Delivery options</CollapsibleTrigger>
         <CollapsibleContent>
           <p style={body}>Standard arrives in three to five days.</p>
         </CollapsibleContent>
@@ -42,7 +42,7 @@ export const collapsibleExamples: UsageExampleSet = {
     // Closed, this reads as a promise to hide something already hidden.
     Dont: () => (
       <Collapsible>
-        <CollapsibleTrigger className="btn btn--ghost btn--sm">
+        <CollapsibleTrigger className="text-default-body-medium btn btn--ghost btn--sm">
           Hide delivery options
         </CollapsibleTrigger>
         <CollapsibleContent>

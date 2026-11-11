@@ -19,6 +19,8 @@ import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
 // leading calendar button and hides the native picker chrome.
 import "@ui-organized/core/components/Input/Input.css";
 import "@ui-organized/core/components/Input/InputAffix.css";
+import { glyph } from "../../icons/glyph.js";
+import { useFocusModality } from "../../utils/useFocusModality.js";
 
 function splitDateTime(value: string): { date: string; time: string } {
   const [date = "", time = ""] = value.split("T");
@@ -51,6 +53,7 @@ export function DateFieldBase({
   portalContainer,
   ...inputProps
 }: DateFieldBaseProps) {
+  useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
   const isDateTime = type === "datetime-local";
@@ -102,7 +105,7 @@ export function DateFieldBase({
       type={type}
       className="field__control field__control--affix-start"
       // Native date/time inputs are never `:placeholder-shown`; flag the empty
-      // state so the mm/dd/yyyy chrome renders in the placeholder colour.
+      // state so the mm/dd/yyyy chrome renders in the placeholder color.
       data-empty={internalValue ? undefined : true}
       required={required}
       disabled={disabled}
@@ -133,7 +136,7 @@ export function DateFieldBase({
             disabled={disabled}
             aria-label={pickerLabel}
           >
-            <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+            <Icon name={glyph("calendar")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </button>
           {control}
         </div>
@@ -152,7 +155,7 @@ export function DateFieldBase({
                 disabled={disabled}
                 aria-label={pickerLabel}
               >
-                <Icon name="calendar" size={CONTROL_ICON_SIZE[size ?? "md"]} />
+                <Icon name={glyph("calendar")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
               </button>
             </ArkPopover.Trigger>
             {control}

@@ -28,6 +28,14 @@ const basename = import.meta.env.BASE_URL;
 // page's chunk.
 const DocsRoutes = lazy(() => import("./docs/DocsRoutes"));
 
+// Dev-only editor for the homepage contributors grid; its backend is the
+// contributors-manager Vite plugin, which exists only on the dev server.
+const ContributorsManagerPage = import.meta.env.DEV
+  ? lazy(() =>
+      import("./pages/ContributorsManagerPage").then((m) => ({ default: m.ContributorsManagerPage })),
+    )
+  : null;
+
 /**
  * Persistent app chrome: one SiteNav instance lives above the route outlet and
  * survives navigation, so its selected pill can morph continuously from the old
@@ -60,6 +68,16 @@ function SiteChrome() {
         <Route path="/tools" element={<ToolsPage />} />
         <Route path="/tools/:toolId" element={<ToolsPage />} />
         <Route path="/about" element={<AboutPage />} />
+        {ContributorsManagerPage && (
+          <Route
+            path="/contributors/manage"
+            element={
+              <Suspense fallback={null}>
+                <ContributorsManagerPage />
+              </Suspense>
+            }
+          />
+        )}
         {/* The dashboard lives in the docs rail now (Foundations → Quality).
             /quality stays as a redirect because it is part of the deploy-path
             contract that scripts/assemble-site.mjs reserved, and the CI preview

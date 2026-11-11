@@ -2,9 +2,9 @@
  * The docs subtree.
  *
  * Kept as one module so React Router's `/docs/*` route can be a single
- * `React.lazy` boundary: this chunk pulls the 128 KB manifest, the latest-hashes
- * artifact and all 68 story modules (which between them import most of the
- * component library), and none of that belongs in the home page's bundle.
+ * `React.lazy` boundary: this chunk pulls the Code Connect manifest, the
+ * latest-hashes artifact and every story module (which between them import most
+ * of the component library), and none of that belongs in the home page's bundle.
  */
 import { useRef, type RefObject } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -12,6 +12,7 @@ import { DocsLayout } from "./components";
 import { DocsFrameworkProvider } from "./frameworks";
 import { DocsIntroPage } from "./pages/DocsIntroPage";
 import { GetStartedPage } from "./pages/GetStartedPage";
+import { UseWithAiPage } from "./pages/UseWithAiPage";
 import { ThemingPage } from "./pages/ThemingPage";
 import { FoundationsColorPage } from "./pages/FoundationsColorPage";
 import { FoundationsTypographyPage } from "./pages/FoundationsTypographyPage";
@@ -21,7 +22,6 @@ import { ComponentDocsPage } from "./pages/ComponentDocsPage";
 import { ComponentUsagePage } from "./pages/ComponentUsagePage";
 import { ComponentInspectPage } from "./pages/ComponentInspectPage";
 import { DocsNotFound } from "./pages/DocsNotFound";
-import "../components/gradient/dot-grid.css";
 import "./docs.css";
 
 export default function DocsRoutes() {
@@ -32,8 +32,6 @@ export default function DocsRoutes() {
     // component pages rather than resetting on each one.
     <DocsFrameworkProvider>
       <div className="docs-page">
-        {/* Same flat-surface dot lattice the home hero sits on, behind the frame. */}
-        <div className="docs-page__dots dot-grid" aria-hidden="true" />
         <div className="docs-page__stage">
           <div className="docs-page__frame">
             <DocsRouteTree overlayHost={overlayHost} />
@@ -57,6 +55,7 @@ function DocsRouteTree({ overlayHost }: { overlayHost: RefObject<HTMLDivElement 
       <Routes>
         <Route index element={<DocsIntroPage />} />
         <Route path="get-started" element={<GetStartedPage />} />
+        <Route path="use-with-ai" element={<UseWithAiPage />} />
         <Route path="theming" element={<ThemingPage />} />
         <Route path="foundations/color" element={<FoundationsColorPage />} />
         <Route path="foundations/typography" element={<FoundationsTypographyPage />} />

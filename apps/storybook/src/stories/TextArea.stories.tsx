@@ -11,7 +11,7 @@ const meta: Meta<typeof TextArea> = {
     docs: {
       description: {
         component:
-          "A multi-line text field with an optional `label`, `helperText`, and `error` message; use `size` for density, `resize` to control the drag handle, and the `required` / `disabled` booleans for state.",
+          "A multi-line text field.",
       },
     },
   },

@@ -12,7 +12,7 @@ import { defineConfig } from "tsup";
  * the JS API stays external so the behaviours are not duplicated into this
  * bundle.
  */
-export default defineConfig({
+export default defineConfig((options) => ({
   entry: { index: "src/index.ts" },
   format: ["esm", "cjs"],
   dts: true,
@@ -20,5 +20,9 @@ export default defineConfig({
   noExternal: [/^@ui-organized\/table-core\/styles/],
   splitting: false,
   sourcemap: false,
-  clean: true,
-});
+  // Clean only for one-off builds. A watcher that wipes dist on start races
+  // every package reading it: under `pnpm dev` all watchers start together, and
+  // a dependent whose first build lands in that gap fails and stays broken until
+  // one of its own files changes. Watch builds overwrite in place instead.
+  clean: !options.watch,
+}));

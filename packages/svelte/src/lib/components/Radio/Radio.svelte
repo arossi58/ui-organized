@@ -5,6 +5,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { RadioGroupProps } from "./Radio.types.js";
   import "@ui-organized/core/components/Radio/Radio.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     options,
@@ -73,7 +74,7 @@
         </ArkRadioGroup.Item>
         {#if opt.error}
           <div class="radio-item__error-message">
-            <Icon name="alert-circle" size={16} />
+            <Icon name={glyph("alert-circle")} size={16} />
             <span class="radio-item__error-text text-emphasis-body-small">{opt.error}</span>
           </div>
         {/if}

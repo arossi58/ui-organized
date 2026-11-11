@@ -10,7 +10,8 @@
  *
  * The valuable column is `source`: a property tagged `literal` where a token was
  * expected is a hardcoded value that should have been a token — which is exactly
- * what someone auditing the design system wants surfaced.
+ * what someone auditing the design system wants surfaced. Keywords, inline values
+ * and inherited ones are context, not findings.
  */
 import { useEffect, useState } from "react";
 import { ScrollArea, Tag } from "@ui-organized/react";
@@ -37,9 +38,27 @@ function SourceTag({ prop }: { prop: StyleProp }) {
   // `display: flex` is just how CSS works.
   if (prop.source === "literal" && prop.tokenable) {
     return (
-      <Tag size="sm" variant="warning" emphasized={false}>
+      <Tag size="sm" variant="caution" emphasized={false}>
         hardcoded
       </Tag>
+    );
+  }
+
+  if (prop.source === "inherited" && prop.varName) {
+    return (
+      <span className={styles.sourceMuted} title={`Inherited from an ancestor: ${prop.varName}`}>
+        inherited · {prop.varName}
+      </span>
+    );
+  }
+
+  // The component sets nothing here, so this page's styles are showing through
+  // and another page would render it differently.
+  if (prop.source === "page") {
+    return (
+      <span className={styles.sourceMuted} title="Not set by the component; inherited from the page">
+        from page
+      </span>
     );
   }
 
@@ -119,7 +138,7 @@ export function ElementInspector({
                 {node.hardcodedCount > 0 && (
                   <Tag
                     size="sm"
-                    variant="warning"
+                    variant="caution"
                     emphasized={false}
                     className={styles.treeFlag}
                     title={`${node.hardcodedCount} hardcoded values`}

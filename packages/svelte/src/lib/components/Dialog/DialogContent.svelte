@@ -5,6 +5,7 @@
   import { dialogStyles } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import type { DialogContentProps } from "./Dialog.types.js";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     size,
@@ -23,7 +24,7 @@
     <ArkDialog.Content class={clsx(dialogStyles({ size }), className)} {...contentProps}>
       {#if showClose}
         <ArkDialog.CloseTrigger class="dialog__close" aria-label="Close">
-          <Icon name="close" size={20} />
+          <Icon name={glyph("close")} size={20} />
         </ArkDialog.CloseTrigger>
       {/if}
       {@render children?.()}

@@ -10,7 +10,7 @@ const meta: Meta<typeof Checkbox> = {
     docs: {
       description: {
         component:
-          "Checkbox is a labelled toggle for boolean input; use `label` for the caption, `checked` / `defaultChecked` for state, `indeterminate` for a partial state, and `disabled` / `required` for form behavior.",
+          "Checkbox is a labelled toggle for boolean input. ",
       },
     },
   },

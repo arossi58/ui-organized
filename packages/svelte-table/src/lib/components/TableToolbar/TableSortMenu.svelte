@@ -23,6 +23,7 @@
     MenuTrigger,
   } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
+  import { internalGlyph as glyph } from "@ui-organized/svelte";
 
   let { label = "Sort", class: className }: { label?: string; class?: string } = $props();
   const table = getTable();
@@ -31,7 +32,7 @@
   const active = $derived(table.state.sorting?.[0]);
   const activeId = $derived(active?.id ?? "");
   const direction = $derived(active?.desc ? "desc" : "asc");
-  const triggerIcon = $derived(activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort");
+  const triggerIcon = $derived(glyph(activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort"));
 
   const headerOf = (column: (typeof columns)[number]) =>
     typeof column.columnDef.header === "string" ? column.columnDef.header : column.id;

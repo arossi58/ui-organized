@@ -10,7 +10,7 @@ const meta: Meta<typeof RatingGroup> = {
     docs: {
       description: {
         component:
-          "A star rating. Every star is a radio in a group, so it is keyboard-operable and announces its position — this is a form control, not a row of buttons. Use `readOnly` to display a rating that was already given.",
+          "A star rating control where each star behaves like a radio input.",
       },
     },
   },

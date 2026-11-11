@@ -1,4 +1,5 @@
 import { Component, computed } from "@angular/core";
+import { NgTemplateOutlet } from "@angular/common";
 import {
   UioButton,
   UioDivider,
@@ -13,10 +14,14 @@ import {
   UioMenuTrigger,
   UioSearchInput,
 } from "@ui-organized/angular";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
+import { UioTableReorderToggle } from "./table-reorder-toggle.js";
+import { UioTableSelectionBar } from "./table-selection-bar.js";
+import { UioTableFilterSheet, UioTableSortSheet } from "./table-sheets.js";
 import type { TableAction } from "../core/types.js";
+import { internalGlyph as glyph } from "@ui-organized/angular";
+import type { IconName } from "@ui-organized/angular";
 
 /**
  * The row above the table: search, filters, and the controls that change what
@@ -24,7 +29,7 @@ import type { TableAction } from "../core/types.js";
  *
  * Not a `UioToolbar` — that is a `role="toolbar"` with roving focus, which is
  * right for a cluster of icon buttons and wrong for a row containing a text
- * input. The selection bar, which *is* a button cluster, does use it.
+ * input.
  *
  * ── Why the controls are inline rather than six exported parts ──────────────
  *
@@ -60,6 +65,11 @@ import type { TableAction } from "../core/types.js";
     UioMenuRadioItem,
     UioMenuSeparator,
     UioSearchInput,
+    UioTableSelectionBar,
+    UioTableReorderToggle,
+    UioTableSortSheet,
+    UioTableFilterSheet,
+    NgTemplateOutlet,
   ],
   host: { class: "data-table__toolbar" },
   template: `
@@ -77,197 +87,207 @@ import type { TableAction } from "../core/types.js";
     <div class="data-table__toolbar-spacer"></div>
 
     <!--
-      The developer's own header buttons. Real buttons rather than an overflow
-      menu, because these are the actions a page is *for*: a primary action
-      hidden behind a menu is a primary action nobody finds.
+      While rows are selected, the bulk actions take the place of the table's
+      own controls. What to do with the selection is the decision in front of
+      the user; clearing it brings the controls back.
     -->
-    @if (actions().length > 0) {
-      <div class="data-table__toolbar-actions">
-        @for (action of actions(); track action.id) {
-          <button
-            uioButton
-            [intent]="action.intent ?? 'tertiary'"
-            [size]="table.size()"
-            [icon]="iconOf(action)"
-            [disabled]="!!action.disabled"
-            [attr.aria-label]="isIconOnly(action) ? action.label : null"
-            (click)="action.onRun()"
-          >
-            @if (!isIconOnly(action)) {
-              {{ action.label }}
-            }
-          </button>
-        }
-      </div>
+    @if (hasSelection()) {
+      <div uioTableSelectionBar></div>
+      <!-- Stays: "Download selected rows" and "Copy selection" are actions on
+           the selection, and live nowhere else. -->
+      <ng-container [ngTemplateOutlet]="exportMenu" />
+    } @else {
       <!--
-        Only when there is something on both sides of it. A rule with nothing to
-        its left is a rule separating the toolbar from its own edge.
+        The developer's own header buttons. Real buttons rather than an overflow
+        menu, because these are the actions a page is *for*: a primary action
+        hidden behind a menu is a primary action nobody finds.
       -->
-      <div uioDivider orientation="vertical" class="data-table__toolbar-divider"></div>
-    }
-
-    <!--
-      Sorting from the header rather than from a column. The column headers
-      already sort, so in table mode this is a convenience — in **card mode it is
-      the only sort control there is**, and a table that silently loses the
-      ability to sort at 640px is a table that is broken on phones.
-    -->
-    @if (sortMenu()) {
-      <button
-        uioButton
-        uioMenuTrigger
-        [menu]="sortMenuSurface"
-        intent="secondary"
-        [size]="table.size()"
-        [icon]="sortIcon()"
-        aria-label="Sort"
-      ></button>
-      <uio-menu #sortMenuSurface="uioMenu" align="end" class="data-table__sort-menu">
-        <div uioMenuGroup>
-          <div uioMenuGroupLabel>Sort by</div>
-          <div uioMenuRadioGroup [value]="activeSortId()" (valueChange)="chooseColumn($event)">
-            @for (column of sortableColumns(); track column.id) {
-              <div uioMenuRadioItem [value]="column.id">{{ headerOf(column) }}</div>
-            }
-          </div>
-        </div>
-        <div uioMenuSeparator></div>
-        <div uioMenuGroup>
-          <div uioMenuGroupLabel>Direction</div>
-          <div uioMenuRadioGroup [value]="sortDirection()" (valueChange)="chooseDirection($event)">
-            <!--
-              Disabled rather than hidden: the choice is always part of the
-              menu's shape, and a menu that changes length as you use it is
-              harder to aim at the second time.
-            -->
-            <div uioMenuRadioItem value="asc" [disabled]="!activeSortId()">Ascending</div>
-            <div uioMenuRadioItem value="desc" [disabled]="!activeSortId()">Descending</div>
-          </div>
-        </div>
-        @if (activeSortId()) {
-          <div uioMenuSeparator></div>
-          <div uioMenuItem value="clear-sorting" (select)="table.table.setSorting([])">
-            Clear sorting
-          </div>
-        }
-      </uio-menu>
-    }
-
-    @if (filterable() && filterFields().length > 0) {
-      <!--
-        aria-label on the trigger also names the menu it opens: the machine
-        points the menu's aria-labelledby at its trigger, which wins over any
-        aria-label on the content. So the button's name has to be the menu's name
-        too — "Add filter", not "Filter".
-
-        A field that already carries conditions stays in the list — several
-        conditions on one column is the point — with a count so it is obvious
-        this adds another rather than replacing.
-      -->
-      <button
-        uioButton
-        uioMenuTrigger
-        [menu]="filterSurface"
-        intent="secondary"
-        [size]="table.size()"
-        icon="filter"
-        aria-label="Add filter"
-      ></button>
-      <uio-menu #filterSurface="uioMenu" align="end" class="data-table__filter-picker">
-        @for (field of filterFields(); track field.columnId) {
-          <div uioMenuItem [value]="field.columnId" (select)="table.filters.add(field.columnId)">
-            {{ field.count > 0 ? field.label + " (" + field.count + ")" : field.label }}
-          </div>
-        }
-      </uio-menu>
-    }
-
-    <!--
-      Export scopes are separate items rather than one button, because "download"
-      means three different things depending on what is filtered and what is
-      ticked — and silently picking one is how an export loses rows.
-    -->
-    @if (exportable()) {
-      <button
-        uioButton
-        uioMenuTrigger
-        [menu]="exportSurface"
-        intent="secondary"
-        [size]="table.size()"
-        icon="download"
-        aria-label="Export"
-      ></button>
-      <uio-menu #exportSurface="uioMenu" align="end">
-        <div uioMenuItem value="csv-view" icon="download" (select)="table.exportCsv('view')">
-          Download this view (CSV)
-        </div>
-        <div
-          uioMenuItem
-          value="csv-selected"
-          icon="download"
-          [disabled]="!hasSelection()"
-          (select)="table.exportCsv('selected')"
-        >
-          Download selected rows (CSV)
-        </div>
-        <div uioMenuItem value="csv-all" icon="download" (select)="table.exportCsv('all')">
-          Download all rows (CSV)
-        </div>
-        <div uioMenuSeparator></div>
-        <div
-          uioMenuItem
-          value="copy"
-          icon="copy"
-          [disabled]="!hasSelection()"
-          (select)="table.copySelection('selected')"
-        >
-          Copy selection to clipboard
-        </div>
-      </uio-menu>
-    }
-
-    <!--
-      Column visibility, and — when reordering is on — the keyboard-reachable
-      half of reordering. A drag-only affordance fails the a11y gate, so the menu
-      is the primary control and the drag is the enhancement.
-    -->
-    @if (hideable() && toggleable().length > 0) {
-      <button
-        uioButton
-        uioMenuTrigger
-        [menu]="columnsSurface"
-        intent="secondary"
-        [size]="table.size()"
-        icon="settings"
-        aria-label="Columns"
-      ></button>
-      <uio-menu #columnsSurface="uioMenu" align="end">
-        <div uioMenuGroup>
-          <div uioMenuGroupLabel>Visible columns</div>
-          @for (column of toggleable(); track column.id) {
-            <div
-              uioMenuCheckboxItem
-              [value]="column.id"
-              [checked]="column.getIsVisible()"
-              (checkedChange)="column.toggleVisibility($event)"
+      @if (actions().length > 0) {
+        <div class="data-table__toolbar-actions">
+          @for (action of actions(); track action.id) {
+            <button
+              uioButton
+              [intent]="action.intent ?? 'tertiary'"
+              [size]="table.size()"
+              [icon]="iconOf(action)"
+              [disabled]="!!action.disabled"
+              [attr.aria-label]="isIconOnly(action) ? action.label : null"
+              (click)="action.onRun()"
             >
-              {{ headerOf(column) }}
-            </div>
+              @if (!isIconOnly(action)) {
+                {{ action.label }}
+              }
+            </button>
           }
         </div>
-        @if (table.options.reorderable) {
-          <div uioMenuSeparator></div>
-          <div uioMenuGroup>
-            <div uioMenuGroupLabel>Reset</div>
-            <div uioMenuItem value="reset-order" (select)="table.table.resetColumnOrder()">
-              Reset column order
-            </div>
-            <div uioMenuItem value="reset-sizing" (select)="table.table.resetColumnSizing()">
-              Reset column widths
-            </div>
-          </div>
+        <!--
+          Only when there is something on both sides of it. A rule with nothing to
+          its left is a rule separating the toolbar from its own edge.
+        -->
+        <div uioDivider orientation="vertical" class="data-table__toolbar-divider"></div>
+      }
+
+      <!--
+        Card mode trades the two menus for labelled buttons that open a bottom
+        sheet each, with what is applied counted on the button: there are no
+        column headers to sort from and no room for a row of chips above the
+        cards.
+      -->
+      @if (cards()) {
+        @if (sortMenu()) {
+          <div uioTableSortSheet></div>
         }
-      </uio-menu>
+        @if (filterable()) {
+          <div uioTableFilterSheet></div>
+        }
+      } @else {
+        <!--
+          Sorting from the header rather than from a column. The column headers
+          already sort, so in table mode this is a convenience — in **card mode it is
+          the only sort control there is**, and a table that silently loses the
+          ability to sort at 640px is a table that is broken on phones.
+        -->
+        @if (sortMenu()) {
+          <button
+            uioButton
+            uioMenuTrigger
+            [menu]="sortMenuSurface"
+            intent="secondary"
+            [size]="table.size()"
+            [icon]="sortIcon()"
+            aria-label="Sort"
+          ></button>
+          <uio-menu #sortMenuSurface="uioMenu" align="end" class="data-table__sort-menu">
+            <div uioMenuGroup>
+              <div uioMenuGroupLabel>Sort by</div>
+              <div uioMenuRadioGroup [value]="activeSortId()" (valueChange)="chooseColumn($event)">
+                @for (column of sortableColumns(); track column.id) {
+                  <div uioMenuRadioItem [value]="column.id">{{ headerOf(column) }}</div>
+                }
+              </div>
+            </div>
+            <div uioMenuSeparator></div>
+            <div uioMenuGroup>
+              <div uioMenuGroupLabel>Direction</div>
+              <div
+                uioMenuRadioGroup
+                [value]="sortDirection()"
+                (valueChange)="chooseDirection($event)"
+              >
+                <!--
+                  Disabled rather than hidden: the choice is always part of the
+                  menu's shape, and a menu that changes length as you use it is
+                  harder to aim at the second time.
+                -->
+                <div uioMenuRadioItem value="asc" [disabled]="!activeSortId()">Ascending</div>
+                <div uioMenuRadioItem value="desc" [disabled]="!activeSortId()">Descending</div>
+              </div>
+            </div>
+            @if (activeSortId()) {
+              <div uioMenuSeparator></div>
+              <div uioMenuItem value="clear-sorting" (select)="table.table.setSorting([])">
+                Clear sorting
+              </div>
+            }
+          </uio-menu>
+        }
+
+        @if (filterable() && filterFields().length > 0) {
+          <!--
+            aria-label on the trigger also names the menu it opens: the machine
+            points the menu's aria-labelledby at its trigger, which wins over any
+            aria-label on the content. So the button's name has to be the menu's name
+            too — "Add filter", not "Filter".
+
+            A field that already carries conditions stays in the list — several
+            conditions on one column is the point — with a count so it is obvious
+            this adds another rather than replacing.
+          -->
+          <button
+            uioButton
+            uioMenuTrigger
+            [menu]="filterSurface"
+            intent="secondary"
+            [size]="table.size()"
+            [icon]="glyph('filter')"
+            aria-label="Add filter"
+          ></button>
+          <uio-menu
+            #filterSurface="uioMenu"
+            align="end"
+            class="data-table__filter-picker"
+            (select)="table.filters.add($event)"
+          >
+            @for (field of filterFields(); track field.columnId) {
+              <div uioMenuItem [value]="field.columnId">
+                {{ field.count > 0 ? field.label + " (" + field.count + ")" : field.label }}
+              </div>
+            }
+          </uio-menu>
+        }
+      }
+
+      <ng-container [ngTemplateOutlet]="exportMenu" />
+
+      <!--
+        Column visibility, and — when reordering is on — the keyboard-reachable
+        half of reordering. A drag-only affordance fails the a11y gate, so the menu
+        is the primary control and the drag is the enhancement.
+      -->
+      @if (hideable() && toggleable().length > 0) {
+        <button
+          uioButton
+          uioMenuTrigger
+          [menu]="columnsSurface"
+          intent="secondary"
+          [size]="table.size()"
+          [icon]="glyph('settings')"
+          aria-label="Columns"
+        ></button>
+        <uio-menu #columnsSurface="uioMenu" align="end">
+          <div uioMenuGroup>
+            <div uioMenuGroupLabel>Visible columns</div>
+            @for (column of toggleable(); track column.id) {
+              <div
+                uioMenuCheckboxItem
+                [value]="column.id"
+                [checked]="column.getIsVisible()"
+                (checkedChange)="column.toggleVisibility($event)"
+              >
+                {{ headerOf(column) }}
+              </div>
+            }
+          </div>
+          @if (table.options.reorderable) {
+            <div uioMenuSeparator></div>
+            <div uioMenuGroup>
+              <div uioMenuGroupLabel>Reset</div>
+              <div uioMenuItem value="reset-order" (select)="table.table.resetColumnOrder()">
+                Reset column order
+              </div>
+              <div uioMenuItem value="reset-sizing" (select)="table.table.resetColumnSizing()">
+                Reset column widths
+              </div>
+            </div>
+          }
+        </uio-menu>
+      }
+
+      <!--
+        Reorder mode, for reorderable: "toggle". Card mode has no headers to
+        move, so it never offers it.
+      -->
+      @if (reorderToggle()) {
+        <button
+          uioButton
+          uioTableReorderToggle
+          #reorder="uioTableReorderToggle"
+          [intent]="reorder.active() ? 'primary' : 'secondary'"
+          [size]="table.size()"
+        >
+          {{ reorder.text() }}
+        </button>
+      }
     }
 
     <!--
@@ -282,7 +302,7 @@ import type { TableAction } from "../core/types.js";
           uioButton
           intent="secondary"
           [size]="table.size()"
-          icon="chevron-left"
+          [icon]="glyph('chevron-left')"
           aria-label="Scroll left"
           [disabled]="!scroll().canScrollLeft"
           (click)="table.scroll.by(-1)"
@@ -291,16 +311,52 @@ import type { TableAction } from "../core/types.js";
           uioButton
           intent="secondary"
           [size]="table.size()"
-          icon="chevron-right"
+          [icon]="glyph('chevron-right')"
           aria-label="Scroll right"
           [disabled]="!scroll().canScrollRight"
           (click)="table.scroll.by(1)"
         ></button>
       </div>
     }
+
+    <!--
+      Rendered from both branches above: while rows are selected the export
+      menu stays beside the bulk actions, because two of its items act on the
+      selection and live nowhere else.
+    -->
+    <ng-template #exportMenu>
+      <!--
+        Export scopes are separate items rather than one button, because "download"
+        means three different things depending on what is filtered and what is
+        ticked — and silently picking one is how an export loses rows.
+      -->
+      @if (exportable()) {
+        <button
+          uioButton
+          uioMenuTrigger
+          [menu]="exportSurface"
+          intent="secondary"
+          [size]="table.size()"
+          [icon]="glyph('download')"
+          aria-label="Export"
+        ></button>
+        <uio-menu #exportSurface="uioMenu" align="end" (select)="runExport($event)">
+          <div uioMenuItem value="csv-view" [icon]="glyph('download')">Download this view (CSV)</div>
+          <div uioMenuItem value="csv-selected" [icon]="glyph('download')" [disabled]="!hasSelection()">
+            Download selected rows (CSV)
+          </div>
+          <div uioMenuItem value="csv-all" [icon]="glyph('download')">Download all rows (CSV)</div>
+          <div uioMenuSeparator></div>
+          <div uioMenuItem value="copy" [icon]="glyph('copy')" [disabled]="!hasSelection()">
+            Copy selection to clipboard
+          </div>
+        </uio-menu>
+      }
+    </ng-template>
   `,
 })
 export class UioTableToolbar {
+  protected readonly glyph = glyph;
   protected readonly table = injectDataTable();
 
   protected readonly searchable = computed(() => this.table.options.searchable ?? true);
@@ -309,7 +365,23 @@ export class UioTableToolbar {
   protected readonly filterable = computed(() => this.table.options.filterable ?? true);
   protected readonly actions = computed(() => this.table.options.actions ?? []);
   protected readonly scroll = computed(() => this.table.scroll.state());
+  protected readonly cards = computed(() => this.table.mode() === "cards");
   protected readonly hasSelection = computed(() => this.table.selection.count() > 0);
+  protected readonly reorderToggle = computed(
+    () => this.table.reorder.mode() === "toggle" && !this.cards(),
+  );
+  /**
+   * The export menu's items report through `UioMenu (select)`, not their own:
+   * `UioMenuItem` has no `select` output, so `(select)` on an item binds a DOM
+   * event that never fires.
+   */
+  protected runExport(value: string) {
+    if (value === "copy") void this.table.copySelection("selected");
+    else if (value === "csv-view") this.table.exportCsv("view");
+    else if (value === "csv-selected") this.table.exportCsv("selected");
+    else if (value === "csv-all") this.table.exportCsv("all");
+  }
+
   protected readonly searchLabel = computed(() => `Search ${this.table.label()}`);
   protected readonly filterFields = computed(() => this.table.filters.fields());
 
@@ -329,12 +401,12 @@ export class UioTableToolbar {
   private readonly activeSort = computed(() => this.table.state().sorting?.[0]);
   protected readonly activeSortId = computed(() => this.activeSort()?.id ?? "");
   protected readonly sortDirection = computed(() => (this.activeSort()?.desc ? "desc" : "asc"));
-  protected readonly sortIcon = computed<CanonicalIconName>(() =>
-    this.activeSortId() ? (this.activeSort()?.desc ? "sort-desc" : "sort-asc") : "sort",
+  protected readonly sortIcon = computed(() =>
+    glyph(this.activeSortId() ? (this.activeSort()?.desc ? "sort-desc" : "sort-asc") : "sort"),
   );
 
-  protected iconOf(action: TableAction): CanonicalIconName | undefined {
-    return action.icon as CanonicalIconName | undefined;
+  protected iconOf(action: TableAction): IconName | undefined {
+    return action.icon;
   }
   // An icon-only button drops its visible label but keeps its accessible one —
   // the label is the whole name either way.

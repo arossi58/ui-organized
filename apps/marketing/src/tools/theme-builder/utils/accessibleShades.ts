@@ -3,41 +3,38 @@
  * shared by the color store (auto-selecting a shade when the brand changes) and
  * the Color panel's shade picker (which only renders these shades).
  *
- * A usable primary colour must read clearly with the design system's white
- * button text (#fcfcfc) — ≥4.5:1 — and not be so dark it's effectively black.
+ * A shade is judged by the label it will actually get. The resolver
+ * (`pickPrimaryLabel` in @ui-organized/utils) puts near-white text on a fill
+ * when that clears 4.5:1 and near-black text when it doesn't, so light brands
+ * like candlelight keep their true 1400 with a dark label instead of being
+ * forced down to a muddy 1800 under white text.
  */
 
-import { CORE_STEPS, type ColorRamp } from "@ui-organized/utils";
-
-/** White (#fcfcfc) is the primary text/icon colour on brand buttons in the DS. */
-export const PRIMARY_TEXT_HEX = "#fcfcfc";
+import {
+  CORE_STEPS,
+  getCoreFamily,
+  pickPrimaryLabel,
+  type ColorRamp,
+  type PrimaryLabel,
+} from "@ui-organized/utils";
 
 /**
- * As a shade darkens its contrast with white climbs toward 21, so we cap it —
- * shades above this ratio are near-black and excluded. 12 keeps a healthy band
- * (3–7 shades per family) and never drops the curated default 1400.
+ * Upper bound on label contrast. A fill that reads above this with its label is
+ * effectively black (under a white label) or effectively white (under a black
+ * one) and stops reading as a brand color. 12 keeps a healthy band and never
+ * drops the curated default 1400.
  */
 export const PRIMARY_MAX_CONTRAST = 12;
 
-// ─── WCAG contrast ──────────────────────────────────────────────────────────
+/**
+ * Lightest step offered as a primary. Steps 100–900 are the ramp's tints, used
+ * for subtle backgrounds; a pale fill with a dark label passes contrast but no
+ * longer reads as the primary action. 1000 is the lightest the picker offered
+ * before labels could flip.
+ */
+export const PRIMARY_MIN_STEP = "1000";
 
-function hexToLinear(c: number): number {
-  const s = c / 255;
-  return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
-}
-
-function relativeLuminance(hex: string): number {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return 0.2126 * hexToLinear(r) + 0.7152 * hexToLinear(g) + 0.0722 * hexToLinear(b);
-}
-
-export function wcagContrast(hex1: string, hex2: string): number {
-  const l1 = relativeLuminance(hex1);
-  const l2 = relativeLuminance(hex2);
-  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
+const GREY = getCoreFamily("grey");
 
 export function contrastLevel(ratio: number): "AAA" | "AA" | "fail" {
   if (ratio >= 7)   return "AAA";
@@ -45,18 +42,24 @@ export function contrastLevel(ratio: number): "AAA" | "AA" | "fail" {
   return "fail";
 }
 
-// ─── Accessible primary shades ──────────────────────────────────────────────
-
-/** True when a shade reads clearly with white button text and isn't near-black. */
-export function isAccessiblePrimary(hex: string | undefined): boolean {
-  if (!hex) return false;
-  const contrast = wcagContrast(hex, PRIMARY_TEXT_HEX);
-  return contrast >= 4.5 && contrast <= PRIMARY_MAX_CONTRAST;
+/** The button label the resolver will put on this fill, and its contrast. */
+export function primaryLabelFor(hex: string, neutralRamp: ColorRamp = GREY): PrimaryLabel {
+  return pickPrimaryLabel(hex, neutralRamp);
 }
 
-/** The brand-ramp steps that are valid primary colours, in ramp order. */
-export function getAccessibleShades(ramp: ColorRamp): string[] {
-  return CORE_STEPS.filter((s) => isAccessiblePrimary(ramp[s]?.hex));
+// ─── Accessible primary shades ──────────────────────────────────────────────
+
+/** True when a shade's resolved label clears AA and the fill isn't near-black or near-white. */
+export function isAccessiblePrimary(hex: string | undefined, neutralRamp: ColorRamp = GREY): boolean {
+  if (!hex) return false;
+  const { ratio } = primaryLabelFor(hex, neutralRamp);
+  return ratio >= 4.5 && ratio <= PRIMARY_MAX_CONTRAST;
+}
+
+/** The brand-ramp steps that are valid primary colors, in ramp order. */
+export function getAccessibleShades(ramp: ColorRamp, neutralRamp: ColorRamp = GREY): string[] {
+  const first = CORE_STEPS.indexOf(PRIMARY_MIN_STEP);
+  return CORE_STEPS.slice(first).filter((s) => isAccessiblePrimary(ramp[s]?.hex, neutralRamp));
 }
 
 /**
@@ -65,13 +68,17 @@ export function getAccessibleShades(ramp: ColorRamp): string[] {
  * (ties resolve to the darker / higher-contrast side). Falls back to `preferred`
  * only when the ramp has no accessible shade at all (not expected for real hues).
  */
-export function pickAccessibleShade(ramp: ColorRamp, preferred: string): string {
-  const valid = getAccessibleShades(ramp);
+export function pickAccessibleShade(
+  ramp: ColorRamp,
+  preferred: string,
+  neutralRamp: ColorRamp = GREY,
+): string {
+  const valid = getAccessibleShades(ramp, neutralRamp);
   if (valid.length === 0) return preferred;
   if (valid.includes(preferred)) return preferred;
 
   const target = CORE_STEPS.indexOf(preferred);
-  let best = valid[0];
+  let best = valid[0]!;
   let bestDist = Infinity;
   for (const s of valid) {
     const dist = Math.abs(CORE_STEPS.indexOf(s) - target);

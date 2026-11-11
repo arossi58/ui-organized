@@ -23,6 +23,7 @@ import MenuItem from "../Menu/MenuItem.vue";
 import MenuTrigger from "../Menu/MenuTrigger.vue";
 import type { PaginationProps } from "./Pagination.types.js";
 import "@ui-organized/core/components/Pagination/Pagination.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // `showPrevNext` defaults to `true`, and it has to say so: Vue casts an absent
@@ -87,7 +88,7 @@ const goTo = (page: number) => {
       <li v-if="showPrevNext">
         <Button
           intent="ghost"
-          icon="chevron-left"
+          :icon="glyph('chevron-left')"
           :disabled="page <= 1"
           aria-label="Previous page"
           @click="goTo(page - 1)"
@@ -126,7 +127,7 @@ const goTo = (page: number) => {
       <li v-if="showPrevNext">
         <Button
           intent="ghost"
-          icon="chevron-right"
+          :icon="glyph('chevron-right')"
           :disabled="page >= count"
           aria-label="Next page"
           @click="goTo(page + 1)"

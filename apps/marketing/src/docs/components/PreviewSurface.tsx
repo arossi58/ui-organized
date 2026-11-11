@@ -69,7 +69,8 @@ interface PreviewSurfaceProps {
   /**
    * Render overlays (Dialog, Menu, Select's listbox, Toast…) inside this frame
    * rather than over the window. The Inspect view sets it; the Docs tab doesn't,
-   * so its examples keep behaving the way they would in an application.
+   * so its examples keep behaving the way they would in an application, unless
+   * the story file sets `parameters.containOverlays` because it renders open.
    */
   containOverlays?: boolean;
   /**
@@ -81,7 +82,16 @@ interface PreviewSurfaceProps {
    * empty space — and the overlays it stages are chosen to fit.
    */
   compact?: boolean;
+  /**
+   * Render the stage at a phone's width rather than the frame's. Components
+   * that measure their container (DataTable's `responsive` cards) respond to it
+   * the way they would on the device, which a viewport-wide media query could
+   * not show inside a desktop page.
+   */
+  viewport?: PreviewViewport;
 }
+
+export type PreviewViewport = "desktop" | "mobile";
 
 export function PreviewSurface({
   children,
@@ -93,6 +103,7 @@ export function PreviewSurface({
   footer,
   containOverlays = false,
   compact = false,
+  viewport = "desktop",
 }: PreviewSurfaceProps) {
   return (
     <div
@@ -109,6 +120,7 @@ export function PreviewSurface({
       <div
         className={styles.stage}
         data-layout={layout}
+        data-viewport={viewport}
         style={visionFilter ? { filter: visionFilter } : undefined}
       >
         {/* `data-preview-stage` is the boundary the page's prose typography

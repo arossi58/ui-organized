@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface ContextMenuProps {
   /** Controlled open state. */
@@ -28,7 +28,7 @@ export interface ContextMenuItemProps
   /** Stable id for the item; defaults to a generated id. */
   value?: string;
   /** Leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   /** Render with destructive (danger) styling. */
   destructive?: boolean;
   disabled?: boolean;

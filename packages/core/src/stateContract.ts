@@ -92,11 +92,19 @@ export function selectorLists(css: string): string[] {
 
 const ATTRIBUTE_SELECTOR = /\[\s*([\w-]+)\s*(?:[~^|$*]?=\s*(?:"([^"]*)"|'([^']*)'|([^\]\s]*))\s*)?(?:[iIsS]\s*)?\]/g;
 
+/**
+ * Attributes on `:root` are page state, not component state: core's own
+ * focus-modality tracker writes `data-focus-modality` on <html>, so no library
+ * has anything to emit for it.
+ */
+const ROOT_ATTRIBUTES = /:root(?:\[[^\]]*\])+/g;
+
 /** `[name]` / `[name="value"]` → name → the values it distinguishes. */
 export function attributeSelectors(selectors: string[]): Map<string, Set<string>> {
   const found = new Map<string, Set<string>>();
   for (const selector of selectors) {
-    for (const [, name, quoted, singleQuoted, bare] of selector.matchAll(ATTRIBUTE_SELECTOR)) {
+    const scoped = selector.replace(ROOT_ATTRIBUTES, ":root");
+    for (const [, name, quoted, singleQuoted, bare] of scoped.matchAll(ATTRIBUTE_SELECTOR)) {
       if (NOT_STATE.has(name!)) continue;
       const values = found.get(name!) ?? new Set<string>();
       const value = quoted ?? singleQuoted ?? bare;

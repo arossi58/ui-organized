@@ -1,15 +1,15 @@
 /**
- * The brand colours the site theme menu offers.
+ * The brand colors the site theme menu offers.
  *
  * Every option is a real family from the design system's core palette
  * (`@ui-organized/utils`) — no ad-hoc hexes — and every option is accessibility-checked:
- * the shade used as the primary interactive colour must clear WCAG AA (4.5:1)
+ * the shade used as the primary interactive color must clear WCAG AA (4.5:1)
  * against the white (`#fcfcfc`) text the design system places on brand buttons.
  */
 
 import { getCoreFamily, CORE_STEPS, type ColorRamp } from "@ui-organized/utils";
 
-/** White is the text/icon colour on brand (primary) buttons in the DS. */
+/** White is the text/icon color on brand (primary) buttons in the DS. */
 const PRIMARY_TEXT_HEX = "#fcfcfc";
 /** The design system's default primary step. */
 const DEFAULT_PRIMARY_SHADE = "1400";
@@ -28,7 +28,7 @@ function relativeLuminance(hex: string): number {
   return 0.2126 * srgbToLinear(r) + 0.7152 * srgbToLinear(g) + 0.0722 * srgbToLinear(b);
 }
 
-/** WCAG contrast ratio between two hex colours (1–21). */
+/** WCAG contrast ratio between two hex colors (1–21). */
 export function wcagContrast(a: string, b: string): number {
   const l1 = relativeLuminance(a);
   const l2 = relativeLuminance(b);
@@ -38,7 +38,7 @@ export function wcagContrast(a: string, b: string): number {
 /**
  * The lightest brand step at or below the default (1400) that still clears
  * 4.5:1 against white button text. Walking darker from 1400 guarantees the
- * chosen primary fill is accessible for every offered colour.
+ * chosen primary fill is accessible for every offered color.
  */
 function accessiblePrimaryShade(ramp: ColorRamp): string {
   const start = Math.max(CORE_STEPS.indexOf(DEFAULT_PRIMARY_SHADE), 0);
@@ -57,9 +57,9 @@ export interface BrandOption {
   name: string;
   /** Human-facing label shown in the menu. */
   label: string;
-  /** Brand-ramp step used as the primary interactive colour (accessible). */
+  /** Brand-ramp step used as the primary interactive color (accessible). */
   shade: string;
-  /** Resolved hex of the primary colour — the swatch and the site accent. */
+  /** Resolved hex of the primary color — the swatch and the site accent. */
   hex: string;
 }
 

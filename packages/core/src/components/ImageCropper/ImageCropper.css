@@ -1,7 +1,7 @@
 /* ─── ImageCropper ────────────────────────────────────────────────────────────
    A crop box over an image. zag owns every position and size here — the crop
    rect, the image transform and each handle's placement are written inline —
-   so this file only supplies colour, the viewport's height and the handles'
+   so this file only supplies color, the viewport's height and the handles'
    hit areas.
 
    `--cropper-viewport` is local geometry in the same category as
@@ -49,7 +49,7 @@
 .image-cropper__selection {
   position: absolute;
   box-shadow: 0 0 0 9999px var(--color-surface-curtain);
-  /* The outline is light, not themed to a brand colour: it has to stay legible
+  /* The outline is light, not themed to a brand color: it has to stay legible
      over arbitrary image content, which a hue cannot guarantee. */
   outline: 1px solid var(--color-content-light);
   cursor: move;
@@ -139,10 +139,11 @@
   border-radius: var(--radius-checkbox);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. It goes on the dot, which is the part you can see. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. It goes on the dot, which is the part you can see. */
 .image-cropper__handle:focus-visible::after {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* The selection box is the crop's only tab stop — the handles are pointer
@@ -150,7 +151,8 @@
    cropper and saw nothing change. It clears the UA outline above and needs its
    own replacement, exactly as the handles do. */
 .image-cropper__selection:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .image-cropper__handle--nw {

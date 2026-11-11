@@ -1,9 +1,9 @@
 import { clsx } from "clsx";
 import { Button, Menu, MenuContent, MenuItem, MenuTrigger } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { useTableContext } from "../../core/TableContext.js";
 import type { TableRowActionsProps } from "./TableRowActions.types.js";
 import type { RowData } from "@ui-organized/table-core";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * Per-row actions, as a menu rather than a row of buttons.
@@ -29,7 +29,7 @@ export function TableRowActions<T extends RowData>({
           <Button
             intent="ghost"
             size={table.size}
-            icon="menu"
+            icon={glyph("menu")}
             aria-label={label}
             className={clsx(className)}
           />
@@ -40,7 +40,7 @@ export function TableRowActions<T extends RowData>({
           <MenuItem
             key={action.id}
             value={action.id}
-            icon={action.icon as CanonicalIconName | undefined}
+            icon={action.icon}
             destructive={action.destructive}
             disabled={action.disabled?.(row)}
             onSelect={() => void action.onRun(row)}

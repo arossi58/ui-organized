@@ -86,7 +86,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   design: {
     title: "Design",
     heading: "A Figma library that keeps growing",
-    lead: "Every color, type style, and spacing step is a published Figma variable, and the components are built from them. The code reads the same tokens, so the file and the build stay in sync.",
+    lead: "A fully built design system in Figma, free and highly configurable. ",
     items: [
       {
         icon: Component,
@@ -101,7 +101,7 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
       {
         icon: RefreshCw,
         title: "Synced with code",
-        desc: "The Figma plugin imports a theme.json, so a brand change lands in the file and in the code at once.",
+        desc: "The Figma plugin imports and exports your theme to keep design and code in sync. ",
       },
     ],
     links: [
@@ -111,8 +111,8 @@ export const DETAILS: Record<OverviewId, DetailContent> = {
   },
   tools: {
     title: "Tools",
-    heading: "Generators that do the busywork",
-    lead: "A growing gallery of web tools, plus a Figma plugin. Both work from the token set, so what comes out already matches your brand.",
+    heading: "Tools that do the tedious work.",
+    lead: "A growing ecosystem of tools for on the web and in Figma.",
     items: TOOL_ITEMS,
     links: [
       { label: "Open the tools", href: "/tools", primary: true },

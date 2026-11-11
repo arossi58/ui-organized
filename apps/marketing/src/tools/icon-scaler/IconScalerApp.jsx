@@ -210,12 +210,6 @@ export default function IconScalerApp() {
 
         {/* Header */}
         <div className="is-header">
-          <div className="is-header-brand">
-            <h2 className="is-header-title" style={{ margin: 0 }}>Icon Scaler</h2>
-            {workspace.length > 0 && (
-              <span className="is-header-count">{workspace.length} icon{workspace.length !== 1 ? "s" : ""}</span>
-            )}
-          </div>
           {workspace.length > 0 && (
             <Button intent="ghost" size="sm" onClick={clearAll}>Clear all</Button>
           )}
@@ -224,7 +218,7 @@ export default function IconScalerApp() {
           </Button>
           <input id="is-header-upload" type="file" accept=".svg,image/svg+xml" multiple style={{ display: "none" }}
             onChange={(e) => { handleUploadFiles(e.target.files); e.target.value = ""; }} />
-          <Button intent="primary" size="sm" icon="grid" onClick={() => setShowBrowser(true)}>Browse Icons</Button>
+          <Button intent="primary" size="sm" icon="grid" onClick={() => setShowBrowser(true)}>Browse icons</Button>
         </div>
 
         <div className="is-layout">
@@ -381,7 +375,7 @@ export default function IconScalerApp() {
             {/* Export Sizes */}
             <Card className="is-card" padding="md">
               <CardBody>
-                <div className="is-sec-label">Export Sizes</div>
+                <div className="is-sec-label">Export sizes</div>
                 <div className="is-size-grid">
                   {PRESET_SIZES.map((s) => {
                     const active = activeSizes.includes(s);
@@ -440,7 +434,7 @@ export default function IconScalerApp() {
                 </div>
                 <span>Browse the icon library or upload your own SVGs</span>
                 <div className="is-empty-actions">
-                  <Button intent="primary" size="md" icon="grid" onClick={() => setShowBrowser(true)}>Browse Icons</Button>
+                  <Button intent="primary" size="md" icon="grid" onClick={() => setShowBrowser(true)}>Browse icons</Button>
                   <Button intent="secondary" size="md" icon="upload" onClick={() => document.getElementById("is-empty-upload").click()}>
                     Upload SVG
                   </Button>
@@ -453,7 +447,7 @@ export default function IconScalerApp() {
                       label: "Figma",
                       tips: [
                         ["Center stroke alignment", "inside/outside strokes are expanded to filled paths on SVG export"],
-                        ["Avoid Outline Stroke", "the right-click option converts strokes to fills — keep strokes live"],
+                        ["Avoid Outline Stroke", "the right-click option converts live strokes to fills"],
                         ["Export from a Frame", "bare groups may omit the viewBox; frames always include it"],
                         ["Don't Flatten Selection", "flattening merges paths and discards individual stroke data"],
                       ],
@@ -462,7 +456,7 @@ export default function IconScalerApp() {
                       label: "Adobe Illustrator",
                       tips: [
                         ["Avoid Object → Expand", "expands strokes into filled outlines before export"],
-                        ["Presentation Attributes", "in SVG Options — not CSS Properties or Style Element"],
+                        ["Presentation Attributes", "in SVG Options, not CSS Properties or Style Element"],
                         ["Enable Responsive", "removes fixed width/height while preserving viewBox"],
                         ["File → Save As → SVG", "produces cleaner output than Export As → SVG"],
                       ],

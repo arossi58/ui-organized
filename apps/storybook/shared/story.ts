@@ -171,7 +171,7 @@ export async function gotoStory(page: Page, id: string): Promise<boolean> {
   // lands *after* Storybook reports the story as rendered. Every design token
   // is defined under `[data-theme]`, so anything measured before this point
   // sees the wrong palette entirely: the a11y gate read light-canvas pixels
-  // against dark-theme text colours and reported 25 components as failing
+  // against dark-theme text colors and reported 25 components as failing
   // contrast that are in fact fine. The visual gate hid the same race behind
   // `toHaveScreenshot`'s own retries, which is worse — it was never reliable,
   // it was just quiet about it.

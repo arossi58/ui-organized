@@ -4,7 +4,7 @@ import { staticScenarios, type BrowserScenario } from "./scenario.js";
  * Mirrors the SSR gate's Icon spec, because Angular is compared in the browser
  * only and would otherwise not be compared at all. Everything these assert
  * happens before an icon is drawn — reading the provider config, resolving the
- * canonical name, choosing the outline or solid cut, computing the optical
+ * registered name, choosing the outline or solid cut, computing the optical
  * stroke — and all of it is shared code in core that each library has to call
  * correctly.
  */
@@ -34,7 +34,7 @@ const scenarios: BrowserScenario[] = staticScenarios("Icon", [
   { name: "provider/solid", props: { name: "check", provider: { style: "solid" } } },
   {
     name: "provider/solid falls back to outline",
-    props: { name: "close", provider: { style: "solid" } },
+    props: { name: "x", provider: { style: "solid" } },
   },
   // The optical stroke curve. Expected data-stroke, from the shared math:
   // 40 -> 1.5, 12 -> 3, 32 at baseSize 32 -> 1.5 (not 2 — the conversion is

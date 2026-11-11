@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface BreadcrumbItem {
   /** Visible label for the crumb. */
@@ -7,7 +7,7 @@ export interface BreadcrumbItem {
   /** Link target. Omit on the current (last) crumb. */
   href?: string;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
 }
 
 export interface BreadcrumbProps

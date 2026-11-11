@@ -37,7 +37,7 @@
 }
 
 /* The framed variant puts the code on a card, for placing it over a photo or a
-   coloured band where the bare pattern would lose its quiet zone. */
+   colored band where the bare pattern would lose its quiet zone. */
 .qr-code--framed .qr-code__frame {
   /* 1px hairline — there is no border-width token family. */
   border: 1px solid var(--color-border-secondary);
@@ -47,7 +47,7 @@
 
 /* The pattern is an SVG path; `fill` is the ink. High contrast against the
    frame is a scanning requirement, so this pair is deliberately the strongest
-   content colour on the primary surface rather than a softer one. */
+   content color on the primary surface rather than a softer one. */
 .qr-code__pattern {
   fill: var(--color-content-primary);
 }

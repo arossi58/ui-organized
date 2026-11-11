@@ -15,6 +15,7 @@ import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioButton } from "../button/button.js";
 import { encodeQr, qrPathData, type QrErrorCorrection } from "./qr-encoder.js";
+import { glyph } from "../icons/glyph.js";
 
 export type QRCodeSize = NonNullable<QRCodeVariants["size"]>;
 export type QRCodeVariant = NonNullable<QRCodeVariants["variant"]>;
@@ -102,7 +103,7 @@ const DEFAULT_PIXEL_SIZE = 10;
         uioButton
         intent="secondary"
         type="button"
-        icon="download"
+        [icon]="glyph('download')"
         data-scope="qr-code"
         data-part="download-trigger"
         [size]="size()"
@@ -119,6 +120,7 @@ const DEFAULT_PIXEL_SIZE = 10;
   },
 })
 export class UioQrCode extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "qr-code";
   readonly part = "root";
 

@@ -60,7 +60,7 @@
 
 /* ─── Arrow ───────────────────────────────────────────────────────────────────
    zag positions the arrow and sizes it from its own custom properties; only the
-   fill and the border colour are ours. */
+   fill and the border color are ours. */
 
 .tour__arrow {
   --arrow-background: var(--color-surface-primary);
@@ -108,10 +108,11 @@
   color: var(--color-content-primary);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. */
 .tour__close:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .tour__description {

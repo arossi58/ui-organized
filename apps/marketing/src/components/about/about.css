@@ -13,7 +13,8 @@
 
 .about-hero {
   position: relative;
-  background: var(--color-surface-primary);
+  /* Same backdrop as the home hero: page surface plus the dot lattice. */
+  background: var(--color-surface-base);
   /* Contain the dot layer's stacking so the copy stays on top. */
   isolation: isolate;
   /* Re-tone the lattice to ink so it reads on cream (mirrors .hero-stage). */
@@ -26,7 +27,9 @@
 
 .about-hero__dots {
   position: absolute;
-  inset: 0;
+  /* Starts at the page top, behind the nav, so the lattice lines up with the
+     home hero's (AboutHero measures --about-hero-offset). */
+  inset: calc(-1 * var(--about-hero-offset, 0px)) 0 0;
   z-index: 0;
   pointer-events: none;
   /* Fade the lattice out before the section ends, so it dissolves into the
@@ -40,9 +43,9 @@
   z-index: 1;
 }
 
-/* The page's one object: a raised panel lifting the copy off the lattice. On the
-   page surface rather than a tinted one, so the hairline and the drop shadow are
-   what separate it, not a change of tone.
+/* The page's one object: a panel lifting the copy off the lattice. It sits on
+   surface-primary over the hero's surface-base, so the change of tone and the
+   hairline are what separate it; there is no drop shadow.
 
    `fit-content` makes it hug the copy instead of stretching to the full 1040px
    wrap: the body's 62ch measure sets the width, and the panel stops there. The
@@ -57,13 +60,6 @@
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-06, 16px);
   padding: clamp(var(--spacing-space-06), 5vw, var(--spacing-space-12));
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-}
-
-/* Dark mode — a neutral drop shadow disappears against the dark surface, so the
-   panel loses its edge. Swap it for the brand glow the cards on home use. */
-[data-theme="dark"] .about-hero__panel {
-  box-shadow: 0 12px 40px color-mix(in srgb, var(--site-orange) 20%, transparent);
 }
 
 /* The page's one h1 — Inter, like every other title on the site. Sized a step

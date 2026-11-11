@@ -10,7 +10,7 @@ const meta: Meta<typeof Collapsible> = {
     docs: {
       description: {
         component:
-          "A single disclosure section that animates open and closed. Compose `<Collapsible>` with `<CollapsibleTrigger>` and `<CollapsibleContent>`.",
+          "A single disclosure section that animates open and closed.",
       },
     },
   },

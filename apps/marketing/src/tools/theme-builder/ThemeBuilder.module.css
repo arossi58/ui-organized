@@ -8,26 +8,72 @@
   flex: 1 1 auto;
   height: 100%;
   min-height: 0;
-  overflow: hidden;
+  /* clip, not hidden: a hidden box can still be scrolled by focus, which slid
+     the whole builder up when an off-screen control took focus. */
+  overflow: clip;
   background: var(--builder-bg);
   color: var(--builder-text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* ── Top bar ──────────────────────────────────────────────────────────────── */
-.topBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 8px 16px;
-  border-bottom: 1px solid var(--builder-border);
-  flex-shrink: 0;
+/* ── Tabs ─────────────────────────────────────────────────────────────────── */
+/* The DS Tabs fills the shell: its list is the top bar, its active panel the
+   two-pane body. The list's rule spans the full width, so each tab's underline
+   sits flush on the bar's bottom edge. */
+.layout {
+  position: relative;
 }
 
-/* DS Tabs wrapper — one tab set across the top */
 .tabs {
-  min-width: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* Child combinator: only the builder's own bar. A descendant selector also
+   reached Tabs nested in the preview (Typography's Specs/Examples), making them
+   64px tall with the page-theme rule. */
+.tabs > :global(.tabs__list) {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  /* 64px including the rule, shared with the Icon Scaler's header. Tabs
+     stretch to the full height, so labels centre and each underline still
+     lands on the rule. */
+  height: 64px;
+  align-items: stretch;
+  padding: 0 16px;
+  /* Room for the vision menu and mode switch on the right, so a long tab row
+     never runs under them. */
+  padding-right: 380px;
+  border-bottom-color: var(--builder-border);
+}
+
+.tabs :global(.tabs__panels),
+.tabs :global(.tabs__panel:not([hidden])) {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.tabs :global(.tabs__panel) {
+  flex-direction: column;
+  padding: 0;
+}
+
+/* The panel fills a clipped shell, so an outset ring would be cut off. */
+.tabs :global(.tabs__panel:focus-visible) {
+  outline-offset: -2px;
+}
+
+/* Floats in the tab row's right end; vertically centred on the list. */
+.modeSwitchSlot {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  /* Matches the tab list. */
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ── Body ─────────────────────────────────────────────────────────────────── */
@@ -38,17 +84,16 @@
   overflow: hidden;
 }
 
-/* Controls zone (left) — a floating, rounded panel like the icon-scaler tool. */
+/* Controls zone (left) — flush with the shell, no card of its own; a
+   hairline on the right separates it from the preview. */
 .controls {
   width: 372px;
   min-width: 320px;
   max-width: 420px;
   display: flex;
   flex-direction: column;
-  margin: 12px;
-  border: 1px solid var(--builder-border);
-  border-radius: var(--border-radius-06, 16px);
   background: var(--color-surface-primary);
+  border-right: 1px solid var(--builder-border);
   flex-shrink: 0;
   overflow: hidden;
 }
@@ -67,48 +112,6 @@
   min-width: 0;
   overflow: hidden;
   background: var(--builder-bg);
-}
-
-/* ── Preview light/dark mode switch ───────────────────────────────────────── */
-.modeSwitch {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  padding: 2px;
-  background: var(--builder-surface-input);
-  border: 1px solid var(--builder-border);
-  border-radius: 7px;
-  flex-shrink: 0;
-}
-
-.modeButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  border: none;
-  background: none;
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--builder-text-secondary);
-  cursor: pointer;
-  transition: background 0.12s, color 0.12s;
-}
-
-.modeButton:hover {
-  color: var(--builder-text-primary);
-}
-
-.modeButtonActive,
-.modeButtonActive:hover {
-  background: var(--builder-surface-hover);
-  color: var(--builder-text-primary);
-}
-
-.modeButton svg {
-  width: 14px;
-  height: 14px;
 }
 
 /* ── Responsive ────────────────────────────────────────────────────────────── */

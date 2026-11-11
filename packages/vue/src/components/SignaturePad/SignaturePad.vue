@@ -8,6 +8,7 @@ import Button from "../Button/Button.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
 import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_STROKE_WIDTH = 2;
 
@@ -66,7 +67,7 @@ const rootProps = computed(() =>
 );
 
 /* The ink is a canvas stroke in device pixels, so its width is a prop rather
-   than CSS. Its colour is themed — see SignaturePad.css. */
+   than CSS. Its color is themed — see SignaturePad.css. */
 const drawing = computed(() => ({ size: props.strokeWidth }));
 
 // Written here rather than inline: a Vue template expression cannot carry an
@@ -122,7 +123,7 @@ function onDrawEnd(details: {
       `hidden` rides across with the rest of the projected props.
     -->
     <ArkSignaturePad.ClearTrigger v-if="showClear" as-child>
-      <Button intent="ghost" :size="size" type="button" icon="refresh">
+      <Button intent="ghost" :size="size" type="button" :icon="glyph('refresh')">
         {{ clearLabel }}
       </Button>
     </ArkSignaturePad.ClearTrigger>

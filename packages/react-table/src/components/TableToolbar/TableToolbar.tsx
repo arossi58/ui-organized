@@ -14,19 +14,22 @@ import {
   MenuTrigger,
   SearchInput,
 } from "@ui-organized/react";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { toggleableColumns } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/TableContext.js";
 import { TableFilterAdd } from "../TableFilters/index.js";
+import { TableSelectionBar } from "../TableSelectionBar/index.js";
+import { TableFilterSheet, TableSortSheet } from "../TableSheets/index.js";
 import type {
   TableActionsProps,
   TableExportMenuProps,
+  TableReorderToggleProps,
   TableScrollButtonsProps,
   TableSearchProps,
   TableSortMenuProps,
   TableToolbarProps,
   TableViewOptionsProps,
 } from "./TableToolbar.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The row above the table: search, filters, and the controls that change what
@@ -34,10 +37,10 @@ import type {
  *
  * Not a `Toolbar` — that component is a `role="toolbar"` with roving focus,
  * which is right for a cluster of icon buttons and wrong for a row containing a
- * text input. The selection bar, which *is* a button cluster, does use it.
+ * text input.
  */
 export function TableToolbar({ children, className }: TableToolbarProps) {
-  const { options, table, scroll } = useTableContext();
+  const { options, table, scroll, selection, mode, reorder } = useTableContext();
   if (children) {
     return <div className={clsx("data-table__toolbar", className)}>{children}</div>;
   }
@@ -52,42 +55,76 @@ export function TableToolbar({ children, className }: TableToolbarProps) {
     (options.sortable ?? true) &&
     table.getAllLeafColumns().some((column) => column.getCanSort());
 
+  const selecting = selection.count > 0;
+
   // `scroll.overflowing` counts: a table whose only chrome is the two scroll
   // buttons still needs the row to put them in — columns off the right edge are
-  // no less hidden for the table having no search box.
+  // no less hidden for the table having no search box. So does a selection: its
+  // bulk actions live in this row.
   if (
+    !selecting &&
     !searchable &&
     !hideable &&
     !exportable &&
     !filterable &&
     !sortMenu &&
     !scroll.overflowing &&
+    reorder.mode !== "toggle" &&
     actions.length === 0
   ) {
     return null;
   }
 
-  // One row. What is *applied* — the filter chips and the selection's bulk
-  // actions — sits on the line below, in `TableSubBar`: chips wrap, often onto
-  // a second and third line, and sharing this row with them would shunt the
-  // controls around every time a filter is added.
+  // One row. The filter chips sit on the line below, in `TableSubBar`: they
+  // wrap, often onto a second and third line, and sharing this row with them
+  // would shunt the controls around every time a filter is added.
+  //
+  // While rows are selected, the bulk actions take the place of the table's own
+  // controls. What to do with the selection is the decision in front of the
+  // user, and sorting or adding a filter underneath it would change which rows
+  // it means. Clearing the selection brings the controls back.
   return (
     <div className={clsx("data-table__toolbar", className)}>
       {searchable && <TableSearch />}
       <div className="data-table__toolbar-spacer" />
 
-      <TableActions />
-      {/* Only when there is something on both sides of it. A rule with nothing
-          to its left is a rule separating the toolbar from its own edge, which
-          says nothing. */}
-      {actions.length > 0 && (
-        <Divider orientation="vertical" className="data-table__toolbar-divider" />
-      )}
+      {selecting ? (
+        <>
+          <TableSelectionBar />
+          {/* Stays: "Download selected rows" and "Copy selection" are actions on
+              the selection, and live nowhere else. */}
+          {exportable && <TableExportMenu />}
+        </>
+      ) : (
+        <>
+          <TableActions />
+          {/* Only when there is something on both sides of it. A rule with
+              nothing to its left is a rule separating the toolbar from its own
+              edge, which says nothing. */}
+          {actions.length > 0 && (
+            <Divider orientation="vertical" className="data-table__toolbar-divider" />
+          )}
 
-      {sortMenu && <TableSortMenu />}
-      {filterable && <TableFilterAdd iconOnly />}
-      {exportable && <TableExportMenu />}
-      {hideable && <TableViewOptions />}
+          {/* Card mode trades the two menus for labelled buttons that open a
+              bottom sheet each, with what is applied counted on the button:
+              there are no column headers to sort from and no room for a row
+              of chips above the cards. */}
+          {mode === "cards" ? (
+            <>
+              {sortMenu && <TableSortSheet />}
+              {filterable && <TableFilterSheet />}
+            </>
+          ) : (
+            <>
+              {sortMenu && <TableSortMenu />}
+              {filterable && <TableFilterAdd iconOnly />}
+            </>
+          )}
+          {exportable && <TableExportMenu />}
+          {hideable && <TableViewOptions />}
+          <TableReorderToggle />
+        </>
+      )}
       {/* Last, and only while the viewport is actually hiding columns. */}
       <TableScrollButtons />
     </div>
@@ -111,7 +148,7 @@ export function TableActions({ actions, className }: TableActionsProps) {
   return (
     <div className={clsx("data-table__toolbar-actions", className)}>
       {items.map((action) => {
-        const icon = action.icon as CanonicalIconName | undefined;
+        const icon = action.icon;
         const iconOnly = action.iconOnly === true && icon !== undefined;
         return (
           <Button
@@ -160,7 +197,7 @@ export function TableSortMenu({ label = "Sort", className }: TableSortMenuProps)
           <Button
             intent="secondary"
             size={size}
-            icon={activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort"}
+            icon={glyph(activeId ? (active?.desc ? "sort-desc" : "sort-asc") : "sort")}
             aria-label={label}
             className={className}
           />
@@ -247,7 +284,7 @@ export function TableViewOptions({ label = "Columns", className }: TableViewOpti
   return (
     <Menu>
       <MenuTrigger
-        render={<Button intent="secondary" size={size} icon="settings" aria-label={label} />}
+        render={<Button intent="secondary" size={size} icon={glyph("settings")} aria-label={label} />}
       />
       <MenuContent align="end" className={className}>
         <MenuGroup>
@@ -286,6 +323,31 @@ export function TableViewOptions({ label = "Columns", className }: TableViewOpti
 }
 
 /**
+ * Enters and leaves reorder mode, for `reorderable: "toggle"`. Absent for any
+ * other setting, and in card mode, which has no headers to move.
+ *
+ * The label says what a press does next — "Reorder", then "Done" — rather
+ * than carrying a pressed state, so the button reads the same to a screen
+ * reader as it does on screen, and "Done" is the obvious way out.
+ */
+export function TableReorderToggle({ className }: TableReorderToggleProps) {
+  const { reorder, size, mode } = useTableContext();
+  if (reorder.mode !== "toggle" || mode === "cards") return null;
+
+  return (
+    <Button
+      intent={reorder.active ? "primary" : "secondary"}
+      size={size}
+      className={className}
+      aria-label={reorder.active ? "Done reordering columns" : "Reorder columns"}
+      onClick={() => reorder.setActive(!reorder.active)}
+    >
+      {reorder.active ? "Done" : "Reorder"}
+    </Button>
+  );
+}
+
+/**
  * Export scopes are separate items rather than one button, because "download"
  * means three different things depending on what is filtered and what is
  * ticked — and silently picking one is how an export loses rows.
@@ -297,27 +359,27 @@ export function TableExportMenu({ label = "Export", className }: TableExportMenu
   return (
     <Menu>
       <MenuTrigger
-        render={<Button intent="secondary" size={size} icon="download" aria-label={label} />}
+        render={<Button intent="secondary" size={size} icon={glyph("download")} aria-label={label} />}
       />
       <MenuContent align="end" className={className}>
-        <MenuItem value="csv-view" icon="download" onSelect={() => exportCsv("view")}>
+        <MenuItem value="csv-view" icon={glyph("download")} onSelect={() => exportCsv("view")}>
           Download this view (CSV)
         </MenuItem>
         <MenuItem
           value="csv-selected"
-          icon="download"
+          icon={glyph("download")}
           disabled={!hasSelection}
           onSelect={() => exportCsv("selected")}
         >
           Download selected rows (CSV)
         </MenuItem>
-        <MenuItem value="csv-all" icon="download" onSelect={() => exportCsv("all")}>
+        <MenuItem value="csv-all" icon={glyph("download")} onSelect={() => exportCsv("all")}>
           Download all rows (CSV)
         </MenuItem>
         <MenuSeparator />
         <MenuItem
           value="copy"
-          icon="copy"
+          icon={glyph("copy")}
           disabled={!hasSelection}
           onSelect={() => void copySelection("selected")}
         >
@@ -357,7 +419,7 @@ export function TableScrollButtons({
       <Button
         intent="secondary"
         size={size}
-        icon="chevron-left"
+        icon={glyph("chevron-left")}
         aria-label={leftLabel}
         disabled={!scroll.canScrollLeft}
         onClick={() => scroll.by(-1)}
@@ -365,7 +427,7 @@ export function TableScrollButtons({
       <Button
         intent="secondary"
         size={size}
-        icon="chevron-right"
+        icon={glyph("chevron-right")}
         aria-label={rightLabel}
         disabled={!scroll.canScrollRight}
         onClick={() => scroll.by(1)}

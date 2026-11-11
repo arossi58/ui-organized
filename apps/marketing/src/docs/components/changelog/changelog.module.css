@@ -89,7 +89,7 @@
 }
 
 /* The lead line of an entry is its summary — the sentence Changesets took from
-   the first line of the changeset file. Lifting it to primary colour at body-
+   the first line of the changeset file. Lifting it to primary color at body-
    large gives each entry an obvious opening, which is most of what makes a long
    release readable; everything after it stays at the prose default. */
 .entry > p:first-child {
@@ -172,7 +172,7 @@
 }
 
 /* The bump level, as a dot rather than a second badge: at rail width a word
-   would wrap, and the colour is already the vocabulary the cards established. */
+   would wrap, and the color is already the vocabulary the cards established. */
 .dot {
   flex: none;
   width: 0.5rem;
@@ -182,7 +182,7 @@
 }
 
 .dot[data-bump="major"] {
-  background: var(--color-status-warning);
+  background: var(--color-status-caution);
 }
 
 .dot[data-bump="minor"] {

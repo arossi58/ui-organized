@@ -17,6 +17,8 @@ import { IconProvider } from "@ui-organized/react";
 import "@ui-organized/react/icons/lucide";
 import "@ui-organized/react/icons/tabler";
 import "@ui-organized/react/icons/heroicons";
+// The Lucide icons the stories name, under Lucide's own names.
+import "../src/storyIcons";
 import "@ui-organized/tokens/variables.css";
 import "@ui-organized/react/styles";
 // The table ships its own stylesheet — it lives outside the component library

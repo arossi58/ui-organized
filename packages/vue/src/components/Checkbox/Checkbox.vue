@@ -7,6 +7,7 @@ import { OMIT_ARIA } from "@ui-organized/core";
 import Icon from "../Icon/Icon.vue";
 import type { CheckboxProps } from "./Checkbox.types.js";
 import "@ui-organized/core/components/Checkbox/Checkbox.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -111,9 +112,9 @@ const rootProps = computed(() =>
     "
   >
     <ArkCheckbox.Control class="checkbox__control">
-      <ArkCheckbox.Indicator class="checkbox__indicator">
+      <ArkCheckbox.Indicator class="checkbox__indicator" :indeterminate="indeterminate">
         <span v-if="indeterminate" class="checkbox__indicator--indeterminate" />
-        <Icon v-else name="check" :size="16" class="checkbox__check" />
+        <Icon v-else :name="glyph('check')" :size="16" class="checkbox__check" />
       </ArkCheckbox.Indicator>
     </ArkCheckbox.Control>
     <ArkCheckbox.Label v-if="label" class="checkbox__label text-default-body-large">

@@ -16,7 +16,7 @@ const meta: Meta<typeof Popover> = {
     docs: {
       description: {
         component:
-          "A floating surface anchored to a trigger. Compose `<Popover>` with `<PopoverTrigger>` and `<PopoverContent>` (which accepts `side`, `align`, and `sideOffset`). The content is a dialog, so name it: give it a `<PopoverTitle>`, or an `aria-label` when it has no heading.",
+          "A floating surface anchored to a trigger.",
       },
     },
   },
@@ -29,7 +29,7 @@ export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
     <Popover {...args}>
-      <PopoverTrigger className="btn btn--secondary btn--md">Open popover</PopoverTrigger>
+      <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">Open popover</PopoverTrigger>
       <PopoverContent style={{ maxWidth: 260 }}>
         <PopoverTitle>Dimensions</PopoverTitle>
         <PopoverDescription>Set the width and height of the selected layer.</PopoverDescription>
@@ -43,7 +43,7 @@ export const Sides: Story = {
     <div style={{ display: "flex", gap: 12 }}>
       {(["top", "right", "bottom", "left"] as const).map((side) => (
         <Popover key={side}>
-          <PopoverTrigger className="btn btn--secondary btn--md">{side}</PopoverTrigger>
+          <PopoverTrigger className="text-default-body-large btn btn--secondary btn--md">{side}</PopoverTrigger>
           {/* No heading here, so the dialog is named by `aria-label` instead. */}
           <PopoverContent side={side} aria-label={`Positioned on the ${side}`}>
             Positioned on the {side}.

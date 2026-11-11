@@ -8,7 +8,7 @@
   flex-direction: column;
   flex: 1 1 auto;
   min-height: 0;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   isolation: isolate;
   /* Re-tone the lattice to ink so it reads on cream (mirrors .simple-page). */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);

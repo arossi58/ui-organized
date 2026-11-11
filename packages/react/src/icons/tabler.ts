@@ -1,7 +1,8 @@
 /**
  * Tabler icon adapter.
  *
- * Maps each canonical design system icon name to its Tabler React component.
+ * Maps each of the components' own glyphs (`SystemGlyph` in @ui-organized/core)
+ * to its Tabler React component.
  * Named imports enable tree-shaking within the library.
  *
  * The Vite plugin (packages/react-vite) will alias this entire module to an
@@ -9,13 +10,8 @@
  */
 
 import {
-  IconArrowDown,
-  IconArrowLeft,
-  IconArrowRight,
-  IconArrowUp,
   IconAlertCircle,
   IconAlertTriangle,
-  IconBookmark,
   IconCalendar,
   IconCheck,
   IconCircleCheck,
@@ -23,36 +19,26 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconChevronUp,
-  IconClock,
   IconCopy,
   IconColorPicker,
   IconDownload,
-  IconExternalLink,
   IconEye,
   IconEyeOff,
   IconFile,
   IconFilter,
   IconFolder,
-  IconHeart,
   IconHome,
   IconInfoCircle,
   IconLayoutGrid,
   IconList,
-  IconLoader2,
-  IconLock,
-  IconLockOpen,
-  IconMail,
   IconMenu2,
   IconMinus,
   IconPencil,
-  IconPhone,
   IconPlayerPause,
   IconPlayerPlay,
   IconPlus,
   IconRefresh,
-  IconRotateClockwise,
   IconArrowBackUp,
-  IconArrowForwardUp,
   IconSearch,
   IconSettings,
   IconSortAscending,
@@ -62,27 +48,18 @@ import {
   IconTrash,
   IconUpload,
   IconUser,
-  IconUsers,
   IconX,
-  // Filled variants
-  IconAlertCircleFilled,
   IconAlertTriangleFilled,
-  IconBookmarkFilled,
   IconCalendarFilled,
   IconCircleCheckFilled,
-  IconClockFilled,
   IconCopyFilled,
   IconEyeFilled,
   IconFileFilled,
   IconFilterFilled,
   IconFolderFilled,
-  IconHeartFilled,
   IconHomeFilled,
   IconInfoCircleFilled,
-  IconLockFilled,
-  IconMailFilled,
   IconPencilFilled,
-  IconPhoneFilled,
   IconPlayerPauseFilled,
   IconPlayerPlayFilled,
   IconPlusFilled,
@@ -91,21 +68,19 @@ import {
   IconStarFilled,
   IconTagFilled,
   IconTrashFilled,
-  IconUserFilled, IconArrowsSort, IconRotate,
+  IconUserFilled,
+  IconArrowsSort,
+  IconRotate,
+  IconAlertCircleFilled,
 } from "@tabler/icons-react";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { SystemGlyph } from "@ui-organized/core";
 import type { ComponentType } from "react";
 
-export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
+export const tablerIconSet: Record<SystemGlyph, ComponentType<any>> = {
   "chevron-down": IconChevronDown,
   "chevron-up": IconChevronUp,
   "chevron-left": IconChevronLeft,
   "chevron-right": IconChevronRight,
-  "arrow-left": IconArrowLeft,
-  "arrow-right": IconArrowRight,
-  "arrow-up": IconArrowUp,
-  "arrow-down": IconArrowDown,
-  "external-link": IconExternalLink,
   close: IconX,
   check: IconCheck,
   plus: IconPlus,
@@ -117,7 +92,6 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   upload: IconUpload,
   refresh: IconRefresh,
   undo: IconArrowBackUp,
-  redo: IconArrowForwardUp,
   "sort-asc": IconSortAscending,
   "sort-desc": IconSortDescending,
   filter: IconFilter,
@@ -126,13 +100,10 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   "alert-circle": IconAlertCircle,
   "alert-triangle": IconAlertTriangle,
   info: IconInfoCircle,
-  loader: IconLoader2,
   search: IconSearch,
   eye: IconEye,
   "eye-off": IconEyeOff,
-  bookmark: IconBookmark,
   star: IconStar,
-  heart: IconHeart,
   tag: IconTag,
   menu: IconMenu2,
   grid: IconLayoutGrid,
@@ -142,17 +113,10 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
   play: IconPlayerPlay,
   pause: IconPlayerPause,
   user: IconUser,
-  users: IconUsers,
-  lock: IconLock,
-  unlock: IconLockOpen,
-  mail: IconMail,
-  phone: IconPhone,
   settings: IconSettings,
   home: IconHome,
   calendar: IconCalendar,
-  clock: IconClock,
   pipette: IconColorPicker,
-  "rotate-cw": IconRotateClockwise,
   "rotate-ccw": IconRotate,
 };
 
@@ -161,25 +125,19 @@ export const tablerIconSet: Record<CanonicalIconName, ComponentType<any>> = {
  * Only icons that have an official filled variant are listed here.
  * Icons without a filled variant fall back to the outline set in Icon.tsx.
  */
-export const tablerSolidSet: Partial<Record<CanonicalIconName, ComponentType<any>>> = {
+export const tablerSolidSet: Partial<Record<SystemGlyph, ComponentType<any>>> = {
   "alert-circle": IconAlertCircleFilled,
   "alert-triangle": IconAlertTriangleFilled,
-  bookmark: IconBookmarkFilled,
   calendar: IconCalendarFilled,
   "check-circle": IconCircleCheckFilled,
-  clock: IconClockFilled,
   copy: IconCopyFilled,
   edit: IconPencilFilled,
   eye: IconEyeFilled,
   file: IconFileFilled,
   filter: IconFilterFilled,
   folder: IconFolderFilled,
-  heart: IconHeartFilled,
   home: IconHomeFilled,
   info: IconInfoCircleFilled,
-  lock: IconLockFilled,
-  mail: IconMailFilled,
-  phone: IconPhoneFilled,
   play: IconPlayerPlayFilled,
   pause: IconPlayerPauseFilled,
   plus: IconPlusFilled,

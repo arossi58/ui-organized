@@ -68,6 +68,24 @@ const rootProps = computed(() =>
   }),
 );
 
+/**
+ * zag's listbox focuses its content on every item `mousedown`, and calls
+ * `focus()` without `preventScroll`. Inside any scroll container where the
+ * list's top is out of view — a bottom sheet scrolled down to the option the
+ * user wants — that focus scrolls the list's top into view between press and
+ * release, so the release lands on a different option and the tap selects the
+ * wrong thing or nothing.
+ *
+ * So the content is focused first, in the capture phase, without scrolling.
+ * By the time zag's own handler runs the element already has focus, and
+ * focusing the focused element is a no-op — including its scroll. The pressed
+ * option is already on screen, which is how it got pressed.
+ */
+function focusWithoutScrolling(event: MouseEvent) {
+  const content = event.currentTarget as HTMLElement;
+  if (document.activeElement !== content) content.focus({ preventScroll: true });
+}
+
 // Written here rather than inline: a Vue template expression cannot carry an
 // object type annotation, and the handler's details argument needs one.
 function onValueChange(details: { value: string[] }) {
@@ -90,7 +108,7 @@ function onValueChange(details: { value: string[] }) {
     @value-change="onValueChange"
   >
     <ArkListbox.Label v-if="label" class="listbox__label">{{ label }}</ArkListbox.Label>
-    <ArkListbox.Content class="listbox__content">
+    <ArkListbox.Content class="listbox__content" @mousedown.capture="focusWithoutScrolling">
       <template v-for="([group, groupItems], index) in groups" :key="index">
         <ArkListbox.ItemGroup v-if="group != null" class="listbox__group">
           <ArkListbox.ItemGroupLabel class="listbox__group-label">

@@ -37,7 +37,7 @@ const DEFAULT_MODE_RE = /^Mode( 1)?$/;
 /**
  * Infer Figma variable scopes from the collection + variable name the importer
  * already assigns. Scopes restrict where a variable surfaces in the UI: a radius
- * float only offers itself in corner-radius fields, a text colour only in text
+ * float only offers itself in corner-radius fields, a text color only in text
  * fills, and so on. Without this, every variable defaults to ["ALL_SCOPES"] and
  * clutters every picker.
  *
@@ -55,12 +55,12 @@ function scopesFor(
   if (type === "COLOR") {
     // Primitives are the raw palette and only exist to be aliased by the
     // semantic tokens. Empty scopes hide them from every picker so designers
-    // reach for the semantic colours instead.
+    // reach for the semantic colors instead.
     if (collection === PRIMITIVES) return [];
     // Focus rings are drawn as effects (shadows/outlines) in Figma, not fills or
-    // strokes, so the focus colours only surface in the effect-colour picker.
+    // strokes, so the focus colors only surface in the effect-color picker.
     if (name.toLowerCase().includes("focus")) return ["EFFECT_COLOR"];
-    // Semantic colours, scoped by role (the first path segment).
+    // Semantic colors, scoped by role (the first path segment).
     switch (group) {
       case "surface":
         return ["FRAME_FILL", "SHAPE_FILL"];

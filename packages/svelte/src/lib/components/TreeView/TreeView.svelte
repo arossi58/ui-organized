@@ -5,6 +5,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { TreeViewProps, TreeViewNode } from "./TreeView.types.js";
   import "@ui-organized/core/components/TreeView/TreeView.css";
+  import { glyph } from "../../icons/glyph.js";
 
   /** Chevron and node icons stay one step below the text size — they mark the row
    *  rather than compete with it. */
@@ -70,9 +71,9 @@
       <ArkTreeView.Branch class="tree-view__branch">
         <ArkTreeView.BranchControl class="tree-view__branch-control">
           <ArkTreeView.BranchIndicator class="tree-view__branch-indicator">
-            <Icon name="chevron-right" size={INDICATOR_SIZE} />
+            <Icon name={glyph("chevron-right")} size={INDICATOR_SIZE} />
           </ArkTreeView.BranchIndicator>
-          <Icon name={node.icon ?? "folder"} size={iconSize} class="tree-view__node-icon" />
+          <Icon name={node.icon ?? glyph("folder")} size={iconSize} class="tree-view__node-icon" />
           <ArkTreeView.BranchText class="tree-view__node-text">
             {node.label}
           </ArkTreeView.BranchText>

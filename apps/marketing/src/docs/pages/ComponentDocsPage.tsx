@@ -70,20 +70,7 @@ export function ComponentDocsPage() {
 
         <DocsProse>
           {examples.length > 0 && (
-            <DocsSection
-              title="Examples"
-              subtitle={
-                framework === "react"
-                  ? "Every example is the real component, rendered live."
-                  : // An example that composes several instances by hand has no
-                    // source outside React, and a single derived instance under
-                    // its heading would be a caption that lies. Said once here
-                    // rather than repeated under every example.
-                    "Every example is the real component, rendered live in React. A snippet " +
-                    "appears where the example is the component and its props alone; the " +
-                    "hand-composed ones are written out in React only."
-              }
-            >
+            <DocsSection title="Examples">
               {examples.map((story) => (
                 <StoryExample key={story.exportName} component={component} story={story} />
               ))}
@@ -96,7 +83,6 @@ export function ComponentDocsPage() {
               against the prop table below. */}
           <DocsSection
             title="Quality"
-            subtitle="What automated testing knows about this component. Every gate runs on each pull request."
             aside={<TestStatusChip slug={component.slug} />}
           >
             <TestStatusPanel slug={component.slug} />

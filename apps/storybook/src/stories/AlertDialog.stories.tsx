@@ -19,7 +19,7 @@ const meta: Meta<typeof AlertDialog> = {
     docs: {
       description: {
         component:
-          "A focus-trapping confirmation dialog dismissed via explicit actions. Compose `<AlertDialog>` with `<AlertDialogContent>`, `<AlertDialogTitle>`, `<AlertDialogDescription>`, and a footer of `<AlertDialogCancel>` + `<AlertDialogConfirm>`.",
+          "A focus-trapping confirmation dialog dismissed via explicit actions.",
       },
     },
   },
@@ -32,7 +32,7 @@ export const Inspect: Story = {
   tags: ["dev"],
   render: (args) => (
     <AlertDialog {...args}>
-      <AlertDialogTrigger className="btn btn--destructive btn--md">Delete account</AlertDialogTrigger>
+      <AlertDialogTrigger className="text-default-body-large btn btn--destructive btn--md">Delete account</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Delete account?</AlertDialogTitle>
         <AlertDialogDescription>
@@ -51,7 +51,7 @@ export const Inspect: Story = {
 export const Confirmation: Story = {
   render: () => (
     <AlertDialog>
-      <AlertDialogTrigger className="btn btn--primary btn--md">Publish</AlertDialogTrigger>
+      <AlertDialogTrigger className="text-default-body-large btn btn--primary btn--md">Publish</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogTitle>Publish changes?</AlertDialogTitle>
         <AlertDialogDescription>

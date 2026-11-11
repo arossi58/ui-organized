@@ -14,6 +14,7 @@ import { OMIT_ARIA, popupControls } from "@ui-organized/core";
 import type { SelectProps } from "./Select.types.js";
 import "@ui-organized/core/components/Select/Select.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
+import { glyph } from "../../icons/glyph.js";
 
 export function Select({
   options,
@@ -98,7 +99,7 @@ export function Select({
         <SelectTrigger hasLabel={!!label}>
           <ArkSelect.ValueText className="select-field__value" placeholder={placeholder} />
           <ArkSelect.Indicator className="select-field__icon">
-            <Icon name="chevron-down" size={iconSize} />
+            <Icon name={glyph("chevron-down")} size={iconSize} />
           </ArkSelect.Indicator>
         </SelectTrigger>
         {/* An explicitly-passed container still wins over the preview context. */}
@@ -117,7 +118,7 @@ export function Select({
                 <ArkSelect.Item key={opt.value} item={opt} className="select-popup__item text-default-body-large">
                   <ArkSelect.ItemText>{opt.label}</ArkSelect.ItemText>
                   <ArkSelect.ItemIndicator className="select-popup__item-indicator">
-                    <Icon name="check" size={iconSize} />
+                    <Icon name={glyph("check")} size={iconSize} />
                   </ArkSelect.ItemIndicator>
                 </ArkSelect.Item>
               ))}

@@ -1,9 +1,10 @@
 import { Toast, Toaster, createToaster } from "@ark-ui/react";
 import { Icon } from "../Icon/index.js";
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { SystemGlyph } from "@ui-organized/core";
 import { toastStyles } from "@ui-organized/core";
 import type { ToastProviderProps, ToastOptions, ToastStatus } from "./Toast.types.js";
 import "@ui-organized/core/components/Toast/Toast.css";
+import { glyph } from "../../icons/glyph.js";
 
 // Ark uses a standalone toaster instance (not a React context manager). One
 // module-level instance backs both the rendered region and the imperative API.
@@ -14,7 +15,7 @@ const toaster = createToaster({
   duration: 5000,
 });
 
-const STATUS_ICON: Record<ToastStatus, CanonicalIconName> = {
+const STATUS_ICON: Record<ToastStatus, SystemGlyph> = {
   info: "info",
   success: "check-circle",
   warning: "alert-triangle",
@@ -44,7 +45,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
           return (
             <Toast.Root key={toast.id} className={toastStyles({ status })}>
               <span className="toast__icon">
-                <Icon name={STATUS_ICON[status]} size={20} />
+                <Icon name={glyph(STATUS_ICON[status])} size={20} />
               </span>
               <div className="toast__content">
                 <Toast.Title className="toast__title text-strong-body-medium">{toast.title}</Toast.Title>
@@ -58,7 +59,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
                 </Toast.ActionTrigger>
               )}
               <Toast.CloseTrigger className="toast__close" aria-label="Dismiss">
-                <Icon name="close" size={20} />
+                <Icon name={glyph("close")} size={20} />
               </Toast.CloseTrigger>
             </Toast.Root>
           );

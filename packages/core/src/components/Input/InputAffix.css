@@ -129,8 +129,8 @@ span.input-affix__adornment {
 }
 
 .input-affix__action:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .input-affix__action:disabled,

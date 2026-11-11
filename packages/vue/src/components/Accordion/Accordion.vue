@@ -7,6 +7,7 @@ import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import type { AccordionProps } from "./Accordion.types.js";
 import "@ui-organized/core/components/Accordion/Accordion.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -70,7 +71,7 @@ const isString = (v: unknown) => typeof v === "string";
             <template v-if="isString(item.title)">{{ item.title }}</template>
             <component :is="item.title" v-else />
           </span>
-          <Icon name="chevron-down" :size="20" class="accordion__icon" />
+          <Icon :name="glyph('chevron-down')" :size="20" class="accordion__icon" />
         </ArkAccordion.ItemTrigger>
       </h3>
       <ArkAccordion.ItemContent class="accordion__panel text-default-body-medium">

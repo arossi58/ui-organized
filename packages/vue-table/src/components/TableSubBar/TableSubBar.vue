@@ -1,34 +1,33 @@
 <!--
-  The row under the toolbar: what is filtered, and what is selected.
+  The row under the toolbar: what is filtered.
 
-  Both halves are summaries of applied state, so they share a line rather than
-  stacking. The earlier arrangement put the bulk actions on a third row, which
-  meant ticking a checkbox pushed the chips up and left the actions two rows
-  away from the sort and filter buttons they belong beside.
+  The selection's bulk actions used to share this line. They now replace the
+  toolbar's own controls while anything is selected (see `TableToolbar`), so
+  acting on the selection happens in the row the user was already reading.
 
-  It renders nothing at all until one of the halves has something to say — the
-  same rule each half already applies to itself, restated here so an empty row
-  never takes a slice of the table's `gap`.
+  It renders nothing at all until there is a filter to show, so an empty row
+  never takes a slice of the table's `gap` — and nothing in card mode, where the
+  filter sheet holds them and the toolbar's Filter button counts them.
 -->
 <script setup lang="ts">
 import { computed } from "vue";
 import { clsx } from "clsx";
 import { useTableContext } from "../../core/tableContext.js";
 import { TableFilters } from "../TableFilters/index.js";
-import { TableSelectionBar } from "../TableSelectionBar/index.js";
 
 defineProps<{ class?: string }>();
 const table = useTableContext();
 
 const hasFilters = computed(
-  () => table.options.filterable !== false && table.filters.conditions.value.length > 0,
+  () =>
+    table.options.filterable !== false &&
+    table.filters.conditions.value.length > 0 &&
+    table.mode.value !== "cards",
 );
-const render = computed(() => hasFilters.value || table.selection.count.value > 0);
 </script>
 
 <template>
-  <div v-if="render" :class="clsx('data-table__subbar', $props.class)">
+  <div v-if="hasFilters" :class="clsx('data-table__subbar', $props.class)">
     <TableFilters />
-    <TableSelectionBar />
   </div>
 </template>

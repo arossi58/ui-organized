@@ -3,7 +3,7 @@
  * story plus the Figma-style Inspector panel.
  *
  * One live instance driven by real controls, with the element/token inspector,
- * the colour-vision simulations and an axe run all pointed at the same rendered
+ * the color-vision simulations and an axe run all pointed at the same rendered
  * DOM. The controls and the inspector are two views of one panel beside the
  * preview (see `PropertiesPanel`). The variant matrix lives on the Docs tab
  * instead: its examples already enumerate the variants, and showing them twice
@@ -11,13 +11,14 @@
  */
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Button } from "@ui-organized/react";
+import { Button, SegmentedControl } from "@ui-organized/react";
 import {
   DocsPageHeader,
   DocsTabs,
   InlineMarkdown,
   PreviewSurface,
   StatusBadge,
+  type PreviewViewport,
 } from "../components";
 import { getDocsComponent, inspectStory } from "../registry";
 import { stalenessFor } from "../staleness";
@@ -32,6 +33,11 @@ import { componentTabs } from "./componentTabs";
 import { DocsNotFound } from "./DocsNotFound";
 import styles from "../inspect/inspect.module.css";
 
+const VIEWPORTS = [
+  { value: "desktop", label: "Desktop" },
+  { value: "mobile", label: "Mobile" },
+];
+
 export function ComponentInspectPage() {
   const { slug } = useParams();
   const component = getDocsComponent(slug);
@@ -41,6 +47,7 @@ export function ComponentInspectPage() {
   const story = component ? inspectStory(component) : undefined;
   const [overrides, setOverrides] = useState<Record<string, unknown>>({});
   const [vision, setVision] = useState<string | null>(null);
+  const [viewport, setViewport] = useState<PreviewViewport>("desktop");
   const stage = useRef<HTMLDivElement>(null);
 
   // Opening an overlay from the State switch makes it controlled, and a
@@ -56,10 +63,24 @@ export function ComponentInspectPage() {
       merged.onOpenChange = (open: boolean) =>
         setOverrides((current) => ({ ...current, open }));
     }
+    // The preview sits beside the properties panel, narrower than most
+    // screens, so a component that measures its container (DataTable swaps to
+    // cards under 640px) would always show its phone layout. Pin it to the
+    // layout the viewport switch names instead.
+    const responsive = entryProps?.some((prop) => prop.name === "responsive");
+    if (responsive && !("responsive" in overrides)) {
+      merged.responsive = { mode: viewport === "mobile" ? "cards" : "table" };
+    }
     return merged;
-  }, [story, overrides, entryProps]);
+  }, [story, overrides, entryProps, viewport]);
+  // What the live code prints: the story's args and the reader's changes, but
+  // not the handler and the layout pin added above for the preview's sake.
+  const codeArgs = useMemo(() => ({ ...(story?.args ?? {}), ...overrides }), [story, overrides]);
   const { inspection, refresh, highlight, reveal } = useInspection(stage, args);
-  const scan = useA11yScan(stage, args);
+  // The viewport changes what renders (a table becomes cards) without touching
+  // an arg, so the scan has to hear about it separately.
+  const scanRevision = useMemo(() => [args, viewport], [args, viewport]);
+  const scan = useA11yScan(stage, scanRevision);
 
   const setArg = useCallback((name: string, value: unknown) => {
     setOverrides((current) => ({ ...current, [name]: value }));
@@ -95,6 +116,7 @@ export function ComponentInspectPage() {
           <PropertiesPanel
             component={component}
             args={args}
+            codeArgs={codeArgs}
             onChange={setArg}
             onReset={reset}
             nodes={inspection.nodes}
@@ -109,11 +131,19 @@ export function ComponentInspectPage() {
               stageRef={stage}
               containOverlays
               visionFilter={visionFilterValue(vision)}
+              viewport={viewport}
               toolbar={
                 <>
+                  <SegmentedControl
+                    aria-label="Preview width"
+                    size="sm"
+                    items={VIEWPORTS}
+                    value={viewport}
+                    onValueChange={(next) => setViewport(next as PreviewViewport)}
+                  />
                   <VisionFilterMenu value={vision} onChange={setVision} />
                   <A11yRunButton scan={scan} />
-                  <Button intent="ghost" size="sm" icon="refresh" onClick={refresh}>
+                  <Button intent="ghost" size="sm" icon="refresh-cw" onClick={refresh}>
                     Re-read
                   </Button>
                 </>

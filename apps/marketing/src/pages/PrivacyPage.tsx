@@ -48,7 +48,7 @@ export function PrivacyPage() {
         </li>
         <li>
           <strong>On-device storage.</strong> Our in-browser tools (the theme
-          builder, colour-palette generator, and icon scaler) and your light/dark
+          builder, color-palette generator, and icon scaler) and your light/dark
           theme choice save data in your browser&rsquo;s local storage so your work
           persists between visits. This data stays on your device — it is never
           sent to us. See the <Link to="/cookies">Cookie Policy</Link> for the full

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useAttrs } from "vue";
+import { computed, useAttrs, onMounted } from "vue";
 import { Editable as ArkEditable } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { editableStyles } from "@ui-organized/core";
@@ -8,6 +8,10 @@ import Button from "../Button/Button.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { EditableProps } from "./Editable.types.js";
 import "@ui-organized/core/components/Editable/Editable.css";
+import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+// Text fields read pointer vs keyboard for a quiet focus state on click.
+onMounted(() => trackFocusModality());
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts

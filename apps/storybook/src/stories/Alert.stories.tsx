@@ -11,7 +11,7 @@ const meta: Meta<typeof Alert> = {
     docs: {
       description: {
         component:
-          "Alerts surface contextual feedback. Use `variant` to set the tone (info, success, warning, error), `title` for an optional heading, and `onDismiss` to render a dismiss button.",
+          "Alerts surface contextual feedback.",
       },
     },
   },

@@ -1,4 +1,4 @@
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 
 export interface TreeViewNode {
   /** Unique id across the whole tree. Selection and expansion are keyed on this. */
@@ -8,7 +8,7 @@ export interface TreeViewNode {
   /** Child nodes. A node with children renders as a branch, one without as a leaf. */
   children?: TreeViewNode[];
   /** Icon shown before the label. Branches default to a folder, leaves to none. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
   /** Prevents selection while keeping the node visible. */
   disabled?: boolean;
 }

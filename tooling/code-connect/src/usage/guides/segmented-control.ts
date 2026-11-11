@@ -35,7 +35,7 @@ export const segmentedControlUsage: UsageGuide = {
       example: "short-labels",
     },
     {
-      do: "Keep the options parallel: one dimension, one grammar, one kind of thing.",
+      do: "Keep the options parallel: the same kind of thing, in the same grammar.",
       dont: "Slip an action into the track, where one segment does something instead of selecting.",
       example: "parallel",
     },

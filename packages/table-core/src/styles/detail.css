@@ -31,9 +31,32 @@
 }
 
 /* ─── Inline edit ────────────────────────────────────────────────────────────
+   An editable column says so twice before anyone clicks: a pencil beside its
+   header label, and, on hover, each of its cells drawn as the field it becomes
+   (the data-entry outline every input uses). One click then opens the editor.
+
    The editor replaces the cell's content in place and must not change the row
    height — that is what `--control-height-*` sizing on the inner control buys,
    and why the cell padding is removed while it is open. */
+
+.data-table__edit-icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--color-content-tertiary);
+}
+
+.data-table__cell--editable {
+  cursor: text;
+}
+
+/* Inset, like the focus ring, so it never changes the cell's box. An outline
+   rather than a box-shadow, because a pinned column's edge cell already uses
+   its box-shadow for the scroll shadow. Not while the editor is open — the
+   control inside draws its own outline — nor over the keyboard focus ring. */
+.data-table__cell--editable:not(.data-table__cell--editing, :focus-visible):hover {
+  outline: 1px solid var(--color-border-data-entry);
+  outline-offset: -1px;
+}
 
 .data-table__cell--editing {
   padding-top: 0;

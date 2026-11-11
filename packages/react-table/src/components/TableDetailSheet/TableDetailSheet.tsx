@@ -18,6 +18,7 @@ import {
 import type { SheetVariants } from "@ui-organized/react";
 import { useTableContext } from "../../core/TableContext.js";
 import type { TableDetailSheetProps } from "./TableDetailSheet.types.js";
+import { internalGlyph as glyph } from "@ui-organized/react";
 
 /**
  * The row detail panel.
@@ -78,7 +79,7 @@ export function TableDetailSheet({ size = "md", className }: TableDetailSheetPro
             <Button
               intent="ghost"
               size="sm"
-              icon="chevron-up"
+              icon={glyph("chevron-up")}
               aria-label="Previous row"
               disabled={!detail.canStep(-1)}
               onClick={() => detail.step(-1)}
@@ -86,7 +87,7 @@ export function TableDetailSheet({ size = "md", className }: TableDetailSheetPro
             <Button
               intent="ghost"
               size="sm"
-              icon="chevron-down"
+              icon={glyph("chevron-down")}
               aria-label="Next row"
               disabled={!detail.canStep(1)}
               onClick={() => detail.step(1)}

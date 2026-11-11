@@ -11,6 +11,7 @@ import { clsx } from "clsx";
 import Icon from "../Icon/Icon.vue";
 import type { FieldErrorProps } from "./FieldError.types.js";
 import "@ui-organized/core/components/FieldError/FieldError.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 const props = defineProps<FieldErrorProps>();
@@ -25,7 +26,7 @@ const rootClass = computed(() =>
 
 <template>
   <span v-if="!empty" :class="rootClass" v-bind="{ ...$attrs, class: undefined }">
-    <Icon name="alert-circle" :size="12" class="field-error__icon" />
+    <Icon :name="glyph('alert-circle')" :size="12" class="field-error__icon" />
     <slot>{{ message }}</slot>
   </span>
 </template>

@@ -48,7 +48,7 @@ const fieldsFor = COLOR_NOTATION_FIELDS;
     <Select
       class="color-picker__format"
       size="sm"
-      label="Colour notation"
+      label="Color notation"
       :options="notations"
       :model-value="format"
       :disabled="disabled"

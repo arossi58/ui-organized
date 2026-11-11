@@ -2,16 +2,16 @@ import { getCoreFamily, resolveSemanticColors, semanticColorMap } from "@ui-orga
 import "./semantic-tokens.css";
 
 /**
- * Live reference table for every semantic colour token, generated straight from
+ * Live reference table for every semantic color token, generated straight from
  * `semanticColorMap` in @ui-organized/utils — the single source of truth the shipped
  * library CSS, the builder, and the theme export all read from. So this page can
  * never drift from the real tokens.
  *
- * Swatch colours are resolved in JS (not via `var(--token)`) because a docs page
+ * Swatch colors are resolved in JS (not via `var(--token)`) because a docs page
  * renders its MDX content outside the story theme decorator — there's no
  * `data-theme` ancestor, so the CSS cascade would fall back to one mode. We show
  * BOTH the light and dark resolution next to each assignment, always correct
- * regardless of the toolbar. The chrome inherits the docs text colour + neutral
+ * regardless of the toolbar. The chrome inherits the docs text color + neutral
  * rgba, so it stays legible on a light or dark docs background.
  */
 
@@ -43,7 +43,7 @@ const CATEGORIES: Array<{ key: string; label: string; blurb: string }> = [
     key: "status",
     label: "Status",
     blurb:
-      "Feedback colours — each with a base tone, a tinted background, and an on-background content tone.",
+      "Feedback colors — each with a base tone, a tinted background, and an on-background content tone.",
   },
 ];
 
@@ -74,7 +74,7 @@ const GROUP_ROLES: Record<string, string> = {
   "interactive-destructive": "Destructive action — delete and irreversible operations.",
   "interactive-contents": "Foreground (label + icon) on a filled brand control.",
   "interactive-ui": "Generic UI-control fills — toggles, checkboxes, small chrome.",
-  "interactive-focus": "Focus-ring colour.",
+  "interactive-focus": "Focus-ring color.",
   "interactive-inactive": "Disabled / inactive control fills (01 strongest → 03 faintest).",
 
   "status-success": "Success / positive status.",
@@ -148,20 +148,12 @@ export function SemanticTokenTable() {
 
   return (
     <div className="sem-tokens">
-      <p className="sem-tokens__lede">
-        Semantic tokens are the colour vocabulary every component speaks. A component never names a
-        raw colour — it references a <strong>role</strong> (<code>--color-surface-primary</code>,{" "}
-        <code>--color-content-secondary</code>), and the active theme decides what that role
-        resolves to.
-      </p>
       <p className="sem-tokens__blurb sem-tokens__blurb--wide">
-        Each token points at a primitive reference — a <code>family.step</code> pair — not a fixed
-        hex: <code>brand.*</code> resolves to the selected brand family, <code>grey.*</code> to the
-        selected neutral family, any other family to its fixed core ramp, and raw values pass
-        through unchanged. Light and dark each carry their own assignment (both shown below). This
-        map lives in <code>semanticColorMap</code> (@ui-organized/utils) — the single source of
-        truth this table is generated from, so it can't drift. Consume a token with{" "}
-        <code>var(--color-…)</code>; never a primitive directly.
+        Each token points at a step on a color ramp, like <code>brand.1400</code>, rather than a
+        fixed hex. <code>brand.*</code> follows the brand you pick, <code>grey.*</code> follows
+        your neutral, and every other family stays fixed. Light and dark mode each have their own
+        mapping, shown below. Use tokens through <code>var(--color-…)</code>, never a primitive
+        directly.
       </p>
 
       {CATEGORIES.filter((c) => byCategory.has(c.key)).map((cat) => (

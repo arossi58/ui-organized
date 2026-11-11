@@ -20,6 +20,7 @@ import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import type { TimerProps } from "./Timer.types.js";
 import "@ui-organized/core/components/Timer/Timer.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts an
@@ -75,16 +76,16 @@ const rootProps = computed(() =>
         inherit every interactive token instead of restating them.
       -->
       <ArkTimer.ActionTrigger action="start" as-child>
-        <Button intent="primary" :size="size" icon="play" type="button">Start</Button>
+        <Button intent="primary" :size="size" :icon="glyph('play')" type="button">Start</Button>
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="pause" as-child>
-        <Button intent="secondary" :size="size" icon="pause" type="button">Pause</Button>
+        <Button intent="secondary" :size="size" :icon="glyph('pause')" type="button">Pause</Button>
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="resume" as-child>
-        <Button intent="secondary" :size="size" icon="play" type="button">Resume</Button>
+        <Button intent="secondary" :size="size" :icon="glyph('play')" type="button">Resume</Button>
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="reset" as-child>
-        <Button intent="ghost" :size="size" icon="refresh" type="button">Reset</Button>
+        <Button intent="ghost" :size="size" :icon="glyph('refresh')" type="button">Reset</Button>
       </ArkTimer.ActionTrigger>
     </ArkTimer.Control>
   </ArkTimer.Root>

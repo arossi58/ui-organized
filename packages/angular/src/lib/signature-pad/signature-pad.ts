@@ -21,6 +21,7 @@ import {
   signatureStroke,
   type SignaturePoint,
 } from "./signature-stroke.js";
+import { glyph } from "../icons/glyph.js";
 
 export type SignaturePadSize = ControlSize;
 export type SignaturePadVariant = NonNullable<SignaturePadVariants["variant"]>;
@@ -182,7 +183,7 @@ export function signatureDataUrl(
         uioButton
         intent="ghost"
         type="button"
-        icon="refresh"
+        [icon]="glyph('refresh')"
         data-scope="signature-pad"
         data-part="clear-trigger"
         aria-label="clear signature"
@@ -234,6 +235,7 @@ export function signatureDataUrl(
   },
 })
 export class UioSignaturePad extends UioPart {
+  protected readonly glyph = glyph;
   readonly scope = "signature-pad";
   readonly part = "root";
 

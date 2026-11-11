@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { Tag } from "@ui-organized/react";
 
-const VARIANTS = ["success", "info", "info-secondary", "caution", "warning", "error"] as const;
+const VARIANTS = ["success", "info", "info-secondary", "caution", "error"] as const;
 const SIZES = ["sm", "md", "lg"] as const;
 
 const meta: Meta<typeof Tag> = {
@@ -13,7 +13,7 @@ const meta: Meta<typeof Tag> = {
     docs: {
       description: {
         component:
-          "Tags label and categorize content. Use `variant` to convey status (success, info, info-secondary, caution, warning, error), `size` for density, and `emphasized` to toggle between a solid and subdued style. Pass `icon` (with optional `iconPosition`) to render a leading or trailing icon, 16px across every size and set `spacing-01` from the label.",
+          "Tags label and categorize content.",
       },
     },
   },
@@ -29,7 +29,7 @@ const meta: Meta<typeof Tag> = {
     emphasized: { control: "boolean" },
     icon: {
       control: "select",
-      options: [undefined, "check-circle", "info", "clock", "alert-triangle", "close"],
+      options: [undefined, "circle-check-big", "info", "clock", "triangle-alert", "x"],
     },
     iconPosition: {
       control: "inline-radio",
@@ -49,7 +49,7 @@ export const Inspect: Story = {
     variant: "success",
     size: "md",
     emphasized: true,
-    icon: "check-circle",
+    icon: "circle-check-big",
     iconPosition: "left",
   },
 };
@@ -59,13 +59,13 @@ export const WithIcons: Story = {
     docs: {
       source: {
         code: `
-<Tag variant="success" icon="check-circle">Complete</Tag>
+<Tag variant="success" icon="circle-check-big">Complete</Tag>
 <Tag variant="info" icon="info">Info</Tag>
 <Tag variant="caution" icon="clock">Pending</Tag>
-<Tag variant="error" icon="alert-triangle">Failed</Tag>
+<Tag variant="error" icon="triangle-alert">Failed</Tag>
 
 {/* Trailing icon (e.g. a removable tag) */}
-<Tag variant="info" emphasized={false} icon="close" iconPosition="right">Dismiss</Tag>
+<Tag variant="info" emphasized={false} icon="x" iconPosition="right">Dismiss</Tag>
 `.trim(),
       },
     },
@@ -73,16 +73,16 @@ export const WithIcons: Story = {
   render: () => (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-        <Tag variant="success" icon="check-circle">Complete</Tag>
+        <Tag variant="success" icon="circle-check-big">Complete</Tag>
         <Tag variant="info" icon="info">Info</Tag>
         <Tag variant="caution" icon="clock">Pending</Tag>
-        <Tag variant="error" icon="alert-triangle">Failed</Tag>
+        <Tag variant="error" icon="triangle-alert">Failed</Tag>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-        <Tag variant="success" emphasized={false} icon="check-circle">Complete</Tag>
+        <Tag variant="success" emphasized={false} icon="circle-check-big">Complete</Tag>
         <Tag variant="info" emphasized={false} icon="info">Info</Tag>
         <Tag variant="caution" emphasized={false} icon="clock">Pending</Tag>
-        <Tag variant="info" emphasized={false} icon="close" iconPosition="right">Dismiss</Tag>
+        <Tag variant="info" emphasized={false} icon="x" iconPosition="right">Dismiss</Tag>
       </div>
     </div>
   ),
@@ -123,7 +123,6 @@ export const Emphasized: Story = {
 <Tag variant="info" emphasized>info</Tag>
 <Tag variant="info-secondary" emphasized>info-secondary</Tag>
 <Tag variant="caution" emphasized>caution</Tag>
-<Tag variant="warning" emphasized>warning</Tag>
 <Tag variant="error" emphasized>error</Tag>
 `.trim(),
       },
@@ -149,7 +148,6 @@ export const Subdued: Story = {
 <Tag variant="info" emphasized={false}>info</Tag>
 <Tag variant="info-secondary" emphasized={false}>info-secondary</Tag>
 <Tag variant="caution" emphasized={false}>caution</Tag>
-<Tag variant="warning" emphasized={false}>warning</Tag>
 <Tag variant="error" emphasized={false}>error</Tag>
 `.trim(),
       },

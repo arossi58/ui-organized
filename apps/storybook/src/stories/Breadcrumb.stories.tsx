@@ -10,7 +10,7 @@ const meta: Meta<typeof Breadcrumb> = {
     docs: {
       description: {
         component:
-          "A trail of links showing the current page's location in a hierarchy. Pass `items`; the last item renders as the current page (`aria-current`).",
+          "A trail of links showing the current page's location in a hierarchy.",
       },
     },
   },
@@ -21,16 +21,15 @@ type Story = StoryObj<typeof Breadcrumb>;
 
 export const Inspect: Story = {
   tags: ["dev"],
-  render: (args) => (
-    <Breadcrumb
-      items={[
-        { label: "Home", href: "#", icon: "home" },
-        { label: "Components", href: "#" },
-        { label: "Breadcrumb" },
-      ]}
-      {...args}
-    />
-  ),
+  // In args rather than the render, so the controls and the docs' live code see it.
+  args: {
+    items: [
+      { label: "Home", href: "#", icon: "house" },
+      { label: "Components", href: "#" },
+      { label: "Breadcrumb" },
+    ],
+  },
+  render: (args) => <Breadcrumb {...args} />,
 };
 
 export const TwoLevels: Story = {

@@ -9,6 +9,7 @@
 import { Listbox as ArkListbox } from "@ark-ui/vue";
 import Icon from "../Icon/Icon.vue";
 import type { ListboxOption } from "./Listbox.types.js";
+import { glyph } from "../../icons/glyph.js";
 
 defineProps<{ items: ListboxOption[]; iconSize: number }>();
 </script>
@@ -22,7 +23,7 @@ defineProps<{ items: ListboxOption[]; iconSize: number }>();
   >
     <ArkListbox.ItemText class="listbox__item-text">{{ item.label }}</ArkListbox.ItemText>
     <ArkListbox.ItemIndicator class="listbox__item-indicator">
-      <Icon name="check" :size="iconSize" />
+      <Icon :name="glyph('check')" :size="iconSize" />
     </ArkListbox.ItemIndicator>
   </ArkListbox.Item>
 </template>

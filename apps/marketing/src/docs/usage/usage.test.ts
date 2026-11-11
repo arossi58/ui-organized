@@ -25,7 +25,6 @@ import {
   UsageGuidanceGrid,
   UsageList,
   UsageRelatedList,
-  UsageSummary,
 } from "../components/UsageGuidance";
 import { USAGE_EXAMPLES, usageExamplesFor } from "./examples";
 
@@ -279,7 +278,6 @@ describe("usage guides — rendering", () => {
         createElement(
           MemoryRouter,
           null,
-          createElement(UsageSummary, { text: guide.summary }),
           createElement(UsageList, { items: guide.useWhen }),
           createElement(UsageAvoidList, { items: guide.avoid }),
           createElement(UsageGuidanceGrid, {

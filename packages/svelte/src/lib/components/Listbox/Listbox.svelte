@@ -9,6 +9,26 @@
   import Icon from "../Icon/Icon.svelte";
   import type { ListboxProps, ListboxOption } from "./Listbox.types.js";
   import "@ui-organized/core/components/Listbox/Listbox.css";
+  import { glyph } from "../../icons/glyph.js";
+
+  /**
+   * zag's listbox focuses its content on every item `mousedown`, and calls
+   * `focus()` without `preventScroll`. Inside any scroll container where the
+   * list's top is out of view — a bottom sheet scrolled down to the option the
+   * user wants — that focus scrolls the list's top into view between press and
+   * release, so the release lands on a different option and the tap selects
+   * the wrong thing or nothing.
+   *
+   * So the content is focused first, in the capture phase, without scrolling.
+   * By the time zag's own handler runs the element already has focus, and
+   * focusing the focused element is a no-op — including its scroll. The
+   * pressed option is already on screen, which is how it got pressed.
+   */
+  function focusWithoutScrolling(event: MouseEvent & { currentTarget: EventTarget & HTMLElement }) {
+    if (document.activeElement !== event.currentTarget) {
+      event.currentTarget.focus({ preventScroll: true });
+    }
+  }
 
   let {
     options,
@@ -82,7 +102,7 @@
         {/snippet}
       </ArkListbox.ItemText>
       <ArkListbox.ItemIndicator class="listbox__item-indicator">
-        <Icon name="check" size={iconSize} />
+        <Icon name={glyph("check")} size={iconSize} />
       </ArkListbox.ItemIndicator>
     </ArkListbox.Item>
   {/each}
@@ -103,7 +123,7 @@
   {#if label}
     <ArkListbox.Label class="listbox__label">{label}</ArkListbox.Label>
   {/if}
-  <ArkListbox.Content class="listbox__content">
+  <ArkListbox.Content class="listbox__content" onmousedowncapture={focusWithoutScrolling}>
     {#each groups as [group, groupItems] (group ?? "")}
       {#if group != null}
         <ArkListbox.ItemGroup class="listbox__group">

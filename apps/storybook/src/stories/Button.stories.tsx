@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
     docs: {
       description: {
         component:
-          "Buttons trigger actions. Use `intent` to convey emphasis and tone, `size` for density, and `icon` / `iconPosition` to pair a label with a leading or trailing icon.",
+          "Buttons trigger actions of various intents.",
       },
     },
   },
@@ -27,7 +27,7 @@ const meta: Meta<typeof Button> = {
     },
     icon: {
       control: "select",
-      options: [undefined, "plus", "arrow-right", "download", "trash", "edit", "check", "close"],
+      options: [undefined, "plus", "arrow-right", "download", "trash-2", "pencil", "check", "x"],
     },
     iconPosition: {
       control: "select",
@@ -106,7 +106,7 @@ export const WithIcon: Story = {
 <Button icon="plus" iconPosition="left">Add item</Button>
 <Button icon="arrow-right" iconPosition="right">Continue</Button>
 <Button intent="secondary" icon="download" iconPosition="left">Download</Button>
-<Button intent="destructive" icon="trash" iconPosition="left">Delete</Button>
+<Button intent="destructive" icon="trash-2" iconPosition="left">Delete</Button>
 
 <Button size="sm" icon="plus">Small</Button>
 <Button size="md" icon="plus">Medium</Button>
@@ -121,7 +121,7 @@ export const WithIcon: Story = {
         <Button icon="plus" iconPosition="left">Add item</Button>
         <Button icon="arrow-right" iconPosition="right">Continue</Button>
         <Button intent="secondary" icon="download" iconPosition="left">Download</Button>
-        <Button intent="destructive" icon="trash" iconPosition="left">Delete</Button>
+        <Button intent="destructive" icon="trash-2" iconPosition="left">Delete</Button>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
         <Button size="sm" icon="plus">Small</Button>
@@ -188,4 +188,17 @@ export const AllVariantsGrid: Story = {
       ))}
     </div>
   ),
+};
+
+/**
+ * A consumer-supplied `box-shadow` must not erase the focus indicator. The ring
+ * is drawn with `outline`, which a shadow can't collide with — asserted by
+ * interaction/focus.spec.ts.
+ */
+export const FocusRingWithConsumerShadow: Story = {
+  args: {
+    children: "Lifted button",
+    intent: "secondary",
+    style: { boxShadow: "0 4px 12px rgba(0, 0, 0, 0.25)" },
+  },
 };

@@ -1,5 +1,5 @@
 /**
- * Colour-vision simulations for the preview — carried over from Storybook's
+ * Color-vision simulations for the preview — carried over from Storybook's
  * accessibility addon.
  *
  * These are the standard published `feColorMatrix` transforms, applied to the
@@ -116,7 +116,7 @@ export function VisionFilterMenu({
       className={className}
       size="sm"
       variant="ghost"
-      aria-label="Simulate colour vision"
+      label="Simulate color vision"
       options={[
         { value: NONE, label: "No vision filter" },
         ...VISION_SIMULATIONS.map((simulation) => ({

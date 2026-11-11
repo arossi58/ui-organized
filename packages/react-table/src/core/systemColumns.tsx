@@ -1,6 +1,11 @@
 import { useRef } from "react";
 import { Checkbox } from "@ui-organized/react";
-import { ACTIONS_COLUMN_ID, SELECTION_COLUMN_ID, type RowData } from "@ui-organized/table-core";
+import {
+  ACTIONS_COLUMN_ID,
+  SELECTION_COLUMN_ID,
+  headerToggleTarget,
+  type RowData,
+} from "@ui-organized/table-core";
 import { TableRowActions } from "../components/TableRowActions/index.js";
 import { useTableContext } from "./TableContext.js";
 import type { TableColumn } from "./types.js";
@@ -21,10 +26,13 @@ function SelectAllCell() {
       <Checkbox
         checked={selection.header.checked}
         indeterminate={selection.header.indeterminate}
-        onCheckedChange={(checked) => selection.togglePage(checked)}
+        // What the box shows decides the click, not the box's own next state:
+        // a mixed box clicks through to checked, and from mixed the user is
+        // reaching for "none". See `headerToggleTarget`.
+        onCheckedChange={() => selection.togglePage(headerToggleTarget(selection.header))}
         // "shown", not "on this page": when the table is virtualized the
         // checkbox governs the rendered window rather than a page, and the
-        // selection bar's "Select all N matching" is the way to reach the rest.
+        // selection footer's "Select N hidden rows" is the way to reach the rest.
         aria-label={`Select the rows shown in ${label}`}
       />
     </span>

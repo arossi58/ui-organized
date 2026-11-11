@@ -10,7 +10,7 @@ const meta: Meta<typeof Editable> = {
     docs: {
       description: {
         component:
-          "A value that reads as text until you edit it in place — page titles, list item names, anything renamed far more rarely than it is read. The preview and the input occupy the same box, so the text never shifts when the edit starts.",
+          "A value that appears as text until you interact with it.",
       },
     },
   },
@@ -47,7 +47,7 @@ export const WithControls: Story = {
   parameters: {
     docs: {
       source: {
-        code: `{/* Explicit Save/Cancel — use when committing has a real cost. */}
+        code: `{/* Explicit Save/Cancel: use when committing has a real cost. */}
 <Editable
   label="Display name"
   defaultValue="Ada Lovelace"

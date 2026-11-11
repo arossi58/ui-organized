@@ -6,6 +6,12 @@
   import FieldError from "../FieldError/FieldError.svelte";
   import type { NumberFieldProps } from "./NumberField.types.js";
   import "@ui-organized/core/components/NumberField/NumberField.css";
+  import { glyph } from "../../icons/glyph.js";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   let {
     value = $bindable(),
@@ -75,11 +81,11 @@
   >
     <NumberInput.Control class="number-field__group">
       <NumberInput.DecrementTrigger class="number-field__stepper" aria-label="Decrease">
-        <Icon name="minus" size={CONTROL_ICON_SIZE[size]} />
+        <Icon name={glyph("minus")} size={CONTROL_ICON_SIZE[size]} />
       </NumberInput.DecrementTrigger>
       <NumberInput.Input class="field__control number-field__input" {placeholder} />
       <NumberInput.IncrementTrigger class="number-field__stepper" aria-label="Increase">
-        <Icon name="plus" size={CONTROL_ICON_SIZE[size]} />
+        <Icon name={glyph("plus")} size={CONTROL_ICON_SIZE[size]} />
       </NumberInput.IncrementTrigger>
     </NumberInput.Control>
   </NumberInput.Root>

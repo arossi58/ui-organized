@@ -3,14 +3,14 @@
  *
  * ── Why this file exists ────────────────────────────────────────────────────
  *
- * React, Svelte and Vue get their colour maths from `@zag-js/color-utils`, which
+ * React, Svelte and Vue get their color maths from `@zag-js/color-utils`, which
  * the machine uses for everything a ColorPicker says about itself. This package
  * has no zag and may take no third-party dependency beyond the CDK, so the
  * choice is between writing the conversions and shipping a picker that cannot
- * name the colour it is showing.
+ * name the color it is showing.
  *
  * It is not decorative maths. Every one of these values is **compared** by the
- * parity gate, because the machine writes the colour into the accessibility
+ * parity gate, because the machine writes the color into the accessibility
  * tree in four different notations at once:
  *
  *     aria-label="select color. current color is rgba(37, 99, 235, 1)"   trigger
@@ -18,7 +18,7 @@
  *     aria-valuenow="221.21"  aria-valuetext="hue 221.21"              hue thumb
  *     aria-valuetext="saturation 84.26, brightness 92.16"             area thumb
  *
- * Those four come from three different colour spaces and two different rounding
+ * Those four come from three different color spaces and two different rounding
  * rules. A conversion that is a hundredth out reads differently to a screen
  * reader and fails the gate, which is exactly the point of writing it down
  * rather than approximating it.
@@ -39,13 +39,13 @@
  *  - A conversion **to** RGB rounds each channel to a whole number, because a
  *    byte is what sRGB stores.
  *
- * The named-colour table is CSS Color Module Level 4 §6.1 ("Named Colors"),
+ * The named-color table is CSS Color Module Level 4 §6.1 ("Named Colors"),
  * transcribed as data.
  *
  * ── And it is checked, not merely written ───────────────────────────────────
  *
  * `color.spec.ts` holds values read out of a **running** `@ark-ui/react`
- * ColorPicker in Chromium — the aria attributes above, for a range of colours
+ * ColorPicker in Chromium — the aria attributes above, for a range of colors
  * and in all three notations the component supports — and asserts this file
  * reproduces them. It also round-trips every one back through the other two
  * spaces, because a conversion that is self-consistent and wrong is the failure
@@ -118,7 +118,7 @@ const HSB_COLOR =
 /**
  * CSS Color Module Level 4 §6.1, "Named Colors", as `name:rrggbb` pairs.
  *
- * A table rather than a lookup through the browser, so that a colour parses the
+ * A table rather than a lookup through the browser, so that a color parses the
  * same way in a unit test, in a server render and on a page — and so that the
  * answer cannot depend on which engine is asked.
  */
@@ -163,7 +163,7 @@ const NAMED_COLOR_MAP = new Map(
 );
 
 /**
- * Parse any CSS colour this component accepts.
+ * Parse any CSS color this component accepts.
  *
  * Throws rather than returning a fallback, which is deliberate and is what the
  * other three libraries do: a picker silently showing black because someone
@@ -181,7 +181,7 @@ function parseRgb(value: string): RgbaColor | undefined {
   let channels: number[] | undefined;
 
   // 4, 5, 7 and 9 characters: #rgb, #rgba, #rrggbb, #rrggbbaa. Anything else of
-  // the right shape is not a hex colour, however hexadecimal it looks — and
+  // the right shape is not a hex color, however hexadecimal it looks — and
   // splitting one into bytes anyway reads `#abcde` as two and a half channels.
   if (HEX_COLOR.test(value) && [4, 5, 7, 9].includes(value.length)) {
     // Each digit doubles in the short forms, so `#abc` is `#aabbcc`.
@@ -246,7 +246,7 @@ function parseHsb(value: string): HsbaColor | undefined {
 /**
  * sRGB to HSB (HSV).
  *
- * "HSL and HSV", §From RGB: the hue is the angle around the colour hexagon,
+ * "HSL and HSV", §From RGB: the hue is the angle around the color hexagon,
  * found from whichever channel is largest; the saturation is how far the chroma
  * has travelled towards that maximum; the brightness *is* the maximum.
  */
@@ -316,7 +316,7 @@ function hueOf(
   return hue / 6;
 }
 
-/** HSB to HSL: the same colour, re-expressed about its midpoint. */
+/** HSB to HSL: the same color, re-expressed about its midpoint. */
 export function hsbToHsl(color: HsbaColor): HslaColor {
   const saturation = color.saturation / 100;
   const brightness = color.brightness / 100;
@@ -391,7 +391,7 @@ export function hslToRgb(color: HslaColor): RgbaColor {
   };
 }
 
-/** Re-express a colour in another space, going through RGB where it must. */
+/** Re-express a color in another space, going through RGB where it must. */
 export function toColorFormat(color: ColorValue, format: ColorFormat): ColorValue {
   if (color.format === format) return color;
   if (color.format === "rgba") return format === "hsba" ? rgbToHsb(color) : rgbToHsl(color);
@@ -404,7 +404,7 @@ const toRgb = (color: ColorValue): RgbaColor => toColorFormat(color, "rgba") as 
 const hexByte = (value: number) => value.toString(16).padStart(2, "0");
 
 /**
- * Print a colour.
+ * Print a color.
  *
  * Note what is *not* symmetrical: hex comes out upper case (which is what
  * `data-value` carries), while `rgba()` and `hsla()` print their numbers as
@@ -448,7 +448,7 @@ export function colorToString(color: ColorValue, notation: ColorNotation = "css"
     default:
       /**
        * `css` is each space's *own* default notation, with one exception that
-       * is not a slip: HSB has no CSS syntax at all, so an HSB colour prints as
+       * is not a slip: HSB has no CSS syntax at all, so an HSB color prints as
        * `hsla()`. That is what the machine does, and it is why the root's
        * `--value` is never `hsba(…)`.
        */
@@ -510,10 +510,10 @@ export function withChannelValue(
 }
 
 /**
- * Whether two colours are the same, in the sense the swatches use.
+ * Whether two colors are the same, in the sense the swatches use.
  *
- * Compared channel by channel in each colour's *own* space rather than through a
- * common one, because a colour converted into another space and back is not
+ * Compared channel by channel in each color's *own* space rather than through a
+ * common one, because a color converted into another space and back is not
  * always itself — `#2563EB` as hsla is `hsla(221.21, 83.19%, 53.33%, 1)`, which
  * converts back to `rgb(37, 99, 235)` but through numbers that have already been
  * rounded twice. Comparing after a round trip makes a swatch fail to recognise

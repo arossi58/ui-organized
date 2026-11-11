@@ -4,6 +4,7 @@ import { Button } from "../Button/index.js";
 import { carouselStyles } from "@ui-organized/core";
 import type { CarouselProps } from "./Carousel.types.js";
 import "@ui-organized/core/components/Carousel/Carousel.css";
+import { glyph } from "../../icons/glyph.js";
 
 /**
  * Default gap between slides.
@@ -57,7 +58,7 @@ export function Carousel({
       <ArkCarousel.Control className="carousel__control">
         {variant !== "minimal" && (
           <ArkCarousel.PrevTrigger asChild>
-            <Button intent="ghost" size={size} icon="chevron-left" aria-label="Previous slide" />
+            <Button intent="ghost" size={size} icon={glyph("chevron-left")} aria-label="Previous slide" />
           </ArkCarousel.PrevTrigger>
         )}
 
@@ -76,7 +77,7 @@ export function Carousel({
 
         {variant !== "minimal" && (
           <ArkCarousel.NextTrigger asChild>
-            <Button intent="ghost" size={size} icon="chevron-right" aria-label="Next slide" />
+            <Button intent="ghost" size={size} icon={glyph("chevron-right")} aria-label="Next slide" />
           </ArkCarousel.NextTrigger>
         )}
       </ArkCarousel.Control>

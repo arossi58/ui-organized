@@ -12,15 +12,16 @@ import {
   type Signal,
 } from "@angular/core";
 import { toastStyles } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import { stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
 import { applyOverlayStacking } from "../overlay/stacking.js";
 import { createSurface, setSurfaceInteractive } from "../overlay/surface.js";
 import { flushNow } from "../overlay/flush.js";
+import { glyph, type IconGlyph } from "../icons/glyph.js";
+import type { SystemGlyph } from "@ui-organized/core";
 
-/** Drives the accent colour and the icon. Set through `add({ type })`. */
+/** Drives the accent color and the icon. Set through `add({ type })`. */
 export type ToastStatus = "info" | "success" | "warning" | "error";
 
 export interface ToastAction {
@@ -75,7 +76,7 @@ const ICON_SIZE = 20;
  */
 const REGION_LABEL = `Notifications, ${PLACEMENT} (alt+T)`;
 
-const STATUS_ICON: Record<ToastStatus, CanonicalIconName> = {
+const STATUS_ICON: Record<ToastStatus, SystemGlyph> = {
   info: "info",
   success: "check-circle",
   warning: "alert-triangle",
@@ -505,7 +506,7 @@ export class UioToaster implements OnDestroy {
             [id]="closeId(toast)"
             (click)="toaster.close(toast.id)"
           >
-            <span uioIcon name="close" [size]="ICON_SIZE"></span>
+            <span uioIcon [name]="glyph('close')" [size]="ICON_SIZE"></span>
           </button>
           <div data-ghost="after" [attr.style]="GHOST_AFTER"></div>
         </div>
@@ -514,6 +515,7 @@ export class UioToaster implements OnDestroy {
   `,
 })
 export class UioToastRegion {
+  protected readonly glyph = glyph;
   protected readonly toaster = inject(UioToaster);
 
   protected readonly PLACEMENT = PLACEMENT;
@@ -568,8 +570,8 @@ export class UioToastRegion {
   protected rootClass(toast: ToastRecord): string {
     return toastStyles({ status: toast.status });
   }
-  protected iconFor(toast: ToastRecord): CanonicalIconName {
-    return STATUS_ICON[toast.status];
+  protected iconFor(toast: ToastRecord): IconGlyph {
+    return glyph(STATUS_ICON[toast.status]);
   }
 
   /**

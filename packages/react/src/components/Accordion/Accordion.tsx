@@ -4,6 +4,7 @@ import { accordionStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AccordionProps } from "./Accordion.types.js";
 import "@ui-organized/core/components/Accordion/Accordion.css";
+import { glyph } from "../../icons/glyph.js";
 
 export function Accordion({
   items,
@@ -42,7 +43,7 @@ export function Accordion({
           <h3 className="accordion__header">
             <ArkAccordion.ItemTrigger className="accordion__trigger">
               <span className="accordion__title">{item.title}</span>
-              <Icon name="chevron-down" size={20} className="accordion__icon" />
+              <Icon name={glyph("chevron-down")} size={20} className="accordion__icon" />
             </ArkAccordion.ItemTrigger>
           </h3>
           <ArkAccordion.ItemContent className="accordion__panel text-default-body-medium">

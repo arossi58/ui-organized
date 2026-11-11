@@ -7,6 +7,7 @@ import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import type { RadioGroupProps } from "./Radio.types.js";
 import "@ui-organized/core/components/Radio/Radio.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -92,7 +93,7 @@ const rootProps = computed(() =>
           <ArkRadioGroup.ItemHiddenInput />
         </ArkRadioGroup.Item>
         <div v-if="opt.error" class="radio-item__error-message">
-          <Icon name="alert-circle" :size="16" />
+          <Icon :name="glyph('alert-circle')" :size="16" />
           <span class="radio-item__error-text text-emphasis-body-small">{{ opt.error }}</span>
         </div>
       </div>

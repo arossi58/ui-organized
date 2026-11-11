@@ -10,7 +10,7 @@ const meta: Meta<typeof Skeleton> = {
     docs: {
       description: {
         component:
-          "A shimmering placeholder sized to the eventual content. Use `variant` for shape, `width`/`height` for size, and `lines` for multi-line text.",
+          "A shimmering placeholder sized to the eventual content.",
       },
     },
   },

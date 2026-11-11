@@ -1,4 +1,4 @@
-import type { CanonicalIconName } from "@ui-organized/utils";
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 
 export interface ContextMenuProps {
   /** Open state. Use `v-model:open` for two-way binding. */
@@ -20,8 +20,8 @@ export interface ContextMenuItemProps {
   /** Stable value for the item. Generated when omitted. */
   value?: string;
   /** Icon rendered before the label. */
-  icon?: CanonicalIconName;
-  /** Renders the item in the destructive colour. */
+  icon?: IconName | IconComponent;
+  /** Renders the item in the destructive color. */
   destructive?: boolean;
   /** Prevents selection while keeping the item visible. */
   disabled?: boolean;

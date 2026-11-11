@@ -3,10 +3,10 @@
    light paper/cream surfaces and DS tokens. */
 
 .overview {
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
 }
 
-/* Section header — editorial serif title + body-large lede (Branding mockup). */
+/* Section header — editorial serif title (Branding mockup). */
 .overview__head {
   margin-bottom: var(--spacing-space-12);
 }
@@ -16,15 +16,7 @@
   font-weight: 600;
   font-size: clamp(34px, 4.6vw, 48px);
   line-height: 1.15;
-  margin: 0 0 var(--spacing-space-03);
-  color: var(--site-ink);
-}
-
-.overview__lede {
   margin: 0;
-  max-width: 78ch;
-  font-size: var(--type-size-body-large);
-  line-height: 1.5;
   color: var(--site-ink);
 }
 
@@ -87,7 +79,7 @@
 
 /* ── Card ─────────────────────────────────────────────────────────────── */
 .ov-card {
-  /* Resting art colour (monochrome) and the hover accent live on the card so
+  /* Resting art color (monochrome) and the hover accent live on the card so
      both the stage tint and any future trim can read from one place. Must be
      OPAQUE: the gooey filter thresholds alpha, so a translucent fill would be
      crushed to nothing. */
@@ -153,7 +145,7 @@
 }
 
 /* Dark mode — the neutral drop shadow is invisible against the dark section, so
-   the cards lose their edge. Swap it for a brand-colour glow (and a brighter
+   the cards lose their edge. Swap it for a brand-color glow (and a brighter
    hairline) so each card reads as a lit panel floating off the background; the
    glow intensifies while the card is active. Kept outside the motion query so
    the cards stay legible under reduced motion. */
@@ -193,7 +185,7 @@
   color: var(--ov-shape-active);
 }
 
-/* ── Foot (title + blurb) ─────────────────────────────────────────────── */
+/* ── Foot (title) ─────────────────────────────────────────────── */
 .ov-card__foot {
   flex: 0 0 auto;
   padding: var(--spacing-space-08);
@@ -205,19 +197,8 @@
   font-weight: 600;
   font-size: clamp(26px, 2.6vw, 40px);
   line-height: 1.2;
-  margin: 0 0 var(--spacing-space-02);
-  color: var(--site-ink);
-}
-
-.ov-card__body {
-  font-size: 14px;
-  line-height: 1.3;
   margin: 0;
-  color: var(--site-ink-soft);
-  /* Reserve two lines so every card's foot is the same height — otherwise a
-     blurb that wraps (e.g. Tools) grows its foot and shrinks its preview stage,
-     leaving the three WebGL canvases at different heights. */
-  min-height: 2.6em;
+  color: var(--site-ink);
 }
 
 /* ── Card animation (WebM) ────────────────────────────────────────────────
@@ -294,7 +275,7 @@
   font-weight: 600;
   font-size: clamp(24px, 2.4vw, 32px);
   line-height: 1.15;
-  margin: 0 0 var(--spacing-space-03);
+  margin: 0;
   color: var(--site-ink);
 }
 
@@ -327,7 +308,7 @@
   padding: var(--spacing-space-04);
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-06, 16px);
-  background: var(--color-surface-secondary);
+  background: var(--color-interactive-secondary-default);
   color: inherit;
   text-decoration: none;
 }
@@ -336,7 +317,8 @@ a.ov-detail__item--link {
   transition:
     transform 0.18s ease,
     border-color 0.18s ease,
-    box-shadow 0.18s ease;
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -346,6 +328,7 @@ a.ov-detail__item--link {
 }
 
 a.ov-detail__item--link:hover {
+  background: var(--color-interactive-secondary-hover);
   border-color: color-mix(in srgb, var(--site-orange) 45%, transparent);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
 }

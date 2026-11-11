@@ -13,6 +13,7 @@ import {
   getViewportProps,
 } from "@ui-organized/table-core";
 import { useTableContext } from "../../core/tableContext.js";
+import { TableSelectionFooter } from "../TableSelectionFooter/index.js";
 import { vueProps } from "../../core/props.js";
 
 const props = defineProps<{ class?: string; maxHeight?: number | string }>();
@@ -62,5 +63,11 @@ const style = computed(() =>
       </colgroup>
       <slot />
     </table>
+    <!--
+      After the table, inside the scroll container: it sticks to the viewport's
+      bottom edge, so it costs a capped table scroll length rather than page
+      height.
+    -->
+    <TableSelectionFooter />
   </div>
 </template>

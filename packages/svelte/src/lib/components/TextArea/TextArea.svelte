@@ -8,6 +8,11 @@
   // multi-line specifics (min-height, resize).
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/TextArea/TextArea.css";
+  import { onMount } from "svelte";
+  import { trackFocusModality } from "@ui-organized/core/focus-modality";
+
+  // Text fields read pointer vs keyboard for a quiet focus state on click.
+  onMount(() => trackFocusModality());
 
   let {
     label,

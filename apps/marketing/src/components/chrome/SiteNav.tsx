@@ -33,7 +33,7 @@ const NAV_LINKS: NavItem[] = [
 /**
  * The floating pill nav from the Branding mockup: logomark on the left, the
  * link row with the active route shown as a brand pill, and the theme menu
- * (brand colour + dark mode) on the right.
+ * (brand color + dark mode) on the right.
  */
 export function SiteNav({ variant = "overlay" }: SiteNavProps) {
   const { pathname } = useLocation();

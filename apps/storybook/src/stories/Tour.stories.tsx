@@ -8,10 +8,12 @@ const meta: Meta<typeof Tour> = {
   tags: ["!dev"],
   parameters: {
     layout: "padded",
+    // Stories render open; see `containOverlays` in apps/marketing/src/docs/registry.ts.
+    containOverlays: true,
     docs: {
       description: {
         component:
-          "A guided walkthrough — a dimmed backdrop, a spotlight over the target, and a card beside it.\n\n`Tour` is **controlled only**: the machine has no `defaultStepId`, so `stepId` is the single control surface and `null` closes the tour. Hold it in state and set it to the first step's id to start. A step with no `target` is treated as a centred modal step.",
+          "A guided walkthrough with a dimmed backdrop, a spotlight over the target, and a card beside it.\n\n`Tour` is **controlled only**: the machine has no `defaultStepId`, so `stepId` is the single control surface and `null` closes the tour. Hold it in state and set it to the first step's id to start. A step with no `target` is treated as a centred modal step.",
       },
     },
   },
@@ -135,7 +137,7 @@ export const Compact: Story = {
       source: {
         code: `const [stepId, setStepId] = useState<string | null>(null);
 
-// Controlled only — null closes the tour, an id opens it at that step.
+// Controlled only: null closes the tour, an id opens it at that step.
 <Tour steps={steps} stepId={stepId} onStepChange={setStepId} variant="compact" size="sm" />`,
       },
     },

@@ -26,8 +26,17 @@ export default {
 };
 ```
 
-The generated tokens are exposed via the virtual module
-`virtual:@ui-organized/theme` and emitted as `ds-theme.css` in the build output.
+Then import the virtual module once, at your app entry. It's what injects the
+tokens; the plugin alone builds them but puts nothing on the page:
+
+```ts
+// src/main.ts
+import "virtual:@ui-organized/theme";
+```
+
+Nothing in the plugin is React-specific, so it works the same for the Svelte,
+Vue and Angular libraries. The generated tokens are also emitted as
+`ds-theme.css` in the build output.
 Editing `theme.json` during development triggers a token rebuild and reload.
 
 ## When to reach for this

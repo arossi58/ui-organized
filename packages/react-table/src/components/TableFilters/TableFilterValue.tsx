@@ -142,9 +142,13 @@ export function TableFilterValueEditor({
 
     return (
       <div className="data-table__filter-editor-value">
+        {/* Into the editor, like the Select above: the calendar portalled to
+            <body> sits on the same popover tier as this editor, and the editor,
+            mounted later, painted over it. */}
         <DateInput
           size={size}
           label={arity === "two" ? "From" : "Date"}
+          portalContainer={portalContainer}
           className={clsx(
             "data-table__filter-field",
             arity !== "two" && "data-table__filter-field--unlabelled",
@@ -156,6 +160,7 @@ export function TableFilterValueEditor({
           <DateInput
             size={size}
             label="To"
+            portalContainer={portalContainer}
             value={String(condition.values[1] ?? "")}
             onChange={(event) => setAt(1, event.target.value || null)}
           />

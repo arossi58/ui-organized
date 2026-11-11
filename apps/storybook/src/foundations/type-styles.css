@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
-  /* `sb-unstyled` drops the docs default text colour; use the design system's
+  /* `sb-unstyled` drops the docs default text color; use the design system's
      own text token so previews match the DS and adapt to light/dark themes
      (otherwise they inherit the docs black and vanish in a dark docs theme). */
   color: var(--color-content-primary);
@@ -51,7 +51,7 @@
   margin: 0 2px;
 }
 
-/* The class name label. Theme-agnostic chrome — inherits the docs text colour. */
+/* The class name label. Theme-agnostic chrome — inherits the docs text color. */
 .type-styles__name {
   font-family: var(--type-font-mono, ui-monospace, monospace);
   font-size: 12px;

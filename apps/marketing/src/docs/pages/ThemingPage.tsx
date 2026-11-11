@@ -9,7 +9,9 @@
  * documents (see `docs/theme-test.md`).
  */
 import { Link } from "react-router-dom";
+import { FRAMEWORK_INFO, type DocFramework } from "@ui-organized/code-connect/browser";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
+import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import { LINKS } from "../../lib/links";
 import tokenContract from "../../../../../packages/react/token-contract.json";
 import styles from "../components/content.module.css";
@@ -32,7 +34,7 @@ const FAMILIES: Family[] = [
   {
     prefix: "--color-",
     label: "--color-*",
-    role: "Semantic colour roles: surface, content, border, interactive, status. The only colour tokens components reference.",
+    role: "Semantic color roles: surface, content, border, interactive, status. The only color tokens components reference.",
     themeable: true,
   },
   {
@@ -106,10 +108,23 @@ const CLI_CHECK = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip --dry-ru
 ✓ Theme covers all ${tokenContract.tokens.length} required tokens
 ✓ Fonts declared for Oswald and Inter`;
 
-const IMPORTS = `import '@ui-organized/react/styles'   // component styles
-import './styles/theme.css'           // your theme — after, so it wins`;
+/** The two lines the CLI prints, for whichever library the reader picked. */
+function importsFor(framework: DocFramework): string {
+  const pkg = FRAMEWORK_INFO[framework].packageName;
+  const lines =
+    framework === "angular"
+      ? [
+          `import '@angular/cdk/overlay-prebuilt.css'`,
+          `import '${pkg}/styles.css'     // component styles`,
+          `import '${pkg}/overlay.css'`,
+        ]
+      : [`import '${pkg}/styles'   // component styles`];
+  return [...lines, `import './styles/theme.css'           // your theme, after so it wins`].join(
+    "\n",
+  );
+}
 
-const OVERRIDE = `/* src/styles/theme.css — a hand-written theme */
+const OVERRIDE = `/* src/styles/theme.css: a hand-written theme */
 :root {
   /* Mode-independent: type, spacing, radius, layout constants. */
   --type-font-body: 'Inter', sans-serif;
@@ -134,7 +149,10 @@ import { themePlugin } from '@ui-organized/react-vite'
 
 export default {
   plugins: [themePlugin({ config: './theme.json' })],
-}`;
+}
+
+// src/main.ts: the import is what puts the tokens on the page
+import 'virtual:@ui-organized/theme'`;
 
 const OBSERVER = `const observer = new MutationObserver(readTokens)
 observer.observe(document.documentElement, {
@@ -151,27 +169,25 @@ const NEUTRALS: Array<[string, string, string]> = [
 ];
 
 export function ThemingPage() {
+  const { framework } = useDocsFramework();
   return (
     <>
       <DocsPageHeader
         title="Theming"
         lede={
           <>
-            Every component reads its colour, type and spacing from CSS custom properties,
-            never a literal. Re-theming means redefining those properties: generate a theme,
-            write one by hand, or build one from a config at bundle time.
+            Every component reads its color, type and spacing from CSS
+            properties. Generate a theme, write one by hand, or build one from a
+            config at bundle time.
           </>
         }
       />
 
       <DocsProse>
-        <DocsSection
-          title="How theming works"
-          subtitle="Three layers, and components only ever speak to the top one."
-        >
+        <DocsSection title="How theming works">
           <ul>
             <li>
-              <strong>Primitives</strong> are the raw palette: 37 OKLCH colour ramps of 24
+              <strong>Primitives</strong> are the raw palette: 37 color ramps of 24
               steps each, plus the numeric spacing, radius and type scales. Nothing in a
               component references these directly.
             </li>
@@ -184,8 +200,7 @@ export function ThemingPage() {
             <li>
               <strong>Component aliases</strong> are shared decisions:{" "}
               <code>--radius-interactive</code>, <code>--control-height-md</code>,{" "}
-              <code>--Button-Large-horizontal</code>. Named for what they do, so one change
-              lands everywhere.
+              <code>--Button-Large-horizontal</code>.
             </li>
           </ul>
           <p>
@@ -196,10 +211,7 @@ export function ThemingPage() {
           </p>
         </DocsSection>
 
-        <DocsSection
-          title="Option A: the Theme Builder"
-          subtitle="Pick a brand and a neutral, preview the whole system, export, apply."
-        >
+        <DocsSection title="Option A: the Theme Builder">
           <p>
             Export from the <Link to="/tools">Theme Builder</Link>, then point the CLI at the
             zip. It files each export where your project keeps it, and checks the theme before
@@ -210,12 +222,6 @@ export function ThemingPage() {
             There is no install step: <code>npx</code> fetches it, and it has no dependencies
             of its own. Add <code>--dry-run</code> to see the plan and the findings without
             writing.
-          </p>
-          <p>
-            The checks are the reason it exists. Copying four files is{" "}
-            <code>unzip &amp;&amp; cp</code>; knowing the result is <em>right</em> is not. Each
-            of these used to fail silently, leaving a green build and a plausible-looking app
-            with the wrong output:
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
@@ -230,7 +236,9 @@ export function ThemingPage() {
                   <td>Token coverage</td>
                   <td>
                     Tokens the components read but the theme doesn't define, diffed against the
-                    contract below. <strong>Blocks the apply</strong> and names each one.
+                    contract below. <strong>Blocks the apply</strong> and names each one. The
+                    contract ships with <code>@ui-organized/react</code>, so in a Svelte, Vue or
+                    Angular project this check reports <em>not checked</em> instead.
                   </td>
                 </tr>
                 <tr>
@@ -257,12 +265,6 @@ export function ThemingPage() {
               </tbody>
             </table>
           </div>
-          <p>
-            It refuses to overwrite a dirty working tree, finds where your existing{" "}
-            <code>theme.css</code> lives rather than assuming a layout (<code>--out</code>{" "}
-            overrides), and is a no-op on a second run. A blocked check exits non-zero, so it
-            works in CI.
-          </p>
 
           <h3 className={styles.sectionSub}>What's in the bundle</h3>
           <p>
@@ -292,8 +294,9 @@ export function ThemingPage() {
                 <tr>
                   <td><span className={styles.propName}>icons.ts</span></td>
                   <td>
-                    <code>IconProvider</code> config. Icons are React context, not CSS, so
-                    they're applied in code.
+                    React's <code>IconProvider</code> config. Icons are configured in code, not
+                    CSS. The other libraries take the same options; see{" "}
+                    <Link to="/docs/get-started#set-up-icons">Set up icons</Link>.
                   </td>
                   <td><code>src/icons.ts</code></td>
                 </tr>
@@ -307,17 +310,17 @@ export function ThemingPage() {
                 <tr>
                   <td><span className={styles.propName}>README.md</span></td>
                   <td>The same setup instructions, alongside the files.</td>
-                  <td>—</td>
+                  <td>n/a</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <p>
-            However the files get there, the imports are yours to add. The CLI prints them
-            rather than editing your entry module:
+            However the files get there, the imports are yours to add.
           </p>
-          <CodeBlock code={IMPORTS} language="ts" />
+          <FrameworkSwitcher label="Framework" />
+          <CodeBlock code={importsFor(framework)} language="ts" />
 
           <p>
             <code>theme.css</code> resolves every semantic token to a literal at export time and
@@ -339,10 +342,9 @@ export function ThemingPage() {
         >
           <CodeBlock code={OVERRIDE} language="css" />
           <p>
-            Redefine only what you want to change; the rest falls through to the baseline.
-            Colour tokens belong in the mode blocks, since each mode assigns them separately.
-            Type, spacing, radius and the layout constants are mode-independent, so they belong
-            on <code>:root</code>.
+            Color tokens belong in the mode blocks, since each mode assigns them
+            separately. Type, spacing, radius and the layout constants are
+            mode-independent, so they belong on <code>:root</code>.
           </p>
         </DocsSection>
 
@@ -356,20 +358,12 @@ export function ThemingPage() {
             <code>@ui-organized/schema</code>, runs the token pipeline and injects the result,
             which it exposes as <code>virtual:@ui-organized/theme</code> and emits as{" "}
             <code>ds-theme.css</code>. Editing the config in development rebuilds and reloads.
-            Use this when the config, not the CSS, is the artifact you version.
+            Use this when the config, not the CSS, is the artifact you version. Despite the
+            name, nothing in it is React-specific: it works the same with all four libraries.
           </p>
         </DocsSection>
 
-        <DocsSection
-          title="What a theme has to define"
-          subtitle={`The ${contractTokens.length} custom properties the component library consumes but doesn't define.`}
-        >
-          <p>
-            This table is generated from the library's own stylesheets, so it can't fall out of
-            date. Anything here is fair game to override; anything <em>missing</em> from your
-            theme falls back to the baseline, or, for the two constant families, to a value
-            built into the component CSS.
-          </p>
+        <DocsSection title="What a theme has to define">
           <p>
             The same list ships as <code>token-contract.json</code> inside{" "}
             <code>@ui-organized/react</code>. It is what the CLI diffs your theme against before
@@ -417,29 +411,16 @@ export function ThemingPage() {
             </table>
           </div>
 
-          <p>
-            The two <strong>constant</strong> families are marked that way because no theme has
-            a reason to change them, but component CSS still reads them anyway.{" "}
-            <code>--dimension-06</code> is the sidebar's width; <code>--z-index-*</code> is the
-            whole portalled-overlay stack. Omitting them once meant a sidebar shrunk to its
-            content and overlays stacking on DOM order, with a green build and a clean console.
-            Generated themes now include them, and component styles carry the values as{" "}
-            <code>var()</code> fallbacks, so a partial theme still renders correctly.
-          </p>
         </DocsSection>
 
-        <DocsSection
-          title="Typefaces are not loaded by the theme"
-          subtitle="The one part of a theme that CSS names but cannot fetch."
-        >
+        <DocsSection title="Typefaces are not loaded by the theme">
           <p>
             <code>--type-font-heading</code> and <code>--type-font-body</code> name families;
             they don't load them. Add the <code>&lt;link&gt;</code> tags from your export's{" "}
             <code>fonts.ts</code> to your document head. See{" "}
-            <Link to="/docs/get-started">Get started</Link>. Skip it and you get the theme's
-            metrics in a fallback face, which looks intentional rather than broken.
+            <Link to="/docs/get-started">Get started</Link>.
           </p>
-          <p>Two things still bite after the font loads:</p>
+          <p>Two things to be aware of after the font loads:</p>
           <ul>
             <li>
               <strong>Import order still wins.</strong> Any <code>--type-font-*</code>{" "}
@@ -457,10 +438,7 @@ export function ThemingPage() {
           </ul>
         </DocsSection>
 
-        <DocsSection
-          title="Choosing a neutral"
-          subtitle="Tinted neutrals darken the UI as well as tinting it."
-        >
+        <DocsSection title="Choosing a neutral">
           <p>
             Semantic tokens reference ramps by <em>fixed step index</em> (
             <code>grey.1400</code>, <code>grey.2100</code>, …), and the ramps are not

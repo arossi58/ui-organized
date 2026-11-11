@@ -85,6 +85,7 @@ import {
   primaryColumnId,
   rangeSelect,
   resolveMode,
+  retargetCondition,
   selectAllMatching as selectAllMatchingCore,
   selectPage,
   selectionCount as selectionCountCore,
@@ -107,11 +108,21 @@ import {
   type TableRowScope,
   type HorizontalScrollState,
   type UioTableFeatures,
+  withDateColumns,
+  canSelectHiddenRows,
+  canStepColumn,
+  currentColumnOrder,
+  dropColumn,
+  isMovableColumn,
+  reorderModeOf,
+  stepColumn,
+  type DropSide,
 } from "@ui-organized/table-core";
 import { trackStore } from "./track-store.js";
 import { createDeferred } from "./create-deferred.js";
 import { actionsColumn, selectionColumn } from "./system-columns.js";
 import type {
+  ColumnDrag,
   DataTableApi,
   RenderRow,
   TableColumn,
@@ -333,14 +344,19 @@ export function createDataTable<T extends RowData>(
   });
 
   // ── Columns ───────────────────────────────────────────────────────────────
+  // Date columns rewritten once, up front: everything below — filter types,
+  // chips, sorting, export — then sees ISO days and the column's own format.
+  // Same array back when no column declares `meta.date`.
+  const userColumns = computed(() => withDateColumns(options().columns));
+
   const allColumns = computed(() => {
-    const out: TableColumn<T>[] = [...options().columns];
+    const out: TableColumn<T>[] = [...userColumns()];
     if (selectionMode() !== "none") out.unshift(selectionColumn<T>());
     if (options().rowActions?.length) out.push(actionsColumn<T>());
     return out;
   });
 
-  const primaryId = computed(() => primaryColumnId(options().columns));
+  const primaryId = computed(() => primaryColumnId(userColumns()));
   const basePinning = computed(() => pinningFromMeta(allColumns()));
 
   // Created once, outside any computed: these are stores, not derived values,
@@ -374,7 +390,7 @@ export function createDataTable<T extends RowData>(
    */
   const filterTypes = computed(() => {
     const types: Record<string, TableFilterType> = {};
-    for (const def of options().columns) {
+    for (const def of userColumns()) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (!filter) continue;
       const id = columnIdOf(def);
@@ -740,6 +756,45 @@ export function createDataTable<T extends RowData>(
   const copySelection = (scope: TableRowScope = "selected") =>
     copyRowsToClipboard(table, { scope });
 
+  // ── Column reordering ───────────────────────────────────────────────────────
+  // `reorderable: true | "always"` keeps headers movable all the time;
+  // `"toggle"` only inside a reorder mode the toolbar switches. Card mode has
+  // no headers to move, so it is never live there.
+  const reorderMode = computed(() => reorderModeOf(options().reorderable));
+  const reorderOn = signal(false);
+  const reorderActive = computed(
+    () =>
+      mode() !== "cards" &&
+      (reorderMode() === "always" || (reorderMode() === "toggle" && reorderOn())),
+  );
+  const drag = signal<ColumnDrag | null>(null);
+
+  // Reads the visibility, pinning and order signals directly, so a template
+  // calling these re-renders when any of them changes.
+  const isMovable = (id: string): boolean => {
+    const hidden = columnVisibility()[id] === false;
+    const pins = basePinning();
+    const pinned = Boolean(pins.start?.includes(id) || pins.end?.includes(id));
+    return Boolean(table.getColumn(id)) && !hidden && isMovableColumn(id, pinned);
+  };
+  const orderNow = () =>
+    currentColumnOrder(
+      columnOrder(),
+      table.getAllLeafColumns().map((column) => column.id),
+    );
+  const canMoveColumn = (id: string, direction: -1 | 1): boolean =>
+    reorderActive() && canStepColumn(orderNow(), id, direction, isMovable);
+  const moveColumnBy = (id: string, direction: -1 | 1) => {
+    if (!untracked(() => canMoveColumn(id, direction))) return;
+    table.setColumnOrder(untracked(() => stepColumn(orderNow(), id, direction, isMovable)));
+  };
+  const dropColumnOn = (source: string, target: string, side: DropSide) => {
+    untracked(() => {
+      if (!reorderActive() || !isMovable(source) || !isMovable(target)) return;
+      table.setColumnOrder(dropColumn(orderNow(), source, target, side));
+    });
+  };
+
   // ── Keyboard ──────────────────────────────────────────────────────────────
   const onGridKeyDown = (event: KeyboardEvent) => {
     if (!untracked(interactive)) return;
@@ -761,6 +816,11 @@ export function createDataTable<T extends RowData>(
         editable: column ? untracked(editableColumns).has(column.id) : false,
         selectable: untracked(selectionMode) !== "none",
         multiSelect: untracked(selectionMode) === "multiple",
+        reorderable:
+          Boolean(column) &&
+          cursor.row < 0 &&
+          untracked(reorderActive) &&
+          untracked(() => isMovable(column!.id)),
       },
       {
         key: event.key,
@@ -776,6 +836,21 @@ export function createDataTable<T extends RowData>(
     switch (action.type) {
       case "move":
         focusCell(action.cursor);
+        break;
+      case "move-column":
+        // Stepping trades places with the next movable visible column, which
+        // is the neighbouring header, so the column is now one index over.
+        // Focus follows it there once the new order has rendered: a frame
+        // later, after change detection has moved the header.
+        if (column && untracked(() => canMoveColumn(column.id, action.direction))) {
+          moveColumnBy(column.id, action.direction);
+          const next = { row: -1, col: cursor.col + action.direction };
+          if (typeof requestAnimationFrame === "function") {
+            requestAnimationFrame(() => focusCell(next));
+          } else {
+            focusCell(next);
+          }
+        }
         break;
       case "page":
         if (untracked(virtualizing)) {
@@ -886,7 +961,7 @@ export function createDataTable<T extends RowData>(
 
   const filterDefs = computed(() => {
     const defs = new Map<string, ReturnType<typeof normalizeFilterDef>>();
-    for (const def of options().columns) {
+    for (const def of userColumns()) {
       const filter = normalizeFilterDef(metaOf<T>(def)?.filter);
       if (filter) defs.set(columnIdOf(def), filter);
     }
@@ -950,6 +1025,20 @@ export function createDataTable<T extends RowData>(
       single: def?.single,
     });
     return id;
+  };
+
+  /** The chip's field segment: move a condition to another column. */
+  const changeFilterField = (id: string, columnId: string) => {
+    const condition = untracked(conditions).find((entry) => entry.id === id);
+    if (!condition || condition.columnId === columnId) return;
+    dispatchFilter(
+      retargetCondition(
+        condition,
+        { type: typeOfColumn(condition.columnId) },
+        { columnId, type: typeOfColumn(columnId), def: filterDefs().get(columnId) },
+        catalogue(),
+      ),
+    );
   };
 
   const removeFilter = (id: string) => {
@@ -1053,12 +1142,8 @@ export function createDataTable<T extends RowData>(
       selectAllMatching: selectEverythingMatching,
       clear: () => selection.set(EMPTY_SELECTION),
       header: headerState,
-      canSelectAllMatching: computed(
-        () =>
-          selectionMode() === "multiple" &&
-          headerState().checked &&
-          !selection().allMatching &&
-          totalMatching() > visibleRowIds().length,
+      canSelectAllMatching: computed(() =>
+        canSelectHiddenRows(selection(), headerState(), totalMatching(), selectionMode()),
       ),
       totalMatching,
       asBulk: () => toBulkSelection(selection()),
@@ -1068,6 +1153,7 @@ export function createDataTable<T extends RowData>(
       fields,
       add: addFilter,
       update: (id, patch) => dispatchFilter({ type: "update", id, ...patch }),
+      changeField: changeFilterField,
       restore: (condition) => dispatchFilter({ type: "restore", condition }),
       remove: removeFilter,
       clear: clearFilters,
@@ -1115,6 +1201,17 @@ export function createDataTable<T extends RowData>(
     },
     virtual: { enabled: virtualizing, virtualizer, spacers },
     scroll: { state: scrollState.asReadonly(), by: scrollBy },
+    reorder: {
+      mode: reorderMode,
+      active: reorderActive,
+      setActive: (value) => reorderOn.set(value),
+      isMovable,
+      canMove: canMoveColumn,
+      move: moveColumnBy,
+      drop: dropColumnOn,
+      drag: drag.asReadonly(),
+      setDrag: (value) => drag.set(value),
+    },
     columnWidths: computed(() => layout().widths),
     rootRef,
     viewportRef,

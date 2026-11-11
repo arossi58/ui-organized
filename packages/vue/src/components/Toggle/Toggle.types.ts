@@ -1,5 +1,5 @@
+import type { IconComponent, IconName } from "../Icon/Icon.types.js";
 import type { ControlSize } from "@ui-organized/core";
-import type { CanonicalIconName } from "@ui-organized/utils";
 
 export interface ToggleProps {
   /** Whether the toggle is on (standalone usage). Use `v-model:pressed`. */
@@ -13,7 +13,7 @@ export interface ToggleProps {
   /** Size variant. Defaults to 'md'. */
   size?: ControlSize;
   /** Optional leading icon. */
-  icon?: CanonicalIconName;
+  icon?: IconName | IconComponent;
 }
 
 export interface ToggleGroupProps {

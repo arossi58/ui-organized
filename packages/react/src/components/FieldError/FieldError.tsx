@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import { Icon } from "../Icon/index.js";
 import type { FieldErrorProps } from "./FieldError.types.js";
 import "@ui-organized/core/components/FieldError/FieldError.css";
+import { glyph } from "../../icons/glyph.js";
 
 /**
  * Reusable inline error message for form controls (Input, Select, …).
@@ -16,7 +17,7 @@ export function FieldError({ children, className, ...props }: FieldErrorProps) {
 
   return (
     <span className={clsx("field-error", "text-emphasis-caption", className)} {...props}>
-      <Icon name="alert-circle" size={12} className="field-error__icon" />
+      <Icon name={glyph("alert-circle")} size={12} className="field-error__icon" />
       {children}
     </span>
   );

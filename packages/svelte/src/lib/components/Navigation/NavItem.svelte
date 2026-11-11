@@ -8,6 +8,7 @@
   import { useNavContext } from "./navContext.js";
   import type { NavItemProps } from "./Navigation.types.js";
   import "@ui-organized/core/components/Navigation/Navigation.css";
+  import { glyph } from "../../icons/glyph.js";
 
   const ICON_SIZE = 18;
   const CARET_SIZE = 20;
@@ -95,7 +96,7 @@
     </span>
     {#if showSubList}
       <Icon
-        name={isExpanded ? "chevron-up" : "chevron-down"}
+        name={glyph(isExpanded ? "chevron-up" : "chevron-down")}
         size={CARET_SIZE}
         class="nav-item__caret"
       />

@@ -5,6 +5,7 @@
   import Icon from "../Icon/Icon.svelte";
   import type { AccordionProps } from "./Accordion.types.js";
   import "@ui-organized/core/components/Accordion/Accordion.css";
+  import { glyph } from "../../icons/glyph.js";
 
   let {
     items,
@@ -45,14 +46,14 @@
       <h3 class="accordion__header">
         <ArkAccordion.ItemTrigger class="accordion__trigger">
           <span class="accordion__title">
-            {#if typeof item.title === "string"}{item.title}{:else}{@render item.title()}{/if}
+            {#if typeof item.title === "string"}{item.title}{:else}{@render item.title(item)}{/if}
           </span>
-          <Icon name="chevron-down" size={20} class="accordion__icon" />
+          <Icon name={glyph("chevron-down")} size={20} class="accordion__icon" />
         </ArkAccordion.ItemTrigger>
       </h3>
       <ArkAccordion.ItemContent class="accordion__panel text-default-body-medium">
         <div class="accordion__content">
-          {#if typeof item.content === "string"}{item.content}{:else}{@render item.content()}{/if}
+          {#if typeof item.content === "string"}{item.content}{:else}{@render item.content(item)}{/if}
         </div>
       </ArkAccordion.ItemContent>
     </ArkAccordion.Item>

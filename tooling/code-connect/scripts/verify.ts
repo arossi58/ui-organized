@@ -9,21 +9,35 @@
  * warnings, tighten later).
  */
 
-import { resolve } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { ManifestLoader } from "../src/mcp/manifest-loader.js";
 import { verifyGeneratedCode } from "../src/flagging/verify.js";
+import { loadFrameworkData } from "../src/framework-data.js";
+import { parseTokens } from "../src/tokens/catalog.js";
+
+const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 const args = process.argv.slice(2);
 const strict = args.includes("--strict");
 const files = args.filter((a) => !a.startsWith("--")).map((f) => resolve(process.cwd(), f));
 
 if (files.length === 0) {
-  console.error("usage: verify [--strict] <file.tsx> [more...]");
+  console.error("usage: verify [--strict] <file.tsx|.vue|.svelte|.html|.component.ts> [more...]");
   process.exit(2);
 }
 
 const loader = new ManifestLoader();
-const findings = verifyGeneratedCode(files, loader, process.cwd());
+const data = loadFrameworkData(REPO);
+const tokensCss = resolve(REPO, "packages/tokens/output/variables.css");
+const findings = verifyGeneratedCode(files, loader, process.cwd(), {
+  frameworkManifests: { svelte: data.svelte.manifest, vue: data.vue.manifest, angular: data.angular.manifest },
+  // Only when the tokens are built; without them, token names aren't checked.
+  ...(existsSync(tokensCss)
+    ? { tokens: new Set(parseTokens(readFileSync(tokensCss, "utf8")).map((t) => t.name)) }
+    : {}),
+});
 
 if (findings.length === 0) {
   console.log(`✓ verify: ${files.length} file(s), no issues`);

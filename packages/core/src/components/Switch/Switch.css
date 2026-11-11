@@ -1,6 +1,10 @@
 /* ─── Switch wrapper ──────────────────────────────────────────────────────── */
 
 .switch {
+  /* Contains the visually hidden input, as Checkbox and Radio do. Without it the
+     input is positioned against the nearest positioned ancestor, can land outside
+     a scrolled panel, and focusing it scrolls that ancestor to reveal it. */
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-space-02);
@@ -26,9 +30,14 @@
 }
 
 /* Focus moves to Ark's visually-hidden input, not the track <span>, so the
-   keyboard-focus ring is keyed off Zag's data-focus-visible instead of :focus-visible. */
-.switch__track[data-focus-visible] {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+   keyboard-focus ring is keyed off Zag's data-focus-visible.
+   zag's data-focus-visible alone also lights on a mouse click (it reads the click a
+   <label> forwards to its hidden input as a virtual, keyboard-like click), so the
+   ring also requires the browser's own :focus-visible inside the root, which is
+   false for pointer focus. Both agree only for keyboard focus. */
+.switch:has(:focus-visible) .switch__track[data-focus-visible] {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 .switch__track[data-state="checked"] {
@@ -51,7 +60,7 @@
   left: 3px;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
+  border-radius: var(--border-radius-full);
   background-color: var(--color-interactive-contents);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   transition: left 200ms ease;

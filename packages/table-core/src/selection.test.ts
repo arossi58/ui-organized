@@ -3,6 +3,8 @@ import {
   EMPTY_SELECTION,
   clearSelection,
   headerCheckboxState,
+  headerToggleTarget,
+  canSelectHiddenRows,
   isSelected,
   rangeSelect,
   selectAllMatching,
@@ -91,11 +93,58 @@ describe("header checkbox", () => {
     expect(headerCheckboxState(all, ids)).toEqual({ checked: true, indeterminate: false });
   });
 
+  it("is mixed, not empty, while rows out of view are selected", () => {
+    // "a" was ticked; the view has since moved on to "d" and "e".
+    const state = rangeSelect(EMPTY_SELECTION, ids, "a", false, true);
+    expect(headerCheckboxState(state, ["d", "e"])).toEqual({ checked: false, indeterminate: true });
+    expect(headerCheckboxState(selectAllMatching(EMPTY_SELECTION), [])).toEqual({
+      checked: false,
+      indeterminate: false,
+    });
+  });
+
+  it("is unchecked only when nothing at all is selected", () => {
+    expect(headerCheckboxState(EMPTY_SELECTION, ["d", "e"])).toEqual({
+      checked: false,
+      indeterminate: false,
+    });
+  });
+
+  it("offers hidden rows only while some matching row is still unselected", () => {
+    const header = { checked: true };
+    // Every row selected, then the view shrinks to two of them: nothing is hidden.
+    const all = selectPage(EMPTY_SELECTION, ids, true);
+    expect(canSelectHiddenRows(all, header, ids.length, "multiple")).toBe(false);
+    // Two of five selected and in view: three are hidden.
+    const two = selectPage(EMPTY_SELECTION, ["a", "b"], true);
+    expect(canSelectHiddenRows(two, header, ids.length, "multiple")).toBe(true);
+    expect(canSelectHiddenRows(two, { checked: false }, ids.length, "multiple")).toBe(false);
+    expect(canSelectHiddenRows(two, header, ids.length, "single")).toBe(false);
+    expect(canSelectHiddenRows(selectAllMatching(EMPTY_SELECTION), header, 40_000, "multiple")).toBe(
+      false,
+    );
+  });
+
+  it("clicks through to clear from checked or mixed, and to select from empty", () => {
+    expect(headerToggleTarget({ checked: true, indeterminate: false })).toBe(false);
+    expect(headerToggleTarget({ checked: false, indeterminate: true })).toBe(false);
+    expect(headerToggleTarget({ checked: false, indeterminate: false })).toBe(true);
+  });
+
   it("is unchecked, not mixed, for an empty page", () => {
     expect(headerCheckboxState(EMPTY_SELECTION, [])).toEqual({
       checked: false,
       indeterminate: false,
     });
+  });
+
+  it("unticking clears rows beyond the page too, not just the ones in view", () => {
+    // "a" on one page, "d" and "e" on the next; the header governs only the next.
+    const spread = selectPage(rangeSelect(EMPTY_SELECTION, ids, "a", false, true), ["d", "e"], true);
+    expect(selectedIds(spread)).toEqual(["a", "d", "e"]);
+    const cleared = selectPage(spread, ["d", "e"], false);
+    expect(selectionCount(cleared, ids.length)).toBe(0);
+    expect(cleared.anchor).toBe("a");
   });
 
   it("clearing the page also drops all-matching", () => {

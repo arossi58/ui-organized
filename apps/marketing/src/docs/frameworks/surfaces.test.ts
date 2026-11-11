@@ -172,12 +172,11 @@ describe.skipIf(!unshipped)("a component a framework does not ship", () => {
   });
 });
 
-describe("an example the framework's component cannot express", () => {
-  // Angular's `UioSwitch` has no `defaultChecked` — `model()` is uncontrolled
-  // until something binds it, so the controlled/uncontrolled fork React
-  // implements by hand does not arise. The story that sets it therefore has no
-  // Angular form, and a sample with the prop dropped would sit under a "Checked"
-  // heading showing a switch that is not.
+describe("an uncontrolled default in Angular", () => {
+  // Angular's `UioSwitch` has no `defaultChecked`, deliberately: a one-way
+  // `[checked]` into its `model()` seeds the value and the switch goes on
+  // writing its own signal — what `defaultChecked` means in React. So the story
+  // that sets it has an Angular form, under the model's name.
   const switchDocs = getDocsComponent("switch")!;
   const checked = switchDocs.stories.find((s) => "defaultChecked" in s.args)!;
 
@@ -186,22 +185,49 @@ describe("an example the framework's component cannot express", () => {
     expect(targetFor("angular", switchDocs.codeName)).toBeDefined();
   });
 
+  it("is written as the model, not reported as a gap", () => {
+    expect(gapFor(switchDocs, checked, "angular")).toBeUndefined();
+    const code = exampleSnippet(switchDocs, checked, "angular")!.code;
+    expect(code).toContain('[checked]="true"');
+    expect(code).not.toContain("defaultChecked");
+  });
+
+  it("finds inputs a component inherits", () => {
+    // `UioDateInput` declares none of its own; `label`, `min` and the rest live
+    // on the abstract `UioDateFieldBase` it extends.
+    const dateInput = getDocsComponent("date-input")!;
+    for (const story of dateInput.stories) {
+      expect(gapFor(dateInput, story, "angular"), story.exportName).toBeUndefined();
+    }
+  });
+});
+
+describe("an example the framework's component cannot express", () => {
+  // React's inline `style` object has no Angular input to land on, and a sample
+  // with it dropped would sit under a heading about the consumer's own shadow
+  // showing a button that has none.
+  const button = getDocsComponent("button")!;
+  const styled = button.stories.find((s) => "style" in s.args)!;
+
+  it("has such a story to test against", () => {
+    expect(styled).toBeDefined();
+  });
+
   it("shows no sample rather than one missing the prop", () => {
-    expect(exampleSnippet(switchDocs, checked, "angular")).toBeUndefined();
-    expect(primarySnippet(switchDocs, checked, "angular")).toBeUndefined();
+    expect(exampleSnippet(button, styled, "angular")).toBeUndefined();
+    expect(primarySnippet(button, styled, "angular")).toBeUndefined();
   });
 
   it("names the prop instead of blaming the whole component", () => {
-    const gap = gapFor(switchDocs, checked, "angular")!;
+    const gap = gapFor(button, styled, "angular")!;
     expect(gap.reason).toBe("unsupported-props");
     if (gap.reason !== "unsupported-props") throw new Error("unreachable");
-    expect(gap.symbol).toBe("UioSwitch");
-    expect(gap.props).toContain("defaultChecked");
+    expect(gap.symbol).toBe("UioButton");
+    expect(gap.props).toEqual(["style"]);
   });
 
   it("leaves the component's other examples alone", () => {
-    const canonical = inspectStory(switchDocs)!;
-    expect(primarySnippet(switchDocs, canonical, "angular")!.code).toContain("<label uioSwitch");
+    expect(primarySnippet(button, inspectStory(button)!, "angular")!.code).toContain("uioButton");
   });
 });
 

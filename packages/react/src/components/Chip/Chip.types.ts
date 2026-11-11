@@ -1,52 +1,41 @@
 import type * as React from "react";
-import type { CanonicalIconName } from "@ui-organized/utils";
-import type { ChipVariants, ComparisonIconName } from "@ui-organized/core";
-import type { IconComponent } from "../Icon/Icon.types.js";
+import type { ChipSegmentPart } from "@ui-organized/core";
 
-export interface ChipProps
-  extends Omit<React.ComponentPropsWithoutRef<"button">, "children">, ChipVariants {
+export interface ChipProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, "children"> {
   /**
-   * The emphasized half — what the chip is *about*. Rendered first, and never
-   * truncated: losing the end of "Role" leaves the chip meaningless.
+   * Shorthand for a static label segment — what the chip is *about*. Rendered
+   * first, and never truncated: losing the end of "Role" leaves the chip
+   * meaningless.
+   *
+   * The shorthand segments never open anything. For a chip whose parts each
+   * open a menu, compose `ChipSegment`s as children instead.
    */
   label?: React.ReactNode;
   /**
-   * The quiet middle. Grammar between the label and the value — "is any of",
-   * "before", "greater than". Omit it for a chip that is just a token.
-   *
-   * Ignored when `operator` is set: the relation is either drawn or spelled,
-   * never both.
+   * Shorthand for a static operator segment — the grammar between label and
+   * value: "is any of", "is before", "is greater than". Always spelled.
    */
-  detail?: React.ReactNode;
+  operator?: React.ReactNode;
+  /** Shorthand for a static value segment. The only part that truncates. */
+  value?: React.ReactNode;
   /**
-   * The relation between label and value, **drawn**: one of the design
-   * system's six comparison glyphs. Takes the place of `detail`.
+   * `ChipSegment`s, rendered after any shorthand segments. Each one is its own
+   * control, so each can be projected into its own menu or popover trigger.
    */
-  operator?: ComparisonIconName;
-  /**
-   * The glyph's accessible name — "contains". Without one the glyph is
-   * decorative and the chip reads as "Name Value", which loses the relation
-   * entirely for anyone who cannot see it.
-   */
-  operatorLabel?: string;
-  /** The value half. The only part that truncates. */
   children?: React.ReactNode;
-  /** Leading icon — a canonical name, or a library icon component. */
-  icon?: CanonicalIconName | IconComponent;
-  /** Draws a trailing chevron, for a chip that opens a menu or popover. */
-  dropdown?: boolean;
-  /** Its popover is open, or it is toggled on. */
+  /** One of its menus is open, or it is toggled on. Fills the chip with brand. */
   selected?: boolean;
   /**
    * The chip exists but does not yet stand for anything — a filter with no
    * value chosen. Draws a dashed outline and dims the value.
    */
   incomplete?: boolean;
+  /** Disables every segment and the dismiss control. */
   disabled?: boolean;
   /**
-   * Renders a dismiss button as a **sibling** of the chip's body. Never nested:
-   * a button inside a button is invalid HTML and an axe `nested-interactive`
-   * violation.
+   * Renders a dismiss button as the chip's last segment — a **sibling** of the
+   * others, never nested: a button inside a button is invalid HTML and an axe
+   * `nested-interactive` violation.
    */
   onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /**
@@ -55,6 +44,9 @@ export interface ChipProps
    * buttons. Required whenever `onRemove` is set.
    */
   removeLabel?: string;
-  /** Class for the chip's wrapper. Every other prop lands on the body. */
-  className?: string;
+}
+
+export interface ChipSegmentProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Which part of the chip's sentence this is. Decides its padding and ink. Defaults to `value`. */
+  part?: ChipSegmentPart;
 }

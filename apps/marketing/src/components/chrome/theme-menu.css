@@ -1,4 +1,4 @@
-/* Theme menu — the nav's brand-colour + dark-mode control (Branding mockup).
+/* Theme menu — the nav's brand-color + dark-mode control (Branding mockup).
    Everything is keyed off design-system semantic tokens so the control itself
    re-themes with the site. */
 
@@ -52,7 +52,9 @@
   padding: var(--spacing-space-01);
   background: var(--color-surface-primary);
   border: 1px solid var(--color-border-data-entry);
-  border-radius: var(--radius-interactive);
+  /* A step rounder than the Select popup it otherwise mirrors: this is a
+     floating panel off the nav pill, not a field's dropdown. */
+  border-radius: var(--border-radius-05);
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.3),
     0 2px 4px -2px rgba(0, 0, 0, 0.2);
@@ -86,12 +88,22 @@
   padding: var(--spacing-space-02) var(--spacing-space-03);
 }
 
+/* The mode switch spans the row, Light and Dark splitting it evenly. */
+.theme-menu__mode {
+  flex: 1;
+}
+
+.theme-menu__mode .toggle {
+  flex: 1;
+  justify-content: center;
+}
+
 .theme-menu__list {
   display: flex;
   flex-direction: column;
 }
 
-/* Colour rows — mirror the design-system Select item (`.select-popup__item`):
+/* Color rows — mirror the design-system Select item (`.select-popup__item`):
    no dividers, rounded rows, ui hover + selected fills. */
 .theme-menu__item {
   display: flex;

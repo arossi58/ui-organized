@@ -10,7 +10,6 @@
 <script lang="ts">
   import { clsx } from "clsx";
   import { Button } from "@ui-organized/svelte";
-  import type { CanonicalIconName } from "@ui-organized/utils";
   import { getTable } from "../../core/tableContext.js";
   import type { TableAction } from "../../core/types.js";
 
@@ -18,7 +17,6 @@
   const table = getTable();
   const items = $derived(actions ?? table.options.actions ?? []);
 
-  const iconOf = (action: TableAction) => action.icon as CanonicalIconName | undefined;
   // An icon-only button drops its visible label but keeps its accessible one —
   // the label is the whole name either way.
   const isIconOnly = (action: TableAction) => action.iconOnly === true && action.icon !== undefined;
@@ -30,7 +28,7 @@
       <Button
         intent={action.intent ?? "tertiary"}
         size={table.size}
-        icon={iconOf(action)}
+        icon={action.icon}
         disabled={action.disabled}
         aria-label={isIconOnly(action) ? action.label : undefined}
         onclick={() => void action.onRun()}

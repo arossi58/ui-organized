@@ -17,11 +17,11 @@ export { MarkdownBlocks, parseBlocks } from "./MarkdownBlocks";
 export { CodeBlock, CopyButton } from "./CodeBlock";
 export { EcosystemDiagram } from "./EcosystemDiagram";
 export { PreviewSurface } from "./PreviewSurface";
+export type { PreviewViewport } from "./PreviewSurface";
 export { PrimaryExample } from "./PrimaryExample";
 export { StoryExample } from "./StoryExample";
 export { PropsTable } from "./PropsTable";
 export {
-  UsageSummary,
   UsageList,
   UsageAvoidList,
   UsageRelatedList,

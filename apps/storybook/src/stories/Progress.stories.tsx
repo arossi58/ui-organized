@@ -10,7 +10,7 @@ const meta: Meta<typeof Progress> = {
     docs: {
       description: {
         component:
-          "A progress bar or ring. Pass `value` (or `null` for indeterminate), and use `variant`, `size`, `label`, and `showValue`. `shape=\"circular\"` draws the same value as a ring — identical states and colours, for places a full-width bar doesn't fit. Use `Meter` instead for a static measurement that isn't tracking a task.",
+          "A progress bar or ring.",
       },
     },
   },

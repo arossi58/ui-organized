@@ -16,11 +16,11 @@ export const menuExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
           <MenuGroup>
             <MenuGroupLabel>Edit</MenuGroupLabel>
-            <MenuItem icon="edit">Rename</MenuItem>
+            <MenuItem icon="pencil">Rename</MenuItem>
             <MenuItem icon="copy">Duplicate</MenuItem>
           </MenuGroup>
           <MenuSeparator />
@@ -34,9 +34,9 @@ export const menuExamples: UsageExampleSet = {
     ),
     Dont: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
-          <MenuItem icon="edit">Rename</MenuItem>
+          <MenuItem icon="pencil">Rename</MenuItem>
           <MenuItem icon="copy">Duplicate</MenuItem>
           <MenuItem icon="mail">Send a copy</MenuItem>
           <MenuItem icon="download">Export</MenuItem>
@@ -51,12 +51,12 @@ export const menuExamples: UsageExampleSet = {
     ...staged,
     Do: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
-          <MenuItem icon="edit">Rename</MenuItem>
+          <MenuItem icon="pencil">Rename</MenuItem>
           <MenuItem icon="copy">Duplicate</MenuItem>
           <MenuSeparator />
-          <MenuItem icon="trash" destructive>
+          <MenuItem icon="trash-2" destructive>
             Delete
           </MenuItem>
         </MenuContent>
@@ -65,10 +65,10 @@ export const menuExamples: UsageExampleSet = {
     // Delete sits between two ordinary items, one slip from either.
     Dont: () => (
       <Menu defaultOpen>
-        <MenuTrigger className="btn btn--secondary btn--md">Actions</MenuTrigger>
+        <MenuTrigger className="text-default-body-large btn btn--secondary btn--md">Actions</MenuTrigger>
         <MenuContent>
-          <MenuItem icon="edit">Rename</MenuItem>
-          <MenuItem icon="trash">Delete</MenuItem>
+          <MenuItem icon="pencil">Rename</MenuItem>
+          <MenuItem icon="trash-2">Delete</MenuItem>
           <MenuItem icon="copy">Duplicate</MenuItem>
         </MenuContent>
       </Menu>

@@ -39,6 +39,8 @@ export const LINKS = {
   figmaColorPalettePlugin:
     "https://www.figma.com/community/plugin/1649282319867000745",
   npm: "https://www.npmjs.com",
+  /** Every published @ui-organized package, on npm's scope page. */
+  npmOrg: "https://www.npmjs.com/org/ui-organized",
   /** The published React component library on npm. */
   npmReact: "https://www.npmjs.com/package/@ui-organized/react",
   /** The dev-only design-system inspector on npm (see /tools/ui-inspect). */

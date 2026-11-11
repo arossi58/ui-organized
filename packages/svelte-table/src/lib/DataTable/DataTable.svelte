@@ -20,6 +20,7 @@
   import { TableCards } from "../components/TableCards/index.js";
   import { TableDetailSheet } from "../components/TableDetailSheet/index.js";
   import { TablePagination } from "../components/TablePagination/index.js";
+  import { TableSelectionFooter } from "../components/TableSelectionFooter/index.js";
   import { TableSubBar } from "../components/TableSubBar/index.js";
   import { TableToolbar } from "../components/TableToolbar/index.js";
 
@@ -45,6 +46,9 @@
 
   {#if table.mode === "cards"}
     <TableCards />
+    <!-- No viewport to ride in: the table view's footer lives inside
+         TableViewport, so only card mode places one here. -->
+    <TableSelectionFooter />
   {:else}
     <TableViewport>
       <TableHeader />

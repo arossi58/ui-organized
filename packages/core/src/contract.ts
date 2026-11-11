@@ -143,7 +143,7 @@ export function tokenValues(css: string): Map<string, string> {
   const out = new Map<string, string>();
   for (const [, name, value] of css.matchAll(/(--[\w-]+)\s*:\s*([^;]+);/g)) {
     // First declaration wins — `:root` is emitted before the per-mode blocks, and
-    // a mode block only ever re-states colours, which carry no fallbacks anyway.
+    // a mode block only ever re-states colors, which carry no fallbacks anyway.
     if (!out.has(name!)) out.set(name!, value!.trim());
   }
   return out;

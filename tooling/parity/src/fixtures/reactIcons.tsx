@@ -8,7 +8,7 @@
  */
 
 import type { ComponentType } from "react";
-import { registerIconSet } from "@ui-organized/react";
+import { registerIconSet, registerLibraryIcons } from "@ui-organized/react";
 import { makeStubIconSet } from "./stubIconSet.js";
 
 export function ReactStubIcon({ size, strokeWidth }: { size?: number; strokeWidth?: number }) {
@@ -29,3 +29,8 @@ export const REACT_STUB_SET = makeStubIconSet<ComponentType<any>>(
 // explicit `icons` prop. The Svelte and Vue sets register themselves when their
 // fixtures are imported.
 registerIconSet(REACT_STUB_SET);
+
+// The names a consumer would register. Native Lucide names, so `x`, not the
+// glyph key `close` the stub set is indexed by.
+registerLibraryIcons("lucide", { check: ReactStubIcon, x: ReactStubIcon, info: ReactStubIcon });
+registerLibraryIcons("lucide", { check: ReactStubSolidIcon }, { style: "solid" });

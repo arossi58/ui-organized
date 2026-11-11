@@ -49,6 +49,7 @@ import { applySurfaceStacking, raiseSurface, setSurfaceInteractive } from "../ov
 import { nextMachineId } from "../part-ids.js";
 import { UioPart, stateFlag } from "../part.js";
 import { datePickerWeeks, shiftMonths } from "./date-picker-grid.js";
+import { glyph } from "../icons/glyph.js";
 
 export type DatePickerSize = NonNullable<DatePickerVariants["size"]>;
 export type DatePickerVariant = NonNullable<DatePickerVariants["variant"]>;
@@ -138,6 +139,8 @@ function longDate(day: YMD, locale: string | undefined): string {
  * behaviour worth not reproducing. The button stays because its id is part of
  * the rendered contract, and because the day the year view is built it is
  * already in the right place.
+ *
+ * @deprecated Use DateInput for a single date or DateRangeInput for a range. DatePicker is no longer documented and will be removed in the next major release.
  */
 @Component({
   selector: "div[uioDatePicker]",
@@ -208,7 +211,7 @@ function longDate(day: YMD, locale: string | undefined): string {
         [disabled]="disabledInput()"
         (click)="toggle()"
       >
-        <span uioIcon name="calendar" [size]="iconSize()"></span>
+        <span uioIcon [name]="glyph('calendar')" [size]="iconSize()"></span>
       </button>
     </div>
 
@@ -262,7 +265,7 @@ function longDate(day: YMD, locale: string | undefined): string {
                 [attr.data-disabled]="flag(prevDisabled())"
                 (click)="page(-1)"
               >
-                <span uioIcon name="chevron-left" [size]="NAV_ICON_SIZE"></span>
+                <span uioIcon [name]="glyph('chevron-left')" [size]="NAV_ICON_SIZE"></span>
               </button>
               <button
                 class="date-picker__view-trigger"
@@ -286,7 +289,7 @@ function longDate(day: YMD, locale: string | undefined): string {
                 [attr.data-disabled]="flag(nextDisabled())"
                 (click)="page(1)"
               >
-                <span uioIcon name="chevron-right" [size]="NAV_ICON_SIZE"></span>
+                <span uioIcon [name]="glyph('chevron-right')" [size]="NAV_ICON_SIZE"></span>
               </button>
             </div>
 
@@ -382,6 +385,7 @@ function longDate(day: YMD, locale: string | undefined): string {
   },
 })
 export class UioDatePicker extends UioPart implements OnInit, OnDestroy {
+  protected readonly glyph = glyph;
   readonly scope = "date-picker";
   readonly part = "root";
 

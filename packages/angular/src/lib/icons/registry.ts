@@ -2,9 +2,10 @@ import {
   createIconRegistry,
   type IconNameMap as CoreIconNameMap,
   type IconSet as CoreIconSet,
+  type SystemGlyphMap as CoreSystemGlyphMap,
 } from "@ui-organized/core";
 
-export type { IconLibrary } from "@ui-organized/core";
+export type { IconLibrary, RegisterIconsOptions } from "@ui-organized/core";
 
 /**
  * This package's icon-set registry: the shared mechanism from
@@ -41,11 +42,21 @@ export type IconMarkup = string;
 export type IconNameMap = CoreIconNameMap<IconMarkup>;
 export type IconSet = CoreIconSet<IconMarkup>;
 
-const { registerIconSet, getIconSet, registeredLibraries } = createIconRegistry<IconMarkup>(
+/** The components' own glyphs, for one library in one style. */
+export type SystemGlyphMap = CoreSystemGlyphMap<IconMarkup>;
+
+const { registerIconSet, getIconSet, registeredLibraries, registerIcons, getIcon, registeredNames } = createIconRegistry<IconMarkup>(
   Symbol.for("@ui-organized/angular.iconRegistry"),
 );
 
-export { registerIconSet, getIconSet, registeredLibraries };
+export {
+  registerIconSet,
+  getIconSet,
+  registeredLibraries,
+  registerIcons,
+  getIcon,
+  registeredNames,
+};
 
 /**
  * The prop mapping every `@ng-icons`-sourced set uses.

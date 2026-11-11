@@ -29,11 +29,10 @@ export {
 } from "./lib/card/card.js";
 export { UioDivider, type DividerOrientation, type DividerSpacing } from "./lib/divider/divider.js";
 export { UioTag, type TagVariant, type TagSize } from "./lib/tag/tag.js";
-export { UioChip, type ChipVariant, type ChipSize } from "./lib/chip/chip.js";
-// Re-exported from core, the way React's, Svelte's and Vue's Chip barrels do:
-// a filter chip's `operator` is one of these, and a table adapter cannot name
-// the input's type without it.
-export type { ChipVariants, ComparisonIconName } from "@ui-organized/core";
+export { UioChip, UioChipSegment } from "./lib/chip/chip.js";
+// Re-exported from core, the way React's Chip barrel does: a segment's `part`
+// is one of these, and a consumer cannot name the input's type without it.
+export type { ChipSegmentPart } from "@ui-organized/core";
 export {
   UioSkeleton,
   UioSkeletonGroup,
@@ -44,11 +43,17 @@ export {
   getIconSet,
   registerIconSet,
   registeredLibraries,
+  // `registerIcons` with the library spelled out. Apps import the bound one from
+  // the library's subpath; this is for setups that pass `icons` explicitly.
+  registerIcons as registerLibraryIcons,
+  registeredNames,
   ngIconsSvgProps,
   type IconLibrary,
   type IconMarkup,
   type IconNameMap,
   type IconSet,
+  type RegisterIconsOptions,
+  type SystemGlyphMap,
 } from "./lib/icons/registry.js";
 export {
   UIO_ICON_CONFIG,
@@ -56,7 +61,15 @@ export {
   provideIconConfig,
   type UioIconConfig,
 } from "./lib/icons/icon-config.js";
-export { UioIcon, applySvgProps, parseIconMarkup } from "./lib/icons/icon.js";
+export { UioIcon, applySvgProps, parseIconMarkup, type IconName } from "./lib/icons/icon.js";
+/**
+ * @internal For the sibling packages (`@ui-organized/angular-table`) to draw the
+ * same glyphs the components do. Not an icon vocabulary: apps name icons the
+ * way their library does, with `uioIcon name` and `registerIcons`.
+ */
+export { glyph as internalGlyph, type IconGlyph } from "./lib/icons/glyph.js";
+/** The native name an icon export registers under: `XMarkIcon` → `"x-mark"`. */
+export { toNativeName } from "@ui-organized/core";
 export { UioOverlayStacking, applyOverlayStacking } from "./lib/overlay/stacking.js";
 export {
   createSurface,

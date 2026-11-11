@@ -35,7 +35,7 @@ export const tagUsage: UsageGuide = {
     },
     {
       do: "Map each `variant` to one meaning and hold it across the whole product.",
-      dont: "Pick colours per screen, so the same state is green in one list and grey in the next.",
+      dont: "Pick colors per screen, so the same state is green in one list and grey in the next.",
       example: "consistent-variants",
     },
     {
@@ -45,7 +45,7 @@ export const tagUsage: UsageGuide = {
     },
   ],
   accessibility: [
-    "A tag is read as plain text, so the word has to carry the meaning the colour repeats.",
+    "A tag is read as plain text, so the word has to carry the meaning the color repeats.",
     "Emphasised tags are the palette's tightest pairing: check contrast before restyling them.",
     "Nothing announces a tag as a status, so where the state is critical put it in the row's own text too.",
   ],

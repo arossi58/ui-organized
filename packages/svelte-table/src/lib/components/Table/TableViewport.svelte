@@ -4,6 +4,7 @@
   have to be emitted between them.
 -->
 <script lang="ts">
+  import { TableSelectionFooter } from "../TableSelectionFooter/index.js";
   import type { Snippet } from "svelte";
   import { clsx } from "clsx";
   import {
@@ -61,4 +62,8 @@
     </colgroup>
     {@render children?.()}
   </table>
+  <!-- After the table, inside the scroll container: it sticks to the
+       viewport's bottom edge, so it costs a capped table scroll length rather
+       than page height. -->
+  <TableSelectionFooter />
 </div>

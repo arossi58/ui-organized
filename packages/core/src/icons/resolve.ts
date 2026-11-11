@@ -8,8 +8,8 @@
  */
 
 import { adjustStrokeWidth, shouldAdjustStroke } from "@ui-organized/utils";
-import type { CanonicalIconName } from "@ui-organized/utils";
 import type { IconLibrary, IconSet } from "./registry.js";
+import type { SystemGlyph } from "./systemGlyphs.js";
 
 /** The icon libraries (lucide/tabler/heroicons) all render in a 24-unit viewBox. */
 export const ICON_VIEWBOX = 24;
@@ -83,17 +83,18 @@ export function resolveIconStroke(config: {
 }
 
 /**
- * Pick the component for a canonical name, falling back to the outline cut when
- * a library ships no solid variant for it — Lucide ships no solid set at all.
+ * Pick the component for one of the components' own glyphs, falling back to the
+ * outline cut when a library ships no solid variant for it — Lucide ships no
+ * solid set at all.
  */
-export function resolveIconComponent<TComponent>(
+export function resolveSystemGlyph<TComponent>(
   set: IconSet<TComponent> | undefined,
-  name: CanonicalIconName,
+  glyph: SystemGlyph,
   style: IconStyle,
 ): TComponent | undefined {
   if (!set) return undefined;
-  const solid = style === "solid" ? set.solid?.[name] : undefined;
-  return solid ?? set.outline[name];
+  const solid = style === "solid" ? set.solid?.[glyph] : undefined;
+  return solid ?? set.outline[glyph];
 }
 
 /**

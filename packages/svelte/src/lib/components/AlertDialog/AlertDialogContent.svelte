@@ -5,6 +5,7 @@
   import { dialogStyles } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import type { AlertDialogContentProps } from "./AlertDialog.types.js";
+  import { glyph } from "../../icons/glyph.js";
 
   // `showClose` defaults to false rather than Dialog's true: an alert is
   // answered through its actions, and a third way out that neither confirms nor
@@ -26,7 +27,7 @@
     <ArkDialog.Content class={clsx(dialogStyles({ size }), className)} {...contentProps}>
       {#if showClose}
         <ArkDialog.CloseTrigger class="dialog__close" aria-label="Close">
-          <Icon name="close" size={20} />
+          <Icon name={glyph("close")} size={20} />
         </ArkDialog.CloseTrigger>
       {/if}
       {@render children?.()}

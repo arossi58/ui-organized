@@ -33,10 +33,11 @@
   padding: var(--spacing-space-01);
 }
 
-/* Focus ring geometry (0 0 0 2px) is constant across the package; only the
-   colour is themed. Roving focus lives on the tree, not the rows. */
+/* Focus ring geometry (a 2px outline) is constant across the package; only the
+   color is themed. Roving focus lives on the tree, not the rows. */
 .tree-view__tree:focus-visible {
-  box-shadow: 0 0 0 2px var(--color-interactive-focus);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
 }
 
 /* ─── Rows ────────────────────────────────────────────────────────────────────

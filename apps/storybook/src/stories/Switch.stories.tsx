@@ -10,7 +10,7 @@ const meta: Meta<typeof Switch> = {
     docs: {
       description: {
         component:
-          "Switch is an on/off toggle for an immediate setting; use `label` for the caption, `checked` / `defaultChecked` for state, and `disabled` / `required` for form behavior.",
+          "Switch is an on/off toggle for an immediate setting.",
       },
     },
   },

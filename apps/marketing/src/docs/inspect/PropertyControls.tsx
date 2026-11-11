@@ -62,7 +62,7 @@ function ControlRow({
           helperText={helperText}
           options={options.map((option) => ({ value: option, label: option }))}
           value={value == null ? "" : String(value)}
-          placeholder="—"
+          placeholder="Not set"
           onValueChange={onChange}
         />
       );
@@ -179,7 +179,7 @@ export function PropertyControls({
           ))}
         </section>
       ))}
-      <Button intent="ghost" size="sm" icon="refresh" onClick={onReset}>
+      <Button intent="ghost" size="sm" icon="refresh-cw" onClick={onReset}>
         Reset all
       </Button>
     </div>

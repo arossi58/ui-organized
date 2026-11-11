@@ -5,9 +5,9 @@
  * rather than from a list kept here, so the page cannot claim a release that
  * never shipped or miss one that did.
  *
- * Two packages, on tabs: `@ui-organized/react` is the library and
- * `@ui-organized/tokens` is what themes it, and their versions move
- * independently. Anchors are namespaced by package (`#react-5-0-1`) because
+ * One tab per component library plus `@ui-organized/tokens`, which themes
+ * them and versions independently (see `getChangelogs` for which packages, and
+ * why the tables and core aren't among them). Anchors are namespaced by package (`#react-5-0-1`) because
  * both have shipped a `3.0.0` — which also means the hash alone says which tab
  * a link belongs to, so no query parameter is needed to make one shareable.
  */
@@ -51,7 +51,7 @@ export function FoundationsChangelogPage() {
         title="Changelog"
         lede={
           <>
-            Every release, newest first, straight from the packages&rsquo; own changelogs. Under{" "}
+            Every release, newest first, straight from the packages' own changelogs. Under{" "}
             <a href="https://semver.org">semver</a>: major asks something of your code, minor adds
             to the API, patch does neither.
           </>

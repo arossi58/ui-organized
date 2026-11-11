@@ -9,6 +9,7 @@ import FieldError from "../FieldError/FieldError.vue";
 import SelectTrigger from "./SelectTrigger.vue";
 import type { SelectProps } from "./Select.types.js";
 import "@ui-organized/core/components/Select/Select.css";
+import { glyph } from "../../icons/glyph.js";
 
 defineOptions({ inheritAttrs: false });
 // Every boolean forwarded to Ark below must default to `undefined`. Vue casts
@@ -103,7 +104,7 @@ const contentAria = computed(() =>
       <SelectTrigger :has-label="!!label">
         <ArkSelect.ValueText class="select-field__value" :placeholder="placeholder" />
         <ArkSelect.Indicator class="select-field__icon">
-          <Icon name="chevron-down" :size="iconSize" />
+          <Icon :name="glyph('chevron-down')" :size="iconSize" />
         </ArkSelect.Indicator>
       </SelectTrigger>
       <!--
@@ -131,7 +132,7 @@ const contentAria = computed(() =>
             >
               <ArkSelect.ItemText>{{ opt.label }}</ArkSelect.ItemText>
               <ArkSelect.ItemIndicator class="select-popup__item-indicator">
-                <Icon name="check" :size="iconSize" />
+                <Icon :name="glyph('check')" :size="iconSize" />
               </ArkSelect.ItemIndicator>
             </ArkSelect.Item>
           </ArkSelect.Content>

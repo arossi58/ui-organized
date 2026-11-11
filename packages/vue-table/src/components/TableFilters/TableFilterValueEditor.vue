@@ -155,9 +155,15 @@ const relative = computed(
       />
     </div>
     <div v-else class="data-table__filter-editor-value">
+      <!--
+        Into the editor, like the Select above: the calendar portalled to <body>
+        sits on the same popover tier as this editor, and the editor, mounted
+        later, painted over it.
+      -->
       <DateInput
         :size="size"
         :label="arity === 'two' ? 'From' : 'Date'"
+        :portal-container="portalContainer"
         :class="
           clsx(
             'data-table__filter-field',
@@ -171,6 +177,7 @@ const relative = computed(
         v-if="arity === 'two'"
         :size="size"
         label="To"
+        :portal-container="portalContainer"
         :model-value="stringAt(1)"
         @update:model-value="(value: string) => setAt(1, value || null)"
       />

@@ -67,6 +67,8 @@ export function reconcile(
         codePath: s.codePath,
         framework: s.framework,
         importStatement: s.importStatement,
+        ...(s.selector ? { selector: s.selector } : {}),
+        ...(s.reactName ? { reactName: s.reactName } : {}),
         props: s.props,
         usageSnippet: s.usageSnippet,
         propSignatureHash: s.propSignatureHash,
@@ -85,6 +87,8 @@ export function reconcile(
       codeName: s.codeName,
       framework: s.framework,
       importStatement: s.importStatement,
+      ...(s.selector ? { selector: s.selector } : {}),
+      ...(s.reactName ? { reactName: s.reactName } : {}),
       props: s.props,
       propSignatureHash: s.propSignatureHash,
       // Seed usageSnippet only if none was ever set/edited:
@@ -129,9 +133,14 @@ export function reconcile(
     latestProps[id] = s.props;
   }
 
+  // A scan that changed nothing keeps the previous timestamp, so re-running it
+  // leaves the files byte-identical instead of producing a diff of one date.
+  const unchanged = existing !== null && changes.every((c) => c.kind === "unchanged");
+  const generatedAt = unchanged ? existing.generatedAt : now;
+
   return {
-    manifest: { manifestVersion: MANIFEST_VERSION, generatedAt: now, components },
-    latestHashes: { generatedAt: now, hashes, props: latestProps },
+    manifest: { manifestVersion: MANIFEST_VERSION, generatedAt, components },
+    latestHashes: { generatedAt, hashes, props: latestProps },
     changes,
   };
 }

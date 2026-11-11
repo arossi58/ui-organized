@@ -29,8 +29,11 @@ export function autoFocusField(container: HTMLElement | null, open: boolean): ((
       const field = container.querySelector<HTMLInputElement>(
         'input:not([type="hidden"]):not([disabled])',
       );
-      field?.focus();
-      field?.select();
+      // Already there — Ark's own initial focus can land on the field, and
+      // the user may be typing by now. Selecting would eat what they typed.
+      if (!field || field === document.activeElement) return;
+      field.focus();
+      field.select();
     });
   });
   return () => {
@@ -48,8 +51,8 @@ export function focusAfterRemoval(removedId: string): void {
   requestAnimationFrame(() => {
     const bar = document.querySelector(".data-table__filters");
     if (!bar) return;
-    const triggers = [...bar.querySelectorAll<HTMLElement>("[data-filter-id]")];
-    const next = triggers.find((element) => element.dataset.filterId !== removedId);
-    (next ?? bar.querySelector<HTMLElement>("button"))?.focus();
+    const chips = [...bar.querySelectorAll<HTMLElement>("[data-filter-id]")];
+    const next = chips.find((element) => element.dataset.filterId !== removedId);
+    (next?.querySelector<HTMLElement>("button") ?? bar.querySelector<HTMLElement>("button"))?.focus();
   });
 }

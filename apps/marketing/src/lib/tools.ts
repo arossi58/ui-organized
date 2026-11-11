@@ -22,8 +22,8 @@ export interface ToolDef {
   /**
    * Sidebar + panel-art icon. An icon component imported straight from the
    * library (e.g. lucide-react) — passed through to the DS `Icon`, which renders
-   * it as-is. No canonical-name registration needed, and only the icons we
-   * import here ship in the bundle.
+   * it as-is. No `registerIcons` entry needed, and only the icons we import
+   * here ship in the bundle.
    */
   icon: ComponentType<Record<string, unknown>>;
   /**

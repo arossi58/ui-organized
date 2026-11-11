@@ -21,6 +21,7 @@ import {
   type YMD,
 } from "@ui-organized/core";
 import "@ui-organized/core/components/Calendar/Calendar.css";
+import { glyph } from "../../icons/glyph.js";
 
 export interface CalendarRange {
   start: YMD | null;
@@ -297,7 +298,7 @@ export function Calendar({
         <Button
           intent="ghost"
           size="sm"
-          icon="chevron-left"
+          icon={glyph("chevron-left")}
           className="calendar__nav"
           onClick={() => setViewMonth(addMonths(viewMonth, -1))}
           disabled={prevDisabled}
@@ -324,7 +325,7 @@ export function Calendar({
         <Button
           intent="ghost"
           size="sm"
-          icon="chevron-right"
+          icon={glyph("chevron-right")}
           className="calendar__nav"
           onClick={() => setViewMonth(addMonths(viewMonth, 1))}
           disabled={nextDisabled}

@@ -4,6 +4,7 @@ import { Button } from "../Button/index.js";
 import { qrCodeStyles } from "@ui-organized/core";
 import type { QRCodeProps } from "./QRCode.types.js";
 import "@ui-organized/core/components/QRCode/QRCode.css";
+import { glyph } from "../../icons/glyph.js";
 
 const DEFAULT_PIXEL_SIZE = 10;
 
@@ -49,7 +50,7 @@ export function QRCode({
           fileName={`${downloadFileName}.png`}
           asChild
         >
-          <Button intent="secondary" size={size} type="button" icon="download">
+          <Button intent="secondary" size={size} type="button" icon={glyph("download")}>
             {downloadLabel}
           </Button>
         </ArkQrCode.DownloadTrigger>

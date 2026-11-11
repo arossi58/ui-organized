@@ -28,8 +28,11 @@ export function useAutoFocusField(container: HTMLElement | null, open: boolean):
         const field = container.querySelector<HTMLInputElement>(
           'input:not([type="hidden"]):not([disabled])',
         );
-        field?.focus();
-        field?.select();
+        // Already there — Ark's own initial focus can land on the field, and
+        // the user may be typing by now. Selecting would eat what they typed.
+        if (!field || field === document.activeElement) return;
+        field.focus();
+        field.select();
       });
     });
     return () => {

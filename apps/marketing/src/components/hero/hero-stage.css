@@ -4,7 +4,7 @@
      than the content needs, so there's a margin of scroll before it releases.
      Mirrors STAGE.trackVh in lib/stagePhases.ts. */
   height: 360vh;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   /* Light hero: re-tone the dot lattice to ink so it shows on cream. Scoped
      override — the global --site-dot-ink stays cream for the (dark) portal. */
   --site-dot-ink: color-mix(in srgb, var(--site-ink) 14%, transparent);
@@ -38,7 +38,7 @@
   overflow: hidden;
   /* Contain the screen-blended gradient layers to the stage */
   isolation: isolate;
-  background: var(--color-surface-primary);
+  background: var(--color-surface-base);
   color: var(--site-ink);
 }
 

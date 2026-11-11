@@ -10,7 +10,7 @@ const meta: Meta<typeof Clipboard> = {
     docs: {
       description: {
         component:
-          "Copies a string to the clipboard and confirms it did. The trigger swaps its icon and label for a few seconds after copying, which is the whole feedback mechanism — no toast required. `input` shows the value being copied; `button` is the trigger alone.",
+          "Copies a string to the clipboard with confirmation.",
       },
     },
   },
@@ -48,7 +48,7 @@ export const WithHelperText: Story = {
   render: () => (
     <Clipboard
       label="API key"
-      helperText="Treat this like a password — it grants full account access."
+      helperText="Treat this like a password. It grants full account access."
       value="example_key_0000000000000000000000"
     />
   ),
@@ -57,7 +57,7 @@ export const WithHelperText: Story = {
       source: {
         code: `<Clipboard
   label="API key"
-  helperText="Treat this like a password — it grants full account access."
+  helperText="Treat this like a password. It grants full account access."
   value="example_key_0000000000000000000000"
 />`,
       },

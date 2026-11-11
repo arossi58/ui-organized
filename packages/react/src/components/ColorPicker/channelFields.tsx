@@ -16,7 +16,7 @@
  *
  * ── Why not Ark's ChannelInput ──────────────────────────────────────────────
  *
- * Ark writes a channel by converting the colour to the *machine's* format
+ * Ark writes a channel by converting the color to the *machine's* format
  * first, so an HSL field only works while the machine is in `hsla` — which
  * would mean the notation select had to reformat the machine, and the machine's
  * format is what decides the value string, the hidden input's form value and
@@ -50,7 +50,7 @@ import { Input } from "../Input/index.js";
 import { Select } from "../Select/index.js";
 
 /**
- * The parsed colour the machine holds. Named here rather than in the public
+ * The parsed color the machine holds. Named here rather than in the public
  * types so `ColorPickerProps` keeps its string-only surface — a caller never
  * handles one of these.
  */
@@ -75,8 +75,8 @@ export function toRgba(color: ColorLike): Rgba {
 
 /* ─── Reading and writing one field ─────────────────────────────────────────
    The half of a field the shared table cannot describe, because it needs a
-   colour object and the four libraries do not share one. `write` returning
-   `null` rejects the edit, and the field falls back to the colour it was
+   color object and the four libraries do not share one. `write` returning
+   `null` rejects the edit, and the field falls back to the color it was
    showing rather than guessing at what was meant. */
 
 /** `space: null` is alpha — the one channel that survives a conversion. */
@@ -102,7 +102,7 @@ function writeField(field: ColorField, text: string, color: ColorLike): ColorLik
     if (!hex) return null;
     /* Alpha deliberately survives a hex edit rather than being reset to opaque
        by a six-digit string. The field beside this one owns alpha; typing a
-       colour is not a statement about transparency. */
+       color is not a statement about transparency. */
     return parseColor(hex).withChannelValue("alpha", color.getChannelValue("alpha"));
   }
 
@@ -120,8 +120,8 @@ interface ChannelFieldProps {
 }
 
 function ChannelField({ field, color, onCommit, disabled, readOnly }: ChannelFieldProps) {
-  /* `null` means "show the colour". A string means the reader is mid-edit, and
-     the colour must not overwrite what they are typing — which it otherwise
+  /* `null` means "show the color". A string means the reader is mid-edit, and
+     the color must not overwrite what they are typing — which it otherwise
      would on every pointer move over the area behind the field. */
   const [draft, setDraft] = useState<string | null>(null);
   const numeric = field.kind === "channel";
@@ -203,7 +203,7 @@ export function FormatInputs({
         /* Rendered and hidden in CSS rather than left off: Ark names the
            trigger, the listbox and the hidden `<select>` after the Label part,
            so an absent label leaves three dangling references behind. */
-        label="Colour notation"
+        label="Color notation"
         options={INPUT_FORMATS}
         value={format}
         onValueChange={(value) => onFormatChange(value as InputFormat)}
