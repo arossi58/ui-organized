@@ -13,7 +13,8 @@
       "@ui-organized/react-table",
       "@ui-organized/vue-table",
       "@ui-organized/svelte-table",
-      "@ui-organized/angular-table"
+      "@ui-organized/angular-table",
+      "@ui-organized/mcp"
     ]
   ],
   "linked": [],

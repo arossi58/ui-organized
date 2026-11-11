@@ -7,15 +7,23 @@
  * entry and a Vue prompt, never React's.
  */
 import { FRAMEWORK_INFO, type DocFramework } from "@ui-organized/code-connect/browser";
+import mcpPkg from "../../../../../packages/mcp/package.json";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import { SITE_ORIGIN } from "../../lib/links";
 
 const INIT = `npx @ui-organized/cli init`;
 
-/** The MCP entry `uiorg init` writes: React's has no flag, the others name their library. */
+/**
+ * The MCP entry `uiorg init` writes: pinned, since the server releases with the
+ * libraries at the same version; React's has no flag, the others name their library.
+ */
 function mcpConfig(framework: DocFramework): string {
-  const args = ["-y", "@ui-organized/mcp", ...(framework === "react" ? [] : ["--framework", framework])];
+  const args = [
+    "-y",
+    `@ui-organized/mcp@${mcpPkg.version}`,
+    ...(framework === "react" ? [] : ["--framework", framework]),
+  ];
   return `{
   "mcpServers": {
     "ui-organized": {
@@ -88,8 +96,12 @@ Use only the components and tokens it lists: <what you want>`;
             </li>
           </ul>
           <p>
+            In a monorepo, run it at the root. It finds the library in your workspace packages.
+          </p>
+          <p>
             Running it again is safe. It updates its own section of each file and leaves the rest
-            of your content alone.
+            of your content alone. Run it again after upgrading {label}, too: the MCP server is
+            pinned to the version you have installed.
           </p>
         </DocsSection>
 
@@ -155,6 +167,10 @@ Use only the components and tokens it lists: <what you want>`;
             For an agent <code>init</code> doesn&apos;t set up, add this to its MCP config:
           </p>
           <CodeBlock code={mcpConfig(framework)} language="json" />
+          <p>
+            Change the version to match the <code>{packageName}</code> you have installed. The
+            server answers for that version only.
+          </p>
           <p>
             Then tell the agent, in its rules or your prompt, to look up each{" "}
             <code>{packageName}</code> component before using it.

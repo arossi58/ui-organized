@@ -121,6 +121,101 @@ export function findFile(
   return undefined;
 }
 
+/**
+ * The workspace packages under `root`, as forward-slash paths relative to it.
+ *
+ * In a monorepo the root package.json usually installs nothing, and the library
+ * lives in `apps/web` or `packages/editor`. The globs come from package.json
+ * `workspaces` (npm, Yarn, Bun) and `pnpm-workspace.yaml`; `!` excludes.
+ */
+export function workspacePackages(root: string): string[] {
+  const globs: string[] = [];
+  try {
+    const { workspaces } = JSON.parse(readFileSync(join(root, "package.json"), "utf8")) as {
+      workspaces?: string[] | { packages?: string[] };
+    };
+    globs.push(...(Array.isArray(workspaces) ? workspaces : (workspaces?.packages ?? [])));
+  } catch {
+    // No package.json, or one we can't read: there are no npm workspaces to find.
+  }
+  const pnpm = join(root, "pnpm-workspace.yaml");
+  if (existsSync(pnpm)) globs.push(...pnpmWorkspaceGlobs(readFileSync(pnpm, "utf8")));
+
+  const include = globs.filter((g) => !g.startsWith("!")).map(globToRegExp);
+  const exclude = globs.filter((g) => g.startsWith("!")).map((g) => globToRegExp(g.slice(1)));
+  if (!include.length) return [];
+  // Without `**`, nothing deeper than the longest glob can match, so stop walking there.
+  const depth = globs.some((g) => g.includes("**"))
+    ? Infinity
+    : Math.max(...globs.map((g) => normalizeGlob(g).split("/").length));
+
+  const found: string[] = [];
+  const walk = (dir: string, rel: string, level: number): void => {
+    if (level > depth) return;
+    let entries: string[];
+    try {
+      entries = readdirSync(dir);
+    } catch {
+      return;
+    }
+    if (rel && entries.includes("package.json") && include.some((r) => r.test(rel)) && !exclude.some((r) => r.test(rel))) {
+      found.push(rel);
+    }
+    for (const name of entries) {
+      if (IGNORED.has(name) || name.startsWith(".")) continue;
+      const path = join(dir, name);
+      try {
+        if (statSync(path).isDirectory()) walk(path, rel ? `${rel}/${name}` : name, level + 1);
+      } catch {
+        continue;
+      }
+    }
+  };
+  walk(root, "", 0);
+  return found.sort();
+}
+
+/** The `packages:` list of a pnpm-workspace.yaml — the one key we need, without a YAML parser. */
+export function pnpmWorkspaceGlobs(yaml: string): string[] {
+  const unquote = (s: string) => s.trim().replace(/^(['"])(.*)\1$/, "$2");
+  const lines = yaml.split(/\r?\n/);
+  const start = lines.findIndex((line) => /^packages:/.test(line));
+  if (start < 0) return [];
+  const inline = /^packages:\s*\[(.*)\]/.exec(lines[start]!);
+  if (inline) return inline[1]!.split(",").map(unquote).filter(Boolean);
+
+  const globs: string[] = [];
+  for (const line of lines.slice(start + 1)) {
+    if (/^\S/.test(line)) break; // the next top-level key
+    const item = /^\s+-\s*(.+)$/.exec(line);
+    if (item) globs.push(unquote(item[1]!.replace(/\s+#.*$/, "")));
+  }
+  return globs;
+}
+
+function normalizeGlob(glob: string): string {
+  return glob.replace(/^!/, "").replace(/^\.\//, "").replace(/\/+$/, "");
+}
+
+/** `*` within one path segment, `**` across any number of them. */
+function globToRegExp(glob: string): RegExp {
+  const source = normalizeGlob(glob)
+    .split("/")
+    .map((segment) =>
+      segment === "**"
+        ? "\0"
+        : segment
+            .split("*")
+            .map((part) => part.replace(/[.+?^${}()|[\]\\]/g, "\\$&"))
+            .join("[^/]*"),
+    )
+    .join("/")
+    .replace(/\0\//g, "(?:[^/]+/)*")
+    .replace(/\/\0/g, "(?:/[^/]+)*")
+    .replace(/\0/g, ".*");
+  return new RegExp(`^${source}$`);
+}
+
 /** The app entry — where the stylesheet imports belong. */
 function findEntry(root: string): string | undefined {
   const candidates = [

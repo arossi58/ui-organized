@@ -60,7 +60,11 @@ in `.mcp.json`. It also sets up Cursor if there's a `.cursor/` directory, or if 
 pass `--cursor`. Your own content in those files is kept, and re-running only
 replaces its own block. `--check` reports without writing.
 
-The MCP server is set to answer for that library. It also installs a
+The MCP server is pinned to the library version you have installed, since the two
+release together, and set to answer for that library. Re-run init after upgrading
+to move the pin. In a monorepo, run it at the root: it reads the workspace packages
+in `pnpm-workspace.yaml` or package.json `workspaces`, and writes the files at the
+root, where your agent starts. It also installs a
 `ui-organized-figma` skill (`.claude/skills/`, and a Cursor rule when Cursor is set
 up) for building from a Figma link with Figma's own MCP server. A project with more than one
 UI Organized library installed chooses with `--framework react|svelte|vue|angular`.
