@@ -1,5 +1,11 @@
 # @ui-organized/figma-plugin
 
+## 0.1.11
+
+### Patch Changes
+
+- @ui-organized/react@6.1.0
+
 ## 0.1.10
 
 ### Patch Changes

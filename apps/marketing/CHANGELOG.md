@@ -1,5 +1,13 @@
 # @ui-organized/marketing
 
+## 0.0.11
+
+### Patch Changes
+
+- Updated dependencies
+  - @ui-organized/react-table@6.1.0
+  - @ui-organized/react@6.1.0
+
 ## 0.0.10
 
 ### Patch Changes

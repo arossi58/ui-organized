@@ -1,5 +1,11 @@
 # @ui-organized/builder
 
+## 0.0.11
+
+### Patch Changes
+
+- @ui-organized/react@6.1.0
+
 ## 0.0.10
 
 ### Patch Changes

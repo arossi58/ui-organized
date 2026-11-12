@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { DataTable, type TableColumn } from "@ui-organized/vue-table";
-import { MEMBERS, columnsFor, memberRowId, type ColumnSet, type Member } from "../tableFixture.js";
+import {
+  MEMBERS,
+  MEMBER_DETAIL,
+  columnsFor,
+  memberRowId,
+  type ColumnSet,
+  type Member,
+} from "../tableFixture.js";
 
 /**
  * The same table the React builder composes, from the same data and the same
@@ -11,6 +18,7 @@ import { MEMBERS, columnsFor, memberRowId, type ColumnSet, type Member } from ".
 const props = defineProps<{
   columnSet?: ColumnSet;
   rowActions?: boolean;
+  detail?: boolean;
   noData?: boolean;
 }>();
 
@@ -36,5 +44,6 @@ const rowActions = computed(() =>
     :get-row-id="memberRowId"
     label="Members"
     :row-actions="rowActions"
+    :detail="props.detail ? MEMBER_DETAIL : undefined"
   />
 </template>

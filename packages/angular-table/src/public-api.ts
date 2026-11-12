@@ -88,6 +88,7 @@ export { UioTableSelectionFooter } from "./lib/components/table-selection-footer
 export { UioTableSubBar } from "./lib/components/table-sub-bar.js";
 export { UioTableRowActions } from "./lib/components/table-row-actions.js";
 export { UioTableCards, UioTableCard } from "./lib/components/table-cards.js";
+export { UioTableDetailSheet } from "./lib/components/table-detail-sheet.js";
 /**
  * Card mode's sort and filter sheets. React also exports `TableSheetButton`;
  * Angular's sheet trigger is a directive on a real `<button>`, which a

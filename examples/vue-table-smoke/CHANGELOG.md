@@ -1,5 +1,12 @@
 # @ui-organized/example-vue-table-smoke
 
+## 0.0.3
+
+### Patch Changes
+
+- @ui-organized/vue@6.1.0
+- @ui-organized/vue-table@6.1.0
+
 ## 0.0.2
 
 ### Patch Changes

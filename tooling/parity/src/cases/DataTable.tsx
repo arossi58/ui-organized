@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { DataTable as RDataTable, type TableColumn } from "@ui-organized/react-table";
 import {
   MEMBERS,
+  MEMBER_DETAIL,
   columnsFor,
   memberRowId,
   type ColumnSet,
@@ -39,7 +40,7 @@ import type { ParitySpec } from "./spec.js";
  */
 const spec: ParitySpec = {
   component: "DataTable",
-  react: ({ columnSet, rowActions, noData, ...p }) => (
+  react: ({ columnSet, rowActions, detail, noData, ...p }) => (
     <RDataTable<Member>
       data={noData ? [] : MEMBERS}
       columns={columnsFor(columnSet as ColumnSet) as unknown as TableColumn<Member>[]}
@@ -55,6 +56,7 @@ const spec: ParitySpec = {
             ]
           : undefined
       }
+      detail={detail ? MEMBER_DETAIL : undefined}
       {...p}
     />
   ),

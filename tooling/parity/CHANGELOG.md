@@ -1,5 +1,23 @@
 # @ui-organized/parity
 
+## 0.0.2
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+- Updated dependencies
+  - @ui-organized/angular@6.1.0
+  - @ui-organized/angular-table@6.1.0
+  - @ui-organized/react-table@6.1.0
+  - @ui-organized/core@6.1.0
+  - @ui-organized/react@6.1.0
+  - @ui-organized/svelte@6.1.0
+  - @ui-organized/vue@6.1.0
+  - @ui-organized/table-core@6.1.0
+  - @ui-organized/vue-table@6.1.0
+  - @ui-organized/svelte-table@6.1.0
+
 ## 0.0.1
 
 ### Patch Changes

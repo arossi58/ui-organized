@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-09T18:50:58.301Z",
+  "generatedAt": "2026-11-12T07:22:07.538Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -528,6 +528,26 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "TableSelectionFooter",
+      "codeName": "TableSelectionFooter",
+      "codePath": "packages/vue-table/src/components/TableSelectionFooter/TableSelectionFooter.vue",
+      "framework": "vue",
+      "importStatement": "import { TableSelectionFooter } from '@ui-organized/vue-table';",
+      "reactName": "TableSelectionFooter",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSelectionFooter>…</TableSelectionFooter>",
+      "propSignatureHash": "sha256:96fa12532f4a9548",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "TableFilterSheet",
       "codeName": "TableFilterSheet",
       "codePath": "packages/vue-table/src/components/TableSheets/TableFilterSheet.vue",
@@ -766,6 +786,26 @@
       "usageSnippet": "<TableExportMenu>…</TableExportMenu>",
       "propSignatureHash": "sha256:3f7586d2cac22c40",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableReorderToggle",
+      "codeName": "TableReorderToggle",
+      "codePath": "packages/vue-table/src/components/TableToolbar/TableReorderToggle.vue",
+      "framework": "vue",
+      "importStatement": "import { TableReorderToggle } from '@ui-organized/vue-table';",
+      "reactName": "TableReorderToggle",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableReorderToggle>…</TableReorderToggle>",
+      "propSignatureHash": "sha256:96fa12532f4a9548",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -1059,8 +1099,9 @@
         },
         {
           "name": "reorderable",
-          "type": "boolean",
-          "required": false
+          "type": "ReorderSetting",
+          "required": false,
+          "description": "Lets people rearrange the columns by dragging a header, or with its move buttons (and Alt+Arrow on a focused header)."
         },
         {
           "name": "resizable",
@@ -1122,8 +1163,8 @@
         }
       ],
       "usageSnippet": "<DataTable :columns=\"/* readonly TableColumn<T>[] */\" :data=\"/* readonly T[] */\" :label=\"/* string */\">…</DataTable>",
-      "propSignatureHash": "sha256:8b94bd78c681d5f4",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:d286cf67b2ebb2e4",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {

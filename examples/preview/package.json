@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-preview",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "type": "module",
   "description": "One page per framework library, rendering every component it ships. For looking at, not for asserting — the parity gates do that.",

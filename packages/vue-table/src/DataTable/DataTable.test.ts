@@ -171,6 +171,20 @@ describe("column reordering", () => {
     expect(headers(dom)).toEqual([names[1], names[0], ...names.slice(2)]);
   });
 
+  it("moves the body cells with their header", async () => {
+    const dom = await reorderable("always");
+    const firstRow = () =>
+      [...(dom.querySelector("tbody tr")?.querySelectorAll("th, td") ?? [])].map((cell) =>
+        cell.textContent?.trim(),
+      );
+    expect(firstRow()).toEqual(["Ada", "Engineer", "3"]);
+
+    await click(button(dom, "Move Name right"));
+    expect(firstRow()).toEqual(["Engineer", "Ada", "3"]);
+    await click(button(dom, "Move Seats left"));
+    expect(firstRow()).toEqual(["Engineer", "3", "Ada"]);
+  });
+
   it("in toggle mode, offers moving only inside reorder mode", async () => {
     const dom = await reorderable("toggle");
     const first = COLUMNS[0]!.header as string;

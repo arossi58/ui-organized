@@ -1,5 +1,12 @@
 # @ui-organized/react-table
 
+## 6.1.0
+
+### Patch Changes
+
+- Body cells now move with their headers. Before, reordering, hiding or pinning a column changed the header row but left every body row as it was, so the cells sat under the wrong headers until something else re-rendered the row.
+  - @ui-organized/table-core@6.1.0
+
 ## 6.0.0
 
 ### Major Changes

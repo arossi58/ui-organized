@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-angular-table-smoke",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "type": "module",
   "description": "The smallest Angular app that uses the documented data-table setup. Built and rendered by the angular-table smoke gate.",

@@ -1,5 +1,11 @@
 # @ui-organized/react
 
+## 6.1.0
+
+### Patch Changes
+
+- @ui-organized/core@6.1.0
+
 ## 6.0.0
 
 ### Major Changes

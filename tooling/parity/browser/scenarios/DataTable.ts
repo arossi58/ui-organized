@@ -72,6 +72,19 @@ const CLOSED_SURFACES = [
   '[data-scope="dialog"][data-part="positioner"]',
   '[data-scope="dialog"][data-part="backdrop"]',
 ].join(", ");
+/**
+ * The detail panel's dirty-guard `AlertDialog`, which mounts with the panel and
+ * is never opened by these scenarios, and the backdrops.
+ *
+ * React portals every backdrop and positioner as its own child of `<body>`, and
+ * the capture sorts those by part — so the guard's backdrop lands between the
+ * sheet's backdrop and the sheet's positioner, and every id in the panel numbers
+ * one ahead. Angular's CDK keeps both overlays in one container, each in its own
+ * order. Identical markup, one placeholder apart: the story `SELECTION_NOISE`
+ * tells. The backdrop's own markup is compared by the Sheet scenarios.
+ */
+const DETAIL_NOISE =
+  '[data-scope="dialog"][data-part="backdrop"], .dialog__positioner:not(.sheet__positioner)';
 const CELL = ".data-table [data-cell]";
 /** The one cell in the grid that is a tab stop — the roving cursor. */
 const CURSOR = `${CELL}[tabindex="0"]`;
@@ -334,6 +347,41 @@ const scenarios: BrowserScenario[] = [
     props: { columnSet: "pinned-wide", maxHeight: 320 },
     steps: [{ do: "wait", target: ".data-table__cell--sticky" }],
     regions: REGIONS,
+    allowTextIn: [HIDDEN_SELECT_TEXT],
+  },
+
+  // ── Row detail ────────────────────────────────────────────────────────────
+  //
+  // Angular shipped `detail` for a release with nothing that rendered it: rows
+  // turned clickable and opened a panel nobody could see. Every scenario above
+  // passes for a table like that, because none of them opens a row.
+  {
+    component: "DataTable",
+    name: "a row opened into its detail panel",
+    props: { detail: true },
+    steps: [
+      { do: "click", target: '.data-table [data-cell="0:1"]' },
+      { do: "wait", target: '.data-table__detail[data-state="open"]' },
+      { do: "awaitFocus", target: ".data-table__detail" },
+    ],
+    regions: [".data-table__detail", "#mount"],
+    exclude: DETAIL_NOISE,
+    allowTextIn: [HIDDEN_SELECT_TEXT],
+  },
+  {
+    component: "DataTable",
+    // The pager is core's, and the position and title have to follow it.
+    name: "the detail panel stepped to the next row",
+    props: { detail: true },
+    steps: [
+      { do: "click", target: '.data-table [data-cell="0:1"]' },
+      { do: "wait", target: '.data-table__detail[data-state="open"]' },
+      { do: "awaitFocus", target: ".data-table__detail" },
+      { do: "click", target: '.data-table__detail [aria-label="Next row"]' },
+      { do: "wait", target: '.data-table__detail-position:has-text("2 of 8")' },
+    ],
+    regions: [".data-table__detail"],
+    exclude: DETAIL_NOISE,
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 ];

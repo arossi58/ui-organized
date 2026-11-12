@@ -153,6 +153,19 @@ export const PINNED_WIDE_MEMBER_COLUMNS = WIDE_MEMBER_COLUMNS.map((column, index
 export const memberRowId = (row: Member) => row.id;
 
 /**
+ * The row detail panel, for `detail: true`.
+ *
+ * Functions, so a boolean switch names it, but not framework code: every
+ * library's `render` takes a string, so unlike the row actions this one object
+ * can be shared rather than rebuilt per fixture.
+ */
+export const MEMBER_DETAIL = {
+  title: (row: Member) => row.name,
+  description: (row: Member) => row.role,
+  render: (row: Member) => `${row.email} · ${row.team}`,
+};
+
+/**
  * Which column set a scenario wants. The case passes the name; the fixture
  * resolves it, because only the fixture knows its own package's column type.
  */

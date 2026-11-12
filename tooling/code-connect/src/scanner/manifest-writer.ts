@@ -7,9 +7,13 @@
  *  - Existing entry, prop hash changed      → update `props`/`propSignatureHash`,
  *                                             bump `lastSyncedAt`, keep the Figma
  *                                             mapping (flagged stale downstream).
- *  - Component removed from code            → mark `deprecated`, never delete
- *                                             (preserve history; agents get
+ *  - Mapped component removed from code     → mark `deprecated`, never delete
+ *                                             (a designer's Figma link resolves to
  *                                             "deprecated" rather than a silent 404).
+ *  - Unmapped component removed from code   → drop the entry. Nothing human-authored
+ *                                             hangs off it, and an agent asking for
+ *                                             it gets `found:false`, which already
+ *                                             routes to `search_components`.
  *
  * Human/plugin-owned fields (figmaComponentKey, figmaComponentName,
  * usageSnippet once edited, customInstructions, lastVerifiedBy) are always
@@ -30,7 +34,7 @@ import type { ScannedComponent } from "./scan-react.js";
 export interface ReconcileChange {
   component: string;
   codePath: string;
-  kind: "created" | "updated" | "deprecated" | "unchanged";
+  kind: "created" | "updated" | "deprecated" | "removed" | "unchanged";
 }
 
 export interface ReconcileResult {
@@ -105,9 +109,17 @@ export function reconcile(
     });
   }
 
-  // 2. Entries whose code vanished → deprecate, never delete.
+  // 2. Entries whose code vanished → deprecate the mapped, drop the unmapped.
   for (const prev of existing?.components ?? []) {
     if (scannedIds.has(entryId(prev.codePath, prev.codeName))) continue;
+    if (!prev.figmaComponentKey) {
+      changes.push({
+        component: prev.codeName || prev.figmaComponentName || prev.codePath,
+        codePath: prev.codePath,
+        kind: "removed",
+      });
+      continue;
+    }
     components.push(
       prev.status === "deprecated" ? prev : { ...prev, status: "deprecated" },
     );

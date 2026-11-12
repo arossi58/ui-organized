@@ -411,6 +411,10 @@ export function TableBody({ children }: TableBodyProps) {
   const spacers = virtual.enabled ? virtual.spacers : { top: 0, bottom: 0 };
   const clickable = Boolean(options.onRowClick) || Boolean(options.detail);
   const editingRowId = edit.state.target?.rowId;
+  const columnLayout = table
+    .getVisibleLeafColumns()
+    .map((column) => column.id)
+    .join("|");
 
   // Explicit children win: layer-2 composition is the point of these parts.
   // Otherwise the body decides between its four states itself, which is what
@@ -458,6 +462,7 @@ export function TableBody({ children }: TableBodyProps) {
           }
           interactive={interactive}
           clickable={clickable}
+          columnLayout={columnLayout}
           primaryColumnId={api.primaryColumnId}
           table={table}
           onFocusCell={focus.setCursor}
@@ -653,7 +658,9 @@ function TableRowBase<T extends RowData>({
  * Memoized on row identity plus the handful of things that can change without
  * the row changing. Everything the row needs arrives as a prop for exactly this
  * reason: a row that read the table from context would re-render on every state
- * change in the table, which is the case memoizing exists to avoid.
+ * change in the table, which is the case memoizing exists to avoid. That
+ * includes the column layout: reordering, hiding or pinning a column changes
+ * every row's cells and no row's identity.
  */
 export const TableRow = memo(
   TableRowBase,
@@ -666,6 +673,7 @@ export const TableRow = memo(
     prev.focusedCol === next.focusedCol &&
     prev.editContext === next.editContext &&
     prev.interactive === next.interactive &&
+    prev.columnLayout === next.columnLayout &&
     prev.onActivate === next.onActivate,
 ) as typeof TableRowBase;
 
