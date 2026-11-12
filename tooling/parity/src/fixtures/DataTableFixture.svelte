@@ -1,6 +1,13 @@
 <script lang="ts">
   import { DataTable, type TableColumn } from "@ui-organized/svelte-table";
-  import { MEMBERS, columnsFor, memberRowId, type ColumnSet, type Member } from "./tableFixture.js";
+  import {
+    MEMBERS,
+    MEMBER_DETAIL,
+    columnsFor,
+    memberRowId,
+    type ColumnSet,
+    type Member,
+  } from "./tableFixture.js";
 
   /**
    * The same table the React builder composes, from the same data and the same
@@ -10,11 +17,13 @@
   let {
     columnSet,
     rowActions,
+    detail,
     noData,
     ...props
   }: {
     columnSet?: ColumnSet;
     rowActions?: boolean;
+    detail?: boolean;
     noData?: boolean;
     [key: string]: unknown;
   } = $props();
@@ -40,4 +49,5 @@
   getRowId={memberRowId}
   label="Members"
   rowActions={actions}
+  detail={detail ? MEMBER_DETAIL : undefined}
 />

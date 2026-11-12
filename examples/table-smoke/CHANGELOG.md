@@ -1,5 +1,13 @@
 # @ui-organized/example-table-smoke
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @ui-organized/react-table@6.1.0
+  - @ui-organized/react@6.1.0
+
 ## 0.0.2
 
 ### Patch Changes

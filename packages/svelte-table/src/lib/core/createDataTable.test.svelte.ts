@@ -191,4 +191,24 @@ describe("createDataTable", () => {
     // stop — a body with nothing in it has nowhere to hold one.
     expect(api.focus.cursor).toEqual({ row: -1, col: 0 });
   });
+
+  it("re-derives a row's cells when a column hides", () => {
+    // What TableRow.svelte derives: hiding a column changes no row, so the
+    // derivation re-runs only if the cells read the column state reactively.
+    const { api } = mount();
+    const row = api.rows[0]!;
+    let cells: string[] = [];
+    const stop = $effect.root(() => {
+      $effect(() => {
+        cells = row.getVisibleCells().map((cell) => cell.column.id);
+      });
+    });
+    flushSync();
+    expect(cells).toEqual(["name", "role", "seats"]);
+
+    api.table.getColumn("role")!.toggleVisibility(false);
+    flushSync();
+    expect(cells).toEqual(["name", "seats"]);
+    stop();
+  });
 });

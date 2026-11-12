@@ -1,6 +1,8 @@
-import { describe, it, expect, afterEach, beforeEach } from "vitest";
+import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
 import { Component, provideZonelessChangeDetection } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
+import { UioAlertDialog } from "@ui-organized/angular";
 import { createDataTable } from "./core/create-data-table.js";
 import { UIO_DATA_TABLE } from "./core/table-context.js";
 import { UioTableSubBar } from "./components/table-sub-bar.js";
@@ -56,14 +58,14 @@ let api: DataTableApi<Row>;
 })
 class Host {}
 
-function mount() {
+function mount(bulkActions: BulkAction<Row>[] = BULK) {
   const options: UseDataTableOptions<Row> = {
     label: "Team",
     columns: COLUMNS,
     data: DATA,
     getRowId: (row: Row) => row.id,
     selection: "multiple",
-    bulkActions: BULK,
+    bulkActions,
   };
   api = TestBed.runInInjectionContext(() => createDataTable<Row>(() => options));
   const fixture = TestBed.createComponent(Host);
@@ -75,7 +77,7 @@ function mount() {
     await fixture.whenStable();
     fixture.detectChanges();
   };
-  return { dom, select };
+  return { fixture, dom, select };
 }
 
 const toolbar = (dom: HTMLElement) => dom.querySelector(".data-table__toolbar");
@@ -106,6 +108,35 @@ describe("the selection's bulk actions", () => {
     // Search stays: it narrows what is on screen, not what is selected.
     expect(toolbar(dom)?.querySelector('input[type="search"]')).not.toBeNull();
     expect(dom.querySelectorAll(".data-table__selection-bar")).toHaveLength(1);
+  });
+
+  it("run a destructive action once its confirmation is accepted", async () => {
+    const onRun = vi.fn();
+    const { fixture, dom, select } = mount([
+      { id: "remove", label: "Remove", destructive: true, onRun },
+    ]);
+    await select();
+
+    const remove = [
+      ...dom.querySelectorAll<HTMLButtonElement>(".data-table__selection-bar button"),
+    ].find((button) => button.textContent?.trim() === "Remove")!;
+    remove.click();
+    // `[open]` is a model input, which JIT does not bind; a compiled template
+    // opens it from `confirming()` exactly here.
+    const alert = fixture.debugElement.query(By.directive(UioAlertDialog))
+      .componentInstance as UioAlertDialog;
+    alert.show();
+    fixture.detectChanges();
+    expect(onRun).not.toHaveBeenCalled();
+
+    // The part's own listener closes the alert before this `(click)` runs.
+    document
+      .querySelector<HTMLElement>(
+        '.cdk-overlay-container [role="alertdialog"] [uioAlertDialogConfirm]',
+      )!
+      .click();
+    fixture.detectChanges();
+    expect(onRun).toHaveBeenCalledTimes(1);
   });
 
   // React's version renders chips and checks they stay below; the chips' own

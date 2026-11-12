@@ -1,5 +1,11 @@
 # @ui-organized/mcp
 
+## 6.1.0
+
+### Patch Changes
+
+- The server knows about `TableReorderToggle` and `TableSelectionFooter`, and reports `DataTable`'s `reorderable` as `ReorderSetting` rather than `boolean`. Ten components removed before 6.0.0 (`Badge`, `Separator`, `TableFilter`, `TableFilterBar`, two `Arrow` parts and four `Toolbar` parts) are no longer listed as deprecated; asking for one now returns not found.
+
 ## 6.0.0
 
 ### Major Changes

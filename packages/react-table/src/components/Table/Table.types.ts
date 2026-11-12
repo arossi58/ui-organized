@@ -61,6 +61,11 @@ export interface TableRowProps<T extends RowData> {
   editContext: TableEditContext<T> | null;
   interactive: boolean;
   clickable: boolean;
+  /**
+   * The visible column ids in order. The row never reads it: it is there so the
+   * row memo re-renders when the columns change and the row does not.
+   */
+  columnLayout?: string;
   primaryColumnId: string | undefined;
   table: TableInstance<T>;
   onFocusCell: (cursor: GridCursor) => void;

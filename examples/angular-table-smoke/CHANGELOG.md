@@ -1,5 +1,14 @@
 # @ui-organized/example-angular-table-smoke
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies
+  - @ui-organized/angular@6.1.0
+  - @ui-organized/angular-table@6.1.0
+
 ## 0.0.2
 
 ### Patch Changes

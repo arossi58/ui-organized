@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-09T18:57:44.293Z",
+  "generatedAt": "2026-11-12T07:22:07.538Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -47,6 +47,29 @@
       "usageSnippet": "<!-- div[uioTableCards] -->",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioTableDetailSheet",
+      "codeName": "UioTableDetailSheet",
+      "codePath": "packages/angular-table/src/lib/components/table-detail-sheet.ts",
+      "framework": "angular",
+      "importStatement": "import { UioTableDetailSheet } from '@ui-organized/angular-table';",
+      "selector": "div[uioTableDetailSheet]",
+      "reactName": "TableDetailSheet",
+      "props": [
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Width of the panel."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioTableDetailSheet] -->",
+      "propSignatureHash": "sha256:c323b808dc05e8bc",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -208,6 +231,21 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioTableReorderToggle",
+      "codeName": "UioTableReorderToggle",
+      "codePath": "packages/angular-table/src/lib/components/table-reorder-toggle.ts",
+      "framework": "angular",
+      "importStatement": "import { UioTableReorderToggle } from '@ui-organized/angular-table';",
+      "selector": "button[uioTableReorderToggle]",
+      "reactName": "TableReorderToggle",
+      "props": [],
+      "usageSnippet": "<!-- button[uioTableReorderToggle] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioTableRowActions",
       "codeName": "UioTableRowActions",
       "codePath": "packages/angular-table/src/lib/components/table-row-actions.ts",
@@ -332,6 +370,21 @@
       "usageSnippet": "<!-- div[uioTableSelectionBar] -->",
       "propSignatureHash": "sha256:d64a1de95c3c5fc1",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioTableSelectionFooter",
+      "codeName": "UioTableSelectionFooter",
+      "codePath": "packages/angular-table/src/lib/components/table-selection-footer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioTableSelectionFooter } from '@ui-organized/angular-table';",
+      "selector": "div[uioTableSelectionFooter]",
+      "reactName": "TableSelectionFooter",
+      "props": [],
+      "usageSnippet": "<!-- div[uioTableSelectionFooter] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -824,9 +877,10 @@
         },
         {
           "name": "reorderable",
-          "type": "boolean",
+          "type": "false | true | \"always\" | \"toggle\"",
           "required": false,
-          "defaultValue": "false"
+          "defaultValue": "false",
+          "description": "Lets people rearrange the columns by dragging a header, or with its move buttons (and Alt+Arrow on a focused header)."
         },
         {
           "name": "resizable",
@@ -893,8 +947,8 @@
         }
       ],
       "usageSnippet": "<!-- div[uioDataTable] -->",
-      "propSignatureHash": "sha256:38978bbf624c10b6",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:67ffead4dc20e498",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -954,6 +1008,13 @@
       "reactName": "AlertDialog",
       "props": [
         {
+          "name": "controlled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Off by default: Escape, the × and `uioAlertDialogCancel` close the alert and report it through `openChange`."
+        },
+        {
           "name": "modal",
           "type": "boolean",
           "required": false,
@@ -982,8 +1043,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-alert-dialog -->",
-      "propSignatureHash": "sha256:0fa21289516cc8ec",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:b2f6356b957802db",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -5086,6 +5147,13 @@
       "reactName": "Sheet",
       "props": [
         {
+          "name": "controlled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Off by default: Escape, an outside click, the × and `uioSheetClose` close the sheet and report it through `openChange`."
+        },
+        {
           "name": "modal",
           "type": "boolean",
           "required": false,
@@ -5121,8 +5189,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-sheet -->",
-      "propSignatureHash": "sha256:f50abebcde4c244c",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:4d28a63fa76b4eee",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {

@@ -13,7 +13,10 @@ import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { registerIconSet } from "@ui-organized/react";
 import { DataTable } from "./DataTable/index.js";
-import type { TableColumn, TableFilterInput } from "./core/types.js";
+import { Table, TableBody, TableHeader, TableViewport } from "./components/Table/index.js";
+import { TableProvider } from "./core/TableContext.js";
+import { useDataTable } from "./core/useDataTable.js";
+import type { DataTableApi, TableColumn, TableFilterInput } from "./core/types.js";
 
 interface Row {
   id: string;
@@ -610,6 +613,10 @@ describe("the selection's bulk actions", () => {
 describe("column reordering", () => {
   const headers = (dom: HTMLElement) =>
     [...dom.querySelectorAll("thead th")].map((cell) => cell.textContent?.replace(/\s+/g, " ").trim());
+  const firstRow = (dom: HTMLElement) =>
+    [...(dom.querySelector("tbody tr")?.querySelectorAll("th, td") ?? [])].map((cell) =>
+      cell.textContent?.trim(),
+    );
   const reorderable = (setting: "always" | "toggle", extra: Partial<Parameters<typeof DataTable<Row>>[0]> = {}) =>
     render(
       <DataTable<Row>
@@ -634,6 +641,46 @@ describe("column reordering", () => {
     expect(headers(dom)).toEqual(["Role", "Name", "Seats"]);
     act(() => button(dom, "Move Seats left")?.click());
     expect(headers(dom)).toEqual(["Role", "Seats", "Name"]);
+  });
+
+  it("moves the body cells with their header", () => {
+    // The rows are memoized on row identity, and a reorder changes no row: the
+    // headers moved while every body cell stayed put.
+    const dom = reorderable("always");
+    expect(firstRow(dom)).toEqual(["Ada", "Engineer", "3"]);
+
+    act(() => button(dom, "Move Name right")?.click());
+    expect(firstRow(dom)).toEqual(["Engineer", "Ada", "3"]);
+    act(() => button(dom, "Move Seats left")?.click());
+    expect(firstRow(dom)).toEqual(["Engineer", "3", "Ada"]);
+  });
+
+  it("drops the body cells of a hidden column", () => {
+    let api!: DataTableApi<Row>;
+    function Composed() {
+      api = useDataTable<Row>({
+        label: "Team",
+        columns: COLUMNS,
+        data: DATA,
+        getRowId: (row) => row.id,
+        hideableColumns: true,
+      });
+      return (
+        <TableProvider value={api}>
+          <Table>
+            <TableViewport>
+              <TableHeader />
+              <TableBody />
+            </TableViewport>
+          </Table>
+        </TableProvider>
+      );
+    }
+    const dom = render(<Composed />);
+
+    act(() => api.table.getColumn("role")?.toggleVisibility(false));
+    expect(headers(dom)).toEqual(["Name", "Seats"]);
+    expect(firstRow(dom)).toEqual(["Ada", "3"]);
   });
 
   it("in toggle mode, offers moving only inside reorder mode", () => {

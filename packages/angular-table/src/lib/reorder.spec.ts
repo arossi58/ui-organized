@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, beforeEach } from "vitest";
-import { Component, provideZonelessChangeDetection } from "@angular/core";
+import { Component, computed, provideZonelessChangeDetection } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { createDataTable } from "./core/create-data-table.js";
 import { UIO_DATA_TABLE } from "./core/table-context.js";
@@ -76,6 +76,28 @@ describe("column reordering", () => {
     api.reorder.move("seats", -1);
     TestBed.tick();
     expect(order()).toEqual(["role", "seats", "name"]);
+  });
+
+  it("re-derives a row's cells when a column moves or hides", () => {
+    build({ reorderable: "always" });
+    // What UioTableRow's `cells` computes: neither change touches the row, so
+    // the computed re-runs only if the cells read the column state reactively.
+    const row = api.table.getRowModel().rows[0]!;
+    const cells = computed(() =>
+      row
+        .getVisibleCells()
+        .map((cell) => cell.column.id)
+        .filter((id) => !id.startsWith("__")),
+    );
+    expect(cells()).toEqual(["name", "role", "seats"]);
+
+    api.reorder.move("name", 1);
+    TestBed.tick();
+    expect(cells()).toEqual(["role", "name", "seats"]);
+
+    api.table.getColumn("role")!.toggleVisibility(false);
+    TestBed.tick();
+    expect(cells()).toEqual(["name", "seats"]);
   });
 
   it("reads true as always", () => {

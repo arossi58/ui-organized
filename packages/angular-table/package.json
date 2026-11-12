@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/angular-table",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Angular data table for the ui-organized design system: headless signals, styled directives, and a batteries-included div[uioDataTable], built on @ui-organized/table-core.",
   "keywords": [
     "design-system",

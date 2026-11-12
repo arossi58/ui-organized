@@ -43,17 +43,17 @@ writeFileSync(COMPONENTS_PATH, JSON.stringify(manifest, null, 2) + "\n");
 writeFileSync(HASHES_PATH, JSON.stringify(latestHashes, null, 2) + "\n");
 
 // ─── Report ───────────────────────────────────────────────────────────────────
-const counts = { created: 0, updated: 0, deprecated: 0, unchanged: 0 };
+const counts = { created: 0, updated: 0, deprecated: 0, removed: 0, unchanged: 0 };
 for (const c of changes) counts[c.kind]++;
 
 console.log(`code-connect scan → ${manifest.components.length} components`);
 console.log(
   `  ${counts.created} created, ${counts.updated} updated, ` +
-    `${counts.deprecated} deprecated, ${counts.unchanged} unchanged`,
+    `${counts.deprecated} deprecated, ${counts.removed} removed, ${counts.unchanged} unchanged`,
 );
 for (const c of changes) {
   if (c.kind === "unchanged") continue;
-  const mark = c.kind === "created" ? "+" : c.kind === "deprecated" ? "✗" : "~";
+  const mark = c.kind === "created" ? "+" : c.kind === "deprecated" ? "✗" : c.kind === "removed" ? "-" : "~";
   console.log(`  ${mark} ${c.component}  (${c.codePath})`);
 }
 

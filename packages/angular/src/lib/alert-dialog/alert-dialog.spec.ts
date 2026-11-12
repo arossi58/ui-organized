@@ -1,5 +1,6 @@
-import { Component, provideZonelessChangeDetection } from "@angular/core";
+import { Component, provideZonelessChangeDetection, signal } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
+import { By } from "@angular/platform-browser";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import {
   UioAlertDialog,
@@ -106,6 +107,39 @@ describe("UioAlertDialog", () => {
     expect(surface().getAttribute("data-state")).toBe("closed");
     expect(host.closest("body > *")!.hasAttribute("aria-hidden")).toBe(false);
     expect(document.activeElement).toBe(trigger);
+    fixture.destroy();
+  });
+
+  /**
+   * Uncontrolled, the parts' own listeners close the alert before the caller's
+   * `(click)` runs, so an `openChange` handler that clears the question has
+   * cleared it before Confirm can read it. Controlled, every dismissal only
+   * asks, and Confirm leaves closing to the caller.
+   */
+  it("only asks to close when controlled, and Confirm leaves it to the caller", () => {
+    const fixture = TestBed.createComponent(Host);
+    const alert = fixture.debugElement.query(By.directive(UioAlertDialog))
+      .componentInstance as UioAlertDialog;
+    // An initializer-based input: JIT cannot bind it, so it is replaced.
+    (alert as unknown as Record<string, unknown>)["controlled"] = signal(true);
+    fixture.detectChanges();
+    const surface = () =>
+      document.querySelector<HTMLElement>('.cdk-overlay-container [data-part="content"]')!;
+    let requests = 0;
+    alert.closeRequest.subscribe(() => requests++);
+    alert.show();
+    fixture.detectChanges();
+
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    surface().querySelector<HTMLElement>("[uioAlertDialogCancel]")!.click();
+    fixture.detectChanges();
+    expect(requests).toBe(2);
+    expect(surface().getAttribute("data-state")).toBe("open");
+
+    surface().querySelector<HTMLElement>("[uioAlertDialogConfirm]")!.click();
+    fixture.detectChanges();
+    expect(requests).toBe(2);
+    expect(surface().getAttribute("data-state")).toBe("open");
     fixture.destroy();
   });
 });

@@ -1,7 +1,7 @@
 /**
  * Gate 4 — linting and token validation.
  *
- * Six checks, run as one gate. They are orchestrated here rather than chained
+ * Eight checks, run as one gate. They are orchestrated here rather than chained
  * with `&&` in package.json for two reasons: every check runs even when an
  * earlier one fails (so one broken thing doesn't hide five others), and the
  * results are written as structured JSON that the aggregator attributes back to
@@ -273,6 +273,42 @@ if (existsSync(resolve(root, "apps/storybook/storybook-static/index.json"))) {
 } else {
   checks.push({ name: "visual-baselines", status: "skip", detail: "no Storybook build" });
   console.log("  · visual-baselines — skipped (no Storybook build)");
+}
+
+// ── 8. Component manifest ────────────────────────────────────────────────────
+// The manifest is DERIVED from the libraries' export barrels, like the token
+// contract above, and the same assertion holds: rescanning and finding the
+// committed files unchanged. It is what the MCP server answers from and what
+// `@ui-organized/mcp` ships, so a component exported without a rescan does not
+// exist as far as an agent can tell — which is how `TableReorderToggle` and
+// `TableSelectionFooter` went out in 6.0.0. A scan that changes nothing leaves
+// the files byte-identical, timestamps included, so a clean tree diffs clean.
+const MANIFEST_FILES = [
+  "manifest/components.json",
+  "manifest/latest-hashes.json",
+  "manifest/frameworks",
+];
+const scan = run("pnpm", ["--filter", "@ui-organized/code-connect", "scan"]);
+if (scan.status !== 0) {
+  console.log(scan.stdout ?? "", scan.stderr ?? "");
+  record("component-manifest", false, `the code-connect scan failed (exit ${scan.status})`);
+} else {
+  const manifestDiff = run("git", ["diff", "--exit-code", "--", ...MANIFEST_FILES]);
+  if (manifestDiff.status !== 0) console.log(manifestDiff.stdout ?? "");
+  // Three outcomes, not two — see the token-contract check above.
+  if (manifestDiff.status > 1) {
+    record(
+      "component-manifest",
+      false,
+      `git could not diff the manifest (exit ${manifestDiff.status}): ${(manifestDiff.stderr ?? "").trim().split("\n")[0] || "no stderr"}`,
+    );
+  } else {
+    record(
+      "component-manifest",
+      manifestDiff.status === 0,
+      "manifest/ is out of date — run `pnpm --filter @ui-organized/code-connect scan` and commit it",
+    );
+  }
 }
 
 // ── Attribute findings to components ─────────────────────────────────────────

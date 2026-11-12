@@ -36,6 +36,7 @@ import type {
 import { UioToolbar } from "@ui-organized/angular";
 import { UioTable, UioTableBody, UioTableHeader, UioTableViewport } from "./components/table.js";
 import { UioTableCards } from "./components/table-cards.js";
+import { UioTableDetailSheet } from "./components/table-detail-sheet.js";
 import { UioTablePagination } from "./components/table-pagination.js";
 import { UioTableSelectionFooter } from "./components/table-selection-footer.js";
 import { UioTableSubBar } from "./components/table-sub-bar.js";
@@ -74,6 +75,7 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
     UioTablePagination,
     UioTableSelectionFooter,
     UioTableCards,
+    UioTableDetailSheet,
   ],
   providers: [
     {
@@ -109,6 +111,10 @@ import { UioTableToolbar } from "./components/table-toolbar.js";
 
     @if (paginated()) {
       <div uioTablePagination></div>
+    }
+
+    @if (detail()) {
+      <div uioTableDetailSheet></div>
     }
   `,
 })

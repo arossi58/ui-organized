@@ -1,5 +1,16 @@
 # @ui-organized/example-preview
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies
+  - @ui-organized/angular@6.1.0
+  - @ui-organized/parity@0.0.2
+  - @ui-organized/react@6.1.0
+  - @ui-organized/svelte@6.1.0
+  - @ui-organized/vue@6.1.0
+
 ## 0.0.2
 
 ### Patch Changes

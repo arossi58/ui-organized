@@ -99,6 +99,13 @@ export class UioTableSelectionBar<T extends RowData> {
 
   protected readonly table = injectDataTable<T>();
   protected readonly confirming = signal<BulkAction<T> | null>(null);
+  /**
+   * The action Confirm runs, held apart from `confirming`. The alert's own
+   * listener closes it before Confirm's `(click)` does anything, and
+   * `onOpenChange` clears `confirming` on close — so by the time
+   * `runConfirmed` runs, `confirming()` is already null.
+   */
+  private pending: BulkAction<T> | null = null;
 
   protected readonly items = computed(() => this.actions() ?? this.table.options.bulkActions ?? []);
   protected readonly count = computed(() => this.table.selection.count());
@@ -127,14 +134,16 @@ export class UioTableSelectionBar<T extends RowData> {
   }
 
   protected choose(action: BulkAction<T>): void {
-    if (action.destructive) this.confirming.set(action);
-    else this.run(action);
+    if (!action.destructive) return this.run(action);
+    this.pending = action;
+    this.confirming.set(action);
   }
 
   protected runConfirmed(): void {
-    const action = this.confirming();
-    if (action) this.run(action);
+    const action = this.pending;
+    this.pending = null;
     this.confirming.set(null);
+    if (action) this.run(action);
   }
 
   protected onOpenChange(open: boolean): void {

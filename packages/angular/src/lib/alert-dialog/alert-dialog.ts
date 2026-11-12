@@ -20,6 +20,7 @@ import {
   inject,
   input,
   model,
+  output,
   untracked,
   type Signal,
 } from "@angular/core";
@@ -132,7 +133,7 @@ export type AlertDialogIntent = Extract<NonNullable<ButtonVariants["intent"]>, "
               type="button"
               aria-label="Close"
               [id]="dialogContext.partId('close')"
-              (click)="hide()"
+              (click)="requestClose()"
             >
               <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
@@ -151,6 +152,19 @@ export class UioAlertDialog implements OnInit, OnDestroy {
   /** Off by default — an alert is answered with its actions, not dismissed. */
   readonly showClose = input(false, { transform: booleanAttribute });
   readonly modal = input(true, { transform: booleanAttribute });
+  /**
+   * Off by default: Escape, the × and `uioAlertDialogCancel` close the alert
+   * and report it through `openChange`. On, they only ask, through
+   * `closeRequest`, and `uioAlertDialogConfirm` leaves closing to the caller's
+   * own `(click)` — `open` stays wherever the caller put it.
+   *
+   * That is Ark with `open` controlled, and it is what a caller needs when the
+   * answer matters. Uncontrolled, the part's own listener closes the alert
+   * *before* the caller's `(click)` runs, so an `openChange` handler that clears
+   * the question has already cleared it by the time Confirm reads it.
+   */
+  readonly controlled = input(false, { transform: booleanAttribute });
+  readonly closeRequest = output<void>();
 
   readonly dialogContext = inject(UioDialogContext);
   protected readonly state = computed(() => (this.open() ? "open" : "closed"));
@@ -186,7 +200,7 @@ export class UioAlertDialog implements OnInit, OnDestroy {
      * outside it cannot reach whatever is underneath.
      */
     dismiss: (reason) => {
-      if (reason === "escape") this.hide();
+      if (reason === "escape") this.requestClose();
     },
   };
 
@@ -228,6 +242,11 @@ export class UioAlertDialog implements OnInit, OnDestroy {
   }
   toggle(): void {
     this.setOpen(!this.open());
+  }
+  /** A dismissal by the user: closes, or only asks when `controlled`. */
+  requestClose(): void {
+    if (this.controlled()) this.closeRequest.emit();
+    else this.hide();
   }
 
   /** Remembered on open so focus can be given back to it on close. */
@@ -411,7 +430,7 @@ export class UioAlertDialogFooter {}
     type: "button",
     "[class]": "hostClass",
     "[id]": "alertDialog.dialogContext.partId('close')",
-    "(click)": "alertDialog.hide()",
+    "(click)": "alertDialog.requestClose()",
   },
 })
 export class UioAlertDialogCancel extends UioPart {
@@ -423,8 +442,11 @@ export class UioAlertDialogCancel extends UioPart {
 
 /**
  * Confirms and closes. The action itself is the caller's own `(click)`, which
- * runs alongside this one — order does not matter, because closing is a signal
- * write rather than anything that unmounts the handler.
+ * runs *after* this one: a host listener is registered before the template's.
+ * Closing is a signal write rather than an unmount, so the caller's handler
+ * still runs — but an `openChange` handler has already seen the alert close by
+ * then. A caller that clears state on close sets `controlled`, and this part
+ * then leaves closing to it.
  */
 @Directive({
   selector: "button[uioAlertDialogConfirm]",
@@ -433,7 +455,7 @@ export class UioAlertDialogCancel extends UioPart {
     type: "button",
     "[class]": "hostClass()",
     "[id]": "alertDialog.dialogContext.partId('close')",
-    "(click)": "alertDialog.hide()",
+    "(click)": "confirm()",
   },
 })
 export class UioAlertDialogConfirm extends UioPart {
@@ -445,4 +467,8 @@ export class UioAlertDialogConfirm extends UioPart {
 
   protected readonly alertDialog = inject(UioAlertDialog);
   protected readonly hostClass = computed(() => buttonStyles({ intent: this.intent() }));
+
+  protected confirm(): void {
+    if (!this.alertDialog.controlled()) this.alertDialog.hide();
+  }
 }

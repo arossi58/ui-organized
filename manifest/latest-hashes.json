@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-09T18:48:46.264Z",
+  "generatedAt": "2026-11-12T21:38:41.039Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -39,7 +39,7 @@
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuRadioItem": "sha256:b868f7539ba601cd",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuSeparator": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuTrigger": "sha256:4f53cda18c2baa0c",
-    "packages/react-table/src/DataTable/DataTable.types.ts::DataTable": "sha256:ab7e8f66ad90b0b9",
+    "packages/react-table/src/DataTable/DataTable.types.ts::DataTable": "sha256:a769880d950878d9",
     "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
@@ -147,11 +147,13 @@
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableLoading": "sha256:4f8b36fe1aff7433",
     "packages/react-table/src/components/TablePagination/TablePagination.types.ts::TablePagination": "sha256:14711ae142cd3385",
     "packages/react-table/src/core/TableContext.tsx::TableProvider": "sha256:1df0f2ad5f9cd57e",
-    "packages/react-table/src/components/Table/Table.types.ts::TableRow": "sha256:8db392154501e9a6",
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableReorderToggle": "sha256:1d83a9eaf1f23632",
+    "packages/react-table/src/components/Table/Table.types.ts::TableRow": "sha256:507e642786d79565",
     "packages/react-table/src/components/TableRowActions/TableRowActions.types.ts::TableRowActions": "sha256:4a089adf1b634630",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableScrollButtons": "sha256:e2c49e4d0da60133",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSearch": "sha256:94cab4cb15698d5d",
     "packages/react-table/src/components/TableSelectionBar/TableSelectionBar.types.ts::TableSelectionBar": "sha256:8ac9e9cad8f9dda2",
+    "packages/react-table/src/components/TableSelectionFooter/TableSelectionFooter.types.ts::TableSelectionFooter": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSheetButton": "sha256:9000daf69bd710be",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableSortMenu": "sha256:c6a930f97323ee0d",
     "packages/react-table/src/components/TableSheets/TableSheets.types.ts::TableSortSheet": "sha256:c6a930f97323ee0d",
@@ -1396,8 +1398,9 @@
       },
       {
         "name": "reorderable",
-        "type": "boolean",
-        "required": false
+        "type": "ReorderSetting",
+        "required": false,
+        "description": "Lets people rearrange the columns by dragging a header, or with its move buttons (and Alt+Arrow on a focused header)."
       },
       {
         "name": "resizable",
@@ -4892,6 +4895,13 @@
         "required": true
       }
     ],
+    "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableReorderToggle": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
     "packages/react-table/src/components/Table/Table.types.ts::TableRow": [
       {
         "name": "absoluteIndex",
@@ -4903,6 +4913,12 @@
         "name": "clickable",
         "type": "boolean",
         "required": true
+      },
+      {
+        "name": "columnLayout",
+        "type": "string",
+        "required": false,
+        "description": "The visible column ids in order."
       },
       {
         "name": "editContext",
@@ -5054,6 +5070,13 @@
         "required": false,
         "description": "Overrides the table's own `bulkActions`."
       },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      }
+    ],
+    "packages/react-table/src/components/TableSelectionFooter/TableSelectionFooter.types.ts::TableSelectionFooter": [
       {
         "name": "className",
         "type": "string",

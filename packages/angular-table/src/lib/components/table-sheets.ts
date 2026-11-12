@@ -1,7 +1,6 @@
 import {
   Component,
   Directive,
-  Renderer2,
   TemplateRef,
   computed,
   effect,
@@ -11,9 +10,7 @@ import {
   untracked,
   viewChild,
   viewChildren,
-  type Signal,
 } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
 import {
   UioAccordion,
   UioButton,
@@ -29,6 +26,7 @@ import {
 import type { TableFilterCondition } from "@ui-organized/table-core";
 import { injectDataTable } from "../core/table-context.js";
 import { UioTableFilterValueEditor } from "./table-filters.js";
+import { addSheetPopupClass } from "./sheet-popup-class.js";
 import { internalGlyph as glyph } from "@ui-organized/angular";
 
 /**
@@ -58,22 +56,6 @@ import { internalGlyph as glyph } from "@ui-organized/angular";
  *   menu's or select's surface when it is created; built at page load, the
  *   sheet's own selects would be painted but hidden from assistive tech.
  */
-
-/**
- * Give the sheet's popup the table's class. The popup is attached in
- * `UioSheet.ngOnInit`, so by the time this effect runs it is in the document,
- * found by the id the dialog context gives its content part.
- */
-function addSheetPopupClass(sheet: Signal<UioSheet | undefined>): void {
-  const renderer = inject(Renderer2);
-  const document = inject(DOCUMENT);
-  effect(() => {
-    const instance = sheet();
-    if (!instance) return;
-    const popup = document.getElementById(instance.dialogContext.partId("content"));
-    if (popup) renderer.addClass(popup, "data-table__sheet");
-  });
-}
 
 // ─── Sort ────────────────────────────────────────────────────────────────────
 
@@ -181,7 +163,7 @@ export class UioTableSortSheet {
   private readonly sheet = viewChild(UioSheet);
 
   constructor() {
-    addSheetPopupClass(this.sheet);
+    addSheetPopupClass(this.sheet, "data-table__sheet");
   }
 
   protected chooseColumn(id: string): void {
@@ -402,7 +384,7 @@ export class UioTableFilterSheet {
   });
 
   constructor() {
-    addSheetPopupClass(this.sheet);
+    addSheetPopupClass(this.sheet, "data-table__sheet");
 
     // Re-run on every change while open, not just on opening: "Clear" empties
     // a field, and that field then needs a fresh draft to keep its editor.

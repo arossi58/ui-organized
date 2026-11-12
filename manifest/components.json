@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-09T18:48:46.264Z",
+  "generatedAt": "2026-11-12T21:38:41.039Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -206,6 +206,12 @@
           "required": true
         },
         {
+          "name": "columnLayout",
+          "type": "string",
+          "required": false,
+          "description": "The visible column ids in order."
+        },
+        {
           "name": "editContext",
           "type": "TableEditContext<T> | null",
           "required": true,
@@ -283,8 +289,8 @@
         }
       ],
       "usageSnippet": "<TableRow absoluteIndex={/* number */} clickable={/* boolean */} editContext={/* TableEditContext<T> | null */} editing={/* boolean */} focusedCol={/* number | null */} index={/* number */} interactive={/* boolean */} primaryColumnId={/* string | undefined */} row={/* TableRowModel<T> */} selectable={/* boolean */} selected={/* boolean */} table={/* TableInstance<T> */} />",
-      "propSignatureHash": "sha256:8db392154501e9a6",
-      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "propSignatureHash": "sha256:507e642786d79565",
+      "lastSyncedAt": "2026-11-12T21:38:41.039Z",
       "status": "draft"
     },
     {
@@ -402,49 +408,6 @@
       "propSignatureHash": "sha256:4d40b2c45bf5c087",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
       "status": "draft"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "TableFilter",
-      "codeName": "TableFilter",
-      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
-      "framework": "react",
-      "importStatement": "import { TableFilter } from '@ui-organized/react-table';",
-      "props": [
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        },
-        {
-          "name": "column",
-          "type": "Column<T, unknown>",
-          "required": true
-        }
-      ],
-      "usageSnippet": "<TableFilter column={/* Column<T, unknown> */} />",
-      "propSignatureHash": "sha256:c66004775e5d7ab7",
-      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "TableFilterBar",
-      "codeName": "TableFilterBar",
-      "codePath": "packages/react-table/src/components/TableFilterBar/TableFilterBar.types.ts",
-      "framework": "react",
-      "importStatement": "import { TableFilterBar } from '@ui-organized/react-table';",
-      "props": [
-        {
-          "name": "className",
-          "type": "string",
-          "required": false
-        }
-      ],
-      "usageSnippet": "<TableFilterBar />",
-      "propSignatureHash": "sha256:1d83a9eaf1f23632",
-      "lastSyncedAt": "2026-08-26T18:19:46.173Z",
-      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -675,6 +638,25 @@
       "usageSnippet": "<TableSelectionBar />",
       "propSignatureHash": "sha256:8ac9e9cad8f9dda2",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableSelectionFooter",
+      "codeName": "TableSelectionFooter",
+      "codePath": "packages/react-table/src/components/TableSelectionFooter/TableSelectionFooter.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableSelectionFooter } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableSelectionFooter />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -921,6 +903,25 @@
       "usageSnippet": "<TableExportMenu />",
       "propSignatureHash": "sha256:cfb165bf50cb1789",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "TableReorderToggle",
+      "codeName": "TableReorderToggle",
+      "codePath": "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts",
+      "framework": "react",
+      "importStatement": "import { TableReorderToggle } from '@ui-organized/react-table';",
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<TableReorderToggle />",
+      "propSignatureHash": "sha256:1d83a9eaf1f23632",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -1241,8 +1242,9 @@
         },
         {
           "name": "reorderable",
-          "type": "boolean",
-          "required": false
+          "type": "ReorderSetting",
+          "required": false,
+          "description": "Lets people rearrange the columns by dragging a header, or with its move buttons (and Alt+Arrow on a focused header)."
         },
         {
           "name": "resizable",
@@ -1304,8 +1306,8 @@
         }
       ],
       "usageSnippet": "<DataTable />",
-      "propSignatureHash": "sha256:ab7e8f66ad90b0b9",
-      "lastSyncedAt": "2026-08-27T16:29:59.539Z",
+      "propSignatureHash": "sha256:a769880d950878d9",
+      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft"
     },
     {
@@ -1737,44 +1739,6 @@
       "propSignatureHash": "sha256:db15fd262669d931",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
       "status": "draft"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "Badge",
-      "codeName": "Badge",
-      "codePath": "packages/react/src/components/Badge/Badge.types.ts",
-      "framework": "react",
-      "importStatement": "import { Badge } from '@ui-organized/react';",
-      "props": [
-        {
-          "name": "children",
-          "type": "React.ReactNode",
-          "required": false
-        },
-        {
-          "name": "emphasized",
-          "type": "boolean",
-          "required": false,
-          "description": "When true (default), renders a solid filled badge with primary text."
-        },
-        {
-          "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "defaultValue": "md",
-          "description": "Size variant."
-        },
-        {
-          "name": "variant",
-          "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"warning\" | \"error\"",
-          "required": false,
-          "description": "Status color variant."
-        }
-      ],
-      "usageSnippet": "<Badge>…</Badge>",
-      "propSignatureHash": "sha256:edb55552178c147b",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -4118,19 +4082,6 @@
     },
     {
       "figmaComponentKey": "",
-      "figmaComponentName": "HoverCardArrow",
-      "codeName": "HoverCardArrow",
-      "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
-      "framework": "react",
-      "importStatement": "import { HoverCardArrow } from '@ui-organized/react';",
-      "props": [],
-      "usageSnippet": "<HoverCardArrow />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
       "figmaComponentName": "HoverCardContent",
       "codeName": "HoverCardContent",
       "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
@@ -5548,19 +5499,6 @@
     },
     {
       "figmaComponentKey": "",
-      "figmaComponentName": "PopoverArrow",
-      "codeName": "PopoverArrow",
-      "codePath": "packages/react/src/components/Popover/Popover.types.ts",
-      "framework": "react",
-      "importStatement": "import { PopoverArrow } from '@ui-organized/react';",
-      "props": [],
-      "usageSnippet": "<PopoverArrow />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
       "figmaComponentName": "PopoverClose",
       "codeName": "PopoverClose",
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
@@ -6419,34 +6357,6 @@
       "propSignatureHash": "sha256:a2c90f2f6a9c57da",
       "lastSyncedAt": "2026-07-31T00:02:54.122Z",
       "status": "draft"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "Separator",
-      "codeName": "Separator",
-      "codePath": "packages/react/src/components/Separator/Separator.types.ts",
-      "framework": "react",
-      "importStatement": "import { Separator } from '@ui-organized/react';",
-      "props": [
-        {
-          "name": "orientation",
-          "type": "\"horizontal\" | \"vertical\"",
-          "required": false,
-          "defaultValue": "horizontal",
-          "description": "Orientation of the rule."
-        },
-        {
-          "name": "spacing",
-          "type": "\"none\" | \"sm\" | \"md\" | \"lg\"",
-          "required": false,
-          "defaultValue": "md",
-          "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
-        }
-      ],
-      "usageSnippet": "<Separator />",
-      "propSignatureHash": "sha256:c5de96eadc107432",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",
@@ -7511,26 +7421,6 @@
     },
     {
       "figmaComponentKey": "",
-      "figmaComponentName": "ToolbarButton",
-      "codeName": "ToolbarButton",
-      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
-      "framework": "react",
-      "importStatement": "import { ToolbarButton } from '@ui-organized/react';",
-      "props": [
-        {
-          "name": "icon",
-          "type": "CanonicalIconName",
-          "required": false,
-          "description": "Optional leading icon."
-        }
-      ],
-      "usageSnippet": "<ToolbarButton />",
-      "propSignatureHash": "sha256:a8b5bafd14c6d42c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
       "figmaComponentName": "ToolbarGroup",
       "codeName": "ToolbarGroup",
       "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
@@ -7541,45 +7431,6 @@
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
       "status": "draft"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "ToolbarInput",
-      "codeName": "ToolbarInput",
-      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
-      "framework": "react",
-      "importStatement": "import { ToolbarInput } from '@ui-organized/react';",
-      "props": [],
-      "usageSnippet": "<ToolbarInput />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "ToolbarLink",
-      "codeName": "ToolbarLink",
-      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
-      "framework": "react",
-      "importStatement": "import { ToolbarLink } from '@ui-organized/react';",
-      "props": [],
-      "usageSnippet": "<ToolbarLink />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
-    },
-    {
-      "figmaComponentKey": "",
-      "figmaComponentName": "ToolbarSeparator",
-      "codeName": "ToolbarSeparator",
-      "codePath": "packages/react/src/components/Toolbar/Toolbar.types.ts",
-      "framework": "react",
-      "importStatement": "import { ToolbarSeparator } from '@ui-organized/react';",
-      "props": [],
-      "usageSnippet": "<ToolbarSeparator />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "deprecated"
     },
     {
       "figmaComponentKey": "",

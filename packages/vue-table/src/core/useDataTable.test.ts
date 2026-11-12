@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { effectScope, nextTick, reactive } from "vue";
+import { computed, effectScope, nextTick, reactive } from "vue";
 import { ACTIONS_COLUMN_ID, SELECTION_COLUMN_ID } from "@ui-organized/table-core";
 import { useDataTable } from "./useDataTable.js";
 import type { DataTableApi, TableColumn } from "./types.js";
@@ -218,5 +218,20 @@ describe("useDataTable", () => {
     expect(api.filters.conditions.value).toEqual([
       { id, columnId: "role", operator: "is-any-of", values: [] },
     ]);
+  });
+
+  it("re-derives a row's cells when a column hides", async () => {
+    // What TableRow.vue computes: hiding a column changes no row, so the
+    // computed re-runs only if the cells read the column state reactively.
+    const { api } = mount();
+    const row = api.rows.value[0]!;
+    const cells = scope.run(() =>
+      computed(() => row.getVisibleCells().map((cell) => cell.column.id)),
+    )!;
+    expect(cells.value).toEqual(["name", "role", "seats"]);
+
+    api.table.getColumn("role")!.toggleVisibility(false);
+    await nextTick();
+    expect(cells.value).toEqual(["name", "seats"]);
   });
 });

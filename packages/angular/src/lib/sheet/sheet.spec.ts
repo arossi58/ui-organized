@@ -113,4 +113,31 @@ describe("UioSheet", () => {
     expect(surface().getAttribute("data-state")).toBe("closed");
     fixture.destroy();
   });
+
+  it("only asks to close when controlled, and stays open until told", () => {
+    const fixture = TestBed.createComponent(Host);
+    const sheet = fixture.componentInstance.sheet;
+    // Replaced rather than bound, for the reason `render` gives.
+    (sheet as unknown as Record<string, unknown>)["controlled"] = signal(true);
+    fixture.detectChanges();
+    const surface = () =>
+      document.querySelector<HTMLElement>('.cdk-overlay-container [data-part="content"]')!;
+    let requests = 0;
+    sheet.closeRequest.subscribe(() => requests++);
+    sheet.show();
+    fixture.detectChanges();
+
+    document.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
+    surface().querySelector<HTMLElement>(".dialog__close")!.click();
+    surface().querySelector<HTMLElement>("[uioSheetClose]")!.click();
+    fixture.detectChanges();
+    expect(requests).toBe(3);
+    expect(sheet.open()).toBe(true);
+    expect(surface().getAttribute("data-state")).toBe("open");
+
+    sheet.hide();
+    fixture.detectChanges();
+    expect(surface().getAttribute("data-state")).toBe("closed");
+    fixture.destroy();
+  });
 });

@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { UioDataTable, type TableColumn } from "@ui-organized/angular-table";
 import {
   MEMBERS,
+  MEMBER_DETAIL,
   columnsFor,
   memberRowId,
   type ColumnSet,
@@ -41,6 +42,7 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [maxHeight]="p['maxHeight']"
       [empty]="p['empty']"
       [rowActions]="rowActions"
+      [detail]="detail"
       [defaultSorting]="p['defaultSorting']"
       [defaultColumnVisibility]="p['defaultColumnVisibility']"
       [defaultFilters]="p['defaultFilters']"
@@ -62,4 +64,5 @@ export class DataTableFixture {
         { id: "remove", label: "Remove", destructive: true, onRun: () => {} },
       ]
     : undefined;
+  protected readonly detail = this.p["detail"] ? MEMBER_DETAIL : undefined;
 }

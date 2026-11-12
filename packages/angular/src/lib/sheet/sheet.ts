@@ -20,6 +20,7 @@ import {
   inject,
   input,
   model,
+  output,
   untracked,
   type Signal,
 } from "@angular/core";
@@ -129,7 +130,7 @@ export type SheetSize = NonNullable<SheetVariants["size"]>;
               type="button"
               aria-label="Close"
               [id]="dialogContext.partId('close')"
-              (click)="hide()"
+              (click)="requestClose()"
             >
               <span uioIcon [name]="glyph('close')" [size]="CLOSE_ICON_SIZE"></span>
             </button>
@@ -150,6 +151,20 @@ export class UioSheet implements OnInit, OnDestroy {
   /** On by default: a sheet is a place, and a place needs a way out. */
   readonly showClose = input(true, { transform: booleanAttribute });
   readonly modal = input(true, { transform: booleanAttribute });
+  /**
+   * Off by default: Escape, an outside click, the × and `uioSheetClose` close
+   * the sheet and report it through `openChange`. On, they only ask, through
+   * `closeRequest`, and `open` stays wherever the caller put it.
+   *
+   * That is Ark with `open` controlled, and it is what a caller needs when it
+   * may refuse — a panel holding unsaved edits asks first, and must still be on
+   * screen, under the question, while it does. Closing itself and being
+   * re-opened is not the same thing: the focus trap, the page's `aria-hidden`
+   * marks and the surface's place in the stack would all be rebuilt on top of
+   * whatever opened meanwhile.
+   */
+  readonly controlled = input(false, { transform: booleanAttribute });
+  readonly closeRequest = output<void>();
 
   readonly dialogContext = inject(UioDialogContext);
   protected readonly state = computed(() => (this.open() ? "open" : "closed"));
@@ -185,7 +200,7 @@ export class UioSheet implements OnInit, OnDestroy {
      * `closeOnInteractOutside: modal && !alertDialog`. Escape closes either way.
      */
     dismiss: (reason) => {
-      if (reason === "escape" || this.modal()) this.hide();
+      if (reason === "escape" || this.modal()) this.requestClose();
     },
   };
 
@@ -227,6 +242,11 @@ export class UioSheet implements OnInit, OnDestroy {
   }
   toggle(): void {
     this.setOpen(!this.open());
+  }
+  /** A dismissal by the user: closes, or only asks when `controlled`. */
+  requestClose(): void {
+    if (this.controlled()) this.closeRequest.emit();
+    else this.hide();
   }
 
   /** Remembered on open so focus can be given back to it on close. */
@@ -407,7 +427,7 @@ export class UioSheetFooter {}
   host: {
     type: "button",
     "[id]": "sheet.dialogContext.partId('close')",
-    "(click)": "sheet.hide()",
+    "(click)": "sheet.requestClose()",
   },
 })
 export class UioSheetClose extends UioPart {

@@ -1,5 +1,15 @@
 # @ui-organized/angular
 
+## 6.1.0
+
+### Minor Changes
+
+- `UioSheet` and `UioAlertDialog` take a `controlled` input. With it set, Escape, an outside click, the close button and `uioSheetClose` or `uioAlertDialogCancel` don't close the overlay. They emit `closeRequest` instead, and `open` stays where you set it. `uioAlertDialogConfirm` leaves closing to your own `(click)`. Use it when closing depends on an answer, such as a panel with unsaved edits. Without `controlled`, nothing changes.
+
+### Patch Changes
+
+- @ui-organized/core@6.1.0
+
 ## 6.0.0
 
 ### Major Changes

@@ -57,14 +57,41 @@ describe("reconcile", () => {
     expect(btn.status).toBe("active");
   });
 
-  it("deprecates (never deletes) a component removed from code", () => {
+  it("deprecates (never deletes) a mapped component removed from code", () => {
     const first = reconcile(null, scanned, now).manifest;
+    const mapped: ComponentManifest = {
+      ...first,
+      components: first.components.map((c) =>
+        c.figmaComponentName === "Button"
+          ? { ...c, figmaComponentKey: "fig-btn", status: "active" as const }
+          : c,
+      ),
+    };
     const withoutButton = scanned.filter((s) => s.codeName !== "Button");
-    const { manifest, changes } = reconcile(first, withoutButton, now);
+    const { manifest, changes } = reconcile(mapped, withoutButton, now);
     const btn = manifest.components.find((c) => c.figmaComponentName === "Button")!;
     expect(btn).toBeDefined();
     expect(btn.status).toBe("deprecated");
+    expect(btn.figmaComponentKey).toBe("fig-btn");
     expect(changes.find((c) => c.component === "Button")?.kind).toBe("deprecated");
+  });
+
+  it("drops an unmapped component removed from code, even one already deprecated", () => {
+    const first = reconcile(null, scanned, now).manifest;
+    const stale: ComponentManifest = {
+      ...first,
+      components: first.components.map((c) =>
+        c.codeName === "Card" ? { ...c, status: "deprecated" as const } : c,
+      ),
+    };
+    const without = scanned.filter((s) => s.codeName !== "Button" && s.codeName !== "Card");
+    const { manifest, changes } = reconcile(stale, without, "2026-07-03T00:00:00.000Z");
+    expect(manifest.components.some((c) => c.codeName === "Button")).toBe(false);
+    expect(manifest.components.some((c) => c.codeName === "Card")).toBe(false);
+    expect(changes.find((c) => c.component === "Button")?.kind).toBe("removed");
+    expect(changes.find((c) => c.component === "Card")?.kind).toBe("removed");
+    // A removal is a change, so the timestamp moves with the files.
+    expect(manifest.generatedAt).toBe("2026-07-03T00:00:00.000Z");
   });
 });
 

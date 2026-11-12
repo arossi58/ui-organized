@@ -173,6 +173,21 @@ describe("column reordering", () => {
     view.destroy();
   });
 
+  it("moves the body cells with their header", () => {
+    const view = reorderable("always");
+    const firstRow = () =>
+      [...(view.target.querySelector("tbody tr")?.querySelectorAll("th, td") ?? [])].map((cell) =>
+        cell.textContent?.trim(),
+      );
+    expect(firstRow()).toEqual(["Ada", "Engineer", "3"]);
+
+    click(button(view.target, "Move Name right"));
+    expect(firstRow()).toEqual(["Engineer", "Ada", "3"]);
+    click(button(view.target, "Move Seats left"));
+    expect(firstRow()).toEqual(["Engineer", "3", "Ada"]);
+    view.destroy();
+  });
+
   it("in toggle mode, offers moving only inside reorder mode", () => {
     const view = reorderable("toggle");
     expect(button(view.target, "Move Name right")).toBeNull();

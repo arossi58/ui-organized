@@ -1,5 +1,17 @@
 # @ui-organized/angular-table
 
+## 6.1.0
+
+### Minor Changes
+
+- `UioDataTable` now renders the row detail panel. The `detail` input was accepted before, and rows turned clickable when it was set, but nothing showed the panel they opened. It is the same panel React, Vue and Svelte render: the row's title and description, a pager with its position ("2 of 8"), your `render` and `footer`, and a "Discard unsaved changes?" check when the row has edits. Focus returns to the row when it closes. It is also exported as `UioTableDetailSheet` (`<div uioTableDetailSheet>`) for tables composed from parts.
+
+  Confirming a destructive bulk action now runs it. Before, the confirmation closed and the action never ran.
+
+### Patch Changes
+
+- @ui-organized/table-core@6.1.0
+
 ## 6.0.0
 
 ### Major Changes

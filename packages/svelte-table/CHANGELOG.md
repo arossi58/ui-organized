@@ -1,5 +1,11 @@
 # @ui-organized/svelte-table
 
+## 6.1.0
+
+### Patch Changes
+
+- @ui-organized/table-core@6.1.0
+
 ## 6.0.0
 
 ### Major Changes
