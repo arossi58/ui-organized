@@ -12,9 +12,11 @@ export interface ExportResult {
 
 /**
  * One builder per bundle file. Keyed by `BundleFileName`, so the Export panel's
- * list and the zip can only disagree by failing to type-check.
+ * list and the zip can only disagree by failing to type-check. Exported for the
+ * CLI's fixtures (`scripts/cli-fixtures.test.ts`), which rebuild a bundle the
+ * way this hook does.
  */
-const BUILDERS: Record<BundleFileName, (state: BuilderState) => string> = {
+export const BUILDERS: Record<BundleFileName, (state: BuilderState) => string> = {
   "theme.json": buildThemeJson,
   [CSS_FILENAME]: buildThemeCss,
   "icons.ts": buildIconsModule,
