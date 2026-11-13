@@ -123,8 +123,15 @@ const PRIMARY_FILLS = [
   "--color-interactive-primary-selected",
 ] as const;
 
-const LINK_STATES = [
-  "--color-interactive-tertiary-default",
+/** The one tertiary state drawn as text: the outline button's resting label. */
+const LINK_STATE = "--color-interactive-tertiary-default";
+
+/**
+ * The outline button's hover and press states. Button.css fills the button
+ * with these and draws `--color-content-light` on top, so they are fills under
+ * a light label, not link text.
+ */
+const TERTIARY_FILLS = [
   "--color-interactive-tertiary-hover",
   "--color-interactive-tertiary-active",
 ] as const;
@@ -235,18 +242,40 @@ function effectiveRefs(mode: "light" | "dark", opts: ResolveOptions): Record<str
     }
   }
 
-  // Links: every state must read at body size on both surfaces. Walk toward
-  // the page's opposite end (lighter in dark mode, darker in light) and keep
-  // the states on distinct steps so hover and press still show.
-  const beds = [hex("--color-surface-primary"), hex("--color-surface-secondary")];
-  const toward: 1 | -1 = mode === "dark" ? -1 : 1;
-  const usedLink = new Set<string>();
-  for (const cssVar of LINK_STATES) {
+  // Link text (the outline button's resting label and border) must read at
+  // body size on both surfaces. Walk toward the page's opposite end: lighter
+  // in dark mode, darker in light.
+  const linkStep = brandStep(refs[LINK_STATE]);
+  if (linkStep) {
+    const beds = [hex("--color-surface-primary"), hex("--color-surface-secondary")];
+    const toward: 1 | -1 = mode === "dark" ? -1 : 1;
+    refs[LINK_STATE] = `brand.${pickStep(opts.brandRamp, linkStep, toward, beds, AA_TEXT)}`;
+  }
+
+  // Outline-button fills: on hover and press the button fills solid with
+  // `--color-content-light` on top, so each fill walks away from that label
+  // (darker, since it is near-white in both modes) until the label clears AA.
+  // Each state also starts at least a step darker than the one before it, as
+  // the map has them (dark 1100 → 1400 → 1500, light 1500 → 1600 → 1700), so
+  // the button deepens on hover and again on press. Without that floor, a
+  // brand whose resting outline had to walk far (lime in light mode) would
+  // lighten on hover.
+  //
+  // These used to be walked as link text, against the surfaces, because
+  // CONTRAST-AUDIT Task 3 lumped them in with the link. In dark mode that walk
+  // pulls toward the page's light end, the opposite of what a light label
+  // needs: utils 4.0.0 moved mars from a 7.29:1 hover to 3.45:1 and left every
+  // dark brand failing, down to 1.15:1. No check paired these fills with their
+  // label, so nothing noticed.
+  const label = hex("--color-content-light");
+  let prev = brandStep(refs[LINK_STATE]);
+  for (const cssVar of TERTIARY_FILLS) {
     const step = brandStep(refs[cssVar]);
     if (!step) continue;
-    const next = pickStep(opts.brandRamp, step, toward, beds, AA_TEXT, usedLink);
-    refs[cssVar] = `brand.${next}`;
-    usedLink.add(next);
+    const from =
+      prev && CORE_STEPS.indexOf(step) <= CORE_STEPS.indexOf(prev) ? offsetStep(prev, +1) : step;
+    prev = pickStep(opts.brandRamp, from, 1, [label], AA_TEXT);
+    refs[cssVar] = `brand.${prev}`;
   }
 
   return refs;
@@ -258,9 +287,9 @@ function effectiveRefs(mode: "light" | "dark", opts: ResolveOptions): Record<str
  * families. Used for both the live preview (inline styles) and theme export.
  *
  * The filled-button label (`--color-interactive-contents`), the primary fill
- * states, and the link states are chosen by contrast against their resolved
- * backgrounds, so they hold WCAG AA for any brand. Throws if a ref's step is
- * missing from the supplied ramp.
+ * states, the link color and the outline button's hover/press fills are chosen
+ * by contrast against what they are paired with, so they hold WCAG AA for any
+ * brand. Throws if a ref's step is missing from the supplied ramp.
  */
 export function resolveSemanticColors(
   mode: "light" | "dark",

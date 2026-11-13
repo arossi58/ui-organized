@@ -47,11 +47,13 @@
       },
       "hover": {
         "$type": "color",
-        "$value": "{brand.1200}"
+        "$description": "FILL, not text: the outline button's hover fill, with --color-content-light drawn on it. Must clear 4.5:1 against that label.",
+        "$value": "{brand.1400}"
       },
       "active": {
         "$type": "color",
-        "$value": "{brand.1000}"
+        "$description": "FILL, not text: the outline button's pressed fill, with --color-content-light drawn on it. Must clear 4.5:1 against that label.",
+        "$value": "{brand.1500}"
       },
       "selected": {
         "$type": "color",
