@@ -29,7 +29,7 @@
 }
 
 /* Figma focus is a 2px ring hugging the button (drop-shadow spread 2, offset 0),
-   matching the box-shadow focus used across the rest of the design system. */
+   drawn as an outline with no offset, like the other components' focus rings. */
 .btn:focus-visible {
   outline: 2px solid var(--color-interactive-focus);
   outline-offset: 0;

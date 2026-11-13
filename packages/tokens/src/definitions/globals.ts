@@ -60,7 +60,7 @@ export const zIndexTokens: Record<string, number> = Object.fromEntries(
 
 /**
  * Both families as ready-to-write CSS custom properties, e.g.
- * `{ "--dimension-06": "240px", "--z-index-popover": "1000" }`.
+ * `{ "--dimension-06": "240px", "--z-index-popover": "1200" }`.
  *
  * A generated theme stylesheet should emit all of these on `:root`. They are
  * mode-independent, so they never belong in a `[data-theme]` block.

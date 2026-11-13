@@ -1,9 +1,11 @@
 /**
  * Canonical semantic color mapping (dark + light), reference-based.
- * GENERATED from the design-system token JSON
- * (packages/tokens/src/semantic + src/themes/light) — the same source the
- * shipped library CSS is built from. This is the single source of truth the
- * builder uses for both live preview and theme export.
+ * Hand-maintained mirror of the semantic color JSON
+ * (`packages/tokens/src/semantic` = dark, `src/themes/light` = light). There is
+ * no generator: a semantic color change goes here AND in the JSON
+ * (UPDATING-TOKENS.md), and `semanticColorMap.test.ts` fails when the two
+ * disagree. The builder uses this for preview and export; the shipped CSS is
+ * built from the JSON.
  *
  * Each value is either:
  *   - a primitive reference "family.step" (e.g. "brand.1400", "grey.2300",

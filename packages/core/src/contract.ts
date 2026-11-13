@@ -8,11 +8,11 @@
  * theme-independent layout constants nobody thinks of as part of a "theme".
  * Nothing threw: the build was green and the console was clean, the sidebar just
  * quietly rendered at 185px instead of 240px and every portalled overlay lost its
- * z-index and stacked on DOM order. See `docs/theme-test.md`.
+ * z-index and stacked on DOM order.
  *
  * So the contract is derived from the CSS itself, never hand-listed. It is
  * checked in as `token-contract.json` and asserted up to date by
- * `src/tokenContract.test.ts`; `apps/marketing`'s theme-builder tests read the
+ * `src/contract.test.ts`; `apps/marketing`'s theme-builder tests read the
  * same file to assert a generated theme declares every name in it — the check
  * that would have caught the original bug.
  *

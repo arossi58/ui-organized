@@ -1,8 +1,8 @@
 /**
  * Resolver for the canonical semantic color map.
  *
- * Kept separate from semanticColorMap.ts (which is GENERATED from the token
- * JSON) so regenerating the map never clobbers this logic.
+ * Kept separate from semanticColorMap.ts so the map stays a plain table that
+ * mirrors the token JSON line for line (`semanticColorMap.test.ts` checks it).
  *
  * Resolves each "family.step" reference against the chosen brand and neutral
  * families ("brand.*" → brand family, "grey.*" → neutral family, any other
@@ -19,17 +19,19 @@ const FAMILY_REF = /^([a-z]+)\.(\d+)$/;
 
 /**
  * Translucent overlay tokens. In the shipped theme these are alpha colors
- * (e.g. `--color-interactive-ui-default` is `rgba(252,252,252,0.06)` in dark,
- * `#0202020f` in light), but the generated `semanticColorMap` captured only the
- * base color — the alpha was dropped. Without it, inputs, ghost/secondary
- * buttons, and UI control surfaces resolve to a solid fill (white in dark, black
- * in light) instead of a subtle overlay. We re-apply the canonical alpha here.
+ * (e.g. `--color-interactive-ui-default` is `#fcfcfc05` in dark, `#02020205` in
+ * light), but `semanticColorMap` records only the base color, as a
+ * `family.step` reference or an opaque hex. Without the alpha, inputs,
+ * ghost/secondary buttons, and UI control surfaces resolve to a solid fill
+ * (white in dark, black in light) instead of a subtle overlay. We re-apply the
+ * canonical alpha here; `semanticColorMap.test.ts` checks the result against
+ * the JSON.
  *
  * The three `--color-surface-overlay-*` tokens carry their own alpha ramp
- * (overlay-primary/secondary/tertiary = 0.06/0.10/0.14); a token regen
- * flattened them to a solid `{grey.100}`, so they're re-aliased to alpha here
- * too. (They used to mirror the interactive-ui ramp, but ui now steps
- * 0.02/0.06/0.10 while the overlays stay 0.06/0.10/0.14.)
+ * (overlay-primary/secondary/tertiary = 0.06/0.10/0.14); the map writes them as
+ * a solid `grey.100`, so they're re-aliased to alpha here too. (They used to
+ * mirror the interactive-ui ramp, but ui now steps 0.02/0.06/0.10 while the
+ * overlays stay 0.06/0.10/0.14.)
  *
  * Alpha is mode-independent — only the base color (light vs dark) flips, and
  * that already comes from the map — so a single table covers both modes.
@@ -274,7 +276,7 @@ export function resolveSemanticColors(
   // Bare brand token — the brand primary color (tracks the chosen primary shade).
   out["--brand"] = out["--color-interactive-primary-default"]!;
 
-  // Re-apply the alpha the generated map dropped for translucent overlay tokens.
+  // Re-apply the alpha the map leaves out for translucent overlay tokens.
   for (const [cssVar, alpha] of Object.entries(TOKEN_ALPHA)) {
     const v = out[cssVar];
     if (v) out[cssVar] = withAlpha(v, alpha);

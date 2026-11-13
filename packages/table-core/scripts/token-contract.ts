@@ -8,9 +8,9 @@
  * two answers drift apart. Only the paths differ, and they are this package's.
  *
  * Run as `pnpm --filter @ui-organized/table-core gen:contract`. The checked-in
- * file is asserted up to date by `src/tokenContract.test.ts` and by the lint
- * gate, so a new `var(--token)` shows up as a diff rather than as a theme that
- * silently renders wrong.
+ * file is asserted up to date by the lint gate (`pnpm quality:lint` regenerates
+ * it and diffs), so a new `var(--token)` shows up as a diff rather than as a
+ * theme that silently renders wrong.
  */
 import { writeFileSync } from "node:fs";
 // Reached by relative path rather than by package specifier, and deliberately:

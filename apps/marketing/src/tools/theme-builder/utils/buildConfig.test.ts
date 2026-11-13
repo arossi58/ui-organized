@@ -232,7 +232,7 @@ describe("buildThemeCss", () => {
     // and every portalled overlay with a green build and a clean console. The
     // contract is derived from the library's own CSS, so this fails the moment a
     // component starts reading a token the export doesn't emit.
-    // See docs/theme-test.md and packages/react/scripts/token-contract.ts.
+    // See packages/core/src/contract.ts (regenerate: `pnpm --filter @ui-organized/core gen:contract`).
     const declared = declaredVars(buildThemeCss(state()));
     const missing = tokenContract.tokens.filter((name) => !declared.has(name));
     expect(missing, "tokens the theme export fails to declare").toEqual([]);
