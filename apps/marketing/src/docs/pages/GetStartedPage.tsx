@@ -4,7 +4,7 @@
  * This page exists because the site had no install instructions at all: `/docs`
  * went Introduction → Foundations → components, and the only setup guidance
  * anywhere shipped inside the Theme Builder's export zip, where it was both
- * hard to find and wrong (see `docs/theme-test.md`). Everything here has been
+ * hard to find and wrong. Everything here has been
  * checked against a real app build, so the snippets are copy-paste correct.
  *
  * The four libraries differ in exactly the places a reader copies from, so the
@@ -16,7 +16,8 @@ import { FRAMEWORK_INFO } from "@ui-organized/code-connect/browser";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import styles from "../components/content.module.css";
-import { ANGULAR_VITE_CONFIG, ANGULAR_VITE_ENTRY, SETUP } from "./getStartedSnippets";
+import { ANGULAR_VITE_CONFIG, ANGULAR_VITE_ENTRY, OWN_WHY, SETUP } from "./getStartedSnippets";
+import { pageCss } from "./pageCss";
 
 const PEERS = {
   react: (
@@ -63,6 +64,9 @@ export function GetStartedPage() {
   const { label, packageName, language } = FRAMEWORK_INFO[framework];
   const isAngular = framework === "angular";
   const [firstIconPkg, ...otherIconPkgs] = setup.iconPackages;
+  // The entry imports it relative to `src/`; Angular lists it from the root.
+  const ownImport = setup.imports.find((row) => row.why === OWN_WHY)?.path ?? "./index.css";
+  const ownStylesheet = ownImport.startsWith("./") ? `src/${ownImport.slice(2)}` : ownImport;
 
   return (
     <>
@@ -297,6 +301,16 @@ export function GetStartedPage() {
             exactly right) in whatever fallback the browser picks. That looks deliberate, which is
             why it ships by accident. Don't check by eye: <code>document.fonts.size</code> is{" "}
             <code>0</code> when nothing loaded.
+          </p>
+        </DocsSection>
+
+        <DocsSection title="Style the page">
+          <CodeBlock code={pageCss(ownStylesheet)} language="css" />
+          <p>
+            The library styles its components, not the page around them. Without this, text
+            outside a component renders in the browser's default serif, and in dark mode the
+            components sit on a white page. Reading tokens rather than fixed values means the
+            page follows your theme and switches with <code>data-theme</code>.
           </p>
         </DocsSection>
 
