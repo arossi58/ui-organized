@@ -469,6 +469,12 @@ jobs:
   #    build` only; dev renders fine and nothing throws. Grepping the bundle
   #    can't substitute — it's minified.
   #
+  # Before either, `check:tarballs` packs every publishable package and checks
+  # that what its `exports` map promises is inside. A workspace consumer
+  # resolves through symlinks to a directory where every file exists, so
+  # nothing else here can see a file the tarball would leave out. `pnpm
+  # release` runs it before the smokes as well.
+  #
   # Its own job, which also keeps the CLI smoke's nested `pnpm build` from
   # racing anything else on the runner.
   smoke:
@@ -484,7 +490,14 @@ jobs:
       - name: Set up workspace
         uses: ./.github/actions/setup
 
+      # `pnpm pack` builds nothing; the setup action has built every package.
+      - name: Check every tarball carries its exports
+        run: pnpm check:tarballs
+
+      # Runs even when the tarball check failed: they catch different bugs, and
+      # one red step should not hide the other.
       - name: Smoke-test the published artifacts
+        if: ${{ !cancelled() }}
         run: pnpm smoke
 
   # ── Report and site ────────────────────────────────────────────────────────
