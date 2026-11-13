@@ -196,6 +196,14 @@ export function GetStartedPage() {
               <>Both subpaths are exported, so use whichever spelling your bundler prefers.</>
             )}
           </p>
+          {(framework === "svelte" || framework === "vue") && (
+            <p>
+              Line 2 is optional. Each component imports its own stylesheet, and the library imports
+              the typography and base rules they share, so without it your bundle carries the CSS
+              for only the components you use. Import <code>{packageName}/styles.css</code> to load
+              every component's styles up front, in the order above.
+            </p>
+          )}
           {isAngular && (
             <p className={styles.propNote}>
               Expect <code>ng build</code> to warn that the initial bundle is over budget. A new
