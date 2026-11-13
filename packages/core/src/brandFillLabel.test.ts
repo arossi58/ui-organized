@@ -16,7 +16,8 @@ import { cssFiles } from "./contract.js";
  * so this reads the CSS.
  */
 
-const PRIMARY_FILL = /background(?:-color)?\s*:\s*var\(--color-interactive-primary-(?:default|hover|active|selected)\)/;
+const PRIMARY_FILL =
+  /background(?:-color)?\s*:\s*var\(--color-interactive-primary-(?:default|hover|active|selected)\)/;
 // `color:` as its own declaration, not the tail of `background-color:`/`border-color:`.
 const COLOR = /(?:^|[;{\s])color\s*:\s*([^;]+);/;
 
