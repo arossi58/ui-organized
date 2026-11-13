@@ -456,8 +456,8 @@ jobs:
           retention-days: 7
 
   # The release smoke, against bugs that only exist in the published/production
-  # artifact, which unit tests cannot reach. `pnpm smoke` runs ten suites of
-  # three kinds; the CLI and icon ones have each already caught a shipped
+  # artifact, which unit tests cannot reach. `pnpm smoke` runs thirteen suites
+  # of four kinds; the CLI and icon ones have each already caught a shipped
   # regression. `pnpm release` runs them too, so a manual publish is gated the
   # same way.
   #
@@ -473,9 +473,18 @@ jobs:
   #    Grepping the bundle can't substitute — it's minified. Svelte, Vue and
   #    Angular render their adapters' icons against the installed icon packages.
   #
+  #  · Per-component CSS, Svelte and Vue — builds examples/<framework>-css-smoke
+  #    (one Button, no /styles.css) for production and checks its CSS has the
+  #    Button's rules and typography/base, and no other component's. A wrong
+  #    `sideEffects` entry ships every sheet, or drops the shared ones, in
+  #    `vite build` only.
+  #
   #  · Tables, one per library — builds examples/<framework>-table-smoke for
   #    production and checks that the table rendered and its stylesheet came
-  #    with it.
+  #    with it. A fifth builds examples/angular-cli-smoke with `ng build`, the
+  #    path most Angular readers take. The Svelte, Vue and Angular CLI apps are
+  #    Get Started's snippets verbatim, so they also check what the page
+  #    promises past the table.
   #
   # Before all of them, `check:tarballs` packs every publishable package and checks
   # that what its `exports` map promises is inside. A workspace consumer

@@ -79,7 +79,7 @@ pnpm quality --skip-build            # reuse existing Storybook build; much fast
 pnpm --filter @ui-organized/parity test:browser   # parity's browser half: CI only (4 shards), 35–40 min whole
 pnpm check:tarballs                  # pack every publishable package, assert its exports resolve inside
 pnpm check:published                 # every publishable package@version is on npm (release.yml runs it after a publish)
-pnpm smoke                           # release smoke, 10 suites: cli + mcp (packed tarballs), each library's icons, the four tables (production builds)
+pnpm smoke                           # release smoke, 13 suites: cli + mcp (packed tarballs), each library's icons, Svelte's and Vue's per-component CSS, the four tables + Get Started's Angular CLI app (production builds)
 ```
 
 Lint, unit, a11y and interaction block — including the `:frameworks` pair, which
