@@ -93,7 +93,7 @@ in the engine, so it is identical across all four adapters.
 
 ## Peer dependencies
 
-`vue >= 3.5`, `@ui-organized/vue >= 0.1.0`.
+`vue >= 3.5`, `@ui-organized/vue >= 6.0.0`.
 
 ## License
 

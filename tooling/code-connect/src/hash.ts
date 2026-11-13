@@ -1,5 +1,8 @@
 /**
- * Prop-signature hashing (Connect.md §3 critical rule, §8).
+ * Prop-signature hashing: how a mapping notices that the code under it changed.
+ * A manifest entry keeps the hash of its props as they were when it was last
+ * synced, and the scanner publishes the current one; when they differ, the
+ * mapping is stale.
  *
  * The scanner (from real code) and the plugin (for staleness checks) MUST compute
  * this identically, so the canonical serialization is defined once, here, and

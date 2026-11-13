@@ -1,5 +1,5 @@
 /**
- * Pure prop-set diffing (Connect.md §4.4, §6.2). Browser-safe — shared by the MCP
+ * Pure prop-set diffing. Browser-safe — shared by the MCP
  * server's staleness/validate paths and the Figma plugin's "what changed" view, so
  * both describe drift identically.
  */

@@ -1,5 +1,5 @@
 /**
- * Manifest {@link PropDefinition} → editable control (INSPECTOR.md §4).
+ * Manifest {@link PropDefinition} → editable control.
  *
  * Pure — no React, no Storybook — so it's unit-testable and shared by every
  * consumer that has to answer "what are this prop's legal values?": the Storybook
@@ -7,7 +7,7 @@
  * expansion.
  *
  * The manifest is the ONLY source of "what properties exist and what they're
- * called" (§0.3): we classify off `prop.type` / `figmaVariantMapping`, never off
+ * called": we classify off `prop.type` / `figmaVariantMapping`, never off
  * Storybook's inferred argTypes. `controlFromArgType` exists purely to fill the
  * gaps for args the manifest doesn't describe — it never overrides a verified
  * manifest variant.
@@ -190,7 +190,7 @@ export function mergeControls(
 /**
  * Group controls into Figma-style sections. A control whose name shares a prefix
  * with others (e.g. `icon`, `iconPosition`) collapses under that prefix; the rest
- * live under "Properties". Pure UI grouping, no logic implication (§4).
+ * live under "Properties". Pure UI grouping, no logic implication.
  *
  * "State" comes first and is the reason the grouping exists at all for overlays.
  * A Dialog's or a Select's interesting DOM only exists while it is open, so on a

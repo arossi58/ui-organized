@@ -2,10 +2,10 @@
  * Is a manifest entry still in step with the code it describes?
  *
  * The scanner publishes `manifest/latest-hashes.json` on every run; comparing an
- * entry's stored `propSignatureHash` against it is the cheap drift signal
- * (Connect.md §8). We use `computeStalenessCore` — the same function the MCP
- * server and the Storybook Inspector use — so all three agree on what "stale"
- * means, down to the list of changed prop names.
+ * entry's stored `propSignatureHash` against it is the cheap drift signal. We use
+ * `computeStalenessCore` — the same function the MCP server and the Storybook
+ * Inspector use — so all three agree on what "stale" means, down to the list of
+ * changed prop names.
  */
 import {
   computeStalenessCore,

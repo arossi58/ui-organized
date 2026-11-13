@@ -5,8 +5,8 @@ Angular component library for the **ui-organized** design system, built on the
 through design tokens (CSS custom properties from
 [`@ui-organized/tokens`](https://www.npmjs.com/package/@ui-organized/tokens)).
 
-The same 68 components the React, Svelte and Vue libraries ship, rendering the
-same DOM: one stylesheet, one set of class names, one token contract. A gate in
+Every component the React, Svelte and Vue libraries ship, rendering the same
+DOM: one stylesheet, one set of class names, one token contract. A gate in
 this repo renders every component in every library and diffs the markup, so
 "same component" is asserted rather than intended.
 

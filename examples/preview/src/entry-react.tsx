@@ -1,9 +1,9 @@
 /**
  * The React page.
  *
- * React is the only library that ships all 67, so nothing here renders a gap —
- * the `missing` branch stays anyway, because "React is complete" is a fact about
- * today rather than a property of this file.
+ * Every library ships every component in the catalogue today, React included, so
+ * nothing here renders a gap — the `missing` branch stays anyway, because "React
+ * is complete" is a fact about today rather than a property of this file.
  */
 import { createRoot } from "react-dom/client";
 import "@ui-organized/tokens/variables.css";

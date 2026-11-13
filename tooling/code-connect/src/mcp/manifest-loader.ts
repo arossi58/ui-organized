@@ -1,11 +1,11 @@
 /**
- * Manifest loader (Connect.md §2, §6, §8, §10.6).
+ * Manifest loader.
  *
  * The MCP server's read path. Loads `manifest/components.json` and
  * `manifest/latest-hashes.json` and caches them, re-reading only when the file's
  * mtime changes — so repeated agent queries during a design-to-code session don't
  * re-parse (or, in the deployed HTTP case, re-fetch) on every call and can't hit
- * rate limits (§10.6). Local edits (a fresh `pnpm scan`) are still picked up
+ * rate limits. Local edits (a fresh `pnpm scan`) are still picked up
  * because the mtime moves.
  *
  * Manifest location resolves from `CODE_CONNECT_MANIFEST_DIR` if set (deployment /

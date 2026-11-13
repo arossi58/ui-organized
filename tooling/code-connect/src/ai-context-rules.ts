@@ -1,5 +1,5 @@
 /**
- * The anti-hallucination prose for `ai-context.ts` (Connect.md §6.4, §7.2).
+ * The anti-hallucination prose for `ai-context.ts`.
  *
  * Split out from the renderer on purpose: this wording gets tuned by hand as we
  * observe real agents failing in real ways, and those diffs should be readable

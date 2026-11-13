@@ -1,11 +1,11 @@
 /**
- * Staleness core — the pure, browser-safe heart of the staleness check
- * (Connect.md §4.4, §8). No fs, no scanner, no path: given an entry plus the
+ * Staleness core — the pure, browser-safe heart of the staleness check. No fs,
+ * no scanner, no path: given an entry plus the
  * scanner-published latest hash + prop set, it answers "is this mapping stale and
  * what drifted".
  *
  * This exists so the *same* staleness computation runs in three places without
- * forking (INSPECTOR.md §6):
+ * forking:
  *   - the MCP server's read path ({@link computeStaleness} in mcp/staleness.ts,
  *     which resolves the hash/props from a fs-backed ManifestLoader then calls
  *     this),
