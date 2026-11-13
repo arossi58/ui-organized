@@ -14,6 +14,7 @@ import {
 } from "@ui-organized/utils";
 import { useBuilderStore } from "./themeState";
 import { buildThemeTokens } from "../utils/buildConfig";
+import { describeReplaced } from "../utils/themeDiff";
 
 const s = () => useBuilderStore.getState();
 
@@ -251,5 +252,101 @@ describe("neutral surface tint", () => {
     expect(s().neutralMode).toBe("family");
     expect(s().neutralFamily).toBe("flint");
     expect(s().neutralTint).toBe(DEFAULT_NEUTRAL_TINT);
+  });
+});
+
+describe("loadFromThemeJson reports the values it replaced", () => {
+  // The builder keeps its inputs and re-derives every color, spacing step,
+  // radius and component size, so a variable edited in Figma comes back as the
+  // derived value. The import has to say which, not promise a lossless trip.
+  const exported = () => JSON.parse(JSON.stringify(buildThemeTokens(s()))) as Record<string, any>;
+  /** The `$value` a `{a.b.c}` reference points at inside `doc`. */
+  const valueAt = (doc: Record<string, any>, ref: string): unknown =>
+    ref
+      .slice(1, -1)
+      .split(".")
+      .reduce<any>((node, key) => node?.[key], doc)?.$value;
+
+  beforeEach(() => {
+    s().setNeutralFamily("grey");
+    s().setNeutralTint(DEFAULT_NEUTRAL_TINT);
+    s().setRadiusBase(4);
+    s().setSpacingBase(4);
+  });
+
+  it("reports nothing for the builder's own unmodified export", () => {
+    expect(s().loadFromThemeJson(exported())).toEqual([]);
+  });
+
+  it("reports nothing for an unmodified tinted, customized theme either", () => {
+    s().setNeutralFamily("juniper");
+    s().setRadiusBase(6);
+    s().setSpacingBase(5);
+    s().setTypeScale(18, 1.2);
+    const theme = exported();
+    s().setNeutralFamily("grey"); // dirty the state
+    s().setSpacingBase(4);
+    expect(s().loadFromThemeJson(theme)).toEqual([]);
+    s().resetTypeScale();
+  });
+
+  it("reports a re-pointed semantic color", () => {
+    const theme = exported();
+    const original = theme.color.dark.surface.primary.$value as string;
+    theme.color.dark.surface.primary.$value = "{primitive.color.neutral.1000}";
+
+    expect(s().loadFromThemeJson(theme)).toEqual([
+      {
+        path: "color.dark.surface.primary",
+        section: "color",
+        file: valueAt(theme, "{primitive.color.neutral.1000}"),
+        builder: valueAt(theme, original),
+      },
+    ]);
+  });
+
+  it("reports an edited primitive hex, and each semantic color that resolved through it", () => {
+    const theme = exported();
+    theme.primitive.color.brand["1400"].$value = "#123456";
+
+    const replaced = s().loadFromThemeJson(theme).map((r) => r.path);
+    expect(replaced).toContain("primitive.color.brand.1400");
+    // The file's aliases still point at brand.1400, but brand.1400 is a different color.
+    const aliased = Object.entries(theme.color.light)
+      .filter(([, token]) => (token as any).$value === "{primitive.color.brand.1400}")
+      .map(([name]) => `color.light.${name}`);
+    expect(aliased.length).toBeGreaterThan(0);
+    for (const path of aliased) expect(replaced).toContain(path);
+  });
+
+  it("reports an edited spacing step, and counts it by section", () => {
+    const theme = exported();
+    theme.spacing["space-03"].$value = "13px";
+
+    const replaced = s().loadFromThemeJson(theme);
+    expect(replaced.map((r) => [r.path, r.file])).toEqual([["spacing.space-03", "13px"]]);
+    expect(describeReplaced(replaced)).toBe("1 spacing value");
+  });
+
+  it("ignores the float and format noise a Figma round trip adds", () => {
+    const theme = exported();
+    // Figma stores numbers as 32-bit floats, and the builder's rgba() alpha
+    // colors may come back as 8-digit hex from another tool.
+    const step = theme.spacing["space-03"];
+    step.$value = `${parseFloat(step.$value) + 0.0000002}px`;
+    const ui = theme.color.light.interactive["ui-default"];
+    const [r, g, b, a] = /rgba\(([^)]+)\)/.exec(ui.$value)![1]!.split(",").map(Number);
+    const hex = (n: number) => Math.round(n).toString(16).padStart(2, "0");
+    ui.$value = `#${hex(r!)}${hex(g!)}${hex(b!)}${hex(a! * 255)}`;
+
+    expect(s().loadFromThemeJson(theme)).toEqual([]);
+  });
+
+  it("reports nothing for a file with no color group", () => {
+    const theme = exported();
+    delete theme.color;
+    delete theme.primitive;
+    expect(s().loadFromThemeJson(theme)).toEqual([]);
+    expect(s().loadFromThemeJson({ type: {}, spacing: {} })).toEqual([]);
   });
 });

@@ -31,6 +31,12 @@
      dimmed backdrop, with no drop shadow. */
   outline: none;
   overflow-y: auto;
+  /* Slide timing, read by the animations below. Decelerate in, accelerate out,
+     and leave faster than it arrived: the user is waiting on the open, not on
+     the close. `both` holds the end frame on the way out, so the panel does not
+     flash back into place before it is hidden. */
+  --sheet-in: 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --sheet-out: 160ms cubic-bezier(0.4, 0, 1, 1) both;
 }
 
 /* Ark keeps this mounted and toggles the `hidden` attribute; the `display`
@@ -118,14 +124,6 @@
 .sheet__popup--left[data-state="closed"] { animation: sheet-out-left var(--sheet-out); }
 .sheet__popup--top[data-state="closed"] { animation: sheet-out-top var(--sheet-out); }
 .sheet__popup--bottom[data-state="closed"] { animation: sheet-out-bottom var(--sheet-out); }
-
-/* Decelerate in, accelerate out, and leave faster than it arrived: the user
-   is waiting on the open, not on the close. `both` holds the end frame on the
-   way out, so the panel does not flash back into place before it is hidden. */
-.sheet__popup {
-  --sheet-in: 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  --sheet-out: 160ms cubic-bezier(0.4, 0, 1, 1) both;
-}
 
 @keyframes sheet-in-right { from { transform: translateX(100%); } }
 @keyframes sheet-in-left { from { transform: translateX(-100%); } }

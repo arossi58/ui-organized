@@ -1,14 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-
 export interface GoogleFont {
   family: string;
   variants: string[];  // e.g. ["regular", "500", "600", "700", "italic"]
   files: Record<string, string>;
 }
-
-// Simple cache across renders
-let cachedFonts: GoogleFont[] | null = null;
-let fetchPromise: Promise<GoogleFont[]> | null = null;
 
 /**
  * Parse variant string to numeric weight or null for italic-only entries.
@@ -26,29 +20,6 @@ export function getAvailableWeights(font: GoogleFont): number[] {
     .map(variantToWeight)
     .filter((w): w is number => w !== null);
   return [...new Set(weights)].sort((a, b) => a - b);
-}
-
-async function fetchGoogleFonts(): Promise<GoogleFont[]> {
-  if (cachedFonts) return cachedFonts;
-  if (fetchPromise) return fetchPromise;
-
-  fetchPromise = (async () => {
-    try {
-      const res = await fetch(
-        "https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=AIzaSyDummyKeyForDisplay",
-      );
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as { items: GoogleFont[] };
-      cachedFonts = data.items;
-      return data.items;
-    } catch {
-      // Return popular fallback list when API key is absent/invalid
-      cachedFonts = FALLBACK_FONTS;
-      return FALLBACK_FONTS;
-    }
-  })();
-
-  return fetchPromise;
 }
 
 /** Ascending, deduplicated — the order `css2` requires in its `wght@` list. */
@@ -181,48 +152,34 @@ export interface UseGoogleFontsResult {
   error: string | null;
 }
 
+/**
+ * The families the font pickers offer, in hand on the first render.
+ *
+ * This used to start empty and fill in after a fetch to the Google Fonts API.
+ * The fetch carried a placeholder key, so it always failed and fell back to
+ * `FALLBACK_FONTS`, but only after the pickers had mounted. Ark's combobox works
+ * out its input text once, at startup, from the options it has then; with none,
+ * the theme's "Inter" had no label to show, and options arriving later never
+ * re-sync a closed combobox whose value hasn't changed. So a fresh visit to the
+ * Typography tab showed two empty pickers. A synchronous list has the label from
+ * the first render.
+ *
+ * The curated list is also the honest one: every family in it ships with Figma,
+ * which the full API list does not promise. Wiring a real API key back in would
+ * have to keep this list as the initial value for the same reason.
+ */
 export function useGoogleFonts(): UseGoogleFontsResult {
-  const [fonts, setFonts] = useState<GoogleFont[]>(cachedFonts ?? []);
-  const [loading, setLoading] = useState(!cachedFonts);
-  const [error, setError] = useState<string | null>(null);
-  const mounted = useRef(true);
-
-  useEffect(() => {
-    mounted.current = true;
-    if (cachedFonts) {
-      setFonts(cachedFonts);
-      setLoading(false);
-      return;
-    }
-    fetchGoogleFonts()
-      .then((list) => {
-        if (mounted.current) {
-          setFonts(list);
-          setLoading(false);
-        }
-      })
-      .catch((err: unknown) => {
-        if (mounted.current) {
-          setError(String(err));
-          setLoading(false);
-          setFonts(FALLBACK_FONTS);
-        }
-      });
-    return () => {
-      mounted.current = false;
-    };
-  }, []);
-
-  return { fonts, loading, error };
+  return { fonts: FALLBACK_FONTS, loading: false, error: null };
 }
 
 // ─── Curated Figma-available font list ────────────────────────────────────────
 //
 // Every family below ships in the Google Fonts library, which Figma bundles in
 // full — so anything selectable here is guaranteed to resolve to a real font in
-// Figma. This is also the fallback used when the Google Fonts API is
-// unavailable. Keep this list to Google Fonts only; adding a family that Figma
-// can't render would let users pick a font the design tool would substitute.
+// Figma. It is the whole list the pickers offer (see `useGoogleFonts`). Keep it
+// to Google Fonts only; adding a family that Figma can't render would let users
+// pick a font the design tool would substitute. The design system's default
+// families must stay in it, or the pickers open blank (`useGoogleFonts.test.ts`).
 
 export const FALLBACK_FONTS: GoogleFont[] = [
   // Sans-serif

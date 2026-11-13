@@ -11,6 +11,7 @@ import {
   type ColorRamp,
 } from "@ui-organized/utils";
 import { contrastLevel, getAccessibleShades, primaryLabelFor } from "../utils/accessibleShades";
+import { describeReplaced, type ReplacedValue } from "../utils/themeDiff";
 import styles from "./ColorPanel.module.css";
 
 /** The ramp generator takes 3- or 6-digit hex; anything else is mid-edit. */
@@ -217,6 +218,35 @@ function SurfacePreview({ ramp }: { ramp: ColorRamp }) {
   );
 }
 
+/**
+ * What a load replaced. The builder keeps its inputs and re-derives every color,
+ * spacing step, radius and component size, so a variable edited in Figma comes
+ * back as the derived value. Saying so, with the list, beats a "✓ loaded" that
+ * lets someone find out a week later. An export from an older builder lands here
+ * too, legitimately: the derivation has moved on since it was written.
+ */
+function ReplacedNotice({ changes }: { changes: ReplacedValue[] }) {
+  return (
+    <div className={styles.importNotice}>
+      <p>
+        <strong>Loaded.</strong> {describeReplaced(changes)} in this file differ from what the
+        builder derives from its settings, so the builder's values replaced them. Make those
+        changes here, or keep this file as your source.
+      </p>
+      <details>
+        <summary>Show what was replaced</summary>
+        <ul className={styles.importNoticeList}>
+          {changes.map((c) => (
+            <li key={c.path}>
+              <code>{c.path}</code>: {c.file} → {c.builder ?? "not kept"}
+            </li>
+          ))}
+        </ul>
+      </details>
+    </div>
+  );
+}
+
 // ─── Panel ────────────────────────────────────────────────────────────────────
 
 export function ColorPanel() {
@@ -242,17 +272,25 @@ export function ColorPanel() {
 
   const [importStatus, setImportStatus] = useState<"idle" | "success" | "error">("idle");
   const [importError, setImportError] = useState("");
+  const [replaced, setReplaced] = useState<ReplacedValue[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
+  const clearTimer = useRef<ReturnType<typeof setTimeout>>();
 
   async function handleImport(e: ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    clearTimeout(clearTimer.current);
     try {
       const theme = JSON.parse(await file.text());
-      loadFromThemeJson(theme);
+      const changes = loadFromThemeJson(theme);
+      setReplaced(changes);
       setImportStatus("success");
       setImportError("");
-      setTimeout(() => setImportStatus("idle"), 3000);
+      // A clean load is a confirmation and can fade. A list of replaced values
+      // is something to read, so it stays until the next import.
+      if (changes.length === 0) {
+        clearTimer.current = setTimeout(() => setImportStatus("idle"), 3000);
+      }
     } catch (err) {
       setImportStatus("error");
       setImportError(err instanceof Error ? err.message : String(err));
@@ -342,6 +380,8 @@ export function ColorPanel() {
         <p className={styles.hint}>
           Load a <code>theme.json</code> back into the builder: a previous export, or one
           round-tripped from Figma via the <strong>UI Organized - Theme Import</strong> plugin.
+          The builder restores its settings and derives the rest from them, so edits to
+          individual variables don't carry back.
         </p>
         <input
           ref={fileRef}
@@ -355,14 +395,20 @@ export function ColorPanel() {
             Load theme.json…
           </Button>
         </div>
-        {importStatus === "success" && (
-          <p className={styles.importSuccess}>✓ Theme loaded into the builder.</p>
-        )}
-        {importStatus === "error" && (
-          <p className={styles.importError}>
-            <strong>Couldn't load:</strong> {importError}
-          </p>
-        )}
+        {/* Always mounted, so the outcome is announced when it changes. */}
+        <div role="status">
+          {importStatus === "success" &&
+            (replaced.length === 0 ? (
+              <p className={styles.importSuccess}>✓ Theme loaded into the builder.</p>
+            ) : (
+              <ReplacedNotice changes={replaced} />
+            ))}
+          {importStatus === "error" && (
+            <p className={styles.importError}>
+              <strong>Couldn't load:</strong> {importError}
+            </p>
+          )}
+        </div>
       </section>
     </div>
   );

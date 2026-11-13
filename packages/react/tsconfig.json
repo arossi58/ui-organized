@@ -2,9 +2,10 @@
   "extends": "@ui-organized/tsconfig/react.json",
   "compilerOptions": {
     "outDir": "dist",
-    // `.` rather than `src` so `scripts/` typechecks too — it holds the token
-    // contract extractor, which `src/tokenContract.test.ts` imports. tsup builds
-    // only what `src/index.ts` reaches, so nothing there ships.
+    // `.` rather than `src` so `scripts/` stays inside the project. It once held
+    // the token contract extractor, which moved to @ui-organized/core
+    // (`src/contract.ts`); today it holds only `smoke-icons.mjs`, which tsc skips.
+    // tsup builds only what `src/index.ts` reaches, so nothing there ships.
     "rootDir": "."
   },
   "include": ["src", "scripts"]

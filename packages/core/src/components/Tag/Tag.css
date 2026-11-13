@@ -58,10 +58,11 @@
      info-secondary  caribbean.1500  #00a072   3.26
      (info 8.34 and error 7.66 pass)
 
-   Deliberately left as-is: the fills come from `semanticColorMap.ts`, which is
-   generated from the token JSON, so closing this is a palette decision — either
-   darker light-theme steps (the dark theme's 1700s all clear 4.5) or a dark label
-   on the light fills — not something to patch in this file. */
+   Deliberately left as-is: the fills come from the semantic color JSON in
+   @ui-organized/tokens (mirrored by hand in `semanticColorMap.ts` for the Theme
+   Builder), so closing this is a palette decision — either darker light-theme
+   steps (the dark theme's 1700s all clear 4.5) or a dark label on the light
+   fills — not something to patch in this file. */
 
 .tag--success {
   background-color: var(--color-status-success);

@@ -6,10 +6,11 @@
  * `packages/react/token-contract.json`, which is itself derived from the
  * component CSS. A hand-written list here would drift the moment a component
  * started reading a new token — which is the exact class of bug this page
- * documents (see `docs/theme-test.md`).
+ * documents (see the header of `packages/core/src/contract.ts`).
  */
 import { Link } from "react-router-dom";
 import { type DocFramework } from "@ui-organized/code-connect/browser";
+import { getAuthoredFamily, getCoreFamily, relativeLuminance } from "@ui-organized/utils";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import { LINKS } from "../../lib/links";
@@ -158,13 +159,18 @@ observer.observe(document.documentElement, {
   attributeFilter: ['data-theme'],
 })`;
 
-// Relative luminance at step 1400 — see docs/theme-test.md.
-const NEUTRALS: Array<[string, string, string]> = [
-  ["grey", "#969696", "0.305"],
-  ["stone", "#5d6e76", "0.148"],
-  ["juniper", "#5c7575", "0.163"],
-  ["dove", "#765e6f", "0.130"],
-];
+/**
+ * Step 1400 of four neutrals, as authored (what `variables.css` ships) and as
+ * the Theme Builder derives them (`getCoreFamily`). Computed from the palette
+ * rather than typed in, so the table can't drift from it.
+ */
+const NEUTRAL_STEP = "1400";
+const swatch = (hex: string) => ({ hex, luminance: relativeLuminance(hex).toFixed(3) });
+const NEUTRALS = ["grey", "stone", "juniper", "dove"].map((family) => ({
+  family,
+  authored: swatch(getAuthoredFamily(family)[NEUTRAL_STEP]!.hex),
+  derived: swatch(getCoreFamily(family)[NEUTRAL_STEP]!.hex),
+}));
 
 export function ThemingPage() {
   const { framework } = useDocsFramework();
@@ -185,9 +191,13 @@ export function ThemingPage() {
         <DocsSection title="How theming works">
           <ul>
             <li>
-              <strong>Primitives</strong> are the raw palette: 37 color ramps of 24
-              steps each, plus the numeric spacing, radius and type scales. Nothing in a
-              component references these directly.
+              <strong>Primitives</strong> are the raw scales: 37 color ramps of 24 steps
+              each, plus the spacing, radius and type scales. Components never use a color
+              primitive; color always goes through a semantic role. Spacing, radius and type
+              steps are the exception: component CSS reads them directly (
+              <code>--spacing-space-02</code>, <code>--border-radius-full</code>,{" "}
+              <code>--type-size-body-medium</code>), so changing a step changes every component
+              that uses it.
             </li>
             <li>
               <strong>Semantic tokens</strong> are the roles:{" "}
@@ -453,36 +463,45 @@ export function ThemingPage() {
 
         <DocsSection title="Choosing a neutral">
           <p>
-            Semantic tokens reference ramps by <em>fixed step index</em> (
-            <code>grey.1400</code>, <code>grey.2100</code>, …), and the ramps are not
-            lightness-normalised across families. Relative luminance at step 1400:
+            Semantic tokens reference the neutral by fixed step (<code>grey.1400</code>,{" "}
+            <code>grey.2100</code>, …). The Theme Builder re-derives every neutral to grey's
+            per-step lightness: it keeps the family's hue and adds chroma, giving up at most 0.02
+            L at the lightest steps. Switching the neutral there changes the tint of the UI, not
+            its weight, and contrast holds for every brand × neutral.
+          </p>
+          <p>
+            The raw ramps in <code>@ui-organized/tokens/variables.css</code> are the authored
+            palette and are not normalised. If you point neutral roles at them by hand (Option
+            B), expect a heavier UI: at step 1400 the tinted families sit at about half grey's
+            luminance. Hex and relative luminance at step 1400:
           </p>
           <div className={styles.tableWrap}>
             <table className={styles.table}>
+              <caption className="sr-only">
+                Neutral families at step 1400, as authored and as the Theme Builder derives them
+              </caption>
               <thead>
                 <tr>
                   <th scope="col">Family</th>
-                  <th scope="col">Hex</th>
-                  <th scope="col">Relative luminance</th>
+                  <th scope="col">variables.css</th>
+                  <th scope="col">Theme Builder</th>
                 </tr>
               </thead>
               <tbody>
-                {NEUTRALS.map(([family, hex, luminance]) => (
+                {NEUTRALS.map(({ family, authored, derived }) => (
                   <tr key={family}>
                     <td><span className={styles.propName}>{family}</span></td>
-                    <td><code>{hex}</code></td>
-                    <td>{luminance}</td>
+                    <td>
+                      <code>{authored.hex}</code> {authored.luminance}
+                    </td>
+                    <td>
+                      <code>{derived.hex}</code> {derived.luminance}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-          <p>
-            Every tinted neutral is roughly <strong>half</strong> the luminance of{" "}
-            <code>grey</code> at the same step, so swapping the family shifts the weight of the
-            UI as well as its hue: inactive states and skeletons read noticeably heavier in
-            light mode. That is not a bug, but check the builder's light preview first.
-          </p>
         </DocsSection>
 
         <DocsSection title="Switching modes at runtime">
@@ -505,10 +524,17 @@ export function ThemingPage() {
             <a href={LINKS.githubFigmaPlugin} target="_blank" rel="noreferrer">
               Theme Import plugin
             </a>{" "}
-            builds Primitives, Semantic (Light/Dark modes, aliased to primitives), Scale and
-            Typography collections from it. Edit variables in Figma, export a fresh{" "}
-            <code>theme.json</code>, load it back into the builder. The round trip preserves
-            your parametric settings, so neither side hand-translates.
+            builds Primitives, Semantic (Light/Dark, aliased to primitives), Scale and
+            Typography collections from it, plus Icons when dynamic stroke scaling is on.
+          </p>
+          <p>
+            Exporting from the plugin and loading the file into the builder restores the
+            builder's inputs: brand, neutral and tint, primary shade, type scale, line heights,
+            fonts and weights, radius and spacing bases, and icons. The builder re-derives
+            everything else from those inputs, so edits to individual color, spacing, radius or
+            component variables made in Figma are not carried back. The builder lists the values
+            it replaced when you load the file. Make those changes in the builder, or keep the
+            Figma-exported <code>theme.json</code> as your source.
           </p>
         </DocsSection>
       </DocsProse>
