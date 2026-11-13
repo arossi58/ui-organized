@@ -82,7 +82,10 @@ function parseColor(value: string): [number, number, number, number] | null {
   }
   const fn = /^rgba?\(([^)]+)\)$/.exec(v);
   if (fn) {
-    const parts = fn[1]!.split(/[\s,/]+/).filter(Boolean).map(Number);
+    const parts = fn[1]!
+      .split(/[\s,/]+/)
+      .filter(Boolean)
+      .map(Number);
     if (parts.length < 3 || parts.some((p) => Number.isNaN(p))) return null;
     return [parts[0]!, parts[1]!, parts[2]!, parts[3] ?? 1];
   }
