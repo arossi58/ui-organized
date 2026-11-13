@@ -33,7 +33,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -52,13 +52,22 @@ const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
  * fall out of step with it again, so this reads the filesystem. `private: true`
  * is the only thing that keeps a package out, which is exactly the rule npm
  * itself applies.
+ *
+ * And then it drifted a second way: it read `packages/` alone, while
+ * `packs/ui-organized` publishes too. Every version of
+ * `@ui-organized/pack-ui-organized` on npm is four files and no `dist/`,
+ * because `pnpm release` never built it either. So the workspace is asked, all
+ * of it, through pnpm, which reads `pnpm-workspace.yaml` the way `changeset
+ * publish` does.
  */
 function publishablePackages() {
-  const dir = join(repoRoot, "packages");
-  const names = [];
-  for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (!entry.isDirectory()) continue;
-    const manifest = join(dir, entry.name, "package.json");
+  const listing = execFileSync("pnpm", ["list", "--recursive", "--depth", "-1", "--json"], {
+    cwd: repoRoot,
+    encoding: "utf8",
+  });
+  const dirs = [];
+  for (const { path } of JSON.parse(listing)) {
+    const manifest = join(path, "package.json");
     if (!existsSync(manifest)) continue;
     try {
       if (JSON.parse(readFileSync(manifest, "utf8")).private) continue;
@@ -66,12 +75,17 @@ function publishablePackages() {
       // An unparseable manifest is a real problem, but not this gate's to
       // diagnose — include it and let `pnpm pack` fail with a better message.
     }
-    names.push(entry.name);
+    dirs.push(relative(repoRoot, path));
   }
-  return names.sort();
+  return dirs.sort();
 }
 
 const PACKAGES = publishablePackages();
+
+// `angular` rather than `packages/angular`: that is where nearly all of them
+// live, and anything outside it keeps its full path.
+const label = (dir) => dir.replace(/^packages\//, "");
+const WIDTH = Math.max(15, ...PACKAGES.map((dir) => label(dir).length));
 
 /** Every file path an `exports` map points at, at any depth. */
 function exportTargets(node, out = new Set()) {
@@ -103,13 +117,14 @@ const outDir = mkdtempSync(join(tmpdir(), "uio-pack-"));
 process.stdout.write(`\nPacking ${PACKAGES.length} publishable packages…\n\n`);
 
 try {
-  for (const name of PACKAGES) {
-    const pkgDir = join(repoRoot, "packages", name);
+  for (const dir of PACKAGES) {
+    const pkgDir = join(repoRoot, dir);
+    const name = label(dir);
     let manifest;
     try {
       manifest = JSON.parse(await readFile(join(pkgDir, "package.json"), "utf8"));
     } catch {
-      process.stdout.write(`  ✗ ${name.padEnd(15)} no package.json\n`);
+      process.stdout.write(`  ✗ ${name.padEnd(WIDTH)} no package.json\n`);
       failures++;
       continue;
     }
@@ -120,7 +135,7 @@ try {
         encoding: "utf8",
       });
     } catch (error) {
-      process.stdout.write(`  ✗ ${name.padEnd(15)} pnpm pack failed\n`);
+      process.stdout.write(`  ✗ ${name.padEnd(WIDTH)} pnpm pack failed\n`);
       process.stdout.write(`      ${(error.stderr || error.message).split("\n")[0]}\n`);
       failures++;
       continue;
@@ -130,7 +145,7 @@ try {
       file.startsWith(`${manifest.name.replace("@", "").replace("/", "-")}-`),
     );
     if (!tarball) {
-      process.stdout.write(`  ✗ ${name.padEnd(15)} packed, but no tarball found\n`);
+      process.stdout.write(`  ✗ ${name.padEnd(WIDTH)} packed, but no tarball found\n`);
       failures++;
       continue;
     }
@@ -163,11 +178,11 @@ try {
     const distCount = [...names].filter((file) => file.startsWith("dist/")).length;
     if (problems.length) {
       failures++;
-      process.stdout.write(`  ✗ ${name.padEnd(15)} ${String(names.size).padStart(4)} files\n`);
+      process.stdout.write(`  ✗ ${name.padEnd(WIDTH)} ${String(names.size).padStart(4)} files\n`);
       for (const problem of problems) process.stdout.write(`      • ${problem}\n`);
     } else {
       process.stdout.write(
-        `  ✓ ${name.padEnd(15)} ${String(names.size).padStart(4)} files ` +
+        `  ✓ ${name.padEnd(WIDTH)} ${String(names.size).padStart(4)} files ` +
           `(${distCount} in dist), ${targets.size} exports targets all present\n`,
       );
     }

@@ -1,7 +1,7 @@
 /**
  * Gate 4 — linting and token validation.
  *
- * Eight checks, run as one gate. They are orchestrated here rather than chained
+ * Nine checks, run as one gate. They are orchestrated here rather than chained
  * with `&&` in package.json for two reasons: every check runs even when an
  * earlier one fails (so one broken thing doesn't hide five others), and the
  * results are written as structured JSON that the aggregator attributes back to
@@ -309,6 +309,66 @@ if (scan.status !== 0) {
       "manifest/ is out of date — run `pnpm --filter @ui-organized/code-connect scan` and commit it",
     );
   }
+}
+
+// ── 9. Fixed version groups ──────────────────────────────────────────────────
+/**
+ * Every package in a changesets `fixed` group carries the group's one version.
+ *
+ * `changeset version` keeps them together. A hand edit does not, and nothing
+ * else notices: `@ui-organized/mcp` went from 0.1.0 to 6.0.0 by hand, in a PR
+ * that also added a changeset, so no Release run could publish that state and
+ * the next `changeset version` skipped 6.0.0 entirely. `uiorg init` pins mcp to
+ * the library's version, so a group that drifts apart is a pin that 404s.
+ *
+ * Versions come from pnpm, so a group member that is not in the workspace at
+ * all (renamed, or misspelt in the config) fails here as well.
+ */
+let fixedGroups;
+try {
+  fixedGroups = JSON.parse(readFileSync(resolve(root, ".changeset/config.json"), "utf8")).fixed;
+} catch {
+  fixedGroups = undefined;
+}
+let workspaceVersions;
+try {
+  workspaceVersions = new Map(
+    JSON.parse(run("pnpm", ["list", "--recursive", "--depth", "-1", "--json"]).stdout).map(
+      (pkg) => [pkg.name, pkg.version],
+    ),
+  );
+} catch {
+  workspaceVersions = undefined;
+}
+if (!fixedGroups || !workspaceVersions) {
+  record(
+    "fixed-versions",
+    false,
+    fixedGroups
+      ? "pnpm could not list the workspace"
+      : ".changeset/config.json has no readable `fixed` groups",
+  );
+} else {
+  const drift = [];
+  for (const group of fixedGroups) {
+    const byVersion = new Map();
+    for (const name of group) {
+      const version = workspaceVersions.get(name) ?? "not in the workspace";
+      byVersion.set(version, [...(byVersion.get(version) ?? []), name]);
+    }
+    if (byVersion.size < 2) continue;
+    // The version most of the group shares is the group's; the rest drifted.
+    const [groupVersion] = [...byVersion].sort((a, b) => b[1].length - a[1].length)[0];
+    for (const [version, names] of byVersion) {
+      if (version === groupVersion) continue;
+      drift.push(`${names.join(", ")}: ${version}, not the group's ${groupVersion}`);
+    }
+  }
+  record(
+    "fixed-versions",
+    drift.length === 0,
+    `${drift.join("; ")} — version the group with \`changeset version\`, never by hand`,
+  );
 }
 
 // ── Attribute findings to components ─────────────────────────────────────────
