@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { contractOf, hiddenFromAssistiveTech, type ElementContract } from "../src/contract.js";
 import { SCENARIOS, type BrowserScenario } from "./scenarios/index.js";
+import selectInDialogScenarios from "./scenarios/SelectInDialog.js";
 import { FRAMEWORKS, comparedIn, mountScenario, type Framework } from "./mount.js";
 
 /**
@@ -178,11 +179,27 @@ for (const scenario of SCENARIOS) {
  * inline z-index onto each positioner, read from the popup's own CSS rule — a
  * mechanism with no equivalent in Angular's CDK, whose overlays all share one
  * container. This is the assertion that port will have to satisfy.
+ *
+ * Its scenario is imported directly, not taken from `SCENARIOS`, so it runs on
+ * every run, narrowed or not, like the Angular stacking test below. It used to
+ * look the scenario up in `SCENARIOS`, which `QUALITY_COMPONENTS` filters. On any
+ * run narrowed to a component other than `select-in-dialog`, the lookup came back
+ * `undefined` and the test died with "Cannot read properties of undefined
+ * (reading 'component')". Following the filter instead would mean this almost
+ * never ran on a PR. What breaks stacking is a change to Select, Dialog or the
+ * z-index tokens, and those narrow to `select` or `dialog` or run in full. Only
+ * an edit to this scenario or its fixtures narrows to the composite slug
+ * `select-in-dialog`.
  */
+const SELECT_IN_DIALOG = selectInDialogScenarios.find((s) => s.component === "SelectInDialog");
+
 test("a Select inside a Dialog paints above it", async ({ page }) => {
   const SELECT = '[data-scope="select"][data-part="positioner"]';
   const DIALOG = '[data-scope="dialog"][data-part="positioner"]';
-  const scenario = SCENARIOS.find((s) => s.component === "SelectInDialog")!;
+  const scenario = SELECT_IN_DIALOG;
+  if (!scenario) {
+    throw new Error("scenarios/SelectInDialog.ts no longer exports a SelectInDialog scenario");
+  }
   for (const framework of ["react", ...comparedIn(scenario)] as Framework[]) {
     await run(page, framework, scenario);
 
