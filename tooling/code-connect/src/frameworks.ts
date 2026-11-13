@@ -645,13 +645,19 @@ export function frameworkSample(
  * The once-per-app imports an AI spec lists, in the order Get started documents
  * and the release smoke apps (`examples/*-table-smoke`) build with. `table`
  * adds the data table's stylesheet, which is separate in every library.
+ *
+ * Only React's packages ship type declarations for the bare `/styles` subpath.
+ * TypeScript 6 checks side-effect imports, so `svelte-check` and `vue-tsc`
+ * reject `@ui-organized/vue/styles` in a fresh app: the other three get the
+ * `.css` spelling, as Get started tells their readers.
  */
 export function setupImportsFor(
   framework: DocFramework,
   options: { table?: boolean } = {},
 ): string[] {
   const pkg = FRAMEWORK_INFO[framework].packageName;
-  const table = options.table ? [`${pkg}-table/styles`] : [];
+  const styles = framework === "react" ? "styles" : "styles.css";
+  const table = options.table ? [`${pkg}-table/${styles}`] : [];
   // Registers the icon set. Omit it and every icon renders nothing — no
   // library imports an icon package itself.
   const icons = `${pkg}/icons/lucide`;
@@ -665,7 +671,7 @@ export function setupImportsFor(
       icons,
     ];
   }
-  return ["@ui-organized/tokens/variables.css", `${pkg}/styles`, ...table, icons];
+  return ["@ui-organized/tokens/variables.css", `${pkg}/${styles}`, ...table, icons];
 }
 
 /**
@@ -675,4 +681,14 @@ export function setupImportsFor(
  */
 export function aiSpecPath(framework: DocFramework, codeName: string): string {
   return framework === "react" ? `/ai/${codeName}.md` : `/ai/${framework}/${codeName}.md`;
+}
+
+/**
+ * Where a library's component index lives, relative to the site origin. React
+ * keeps the original `/llms.txt`; each other library has its own, listing its
+ * own symbols. Every spec, Copy for AI and the agent rules point here, so one
+ * helper keeps a Vue spec from sending its reader to React's index.
+ */
+export function aiIndexPath(framework: DocFramework): string {
+  return framework === "react" ? "/llms.txt" : `/llms-${framework}.txt`;
 }

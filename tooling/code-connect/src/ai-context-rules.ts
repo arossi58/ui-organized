@@ -10,6 +10,7 @@
  * that stops nothing dilutes the ones that do.
  */
 
+import { aiIndexPath, aiSpecPath, type DocFramework } from "./frameworks.js";
 import type { ComponentManifestEntry } from "./schema.js";
 
 /**
@@ -42,13 +43,33 @@ export const TOKEN_NAMING =
   "does not exist.";
 
 /**
+ * How each library takes an icon on an `icon` prop, beyond its name. Angular
+ * passes icons around as strings, so a name is all it takes; the other three
+ * also take the icon component, in their own binding syntax, and never markup.
+ */
+const ICON_VALUE: Record<DocFramework, string> = {
+  react: "Or pass the icon component itself (`icon={CircleAlert}`) — never an element (`icon={<CircleAlert />}`).",
+  svelte: "Or pass the icon component itself (`icon={CircleAlert}`) — never a snippet or markup.",
+  vue: 'Or pass the icon component itself (`:icon="CircleAlert"`) — never a rendered element.',
+  angular:
+    'Pass the name as a string (`icon="circle-alert"`, or `[icon]="name"` for a variable) — ' +
+    "never a component or an element.",
+};
+
+/**
  * Derived, component-specific warnings. Nothing here is stored in the manifest —
  * it's all computed from the entry's own prop set, so it stays correct as the
  * code changes and costs no authoring.
  *
+ * `framework` picks the syntax the hints are written in; the entry is always
+ * React's, since every library implements its API.
+ *
  * `customInstructions` is the place for guidance that genuinely cannot be derived.
  */
-export function derivePropHints(entry: ComponentManifestEntry): string[] {
+export function derivePropHints(
+  entry: ComponentManifestEntry,
+  framework: DocFramework = "react",
+): string[] {
   const names = new Set(entry.props.map((p) => p.name));
   const hints: string[] = [];
 
@@ -63,19 +84,19 @@ export function derivePropHints(entry: ComponentManifestEntry): string[] {
   // `icon` takes a NAME or a component, never an element. Agents habitually
   // pass `icon={<Trash />}` because that's the react-icons convention. And the
   // name is the icon library's own: there is no renamed vocabulary to recall,
-  // so an agent must not invent one (`close` for Lucide's `x`).
+  // so an agent must not invent one (`close` for Lucide's `x`). The example pair
+  // is one every library's Lucide and Tabler adapters ship: Heroicons, the
+  // example this used to give, has no Svelte adapter at all.
   const icon = entry.props.find((p) => p.name === "icon");
   if (icon && /\bIconName\b/.test(icon.type)) {
     hints.push(
       "`icon` takes the active icon library's own name for the icon, exactly as the library " +
-        'publishes it (Lucide `"x"`, Heroicons `"x-mark"`; names are not translated between ' +
-        "libraries), registered once with `registerIcons`. Or pass the icon component itself " +
-        "(`icon={Trash2}`) — never an element (`icon={<Trash2 />}`).",
+        'publishes it (Lucide `"circle-alert"` is Tabler\'s `"alert-circle"`; names are not ' +
+        `translated between libraries), registered once with \`registerIcons\`. ${ICON_VALUE[framework]}`,
     );
   } else if (icon && !/ReactNode|ReactElement|ComponentType|JSX\.Element/.test(icon.type)) {
     hints.push(
-      "`icon` takes an icon NAME string from the list below, not a React element — " +
-        "never `icon={<SomeIcon />}`.",
+      "`icon` takes an icon NAME string from the list below — never an element or a component.",
     );
   }
 
@@ -148,8 +169,8 @@ export function projectRules(
   packageName: string,
   framework: "react" | "svelte" | "vue" | "angular" = "react",
 ): string[] {
-  const specPath = framework === "react" ? "/ai/<Component>.md" : `/ai/${framework}/<Component>.md`;
-  const index = framework === "react" ? "/llms.txt" : `/llms-${framework}.txt`;
+  const specPath = aiSpecPath(framework, "<Component>");
+  const index = aiIndexPath(framework);
   return [
     `Build UI from \`${packageName}\`, importing only from that package. Never from a ` +
       "relative path, `shadcn/ui`, `@/components/ui/*`, or any other component library. " +

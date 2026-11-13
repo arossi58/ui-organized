@@ -35,7 +35,7 @@ export const iconUsage: UsageGuide = {
     },
     {
       do: "Name an icon exactly as your icon library does, and register it once with `registerIcons`.",
-      dont: "Invent a name, or borrow another library's: Lucide's `x` is Heroicons' `x-mark`.",
+      dont: "Invent a name, or borrow another library's: Lucide's `circle-alert` is Tabler's `alert-circle`.",
     },
     {
       do: "Keep icons at the sizes the control expects, so they sit on the text's baseline.",

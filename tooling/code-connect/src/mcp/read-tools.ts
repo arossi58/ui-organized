@@ -159,6 +159,7 @@ export function getComponent(
       target,
       relatedTargets,
       ...(data.manifest ? { frameworkManifest: data.manifest } : {}),
+      surface: data.surface,
     }),
   };
 }

@@ -18,6 +18,7 @@ import {
   humanizeLabel,
   packageFromImport,
 } from "../src/ai-context.js";
+import { derivePropHints } from "../src/ai-context-rules.js";
 import { USAGE_GUIDES } from "../src/usage/index.js";
 import type { ComponentManifest, ComponentManifestEntry } from "../src/schema.js";
 
@@ -395,6 +396,90 @@ describe("usage guidance", () => {
     const after = buildAiContext({ entry, usage: undefined, meta: META }).text;
     expect(after).toBe(before);
     expect(before).not.toContain("## When to use");
+  });
+
+  it("names cross-references as the target library exports them", () => {
+    const angular = { framework: "angular" as const, symbol: "UioButton" };
+    const surface = {
+      exports: ["UioButton", "UioSwitch", "UioMenu", "UioToolbar", "UioTag"],
+      selectors: {
+        UioButton: { element: "button", attribute: "uioButton" },
+        UioSwitch: { element: "uio-switch" },
+        UioMenu: { element: "uio-menu" },
+        UioToolbar: { element: "div", attribute: "uioToolbar" },
+        UioTag: { element: "span", attribute: "uioTag" },
+      },
+    };
+    const { text } = buildAiContext({ entry, usage: guide, target: angular, surface });
+    // A shipped neighbour under its own name; one the surface lacks is left out
+    // rather than named under React's.
+    expect(text).toContain("Use `UioSwitch` instead.");
+    expect(text).not.toContain("Toggle`");
+    // Without a surface, the library's prefix is still applied.
+    expect(buildAiContext({ entry, usage: guide, target: angular }).text).toContain(
+      "Use `UioSwitch` or `UioToggle` instead.",
+    );
+  });
+});
+
+/**
+ * One guide reaches all four libraries' specs and the docs site's Usage tab
+ * unchanged, so React's spelling in it is wrong three times out of four:
+ * "pass one to `render`" sent Vue agents to a prop Vue doesn't have.
+ */
+describe("usage guides are written for every library", () => {
+  const REACT_SYNTAX: [string, RegExp][] = [
+    ["a JSX expression attribute", /=\{/],
+    ["`className`", /\bclassName\b/],
+    ["`onClick`", /\bonClick\b/],
+    ["React's `render` prop", /`render`/],
+    ["a JSX component tag", /<[A-Z][A-Za-z]*[\s/>]/],
+  ];
+
+  function strings(value: unknown): string[] {
+    if (typeof value === "string") return [value];
+    if (Array.isArray(value)) return value.flatMap(strings);
+    if (value && typeof value === "object") return Object.values(value).flatMap(strings);
+    return [];
+  }
+
+  const offenders = (text: string) =>
+    REACT_SYNTAX.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
+
+  it("contains no React-only syntax", () => {
+    const found = Object.entries(USAGE_GUIDES).flatMap(([slug, guide]) =>
+      strings(guide).flatMap((text) => offenders(text).map((label) => `${slug}: ${label} in "${text}"`)),
+    );
+    expect(found).toEqual([]);
+  });
+
+  it("would catch the sentences that shipped (guards the guard)", () => {
+    expect(offenders("so pass one to `render` to keep the button's appearance")).toEqual(["React's `render` prop"]);
+    expect(offenders("and `animated={false}` turns it off outright")).toEqual(["a JSX expression attribute"]);
+    expect(offenders("wrap it in `<Tooltip>`")).toEqual(["a JSX component tag"]);
+  });
+});
+
+describe("derivePropHints per library", () => {
+  const button = byName("Button");
+  const iconHint = (framework?: "react" | "svelte" | "vue" | "angular") =>
+    derivePropHints(button, framework).find((hint) => hint.startsWith("`icon`"))!;
+
+  it("writes the icon component in each library's binding syntax", () => {
+    expect(iconHint()).toContain("`icon={CircleAlert}`");
+    expect(iconHint("svelte")).toContain("`icon={CircleAlert}`");
+    expect(iconHint("vue")).toContain('`:icon="CircleAlert"`');
+    expect(iconHint("vue")).not.toContain("={");
+    // Angular takes a name only.
+    expect(iconHint("angular")).toContain('`icon="circle-alert"`');
+    expect(iconHint("angular")).not.toContain("={");
+  });
+
+  it("gives a name pair every library's Lucide and Tabler adapters ship, and no Heroicons", () => {
+    for (const framework of ["react", "svelte", "vue", "angular"] as const) {
+      expect(iconHint(framework)).toContain('Lucide `"circle-alert"` is Tabler\'s `"alert-circle"`');
+      expect(iconHint(framework)).not.toMatch(/heroicons/i);
+    }
   });
 });
 

@@ -13,7 +13,7 @@ export const buttonUsage: UsageGuide = {
   ],
   avoid: [
     {
-      text: "For navigation. A control that changes the URL should be an anchor, so pass one to `render` to keep the button's appearance and the link's behaviour.",
+      text: "For navigation. A control that changes the URL should be a link: render the button as an anchor element, which keeps its appearance and the link's behaviour.",
     },
     {
       text: "For a setting that takes effect the moment it changes rather than on activation.",
