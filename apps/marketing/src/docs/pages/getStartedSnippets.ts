@@ -7,11 +7,23 @@
  * this file is where the docs follow. Edit a snippet here only after its
  * consumer agrees.
  *
- * One exception: Angular's main path is the Angular CLI, and no example builds
- * with it yet. Its `angular.json` styles, `main.ts`, `app.config.ts` and `App`
- * were checked against a scratch `ng new` app (Angular CLI 21.2, built with
- * `ng build` and rendered in Chromium) on 2026-11-12, not by a gate. The Vite
- * variant below still comes from `examples/angular-table-smoke`.
+ * Three of them hold these snippets verbatim, and `getStartedSnippets.test.ts`
+ * fails when either side changes alone:
+ *
+ * - Svelte and Vue: `examples/{svelte,vue}-table-smoke/src/main.ts` is `entry`
+ *   with the table's stylesheet and `iconRegister` added where the page says.
+ *   Both are type-checked as a create-vite TypeScript app would be, with
+ *   TypeScript 6's `noUncheckedSideEffectImports`, by the lint gate.
+ * - Angular: `examples/angular-cli-smoke` is an `ng new` app. Its `angular.json`
+ *   styles are `stylesConfig` plus the table's sheet, and its `main.ts` and
+ *   `app.config.ts` are `entry` and `iconConfig`. `pnpm smoke` builds it with
+ *   `ng build` and checks every listed stylesheet arrives, in order.
+ *
+ * Each App also renders `app` and the Reload Button from `iconUsage` (Svelte
+ * and Vue inside `iconConfig`'s IconProvider), not verbatim, so their props
+ * are held to the real types by svelte-check, vue-tsc or Angular's template
+ * compiler rather than by eye. The Angular Vite variant below comes from
+ * `examples/angular-table-smoke`.
  *
  * Only what differs lives here. The theme order, mode pinning and fonts are the
  * same for all four libraries and stay inline on the page.

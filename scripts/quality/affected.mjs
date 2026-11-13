@@ -219,8 +219,14 @@ function classify(files) {
     // and executes tarballs, so it keys off this rather than off the component
     // set: `packages/cli/` changes no component and still has to be smoked.
     // `tooling/code-connect/` and `manifest/` are private but ship bundled inside
-    // the cli and mcp tarballs, so they count.
-    touchedPackages: files.some((f) => /^(packages|tooling\/code-connect|manifest)\//.test(f)),
+    // the cli and mcp tarballs, so they count. So does `examples/`: the smoke
+    // gate builds those apps, and three of them are Get Started's snippets, so
+    // a change to one is a change to what the smoke measures. pnpm's answer
+    // below already says so (every example is an `@ui-organized/` package);
+    // this keeps `--paths` agreeing with it.
+    touchedPackages: files.some((f) =>
+      /^(packages|tooling\/code-connect|manifest|examples)\//.test(f),
+    ),
   };
 }
 

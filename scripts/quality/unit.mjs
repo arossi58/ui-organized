@@ -67,6 +67,19 @@ const only = new Set(
     .map((name) => name.trim())
     .filter(Boolean),
 );
+
+/**
+ * An example app selects the marketing suite.
+ *
+ * The marketing suite holds the check that Get Started's snippets are still the
+ * examples' entry files (`getStartedSnippets.test.ts`). No example is a
+ * dependency of the docs site, so pnpm never lists marketing as affected by
+ * one, and a PR that edited only an example's `main.ts` or `angular.json`
+ * would skip the one test that compares it with the page.
+ */
+if ([...only].some((name) => name.startsWith("@ui-organized/example-"))) {
+  only.add("@ui-organized/marketing");
+}
 const selected = only.size ? PACKAGES.filter((pkg) => only.has(pkg)) : PACKAGES;
 
 if (selected.length !== PACKAGES.length) {
