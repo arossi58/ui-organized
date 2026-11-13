@@ -1,6 +1,6 @@
 #!/usr/bin/env -S npx tsx
 /**
- * Code Connect MCP server — stdio transport (Connect.md §6.1).
+ * Code Connect MCP server — stdio transport.
  *
  * The local/individual entry point. Tool logic lives in `create-server.ts` and is
  * shared verbatim with the HTTP entry (`http-server.ts`); this file is only the

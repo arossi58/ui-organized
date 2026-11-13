@@ -1,4 +1,4 @@
-# Code Connect MCP server + Cloudflare Tunnel (Connect.md §9).
+# Code Connect MCP server + Cloudflare Tunnel.
 # Run from the repo root:
 #   docker compose -f tooling/code-connect/deploy/docker-compose.yml up -d
 services:

@@ -1,11 +1,11 @@
 /**
- * Manifest Sync CLI (Connect.md §5) — `pnpm --filter @ui-organized/code-connect scan`.
+ * Manifest Sync CLI — `pnpm --filter @ui-organized/code-connect scan`.
  *
  * Reads real component code, reconciles it against the committed manifest, and
  * writes `manifest/components.json` + `manifest/latest-hashes.json` at the repo
  * root. Runs locally and (per §9) as a CI job on merge to main.
  *
- * The scanner is the ONLY writer of `propSignatureHash` (Connect.md §8) — it always
+ * The scanner is the ONLY writer of `propSignatureHash` — it always
  * computes from current code, never from memory of when a mapping was made.
  */
 

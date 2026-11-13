@@ -1,11 +1,12 @@
 #!/usr/bin/env -S npx tsx
 /**
- * Code Connect MCP server — HTTP (Streamable HTTP) transport (Connect.md §6.1, §9).
+ * Code Connect MCP server — HTTP (Streamable HTTP) transport. Deployment files
+ * are in `deploy/`.
  *
  * The remote/team entry point: one endpoint the whole team points at, deployed on
  * TheVoid behind a Cloudflare Tunnel (e.g. mcp.uiorganized.com). It is a thin
  * transport wrapper around the SAME `createMcpServer` used by stdio — no forked
- * tool logic (§6.1). Runs statelessly (a fresh server + transport per request), so
+ * tool logic. Runs statelessly (a fresh server + transport per request), so
  * it scales horizontally behind the tunnel with no shared session state.
  *
  * Env:
@@ -27,7 +28,8 @@ const HOST = process.env.HOST ?? "0.0.0.0";
 const TOKEN = process.env.CODE_CONNECT_HTTP_TOKEN;
 const MCP_PATH = "/mcp";
 
-// One shared loader → its mtime-aware cache is reused across requests (§10.6).
+// One shared loader → its mtime-aware cache is reused across requests, rather
+// than every request re-reading the manifest.
 const loader = new ManifestLoader();
 
 function send(res: http.ServerResponse, status: number, body: unknown): void {

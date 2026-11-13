@@ -1,14 +1,14 @@
 /**
- * Staleness (Connect.md §4.4, §6.2, §8).
+ * Staleness: has the code under a mapping changed since it was verified?
  *
- * Two paths, matching the spec's fast-vs-thorough split:
+ * Two paths, one fast and one thorough:
  *  - {@link computeStaleness}: the cheap read-path check used by
  *    `get_component_context`. Compares the entry's stored `propSignatureHash`
  *    against the scanner-published `latest-hashes.json` — no re-scan, so repeated
- *    agent queries stay fast (§8).
+ *    agent queries stay fast.
  *  - {@link liveValidate}: the thorough check used by `validate_mapping`. Re-scans
  *    the real code to compute a prop-level diff. Allowed to be slower — it's a
- *    pre-flight tool, not called mid-generation (§5, §6.2).
+ *    pre-flight tool, not called mid-generation.
  */
 
 import { resolve, dirname } from "node:path";
@@ -29,13 +29,13 @@ const REPO_ROOT = process.env.CODE_CONNECT_REPO_ROOT ?? defaultRepoRoot();
 /**
  * Cheap: hash compare against the published latest scan. When stale AND the scan
  * artifact carries the current props, the prop-level `changedProps` is filled in
- * here too — no re-scan needed (Connect.md §8), so `get_component_context` can name
+ * here too — no re-scan needed, so `get_component_context` can name
  * what drifted without paying for a live scan.
  */
 export function computeStaleness(entry: ComponentManifestEntry, loader: ManifestLoader): Staleness {
   // Resolve the scanner-published hash/props from the fs-backed loader, then hand
   // off to the shared, browser-safe core so the inspector panel and the plugin
-  // compute staleness identically (INSPECTOR.md §6).
+  // compute staleness identically (see staleness-core.ts for why that matters).
   return computeStalenessCore(entry, loader.latestHashFor(entry), loader.latestPropsFor(entry));
 }
 

@@ -1,7 +1,8 @@
 /**
- * Flagging layers (Connect.md §7): Layer 2 annotations, Layer 3 warnings log, and
- * Layer 4 verify. The verifier runs against a fixture manifest built from the real
- * scan, with a deprecated + a stale entry injected, and temp generated .tsx files.
+ * Flagging layers (README, "Hallucination flagging"): Layer 2 annotations, Layer 3
+ * warnings log, and Layer 4 verify. The verifier runs against a fixture manifest
+ * built from the real scan, with a deprecated + a stale entry injected, and temp
+ * generated .tsx files.
  */
 import { describe, it, expect, beforeAll } from "vitest";
 import { mkdtempSync, writeFileSync } from "node:fs";
@@ -25,7 +26,7 @@ const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
 // ─── Layer 2 ──────────────────────────────────────────────────────────────────
 
-describe("Layer 2 — annotation (§7.2)", () => {
+describe("Layer 2 — annotation", () => {
   it("requires annotation below exact confidence or when stale", () => {
     expect(needsAnnotation("exact", false)).toBe(false);
     expect(needsAnnotation("exact", true)).toBe(true);
@@ -51,7 +52,7 @@ describe("Layer 2 — annotation (§7.2)", () => {
 
 // ─── Layer 3 ──────────────────────────────────────────────────────────────────
 
-describe("Layer 3 — mapping-warnings.json (§7.3)", () => {
+describe("Layer 3 — mapping-warnings.json", () => {
   it("collects warnings + dedupes stale mappings and serializes", () => {
     const c = new MappingWarningsCollector("https://figma.com/file/abc");
     expect(c.isClean()).toBe(true);
@@ -74,7 +75,7 @@ describe("Layer 3 — mapping-warnings.json (§7.3)", () => {
 
 // ─── Layer 4 ──────────────────────────────────────────────────────────────────
 
-describe("Layer 4 — verify-generated-code (§7.4)", () => {
+describe("Layer 4 — verify-generated-code", () => {
   let loader: ManifestLoader;
   let dir: string;
 

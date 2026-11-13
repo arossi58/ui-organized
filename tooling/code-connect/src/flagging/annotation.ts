@@ -1,5 +1,6 @@
 /**
- * Layer 2 — agent self-flagging in generated code (Connect.md §7.2).
+ * Layer 2 — agent self-flagging in generated code. (The four layers are listed
+ * under "Hallucination flagging" in this package's README.)
  *
  * When an agent uses a component from a `get_component_context` result whose
  * confidence is below `exact`, or whose mapping is stale, it must annotate the
@@ -29,13 +30,13 @@ export interface AnnotationInput {
 
 /**
  * Whether a usage MUST carry an annotation: anything below `exact` confidence, or a
- * stale mapping (§7.2). An exact, current mapping needs none.
+ * stale mapping. An exact, current mapping needs none.
  */
 export function needsAnnotation(confidence: Confidence, isStale = false): boolean {
   return confidence !== "exact" || isStale;
 }
 
-/** The inline comment block to place immediately above the usage (§7.2). */
+/** The inline comment block to place immediately above the usage. */
 export function buildAnnotation(input: AnnotationInput): string {
   const { codeName, confidence, isStale, figmaNodeName, changedProps, reason } = input;
   const flags = [`confidence: ${confidence}`];

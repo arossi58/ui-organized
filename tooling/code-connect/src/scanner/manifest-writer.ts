@@ -1,8 +1,8 @@
 /**
- * Manifest writer (Connect.md §5) — reconcile a fresh scan against the current
- * manifest, keeping the scan honest without clobbering human/plugin-owned fields.
+ * Manifest writer — reconcile a fresh scan against the current manifest, keeping
+ * the scan honest without clobbering human/plugin-owned fields.
  *
- * Diff rules (§5):
+ * Diff rules:
  *  - New component in code, no entry        → create as `draft`, no Figma mapping.
  *  - Existing entry, prop hash changed      → update `props`/`propSignatureHash`,
  *                                             bump `lastSyncedAt`, keep the Figma

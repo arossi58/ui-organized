@@ -1,6 +1,6 @@
 /**
  * "Copy for AI" — turns a verified manifest entry into a block a coding agent
- * cannot get wrong (Connect.md §6.4).
+ * cannot get wrong.
  *
  * Pure and browser-safe, for the same reason `serialize-core.ts` is: the native
  * docs site, the Storybook addon, and the static `/ai/<Component>.md` generator

@@ -1,11 +1,11 @@
 /**
- * Manifest Schema — the Source of Truth (Connect.md §3).
+ * Manifest Schema — the Source of Truth.
  *
  * This is the contract every other piece (scanner, MCP server, and — later — the
  * Figma plugin) reads and writes against. Treat it as frozen: additive fields are
- * safe, removals/renames require a `manifestVersion` bump (Connect.md §13.3).
+ * safe, removals/renames require a `manifestVersion` bump.
  *
- * Key architectural rule (Connect.md §1): a Figma node stores only a *pointer*
+ * Key architectural rule: a Figma node stores only a *pointer*
  * (the component key). The real mapping lives here, in git, so it stays diffable
  * and PR-reviewable and the two systems never drift independently.
  */
@@ -79,9 +79,9 @@ export interface ComponentManifestEntry {
 }
 
 /**
- * The on-disk shape of `manifest/components.json`. Connect.md §3 describes a bare
- * array; we wrap it so the file can carry a `manifestVersion` (§13.3) from day one
- * rather than retrofitting it once external manifests exist.
+ * The on-disk shape of `manifest/components.json`. Wrapped rather than a bare
+ * array of entries so the file can carry a `manifestVersion` from day one, rather
+ * than retrofitting it once external manifests exist.
  */
 export interface ComponentManifest {
   manifestVersion: number;
@@ -101,11 +101,11 @@ export function entryId(codePath: string, codeName: string): string {
 /**
  * `manifest/latest-hashes.json` — the latest scan result, published by the scanner
  * on every run so the plugin and MCP server can detect drift cheaply, without a
- * live re-scan on every request (Connect.md §8). Keyed by {@link entryId}
+ * live re-scan on every request. Keyed by {@link entryId}
  * (`codePath::codeName`).
  *
  * `hashes` alone answers "is it stale?" (a hash compare). `props` additionally
- * carries the current prop set so a stale mapping's "what changed" diff (§4.4) can
+ * carries the current prop set so a stale mapping's "what changed" diff can
  * be computed without re-scanning — the plugin (no code access) relies on this.
  */
 export interface LatestHashes {
@@ -114,9 +114,9 @@ export interface LatestHashes {
   props?: Record<string, PropDefinition[]>;
 }
 
-// ─── MCP tool I/O contracts (Connect.md §6.2) ─────────────────────────────────
+// ─── MCP tool I/O contracts ───────────────────────────────────────────────────
 
-/** Deterministic, not vibes-based — see confidence.ts and Connect.md §6.5. */
+/** Deterministic, not vibes-based — see confidence.ts. */
 export type Confidence = "exact" | "fuzzy" | "none";
 
 export interface Staleness {
@@ -137,7 +137,7 @@ export interface GetComponentContextOutput {
   confidence: Confidence;
   entry?: ComponentManifestEntry;
   staleness?: Staleness;
-  /** Always populated when `found=false` or `confidence !== "exact"` (§6.4). */
+  /** Always populated when `found=false` or `confidence !== "exact"`. */
   warning?: string;
 }
 

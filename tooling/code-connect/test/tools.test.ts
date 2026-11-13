@@ -1,5 +1,5 @@
 /**
- * Tool behavior — with an emphasis on the anti-hallucination guarantees (§6.4).
+ * Tool behavior — with an emphasis on the anti-hallucination guarantees.
  * The fixture manifest is built from the REAL scan so hashes and live re-scans line
  * up, then a few entries are perturbed to exercise stale / deprecated / no-match.
  */
@@ -97,7 +97,7 @@ beforeAll(() => {
   loader = new ManifestLoader(dir);
 });
 
-describe("get_component_context — anti-hallucination (§6.4)", () => {
+describe("get_component_context — anti-hallucination", () => {
   it("resolves a current mapping as exact with no warning", () => {
     const r = buildComponentContext(loader, { figmaComponentKey: "fig-tag" });
     expect(r.found).toBe(true);
@@ -130,7 +130,7 @@ describe("get_component_context — anti-hallucination (§6.4)", () => {
     expect(r.entry).toBeDefined();
   });
 
-  it("resolves a deprecated mapping with a warning rather than 404ing (§6.4.5)", () => {
+  it("resolves a deprecated mapping with a warning rather than 404ing", () => {
     const r = buildComponentContext(loader, { figmaComponentKey: "fig-old" });
     expect(r.found).toBe(true);
     expect(r.entry?.status).toBe("deprecated");
@@ -147,7 +147,7 @@ describe("search_components", () => {
     expect(btn!.confidence).toBe("exact");
   });
 
-  it("returns nothing for a nonsense query (no confidence inflation, §6.4.3)", () => {
+  it("returns nothing for a nonsense query (no confidence inflation)", () => {
     expect(searchComponents(loader, { query: "zzqqxx" }).results).toHaveLength(0);
   });
 
