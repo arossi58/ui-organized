@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-11-12T21:38:41.039Z",
+  "generatedAt": "2026-11-13T15:36:11.261Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialog": "sha256:45d508fd30c96523",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogCancel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogConfirm": "sha256:c729478012630d4f",
-    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": "sha256:ede4a86e2912e80b",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": "sha256:5a994a19d409a814",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
@@ -22,7 +22,7 @@
     "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
     "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:4cd111a1f868c3b9",
-    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:d85400644ba09e1d",
+    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:9ccd14beb2c04af9",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
@@ -70,7 +70,7 @@
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTitle": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTrigger": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:90589c38fc3d98e8",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:86cfcb7831e4bad1",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:bef6759e7e844295",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
@@ -81,7 +81,7 @@
     "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
     "packages/react/src/components/Menubar/Menubar.types.ts::Menubar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Menu/Menu.types.ts::MenuCheckboxItem": "sha256:dc0af9c05089e992",
-    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:1f4c6873dde0f0bc",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:4b385c79afc012d4",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroupLabel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuItem": "sha256:84938aebaed54770",
@@ -99,7 +99,7 @@
     "packages/react/src/components/PinInput/PinInput.types.ts::PinInput": "sha256:7bb9543b95a35aa0",
     "packages/react/src/components/Popover/Popover.types.ts::Popover": "sha256:a93ae00228c7bad7",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:3ce4770f849d5d1e",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:86cfcb7831e4bad1",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:4f53cda18c2baa0c",
@@ -114,7 +114,7 @@
     "packages/react/src/components/Select/Select.types.ts::Select": "sha256:a2c90f2f6a9c57da",
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:547d87a13141e747",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:e80310927344c2fc",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": "sha256:4f53cda18c2baa0c",
@@ -167,11 +167,11 @@
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
-    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:dc5a165a6654b913",
+    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:273e05dfa3c353d7",
     "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:7d2c6910f54dd1f2",
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:e424ecc2c0d9e60c",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084",
     "packages/react/src/components/Tour/Tour.types.ts::Tour": "sha256:c9fda0ee4ed41a43",
     "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38"
@@ -319,7 +319,7 @@
       },
       {
         "name": "size",
-        "type": "DialogVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
         "required": false,
         "defaultValue": "sm",
         "description": "Width preset."
@@ -768,7 +768,7 @@
     "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": [
       {
         "name": "part",
-        "type": "ChipSegmentPart",
+        "type": "\"label\" | \"operator\" | \"value\"",
         "required": false,
         "description": "Which part of the chip's sentence this is."
       }
@@ -2345,7 +2345,7 @@
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": [
       {
         "name": "align",
-        "type": "HoverCardAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -2365,7 +2365,7 @@
       },
       {
         "name": "side",
-        "type": "HoverCardSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -2767,7 +2767,7 @@
     "packages/react/src/components/Menu/Menu.types.ts::MenuContent": [
       {
         "name": "align",
-        "type": "MenuAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "start",
         "description": "Alignment along the chosen side."
@@ -2787,7 +2787,7 @@
       },
       {
         "name": "side",
-        "type": "MenuSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -3376,7 +3376,7 @@
     "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": [
       {
         "name": "align",
-        "type": "PopoverAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -3396,7 +3396,7 @@
       },
       {
         "name": "side",
-        "type": "PopoverSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -4115,14 +4115,14 @@
       },
       {
         "name": "side",
-        "type": "SheetVariants[\"side\"]",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "right",
         "description": "Edge the panel slides in from."
       },
       {
         "name": "size",
-        "type": "SheetVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\"",
         "required": false,
         "defaultValue": "md",
         "description": "Panel extent (width for left/right, height for top/bottom)."
@@ -5524,7 +5524,7 @@
       },
       {
         "name": "size",
-        "type": "ToggleVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\"",
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
@@ -5589,7 +5589,7 @@
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": [
       {
         "name": "align",
-        "type": "TooltipAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -5651,7 +5651,7 @@
       },
       {
         "name": "side",
-        "type": "TooltipSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "top",
         "description": "Side of the trigger to position against."

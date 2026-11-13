@@ -31,6 +31,24 @@ describe("scanReact", () => {
   });
 });
 
+describe("type text — named unions spelled out", () => {
+  const typeOf = (list: typeof scanned, name: string, prop: string) =>
+    list.find((s) => s.codeName === name)!.props.find((p) => p.name === prop)!.type;
+
+  it("inlines React's literal aliases, as it does Svelte's and Vue's", () => {
+    expect(typeOf(scanned, "Tooltip", "side")).toBe('"top" | "right" | "bottom" | "left"');
+    expect(typeOf(scanned, "Tooltip", "align")).toBe('"start" | "center" | "end"');
+    expect(typeOf(scanned, "MenuContent", "align")).toBe('"start" | "center" | "end"');
+  });
+
+  it("reads a cva recipe's variants through its VariantProps alias", () => {
+    expect(typeOf(scanned, "SheetContent", "side")).toBe('"top" | "right" | "bottom" | "left"');
+    expect(typeOf(scanned, "AlertDialogContent", "size")).toBe('"sm" | "md" | "lg" | "fullscreen"');
+    // Vue spells it `NonNullable<SheetVariants["side"]>`.
+    expect(typeOf(scanLibrary(REPO, LIBRARIES.vue), "SheetContent", "side")).toBe('"top" | "right" | "bottom" | "left"');
+  });
+});
+
 describe("referencedTypes — what a prop's named types are", () => {
   const byName = (name: string) => scanned.find((s) => s.codeName === name)!;
 

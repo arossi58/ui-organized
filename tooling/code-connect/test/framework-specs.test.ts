@@ -81,6 +81,12 @@ describe("specs write out the types their props name", () => {
     expect(tabs).not.toContain("ReactNode; content");
   });
 
+  it("lists a React alias's values in the table, as the other libraries' specs do", () => {
+    const text = buildComponentSpec(entry("Tooltip"), manifest, latest, "0.0.0");
+    expect(text).toContain('| `side` | `"top"` \\| `"right"` \\| `"bottom"` \\| `"left"` |');
+    expect(text).not.toContain("TooltipSide");
+  });
+
   it("writes Angular's from its own scan, through the checker", () => {
     const tree = servedSpec("angular", "TreeView");
     expect(tree).toContain(

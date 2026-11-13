@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-12T07:22:07.538Z",
+  "generatedAt": "2026-11-13T15:36:11.261Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -6090,22 +6090,22 @@
         },
         {
           "name": "side",
-          "type": "NonNullable<SheetVariants[\"side\"]>",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "right",
           "description": "Edge the panel slides in from."
         },
         {
           "name": "size",
-          "type": "NonNullable<SheetVariants[\"size\"]>",
+          "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "defaultValue": "md",
           "description": "Panel extent (width for left/right, height for top/bottom)."
         }
       ],
       "usageSnippet": "<SheetContent>…</SheetContent>",
-      "propSignatureHash": "sha256:aff8e8092de62135",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:cf6025fe88e06c37",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {

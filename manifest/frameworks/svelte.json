@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-12T07:22:07.538Z",
+  "generatedAt": "2026-11-13T15:36:11.261Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1525,15 +1525,15 @@
         },
         {
           "name": "size",
-          "type": "DialogVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
           "required": false,
           "defaultValue": "sm",
           "description": "Width preset."
         }
       ],
       "usageSnippet": "<AlertDialogContent>…</AlertDialogContent>",
-      "propSignatureHash": "sha256:5f4c481c02ea2b79",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:08f218f9ac1e8be9",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -7246,22 +7246,22 @@
         },
         {
           "name": "side",
-          "type": "SheetVariants[\"side\"]",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "right",
           "description": "Edge the panel slides in from."
         },
         {
           "name": "size",
-          "type": "SheetVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "defaultValue": "md",
           "description": "Panel extent (width for left/right, height for top/bottom)."
         }
       ],
       "usageSnippet": "<SheetContent>…</SheetContent>",
-      "propSignatureHash": "sha256:8e3ecbcf10ceb0dc",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:f777f9662e395b2b",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {

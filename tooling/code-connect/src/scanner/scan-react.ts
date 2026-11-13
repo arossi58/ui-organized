@@ -181,15 +181,93 @@ function typeText(type: ts.TypeNode, sf: ts.SourceFile): string {
 }
 
 /**
+ * The variants of every `cva()` recipe, by the alias that names its props:
+ * `SheetVariants` (`VariantProps<typeof sheetStyles>`) → `side` →
+ * `"top" | "right" | "bottom" | "left"`.
+ *
+ * Read off the recipe's `variants` object, which is what `VariantProps`
+ * computes its keys from. A variant keyed `true`/`false` is a boolean, as cva
+ * types it. `null` and `undefined`, which `VariantProps` adds to every key,
+ * aren't written: the prop is optional already, and neither is a value an
+ * agent should pick.
+ */
+const variantAliasCache = new Map<string, Map<string, Map<string, string>>>();
+
+function variantAliases(roots: string[]): Map<string, Map<string, string>> {
+  const cacheKey = roots.join("|");
+  const cached = variantAliasCache.get(cacheKey);
+  if (cached) return cached;
+  const out = new Map<string, Map<string, string>>();
+  const propertyName = (name: ts.PropertyName) =>
+    ts.isIdentifier(name) || ts.isStringLiteral(name) || ts.isNumericLiteral(name) ? name.text : undefined;
+  for (const root of roots) {
+    for (const sf of packageSources(root)) {
+      const recipes = new Map<string, ts.ObjectLiteralExpression>();
+      for (const stmt of sf.statements) {
+        if (!ts.isVariableStatement(stmt)) continue;
+        for (const decl of stmt.declarationList.declarations) {
+          const call = decl.initializer;
+          if (!ts.isIdentifier(decl.name) || !call || !ts.isCallExpression(call)) continue;
+          if (!ts.isIdentifier(call.expression) || call.expression.text !== "cva") continue;
+          const config = call.arguments[1];
+          if (!config || !ts.isObjectLiteralExpression(config)) continue;
+          const variants = config.properties.find(
+            (p): p is ts.PropertyAssignment =>
+              ts.isPropertyAssignment(p) && propertyName(p.name) === "variants" && ts.isObjectLiteralExpression(p.initializer),
+          );
+          if (variants) recipes.set(decl.name.text, variants.initializer as ts.ObjectLiteralExpression);
+        }
+      }
+      for (const stmt of sf.statements) {
+        if (!ts.isTypeAliasDeclaration(stmt) || out.has(stmt.name.text)) continue;
+        const ref = stmt.type;
+        if (!ts.isTypeReferenceNode(ref) || !ts.isIdentifier(ref.typeName) || ref.typeName.text !== "VariantProps") continue;
+        const query = ref.typeArguments?.[0];
+        if (!query || !ts.isTypeQueryNode(query) || !ts.isIdentifier(query.exprName)) continue;
+        const recipe = recipes.get(query.exprName.text);
+        if (!recipe) continue;
+        const byKey = new Map<string, string>();
+        for (const variant of recipe.properties) {
+          if (!ts.isPropertyAssignment(variant) || !ts.isObjectLiteralExpression(variant.initializer)) continue;
+          const key = propertyName(variant.name);
+          if (key === undefined) continue;
+          const values = variant.initializer.properties.flatMap((p) => {
+            const name = p.name && propertyName(p.name);
+            return name === undefined ? [] : [name];
+          });
+          const flags = values.filter((v) => v === "true" || v === "false");
+          const named = values.filter((v) => v !== "true" && v !== "false").map((v) => JSON.stringify(v));
+          if (values.length) byKey.set(key, [...(flags.length ? ["boolean"] : []), ...named].join(" | "));
+        }
+        out.set(stmt.name.text, byKey);
+      }
+    }
+  }
+  variantAliasCache.set(cacheKey, out);
+  return out;
+}
+
+/**
  * One member's type, read through an indexed access on a type of ours:
- * `ButtonProps["intent"]` is Button's `intent` union. Unresolved, it sends an
- * agent to a whole props interface to find one member.
+ * `ButtonProps["intent"]` is Button's `intent` union, and `SheetVariants["side"]`
+ * the sides Sheet's recipe declares. Unresolved, it sends an agent to a whole
+ * props interface, or to a `VariantProps` it can't evaluate, to find one member.
+ * Vue writes the second as `NonNullable<SheetVariants["side"]>`; it reads the same.
  */
 function indexedAccessText(type: ts.TypeNode): string | undefined {
-  if (!ts.isIndexedAccessTypeNode(type)) return undefined;
-  const { objectType, indexType } = type;
+  const inner =
+    ts.isTypeReferenceNode(type) &&
+    ts.isIdentifier(type.typeName) &&
+    type.typeName.text === "NonNullable" &&
+    type.typeArguments?.length === 1
+      ? type.typeArguments[0]!
+      : type;
+  if (!ts.isIndexedAccessTypeNode(inner)) return undefined;
+  const { objectType, indexType } = inner;
   if (!ts.isTypeReferenceNode(objectType) || !ts.isIdentifier(objectType.typeName)) return undefined;
   if (!ts.isLiteralTypeNode(indexType) || !ts.isStringLiteral(indexType.literal)) return undefined;
+  const fromRecipe = variantAliases(aliasRoots).get(objectType.typeName.text)?.get(indexType.literal.text);
+  if (fromRecipe) return fromRecipe;
   const owner = lookupType(objectType.typeName.text, aliasRoots);
   if (!owner || !ts.isInterfaceDeclaration(owner.decl)) return undefined;
   const key = indexType.literal.text;
@@ -846,21 +924,16 @@ export function scanLibrary(repoRoot: string, config: LibraryScanConfig): Scanne
   const modules = config.roots.flatMap((root) => parseIndex(repoRoot, root));
   const scanned: ScannedComponent[] = [];
   activeSkip = config.skip;
-  // React's types already spell their unions out; inlining there would only
-  // churn its manifest. Svelte and Vue lean on shared aliases like `ControlSize`.
-  aliasRoots =
-    config.framework === "react"
-      ? []
-      : [
-          ...config.roots.map((r) => packageRootOf(dirname(resolve(repoRoot, r.index)))),
-          resolve(repoRoot, "packages/core"),
-        ];
+  const libraryRoots = config.roots.map((r) => packageRootOf(dirname(resolve(repoRoot, r.index))));
+  // Every library, React included. React's types don't spell their unions out
+  // any more than the others' do — `side?: TooltipSide`, `align?: MenuAlign` —
+  // and a spec whose rule says "a value not listed is invalid" has to list them.
+  aliasRoots = [...libraryRoots, resolve(repoRoot, "packages/core")];
   // Where a prop's named types are looked up: the component's own package, the
   // rest of its library, then the two cores every library builds on.
   // Table-core is here but not in `aliasRoots`: its literal aliases
   // (`TableSize`) are written out as referenced types rather than inlined into
   // the prop's type, which would move every library's DataTable hash.
-  const libraryRoots = config.roots.map((r) => packageRootOf(dirname(resolve(repoRoot, r.index))));
   const sharedRoots = [resolve(repoRoot, "packages/core"), resolve(repoRoot, "packages/table-core")];
   try {
     for (const mod of modules) {
