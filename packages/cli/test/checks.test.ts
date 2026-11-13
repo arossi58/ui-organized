@@ -1,9 +1,22 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { declaredTokens, namedFontFamilies, parseFonts, parseIconLibrary, loadBundle } from "../src/bundle.js";
-import { checkCascade, checkFontsPresent, checkTokenCoverage } from "../src/checks.js";
+import {
+  declaredTokens,
+  namedFontFamilies,
+  parseFonts,
+  parseIconLibrary,
+  loadBundle,
+  readIconSettings,
+} from "../src/bundle.js";
+import {
+  checkCascade,
+  checkFontsPresent,
+  checkIconAdapter,
+  checkTokenCoverage,
+  targetFramework,
+} from "../src/checks.js";
 import { normaliseIcons, planApply } from "../src/apply.js";
 import { inspectProject } from "../src/project.js";
 
@@ -72,11 +85,53 @@ describe("parsing a bundle", () => {
     expect(parseIconLibrary(`export const iconConfig = { library: "tabler" };`)).toBe("tabler");
   });
 
+  it("reads the icon settings from theme.json, then icons.ts", () => {
+    const json = JSON.stringify({
+      $extensions: {
+        "com.ui-organized.theme-builder": {
+          icons: { library: "tabler", style: "filled", strokeAdjustment: true, baseSize: 20, baseStroke: 1.5, package: "x" },
+        },
+      },
+    });
+    const ts = `/** library: "nope" */\nexport const iconConfig: IconConfig = {\n  library: "lucide",\n  style: "outline",\n  strokeAdjustment: false,\n  baseSize: 24,\n  baseStroke: 2,\n};\n`;
+    expect(readIconSettings(new Map([["theme.json", json], ["icons.ts", ts]]))).toEqual({
+      library: "tabler",
+      style: "filled",
+      strokeAdjustment: true,
+      baseSize: 20,
+      baseStroke: 1.5,
+    });
+    expect(readIconSettings(new Map([["icons.ts", ts]]))).toEqual({
+      library: "lucide",
+      style: "outline",
+      strokeAdjustment: false,
+      baseSize: 24,
+      baseStroke: 2,
+    });
+    expect(readIconSettings(new Map())).toBeUndefined();
+  });
+
   it("refuses a folder that isn't a theme bundle, and says what it found", () => {
     const src = bundleDir({ "notes.txt": "hello" });
     expect(() => loadBundle(src)).toThrow(/no theme\.css.*notes\.txt/s);
   });
 });
+
+/** A package directory with a package.json, plus any files given. */
+function writePackage(path: string, pkg: Record<string, unknown>, files: Record<string, string> = {}): void {
+  mkdirSync(path, { recursive: true });
+  writeFileSync(join(path, "package.json"), JSON.stringify(pkg));
+  for (const [name, content] of Object.entries(files)) writeFileSync(join(path, name), content);
+}
+
+/** `@ui-organized/core` as it ships: the contract at its root, and exported. */
+function corePackage(path: string, tokens: string[]): void {
+  writePackage(
+    path,
+    { name: "@ui-organized/core", version: "6.1.0", exports: { "./token-contract.json": "./token-contract.json" } },
+    { "token-contract.json": JSON.stringify({ tokens }) },
+  );
+}
 
 describe("token coverage", () => {
   it("names every property the theme is missing, and blocks", () => {
@@ -89,18 +144,96 @@ describe("token coverage", () => {
     expect(finding!.detail).not.toContain("--color-surface-primary");
   });
 
-  it("passes a complete theme", () => {
+  // React before 6 shipped its own copy and had no core to resolve.
+  it("passes a complete theme, against a library's own contract", () => {
     withContract(["--color-surface-primary"]);
     const bundle = loadBundle(bundleDir({ "theme.css": THEME }));
-    expect(checkTokenCoverage(bundle, inspectProject(dir))[0]!.severity).toBe("info");
+    expect(checkTokenCoverage(bundle, inspectProject(dir))[0]!.severity).toBe("pass");
   });
 
   it("says so rather than passing when the library isn't installed", () => {
-    // A silent pass would be indistinguishable from a real one.
+    // A silent pass would be indistinguishable from a real one, and a tick
+    // beside "not checked" read as one.
     const bundle = loadBundle(bundleDir({ "theme.css": THEME }));
-    const [finding] = checkTokenCoverage(bundle, inspectProject(dir));
-    expect(finding!.severity).toBe("info");
+    const [finding] = checkTokenCoverage(bundle, inspectProject(dir), "svelte");
+    expect(finding!.severity).toBe("warning");
     expect(finding!.title).toMatch(/not checked/i);
+    expect(finding!.detail).toContain("@ui-organized/svelte");
+  });
+
+  // pnpm links the library into node_modules from its store and puts core
+  // beside it there, not beside the app: only the library's real path finds it.
+  it("finds core through a pnpm-linked Svelte", () => {
+    const store = join(dir, "node_modules", ".pnpm", "@ui-organized+svelte@6.1.0", "node_modules", "@ui-organized");
+    writePackage(join(store, "svelte"), { name: "@ui-organized/svelte", version: "6.1.0" });
+    corePackage(join(store, "core"), ["--color-surface-primary", "--z-index-popover"]);
+    mkdirSync(join(dir, "node_modules", "@ui-organized"), { recursive: true });
+    symlinkSync(join(store, "svelte"), join(dir, "node_modules", "@ui-organized", "svelte"), "dir");
+
+    const bundle = loadBundle(bundleDir({ "theme.css": THEME }));
+    const [finding] = checkTokenCoverage(bundle, inspectProject(dir), "svelte");
+    expect(finding!.severity).toBe("error");
+    expect(finding!.detail).toContain("--z-index-popover");
+  });
+
+  // npm, Yarn and Bun workspaces hoist to the monorepo root.
+  it("finds a library hoisted to a parent directory", () => {
+    const app = join(dir, "apps", "web");
+    mkdirSync(app, { recursive: true });
+    writePackage(join(dir, "node_modules", "@ui-organized", "vue"), { name: "@ui-organized/vue", version: "6.1.0" });
+    corePackage(join(dir, "node_modules", "@ui-organized", "core"), ["--color-surface-primary"]);
+
+    const bundle = loadBundle(bundleDir({ "theme.css": THEME }));
+    expect(checkTokenCoverage(bundle, inspectProject(app), "vue")[0]!.severity).toBe("pass");
+  });
+
+  it("prefers core's contract to a library's own copy", () => {
+    writePackage(
+      join(dir, "node_modules", "@ui-organized", "react"),
+      { name: "@ui-organized/react", version: "6.1.0" },
+      { "token-contract.json": JSON.stringify({ tokens: ["--color-surface-primary"] }) },
+    );
+    corePackage(join(dir, "node_modules", "@ui-organized", "core"), ["--color-surface-primary", "--dimension-06"]);
+    const bundle = loadBundle(bundleDir({ "theme.css": THEME }));
+    expect(checkTokenCoverage(bundle, inspectProject(dir), "react")[0]!.detail).toContain("--dimension-06");
+  });
+});
+
+describe("which library", () => {
+  const project = (deps: Record<string, string>) => {
+    writePackage(dir, { dependencies: deps });
+    return inspectProject(dir);
+  };
+
+  it("takes the one library package.json lists, quietly", () => {
+    expect(targetFramework(project({ "@ui-organized/vue": "^6.1.0" }))).toEqual({ framework: "vue", findings: [] });
+  });
+
+  it("takes --framework over package.json", () => {
+    expect(targetFramework(project({ "@ui-organized/vue": "^6.1.0" }), "angular").framework).toBe("angular");
+  });
+
+  it("says when it's guessing", () => {
+    const none = targetFramework(project({}));
+    expect(none.framework).toBe("react");
+    expect(none.findings[0]!.severity).toBe("warning");
+    const two = targetFramework(project({ "@ui-organized/react": "^6", "@ui-organized/svelte": "^6" }));
+    expect(two.findings[0]!.detail).toContain("--framework react|svelte");
+  });
+
+  it("points a workspace root at the package that uses the library", () => {
+    writePackage(dir, { workspaces: ["apps/*"] });
+    writePackage(join(dir, "apps", "web"), { dependencies: { "@ui-organized/svelte": "^6.1.0" } });
+    const target = targetFramework(inspectProject(dir));
+    expect(target.framework).toBe("svelte");
+    expect(target.findings[0]!.detail).toContain("--cwd apps/web");
+  });
+
+  it("warns about an icon set the library has no adapter for", () => {
+    expect(checkIconAdapter("svelte", { library: "heroicons" })[0]!.title).toBe(
+      "@ui-organized/svelte has no heroicons adapter",
+    );
+    expect(checkIconAdapter("vue", { library: "heroicons" })).toEqual([]);
   });
 });
 
@@ -116,7 +249,7 @@ describe("fonts named but not loadable", () => {
   it("is quiet when every family is covered", () => {
     const css = `:root { --type-font-body: 'Oswald', sans-serif; }`;
     const bundle = loadBundle(bundleDir({ "theme.css": css, "fonts.ts": FONTS }));
-    expect(checkFontsPresent(bundle, parseFonts(FONTS))[0]!.severity).toBe("info");
+    expect(checkFontsPresent(bundle, parseFonts(FONTS))[0]!.severity).toBe("pass");
   });
 });
 

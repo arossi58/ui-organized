@@ -3,8 +3,12 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { run } from "../src/index.js";
-import { rulesMarkdown, withManagedBlock, withMcpServer } from "../src/init.js";
+import { mcpVersionFor, planInit, rulesMarkdown, withManagedBlock, withMcpServer } from "../src/init.js";
 import { pnpmWorkspaceGlobs } from "../src/project.js";
+
+const START = "<!-- ui-organized:start -->";
+const END = "<!-- ui-organized:end -->";
+const count = (text: string, marker: string) => text.split(marker).length - 1;
 
 describe("withManagedBlock", () => {
   it("keeps the user's content and replaces only our block on a re-run", () => {
@@ -15,17 +19,96 @@ describe("withManagedBlock", () => {
     expect(twice).toContain("two");
     expect(twice).not.toContain("one");
   });
+
+  // An end marker deleted by hand left a start marker that the next run paired
+  // with the end of the block it appended, deleting everything in between.
+  it("recovers from a start marker with no end, without losing the user's text", () => {
+    const orphaned = `# Mine\n\n${START}\nold rules\n\nMy own notes\n`;
+    const once = withManagedBlock(orphaned, "new rules");
+    const twice = withManagedBlock(once, "newer rules");
+    for (const text of [once, twice]) {
+      expect(text).toContain("# Mine");
+      expect(text).toContain("My own notes");
+      expect(count(text, START)).toBe(1);
+      expect(count(text, END)).toBe(1);
+    }
+    expect(twice).toContain("newer rules");
+    expect(twice).not.toContain("new rules\n");
+  });
+
+  it("replaces the block an end marker closes, past a stray start before it", () => {
+    const text = `${START}\nstray\nKeep me\n${START}\nours\n${END}\nAfter\n`;
+    const next = withManagedBlock(text, "fresh");
+    expect(next).toContain("Keep me");
+    expect(next).toContain("After");
+    expect(next).toContain("fresh");
+    expect(next).not.toContain("ours");
+  });
 });
 
 describe("withMcpServer", () => {
   it("keeps other servers and keys", () => {
-    const merged = JSON.parse(withMcpServer("x", `{"a":1,"mcpServers":{"other":{"command":"o"}}}`, "react", "6.0.0"));
+    const merged = JSON.parse(withMcpServer("x", `{"a":1,"mcpServers":{"other":{"command":"o"}}}`, "react", "6.1.0"));
     expect(merged.a).toBe(1);
     expect(Object.keys(merged.mcpServers)).toEqual(["other", "ui-organized"]);
   });
 
   it("refuses to merge invalid JSON", () => {
-    expect(() => withMcpServer(".mcp.json", "{nope", "react", "6.0.0")).toThrow(/isn't valid JSON/);
+    expect(() => withMcpServer(".mcp.json", "{nope", "react", "6.1.0")).toThrow(/isn't valid JSON/);
+  });
+
+  // A FIGMA_TOKEN reference in our own entry's env was dropped on every re-run.
+  it("keeps the user's fields on our entry while moving the pin", () => {
+    // `${FIGMA_TOKEN}`, the env-reference syntax .mcp.json expands.
+    const reference = "$" + "{FIGMA_TOKEN}";
+    const existing = JSON.stringify({
+      mcpServers: {
+        "ui-organized": {
+          type: "stdio",
+          command: "npx",
+          args: ["-y", "@ui-organized/mcp@0.1.0"],
+          env: { FIGMA_TOKEN: reference },
+        },
+      },
+    });
+    const entry = JSON.parse(withMcpServer(".mcp.json", existing, "react", "6.1.0")).mcpServers["ui-organized"];
+    expect(entry.env).toEqual({ FIGMA_TOKEN: reference });
+    expect(entry.type).toBe("stdio");
+    expect(entry.args).toEqual(["-y", "@ui-organized/mcp@6.1.0"]);
+  });
+
+  it("returns a file that already says it byte for byte, whatever its formatting", () => {
+    const tabbed = `{\n\t"mcpServers": {\n\t\t"ui-organized": {\n\t\t\t"command": "npx",\n\t\t\t"args": [\n\t\t\t\t"-y",\n\t\t\t\t"@ui-organized/mcp@6.1.0"\n\t\t\t]\n\t\t}\n\t}\n}`;
+    expect(withMcpServer(".mcp.json", tabbed, "react", "6.1.0")).toBe(tabbed);
+  });
+
+  it("keeps the file's indentation when it does change something", () => {
+    const tabbed = `{\n\t"mcpServers": {\n\t\t"other": {\n\t\t\t"command": "o"\n\t\t}\n\t}\n}\n`;
+    const next = withMcpServer(".mcp.json", tabbed, "react", "6.1.0");
+    expect(next).toContain('\n\t"mcpServers": {\n\t\t"other"');
+    expect(next).not.toMatch(/^ {2}"/m);
+  });
+});
+
+/**
+ * `@ui-organized/mcp@6.0.0` was never published: a hand-edited bump that
+ * `changeset version` skipped past. 0.1.0 was built from 6.0.0 and carries its
+ * data for all four libraries, so 6.0.x pins that. 6.1.0 would be wrong for
+ * Angular 6.0.x, whose components lack 6.1.0's `controlled` inputs.
+ */
+describe("mcpVersionFor", () => {
+  it.each([
+    ["6.0.0", "0.1.0"],
+    ["~6.0.0", "0.1.0"],
+    ["6.0.3", "0.1.0"],
+    // A caret range installs the newest 6.x, whose server exists.
+    ["^6.0.0", "^6.0.0"],
+    ["6.1.0", "6.1.0"],
+    ["^6.1.0", "^6.1.0"],
+    ["~6.1.2", "~6.1.2"],
+    ["7.0.0", "7.0.0"],
+  ])("%s → %s", (version, expected) => {
+    expect(mcpVersionFor(version)).toBe(expected);
   });
 });
 
@@ -143,10 +226,74 @@ describe("uiorg init", () => {
     expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@6.1.0"]);
   });
 
+  it("pins 6.0.0 installs to the server that carries 6.0.0's data, and says so", async () => {
+    const stdout = vi.mocked(process.stdout.write);
+    pkg({ "@ui-organized/react": "^6.0.0" });
+    installed(".", "@ui-organized/react", "6.0.0");
+    expect(await run(["init", "--cwd", cwd])).toBe(0);
+    expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@0.1.0"]);
+    expect(stdout.mock.calls.map(([chunk]) => String(chunk)).join("")).toContain(
+      "MCP server pinned to 0.1.0 (6.0.0's data)",
+    );
+  });
+
+  it.each([["~6.0.0"], ["6.0.0"]])("pins a %s range to 0.1.0 before anything is installed", async (range) => {
+    pkg({ "@ui-organized/react": range });
+    expect(await run(["init", "--cwd", cwd])).toBe(0);
+    expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@0.1.0"]);
+  });
+
+  it("pins Angular 6.0.0 to 0.1.0, still answering for Angular", async () => {
+    pkg({ "@ui-organized/angular": "^6.0.0", "@ui-organized/react": "^6.0.0" });
+    installed(".", "@ui-organized/angular", "6.0.0");
+    expect(await run(["init", "--cwd", cwd, "--framework", "angular"])).toBe(0);
+    expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@0.1.0", "--framework", "angular"]);
+  });
+
   it("refuses a library older than the first matching server", async () => {
+    const stderr = vi.mocked(process.stderr.write);
     pkg({ "@ui-organized/react": "^5.4.0" });
     expect(await run(["init", "--cwd", cwd])).toBe(1);
     expect(existsSync(join(cwd, "AGENTS.md"))).toBe(false);
+    expect(String(stderr.mock.calls.at(-1)?.[0])).toContain("the first one covers 6.0.0");
+  });
+
+  it("names --cwd when it's missing its value, rather than calling it unknown", async () => {
+    const stderr = vi.mocked(process.stderr.write);
+    expect(await run(["init", "--cwd"])).toBe(2);
+    expect(String(stderr.mock.calls.at(-1)?.[0])).toContain("--cwd needs a value");
+  });
+
+  it("keeps a .mcp.json that already says it, byte for byte, and reports it unchanged", async () => {
+    pkg({ "@ui-organized/react": "^6.1.0" });
+    const tabbed = `{\n\t"mcpServers": {\n\t\t"ui-organized": {\n\t\t\t"command": "npx",\n\t\t\t"args": ["-y", "@ui-organized/mcp@^6.1.0"]\n\t\t}\n\t}\n}\n`;
+    writeFileSync(join(cwd, ".mcp.json"), tabbed);
+    const plan = planInit({ cwd, check: false, cursor: false });
+    expect(plan.writes.find((w) => w.path === ".mcp.json")?.status).toBe("unchanged");
+    await run(["init", "--cwd", cwd]);
+    expect(readFileSync(join(cwd, ".mcp.json"), "utf8")).toBe(tabbed);
+  });
+
+  // The skill and the Cursor rules are ours whole, so edits to them don't
+  // survive a re-run; "updated" undersold that.
+  it("reports an edited skill or Cursor rule as replaced", async () => {
+    pkg({ "@ui-organized/react": "^6.1.0" });
+    mkdirSync(join(cwd, ".cursor"));
+    await run(["init", "--cwd", cwd]);
+    const skill = join(cwd, ".claude/skills/ui-organized-figma/SKILL.md");
+    writeFileSync(skill, `${readFileSync(skill, "utf8")}\nMy own step.\n`);
+    writeFileSync(join(cwd, ".cursor/rules/ui-organized.mdc"), "edited");
+
+    const statuses = Object.fromEntries(
+      planInit({ cwd, check: false, cursor: false }).writes.map((w) => [w.path, w.status]),
+    );
+    expect(statuses[".claude/skills/ui-organized-figma/SKILL.md"]).toBe("replaced");
+    expect(statuses[".cursor/rules/ui-organized.mdc"]).toBe("replaced");
+    expect(statuses[".cursor/rules/ui-organized-figma.mdc"]).toBe("unchanged");
+    expect(statuses["AGENTS.md"]).toBe("unchanged");
+
+    await run(["init", "--cwd", cwd]);
+    expect(readFileSync(skill, "utf8")).not.toContain("My own step.");
   });
 
   it("refuses a version it can't read, rather than leaving the server unpinned", async () => {
@@ -214,7 +361,8 @@ describe("uiorg init in a monorepo", () => {
 
     expect(await run(["init", "--cwd", cwd])).toBe(0);
     expect(readFileSync(join(cwd, "AGENTS.md"), "utf8")).toContain("@ui-organized/react");
-    expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@6.0.0"]);
+    // 6.0.0's server is 0.1.0: see the 6.0.x tests above.
+    expect(mcpArgs()).toEqual(["-y", "@ui-organized/mcp@0.1.0"]);
     expect(existsSync(join(cwd, "apps/studio/AGENTS.md"))).toBe(false);
   });
 

@@ -1,7 +1,17 @@
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
-import { declaredTokens, namedFontFamilies, type Bundle, type BundleFont } from "./bundle.js";
-import { display, type Project } from "./project.js";
+import { declaredTokens, namedFontFamilies, type Bundle, type BundleFont, type IconSettings } from "./bundle.js";
+import {
+  display,
+  findTokenContract,
+  FRAMEWORKS,
+  LABELS,
+  LIBRARIES,
+  workspaceLibraries,
+  type Framework,
+  type Project,
+} from "./project.js";
+import { SETUP, type IconLibrary } from "./setup.js";
 
 /**
  * The checks are the reason this command exists.
@@ -14,7 +24,13 @@ import { display, type Project } from "./project.js";
  * wrong thing.
  */
 
-export type Severity = "error" | "warning" | "info";
+/**
+ * `pass` is a check that ran and found nothing wrong, and is the only finding
+ * that wears a tick. `info` is context: a check that couldn't run for a reason
+ * that isn't the theme's fault. They used to share the tick, so "coverage not
+ * checked" read as a pass — the same lesson `scripts/smoke.mjs` records.
+ */
+export type Severity = "error" | "warning" | "info" | "pass";
 
 export interface Finding {
   severity: Severity;
@@ -23,26 +39,114 @@ export interface Finding {
   detail: string;
 }
 
+// ─── 0. Which library ────────────────────────────────────────────────────────
+
+export interface Target {
+  /** The library the advice is for. React when nothing says otherwise, as before. */
+  framework: Framework;
+  findings: Finding[];
+}
+
+/**
+ * Which library the printed steps and `icons.ts` are for: `--framework`, else
+ * the one package.json lists.
+ *
+ * Never fatal. The files a theme writes are the same for every library, so not
+ * knowing only changes the advice, and that is said out loud rather than
+ * guessed silently. A monorepo root gets the one piece of advice that helps:
+ * which `--cwd` to run in, since applying at the root lands the theme beside
+ * no app.
+ */
+export function targetFramework(project: Project, requested?: Framework): Target {
+  if (requested) return { framework: requested, findings: [] };
+  const [first, ...others] = project.libraries;
+  if (first) {
+    if (others.length === 0) return { framework: first, findings: [] };
+    return {
+      framework: first,
+      findings: [
+        {
+          severity: "warning",
+          title: `This project installs ${project.libraries.map((fw) => LIBRARIES[fw]).join(" and ")}`,
+          detail: `The steps below are for ${LABELS[first]}. Pass --framework ${project.libraries.join("|")} to choose.`,
+        },
+      ],
+    };
+  }
+
+  const workspaces = workspaceLibraries(project.root);
+  if (workspaces.length > 0) {
+    const where = workspaces.map((pkg) => `${pkg.dir} (${pkg.libraries.map((fw) => LIBRARIES[fw]).join(", ")})`);
+    return {
+      framework: workspaces[0]!.libraries[0]!,
+      findings: [
+        {
+          severity: "warning",
+          title: "This is a workspace root, and the library is in a workspace package",
+          detail:
+            `Declared in ${where.join(", ")}. Applied here, the theme lands in this root's src/, beside no app. ` +
+            `Re-run with --cwd ${workspaces[0]!.dir} to apply it to that app and check it against its library.`,
+        },
+      ],
+    };
+  }
+
+  return {
+    framework: "react",
+    findings: [
+      {
+        severity: "warning",
+        title: "Couldn't tell which UI Organized library this project uses",
+        detail:
+          `package.json lists none of ${FRAMEWORKS.map((fw) => LIBRARIES[fw]).join(", ")}, so the steps below are React's. ` +
+          "Pass --framework svelte, vue or angular for another library's.",
+      },
+    ],
+  };
+}
+
+/**
+ * An icon set the library has no adapter for.
+ *
+ * Svelte ships lucide and tabler only, and the Theme Builder offers Heroicons
+ * whichever library you use. Printing `@ui-organized/svelte/icons/heroicons`
+ * would send someone to a subpath that doesn't exist.
+ */
+export function checkIconAdapter(framework: Framework, icons: IconSettings | undefined): Finding[] {
+  if (!icons || SETUP[framework].iconPackages[icons.library as IconLibrary]) return [];
+  const sets = Object.keys(SETUP[framework].iconPackages);
+  return [
+    {
+      severity: "warning",
+      title: `${LIBRARIES[framework]} has no ${icons.library} adapter`,
+      detail:
+        `The theme picks ${icons.library}, but ${LIBRARIES[framework]}'s icon sets are ${sets.join(" and ")}. ` +
+        "Pick one of those in the Theme Builder and re-export.",
+    },
+  ];
+}
+
 // ─── 1. Token coverage ───────────────────────────────────────────────────────
 
 /**
  * Does the theme define everything the components read?
  *
- * `token-contract.json` ships with `@ui-organized/react` and is generated from
- * the component CSS, so it is the authoritative answer and cannot drift from the
- * installed version. A theme that misses an entry renders subtly wrong with
- * nothing thrown — the original report had a sidebar silently collapse and every
- * portalled overlay lose its stacking order.
+ * `token-contract.json` ships with `@ui-organized/core`, which all four
+ * libraries depend on, and is generated from the component CSS, so it is the
+ * authoritative answer and cannot drift from the installed version. A theme
+ * that misses an entry renders subtly wrong with nothing thrown — the original
+ * report had a sidebar silently collapse and every portalled overlay lose its
+ * stacking order.
  */
-export function checkTokenCoverage(bundle: Bundle, project: Project): Finding[] {
-  const contract = readContract(project);
+export function checkTokenCoverage(bundle: Bundle, project: Project, framework: Framework = "react"): Finding[] {
+  const contract = readContract(project, framework);
   if (!contract) {
     return [
       {
-        severity: "info",
+        severity: "warning",
         title: "Token coverage not checked",
         detail:
-          "@ui-organized/react isn't installed here, so there's no token-contract.json to check the theme against. " +
+          `${LIBRARIES[framework]} isn't installed here, so there's no token contract to check the theme against. ` +
           "Install it and re-run to verify the theme is complete.",
       },
     ];
@@ -53,7 +157,7 @@ export function checkTokenCoverage(bundle: Bundle, project: Project): Finding[] 
   if (missing.length === 0) {
     return [
       {
-        severity: "info",
+        severity: "pass",
         title: `Theme covers all ${contract.tokens.length} required tokens`,
         detail: "",
       },
@@ -76,15 +180,23 @@ interface Contract {
   tokens: string[];
 }
 
-function readContract(project: Project): Contract | undefined {
-  if (!project.reactPackageDir) return undefined;
-  try {
-    return JSON.parse(
-      readFileSync(join(project.reactPackageDir, "token-contract.json"), "utf8"),
-    ) as Contract;
-  } catch {
-    return undefined;
+/**
+ * The contract, through the project's own library first. Core's contract is
+ * one file whichever library resolves it, so another installed library is an
+ * acceptable second source: in a monorepo whose root hoists a different one, a
+ * real check beats "not checked".
+ */
+function readContract(project: Project, framework: Framework): Contract | undefined {
+  for (const fw of [framework, ...FRAMEWORKS.filter((other) => other !== framework)]) {
+    const path = findTokenContract(project.root, fw);
+    if (!path) continue;
+    try {
+      return JSON.parse(readFileSync(path, "utf8")) as Contract;
+    } catch {
+      continue;
+    }
   }
+  return undefined;
 }
 
 // ─── 2. Fonts named but not loadable ─────────────────────────────────────────
@@ -107,7 +219,7 @@ export function checkFontsPresent(bundle: Bundle, fonts: BundleFont[]): Finding[
   if (uncovered.length === 0) {
     return [
       {
-        severity: "info",
+        severity: "pass",
         title: `Fonts declared for ${named.join(" and ")}`,
         detail: "",
       },
