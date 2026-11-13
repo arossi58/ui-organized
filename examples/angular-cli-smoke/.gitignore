@@ -1,0 +1,3 @@
+# From `ng new`: the CLI's build cache and tsc's output. dist/ is ignored at the root.
+/.angular/cache
+/out-tsc

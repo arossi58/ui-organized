@@ -31,3 +31,5 @@ FIGMA-PARITY.html
 # them would fail that test; edit them together with getStartedSnippets.ts.
 examples/svelte-table-smoke/src/main.ts
 examples/vue-table-smoke/src/main.ts
+examples/angular-cli-smoke/src/main.ts
+examples/angular-cli-smoke/src/app/app.config.ts
