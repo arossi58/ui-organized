@@ -6,7 +6,7 @@
  */
 
 import { spawn, execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -111,8 +111,24 @@ try {
   check("get_token rejects an invented token", !invented.found && invented.suggestions.includes("--spacing-space-04"), JSON.stringify(invented));
 
   check("resolve_figma_components refuses an unknown key", body(replies.get(7)).results[0].found === false);
+  // Until `figma:sync` runs, the shipped manifest has no Figma keys, and the frame
+  // tool answers before it would even look for a token: no request, and the route
+  // that works today. Read from the installed tarball, so this can't pass by
+  // accident once keys ship.
+  const shipped = JSON.parse(
+    readFileSync(join(work, "node_modules/@ui-organized/mcp/dist/data/components.json"), "utf8"),
+  );
+  const linked = shipped.components.some((entry) => entry.figmaComponentKey && entry.status !== "deprecated");
   const frame = body(replies.get(8));
-  check("get_figma_frame explains a missing token without calling out", !frame.found && frame.warning.includes("FIGMA_TOKEN"), JSON.stringify(frame));
+  if (linked) {
+    check("get_figma_frame explains a missing token without calling out", !frame.found && frame.warning.includes("FIGMA_TOKEN"), JSON.stringify(frame));
+  } else {
+    check(
+      "get_figma_frame routes to Figma's MCP while nothing is linked, without calling out",
+      !frame.found && frame.warning.includes("get_design_context") && frame.fileKey === "abc" && frame.nodeId === "1:2",
+      JSON.stringify(frame),
+    );
+  }
 
   // A Vue project's server: Vue answers by default, any library on request.
   const vue = await session(

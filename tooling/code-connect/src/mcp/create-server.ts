@@ -1,6 +1,7 @@
 /**
- * The single McpServer factory (Connect.md §6.1). Registers the Figma tools, the
- * shared read tools + the anti-hallucination instructions ONCE, so the stdio entry
+ * The single McpServer factory (Connect.md §6.1). Registers the mapping-health
+ * tools (get_component_context, validate_mapping, list_stale), the shared read
+ * tools + the anti-hallucination instructions ONCE, so the stdio entry
  * (`server.ts`) and the HTTP entry (`http-server.ts`) share identical behavior —
  * "don't fork logic between transports" (§6.1). The transport is the only thing
  * that differs between the two.
@@ -38,8 +39,9 @@ export function createMcpServer(loader: ManifestLoader = new ManifestLoader()): 
     {
       title: "Get component context",
       description:
-        "Resolve a Figma component (by figmaComponentKey, read from the node's " +
-        "pluginData) to its real code component: import, props, usage, and a " +
+        "Resolve a Figma component (by its component set key, as Figma's REST API " +
+        "reports it and `pnpm figma:sync` writes it to the manifest) to its real code " +
+        "component: import, props, usage, and a " +
         "staleness flag. Returns found:false with a warning when there is no verified " +
         "mapping — in that case do NOT invent a component; ask the user or use " +
         "search_components. Never fabricate props or imports.",

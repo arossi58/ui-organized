@@ -10,6 +10,7 @@
  * that stops nothing dilutes the ones that do.
  */
 
+import { aiIndexPath, aiSpecPath, type DocFramework } from "./frameworks.js";
 import type { ComponentManifestEntry } from "./schema.js";
 
 /**
@@ -42,13 +43,33 @@ export const TOKEN_NAMING =
   "does not exist.";
 
 /**
+ * How each library takes an icon on an `icon` prop, beyond its name. Angular
+ * passes icons around as strings, so a name is all it takes; the other three
+ * also take the icon component, in their own binding syntax, and never markup.
+ */
+const ICON_VALUE: Record<DocFramework, string> = {
+  react: "Or pass the icon component itself (`icon={CircleAlert}`) — never an element (`icon={<CircleAlert />}`).",
+  svelte: "Or pass the icon component itself (`icon={CircleAlert}`) — never a snippet or markup.",
+  vue: 'Or pass the icon component itself (`:icon="CircleAlert"`) — never a rendered element.',
+  angular:
+    'Pass the name as a string (`icon="circle-alert"`, or `[icon]="name"` for a variable) — ' +
+    "never a component or an element.",
+};
+
+/**
  * Derived, component-specific warnings. Nothing here is stored in the manifest —
  * it's all computed from the entry's own prop set, so it stays correct as the
  * code changes and costs no authoring.
  *
+ * `framework` picks the syntax the hints are written in; the entry is always
+ * React's, since every library implements its API.
+ *
  * `customInstructions` is the place for guidance that genuinely cannot be derived.
  */
-export function derivePropHints(entry: ComponentManifestEntry): string[] {
+export function derivePropHints(
+  entry: ComponentManifestEntry,
+  framework: DocFramework = "react",
+): string[] {
   const names = new Set(entry.props.map((p) => p.name));
   const hints: string[] = [];
 
@@ -63,19 +84,19 @@ export function derivePropHints(entry: ComponentManifestEntry): string[] {
   // `icon` takes a NAME or a component, never an element. Agents habitually
   // pass `icon={<Trash />}` because that's the react-icons convention. And the
   // name is the icon library's own: there is no renamed vocabulary to recall,
-  // so an agent must not invent one (`close` for Lucide's `x`).
+  // so an agent must not invent one (`close` for Lucide's `x`). The example pair
+  // is one every library's Lucide and Tabler adapters ship: Heroicons, the
+  // example this used to give, has no Svelte adapter at all.
   const icon = entry.props.find((p) => p.name === "icon");
   if (icon && /\bIconName\b/.test(icon.type)) {
     hints.push(
       "`icon` takes the active icon library's own name for the icon, exactly as the library " +
-        'publishes it (Lucide `"x"`, Heroicons `"x-mark"`; names are not translated between ' +
-        "libraries), registered once with `registerIcons`. Or pass the icon component itself " +
-        "(`icon={Trash2}`) — never an element (`icon={<Trash2 />}`).",
+        'publishes it (Lucide `"circle-alert"` is Tabler\'s `"alert-circle"`; names are not ' +
+        `translated between libraries), registered once with \`registerIcons\`. ${ICON_VALUE[framework]}`,
     );
   } else if (icon && !/ReactNode|ReactElement|ComponentType|JSX\.Element/.test(icon.type)) {
     hints.push(
-      "`icon` takes an icon NAME string from the list below, not a React element — " +
-        "never `icon={<SomeIcon />}`.",
+      "`icon` takes an icon NAME string from the list below — never an element or a component.",
     );
   }
 
@@ -148,8 +169,8 @@ export function projectRules(
   packageName: string,
   framework: "react" | "svelte" | "vue" | "angular" = "react",
 ): string[] {
-  const specPath = framework === "react" ? "/ai/<Component>.md" : `/ai/${framework}/<Component>.md`;
-  const index = framework === "react" ? "/llms.txt" : `/llms-${framework}.txt`;
+  const specPath = aiSpecPath(framework, "<Component>");
+  const index = aiIndexPath(framework);
   return [
     `Build UI from \`${packageName}\`, importing only from that package. Never from a ` +
       "relative path, `shadcn/ui`, `@/components/ui/*`, or any other component library. " +
@@ -164,9 +185,12 @@ export function projectRules(
       "classes, hex colours or px literals. Check a name with `search_tokens` or " +
       "https://uiorganized.com/ai/tokens.md first. A token that isn't listed resolves to nothing. " +
       TOKEN_NAMING,
-    "For a Figma link, call `get_figma_frame` first. It returns real components and tokens " +
-      `as ${FRAME_OUTPUT[framework]}; read a full spec only for what it leaves unclear. Report ` +
-      "anything in `unmapped` or `unbound` rather than rebuilding it by eye.",
+    "For a Figma link, read the frame with Figma's own MCP server (`get_design_context`), " +
+      "then call `get_component` for each component it shows and pass each Figma variable " +
+      "name it reports to `get_token`. `get_figma_frame` returns real components and tokens " +
+      `as ${FRAME_OUTPUT[framework]} only once the library's components are linked to Figma, ` +
+      "and `found:false` until then. Report anything left unmapped or unbound rather than " +
+      "rebuilding it by eye.",
     "If the design needs something the system can't express, say so. Do not approximate it " +
       "with custom markup, and do not invent a component, prop or token.",
   ];
@@ -223,10 +247,12 @@ export const COMPOUND_SCOPE_NOTE =
 
 /**
  * The skill `uiorg init` installs for building from a Figma link with Figma's OWN
- * MCP server (`get_design_context`), for teams without a `FIGMA_TOKEN` for
- * `get_figma_frame`. Figma's output is React + Tailwind with Figma variable
- * names; this turns it into the project's library and real tokens, and says
- * what to do where Figma didn't identify a component.
+ * MCP server (`get_design_context`). That is the route until the library's
+ * components are linked to Figma: `get_figma_frame` matches nodes by component
+ * key, and with no keys in the manifest it can only answer `found:false`.
+ * Figma's output is React + Tailwind with Figma variable names; this turns it
+ * into the project's library and real tokens, and says what to do where Figma
+ * didn't identify a component.
  */
 export function figmaSkillMarkdown(
   packageName: string,
@@ -246,11 +272,13 @@ markup: it is React and Tailwind written from layers, not this project's code.
 
 ## 1. Read the frame
 
-- If \`ui-organized\`'s \`get_figma_frame\` works (a \`FIGMA_TOKEN\` is set), call it
-  first: it returns ${lib} code with real components and tokens already resolved.
-  Use the rest of this skill only for what it lists as \`unmapped\` or \`unbound\`.
-- Otherwise call Figma's \`get_design_context\` on the node, with the screenshot.
-  The screenshot is the visual target. The code is a reference, not the answer.
+- Call Figma's \`get_design_context\` on the node, with the screenshot. The
+  screenshot is the visual target. The code is a reference, not the answer.
+- \`ui-organized\`'s \`get_figma_frame\` reads a frame straight into ${lib} code,
+  but only once the library's components are linked to Figma (and a
+  \`FIGMA_TOKEN\` is set). Until then it returns \`found:false\`, and the steps
+  below are the route. If it does return a frame, use that, and the rest of this
+  skill for anything it lists as \`unmapped\` or \`unbound\`.
 
 ## 2. Map every component to ${packageName}
 

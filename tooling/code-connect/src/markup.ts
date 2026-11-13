@@ -164,8 +164,12 @@ export interface ElementLayout {
   tag: string;
   /** Fully formatted attributes, in order. */
   attrs: string[];
-  /** Rendered children, already in the target dialect. */
-  children?: string;
+  /**
+   * Rendered children, already in the target dialect. `| undefined` because
+   * `frameworkUsage` passes "none" explicitly, and `@ui-organized/cli` compiles
+   * this module (through the agent rules) under `exactOptionalPropertyTypes`.
+   */
+  children?: string | undefined;
   /**
    * Whether `<tag />` is legal when there are no children. False for Angular,
    * whose directives sit on ordinary HTML elements — `<span uioTag />` is parsed

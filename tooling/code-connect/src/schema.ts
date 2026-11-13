@@ -36,9 +36,8 @@ export interface PropDefinition {
 
 export interface ComponentManifestEntry {
   /**
-   * Figma's stable component key (survives file changes) — the pointer written
-   * into the Figma node's pluginData. Empty string until a designer links this
-   * code component to a Figma component via the plugin (Connect.md §4.1).
+   * Figma's stable component (set) key. Written by `pnpm figma:sync` from the
+   * library file; empty until then.
    */
   figmaComponentKey: string;
   /** Human-readable Figma component name, for search/debugging. */

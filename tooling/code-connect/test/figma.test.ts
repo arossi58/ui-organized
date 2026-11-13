@@ -341,6 +341,27 @@ describe("a sync followed by a scan", () => {
       "later",
     );
     expect(manifest.components[0]).toMatchObject({ figmaComponentKey: "k", status: "active" });
+    // The sync's variant mapping rides on a prop the scanner replaces; losing it
+    // here is what failed the lint gate's rescan on the first committed sync.
+    expect(manifest.components[0]!.props[0]!.figmaVariantMapping).toBe("size");
+  });
+
+  it("rescans a synced manifest byte-for-byte", () => {
+    const code = entry("Button", "", [
+      { name: "size", type: '"sm"', required: false },
+      { name: "label", type: "string", required: true },
+    ]);
+    const synced = planSync({ manifestVersion: 1, generatedAt: "t", components: [code] }, [
+      { name: "Button", key: "k", properties: { size: { type: "VARIANT", variantOptions: ["sm"] } } },
+    ]).manifest;
+    // The same code, scanned again: what the lint gate does before it diffs.
+    const { manifest, changes } = reconcile(
+      synced,
+      [code as unknown as Parameters<typeof reconcile>[1][number]],
+      "later",
+    );
+    expect(changes.map((c) => c.kind)).toEqual(["unchanged"]);
+    expect(JSON.stringify(manifest.components)).toBe(JSON.stringify(synced.components));
   });
 });
 

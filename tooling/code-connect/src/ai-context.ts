@@ -32,9 +32,12 @@ import {
 } from "./ai-context-rules.js";
 import {
   FRAMEWORK_INFO,
+  frameworkSymbol,
   frameworkUsage,
   importStatement as frameworkImport,
+  resolveTarget,
   type DocFramework,
+  type FrameworkSurface,
   type FrameworkTarget,
 } from "./frameworks.js";
 
@@ -127,6 +130,14 @@ export interface AiContextInput {
   frameworkEntry?: ComponentManifestEntry;
   /** The same, for compound siblings, keyed by the React `codeName`. */
   relatedFrameworkEntries?: Record<string, ComponentManifestEntry>;
+  /**
+   * Everything that library exports. The usage guide is written once, in React's
+   * names, and its cross-references ("use `Switch` instead") are resolved
+   * against this so an Angular spec names `UioSwitch`, and a component the
+   * library doesn't ship isn't offered at all. Without it, the names are
+   * prefixed the way the library prefixes everything.
+   */
+  surface?: FrameworkSurface;
 }
 
 export interface AiContextProp {
@@ -425,7 +436,7 @@ function buildData(input: AiContextInput): AiContextData {
     );
   }
 
-  const hints = derivePropHints(entry);
+  const hints = derivePropHints(entry, fw?.framework ?? "react");
   const rules = globalRules(packageName, hints);
   if (siblings.length) rules.push(COMPOUND_SCOPE_NOTE);
 
@@ -600,7 +611,7 @@ function propTable(props: AiContextProp[]): { table: string; expansions: Map<str
  * the failure the prop table can't prevent. "When not to use" leads with the
  * replacement so the correction is the first thing on the line.
  */
-function usageSections(usage: UsageGuide): string[] {
+function usageSections(usage: UsageGuide, referenceName: (slug: string) => string | undefined): string[] {
   const out: string[] = [];
 
   out.push("## When to use");
@@ -610,7 +621,12 @@ function usageSections(usage: UsageGuide): string[] {
   out.push(
     usage.avoid
       .map(({ text, instead }) => {
-        const names = instead?.map((slug) => code(usageReferenceName(slug))).join(" or ");
+        const names = instead
+          ?.flatMap((slug) => {
+            const name = referenceName(slug);
+            return name ? [code(name)] : [];
+          })
+          .join(" or ");
         return names ? `- ${text} Use ${names} instead.` : `- ${text}`;
       })
       .join("\n"),
@@ -627,16 +643,32 @@ function usageSections(usage: UsageGuide): string[] {
     out.push(usage.content.map((line) => `- ${line}`).join("\n"));
   }
 
-  if (usage.related?.length) {
+  // A neighbour this library doesn't ship is left out, not named under React's name.
+  const related = (usage.related ?? []).flatMap(({ slug, when }) => {
+    const name = referenceName(slug);
+    return name ? [`- ${code(name)}: when ${when}`] : [];
+  });
+  if (related.length) {
     out.push("## Related components");
-    out.push(
-      usage.related
-        .map(({ slug, when }) => `- ${code(usageReferenceName(slug))}: when ${when}`)
-        .join("\n"),
-    );
+    out.push(related.join("\n"));
   }
 
   return out;
+}
+
+/**
+ * A usage guide's cross-reference, in the library the spec is for. The guides
+ * name React's exports; Angular's are `UioSwitch` and `UioToggle`, and an
+ * Angular agent told to use `Switch` imports a class that does not exist.
+ */
+function referenceNameIn(input: AiContextInput, fw: OtherTarget | undefined) {
+  return (slug: string): string | undefined => {
+    const name = usageReferenceName(slug);
+    if (!fw) return name;
+    return input.surface
+      ? resolveTarget(fw.framework, name, input.surface)?.symbol
+      : frameworkSymbol(fw.framework, name);
+  };
 }
 
 function renderMarkdown(data: AiContextData, input: AiContextInput): string {
@@ -716,7 +748,7 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
     out.push(data.description);
   }
 
-  if (data.usage) out.push(...usageSections(data.usage));
+  if (data.usage) out.push(...usageSections(data.usage, referenceNameIn(input, fw)));
 
   if (data.subcomponents?.length) {
     out.push("## Composition — required");
