@@ -9,9 +9,10 @@
  * not fail the command.
  *
  * CI runs these as parallel jobs (`.github/workflows/ci.yml`; lint and unit
- * share one), plus two this leaves out: the parity gate's browser half, sharded four ways because it
- * takes 35–40 minutes on its own, and the release smoke (`check:tarballs` and
- * `pnpm smoke`). A gate added here is not a gate until ci.yml runs it too.
+ * share one), plus two this leaves out: the parity gate's browser half, sharded
+ * four ways because it takes 35–40 minutes on its own, and the release smoke
+ * (`check:tarballs` and `pnpm smoke`). A gate added here is not a gate until
+ * ci.yml runs it too.
  *
  * Nothing short-circuits. A failing lint gate must not hide a failing a11y gate
  * — the point of running everything is to see everything, and a stop-on-first
