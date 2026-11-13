@@ -1,0 +1,37 @@
+{
+  // create-vite's svelte-ts template (its tsconfig.app.json), so the check a
+  // new Svelte app runs is the one this gate runs. Its base,
+  // @tsconfig/svelte, is inlined rather than installed: it is five options.
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["svelte", "vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "esModuleInterop": true,
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    // TypeScript 6's default, set by hand on the workspace's TypeScript 5.9.
+    // With it, a side-effect import that resolves to no module is an error, so
+    // `@ui-organized/svelte/styles` (no `.css`, no declarations) fails here the
+    // way it fails in a new app, while `/styles.css` matches vite/client's
+    // `*.css` declaration.
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+}

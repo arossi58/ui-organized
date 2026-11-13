@@ -1,0 +1,32 @@
+{
+  "name": "@ui-organized/example-angular-cli-smoke",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An `ng new` app wired up exactly as Get Started's Angular CLI path says, with the data table. Built with `ng build` and rendered by the angular-cli smoke gate.",
+  "scripts": {
+    "build": "ng build",
+    "start": "ng serve"
+  },
+  "dependencies": {
+    "@angular/cdk": "^21.2.14",
+    "@angular/common": "^21.2.20",
+    "@angular/compiler": "^21.2.20",
+    "@angular/core": "^21.2.20",
+    "@angular/forms": "^21.2.20",
+    "@angular/platform-browser": "^21.2.20",
+    "@angular/router": "^21.2.20",
+    "@ng-icons/lucide": "^34.0.0",
+    "@ui-organized/angular": "workspace:*",
+    "@ui-organized/angular-table": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.2.0",
+    "@angular/cli": "^21.2.0",
+    "@angular/compiler-cli": "^21.2.20",
+    "typescript": "~5.9.2"
+  }
+}

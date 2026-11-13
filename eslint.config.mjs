@@ -27,8 +27,12 @@ export default [
      *
      * The eval's results are agent-written samples, kept on disk to score and
      * gitignored; a baseline sample is often not even valid TypeScript.
+     *
+     * `.angular/` is the Angular CLI's build cache (examples/angular-cli-smoke).
+     * `ng serve` pre-bundles dependencies into it as minified JS, gitignored
+     * and invisible to flat config for the same reason as the temp files above.
      */
-    ignores: ["**/*.timestamp-*.mjs", "tooling/code-connect/eval/results/**"],
+    ignores: ["**/*.timestamp-*.mjs", "tooling/code-connect/eval/results/**", "**/.angular/**"],
   },
 
   {

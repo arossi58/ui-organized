@@ -4,7 +4,8 @@
  * build, and does its stylesheet come with it?
  *
  * Usage: `node scripts/smoke-table.mjs <framework>` where framework is one of
- * `react`, `vue`, `svelte`, `angular`.
+ * `react`, `vue`, `svelte`, `angular`, or `angular-cli`: Angular again, built
+ * the way Get Started's main path builds it (see below).
  *
  * ── What only a build can break ─────────────────────────────────────────────
  *
@@ -40,6 +41,22 @@
  * would put all four frameworks in a single closure — weakening precisely what
  * this gate tests, which is that each adapter resolves *on its own*.
  *
+ * ── Three of them are also Get Started ──────────────────────────────────────
+ *
+ * The Svelte, Vue and Angular CLI apps are the docs page's consumers: their
+ * entry files, and the Angular CLI's `angular.json` `styles`, are the page's
+ * snippets copied verbatim, and
+ * `apps/marketing/src/docs/pages/getStartedSnippets.test.ts` fails when the two
+ * drift apart. So for those three this also checks what the page promises past
+ * the table: its App (a Card, an Input, a Save Button) renders, and the icon set
+ * it registers draws its Reload Button's icon.
+ *
+ * The Angular CLI one exists because `ng build` is the path most Angular readers
+ * take and `examples/angular-table-smoke` is Vite in JIT mode. It also proves
+ * `angular.json`: a stylesheet left out of that list, or listed in the wrong
+ * order, raises no error anywhere, so each documented sheet is looked for in the
+ * emitted CSS, in order.
+ *
  * jsdom rather than a real browser, for the same reason
  * `packages/react/scripts/smoke-icons.mjs` uses it: the failure under test
  * happens at build time, and running the output only has to answer "did this
@@ -50,7 +67,7 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -61,6 +78,10 @@ const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
  * `adapterDist` is the built entry to assert exists — each toolchain names it
  * differently, and checking the wrong path would make this gate pass on a
  * package that never built.
+ *
+ * `getStarted` marks the apps Get Started's snippets are copied into (see the
+ * header), and `stylesheets` lists, in the documented order, each sheet the
+ * Angular CLI is told to load with a rule only that sheet contains.
  */
 const FRAMEWORKS = {
   react: {
@@ -72,11 +93,16 @@ const FRAMEWORKS = {
     example: "vue-table-smoke",
     pkg: "packages/vue-table",
     adapterDist: "dist/index.js",
+    // The docs' `createApp(App).mount('#app')`, which is also create-vite's.
+    mountHtml: '<div id="app"></div>',
+    getStarted: true,
   },
   svelte: {
     example: "svelte-table-smoke",
     pkg: "packages/svelte-table",
     adapterDist: "dist/index.js",
+    mountHtml: '<div id="app"></div>',
+    getStarted: true,
   },
   angular: {
     example: "angular-table-smoke",
@@ -85,6 +111,30 @@ const FRAMEWORKS = {
     // Angular's own host element, rather than a `<div id="root">` the entry
     // looks up. `bootstrapApplication` finds it by the component's selector.
     mountHtml: "<app-root></app-root>",
+  },
+  "angular-cli": {
+    example: "angular-cli-smoke",
+    pkg: "packages/angular-table",
+    adapterDist: "dist/fesm2022/ui-organized-angular-table.mjs",
+    // The application builder writes one directory per project with the
+    // browser bundle under it, and keeps the stylesheet beside index.html
+    // rather than in an assets/ folder.
+    dist: "dist/angular-cli-smoke/browser",
+    assets: ".",
+    mountHtml: "<app-root></app-root>",
+    getStarted: true,
+    stylesheets: [
+      ["@ui-organized/tokens/variables.css", /--control-height-md:/],
+      ["@angular/cdk/overlay-prebuilt.css", /\.cdk-overlay-pane\b/],
+      ["@ui-organized/angular/styles.css", /\.btn--primary\b/],
+      [
+        "@ui-organized/angular/overlay.css",
+        /\.cdk-overlay-container\s*\{\s*z-index:\s*var\(--z-index-toast/,
+      ],
+      ["@ui-organized/angular-table/styles.css", /\.data-table__viewport\b/],
+      ["src/styles/theme.css", /--color-interactive-primary-default:\s*#6d28d9/],
+      ["src/styles.css", /app-root\s*\{/],
+    ],
   },
 };
 
@@ -98,8 +148,12 @@ if (!config) {
 }
 
 const exampleDir = join(repoRoot, "examples", config.example);
-const distDir = join(exampleDir, "dist");
+const distDir = join(exampleDir, config.dist ?? "dist");
 const exampleName = `@ui-organized/example-${config.example}`;
+// Spelled from the package directory rather than from `framework`, which for
+// `angular-cli` names a build path, not a package.
+const tablePackage = `@ui-organized/${basename(config.pkg)}`;
+const libraryPackage = tablePackage.replace(/-table$/, "");
 
 /** How many rows each example's source renders. Kept in step deliberately. */
 const EXPECTED_ROWS = 4;
@@ -135,7 +189,7 @@ check("the example app builds", existsSync(join(distDir, "index.html")));
 const html = await readFile(join(distDir, "index.html"), "utf8");
 
 // ── The stylesheet ───────────────────────────────────────────────────────────
-const assetsDir = join(distDir, "assets");
+const assetsDir = join(distDir, config.assets ?? "assets");
 const cssFiles = existsSync(assetsDir)
   ? readdirSync(assetsDir).filter((file) => file.endsWith(".css"))
   : [];
@@ -147,13 +201,33 @@ check("a stylesheet is emitted", cssFiles.length > 0, `${cssFiles.length} file(s
 check(
   "the table's own rules are in it",
   css.includes(".data-table__viewport") && css.includes(".data-table__head-cell"),
-  `\`@ui-organized/${framework}-table/styles\` must resolve through to table-core's dist/index.css`,
+  `\`${tablePackage}/styles\` must resolve through to table-core's dist/index.css`,
 );
 check(
   "and they are token-driven, not baked",
   css.includes("var(--control-height-md)"),
   "a rule that survived bundling with its custom properties intact is one a theme can still reach",
 );
+
+if (config.stylesheets) {
+  // Where each sheet's own rule first appears. A global stylesheet bundle is
+  // its inputs concatenated in the order listed, so these must rise.
+  const found = config.stylesheets.map(([sheet, probe]) => [sheet, probe.exec(css)?.index ?? -1]);
+  const missing = found.filter(([, at]) => at === -1).map(([sheet]) => sheet);
+  check(
+    "every stylesheet angular.json lists is in it",
+    missing.length === 0,
+    missing.length ? `missing: ${missing.join(", ")}` : `${found.length} sheets`,
+  );
+  const outOfOrder = found.filter(([, at], i) => i > 0 && at !== -1 && at < found[i - 1][1]);
+  check(
+    "in the order Get Started lists them",
+    missing.length === 0 && outOfOrder.length === 0,
+    outOfOrder.length
+      ? `${outOfOrder.map(([sheet]) => sheet).join(", ")} arrived too early; the theme has to come after the baseline it overrides`
+      : "",
+  );
+}
 
 // ── The markup ───────────────────────────────────────────────────────────────
 const entry = /<script[^>]+src="([^"]+\.js)"/.exec(html)?.[1];
@@ -240,8 +314,26 @@ try {
   check(
     "the selection column composes with the component library",
     doc.querySelectorAll('tbody input[type="checkbox"]').length === EXPECTED_ROWS,
-    `a dropped @ui-organized/${framework} peer shows up here first`,
+    `a dropped ${libraryPackage} peer shows up here first`,
   );
+
+  if (config.getStarted) {
+    const button = (label) =>
+      [...doc.querySelectorAll("button")].find((el) => el.textContent?.trim() === label);
+    const save = button("Save");
+    check(
+      "Get Started's App renders: a Card with an Input and a primary Button",
+      Boolean(doc.querySelector('input[placeholder="you@example.com"]')) &&
+        Boolean(save?.classList.contains("btn--primary")),
+      save ? [...save.classList].join(" ") : "no Save button",
+    );
+    const drawn = Boolean(button("Reload")?.querySelector("svg"));
+    check(
+      "and the icon set it registers draws the Reload Button's icon",
+      drawn,
+      drawn ? "" : "the icon-set import, or the provider's `library`, did not reach the build",
+    );
+  }
 } catch (error) {
   console.warn = realWarn;
   console.error = realError;
