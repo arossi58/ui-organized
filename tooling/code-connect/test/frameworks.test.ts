@@ -126,8 +126,9 @@ describe("reading a package's public surface", () => {
       export class UioCardHeader {}
     `;
     expect(parseAngularSelectors([source])).toEqual({
-      // The first alternative wins; `<button uioButton>` is the canonical form.
-      UioButton: { element: "button", attribute: "uioButton" },
+      // The first alternative is the canonical form, `<button uioButton>`, and
+      // every alternative is kept so a spec can say `<a uioButton>` works too.
+      UioButton: { element: "button", attribute: "uioButton", elements: ["button", "a"] },
       // A bare attribute selector matches any element, so a sample has to pick
       // one — `div`, not a `<uio-card>` element that does not exist.
       UioCard: { element: "div", attribute: "uioCard" },

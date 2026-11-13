@@ -121,6 +121,15 @@ describe("specs never send another library's reader to React", () => {
     );
   });
 
+  it("names every element an Angular directive's selector accepts", () => {
+    expect(servedSpec("angular", "Button")).toContain(
+      "- `UioButton` is an attribute directive (`button[uioButton], a[uioButton]`). Put it on a " +
+        "`<button>` or `<a>` element you write yourself: `<button uioButton>` or `<a uioButton>`.",
+    );
+    // A single-element selector reads as it always has.
+    expect(servedSpec("angular", "Switch")).toMatch(/- `UioSwitch` is an attribute directive\. Put it on a `<\w+>` you write yourself/);
+  });
+
   it("names the Angular classes in a usage guide's cross-references", () => {
     const text = servedSpec("angular", "Button");
     expect(text).toContain("Use `UioSwitch` or `UioToggle` instead.");

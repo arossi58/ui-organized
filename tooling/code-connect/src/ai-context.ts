@@ -581,7 +581,20 @@ function conventionsSection(data: AiContextData, target: OtherTarget): string[] 
       break;
     case "angular": {
       const selector = target.selector;
-      if (selector?.attribute) {
+      if (selector?.attribute && selector.elements && selector.elements.length > 1) {
+        // `button[uioButton], a[uioButton]`: naming only the first would tell an
+        // agent a link can't be a UioButton, when `<a uioButton>` is the way to
+        // make one.
+        const { attribute, elements } = selector;
+        const either = (items: string[]) =>
+          items.length > 1 ? `${items.slice(0, -1).join(", ")} or ${items[items.length - 1]}` : items[0]!;
+        lines.push(
+          `- \`${data.component}\` is an attribute directive ` +
+            `(\`${elements.map((e) => `${e}[${attribute}]`).join(", ")}\`). Put it on a ` +
+            `${either(elements.map((e) => `\`<${e}>\``))} element you write yourself: ` +
+            `${either(elements.map((e) => `\`<${e} ${attribute}>\``))}.`,
+        );
+      } else if (selector?.attribute) {
         lines.push(
           `- \`${data.component}\` is an attribute directive. Put it on a ` +
             `\`<${selector.element}>\` you write yourself: \`<${selector.element} ${selector.attribute}>\`.`,
