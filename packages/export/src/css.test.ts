@@ -59,7 +59,8 @@ describe("exportCss", () => {
   it("backfills the layout constants a document doesn't define", () => {
     // The failure this prevents is silent: without --dimension-06 the sidebar
     // shrinks to fit and every portalled overlay loses its z-index, with nothing
-    // thrown and a clean console. See docs/theme-test.md.
+    // thrown and a clean console. It happened to a real Theme Builder export;
+    // the header of packages/core/src/contract.ts tells that story.
     const root = css.slice(css.indexOf(":root"), css.indexOf("[data-theme"));
     expect(root).toContain("--dimension-06: 240px;");
     expect(root).toContain("--z-index-popover: 1200;");
