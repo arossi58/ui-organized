@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-12T21:38:41.039Z",
+  "generatedAt": "2026-11-13T15:40:04.020Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -116,7 +116,12 @@
       "usageSnippet": "<TableCell cell={/* Cell<T, unknown> */} editContext={/* TableEditContext<T> | null */} focused={/* boolean */} index={/* number */} interactive={/* boolean */} primary={/* boolean */} row={/* TableRowModel<T> */} rowIndex={/* number */} table={/* TableInstance<T> */} />",
       "propSignatureHash": "sha256:3e6664bb40751787",
       "lastSyncedAt": "2026-09-09T16:17:18.120Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "GridCursor": "{ row: number; col: number }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -291,7 +296,12 @@
       "usageSnippet": "<TableRow absoluteIndex={/* number */} clickable={/* boolean */} editContext={/* TableEditContext<T> | null */} editing={/* boolean */} focusedCol={/* number | null */} index={/* number */} interactive={/* boolean */} primaryColumnId={/* string | undefined */} row={/* TableRowModel<T> */} selectable={/* boolean */} selected={/* boolean */} table={/* TableInstance<T> */} />",
       "propSignatureHash": "sha256:507e642786d79565",
       "lastSyncedAt": "2026-11-12T21:38:41.039Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "GridCursor": "{ row: number; col: number }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -468,7 +478,14 @@
       "usageSnippet": "<TableFilterChip condition={/* TableFilterCondition */} />",
       "propSignatureHash": "sha256:2957cc9efe245da9",
       "lastSyncedAt": "2026-08-26T21:20:14.917Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -493,7 +510,14 @@
       "usageSnippet": "<TableFilterEditor condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
       "propSignatureHash": "sha256:c7a723631f4e59c2",
       "lastSyncedAt": "2026-08-26T21:20:14.917Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -543,7 +567,14 @@
       "usageSnippet": "<TableFilterValueEditor arity={/* \"none\" | \"one\" | \"two\" | \"many\" */} condition={/* TableFilterCondition */} portalContainer={/* HTMLElement | null */} />",
       "propSignatureHash": "sha256:8410efe385c8c430",
       "lastSyncedAt": "2026-08-26T21:20:14.917Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -613,7 +644,10 @@
       "usageSnippet": "<TableRowActions row={/* T */} />",
       "propSignatureHash": "sha256:4a089adf1b634630",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -638,7 +672,11 @@
       "usageSnippet": "<TableSelectionBar />",
       "propSignatureHash": "sha256:8ac9e9cad8f9dda2",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -879,7 +917,10 @@
       "usageSnippet": "<TableActions />",
       "propSignatureHash": "sha256:b512149875b19a53",
       "lastSyncedAt": "2026-08-27T16:29:59.539Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1085,7 +1126,19 @@
       "usageSnippet": "<TableProvider value={/* DataTableApi<T> */}>…</TableProvider>",
       "propSignatureHash": "sha256:1df0f2ad5f9cd57e",
       "lastSyncedAt": "2026-08-26T18:19:46.173Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "DataTableApi": "{ table: ReactTable<UioTableFeatures, T, TableState<UioTableFeatures>>; rows: TableRowModel<T>[]; renderRows: { row: TableRowModel<T>; index: number; absoluteIndex: number }[]; chrome: TableChrome; options: UseDataTableOptions<T>; size: TableSize; variant: TableVariant; label: string; captionVisible: boolean; interactive: boolean; mode: TableMode; loading: boolean; search: string; setSearch: (value: string) => void; selection: SelectionApi<T>; filters: FiltersApi; edit: EditApi<T>; detail: DetailApi<T>; focus: FocusApi; virtual: VirtualApi; scroll: HorizontalScrollApi; reorder: ReorderApi; rootRef: (element: HTMLElement | null) => void; viewportRef: (element: HTMLElement | null) => void; exportCsv: (scope?: TableRowScope) => void; copySelection: (scope?: TableRowScope) => Promise<boolean>; onGridKeyDown: (event: import(\"react\").KeyboardEvent<HTMLElement>) => void; columnWidths: Record<string, number>; activate: (row: TableRowModel<T>) => void; primaryColumnId: string | undefined }",
+        "TableChrome": "{ size: TableSize; variant: TableVariant; interactive: boolean; totalWidth: number; rowCount: number; colCount: number; label: string; multiSelectable?: boolean }",
+        "UseDataTableOptions": "{ data: readonly T[]; columns: readonly TableColumn<T>[]; label: string; captionVisible?: boolean; getRowId?: (row: T, index: number) => string; size?: TableSize; variant?: TableVariant; selection?: SelectionMode; sortable?: boolean; filterable?: boolean; searchable?: boolean; paginated?: boolean; pageSize?: number; resizable?: boolean; reorderable?: ReorderSetting; hideableColumns?: boolean; sortMenu?: boolean; exportable?: boolean; virtual?: boolean | VirtualConfig; maxHeight?: number | string; loading?: boolean; error?: ReactNode; empty?: EmptyStateConfig; manual?: boolean; rowCount?: number; onQueryChange?: (query: DataTableQuery) => void; onLoadMore?: () => void; onRowClick?: (row: T) => void; onEdit?: (patch: TableEditPatch<T>) => void | Promise<void>; rowActions?: RowAction<T>[]; bulkActions?: BulkAction<T>[]; actions?: TableAction[]; detail?: DetailConfig<T>; responsive?: ResponsiveConfig; defaultSorting?: { id: string; desc: boolean }[]; defaultColumnVisibility?: Record<string, boolean>; defaultFilters?: TableFilterInput[]; filterOperators?: FilterOperatorDef[] }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\"",
+        "TableVariant": "\"default\" | \"bordered\"",
+        "TableMode": "\"table\" | \"cards\"",
+        "SelectionApi": "{ mode: SelectionMode; state: SelectionState; count: number; rows: T[]; isSelected: (rowId: string) => boolean; toggle: (rowId: string, checked: boolean, shift?: boolean) => void; togglePage: (checked: boolean) => void; selectAllMatching: () => void; clear: () => void; header: { checked: boolean; indeterminate: boolean }; canSelectAllMatching: boolean; totalMatching: number; asBulk: () => BulkSelection }",
+        "FiltersApi": "{ conditions: TableFilterCondition[]; fields: FilterableField[]; add: (columnId: string) => string; update: (id: string, patch: Partial<Omit<TableFilterCondition, \"id\" | \"columnId\">>) => void; changeField: (id: string, columnId: string) => void; restore: (condition: TableFilterCondition) => void; remove: (id: string) => void; clear: () => void; describe: (condition: TableFilterCondition) => ConditionDescription; operatorsFor: (condition: TableFilterCondition) => { id: string; label: string }[]; optionsFor: (condition: TableFilterCondition) => TableFilterFacetOption[]; typeOf: (condition: TableFilterCondition) => TableFilterType; arityOf: (condition: TableFilterCondition) => FilterOperatorArity; expanded: boolean; setExpanded: (expanded: boolean) => void; editing: string | null; setEditing: (id: string | null) => void; announcement: string }",
+        "EditApi": "{ enabled: boolean; state: EditState; isEditing: (rowId: string, columnId: string) => boolean; start: (row: TableRowModel<T>, columnId: string) => void; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; contextFor: (row: TableRowModel<T>, columnId: string) => TableEditContext<T> | null }",
+        "VirtualApi": "{ enabled: boolean; virtualizer: Virtualizer<HTMLElement, HTMLElement>; spacers: { top: number; bottom: number } }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1308,7 +1361,35 @@
       "usageSnippet": "<DataTable />",
       "propSignatureHash": "sha256:a769880d950878d9",
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
+        "DetailConfig": "{ render: (row: T) => ReactNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => ReactNode }",
+        "EmptyStateConfig": "{ title?: string; description?: string; action?: ReactNode }",
+        "FilterOperatorDef": "{ id: TableFilterOperator; label: string; labelByType?: Partial<Record<TableFilterType, string>>; arity: FilterOperatorArity; types: readonly TableFilterType[]; matchesEmpty?: boolean; compile?: (condition: TableFilterCondition, ctx: FilterCompileContext) => unknown; test: (cellValue: unknown, prepared: unknown) => boolean }",
+        "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
+        "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
+        "ReorderSetting": "boolean | \"always\" | \"toggle\"",
+        "ResponsiveConfig": "{ mode?: \"auto\" | TableMode; breakpoint?: number }",
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
+        "SelectionMode": "\"none\" | \"single\" | \"multiple\"",
+        "TableSize": "\"sm\" | \"md\" | \"lg\"",
+        "TableVariant": "\"default\" | \"bordered\"",
+        "VirtualConfig": "{ threshold?: number; overscan?: number }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterType": "\"text\" | \"number\" | \"date\" | \"enum\" | \"boolean\"",
+        "FilterOperatorArity": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "FilterCompileContext": "{ now: number; type: TableFilterType }",
+        "TableSortSpec": "{ id: string; desc: boolean }",
+        "TableMode": "\"table\" | \"cards\"",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1378,7 +1459,10 @@
       "usageSnippet": "<Accordion items={/* AccordionItem[] */} />",
       "propSignatureHash": "sha256:582b648bb447e7b5",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "AccordionItem": "{ value: string | number; title: React.ReactNode; content: React.ReactNode; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1519,15 +1603,15 @@
         },
         {
           "name": "size",
-          "type": "DialogVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
           "required": false,
           "defaultValue": "sm",
           "description": "Width preset."
         }
       ],
       "usageSnippet": "<AlertDialogContent />",
-      "propSignatureHash": "sha256:ede4a86e2912e80b",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:5a994a19d409a814",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -1576,10 +1660,17 @@
       "codePath": "packages/react/src/components/AlertDialog/AlertDialog.types.ts",
       "framework": "react",
       "importStatement": "import { AlertDialogTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element."
+        }
+      ],
       "usageSnippet": "<AlertDialogTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -1629,7 +1720,7 @@
           "name": "markers",
           "type": "number[]",
           "required": false,
-          "description": "Tick marks in degrees, e.g."
+          "description": "Tick marks in degrees, e.g. `[0, 90, 180, 270]`."
         },
         {
           "name": "name",
@@ -1765,7 +1856,10 @@
       "usageSnippet": "<Breadcrumb items={/* BreadcrumbItem[] */} />",
       "propSignatureHash": "sha256:9ec3fcb8186f9831",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BreadcrumbItem": "{ label: React.ReactNode; href?: string; icon?: IconName | IconComponent }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1796,6 +1890,12 @@
           "description": "Visual style intent."
         },
         {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Render the button as a supplied element (e.g. an `<a>` or router `Link`) instead of a native `<button>`."
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
@@ -1804,8 +1904,8 @@
         }
       ],
       "usageSnippet": "<Button />",
-      "propSignatureHash": "sha256:68ec7bd6e371fc24",
-      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "propSignatureHash": "sha256:255caa98204c3201",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -2001,7 +2101,10 @@
       "usageSnippet": "<Carousel slides={/* CarouselSlide[] */} />",
       "propSignatureHash": "sha256:3d523f34e49c29cb",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CarouselSlide": "{ id: string; content: React.ReactNode }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2160,14 +2263,14 @@
       "props": [
         {
           "name": "part",
-          "type": "ChipSegmentPart",
+          "type": "\"label\" | \"operator\" | \"value\"",
           "required": false,
           "description": "Which part of the chip's sentence this is."
         }
       ],
       "usageSnippet": "<ChipSegment />",
-      "propSignatureHash": "sha256:d85400644ba09e1d",
-      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "propSignatureHash": "sha256:9ccd14beb2c04af9",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -2293,10 +2396,17 @@
       "codePath": "packages/react/src/components/Collapsible/Collapsible.types.ts",
       "framework": "react",
       "importStatement": "import { CollapsibleContent } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the panel onto a custom element instead of the default `<div>`."
+        }
+      ],
       "usageSnippet": "<CollapsibleContent />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -2306,10 +2416,17 @@
       "codePath": "packages/react/src/components/Collapsible/Collapsible.types.ts",
       "framework": "react",
       "importStatement": "import { CollapsibleTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element instead of the default `<button>`."
+        }
+      ],
       "usageSnippet": "<CollapsibleTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -2583,7 +2700,10 @@
       "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
       "propSignatureHash": "sha256:afd52166dcebfe72",
       "lastSyncedAt": "2026-07-31T00:02:54.122Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3164,7 +3284,10 @@
       "usageSnippet": "<DateRangeInput />",
       "propSignatureHash": "sha256:bad361f95577ae6e",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3262,10 +3385,17 @@
       "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
       "framework": "react",
       "importStatement": "import { DialogClose } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the close control onto a custom element."
+        }
+      ],
       "usageSnippet": "<DialogClose />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -3349,10 +3479,17 @@
       "codePath": "packages/react/src/components/Dialog/Dialog.types.ts",
       "framework": "react",
       "importStatement": "import { DialogTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element."
+        }
+      ],
       "usageSnippet": "<DialogTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -4024,11 +4161,17 @@
           "name": "children",
           "type": "React.ReactNode",
           "required": false
+        },
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element, e.g. `render={<Button />}`."
         }
       ],
       "usageSnippet": "<FloatingPanelTrigger>…</FloatingPanelTrigger>",
-      "propSignatureHash": "sha256:8e43c867ebd12f85",
-      "lastSyncedAt": "2026-08-02T18:17:38.357Z",
+      "propSignatureHash": "sha256:1ed85a7a7ad25c81",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -4090,7 +4233,7 @@
       "props": [
         {
           "name": "align",
-          "type": "HoverCardAlign",
+          "type": "\"start\" | \"center\" | \"end\"",
           "required": false,
           "defaultValue": "center",
           "description": "Alignment along the chosen side."
@@ -4110,7 +4253,7 @@
         },
         {
           "name": "side",
-          "type": "HoverCardSide",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "bottom",
           "description": "Side of the trigger to position against."
@@ -4124,8 +4267,8 @@
         }
       ],
       "usageSnippet": "<HoverCardContent />",
-      "propSignatureHash": "sha256:90589c38fc3d98e8",
-      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "propSignatureHash": "sha256:86cfcb7831e4bad1",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -4135,10 +4278,17 @@
       "codePath": "packages/react/src/components/HoverCard/HoverCard.types.ts",
       "framework": "react",
       "importStatement": "import { HoverCardTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element (e.g. a link)."
+        }
+      ],
       "usageSnippet": "<HoverCardTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -4165,7 +4315,7 @@
           "name": "name",
           "type": "IconName | IconComponent",
           "required": true,
-          "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g."
+          "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g. `X` from lucide-react)."
         },
         {
           "name": "size",
@@ -4198,7 +4348,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the crop box to a ratio, e.g."
+          "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
         },
         {
           "name": "className",
@@ -4301,7 +4451,10 @@
       "usageSnippet": "<ImageCropper src={/* string */} />",
       "propSignatureHash": "sha256:3487396be4c6ffc5",
       "lastSyncedAt": "2026-08-02T18:39:22.446Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CropRect": "{ x: number; y: number; width: number; height: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4422,7 +4575,10 @@
       "usageSnippet": "<Listbox options={/* ListboxOption[] */} />",
       "propSignatureHash": "sha256:c4aac84c484bb4e8",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ListboxOption": "{ value: string; label: string; disabled?: boolean; group?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4517,7 +4673,10 @@
       "usageSnippet": "<Marquee items={/* MarqueeItem[] */} />",
       "propSignatureHash": "sha256:5990e288f07f2275",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "MarqueeItem": "{ id: string; content: React.ReactNode }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4604,7 +4763,7 @@
       "props": [
         {
           "name": "align",
-          "type": "MenuAlign",
+          "type": "\"start\" | \"center\" | \"end\"",
           "required": false,
           "defaultValue": "start",
           "description": "Alignment along the chosen side."
@@ -4624,7 +4783,7 @@
         },
         {
           "name": "side",
-          "type": "MenuSide",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "bottom",
           "description": "Side of the trigger to position against."
@@ -4638,8 +4797,8 @@
         }
       ],
       "usageSnippet": "<MenuContent />",
-      "propSignatureHash": "sha256:1f4c6873dde0f0bc",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:4b385c79afc012d4",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -4789,10 +4948,17 @@
       "codePath": "packages/react/src/components/Menu/Menu.types.ts",
       "framework": "react",
       "importStatement": "import { MenuTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element."
+        }
+      ],
       "usageSnippet": "<MenuTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -4839,7 +5005,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "Options to format the displayed value (e.g."
+          "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
         },
         {
           "name": "label",
@@ -4958,7 +5124,7 @@
           "name": "icon",
           "type": "IconName | React.ComponentType<Record<string, unknown>>",
           "required": false,
-          "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g."
+          "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g. from lucide-react)."
         },
         {
           "name": "label",
@@ -5072,7 +5238,7 @@
           "name": "logoCollapsed",
           "type": "React.ReactNode",
           "required": false,
-          "description": "Optional compact logo shown when collapsed (e.g."
+          "description": "Optional compact logo shown when collapsed (e.g. an icon-only mark)."
         },
         {
           "name": "navLabel",
@@ -5128,7 +5294,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
         },
         {
           "name": "helperText",
@@ -5504,10 +5670,17 @@
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
       "framework": "react",
       "importStatement": "import { PopoverClose } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the close control onto a custom element."
+        }
+      ],
       "usageSnippet": "<PopoverClose />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -5520,7 +5693,7 @@
       "props": [
         {
           "name": "align",
-          "type": "PopoverAlign",
+          "type": "\"start\" | \"center\" | \"end\"",
           "required": false,
           "defaultValue": "center",
           "description": "Alignment along the chosen side."
@@ -5540,7 +5713,7 @@
         },
         {
           "name": "side",
-          "type": "PopoverSide",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "bottom",
           "description": "Side of the trigger to position against."
@@ -5554,8 +5727,8 @@
         }
       ],
       "usageSnippet": "<PopoverContent />",
-      "propSignatureHash": "sha256:3ce4770f849d5d1e",
-      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "propSignatureHash": "sha256:86cfcb7831e4bad1",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -5591,10 +5764,17 @@
       "codePath": "packages/react/src/components/Popover/Popover.types.ts",
       "framework": "react",
       "importStatement": "import { PopoverTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element instead of rendering a button."
+        }
+      ],
       "usageSnippet": "<PopoverTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -5823,7 +6003,10 @@
       "usageSnippet": "<RadioGroup options={/* RadioOption[] */} />",
       "propSignatureHash": "sha256:6b1a92c950305c6c",
       "lastSyncedAt": "2026-08-02T14:46:46.619Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5917,7 +6100,7 @@
           "name": "onValueChange",
           "type": "(value: number) => void",
           "required": false,
-          "description": "Fired continuously while the value changes (e.g."
+          "description": "Fired continuously while the value changes (e.g. during a drag)."
         },
         {
           "name": "onValueCommitted",
@@ -6233,7 +6416,10 @@
       "usageSnippet": "<SegmentedControl items={/* SegmentedControlItem[] */} />",
       "propSignatureHash": "sha256:f727abc048f7e838",
       "lastSyncedAt": "2026-07-13T02:53:17.317Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SegmentedControlItem": "{ value: string; label: React.ReactNode; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6356,7 +6542,10 @@
       "usageSnippet": "<Select options={/* SelectOption[] */} />",
       "propSignatureHash": "sha256:a2c90f2f6a9c57da",
       "lastSyncedAt": "2026-07-31T00:02:54.122Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SelectOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6409,10 +6598,17 @@
       "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
       "framework": "react",
       "importStatement": "import { SheetClose } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the close control onto a custom element."
+        }
+      ],
       "usageSnippet": "<SheetClose />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -6439,22 +6635,22 @@
         },
         {
           "name": "side",
-          "type": "SheetVariants[\"side\"]",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "right",
           "description": "Edge the panel slides in from."
         },
         {
           "name": "size",
-          "type": "SheetVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "defaultValue": "md",
           "description": "Panel extent (width for left/right, height for top/bottom)."
         }
       ],
       "usageSnippet": "<SheetContent />",
-      "propSignatureHash": "sha256:547d87a13141e747",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:e80310927344c2fc",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -6503,10 +6699,17 @@
       "codePath": "packages/react/src/components/Sheet/Sheet.types.ts",
       "framework": "react",
       "importStatement": "import { SheetTrigger } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element."
+        }
+      ],
       "usageSnippet": "<SheetTrigger />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
       "status": "draft"
     },
     {
@@ -6745,7 +6948,10 @@
       "usageSnippet": "<Splitter panels={/* SplitterPanelDef[] */} />",
       "propSignatureHash": "sha256:333d3414459f7252",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SplitterPanelDef": "{ id: string; label?: string; content?: React.ReactNode; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6836,7 +7042,10 @@
       "usageSnippet": "<Steps steps={/* StepItem[] */} />",
       "propSignatureHash": "sha256:ba967994bcab4048",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "StepItem": "{ title: string; description?: string; content?: React.ReactNode }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6967,7 +7176,10 @@
       "usageSnippet": "<Tabs tabs={/* TabItem[] */} />",
       "propSignatureHash": "sha256:657142a2c38c3bdb",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TabItem": "{ value: string | number; label: React.ReactNode; content: React.ReactNode; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7274,7 +7486,10 @@
       "usageSnippet": "<Timer />",
       "propSignatureHash": "sha256:d64df2ef063762e0",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TimerPart": "\"days\" | \"hours\" | \"minutes\" | \"seconds\" | \"milliseconds\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7329,7 +7544,7 @@
         },
         {
           "name": "size",
-          "type": "ToggleVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "defaultValue": "md",
           "description": "Size variant."
@@ -7342,8 +7557,8 @@
         }
       ],
       "usageSnippet": "<Toggle />",
-      "propSignatureHash": "sha256:dc5a165a6654b913",
-      "lastSyncedAt": "2026-11-05T02:51:10.385Z",
+      "propSignatureHash": "sha256:273e05dfa3c353d7",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -7442,7 +7657,7 @@
       "props": [
         {
           "name": "align",
-          "type": "TooltipAlign",
+          "type": "\"start\" | \"center\" | \"end\"",
           "required": false,
           "defaultValue": "center",
           "description": "Alignment along the chosen side."
@@ -7504,7 +7719,7 @@
         },
         {
           "name": "side",
-          "type": "TooltipSide",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "top",
           "description": "Side of the trigger to position against."
@@ -7518,8 +7733,8 @@
         }
       ],
       "usageSnippet": "<Tooltip content={/* React.ReactNode */}>…</Tooltip>",
-      "propSignatureHash": "sha256:7d2c6910f54dd1f2",
-      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "propSignatureHash": "sha256:e424ecc2c0d9e60c",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -7637,7 +7852,11 @@
       "usageSnippet": "<Tour stepId={/* string | null */} steps={/* TourStep[] */} />",
       "propSignatureHash": "sha256:c9fda0ee4ed41a43",
       "lastSyncedAt": "2026-08-02T18:17:38.357Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TourStep": "{ id: string; title: React.ReactNode; description: React.ReactNode; target?: () => HTMLElement | null; type?: \"tooltip\" | \"dialog\" | \"wait\" | \"floating\"; placement?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"; actions?: TourStepAction[]; backdrop?: boolean; arrow?: boolean }",
+        "TourStepAction": "{ label: string; action?: \"next\" | \"prev\" | \"dismiss\" | \"skip\" }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7732,7 +7951,10 @@
       "usageSnippet": "<TreeView items={/* TreeViewNode[] */} />",
       "propSignatureHash": "sha256:6fa3af288f279d38",
       "lastSyncedAt": "2026-08-02T17:47:27.946Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",

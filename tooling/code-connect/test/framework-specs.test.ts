@@ -67,6 +67,35 @@ describe("framework specs from each library's own scan", () => {
   });
 });
 
+describe("specs write out the types their props name", () => {
+  const SELECT_OPTION = "- `SelectOption` is `{ value: string; label: string; disabled?: boolean }`";
+
+  it("gives React's and Vue's Select the option's shape", () => {
+    expect(buildComponentSpec(entry("Select"), manifest, latest, "0.0.0")).toContain(SELECT_OPTION);
+    expect(spec("vue", "Select")).toContain(SELECT_OPTION);
+  });
+
+  it("uses the library's own declaration, not React's", () => {
+    const tabs = servedSpec("svelte", "Tabs");
+    expect(tabs).toContain("- `TabItem` is `{ value: string | number; label: string | Snippet;");
+    expect(tabs).not.toContain("ReactNode; content");
+  });
+
+  it("lists a React alias's values in the table, as the other libraries' specs do", () => {
+    const text = buildComponentSpec(entry("Tooltip"), manifest, latest, "0.0.0");
+    expect(text).toContain('| `side` | `"top"` \\| `"right"` \\| `"bottom"` \\| `"left"` |');
+    expect(text).not.toContain("TooltipSide");
+  });
+
+  it("writes Angular's from its own scan, through the checker", () => {
+    const tree = servedSpec("angular", "TreeView");
+    expect(tree).toContain(
+      "- `TreeViewNode` is `{ id: string; label: string; children?: TreeViewNode[]; icon?: string | IconGlyph; disabled?: boolean }`",
+    );
+    expect(servedSpec("angular", "Select")).toContain(SELECT_OPTION);
+  });
+});
+
 describe("specs never send another library's reader to React", () => {
   it("points at the library's own index, and counts components rather than manifest entries", () => {
     const text = spec("vue", "Button");
@@ -84,6 +113,21 @@ describe("specs never send another library's reader to React", () => {
     const text = spec("vue", "Button");
     expect(text).not.toContain("`render`");
     expect(text).not.toContain("={");
+  });
+
+  it("does tell a React reader: Button's `render` is in its table", () => {
+    expect(buildComponentSpec(entry("Button"), manifest, latest, "0.0.0")).toContain(
+      "| `render` | `React.ReactElement` | no | — | Render the button as a supplied element (e.g. an `<a>` or router `Link`)",
+    );
+  });
+
+  it("names every element an Angular directive's selector accepts", () => {
+    expect(servedSpec("angular", "Button")).toContain(
+      "- `UioButton` is an attribute directive (`button[uioButton], a[uioButton]`). Put it on a " +
+        "`<button>` or `<a>` element you write yourself: `<button uioButton>` or `<a uioButton>`.",
+    );
+    // A single-element selector reads as it always has.
+    expect(servedSpec("angular", "Switch")).toMatch(/- `UioSwitch` is an attribute directive\. Put it on a `<\w+>` you write yourself/);
   });
 
   it("names the Angular classes in a usage guide's cross-references", () => {

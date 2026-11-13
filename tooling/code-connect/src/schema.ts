@@ -64,6 +64,18 @@ export interface ComponentManifestEntry {
    */
   reactName?: string;
   props: PropDefinition[];
+  /**
+   * What the named types in `props` are, written out one level deep, by name:
+   * `{ SelectOption: "{ value: string; label: string; disabled?: boolean }" }`.
+   * Only the library's own types (and its cores'): React's, the DOM's and other
+   * packages' stay names. Types a shape names are listed too, within a size
+   * budget and each once, so a recursive type refers back to its own entry.
+   *
+   * Not part of `propSignatureHash`. It describes the props rather than being
+   * one, and a hash that moved whenever an option type gained a field would
+   * mark the component stale without any of its props changing.
+   */
+  referencedTypes?: Record<string, string>;
   /** Canonical real-world usage example. */
   usageSnippet: string;
   /** Prop patterns, a11y notes, team conventions the agent should honor. */

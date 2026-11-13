@@ -34,7 +34,7 @@ the library you have installed:
 | `get_component` | The full spec for one component: import, every prop and its allowed values, usage rules, examples |
 | `search_tokens` | Finds design tokens by purpose, such as "padding" or "error text" |
 | `get_token` | Checks one token name and rejects any that don't exist |
-| `get_figma_frame` | Turns a Figma frame into compact code (JSX, or a Svelte, Vue or Angular template) using real components and tokens |
+| `get_figma_frame` | Turns a Figma frame into compact code (JSX, or a Svelte, Vue or Angular template) using real components and tokens, once the library's components are linked to Figma. Until then it returns `found: false` and points to Figma's own MCP server |
 | `resolve_figma_components` | Turns Figma component keys and property values into imports and markup |
 
 When something doesn't exist, the tools return `found: false` with real alternatives.
@@ -67,9 +67,16 @@ imports and its own markup. A component the library doesn't ship returns
 
 ## Figma
 
-`get_figma_frame` needs a Figma personal access token that can read your file. Set
-it in your shell as `FIGMA_TOKEN` rather than in the MCP config, which is often
-committed. The token is only sent to Figma.
+For a Figma link, read the frame with Figma's own MCP server (`get_design_context`),
+then call `get_component` for each component it shows and `get_token` for each Figma
+variable name it reports. That route needs no token from this server.
+
+`get_figma_frame` does the same in one call, but only once the library's components
+are linked to Figma. Until then it answers `found: false` with that route and the
+frame's `fileKey` and `nodeId`, without contacting Figma. Once they are linked, it
+needs a Figma personal access token that can read your file. Set it in your shell as
+`FIGMA_TOKEN` rather than in the MCP config, which is often committed. The token is
+only sent to Figma.
 
 Anything without a verified code equivalent comes back in `unmapped` or `unbound`
 and isn't approximated: detached instances, unpublished components, and values not

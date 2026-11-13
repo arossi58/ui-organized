@@ -1,20 +1,20 @@
 {
-  "generatedAt": "2026-11-12T21:38:41.039Z",
+  "generatedAt": "2026-11-13T15:40:04.020Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialog": "sha256:45d508fd30c96523",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogCancel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogConfirm": "sha256:c729478012630d4f",
-    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": "sha256:ede4a86e2912e80b",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogContent": "sha256:5a994a19d409a814",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
-    "packages/react/src/components/Button/Button.types.ts::Button": "sha256:68ec7bd6e371fc24",
+    "packages/react/src/components/Button/Button.types.ts::Button": "sha256:255caa98204c3201",
     "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
@@ -22,11 +22,11 @@
     "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
     "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:4cd111a1f868c3b9",
-    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:d85400644ba09e1d",
+    "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:9ccd14beb2c04af9",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::Collapsible": "sha256:0ef3e7cc9393ef49",
-    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:36a696a8661c284e",
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:986a424f729e6c35",
     "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:afd52166dcebfe72",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
@@ -45,12 +45,12 @@
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
     "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
-    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:36a696a8661c284e",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": "sha256:c5b2bf0497293634",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:f411b86fd0af3040",
     "packages/react/src/components/Editable/Editable.types.ts::Editable": "sha256:4acc88909e051c06",
     "packages/react/src/components/Field/Field.types.ts::Field": "sha256:1381062600517458",
@@ -68,10 +68,10 @@
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelContent": "sha256:fe34e6848f3af1a5",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelHeader": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTitle": "sha256:8e43c867ebd12f85",
-    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTrigger": "sha256:8e43c867ebd12f85",
+    "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelTrigger": "sha256:1ed85a7a7ad25c81",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": "sha256:79017ced95806657",
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:90589c38fc3d98e8",
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:86cfcb7831e4bad1",
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:bef6759e7e844295",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
@@ -81,14 +81,14 @@
     "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
     "packages/react/src/components/Menubar/Menubar.types.ts::Menubar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Menu/Menu.types.ts::MenuCheckboxItem": "sha256:dc0af9c05089e992",
-    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:1f4c6873dde0f0bc",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuContent": "sha256:4b385c79afc012d4",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroup": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuGroupLabel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuItem": "sha256:84938aebaed54770",
     "packages/react/src/components/Menu/Menu.types.ts::MenuRadioGroup": "sha256:52b319fda5c54103",
     "packages/react/src/components/Menu/Menu.types.ts::MenuRadioItem": "sha256:b868f7539ba601cd",
     "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Meter/Meter.types.ts::Meter": "sha256:ef09ae151baf0f59",
     "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": "sha256:6e365b82364e442b",
     "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": "sha256:c3f9c36951922c79",
@@ -98,11 +98,11 @@
     "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": "sha256:c14424eb19ef5d89",
     "packages/react/src/components/PinInput/PinInput.types.ts::PinInput": "sha256:7bb9543b95a35aa0",
     "packages/react/src/components/Popover/Popover.types.ts::Popover": "sha256:a93ae00228c7bad7",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:3ce4770f849d5d1e",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": "sha256:36a696a8661c284e",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": "sha256:86cfcb7831e4bad1",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTitle": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Progress/Progress.types.ts::Progress": "sha256:107504ef664f40a5",
     "packages/react/src/components/QRCode/QRCode.types.ts::QRCode": "sha256:651243f891e80bbe",
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": "sha256:6b1a92c950305c6c",
@@ -113,12 +113,12 @@
     "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": "sha256:f727abc048f7e838",
     "packages/react/src/components/Select/Select.types.ts::Select": "sha256:a2c90f2f6a9c57da",
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:547d87a13141e747",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:36a696a8661c284e",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:e80310927344c2fc",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetDescription": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": "sha256:0341f1edb917c622",
     "packages/react/src/components/SignaturePad/SignaturePad.types.ts::SignaturePad": "sha256:b7fbad87145c2b47",
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
@@ -167,11 +167,11 @@
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
     "packages/react/src/components/Toast/Toast.types.ts::ToastProvider": "sha256:8e43c867ebd12f85",
-    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:dc5a165a6654b913",
+    "packages/react/src/components/Toggle/Toggle.types.ts::Toggle": "sha256:273e05dfa3c353d7",
     "packages/react/src/components/Toggle/Toggle.types.ts::ToggleGroup": "sha256:4800110f711f816e",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::Toolbar": "sha256:cb8cd33347e618f0",
     "packages/react/src/components/Toolbar/Toolbar.types.ts::ToolbarGroup": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:7d2c6910f54dd1f2",
+    "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:e424ecc2c0d9e60c",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084",
     "packages/react/src/components/Tour/Tour.types.ts::Tour": "sha256:c9fda0ee4ed41a43",
     "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38"
@@ -319,7 +319,7 @@
       },
       {
         "name": "size",
-        "type": "DialogVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
         "required": false,
         "defaultValue": "sm",
         "description": "Width preset."
@@ -328,7 +328,14 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogDescription": [],
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogFooter": [],
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": [],
-    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": [],
+    "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element."
+      }
+    ],
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": [
       {
         "name": "className",
@@ -369,7 +376,7 @@
         "name": "markers",
         "type": "number[]",
         "required": false,
-        "description": "Tick marks in degrees, e.g."
+        "description": "Tick marks in degrees, e.g. `[0, 90, 180, 270]`."
       },
       {
         "name": "name",
@@ -498,6 +505,12 @@
         "required": false,
         "defaultValue": "primary",
         "description": "Visual style intent."
+      },
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Render the button as a supplied element (e.g. an `<a>` or router `Link`) instead of a native `<button>`."
       },
       {
         "name": "size",
@@ -768,7 +781,7 @@
     "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": [
       {
         "name": "part",
-        "type": "ChipSegmentPart",
+        "type": "\"label\" | \"operator\" | \"value\"",
         "required": false,
         "description": "Which part of the chip's sentence this is."
       }
@@ -865,8 +878,22 @@
         "description": "Whether the panel is open (controlled)."
       }
     ],
-    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": [],
-    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": [],
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the panel onto a custom element instead of the default `<div>`."
+      }
+    ],
+    "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element instead of the default `<button>`."
+      }
+    ],
     "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": [
       {
         "name": "className",
@@ -1817,7 +1844,14 @@
         "description": "Controlled open state."
       }
     ],
-    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the close control onto a custom element."
+      }
+    ],
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": [
       {
         "name": "container",
@@ -1844,7 +1878,14 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogDescription": [],
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": [],
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": [],
-    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": [],
+    "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element."
+      }
+    ],
     "packages/react/src/components/Divider/Divider.types.ts::Divider": [
       {
         "name": "orientation",
@@ -2303,6 +2344,12 @@
         "name": "children",
         "type": "React.ReactNode",
         "required": false
+      },
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element, e.g. `render={<Button />}`."
       }
     ],
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCard": [
@@ -2345,7 +2392,7 @@
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": [
       {
         "name": "align",
-        "type": "HoverCardAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -2365,7 +2412,7 @@
       },
       {
         "name": "side",
-        "type": "HoverCardSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -2378,7 +2425,14 @@
         "description": "Gap between trigger and card, in px."
       }
     ],
-    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": [],
+    "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element (e.g. a link)."
+      }
+    ],
     "packages/react/src/components/Icon/Icon.types.ts::Icon": [
       {
         "name": "className",
@@ -2396,7 +2450,7 @@
         "name": "name",
         "type": "IconName | IconComponent",
         "required": true,
-        "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g."
+        "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g. `X` from lucide-react)."
       },
       {
         "name": "size",
@@ -2424,7 +2478,7 @@
         "name": "aspectRatio",
         "type": "number",
         "required": false,
-        "description": "Locks the crop box to a ratio, e.g."
+        "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
       },
       {
         "name": "className",
@@ -2767,7 +2821,7 @@
     "packages/react/src/components/Menu/Menu.types.ts::MenuContent": [
       {
         "name": "align",
-        "type": "MenuAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "start",
         "description": "Alignment along the chosen side."
@@ -2787,7 +2841,7 @@
       },
       {
         "name": "side",
-        "type": "MenuSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -2868,7 +2922,14 @@
       }
     ],
     "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": [],
-    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": [],
+    "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element."
+      }
+    ],
     "packages/react/src/components/Meter/Meter.types.ts::Meter": [
       {
         "name": "aria-label",
@@ -2885,7 +2946,7 @@
         "name": "format",
         "type": "Intl.NumberFormatOptions",
         "required": false,
-        "description": "Options to format the displayed value (e.g."
+        "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
       },
       {
         "name": "label",
@@ -2966,7 +3027,7 @@
         "name": "icon",
         "type": "IconName | React.ComponentType<Record<string, unknown>>",
         "required": false,
-        "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g."
+        "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g. from lucide-react)."
       },
       {
         "name": "label",
@@ -3056,7 +3117,7 @@
         "name": "format",
         "type": "Intl.NumberFormatOptions",
         "required": false,
-        "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+        "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
       },
       {
         "name": "helperText",
@@ -3372,11 +3433,18 @@
         "description": "Controlled open state."
       }
     ],
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": [],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverClose": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the close control onto a custom element."
+      }
+    ],
     "packages/react/src/components/Popover/Popover.types.ts::PopoverContent": [
       {
         "name": "align",
-        "type": "PopoverAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -3396,7 +3464,7 @@
       },
       {
         "name": "side",
-        "type": "PopoverSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "bottom",
         "description": "Side of the trigger to position against."
@@ -3411,7 +3479,14 @@
     ],
     "packages/react/src/components/Popover/Popover.types.ts::PopoverDescription": [],
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTitle": [],
-    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": [],
+    "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element instead of rendering a button."
+      }
+    ],
     "packages/react/src/components/Progress/Progress.types.ts::Progress": [
       {
         "name": "className",
@@ -3689,7 +3764,7 @@
         "name": "onValueChange",
         "type": "(value: number) => void",
         "required": false,
-        "description": "Fired continuously while the value changes (e.g."
+        "description": "Fired continuously while the value changes (e.g. during a drag)."
       },
       {
         "name": "onValueCommitted",
@@ -4097,7 +4172,14 @@
         "description": "Controlled open state."
       }
     ],
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the close control onto a custom element."
+      }
+    ],
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": [
       {
         "name": "container",
@@ -4115,14 +4197,14 @@
       },
       {
         "name": "side",
-        "type": "SheetVariants[\"side\"]",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "right",
         "description": "Edge the panel slides in from."
       },
       {
         "name": "size",
-        "type": "SheetVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\"",
         "required": false,
         "defaultValue": "md",
         "description": "Panel extent (width for left/right, height for top/bottom)."
@@ -4131,7 +4213,14 @@
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetDescription": [],
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetFooter": [],
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetTitle": [],
-    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": [],
+    "packages/react/src/components/Sheet/Sheet.types.ts::SheetTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element."
+      }
+    ],
     "packages/react/src/components/Navigation/Navigation.types.ts::Sidebar": [
       {
         "name": "children",
@@ -4174,7 +4263,7 @@
         "name": "logoCollapsed",
         "type": "React.ReactNode",
         "required": false,
-        "description": "Optional compact logo shown when collapsed (e.g."
+        "description": "Optional compact logo shown when collapsed (e.g. an icon-only mark)."
       },
       {
         "name": "navLabel",
@@ -5524,7 +5613,7 @@
       },
       {
         "name": "size",
-        "type": "ToggleVariants[\"size\"]",
+        "type": "\"sm\" | \"md\" | \"lg\"",
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
@@ -5589,7 +5678,7 @@
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": [
       {
         "name": "align",
-        "type": "TooltipAlign",
+        "type": "\"start\" | \"center\" | \"end\"",
         "required": false,
         "defaultValue": "center",
         "description": "Alignment along the chosen side."
@@ -5651,7 +5740,7 @@
       },
       {
         "name": "side",
-        "type": "TooltipSide",
+        "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
         "required": false,
         "defaultValue": "top",
         "description": "Side of the trigger to position against."

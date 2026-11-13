@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-12T07:22:07.538Z",
+  "generatedAt": "2026-11-13T15:36:11.261Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -95,7 +95,11 @@
       "usageSnippet": "<TableCell cell={/* TableCellInstance<T> */} editContext={/* TableEditContext<T> | null */} focused={/* boolean */} index={/* number */} primary={/* boolean */} row={/* TableRowModel<T> */} rowIndex={/* number */} />",
       "propSignatureHash": "sha256:993a61277cb605da",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -205,7 +209,11 @@
       "usageSnippet": "<TableRow absoluteIndex={/* number */} editContext={/* TableEditContext<T> | null */} focusedCol={/* number | null */} index={/* number */} row={/* TableRowModel<T> */} />",
       "propSignatureHash": "sha256:184a2c6c4f94f3da",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -379,7 +387,14 @@
       "usageSnippet": "<TableFilterChip condition={/* TableFilterCondition */} />",
       "propSignatureHash": "sha256:c7909e26d20142a5",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -404,7 +419,14 @@
       "usageSnippet": "<TableFilterEditor condition={/* TableFilterCondition */} />",
       "propSignatureHash": "sha256:ce32aa810248e164",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -454,7 +476,15 @@
       "usageSnippet": "<TableFilterValueEditor arity={/* FilterOperatorArity */} condition={/* TableFilterCondition */} />",
       "propSignatureHash": "sha256:65e5c015feb697ae",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "FilterOperatorArity": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -520,7 +550,10 @@
       "usageSnippet": "<TableRowActions row={/* T */} />",
       "propSignatureHash": "sha256:efb6877e93e7e401",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -545,7 +578,11 @@
       "usageSnippet": "<TableSelectionBar />",
       "propSignatureHash": "sha256:abd251a67a0d0aae",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -796,7 +833,10 @@
       "usageSnippet": "<TableActions />",
       "propSignatureHash": "sha256:e15a1b0e30984a88",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1206,7 +1246,35 @@
       "usageSnippet": "<DataTable columns={/* readonly TableColumn<T>[] */} data={/* readonly T[] */} label={/* string */} />",
       "propSignatureHash": "sha256:577abbe125d0e907",
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
+        "DetailConfig": "{ render: (row: T) => SvelteNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => SvelteNode }",
+        "EmptyStateConfig": "{ title?: string; description?: string; action?: SvelteNode }",
+        "FilterOperatorDef": "{ id: TableFilterOperator; label: string; labelByType?: Partial<Record<TableFilterType, string>>; arity: FilterOperatorArity; types: readonly TableFilterType[]; matchesEmpty?: boolean; compile?: (condition: TableFilterCondition, ctx: FilterCompileContext) => unknown; test: (cellValue: unknown, prepared: unknown) => boolean }",
+        "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
+        "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
+        "ReorderSetting": "boolean | \"always\" | \"toggle\"",
+        "ResponsiveConfig": "{ mode?: \"auto\" | TableMode; breakpoint?: number }",
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
+        "SelectionMode": "\"none\" | \"single\" | \"multiple\"",
+        "TableSize": "\"sm\" | \"md\" | \"lg\"",
+        "TableVariant": "\"default\" | \"bordered\"",
+        "VirtualConfig": "{ threshold?: number; overscan?: number }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterType": "\"text\" | \"number\" | \"date\" | \"enum\" | \"boolean\"",
+        "FilterOperatorArity": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "FilterCompileContext": "{ now: number; type: TableFilterType }",
+        "TableSortSpec": "{ id: string; desc: boolean }",
+        "TableMode": "\"table\" | \"cards\"",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1277,7 +1345,10 @@
       "usageSnippet": "<Accordion items={/* AccordionItem[] */} />",
       "propSignatureHash": "sha256:e0d53abc285893f1",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "AccordionItem": "{ value: string | number; title: string | Snippet<[AccordionItem]>; content: string | Snippet<[AccordionItem]>; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1454,15 +1525,15 @@
         },
         {
           "name": "size",
-          "type": "DialogVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"fullscreen\"",
           "required": false,
           "defaultValue": "sm",
           "description": "Width preset."
         }
       ],
       "usageSnippet": "<AlertDialogContent>…</AlertDialogContent>",
-      "propSignatureHash": "sha256:5f4c481c02ea2b79",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:08f218f9ac1e8be9",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -1619,7 +1690,7 @@
           "name": "markers",
           "type": "number[]",
           "required": false,
-          "description": "Tick marks in degrees, e.g."
+          "description": "Tick marks in degrees, e.g. `[0, 90, 180, 270]`."
         },
         {
           "name": "name",
@@ -1767,7 +1838,10 @@
       "usageSnippet": "<Breadcrumb items={/* BreadcrumbItem[] */} />",
       "propSignatureHash": "sha256:c6d4ff2440a29329",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BreadcrumbItem": "{ label: string | Snippet; href?: string; icon?: IconName | IconComponent }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1831,7 +1905,10 @@
       "usageSnippet": "<Button>…</Button>",
       "propSignatureHash": "sha256:e7260830740fb8ef",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ButtonPropsFn": "() => Record<string, unknown>"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2017,7 +2094,10 @@
       "usageSnippet": "<Carousel slides={/* CarouselSlide[] */} />",
       "propSignatureHash": "sha256:6d59227615f78f49",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CarouselSlide": "{ id: string; content?: string | Snippet }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2663,7 +2743,10 @@
       "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
       "propSignatureHash": "sha256:f59cf4d47f054abd",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3337,7 +3420,10 @@
       "usageSnippet": "<DateRangeInput />",
       "propSignatureHash": "sha256:3be7d15d9cca89f6",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4269,7 +4355,11 @@
       "usageSnippet": "<FloatingPanel>…</FloatingPanel>",
       "propSignatureHash": "sha256:695b90589b08dd5d",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "FloatingPanelPosition": "{ x: number; y: number }",
+        "FloatingPanelSize": "{ width: number; height: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4641,7 +4731,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the crop box to a ratio, e.g."
+          "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
         },
         {
           "name": "class",
@@ -4744,7 +4834,10 @@
       "usageSnippet": "<ImageCropper src={/* string */} />",
       "propSignatureHash": "sha256:931d91a9f94f8321",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CropRect": "{ x: number; y: number; width: number; height: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4878,7 +4971,10 @@
       "usageSnippet": "<Listbox options={/* ListboxOption[] */} />",
       "propSignatureHash": "sha256:e697f0f87f97245a",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ListboxOption": "{ value: string; label: string; disabled?: boolean; group?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4974,7 +5070,10 @@
       "usageSnippet": "<Marquee items={/* MarqueeItem[] */} />",
       "propSignatureHash": "sha256:04fcdca2cd7f1f43",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "MarqueeItem": "{ id: string; content?: string | Snippet }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5374,7 +5473,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "Options to format the displayed value (e.g."
+          "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
         },
         {
           "name": "label",
@@ -5626,7 +5725,7 @@
           "name": "logoCollapsed",
           "type": "string | Snippet",
           "required": false,
-          "description": "Optional compact logo shown when collapsed (e.g."
+          "description": "Optional compact logo shown when collapsed (e.g. an icon-only mark)."
         },
         {
           "name": "navLabel",
@@ -5683,7 +5782,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
         },
         {
           "name": "helperText",
@@ -6472,7 +6571,10 @@
       "usageSnippet": "<RadioGroup options={/* RadioOption[] */} />",
       "propSignatureHash": "sha256:67784a0bc28a9d35",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6567,7 +6669,7 @@
           "name": "onValueChange",
           "type": "(value: number) => void",
           "required": false,
-          "description": "Fired continuously while the value changes (e.g."
+          "description": "Fired continuously while the value changes (e.g. during a drag)."
         },
         {
           "name": "onValueCommitted",
@@ -6765,7 +6867,10 @@
       "usageSnippet": "<ScrollArea>…</ScrollArea>",
       "propSignatureHash": "sha256:03e0ab052e9bcffc",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "StyleValue": "string | Record<string, string | number>"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6898,7 +7003,10 @@
       "usageSnippet": "<SegmentedControl items={/* SegmentedControlItem[] */} />",
       "propSignatureHash": "sha256:82114d2b0ba08aa0",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SegmentedControlItem": "{ value: string; label: string | Snippet; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7022,7 +7130,10 @@
       "usageSnippet": "<Select options={/* SelectOption[] */} />",
       "propSignatureHash": "sha256:cdff019321809a77",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SelectOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7135,22 +7246,22 @@
         },
         {
           "name": "side",
-          "type": "SheetVariants[\"side\"]",
+          "type": "\"top\" | \"right\" | \"bottom\" | \"left\"",
           "required": false,
           "defaultValue": "right",
           "description": "Edge the panel slides in from."
         },
         {
           "name": "size",
-          "type": "SheetVariants[\"size\"]",
+          "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
           "defaultValue": "md",
           "description": "Panel extent (width for left/right, height for top/bottom)."
         }
       ],
       "usageSnippet": "<SheetContent>…</SheetContent>",
-      "propSignatureHash": "sha256:8e3ecbcf10ceb0dc",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:f777f9662e395b2b",
+      "lastSyncedAt": "2026-11-13T15:36:11.261Z",
       "status": "draft"
     },
     {
@@ -7508,7 +7619,10 @@
       "usageSnippet": "<Splitter panels={/* SplitterPanelDef[] */} />",
       "propSignatureHash": "sha256:d910511f3eff7d91",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SplitterPanelDef": "{ id: string; label?: string; content?: string | Snippet; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7600,7 +7714,10 @@
       "usageSnippet": "<Steps steps={/* StepItem[] */} />",
       "propSignatureHash": "sha256:9f2d411671d29848",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "StepItem": "{ title: string; description?: string; content?: string | Snippet }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7733,7 +7850,10 @@
       "usageSnippet": "<Tabs tabs={/* TabItem[] */} />",
       "propSignatureHash": "sha256:c43528a8199fee2f",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TabItem": "{ value: string | number; label: string | Snippet; content: string | Snippet; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -8060,7 +8180,10 @@
       "usageSnippet": "<Timer />",
       "propSignatureHash": "sha256:0679a99bf2b3be71",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TimerPart": "\"days\" | \"hours\" | \"minutes\" | \"seconds\" | \"milliseconds\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -8478,7 +8601,11 @@
       "usageSnippet": "<Tour stepId={/* string | null */} steps={/* TourStep[] */} />",
       "propSignatureHash": "sha256:9dd675c4d8e67279",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TourStep": "{ id: string; title: string; description: string; target?: () => HTMLElement | null; type?: \"tooltip\" | \"dialog\" | \"wait\" | \"floating\"; placement?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"; actions?: TourStepAction[]; backdrop?: boolean; arrow?: boolean }",
+        "TourStepAction": "{ label: string; action?: \"next\" | \"prev\" | \"dismiss\" | \"skip\" }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -8574,7 +8701,10 @@
       "usageSnippet": "<TreeView items={/* TreeViewNode[] */} />",
       "propSignatureHash": "sha256:3b1a98c0257de1fc",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
