@@ -103,7 +103,7 @@ export function buildThemeCss(state: BuilderState): string {
     `   Brand: ${state.brandMode === "custom" ? `custom ${state.brandHex}` : state.brandFamily} · ` +
     `Neutral: ${describeNeutral(state)} · Primary shade: ${state.brandShade}\n` +
     `   Default mode: ${defaultMode}${defaultMode === "system" ? " (follows prefers-color-scheme)" : ""}.\n` +
-    `   Import AFTER @ui-organized/react/styles so this wins on source order. */\n`;
+    `   Import AFTER @ui-organized/tokens/variables.css: both declare on :root, so the later one wins. */\n`;
 
   const blocks = [header, block(":root", { ...byMode[rootMode], ...nonColor })];
 

@@ -9,10 +9,11 @@
  * documents (see `docs/theme-test.md`).
  */
 import { Link } from "react-router-dom";
-import { FRAMEWORK_INFO, type DocFramework } from "@ui-organized/code-connect/browser";
+import { type DocFramework } from "@ui-organized/code-connect/browser";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import { LINKS } from "../../lib/links";
+import { SETUP } from "./getStartedSnippets";
 import tokenContract from "../../../../../packages/react/token-contract.json";
 import styles from "../components/content.module.css";
 
@@ -108,20 +109,17 @@ const CLI_CHECK = `npx @ui-organized/cli theme ~/Downloads/my-theme.zip --dry-ru
 ✓ Theme covers all ${tokenContract.tokens.length} required tokens
 ✓ Fonts declared for Oswald and Inter`;
 
-/** The two lines the CLI prints, for whichever library the reader picked. */
-function importsFor(framework: DocFramework): string {
-  const pkg = FRAMEWORK_INFO[framework].packageName;
-  const lines =
-    framework === "angular"
-      ? [
-          `import '@angular/cdk/overlay-prebuilt.css'`,
-          `import '${pkg}/styles.css'     // component styles`,
-          `import '${pkg}/overlay.css'`,
-        ]
-      : [`import '${pkg}/styles'   // component styles`];
-  return [...lines, `import './styles/theme.css'           // your theme, after so it wins`].join(
-    "\n",
-  );
+/**
+ * The stylesheet step the CLI prints, for whichever library the reader picked.
+ * Taken from Get started's snippets, which the CLI's own copy is tested
+ * against: the numbered imports for React, Svelte and Vue, and for Angular the
+ * angular.json list, since the Angular CLI is its main path.
+ */
+function importsFor(framework: DocFramework): { code: string; language: string } {
+  const setup = SETUP[framework];
+  if (setup.stylesConfig) return { code: setup.stylesConfig.code, language: "json" };
+  const numbered = setup.entry.split("\n").filter((line) => /^import '.+\/\/ \d+\./.test(line));
+  return { code: numbered.join("\n"), language: "ts" };
 }
 
 const OVERRIDE = `/* src/styles/theme.css: a hand-written theme */
@@ -237,8 +235,8 @@ export function ThemingPage() {
                   <td>
                     Tokens the components read but the theme doesn't define, diffed against the
                     contract below. <strong>Blocks the apply</strong> and names each one. The
-                    contract ships with <code>@ui-organized/react</code>, so in a Svelte, Vue or
-                    Angular project this check reports <em>not checked</em> instead.
+                    contract ships with <code>@ui-organized/core</code>, which all four libraries
+                    install, so the check runs the same for each.
                   </td>
                 </tr>
                 <tr>
@@ -296,9 +294,10 @@ export function ThemingPage() {
                   <td>
                     React's <code>IconProvider</code> config. Icons are configured in code, not
                     CSS. The other libraries take the same options; see{" "}
-                    <Link to="/docs/get-started#set-up-icons">Set up icons</Link>.
+                    <Link to="/docs/get-started#set-up-icons">Set up icons</Link>. For them the
+                    CLI skips this file and prints their provider with the theme's values.
                   </td>
-                  <td><code>src/icons.ts</code></td>
+                  <td><code>src/icons.ts</code>, in a React app</td>
                 </tr>
                 <tr>
                   <td><span className={styles.propName}>fonts.ts</span></td>
@@ -317,16 +316,23 @@ export function ThemingPage() {
           </div>
 
           <p>
-            However the files get there, the imports are yours to add.
+            However the files get there, the imports are yours to add. The CLI prints them for
+            your library when it finishes, along with the icon set and the font links:
           </p>
           <FrameworkSwitcher label="Framework" />
-          <CodeBlock code={importsFor(framework)} language="ts" />
+          <CodeBlock {...importsFor(framework)} />
 
+          <p>
+            Order matters because <code>theme.css</code> and{" "}
+            <code>@ui-organized/tokens/variables.css</code> declare the same tokens on{" "}
+            <code>:root</code>, and that tie goes to whichever loads last. The component styles
+            declare none of them.
+          </p>
           <p>
             <code>theme.css</code> resolves every semantic token to a literal at export time and
             carries the layout constants, so it is <strong>self-contained</strong> and{" "}
-            <code>@ui-organized/tokens/variables.css</code> is optional. Add it <em>before</em>{" "}
-            the theme if you want the raw primitive ramps to reference.
+            <code>variables.css</code> is optional. Keep it <em>before</em> the theme if you want
+            the raw primitive ramps to reference.
           </p>
           <p>
             The export panel's <strong>Default mode</strong> control decides which mode lands on
@@ -366,8 +372,8 @@ export function ThemingPage() {
         <DocsSection title="What a theme has to define">
           <p>
             The same list ships as <code>token-contract.json</code> inside{" "}
-            <code>@ui-organized/react</code>. It is what the CLI diffs your theme against before
-            applying it. Check a theme yourself at any time:
+            <code>@ui-organized/core</code>, which every library installs. It is what the CLI
+            diffs your theme against before applying it. Check a theme yourself at any time:
           </p>
           <CodeBlock code={CLI_CHECK} language="sh" />
           <div className={styles.tableWrap}>
