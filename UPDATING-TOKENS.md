@@ -187,7 +187,7 @@ then apply each real change to **both paths** per the normal flow.
 
 | File                                             | Why it's a trap                                                                 |
 | ------------------------------------------------ | ------------------------------------------------------------------------------- |
-| `packages/tokens/src/definitions/semantic-color.ts` | Legacy/unused. References `{black.*}`/`{white.*}` ramps that don't exist in the real JSON. **Not** part of the Style Dictionary build. Editing it changes nothing. |
+| `packages/tokens/src/definitions/semantic-color.ts` | Deprecated, and nothing runs it. It was the semantic layer of the legacy `transformConfig` → `buildCss` pipeline, which `@ui-organized/react-vite` stopped using in 3.0 (it builds the Theme Builder's `theme.json` now). Retired names, and `{black.*}`/`{white.*}`/`{neutral.*}` ramps the real JSON lacks. **Not** part of the Style Dictionary build, so editing it never changes `variables.css`. Don't extend it; it goes in the next tokens major. |
 | `packages/utils/src/modeGeneration.ts` (`generateModes`) | Legacy/unused for color production — only its own test imports it. Different token vocabulary. |
 | `semanticColorMap.ts` header says "GENERATED"    | There is **no committed generator**. It's hand-maintained. That's why Path B is a manual second edit. |
 
