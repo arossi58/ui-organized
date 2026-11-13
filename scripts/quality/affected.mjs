@@ -295,6 +295,25 @@ function affectedPackages(base) {
 
 const packages = result.mode === "full" || !result.base ? undefined : affectedPackages(result.base);
 
+/**
+ * Suites that read other packages through the filesystem rather than by
+ * importing them, so pnpm's graph has no edge to follow.
+ *
+ * code-connect's tests scan the real React and table sources and assert across
+ * every entry in `manifest/components.json`, but it imports none of the
+ * libraries, so `...[base]` leaves it out when a component changes. A PR that
+ * broke it would merge green and turn the nightly run red. It takes seconds, so
+ * it runs whenever a package or the manifest moves.
+ *
+ * The unit list only: the smoke gate keys off `packages` above, and this must
+ * not change when that runs.
+ */
+const FILESYSTEM_READERS = ["@ui-organized/code-connect"];
+const unitPackages =
+  packages && result.touchedPackages
+    ? [...new Set([...packages, ...FILESYSTEM_READERS])]
+    : packages;
+
 const runGates = result.mode === "full" || result.components.length > 0;
 
 /**
@@ -319,7 +338,7 @@ const runChecks = result.mode !== "skipped";
 const outputs = {
   mode: result.mode,
   components: result.components.join(","),
-  packages: packages ? packages.join(",") : "",
+  packages: unitPackages ? unitPackages.join(",") : "",
   "run-checks": String(runChecks),
   "run-gates": String(runGates),
   "run-smoke": String(runSmoke),
@@ -329,7 +348,7 @@ const outputs = {
 console.log(`Affected: ${result.mode}${result.base ? ` (vs ${result.base.slice(0, 8)})` : ""}`);
 if (result.reason) console.log(`  why: ${result.reason}`);
 if (result.components.length) console.log(`  components: ${result.components.join(", ")}`);
-if (packages?.length) console.log(`  packages: ${packages.join(", ")}`);
+if (unitPackages?.length) console.log(`  packages: ${unitPackages.join(", ")}`);
 console.log(
   `  checks: ${runChecks ? "run" : "skip"}   gates: ${runGates ? "run" : "skip"}   smoke: ${runSmoke ? "run" : "skip"}`,
 );
