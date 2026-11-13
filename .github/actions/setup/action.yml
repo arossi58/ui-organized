@@ -55,7 +55,9 @@ runs:
     #
     # `./packages/*` rather than a list of the six that were missing, for the same
     # reason `check-tarballs.mjs` derives its list: one that has to be kept in step
-    # with the gates is one that will fall out of step with them again.
+    # with the gates is one that will fall out of step with them again. `./packs/*`
+    # because `@ui-organized/pack-ui-organized` publishes from there, and the
+    # smoke job's tarball check packs it.
     #
     # Quoted for clarity only. `--filter=./packages/*` is one word starting with
     # `--filter=`, so it matches no path and bash leaves it alone either way —
@@ -67,6 +69,7 @@ runs:
       run: >
         pnpm turbo build
         --filter='./packages/*'
+        --filter='./packs/*'
         --filter=@ui-organized/marketing^...
         --filter=@ui-organized/builder^...
         --filter=@ui-organized/storybook^...
