@@ -16,7 +16,7 @@ import { FRAMEWORK_INFO } from "@ui-organized/code-connect/browser";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import styles from "../components/content.module.css";
-import { ANGULAR_JIT, ANGULAR_VITE_CONFIG, SETUP } from "./getStartedSnippets";
+import { ANGULAR_VITE_CONFIG, ANGULAR_VITE_ENTRY, SETUP } from "./getStartedSnippets";
 
 const PEERS = {
   react: (
@@ -85,7 +85,11 @@ export function GetStartedPage() {
           <p>
             The table library requires one more stylesheet:
           </p>
-          <CodeBlock title="Import the data table stylesheet" code={setup.table.styles} language="ts" />
+          <CodeBlock
+            title={isAngular ? "Add the data table stylesheet" : "Import the data table stylesheet"}
+            code={setup.table.styles}
+            language={setup.table.stylesLanguage ?? "ts"}
+          />
           <p>
             Icons come from one of {setup.iconPackages.length === 2 ? "two" : "three"} libraries.
             Install whichever set you picked in the <Link to="/tools">Theme Builder</Link>:
@@ -95,40 +99,52 @@ export function GetStartedPage() {
             code={`npm install ${firstIconPkg}\n# or ${otherIconPkgs.join(", or ")}`}
             language="sh"
           />
-        </DocsSection>
-
-        {isAngular && (
-          <DocsSection
-            title="Angular on Vite"
-            subtitle="Vite needs two settings the Angular CLI handles for you."
-          >
-            <CodeBlock code={ANGULAR_VITE_CONFIG} language="ts" />
-            <p>Vite runs Angular in JIT mode, so load the compiler first:</p>
-            <CodeBlock code={ANGULAR_JIT} language="ts" />
+          {isAngular && (
             <p className={styles.propNote}>
-              Using the Angular CLI? Skip both, and list the stylesheets below in the{" "}
-              <code>styles</code> array of <code>angular.json</code>, in the same order, instead
-              of importing them in <code>main.ts</code>.
+              Pin the Angular packages to your Angular major. These commands are for Angular 21,
+              which the library is tested on; unpinned, npm reaches for the newest major and stops
+              with <code>ERESOLVE</code>. Icons too: <code>@ng-icons</code> 35 and later need
+              Angular 22, so on Angular 21 install the 34 line,{" "}
+              <code>npm install {firstIconPkg}@34</code>.
             </p>
-          </DocsSection>
-        )}
+          )}
+        </DocsSection>
 
         <DocsSection title="Add your theme">
           <CodeBlock code={CLI_APPLY} language="sh" />
           <p>
-            The CLI writes <code>theme.css</code>, <code>fonts.ts</code> and <code>icons.ts</code>{" "}
-            where your project keeps them. Add <code>--dry-run</code> to see the plan without writing.
+            The CLI writes <code>theme.css</code>, <code>theme.json</code>, <code>fonts.ts</code>{" "}
+            and <code>icons.ts</code> where your project keeps them. Add <code>--dry-run</code> to
+            see the plan without writing.
           </p>
           {framework !== "react" && (
             <p className={styles.propNote}>
               For {label}, the CLI checks fonts and your CSS but can't check token coverage yet.
-              Its <code>icons.ts</code> is React-only, so follow{" "}
-              <a href="#set-up-icons">Set up icons</a> below instead.
+              Its <code>icons.ts</code> is written for React and won't type-check in a {label} app,
+              so delete it and follow <a href="#set-up-icons">Set up icons</a> below instead. The
+              steps it prints at the end are React's too.
             </p>
           )}
         </DocsSection>
 
         <DocsSection title="Wire up the stylesheets">
+          {setup.stylesConfig && (
+            <>
+              <p>
+                The Angular CLI takes global stylesheets in <code>angular.json</code>, not as
+                imports. List them in this order:
+              </p>
+              <CodeBlock
+                title={setup.stylesConfig.title}
+                code={setup.stylesConfig.code}
+                language={setup.stylesConfig.language}
+              />
+              <p>
+                Your entry file keeps one import, the icon set, which is code and not a
+                stylesheet:
+              </p>
+            </>
+          )}
           <CodeBlock code={setup.entry} language={setup.entryLanguage} />
 
           <div className={styles.tableWrap}>
@@ -154,9 +170,25 @@ export function GetStartedPage() {
 
           <p>
             <code>{packageName}/styles</code> and <code>{packageName}/styles.css</code> resolve to
-            the same file. Both subpaths are exported, so use whichever spelling your bundler
-            prefers.
+            the same file.{" "}
+            {framework === "svelte" || framework === "vue" ? (
+              <>
+                Use the <code>.css</code> spelling: TypeScript 6 checks side-effect imports by
+                default, and the bare <code>/styles</code> subpath ships no type declarations, so{" "}
+                {framework === "vue" ? <code>vue-tsc</code> : <code>svelte-check</code>} rejects it.
+              </>
+            ) : (
+              <>Both subpaths are exported, so use whichever spelling your bundler prefers.</>
+            )}
           </p>
+          {isAngular && (
+            <p className={styles.propNote}>
+              Expect <code>ng build</code> to warn that the initial bundle is over budget. A new
+              app's default warning budget is 500&nbsp;kB, and the stylesheets plus a data table
+              take a fresh app to roughly 950&nbsp;kB, close to the 1&nbsp;MB error budget. Raise
+              both under <code>budgets</code> in <code>angular.json</code>.
+            </p>
+          )}
         </DocsSection>
 
         <DocsSection title="Set up icons">
@@ -278,6 +310,28 @@ export function GetStartedPage() {
             <code>MutationObserver</code> on <code>data-theme</code>.
           </p>
         </DocsSection>
+
+        {isAngular && (
+          <DocsSection
+            title="Using Vite instead"
+            subtitle="Possible, but the Angular CLI is the path we recommend."
+          >
+            <p>
+              Vite has no <code>angular.json</code>, so the stylesheets go back to being imports in{" "}
+              <code>main.ts</code>, in the same order. Vite runs Angular in JIT mode, so the
+              compiler loads first:
+            </p>
+            <CodeBlock code={ANGULAR_VITE_ENTRY} language="ts" />
+            <p>And it needs two settings the Angular CLI handles for you:</p>
+            <CodeBlock code={ANGULAR_VITE_CONFIG} language="ts" />
+            <p className={styles.propNote}>
+              JIT mode changes how your own components compile, not just the library's. Signal{" "}
+              <code>input()</code>s you declare aren't registered, so nothing binds to them, and
+              constructor injection fails because esbuild emits no parameter types. Use{" "}
+              <code>inject()</code> instead. If either matters to your app, use the Angular CLI.
+            </p>
+          </DocsSection>
+        )}
 
         <DocsSection title="Next">
           <ul>
