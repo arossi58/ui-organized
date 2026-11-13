@@ -46,9 +46,9 @@ runs:
     # The app-dependency filters alone were not enough, and the way that failed is
     # worth recording. They build what the *apps* consume — which is React's half
     # of the design system. The quality gates consume more: `quality:unit` runs
-    # vitest in eleven packages, and the three table adapters import
-    # `@ui-organized/{svelte,vue,angular}` by package name, which resolves to
-    # `dist`. With only the app closure built, that is
+    # vitest in every workspace package that has a suite, and the three table
+    # adapters import `@ui-organized/{svelte,vue,angular}` by package name, which
+    # resolves to `dist`. With only the app closure built, that is
     # `Failed to resolve entry for package "@ui-organized/angular"` — the unit
     # gate fails, `Build Storybook` never runs, and the aggregator (which is
     # `if: always()`) reports the confusing symptom instead: "No Storybook build".

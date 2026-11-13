@@ -205,6 +205,10 @@ jobs:
       # marketing app's own suite lives, and a docs-only change still has to run
       # it — `surfaces.test.ts` asserts against the real library barrels and has
       # caught a real bug doing so.
+      #
+      # This is the only step in CI that runs a vitest suite. A package with a
+      # `test` script that unit.mjs does not list fails it rather than going
+      # unrun, which is how thirteen suites once went unrun for months.
       - name: Unit tests
         if: ${{ !cancelled() }}
         env:
@@ -324,9 +328,9 @@ jobs:
             advisory: true
             warning: A story failed to render cleanly on Firefox or WebKit. Advisory, so CI stays green — see the playwright-reports-browsers artifact.
 
-          # The other half of the cross-framework parity gate. `pnpm test` runs
-          # the SSR half through turbo; this one needs a browser, so it sits
-          # outside the task graph.
+          # The other half of the cross-framework parity gate. The SSR half runs
+          # in the unit gate (`scripts/quality/unit.mjs`); this one needs a
+          # browser, so it is a matrix entry of its own.
           #
           # It covers everything static rendering cannot see: portalled overlay
           # content, `[data-state="open"]` and `[data-highlighted]`, toasts, and
