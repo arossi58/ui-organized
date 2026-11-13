@@ -76,6 +76,7 @@ pnpm quality:unit|visual|a11y|interaction|browsers    # one gate, React via Stor
 pnpm quality:a11y:frameworks|interaction:frameworks|visual:frameworks   # the other three libraries
 pnpm quality --skip-build            # reuse existing Storybook build; much faster
 pnpm check:tarballs                  # pack every publishable package, assert its exports resolve inside
+pnpm check:published                 # every publishable package@version is on npm (release.yml runs it after a publish)
 pnpm smoke                           # packed-tarball smoke, 9 suites: cli + react/svelte/vue/angular + the four tables
 ```
 
@@ -88,6 +89,12 @@ report but never fail.
 to the `gate` matrix in `.github/workflows/ci.yml`.** CI runs each `quality:*`
 script as its own parallel job and never bare `pnpm quality`, so the three
 framework gates above shipped running on nobody's machine but their author's.
+
+The same goes for vitest: **CI never runs `pnpm test`.** `quality:unit` is the
+only place a suite runs, and it fails if a workspace package with a `test` script
+is missing from `PACKAGES` in `scripts/quality/unit.mjs`. A suite with no
+component to attach to (parity SSR, code-connect, the CLI, the token pipeline)
+goes in with `attribute: false`.
 
 ### Selective CI
 
@@ -114,7 +121,9 @@ marked ready.
   cross-browser at once, plus `storyTest` for the hand-written specs) and
   `tooling/parity/browser/scenarios/index.ts`. A new browser gate that enumerates
   through those inherits the filter; one that enumerates its own way does not.
-- `QUALITY_PACKAGES` — pnpm's `...[base]` answer, consumed by `quality:unit`.
+- `QUALITY_PACKAGES` — pnpm's `...[base]` answer, consumed by `quality:unit`,
+  plus code-connect whenever `packages/` or `manifest/` changed (its tests read
+  both by path, so pnpm's graph has no edge to it).
 - Ask why a run was narrowed: `node scripts/quality/affected.mjs --paths <files>`.
 
 Two properties hold this together, and a change that breaks either makes the
