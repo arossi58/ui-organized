@@ -63,7 +63,8 @@
     "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "svelte-check --tsconfig ./tsconfig.json",
-    "test:smoke": "node scripts/smoke-icons.mjs"
+    "test:smoke": "node scripts/smoke-icons.mjs",
+    "test:smoke:css": "node ../../scripts/smoke-css.mjs svelte"
   },
   "peerDependencies": {
     "@lucide/svelte": ">=1.0.0",
