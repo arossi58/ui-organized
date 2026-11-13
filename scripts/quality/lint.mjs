@@ -67,7 +67,10 @@ const stylelintJson = resolve(QUALITY, "stylelint.json");
 const stylelint = run("pnpm", [
   "exec",
   "stylelint",
-  "packages/react/src/**/*.css",
+  // The component CSS lives in @ui-organized/core, shared by all four
+  // libraries. This glob said `packages/react/src` for a while after the CSS
+  // moved, matched nothing, and the gate passed on zero files.
+  "packages/core/src/**/*.css",
   // The data table owns its own stylesheet, in its own package — held to the
   // same rule, because a hard-coded color there breaks a theme just as
   // thoroughly.

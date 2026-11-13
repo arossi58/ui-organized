@@ -1,14 +1,15 @@
 /**
  * Stylelint — the CSS half of token validation.
  *
- * The existing token contract (packages/react/scripts/token-contract.ts) answers
+ * The existing token contract (packages/core/src/contract.ts) answers
  * "does every token this CSS consumes actually exist?". It cannot answer the
  * opposite question: "is this CSS consuming tokens at all, or has someone typed
  * a hex code?" A literal colour is invisible to the contract precisely because
  * it never references a token — and it is exactly what breaks a theme, since no
  * theme can restyle a value that was hard-coded.
  *
- * Scope is `packages/react/src/**` — the published component styles, where the
+ * Scope is `packages/core/src/**` and `packages/table-core/src/**` (see
+ * scripts/quality/lint.mjs) — the published component styles, where the
  * theming contract has to hold. App CSS is not held to this: the marketing site
  * and builder legitimately have one-off chrome that is not part of the design
  * system's surface.
