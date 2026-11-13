@@ -64,4 +64,11 @@ describe("projectRules per library", () => {
     expect(projectRules("@ui-organized/angular", "angular").join("\n")).toContain("`<button uioButton>`");
     expect(projectRules("@ui-organized/react")).toHaveLength(5);
   });
+
+  it("sends a Figma link to Figma's own MCP first, while nothing is linked", () => {
+    const rules = projectRules("@ui-organized/vue", "vue").join("\n");
+    expect(rules).toContain("`get_design_context`");
+    expect(rules.indexOf("`get_design_context`")).toBeLessThan(rules.indexOf("`get_figma_frame`"));
+    expect(rules).not.toContain("call `get_figma_frame` first");
+  });
 });

@@ -53,7 +53,9 @@ const server = new McpServer(
       `Real components and design tokens of ${library}. ` +
       "Call search_components to find a component and get_component to read its spec before " +
       "using it. Use search_tokens for any custom colour, spacing, radius or type value. For a " +
-      "Figma link, call get_figma_frame first. " +
+      "Figma link, read the frame with Figma's own MCP server, then call get_component for each " +
+      "component it shows and get_token for each Figma variable name; get_figma_frame works only " +
+      "once the library's components are linked to Figma. " +
       "ANTI-HALLUCINATION CONTRACT: when a tool returns found:false or no results, do NOT " +
       "invent a component, prop or token — say so and offer the real alternatives.",
   },

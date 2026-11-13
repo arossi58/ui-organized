@@ -126,18 +126,12 @@ Use only the components and tokens it lists: <what you want>`;
         </DocsSection>
 
         <DocsSection title="Build from a Figma design">
-          <p>Connect Figma once, in either of two ways:</p>
-          <ul>
-            <li>
-              <strong>A Figma token.</strong> In Figma, create a personal access token under
-              Settings, Security. Set it as <code>FIGMA_TOKEN</code> in the shell you start your
-              agent from.
-            </li>
-            <li>
-              <strong>Figma&apos;s own MCP server.</strong> If you already use it, turn it on
-              alongside this one. No token is needed.
-            </li>
-          </ul>
+          <p>
+            Turn on Figma&apos;s own MCP server alongside this one. No token is needed.{" "}
+            <code>init</code> installs a <code>ui-organized-figma</code> skill that combines the
+            two: Figma&apos;s server reads the design, and this one turns each component and
+            variable into real {label} code.
+          </p>
           <p>Then, for each design:</p>
           <ol>
             <li>
@@ -160,6 +154,12 @@ Use only the components and tokens it lists: <what you want>`;
             <li>use library components instead of detaching them;</li>
             <li>bind colours, spacing and radius to the library&apos;s variables.</li>
           </ul>
+          <p>
+            This server also has a <code>get_figma_frame</code> tool, which reads a frame itself
+            with a Figma token. It can&apos;t match components or variables yet, because the
+            library&apos;s Figma file hasn&apos;t been linked to the code, so for now it tells
+            your agent to use Figma&apos;s server instead.
+          </p>
         </DocsSection>
 
         <DocsSection title="Use another agent">

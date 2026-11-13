@@ -164,9 +164,12 @@ export function projectRules(
       "classes, hex colours or px literals. Check a name with `search_tokens` or " +
       "https://uiorganized.com/ai/tokens.md first. A token that isn't listed resolves to nothing. " +
       TOKEN_NAMING,
-    "For a Figma link, call `get_figma_frame` first. It returns real components and tokens " +
-      `as ${FRAME_OUTPUT[framework]}; read a full spec only for what it leaves unclear. Report ` +
-      "anything in `unmapped` or `unbound` rather than rebuilding it by eye.",
+    "For a Figma link, read the frame with Figma's own MCP server (`get_design_context`), " +
+      "then call `get_component` for each component it shows and pass each Figma variable " +
+      "name it reports to `get_token`. `get_figma_frame` returns real components and tokens " +
+      `as ${FRAME_OUTPUT[framework]} only once the library's components are linked to Figma, ` +
+      "and `found:false` until then. Report anything left unmapped or unbound rather than " +
+      "rebuilding it by eye.",
     "If the design needs something the system can't express, say so. Do not approximate it " +
       "with custom markup, and do not invent a component, prop or token.",
   ];
@@ -223,10 +226,12 @@ export const COMPOUND_SCOPE_NOTE =
 
 /**
  * The skill `uiorg init` installs for building from a Figma link with Figma's OWN
- * MCP server (`get_design_context`), for teams without a `FIGMA_TOKEN` for
- * `get_figma_frame`. Figma's output is React + Tailwind with Figma variable
- * names; this turns it into the project's library and real tokens, and says
- * what to do where Figma didn't identify a component.
+ * MCP server (`get_design_context`). That is the route until the library's
+ * components are linked to Figma: `get_figma_frame` matches nodes by component
+ * key, and with no keys in the manifest it can only answer `found:false`.
+ * Figma's output is React + Tailwind with Figma variable names; this turns it
+ * into the project's library and real tokens, and says what to do where Figma
+ * didn't identify a component.
  */
 export function figmaSkillMarkdown(
   packageName: string,
@@ -246,11 +251,13 @@ markup: it is React and Tailwind written from layers, not this project's code.
 
 ## 1. Read the frame
 
-- If \`ui-organized\`'s \`get_figma_frame\` works (a \`FIGMA_TOKEN\` is set), call it
-  first: it returns ${lib} code with real components and tokens already resolved.
-  Use the rest of this skill only for what it lists as \`unmapped\` or \`unbound\`.
-- Otherwise call Figma's \`get_design_context\` on the node, with the screenshot.
-  The screenshot is the visual target. The code is a reference, not the answer.
+- Call Figma's \`get_design_context\` on the node, with the screenshot. The
+  screenshot is the visual target. The code is a reference, not the answer.
+- \`ui-organized\`'s \`get_figma_frame\` reads a frame straight into ${lib} code,
+  but only once the library's components are linked to Figma (and a
+  \`FIGMA_TOKEN\` is set). Until then it returns \`found:false\`, and the steps
+  below are the route. If it does return a frame, use that, and the rest of this
+  skill for anything it lists as \`unmapped\` or \`unbound\`.
 
 ## 2. Map every component to ${packageName}
 
