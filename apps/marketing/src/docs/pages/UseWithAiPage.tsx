@@ -99,9 +99,11 @@ Use only the components and tokens it lists: <what you want>`;
             In a monorepo, run it at the root. It finds the library in your workspace packages.
           </p>
           <p>
-            Running it again is safe. It updates its own section of each file and leaves the rest
-            of your content alone. Run it again after upgrading {label}, too: the MCP server is
-            pinned to the version you have installed.
+            Running it again is safe. It updates its own section of <code>AGENTS.md</code> and{" "}
+            <code>CLAUDE.md</code> and its own entry in <code>.mcp.json</code>, and leaves the rest
+            of your content alone. The files it owns, the <code>ui-organized-figma</code> skill and
+            the Cursor rules, it replaces. Run it again after upgrading {label}, too: the MCP
+            server is pinned to the version you have installed.
           </p>
         </DocsSection>
 
@@ -169,7 +171,8 @@ Use only the components and tokens it lists: <what you want>`;
           <CodeBlock code={mcpConfig(framework)} language="json" />
           <p>
             Change the version to match the <code>{packageName}</code> you have installed. The
-            server answers for that version only.
+            server answers for that version only. On 6.0.x, use <code>0.1.0</code>, which carries
+            6.0.0&apos;s data: the server&apos;s own 6.0.0 was never published.
           </p>
           <p>
             Then tell the agent, in its rules or your prompt, to look up each{" "}
