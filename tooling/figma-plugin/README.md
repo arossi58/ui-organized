@@ -9,8 +9,9 @@ A two-way bridge between a `theme.json` (from the
 
 ## Import — what it creates
 
-Four variable collections (matched by name — existing variables are **overwritten
-in place**, missing ones are **created**):
+Four variable collections, plus a fifth, **Icons**, when dynamic stroke scaling is
+on (matched by name — existing variables are **overwritten in place**, missing ones
+are **created**):
 
 | Collection     | Mode(s)        | Contents |
 | -------------- | -------------- | -------- |
@@ -35,12 +36,17 @@ The **Export** tab reads the four collections back into a `theme.json` in the sa
 format (semantic colors become `{primitive.color.…}` references again), which you can
 copy or download. Parametric metadata that variables can't represent — brand *family*,
 type-scale *ratio*, line-heights, icon settings — is stashed in the document on import
-and merged back in on export, so a builder → Figma → builder round-trip is lossless.
-(A file with no stashed metadata still exports a valid token tree, with default
-`$extensions`.)
+and merged back in on export, so a builder → Figma → builder round-trip is lossless
+when the variables weren't edited. (A file with no stashed metadata still exports a
+valid token tree, with default `$extensions`.)
 
-Load the result back with **Import Theme** in the theme builder's Export panel, or drop
-the `theme.json` straight into code.
+Load the result back with **Import theme** in the theme builder's Color panel, or drop
+the `theme.json` straight into code. The builder keeps its inputs, not individual
+variables: it restores brand, neutral and tint, primary shade, type scale, line
+heights, fonts and weights, radius and spacing bases, and icons, then re-derives
+everything else from them. Edits to individual color, spacing, radius or component
+variables are replaced, and the builder lists which ones. Keep the exported
+`theme.json` as your source if those edits need to survive.
 
 ## Develop
 

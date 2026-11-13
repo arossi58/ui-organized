@@ -492,10 +492,17 @@ export function ThemingPage() {
             <a href={LINKS.githubFigmaPlugin} target="_blank" rel="noreferrer">
               Theme Import plugin
             </a>{" "}
-            builds Primitives, Semantic (Light/Dark modes, aliased to primitives), Scale and
-            Typography collections from it. Edit variables in Figma, export a fresh{" "}
-            <code>theme.json</code>, load it back into the builder. The round trip preserves
-            your parametric settings, so neither side hand-translates.
+            builds Primitives, Semantic (Light/Dark, aliased to primitives), Scale and
+            Typography collections from it, plus Icons when dynamic stroke scaling is on.
+          </p>
+          <p>
+            Exporting from the plugin and loading the file into the builder restores the
+            builder's inputs: brand, neutral and tint, primary shade, type scale, line heights,
+            fonts and weights, radius and spacing bases, and icons. The builder re-derives
+            everything else from those inputs, so edits to individual color, spacing, radius or
+            component variables made in Figma are not carried back. The builder lists the values
+            it replaced when you load the file. Make those changes in the builder, or keep the
+            Figma-exported <code>theme.json</code> as your source.
           </p>
         </DocsSection>
       </DocsProse>
