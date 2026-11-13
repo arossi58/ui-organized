@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Combobox } from "@ui-organized/react";
+import { Combobox, type ComboboxOption } from "@ui-organized/react";
 
 const FRUITS = [
   { value: "apple", label: "Apple" },
@@ -64,4 +65,31 @@ export const WithError: Story = {
       <Combobox label="Fruit" placeholder="Search…" options={FRUITS} error="Please pick one" />
     </div>
   ),
+};
+
+/**
+ * A value chosen before its options have loaded, the way a saved form meets a
+ * list it fetches. The box shows the placeholder until the options arrive, then
+ * the chosen label, without being opened.
+ */
+function LoadingFruit({ delay }: { delay: number }) {
+  const [options, setOptions] = useState<ComboboxOption[]>([]);
+  useEffect(() => {
+    const timer = setTimeout(() => setOptions(FRUITS), delay);
+    return () => clearTimeout(timer);
+  }, [delay]);
+  return (
+    <div style={{ width: 280 }}>
+      <Combobox
+        label="Favorite fruit"
+        placeholder="Loading fruits…"
+        options={options}
+        defaultValue="banana"
+      />
+    </div>
+  );
+}
+
+export const AsyncOptions: Story = {
+  render: () => <LoadingFruit delay={300} />,
 };

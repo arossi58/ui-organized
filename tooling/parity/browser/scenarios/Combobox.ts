@@ -56,6 +56,30 @@ const scenarios: BrowserScenario[] = [
     ],
     regions: [part("combobox", "positioner"), "#mount"],
   },
+  /**
+   * The value is set at mount and the options arrive 100ms later, the way a
+   * saved form meets a list it fetches (see `fixtures/comboboxAsync.ts`).
+   *
+   * The wait *is* the assertion. An input's text is its `value` property, which
+   * the contract comparison cannot see, but `:placeholder-shown` can: it stops
+   * matching the moment the box holds any text. For a long time all four
+   * libraries left the placeholder up over the chosen value until the combobox
+   * was opened, and this step timed out naming whichever got there first. It
+   * proves the box is no longer empty, not which label it shows; each
+   * library's unit tests pin the label itself.
+   *
+   * Its own spec key rather than a prop on `Combobox`'s, because that fixture
+   * is the SSR gate's and the SSR gate has no "later". In this file, so that a
+   * change to Combobox selects it.
+   */
+  {
+    component: "ComboboxAsync",
+    name: "options arrive after the value",
+    props: { options: FRUIT, defaultValue: "b", label: "Fruit", placeholder: "Loading" },
+    steps: [{ do: "wait", target: `${part("combobox", "input")}:not(:placeholder-shown)` }],
+    regions: ["#mount"],
+    exclude: part("combobox", "positioner"),
+  },
 ];
 
 export default scenarios;

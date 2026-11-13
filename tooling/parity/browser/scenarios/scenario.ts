@@ -149,6 +149,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Collapsible",
   "ColorPicker",
   "Combobox",
+  "ComboboxAsync",
   "ContextMenu",
   "DateInput",
   "DataTable",

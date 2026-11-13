@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ComponentType, ReactElement } from "react";
 import {
   Menu as RMenu,
@@ -16,6 +16,7 @@ import {
   DialogContent as RDialogContent,
   DialogTitle as RDialogTitle,
   Select as RSelect,
+  Combobox as RCombobox,
   type ToastOptions as ReactToastOptions,
 } from "@ui-organized/react";
 import { SPECS } from "../src/cases/index.js";
@@ -25,6 +26,9 @@ import SelectInDialogFixture from "./fixtures/SelectInDialogFixture.svelte";
 import VueSelectInDialogFixture from "./fixtures/vue/SelectInDialogFixture.vue";
 import MenuOptionsFixture from "./fixtures/MenuOptionsFixture.svelte";
 import VueMenuOptionsFixture from "./fixtures/vue/MenuOptionsFixture.vue";
+import ComboboxAsyncFixture from "./fixtures/ComboboxAsyncFixture.svelte";
+import VueComboboxAsyncFixture from "./fixtures/vue/ComboboxAsyncFixture.vue";
+import { OPTIONS_ARRIVE_AFTER } from "./fixtures/comboboxAsync.js";
 
 /**
  * What the harness pages can mount.
@@ -128,6 +132,21 @@ function ReactMenuOptionsFixture() {
   );
 }
 
+/**
+ * A Combobox whose value is set before its options arrive, the way a saved form
+ * meets a list it fetches. See `fixtures/comboboxAsync.ts`.
+ */
+function ReactComboboxAsyncFixture({ options = [], ...props }: { options?: any[] }) {
+  const [loaded, setLoaded] = useState<any[]>([]);
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(options), OPTIONS_ARRIVE_AFTER);
+    return () => clearTimeout(timer);
+    // A scenario's props are fixed for the life of the page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  return <RCombobox {...props} options={loaded} />;
+}
+
 const EXTRA: Record<string, BrowserSpec> = {
   MenuOptions: {
     react: () => <ReactMenuOptionsFixture />,
@@ -143,6 +162,11 @@ const EXTRA: Record<string, BrowserSpec> = {
     react: (p) => <ReactSelectInDialogFixture {...p} />,
     svelte: SelectInDialogFixture as unknown as ComponentType<any>,
     vue: VueSelectInDialogFixture as unknown as ComponentType<any>,
+  },
+  ComboboxAsync: {
+    react: (p) => <ReactComboboxAsyncFixture {...p} />,
+    svelte: ComboboxAsyncFixture as unknown as ComponentType<any>,
+    vue: VueComboboxAsyncFixture as unknown as ComponentType<any>,
   },
 };
 
