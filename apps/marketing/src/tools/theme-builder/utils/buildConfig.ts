@@ -591,6 +591,7 @@ The plugin's Export tab writes the variables back out as a \`theme.json\`. Loadi
 that into the Theme Builder restores the builder's settings, not individual
 variables: it re-derives colors, spacing, radius and component sizes from those
 settings, and tells you which values from the file it replaced. Keep the
-exported file as your source if the Figma edits need to survive.
+exported file as your source if the Figma edits need to survive, and build it
+with \`@ui-organized/react-vite\`, which reads its token values as they are.
 `;
 }

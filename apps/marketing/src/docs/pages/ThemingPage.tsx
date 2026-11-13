@@ -534,7 +534,9 @@ export function ThemingPage() {
             everything else from those inputs, so edits to individual color, spacing, radius or
             component variables made in Figma are not carried back. The builder lists the values
             it replaced when you load the file. Make those changes in the builder, or keep the
-            Figma-exported <code>theme.json</code> as your source.
+            Figma-exported <code>theme.json</code> as your source and build it with{" "}
+            <a href="#option-c-build-from-theme-json">Option C</a>, which reads its token values
+            as they are.
           </p>
         </DocsSection>
       </DocsProse>
