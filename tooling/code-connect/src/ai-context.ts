@@ -166,6 +166,11 @@ export interface AiContextData {
   description?: string;
   usage?: UsageGuide;
   props: AiContextProp[];
+  /**
+   * What the named types in `props` are — the entry's `referencedTypes`,
+   * narrowed to the ones this table still names. Absent when it names none.
+   */
+  referencedTypes?: Record<string, string>;
   subcomponents?: Array<{ name: string; props: AiContextProp[] }>;
   passthrough: string;
   customInstructions?: string;
@@ -216,6 +221,11 @@ function cell(text: string): string {
 
 function code(text: string): string {
   return `\`${text}\``;
+}
+
+/** A code span that survives a backtick inside it — a template literal type. */
+function codeSpan(text: string): string {
+  return text.includes("`") ? `\`\` ${text} \`\`` : code(text);
 }
 
 // ─── Prop types ──────────────────────────────────────────────────────────────
@@ -285,6 +295,40 @@ function topLevelUnionArms(type: string): string[] {
   }
   arms.push(current.trim());
   return arms.filter(Boolean);
+}
+
+/** Identifiers in a type's text, outside its string literals. */
+function namesIn(type: string): string[] {
+  return type.replace(/"(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'/g, "").match(/[A-Za-z_$][\w$]*/g) ?? [];
+}
+
+/**
+ * The entry's `referencedTypes` a prop table needs, in the entry's order: the
+ * ones its props still name, and the ones those name in turn.
+ *
+ * A name the table already expands (`size: ControlSize` with its values in the
+ * cell, or listed below it) isn't repeated. Nor is a type only a prop the table
+ * doesn't show would need, which is how Angular's narrower input list sheds
+ * React's.
+ */
+function typesNamedBy(
+  props: readonly AiContextProp[],
+  referenced: Record<string, string> | undefined,
+): Record<string, string> | undefined {
+  if (!referenced) return undefined;
+  const has = (name: string) => Object.prototype.hasOwnProperty.call(referenced, name);
+  const queue = props.flatMap((p) => {
+    const expanded = p.values ? (p.valuesType ?? p.type).trim() : undefined;
+    return namesIn(p.type).filter((name) => name !== expanded);
+  });
+  const wanted = new Set<string>();
+  for (let name = queue.shift(); name !== undefined; name = queue.shift()) {
+    if (wanted.has(name) || !has(name)) continue;
+    wanted.add(name);
+    queue.push(...namesIn(referenced[name]!));
+  }
+  const kept = Object.entries(referenced).filter(([name]) => wanted.has(name));
+  return kept.length ? Object.fromEntries(kept) : undefined;
 }
 
 function toContextProp(prop: PropDefinition, typeValues?: Record<string, string[]>): AiContextProp {
@@ -397,6 +441,9 @@ function buildData(input: AiContextInput): AiContextData {
   const props = own
     ? own.props.map((p) => toContextProp(p, typeValues))
     : frameworkProps(entry.props, fw, typeValues);
+  // From the same scan as the props, so Svelte's `TabItem` (snippets) is never
+  // described with React's (`ReactNode`).
+  const referencedTypes = typesNamedBy(props, (own ?? entry).referencedTypes);
   // Under another framework, only the siblings it ships, by its own names.
   const siblings = fw
     ? related.flatMap((r) => {
@@ -493,6 +540,7 @@ function buildData(input: AiContextInput): AiContextData {
     ...(input.description ? { description: input.description } : {}),
     ...(input.usage ? { usage: input.usage } : {}),
     props,
+    ...(referencedTypes ? { referencedTypes } : {}),
     ...(subcomponents.length ? { subcomponents } : {}),
     passthrough: fw ? FRAMEWORK_PASSTHROUGH_NOTES[fw.framework] : PASSTHROUGH_NOTE,
     ...(entry.customInstructions ? { customInstructions: entry.customInstructions } : {}),
@@ -792,6 +840,16 @@ function renderMarkdown(data: AiContextData, input: AiContextInput): string {
           "string is invalid:",
       );
       out.push(["```", wrapValues(values), "```"].join("\n"));
+    }
+    // Without these, `options: SelectOption[]` leaves an agent to guess the
+    // option's fields, and the guess is usually `{ id, name }`.
+    if (data.referencedTypes) {
+      out.push("The types named above:");
+      out.push(
+        Object.entries(data.referencedTypes)
+          .map(([name, shape]) => `- ${code(name)} is ${codeSpan(shape)}`)
+          .join("\n"),
+      );
     }
   }
   if (data.models?.length) {

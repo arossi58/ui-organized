@@ -67,6 +67,29 @@ describe("framework specs from each library's own scan", () => {
   });
 });
 
+describe("specs write out the types their props name", () => {
+  const SELECT_OPTION = "- `SelectOption` is `{ value: string; label: string; disabled?: boolean }`";
+
+  it("gives React's and Vue's Select the option's shape", () => {
+    expect(buildComponentSpec(entry("Select"), manifest, latest, "0.0.0")).toContain(SELECT_OPTION);
+    expect(spec("vue", "Select")).toContain(SELECT_OPTION);
+  });
+
+  it("uses the library's own declaration, not React's", () => {
+    const tabs = servedSpec("svelte", "Tabs");
+    expect(tabs).toContain("- `TabItem` is `{ value: string | number; label: string | Snippet;");
+    expect(tabs).not.toContain("ReactNode; content");
+  });
+
+  it("writes Angular's from its own scan, through the checker", () => {
+    const tree = servedSpec("angular", "TreeView");
+    expect(tree).toContain(
+      "- `TreeViewNode` is `{ id: string; label: string; children?: TreeViewNode[]; icon?: string | IconGlyph; disabled?: boolean }`",
+    );
+    expect(servedSpec("angular", "Select")).toContain(SELECT_OPTION);
+  });
+});
+
 describe("specs never send another library's reader to React", () => {
   it("points at the library's own index, and counts components rather than manifest entries", () => {
     const text = spec("vue", "Button");
