@@ -295,9 +295,19 @@ function readJsDoc(
     .filter((l) => l && !l.startsWith("@"))
     .join(" ")
     .trim();
-  const description = cleaned ? cleaned.split(/(?<=\.)\s/)[0]!.trim() : undefined;
+  const description = cleaned ? firstSentence(cleaned) : undefined;
 
   return { defaultValue: defaultValue || undefined, description };
+}
+
+/**
+ * A doc comment's first sentence, the note a prop table shows. "e.g." and
+ * "i.e." don't end one: splitting there cut notes off mid-thought, so Button's
+ * `render` read "Render the button as a supplied element (e.g." and Meter's
+ * `format` "Options to format the displayed value (e.g.".
+ */
+export function firstSentence(text: string): string {
+  return text.split(/(?<!\b(?:e\.g|i\.e)\.)(?<=\.)\s/i)[0]!.trim();
 }
 
 /** The skip list of the library being scanned; set by `scanLibrary`. */

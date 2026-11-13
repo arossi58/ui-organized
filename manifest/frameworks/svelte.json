@@ -1690,7 +1690,7 @@
           "name": "markers",
           "type": "number[]",
           "required": false,
-          "description": "Tick marks in degrees, e.g."
+          "description": "Tick marks in degrees, e.g. `[0, 90, 180, 270]`."
         },
         {
           "name": "name",
@@ -4731,7 +4731,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the crop box to a ratio, e.g."
+          "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
         },
         {
           "name": "class",
@@ -5473,7 +5473,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "Options to format the displayed value (e.g."
+          "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
         },
         {
           "name": "label",
@@ -5725,7 +5725,7 @@
           "name": "logoCollapsed",
           "type": "string | Snippet",
           "required": false,
-          "description": "Optional compact logo shown when collapsed (e.g."
+          "description": "Optional compact logo shown when collapsed (e.g. an icon-only mark)."
         },
         {
           "name": "navLabel",
@@ -5782,7 +5782,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
         },
         {
           "name": "helperText",
@@ -6669,7 +6669,7 @@
           "name": "onValueChange",
           "type": "(value: number) => void",
           "required": false,
-          "description": "Fired continuously while the value changes (e.g."
+          "description": "Fired continuously while the value changes (e.g. during a drag)."
         },
         {
           "name": "onValueCommitted",

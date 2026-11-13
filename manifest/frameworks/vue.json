@@ -4001,7 +4001,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the crop box to a ratio, e.g."
+          "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
         },
         {
           "name": "cropShape",
@@ -4614,7 +4614,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "Options to format the displayed value (e.g."
+          "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
         },
         {
           "name": "label",
@@ -4868,7 +4868,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
         },
         {
           "name": "helperText",

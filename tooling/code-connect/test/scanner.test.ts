@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { scanReact, scanLibrary, LIBRARIES } from "../src/scanner/scan-react.js";
+import { scanReact, scanLibrary, LIBRARIES, firstSentence } from "../src/scanner/scan-react.js";
 import { reconcile } from "../src/scanner/manifest-writer.js";
 import { hashProps } from "../src/hash.js";
 import type { ComponentManifest } from "../src/schema.js";
@@ -28,6 +28,15 @@ describe("scanReact", () => {
 
   it("produces the canonical import statement", () => {
     expect(button!.importStatement).toBe("import { Button } from '@ui-organized/react';");
+  });
+
+  it("keeps a note whole through an `e.g.`, and still ends it at the first sentence", () => {
+    expect(firstSentence("Locks the crop box to a ratio, e.g. `1` for square. Omit it for freeform.")).toBe(
+      "Locks the crop box to a ratio, e.g. `1` for square.",
+    );
+    expect(firstSentence("The value, i.e. a string. More.")).toBe("The value, i.e. a string.");
+    const meter = scanned.find((s) => s.codeName === "Meter")!.props.find((p) => p.name === "format")!;
+    expect(meter.description).toBe('Options to format the displayed value (e.g. `{ style: "percent" }`).');
   });
 });
 

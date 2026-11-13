@@ -1713,7 +1713,7 @@
           "name": "markers",
           "type": "number[]",
           "required": false,
-          "description": "Tick marks in degrees, e.g."
+          "description": "Tick marks in degrees, e.g. `[0, 90, 180, 270]`."
         },
         {
           "name": "name",
@@ -4261,7 +4261,7 @@
           "name": "name",
           "type": "IconName | IconComponent",
           "required": true,
-          "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g."
+          "description": "Either the icon's native name in the active library (`\"x\"`, `\"x-mark\"`), registered with `registerIcons`, or a library icon component supplied directly (e.g. `X` from lucide-react)."
         },
         {
           "name": "size",
@@ -4294,7 +4294,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the crop box to a ratio, e.g."
+          "description": "Locks the crop box to a ratio, e.g. `1` for square or `16 / 9`."
         },
         {
           "name": "className",
@@ -4944,7 +4944,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "Options to format the displayed value (e.g."
+          "description": "Options to format the displayed value (e.g. `{ style: \"percent\" }`)."
         },
         {
           "name": "label",
@@ -5063,7 +5063,7 @@
           "name": "icon",
           "type": "IconName | React.ComponentType<Record<string, unknown>>",
           "required": false,
-          "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g."
+          "description": "Optional leading icon, rendered via the Icon component — either the icon's native name in the active library or a library icon component supplied directly (e.g. from lucide-react)."
         },
         {
           "name": "label",
@@ -5177,7 +5177,7 @@
           "name": "logoCollapsed",
           "type": "React.ReactNode",
           "required": false,
-          "description": "Optional compact logo shown when collapsed (e.g."
+          "description": "Optional compact logo shown when collapsed (e.g. an icon-only mark)."
         },
         {
           "name": "navLabel",
@@ -5233,7 +5233,7 @@
           "name": "format",
           "type": "Intl.NumberFormatOptions",
           "required": false,
-          "description": "`Intl.NumberFormat` options for displaying the value (e.g."
+          "description": "`Intl.NumberFormat` options for displaying the value (e.g. currency)."
         },
         {
           "name": "helperText",
@@ -6025,7 +6025,7 @@
           "name": "onValueChange",
           "type": "(value: number) => void",
           "required": false,
-          "description": "Fired continuously while the value changes (e.g."
+          "description": "Fired continuously while the value changes (e.g. during a drag)."
         },
         {
           "name": "onValueCommitted",

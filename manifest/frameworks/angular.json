@@ -3318,7 +3318,7 @@
           "name": "aspectRatio",
           "type": "number",
           "required": false,
-          "description": "Locks the box to a ratio, e.g."
+          "description": "Locks the box to a ratio, e.g. `1` for square."
         },
         {
           "name": "cropShape",
@@ -3939,7 +3939,7 @@
           "name": "format",
           "type": "NumberFormatOptions",
           "required": false,
-          "description": "Passed straight to `Intl.NumberFormat`, e.g."
+          "description": "Passed straight to `Intl.NumberFormat`, e.g. `{ style: \"percent\" }`."
         },
         {
           "name": "label",

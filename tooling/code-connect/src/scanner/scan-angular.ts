@@ -21,7 +21,14 @@ import { existsSync } from "node:fs";
 import { dirname, relative, resolve } from "node:path";
 import type { PropDefinition } from "../schema.js";
 import { hashProps } from "../hash.js";
-import { REFERENCE_BUDGET, REFERENCE_DEPTH, UTILITY_TYPES, typeNamesInText, type ScannedComponent } from "./scan-react.js";
+import {
+  REFERENCE_BUDGET,
+  REFERENCE_DEPTH,
+  UTILITY_TYPES,
+  firstSentence,
+  typeNamesInText,
+  type ScannedComponent,
+} from "./scan-react.js";
 
 export const ANGULAR_ROOTS: { pkg: string; index: string; tsconfig: string }[] = [
   { pkg: "@ui-organized/angular", index: "packages/angular/src/public-api.ts", tsconfig: "packages/angular/tsconfig.json" },
@@ -134,7 +141,7 @@ function defaultOf(call: ts.CallExpression, required: boolean, sf: ts.SourceFile
 function docOf(symbol: ts.Symbol | undefined, checker: ts.TypeChecker): string | undefined {
   if (!symbol) return undefined;
   const text = ts.displayPartsToString(symbol.getDocumentationComment(checker)).replace(/\s+/g, " ").trim();
-  return text ? text.split(/(?<=\.)\s/)[0] : undefined;
+  return text ? firstSentence(text) : undefined;
 }
 
 // ─── Named types the inputs refer to ─────────────────────────────────────────
