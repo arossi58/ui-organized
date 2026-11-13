@@ -7,6 +7,12 @@
  * this file is where the docs follow. Edit a snippet here only after its
  * consumer agrees.
  *
+ * One exception: Angular's main path is the Angular CLI, and no example builds
+ * with it yet. Its `angular.json` styles, `main.ts`, `app.config.ts` and `App`
+ * were checked against a scratch `ng new` app (Angular CLI 21.2, built with
+ * `ng build` and rendered in Chromium) on 2026-11-12, not by a gate. The Vite
+ * variant below still comes from `examples/angular-table-smoke`.
+ *
  * Only what differs lives here. The theme order, mode pinning and fonts are the
  * same for all four libraries and stay inline on the page.
  */
@@ -18,6 +24,11 @@ export interface FrameworkSetup {
   iconPackages: string[];
   /** Name of the entry file, as the stylesheet table refers to it. */
   entryFile: string;
+  /**
+   * Where the stylesheets are listed when it isn't the entry file: the Angular
+   * CLI takes them in `angular.json`, not as imports. Shown before `entry`.
+   */
+  stylesConfig?: { title: string; code: string; language: string };
   entry: string;
   entryLanguage: string;
   /** Rows for the "why it sits there" table, in import order. */
@@ -29,7 +40,7 @@ export interface FrameworkSetup {
   iconDirect: string;
   app: string;
   appLanguage: string;
-  table: { install: string; styles: string };
+  table: { install: string; styles: string; stylesLanguage?: string };
 }
 
 const TOKENS_WHY =
@@ -79,7 +90,8 @@ createRoot(document.getElementById('root')!).render(
       { path: "./index.css", why: OWN_WHY },
       { path: "@ui-organized/react/icons/lucide", why: iconWhy("tabler or heroicons") },
     ],
-    iconRegister: `import { registerIcons } from '@ui-organized/react/icons/lucide'
+    iconRegister: `// src/main.tsx, below the icon-set import
+import { registerIcons } from '@ui-organized/react/icons/lucide'
 import { ChevronDown, RefreshCw, Trash2 } from 'lucide-react'
 
 registerIcons({ ChevronDown, RefreshCw, Trash2 })`,
@@ -129,7 +141,7 @@ export default function App() {
 import { mount } from 'svelte'
 
 import '@ui-organized/tokens/variables.css'  // 1. token baseline
-import '@ui-organized/svelte/styles'         // 2. component styles
+import '@ui-organized/svelte/styles.css'     // 2. component styles
 import './styles/theme.css'                  // 3. your theme, last so it wins
 import './app.css'                           // 4. your own layout
 
@@ -137,15 +149,16 @@ import '@ui-organized/svelte/icons/lucide'   // registers your icon set
 
 import App from './App.svelte'
 
-mount(App, { target: document.getElementById('root')! })`,
+mount(App, { target: document.getElementById('app')! })`,
     imports: [
       { path: "@ui-organized/tokens/variables.css", why: TOKENS_WHY },
-      { path: "@ui-organized/svelte/styles", why: STYLES_WHY },
+      { path: "@ui-organized/svelte/styles.css", why: STYLES_WHY },
       { path: "./styles/theme.css", why: THEME_WHY },
       { path: "./app.css", why: OWN_WHY },
       { path: "@ui-organized/svelte/icons/lucide", why: iconWhy("tabler") },
     ],
-    iconRegister: `import { registerIcons } from '@ui-organized/svelte/icons/lucide'
+    iconRegister: `// src/main.ts, below the icon-set import
+import { registerIcons } from '@ui-organized/svelte/icons/lucide'
 import { ChevronDown, RefreshCw, Trash } from '@lucide/svelte'
 
 registerIcons({ ChevronDown, RefreshCw, Trash })`,
@@ -169,7 +182,7 @@ registerIcons({ ChevronDown, RefreshCw, Trash })`,
 </script>
 
 <Icon name="chevron-down" />
-<Icon name="trash-2" size={16} label="Delete project" />
+<Icon name="trash" size={16} label="Delete project" />
 <Button icon="refresh-cw">Reload</Button>`,
     iconDirect: `<script lang="ts">
   import { Sparkles } from '@lucide/svelte'
@@ -188,7 +201,7 @@ registerIcons({ ChevronDown, RefreshCw, Trash })`,
 </Card>`,
     table: {
       install: `npm install @ui-organized/svelte-table`,
-      styles: `import '@ui-organized/svelte-table/styles'   // after the component styles`,
+      styles: `import '@ui-organized/svelte-table/styles.css'   // after the component styles`,
     },
   },
 
@@ -201,7 +214,7 @@ registerIcons({ ChevronDown, RefreshCw, Trash })`,
 import { createApp } from 'vue'
 
 import '@ui-organized/tokens/variables.css'  // 1. token baseline
-import '@ui-organized/vue/styles'            // 2. component styles
+import '@ui-organized/vue/styles.css'        // 2. component styles
 import './styles/theme.css'                  // 3. your theme, last so it wins
 import './style.css'                         // 4. your own layout
 
@@ -212,12 +225,13 @@ import App from './App.vue'
 createApp(App).mount('#app')`,
     imports: [
       { path: "@ui-organized/tokens/variables.css", why: TOKENS_WHY },
-      { path: "@ui-organized/vue/styles", why: STYLES_WHY },
+      { path: "@ui-organized/vue/styles.css", why: STYLES_WHY },
       { path: "./styles/theme.css", why: THEME_WHY },
       { path: "./style.css", why: OWN_WHY },
       { path: "@ui-organized/vue/icons/lucide", why: iconWhy("tabler or heroicons") },
     ],
-    iconRegister: `import { registerIcons } from '@ui-organized/vue/icons/lucide'
+    iconRegister: `// src/main.ts, below the icon-set import
+import { registerIcons } from '@ui-organized/vue/icons/lucide'
 import { ChevronDown, RefreshCw, Trash } from '@lucide/vue'
 
 registerIcons({ ChevronDown, RefreshCw, Trash })`,
@@ -245,7 +259,7 @@ import { Button, Icon } from '@ui-organized/vue'
 
 <template>
   <Icon name="chevron-down" />
-  <Icon name="trash-2" :size="16" label="Delete project" />
+  <Icon name="trash" :size="16" label="Delete project" />
   <Button icon="refresh-cw">Reload</Button>
 </template>`,
     iconDirect: `<script setup lang="ts">
@@ -269,16 +283,117 @@ import { Button, Card, Input } from '@ui-organized/vue'
 </template>`,
     table: {
       install: `npm install @ui-organized/vue-table`,
-      styles: `import '@ui-organized/vue-table/styles'   // after the component styles`,
+      styles: `import '@ui-organized/vue-table/styles.css'   // after the component styles`,
     },
   },
 
   angular: {
-    install: `npm install @ui-organized/angular @ui-organized/tokens @angular/cdk @angular/forms`,
+    install: `npm install @ui-organized/angular @ui-organized/tokens @angular/cdk@^21 @angular/forms@^21`,
     iconPackages: ["@ng-icons/lucide", "@ng-icons/tabler-icons", "@ng-icons/heroicons"],
     entryFile: "src/main.ts",
+    stylesConfig: {
+      title: "angular.json, under projects › your app › architect › build › options",
+      language: "json",
+      code: `"styles": [
+  "@ui-organized/tokens/variables.css",
+  "@angular/cdk/overlay-prebuilt.css",
+  "@ui-organized/angular/styles.css",
+  "@ui-organized/angular/overlay.css",
+  "src/styles/theme.css",
+  "src/styles.css"
+]`,
+    },
     entryLanguage: "ts",
     entry: `// src/main.ts
+import { bootstrapApplication } from '@angular/platform-browser'
+import { appConfig } from './app/app.config'
+import { App } from './app/app'
+
+import '@ui-organized/angular/icons/lucide'   // registers your icon set
+
+bootstrapApplication(App, appConfig)
+  .catch((err) => console.error(err))`,
+    imports: [
+      { path: "@ui-organized/tokens/variables.css", why: TOKENS_WHY },
+      {
+        path: "@angular/cdk/overlay-prebuilt.css",
+        why: "The CDK's overlay container, where dialogs, menus and popovers render.",
+      },
+      { path: "@ui-organized/angular/styles.css", why: STYLES_WHY },
+      {
+        path: "@ui-organized/angular/overlay.css",
+        why: "Puts CDK overlays on the design system's z-index scale, so they sit above the page.",
+      },
+      { path: "src/styles/theme.css", why: THEME_WHY },
+      { path: "src/styles.css", why: OWN_WHY },
+      { path: "@ui-organized/angular/icons/lucide", why: iconWhy("tabler or heroicons") },
+    ],
+    iconRegister: `// src/main.ts, below the icon-set import
+import { registerIcons } from '@ui-organized/angular/icons/lucide'
+import { lucideChevronDown, lucideRefreshCw, lucideTrash2 } from '@ng-icons/lucide'
+
+registerIcons({ lucideChevronDown, lucideRefreshCw, lucideTrash2 })`,
+    iconConfigLanguage: "ts",
+    iconConfig: `// src/app/app.config.ts
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core'
+import { provideRouter } from '@angular/router'
+import { provideIconConfig } from '@ui-organized/angular'
+import { routes } from './app.routes'
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    // also accepts a signal, to change it at runtime
+    provideIconConfig({
+      library: 'lucide',        // must match the subpath you imported
+      style: 'outline',
+      strokeAdjustment: true,
+      baseSize: 24,
+      baseStroke: 2,
+    }),
+  ],
+}`,
+    iconUsage: `<span uioIcon name="chevron-down"></span>
+<span uioIcon name="trash-2" [size]="16" label="Delete project"></span>
+<button uioButton icon="refresh-cw">Reload</button>`,
+    iconDirect: `// in the component class
+import { lucideSparkles } from '@ng-icons/lucide'
+protected readonly sparkles = lucideSparkles
+
+<!-- in its template: pass it as svg, not name -->
+<span uioIcon [svg]="sparkles" [size]="20"></span>`,
+    appLanguage: "ts",
+    app: `// src/app/app.ts
+import { Component } from '@angular/core'
+import { UioButton, UioCard, UioInput } from '@ui-organized/angular'
+
+@Component({
+  selector: 'app-root',
+  imports: [UioButton, UioCard, UioInput],
+  template: \`
+    <div uioCard>
+      <div uioInput label="Email" placeholder="you@example.com"></div>
+      <button uioButton intent="primary">Save</button>
+    </div>
+  \`,
+})
+export class App {}`,
+    table: {
+      install: `npm install @ui-organized/angular-table`,
+      stylesLanguage: "json",
+      styles: `"@ui-organized/angular-table/styles.css",   // in angular.json "styles", after overlay.css`,
+    },
+  },
+};
+
+/**
+ * Angular on Vite, from `examples/angular-table-smoke`, where all of it is
+ * load-bearing. Vite has no `angular.json`, so the stylesheets go back to being
+ * imports in `main.ts`, and Vite needs two settings the Angular CLI handles.
+ */
+export const ANGULAR_VITE_ENTRY = `// src/main.ts
+import '@angular/compiler'   // first line: Vite runs Angular in JIT mode
 import { provideZonelessChangeDetection } from '@angular/core'
 import { bootstrapApplication } from '@angular/platform-browser'
 import { provideIconConfig } from '@ui-organized/angular'
@@ -292,80 +407,15 @@ import './styles.css'                        // 6. your own layout
 
 import '@ui-organized/angular/icons/lucide'  // registers your icon set
 
-import { iconConfig } from './icons'
-import { AppComponent } from './app/app.component'
+import { App } from './app/app'
 
-bootstrapApplication(AppComponent, {
-  providers: [provideZonelessChangeDetection(), provideIconConfig(iconConfig)],
-})`,
-    imports: [
-      { path: "@ui-organized/tokens/variables.css", why: TOKENS_WHY },
-      {
-        path: "@angular/cdk/overlay-prebuilt.css",
-        why: "The CDK's overlay container, where dialogs, menus and popovers render.",
-      },
-      { path: "@ui-organized/angular/styles.css", why: STYLES_WHY },
-      {
-        path: "@ui-organized/angular/overlay.css",
-        why: "Puts CDK overlays on the design system's z-index scale, so they sit above the page.",
-      },
-      { path: "./styles/theme.css", why: THEME_WHY },
-      { path: "./styles.css", why: OWN_WHY },
-      { path: "@ui-organized/angular/icons/lucide", why: iconWhy("tabler or heroicons") },
-    ],
-    iconRegister: `import { registerIcons } from '@ui-organized/angular/icons/lucide'
-import { lucideChevronDown, lucideRefreshCw, lucideTrash2 } from '@ng-icons/lucide'
+bootstrapApplication(App, {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideIconConfig({ library: 'lucide', style: 'outline', strokeAdjustment: true, baseSize: 24, baseStroke: 2 }),
+  ],
+})`;
 
-registerIcons({ lucideChevronDown, lucideRefreshCw, lucideTrash2 })`,
-    iconConfigLanguage: "ts",
-    iconConfig: `// src/icons.ts
-import type { UioIconConfig } from '@ui-organized/angular'
-
-export const iconConfig: Partial<UioIconConfig> = {
-  library: 'lucide',        // must match the subpath you imported
-  style: 'outline',
-  strokeAdjustment: true,
-  baseSize: 24,
-  baseStroke: 2,
-}
-// provideIconConfig also accepts a signal if you want to change this at runtime`,
-    iconUsage: `<span uioIcon name="chevron-down"></span>
-<span uioIcon name="trash-2" [size]="16" label="Delete project"></span>
-<button uioButton icon="refresh-cw">Reload</button>`,
-    iconDirect: `// in the component class
-import { lucideSparkles } from '@ng-icons/lucide'
-protected readonly sparkles = lucideSparkles
-
-<!-- in its template: pass it as svg, not name -->
-<span uioIcon [svg]="sparkles" [size]="20"></span>`,
-    appLanguage: "ts",
-    app: `// src/app/app.component.ts
-import { Component } from '@angular/core'
-import { UioButton, UioCard, UioInput } from '@ui-organized/angular'
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [UioButton, UioCard, UioInput],
-  template: \`
-    <div uioCard>
-      <div uioInput label="Email" placeholder="you@example.com"></div>
-      <button uioButton intent="primary">Save</button>
-    </div>
-  \`,
-})
-export class AppComponent {}`,
-    table: {
-      install: `npm install @ui-organized/angular-table`,
-      styles: `import '@ui-organized/angular-table/styles'   // after the component styles`,
-    },
-  },
-};
-
-/**
- * Angular on Vite needs two things its own builder does for you. Both come from
- * `examples/angular-table-smoke/vite.config.js`, where they are load-bearing.
- */
 export const ANGULAR_VITE_CONFIG = `// vite.config.ts
 export default {
   resolve: {
@@ -380,5 +430,3 @@ export default {
     },
   },
 }`;
-
-export const ANGULAR_JIT = `import '@angular/compiler'   // first line of main.ts, Vite (JIT) only`;
