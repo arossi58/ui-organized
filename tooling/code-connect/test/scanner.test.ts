@@ -3,6 +3,7 @@ import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { scanReact, scanLibrary, LIBRARIES } from "../src/scanner/scan-react.js";
 import { reconcile } from "../src/scanner/manifest-writer.js";
+import { hashProps } from "../src/hash.js";
 import type { ComponentManifest } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -27,6 +28,70 @@ describe("scanReact", () => {
 
   it("produces the canonical import statement", () => {
     expect(button!.importStatement).toBe("import { Button } from '@ui-organized/react';");
+  });
+});
+
+describe("referencedTypes — what a prop's named types are", () => {
+  const byName = (name: string) => scanned.find((s) => s.codeName === name)!;
+
+  it("writes out the option type Select's options name", () => {
+    const select = byName("Select");
+    expect(select.props.find((p) => p.name === "options")!.type).toBe("SelectOption[]");
+    expect(select.referencedTypes).toEqual({
+      SelectOption: "{ value: string; label: string; disabled?: boolean }",
+    });
+  });
+
+  it("lists a recursive type once, its shape referring back to its own name", () => {
+    const tree = byName("TreeView");
+    // Only TreeViewNode: the icon types are aliases of `string` and React's
+    // `ComponentType`, so they stay names rather than shapes.
+    expect(Object.keys(tree.referencedTypes!)).toEqual(["TreeViewNode"]);
+    expect(tree.referencedTypes!.TreeViewNode).toContain("children?: TreeViewNode[]");
+  });
+
+  it("follows a type a shape names, one level at a time", () => {
+    const tour = byName("Tour");
+    expect(Object.keys(tour.referencedTypes!)).toEqual(["TourStep", "TourStepAction"]);
+    expect(tour.referencedTypes!.TourStepAction).toBe('{ label: string; action?: "next" | "prev" | "dismiss" | "skip" }');
+  });
+
+  it("finds table types in table-core and leaves TanStack's alone", () => {
+    const table = byName("DataTable");
+    expect(table.referencedTypes!.DataTableQuery).toMatch(/^\{ sorting: TableSortSpec\[\]; filters: TableFilterCondition\[\];/);
+    expect(table.referencedTypes!.TableSize).toBe('"sm" | "md" | "lg"');
+    // `TableColumn` renames table-core's, which is TanStack's `ColumnDef`.
+    expect(table.referencedTypes).not.toHaveProperty("TableColumn");
+    // A multi-line union's `// Sets` headings don't survive onto one line.
+    expect(table.referencedTypes!.BuiltInFilterOperator).not.toContain("//");
+  });
+
+  it("isn't part of the prop signature: a shape alone changing is no drift", () => {
+    const select = byName("Select");
+    expect(select.propSignatureHash).toBe(hashProps(select.props));
+
+    const now = "2026-07-02T00:00:00.000Z";
+    // The manifest as it was before the field existed.
+    const before = reconcile(null, scanned, now).manifest;
+    const old: ComponentManifest = {
+      ...before,
+      components: before.components.map(({ referencedTypes: _, ...rest }) => rest),
+    };
+    const later = "2026-07-03T00:00:00.000Z";
+    const widened = scanned.map((s) =>
+      s.codeName === "Select"
+        ? { ...s, referencedTypes: { SelectOption: "{ value: string; label: string; disabled?: boolean; group?: string }" } }
+        : s,
+    );
+    const { manifest, latestHashes, changes } = reconcile(old, widened, later);
+    const entry = manifest.components.find((c) => c.codeName === "Select")!;
+
+    expect(entry.referencedTypes!.SelectOption).toContain("group?: string");
+    expect(entry.propSignatureHash).toBe(select.propSignatureHash);
+    expect(entry.lastSyncedAt).toBe(now);
+    expect(changes.every((c) => c.kind === "unchanged")).toBe(true);
+    expect(manifest.generatedAt).toBe(now);
+    expect(latestHashes.hashes).toEqual(reconcile(null, scanned, now).latestHashes.hashes);
   });
 });
 
@@ -127,6 +192,16 @@ describe("scanLibrary — Svelte and Vue, from their own source", () => {
     expect(actions.props.map((p) => p.name)).toEqual(["actions", "class"]);
   });
 
+  it("writes out the option types from each library's own declarations", () => {
+    for (const list of [svelte, vue]) {
+      expect(byName(list, "Select")!.referencedTypes).toEqual({
+        SelectOption: "{ value: string; label: string; disabled?: boolean }",
+      });
+    }
+    // Svelte's own content type, not React's.
+    expect(byName(svelte, "Tabs")!.referencedTypes!.TabItem).toContain("content: string | Snippet");
+  });
+
   it("lists a Vue compound part that declares no props of its own", () => {
     const header = byName(vue, "CardHeader")!;
     expect(header.codePath).toMatch(/CardHeader\.vue$/);
@@ -164,5 +239,18 @@ describe("scanAngular — signal inputs, through the type checker", async () => 
 
   it("never leaves a type unresolved", () => {
     expect(angular.flatMap((c) => c.props).filter((p) => p.type === "unknown" || p.type === "any")).toEqual([]);
+  });
+
+  it("writes out the types its inputs name, through the checker", () => {
+    expect(byName("UioSelect")!.referencedTypes).toEqual({
+      SelectOption: "{ value: string; label: string; disabled?: boolean }",
+    });
+    const tree = byName("UioTreeView")!.referencedTypes!;
+    expect(tree.TreeViewNode).toContain("children?: TreeViewNode[]");
+    // `IconGlyph` is branded — only `glyph()` makes one — so it stays a name.
+    expect(tree.TreeViewNode).toContain("IconGlyph");
+    expect(tree).not.toHaveProperty("IconGlyph");
+    // An alias `formatType` already spelled out has nothing left to explain.
+    expect(byName("UioButton")!.referencedTypes).toBeUndefined();
   });
 });

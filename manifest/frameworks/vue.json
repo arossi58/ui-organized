@@ -84,7 +84,11 @@
       "usageSnippet": "<TableCell :cell=\"/* TableCellInstance<T> */\" :editContext=\"/* TableEditContext<T> | null */\" :focused=\"/* boolean */\" :index=\"/* number */\" :primary=\"/* boolean */\" :row=\"/* TableRowModel<T> */\" :rowIndex=\"/* number */\">…</TableCell>",
       "propSignatureHash": "sha256:993a61277cb605da",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -189,7 +193,11 @@
       "usageSnippet": "<TableRow :absoluteIndex=\"/* number */\" :editContext=\"/* TableEditContext<T> | null */\" :focusedCol=\"/* number | null */\" :index=\"/* number */\" :row=\"/* TableRowModel<T> */\">…</TableRow>",
       "propSignatureHash": "sha256:184a2c6c4f94f3da",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableEditContext": "{ row: T; rowId: string; columnId: string; value: unknown; setValue: (value: unknown) => void; commit: () => void; cancel: () => void; invalid: string | null; size: TableSize }",
+        "TableSize": "\"sm\" | \"md\" | \"lg\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -358,7 +366,14 @@
       "usageSnippet": "<TableFilterChip :condition=\"/* TableFilterCondition */\">…</TableFilterChip>",
       "propSignatureHash": "sha256:c7909e26d20142a5",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -383,7 +398,14 @@
       "usageSnippet": "<TableFilterEditor :condition=\"/* TableFilterCondition */\">…</TableFilterEditor>",
       "propSignatureHash": "sha256:ce32aa810248e164",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -433,7 +455,15 @@
       "usageSnippet": "<TableFilterValueEditor :arity=\"/* FilterOperatorArity */\" :condition=\"/* TableFilterCondition */\">…</TableFilterValueEditor>",
       "propSignatureHash": "sha256:65e5c015feb697ae",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "FilterOperatorArity": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -499,7 +529,10 @@
       "usageSnippet": "<TableRowActions :row=\"/* T */\">…</TableRowActions>",
       "propSignatureHash": "sha256:efb6877e93e7e401",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -524,7 +557,11 @@
       "usageSnippet": "<TableSelectionBar>…</TableSelectionBar>",
       "propSignatureHash": "sha256:abd251a67a0d0aae",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -760,7 +797,10 @@
       "usageSnippet": "<TableActions>…</TableActions>",
       "propSignatureHash": "sha256:e15a1b0e30984a88",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1165,7 +1205,35 @@
       "usageSnippet": "<DataTable :columns=\"/* readonly TableColumn<T>[] */\" :data=\"/* readonly T[] */\" :label=\"/* string */\">…</DataTable>",
       "propSignatureHash": "sha256:d286cf67b2ebb2e4",
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
+        "DetailConfig": "{ render: (row: T) => VueNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => VueNode }",
+        "EmptyStateConfig": "{ title?: string; description?: string; action?: VueNode }",
+        "FilterOperatorDef": "{ id: TableFilterOperator; label: string; labelByType?: Partial<Record<TableFilterType, string>>; arity: FilterOperatorArity; types: readonly TableFilterType[]; matchesEmpty?: boolean; compile?: (condition: TableFilterCondition, ctx: FilterCompileContext) => unknown; test: (cellValue: unknown, prepared: unknown) => boolean }",
+        "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
+        "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
+        "ReorderSetting": "boolean | \"always\" | \"toggle\"",
+        "ResponsiveConfig": "{ mode?: \"auto\" | TableMode; breakpoint?: number }",
+        "RowAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
+        "SelectionMode": "\"none\" | \"single\" | \"multiple\"",
+        "TableSize": "\"sm\" | \"md\" | \"lg\"",
+        "TableVariant": "\"default\" | \"bordered\"",
+        "VirtualConfig": "{ threshold?: number; overscan?: number }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: TableFilterOperator; values: TableFilterValue[]; unit?: TableFilterUnit }",
+        "TableFilterOperator": "BuiltInFilterOperator | (string & {})",
+        "TableFilterType": "\"text\" | \"number\" | \"date\" | \"enum\" | \"boolean\"",
+        "FilterOperatorArity": "\"none\" | \"one\" | \"two\" | \"many\"",
+        "FilterCompileContext": "{ now: number; type: TableFilterType }",
+        "TableSortSpec": "{ id: string; desc: boolean }",
+        "TableMode": "\"table\" | \"cards\"",
+        "TableFilterValue": "string | number | boolean | null",
+        "TableFilterUnit": "\"day\" | \"week\" | \"month\" | \"year\"",
+        "BuiltInFilterOperator": "\"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1225,7 +1293,10 @@
       "usageSnippet": "<Accordion :items=\"/* AccordionItem[] */\">…</Accordion>",
       "propSignatureHash": "sha256:3ac8a092096c1eba",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "AccordionItem": "{ value: string | number; title: string | Component; content: string | Component; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1577,7 +1648,10 @@
       "usageSnippet": "<Breadcrumb :items=\"/* BreadcrumbItem[] */\">…</Breadcrumb>",
       "propSignatureHash": "sha256:c2d642a65bb459af",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BreadcrumbItem": "{ label: string | Component; href?: string; icon?: IconName | IconComponent }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1796,7 +1870,10 @@
       "usageSnippet": "<Carousel :slides=\"/* CarouselSlide[] */\">…</Carousel>",
       "propSignatureHash": "sha256:7e1fa13b1068e19b",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CarouselSlide": "{ id: string; content?: string | Component }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2337,7 +2414,10 @@
       "usageSnippet": "<Combobox :options=\"/* ComboboxOption[] */\">…</Combobox>",
       "propSignatureHash": "sha256:be4b755366fa110b",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2899,7 +2979,10 @@
       "usageSnippet": "<DateRangeInput>…</DateRangeInput>",
       "propSignatureHash": "sha256:6ca09a6070fac4ae",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3641,7 +3724,11 @@
       "usageSnippet": "<FloatingPanel>…</FloatingPanel>",
       "propSignatureHash": "sha256:f57900d189cf533c",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "FloatingPanelPosition": "{ x: number; y: number }",
+        "FloatingPanelSize": "{ width: number; height: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4000,7 +4087,10 @@
       "usageSnippet": "<ImageCropper :src=\"/* string */\">…</ImageCropper>",
       "propSignatureHash": "sha256:8c4f00da08f5897d",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CropRect": "{ x: number; y: number; width: number; height: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4130,7 +4220,10 @@
       "usageSnippet": "<Listbox :options=\"/* ListboxOption[] */\">…</Listbox>",
       "propSignatureHash": "sha256:4dd4895567855b78",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ListboxOption": "{ value: string; label: string; disabled?: boolean; group?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4221,7 +4314,10 @@
       "usageSnippet": "<Marquee :items=\"/* MarqueeItem[] */\">…</Marquee>",
       "propSignatureHash": "sha256:94938b9a2ea18354",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "MarqueeItem": "{ id: string; content?: string | Component }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5441,7 +5537,10 @@
       "usageSnippet": "<RadioGroup :options=\"/* RadioOption[] */\">…</RadioGroup>",
       "propSignatureHash": "sha256:e969d5f9d9bc24fc",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5818,7 +5917,10 @@
       "usageSnippet": "<SegmentedControl :items=\"/* SegmentedControlItem[] */\">…</SegmentedControl>",
       "propSignatureHash": "sha256:2f200347afbcc4d5",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SegmentedControlItem": "{ value: string; label: string | Component; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5925,7 +6027,10 @@
       "usageSnippet": "<Select :options=\"/* SelectOption[] */\">…</Select>",
       "propSignatureHash": "sha256:0182d1808ce0edc9",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SelectOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6290,7 +6395,10 @@
       "usageSnippet": "<Splitter :panels=\"/* SplitterPanelDef[] */\">…</Splitter>",
       "propSignatureHash": "sha256:58ecbae9f76fed87",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SplitterPanelDef": "{ id: string; label?: string; content?: string | Component; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6365,7 +6473,10 @@
       "usageSnippet": "<Steps :steps=\"/* StepItem[] */\">…</Steps>",
       "propSignatureHash": "sha256:d987eb2035e353a9",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "StepItem": "{ title: string; description?: string; content?: string | Component }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6475,7 +6586,10 @@
       "usageSnippet": "<Tabs :tabs=\"/* TabItem[] */\">…</Tabs>",
       "propSignatureHash": "sha256:e9383724384efa4b",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TabItem": "{ value: string | number; label: string | Component; content: string | Component; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6777,7 +6891,10 @@
       "usageSnippet": "<Timer>…</Timer>",
       "propSignatureHash": "sha256:65bf2040b6efbbaf",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TimerPart": "\"days\" | \"hours\" | \"minutes\" | \"seconds\" | \"milliseconds\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7107,7 +7224,11 @@
       "usageSnippet": "<Tour :stepId=\"/* string | null */\" :steps=\"/* TourStep[] */\">…</Tour>",
       "propSignatureHash": "sha256:68646ee88f5e95ce",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TourStep": "{ id: string; title: string; description: string; target?: () => HTMLElement | null; type?: \"tooltip\" | \"dialog\" | \"wait\" | \"floating\"; placement?: \"top\" | \"bottom\" | \"left\" | \"right\" | \"center\"; actions?: TourStepAction[]; backdrop?: boolean; arrow?: boolean }",
+        "TourStepAction": "{ label: string; action?: \"next\" | \"prev\" | \"dismiss\" | \"skip\" }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -7186,7 +7307,10 @@
       "usageSnippet": "<TreeView :items=\"/* TreeViewNode[] */\">…</TreeView>",
       "propSignatureHash": "sha256:5b633cbcfe6d1d56",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",

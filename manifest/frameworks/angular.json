@@ -91,7 +91,11 @@
       "usageSnippet": "<!-- [uioTableFilterChip] -->",
       "propSignatureHash": "sha256:8cd81d2bf17ff31d",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: \"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\" | string & {}; values: TableFilterValue[]; unit?: \"day\" | \"week\" | \"month\" | \"year\" }",
+        "TableFilterValue": "string | number | boolean | null"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -112,7 +116,11 @@
       "usageSnippet": "<!-- [uioTableFilterEditor] -->",
       "propSignatureHash": "sha256:8cd81d2bf17ff31d",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: \"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\" | string & {}; values: TableFilterValue[]; unit?: \"day\" | \"week\" | \"month\" | \"year\" }",
+        "TableFilterValue": "string | number | boolean | null"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -153,7 +161,11 @@
       "usageSnippet": "<!-- [uioTableFilterValueEditor] -->",
       "propSignatureHash": "sha256:de44f3aadbc2b983",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: \"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\" | string & {}; values: TableFilterValue[]; unit?: \"day\" | \"week\" | \"month\" | \"year\" }",
+        "TableFilterValue": "string | number | boolean | null"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -277,7 +289,10 @@
       "usageSnippet": "<!-- [uioTableRowActions] -->",
       "propSignatureHash": "sha256:fbcd97cd8afbcf80",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RowAction": "{ id: string; label: string; icon?: string; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -370,7 +385,11 @@
       "usageSnippet": "<!-- div[uioTableSelectionBar] -->",
       "propSignatureHash": "sha256:d64a1de95c3c5fc1",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BulkAction": "{ id: string; label: string; icon?: string; destructive?: boolean; confirm?: { title?: string | undefined; description?: string | undefined; confirmLabel?: string | undefined }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -433,7 +452,11 @@
       "usageSnippet": "<!-- div[uioTableFilterSheetCondition] -->",
       "propSignatureHash": "sha256:76fe471e5985e097",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TableFilterCondition": "{ id: string; columnId: string; operator: \"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\" | string & {}; values: TableFilterValue[]; unit?: \"day\" | \"week\" | \"month\" | \"year\" }",
+        "TableFilterValue": "string | number | boolean | null"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -671,7 +694,12 @@
       "usageSnippet": "<!-- [uioTableProps] -->",
       "propSignatureHash": "sha256:f8b571c75a169439",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ElementProps": "{ className?: string; style?: TableStyle; role?: string; tabIndex?: number; id?: string; scope?: \"col\" | \"row\" | \"colgroup\" | \"rowgroup\"; colSpan?: number; hidden?: boolean; title?: string; [aria: `aria-${string}`]: AttrValue; [data: `data-${string}`]: AttrValue }",
+        "TableStyle": "{ width?: string | number; minWidth?: string | number; maxWidth?: string | number; height?: string | number; minHeight?: string | number; left?: string | number; right?: string | number; top?: string | number; position?: \"sticky\" | \"relative\" | \"absolute\" | \"static\"; tableLayout?: \"fixed\" | \"auto\"; textAlign?: \"left\" | \"center\" | \"right\" | \"start\" | \"end\"; zIndex?: number; transform?: string }",
+        "AttrValue": "string | number | boolean | undefined"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -949,7 +977,23 @@
       "usageSnippet": "<!-- div[uioDataTable] -->",
       "propSignatureHash": "sha256:67ffead4dc20e498",
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "VirtualConfig": "{ threshold?: number; overscan?: number }",
+        "EmptyStateConfig": "{ title?: string; description?: string; action?: null | string | number | TemplateRef<unknown> }",
+        "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
+        "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
+        "RowAction": "{ id: string; label: string; icon?: string; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
+        "BulkAction": "{ id: string; label: string; icon?: string; destructive?: boolean; confirm?: { title?: string | undefined; description?: string | undefined; confirmLabel?: string | undefined }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
+        "TableAction": "{ id: string; label: string; icon?: string; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "DetailConfig": "{ render: (row: T) => AngularNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => AngularNode }",
+        "ResponsiveConfig": "{ mode?: \"auto\" | \"table\" | \"cards\"; breakpoint?: number }",
+        "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
+        "TableSortSpec": "{ id: string; desc: boolean }",
+        "TableFilterCondition": "{ id: string; columnId: string; operator: \"is-empty\" | \"is-not-empty\" | \"is\" | \"is-not\" | \"is-any-of\" | \"is-none-of\" | \"contains\" | \"not-contains\" | \"starts-with\" | \"ends-with\" | \"gt\" | \"gte\" | \"lt\" | \"lte\" | \"between\" | \"not-between\" | \"in-last\" | \"in-next\" | \"is-today\" | string & {}; values: TableFilterValue[]; unit?: \"day\" | \"week\" | \"month\" | \"year\" }",
+        "BulkSelection": "{ mode: \"ids\"; ids: string[] } | { mode: \"all-matching\"; excluded: string[] }",
+        "TableFilterValue": "string | number | boolean | null"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -995,7 +1039,10 @@
       "usageSnippet": "<!-- div[uioAccordion] -->",
       "propSignatureHash": "sha256:3eeb007292c5278f",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "AccordionItem": "{ value: string | number; title: string; content?: string | TemplateRef<unknown>; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1336,7 +1383,10 @@
       "usageSnippet": "<!-- nav[uioBreadcrumb] -->",
       "propSignatureHash": "sha256:fd74653bae0267c2",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "BreadcrumbItem": "{ label: string; href?: string; icon?: string | IconGlyph }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1540,7 +1590,10 @@
       "usageSnippet": "<!-- div[uioCarousel] -->",
       "propSignatureHash": "sha256:47229cad0781a361",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "CarouselSlide": "{ id: string; content?: string | TemplateRef<unknown> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -1989,7 +2042,10 @@
       "usageSnippet": "<!-- div[uioCombobox] -->",
       "propSignatureHash": "sha256:54adaf6efab57020",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2427,7 +2483,10 @@
       "usageSnippet": "<!-- div[uioDateRangeInput] -->",
       "propSignatureHash": "sha256:fd70b2726ef3d211",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3050,7 +3109,11 @@
       "usageSnippet": "<!-- uio-floating-panel -->",
       "propSignatureHash": "sha256:c3a79303824298f4",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "PanelSize": "{ width: number; height: number }",
+        "PanelPosition": "{ x: number; y: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3497,7 +3560,10 @@
       "usageSnippet": "<!-- div[uioListbox] -->",
       "propSignatureHash": "sha256:ebf7c603ac557e58",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "ListboxOption": "{ value: string; label: string; disabled?: boolean; group?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3588,7 +3654,10 @@
       "usageSnippet": "<!-- div[uioMarquee] -->",
       "propSignatureHash": "sha256:c895e18deb304dc0",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "MarqueeItem": "{ id: string; content?: string | TemplateRef<unknown> }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -3980,7 +4049,10 @@
       "usageSnippet": "<!-- div[uioNavItem] -->",
       "propSignatureHash": "sha256:e9fccd7ca66b1648",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "NavSubItem": "{ label: string; icon?: string | IconGlyph; selected?: boolean; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -4738,7 +4810,10 @@
       "usageSnippet": "<!-- div[uioRadioGroup] -->",
       "propSignatureHash": "sha256:5d6b53f377e55f30",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5055,7 +5130,10 @@
       "usageSnippet": "<!-- div[uioSegmentedControl] -->",
       "propSignatureHash": "sha256:43116cf6410692e4",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SegmentedControlItem": "{ value: string; label: string; icon?: string | IconGlyph; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5134,7 +5212,10 @@
       "usageSnippet": "<!-- div[uioSelect] -->",
       "propSignatureHash": "sha256:100657eb65e01f1a",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SelectOption": "{ value: string; label: string; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5488,7 +5569,10 @@
       "usageSnippet": "<!-- div[uioSplitter] -->",
       "propSignatureHash": "sha256:d94cf5e762b5a8a8",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "SplitterPanelDef": "{ id: string; label?: string; content?: string | TemplateRef<unknown>; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5555,7 +5639,10 @@
       "usageSnippet": "<!-- div[uioSteps] -->",
       "propSignatureHash": "sha256:3abb3ef084026e74",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "StepItem": "{ title: string; description?: string; content?: string }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5640,7 +5727,10 @@
       "usageSnippet": "<!-- div[uioTabs] -->",
       "propSignatureHash": "sha256:598f5453d1162abf",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TabItem": "{ value: string | number; label: string; content?: string | TemplateRef<unknown>; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5931,7 +6021,10 @@
       "usageSnippet": "<!-- div[uioTimer] -->",
       "propSignatureHash": "sha256:6e9ce6497304fa43",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TimerPart": "\"days\" | \"hours\" | \"minutes\" | \"seconds\" | \"milliseconds\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6221,7 +6314,11 @@
       "usageSnippet": "<!-- uio-tour -->",
       "propSignatureHash": "sha256:8892e80e9c6fa017",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TourStep": "{ id: string; title: string; description: string; target?: () => HTMLElement | null; type?: \"tooltip\" | \"dialog\" | \"wait\" | \"floating\"; placement?: string; actions?: TourStepAction[]; backdrop?: boolean; arrow?: boolean }",
+        "TourStepAction": "{ label: string; action?: \"next\" | \"prev\" | \"dismiss\" | \"skip\" }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6289,7 +6386,10 @@
       "usageSnippet": "<!-- div[uioTreeView] -->",
       "propSignatureHash": "sha256:ed4f2c3945765711",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "status": "draft",
+      "referencedTypes": {
+        "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: string | IconGlyph; disabled?: boolean }"
+      }
     }
   ]
 }

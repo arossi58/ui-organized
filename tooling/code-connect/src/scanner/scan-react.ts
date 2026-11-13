@@ -34,6 +34,8 @@ export interface ScannedComponent {
   /** Svelte, Vue and Angular: the React export this one implements. */
   reactName?: string;
   props: PropDefinition[];
+  /** What the named types in `props` are — see `ComponentManifestEntry.referencedTypes`. */
+  referencedTypes?: Record<string, string>;
   propSignatureHash: string;
   /** Generated seed — the writer preserves a human-edited snippet over this. */
   usageSnippet: string;
@@ -96,6 +98,22 @@ function parse(file: string): ts.SourceFile {
 }
 
 /**
+ * Every source file under a package's `src`, parsed once. The alias, interface
+ * and type indexes below all read the same files, and a scan builds each of
+ * them for three libraries.
+ */
+const sourcesCache = new Map<string, ts.SourceFile[]>();
+
+function packageSources(packageRoot: string): ts.SourceFile[] {
+  const cached = sourcesCache.get(packageRoot);
+  if (cached) return cached;
+  const src = join(packageRoot, "src");
+  const files = existsSync(src) ? sourceFilesUnder(src).map(parse) : [];
+  sourcesCache.set(packageRoot, files);
+  return files;
+}
+
+/**
  * Type aliases that are a plain union of literals (`type ControlSize = "sm" |
  * "md" | "lg"`), by name, from a package and from `@ui-organized/core`, which all
  * four libraries import their variant types from. Inlining them means a prop
@@ -110,10 +128,7 @@ function literalAliases(roots: string[]): Map<string, string> {
   if (cached) return cached;
   const out = new Map<string, string>();
   for (const root of roots) {
-    const src = join(root, "src");
-    if (!existsSync(src)) continue;
-    for (const file of sourceFilesUnder(src)) {
-      const sf = parse(file);
+    for (const sf of packageSources(root)) {
       for (const stmt of sf.statements) {
         if (!ts.isTypeAliasDeclaration(stmt) || out.has(stmt.name.text) || stmt.typeParameters) continue;
         const t = stmt.type;
@@ -131,18 +146,58 @@ function literalAliases(roots: string[]): Map<string, string> {
 /** Package roots whose literal aliases `typeText` may inline; set by `scanLibrary`. */
 let aliasRoots: string[] = [];
 
+/**
+ * A node's source text with its comments dropped. A union written one member
+ * per line often carries a `// Sets` heading between members, which on one
+ * line would comment out the rest of the type.
+ */
+function textWithoutComments(node: ts.Node, sf: ts.SourceFile): string {
+  const text = node.getText(sf);
+  if (!text.includes("//") && !text.includes("/*")) return text;
+  const scanner = ts.createScanner(ts.ScriptTarget.Latest, false, ts.LanguageVariant.Standard, text);
+  let out = "";
+  for (let kind = scanner.scan(); kind !== ts.SyntaxKind.EndOfFileToken; kind = scanner.scan()) {
+    const comment = kind === ts.SyntaxKind.SingleLineCommentTrivia || kind === ts.SyntaxKind.MultiLineCommentTrivia;
+    out += comment ? " " : scanner.getTokenText();
+  }
+  return out;
+}
+
 function typeText(type: ts.TypeNode, sf: ts.SourceFile): string {
-  const text = type
-    .getText(sf)
+  const text = textWithoutComments(type, sf)
     .replace(/\s+/g, " ")
     .trim()
     // A union written one member per line starts with a stray `|`.
     .replace(/^\|\s*/, "");
+  if (aliasRoots.length) {
+    const indexed = indexedAccessText(type);
+    if (indexed) return indexed;
+  }
   if (aliasRoots.length && /^[A-Z]\w*$/.test(text)) {
     const inlined = literalAliases(aliasRoots).get(text);
     if (inlined) return inlined;
   }
   return text;
+}
+
+/**
+ * One member's type, read through an indexed access on a type of ours:
+ * `ButtonProps["intent"]` is Button's `intent` union. Unresolved, it sends an
+ * agent to a whole props interface to find one member.
+ */
+function indexedAccessText(type: ts.TypeNode): string | undefined {
+  if (!ts.isIndexedAccessTypeNode(type)) return undefined;
+  const { objectType, indexType } = type;
+  if (!ts.isTypeReferenceNode(objectType) || !ts.isIdentifier(objectType.typeName)) return undefined;
+  if (!ts.isLiteralTypeNode(indexType) || !ts.isStringLiteral(indexType.literal)) return undefined;
+  const owner = lookupType(objectType.typeName.text, aliasRoots);
+  if (!owner || !ts.isInterfaceDeclaration(owner.decl)) return undefined;
+  const key = indexType.literal.text;
+  const member = interfaceMembers(owner.decl, owner.sf, aliasRoots).members.find(
+    (m) => ts.isPropertySignature(m.node) && m.node.type && m.key === key,
+  );
+  const memberType = member && ts.isPropertySignature(member.node) ? member.node.type : undefined;
+  return memberType ? typeText(memberType, memberType.getSourceFile()) : undefined;
 }
 
 function readJsDoc(
@@ -243,14 +298,10 @@ function interfaceIndex(packageRoot: string) {
   const cached = interfaceIndexCache.get(packageRoot);
   if (cached) return cached;
   const index = new Map<string, { decl: ts.InterfaceDeclaration; sf: ts.SourceFile }>();
-  const srcDir = join(packageRoot, "src");
-  if (existsSync(srcDir)) {
-    for (const file of sourceFilesUnder(srcDir)) {
-      const sf = parse(file);
-      for (const stmt of sf.statements) {
-        if (ts.isInterfaceDeclaration(stmt) && !index.has(stmt.name.text)) {
-          index.set(stmt.name.text, { decl: stmt, sf });
-        }
+  for (const sf of packageSources(packageRoot)) {
+    for (const stmt of sf.statements) {
+      if (ts.isInterfaceDeclaration(stmt) && !index.has(stmt.name.text)) {
+        index.set(stmt.name.text, { decl: stmt, sf });
       }
     }
   }
@@ -299,6 +350,278 @@ function membersWithHeritage(
   const byName = new Map<string, PropDefinition>();
   for (const prop of [...inherited, ...own]) byName.set(prop.name, prop);
   return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+// ─── Named types the props refer to ──────────────────────────────────────────
+
+/**
+ * TypeScript's own utility types. Their arguments carry the meaning, so an alias
+ * built from them (`type TableFilterInput = Omit<TableFilterCondition, "id">`)
+ * still tells an agent something it can act on.
+ */
+export const UTILITY_TYPES: ReadonlySet<string> = new Set([
+  "Array",
+  "ReadonlyArray",
+  "Record",
+  "Partial",
+  "Required",
+  "Readonly",
+  "Pick",
+  "Omit",
+  "NonNullable",
+  "Exclude",
+  "Extract",
+]);
+
+/**
+ * How far a chain of named types is followed: the type a prop names, the types
+ * its members name (`TourStep.actions` → `TourStepAction`), and theirs. Enough
+ * for every option and item type in the libraries; the cap only keeps a table
+ * type that names half of table-core from dragging all of it into one spec.
+ */
+export const REFERENCE_DEPTH = 3;
+
+/**
+ * Characters of shape text a component may spend on types beyond the ones its
+ * props name directly, which are always written out. `TableProvider`'s
+ * `DataTableApi` names every table sub-API and their states, about 7,500
+ * characters, for an object an agent receives from `useDataTable()` rather than
+ * builds; past the budget a type stays a name. DataTable's filter and action
+ * types fit well inside it.
+ */
+export const REFERENCE_BUDGET = 3000;
+
+interface TypeDecl {
+  decl: ts.InterfaceDeclaration | ts.TypeAliasDeclaration;
+  sf: ts.SourceFile;
+}
+
+/** Interfaces and type aliases declared in a package, by name. The first declaration wins. */
+const typeIndexCache = new Map<string, Map<string, TypeDecl>>();
+
+function typeIndex(packageRoot: string): Map<string, TypeDecl> {
+  const cached = typeIndexCache.get(packageRoot);
+  if (cached) return cached;
+  const index = new Map<string, TypeDecl>();
+  for (const sf of packageSources(packageRoot)) {
+    for (const stmt of sf.statements) {
+      if ((ts.isInterfaceDeclaration(stmt) || ts.isTypeAliasDeclaration(stmt)) && !index.has(stmt.name.text)) {
+        index.set(stmt.name.text, { decl: stmt, sf });
+      }
+    }
+  }
+  typeIndexCache.set(packageRoot, index);
+  return index;
+}
+
+/** A name, looked up in the component's own package first, then the rest of `roots` in order. */
+function lookupType(name: string, roots: readonly string[]): TypeDecl | undefined {
+  for (const root of roots) {
+    const hit = typeIndex(root).get(name);
+    if (hit) return hit;
+  }
+  return undefined;
+}
+
+/**
+ * Every bare type name a node refers to: `SelectOption` in `SelectOption[]`.
+ * A qualified name (`React.ReactNode`, `Intl.NumberFormatOptions`) is never one
+ * of ours, so it isn't collected.
+ */
+function typeNamesIn(node: ts.Node): string[] {
+  const out: string[] = [];
+  const visit = (n: ts.Node) => {
+    if (ts.isTypeReferenceNode(n) && ts.isIdentifier(n.typeName)) out.push(n.typeName.text);
+    ts.forEachChild(n, visit);
+  };
+  visit(node);
+  return out;
+}
+
+/**
+ * The type names in a prop's stored type text, parsed back into a type node.
+ * Read from the text rather than the declaration so a name that was inlined
+ * (`TooltipSide` written as its union) isn't listed a second time.
+ */
+export function typeNamesInText(text: string): string[] {
+  const sf = ts.createSourceFile("prop-type.ts", `type __PropType = ${text};`, ts.ScriptTarget.Latest, true);
+  const stmt = sf.statements[0];
+  return typeNamesIn(stmt && ts.isTypeAliasDeclaration(stmt) ? stmt.type : sf);
+}
+
+/** One member of an object shape, as it would be written: `disabled?: boolean`. */
+function memberText(member: ts.TypeElement, sf: ts.SourceFile): string {
+  if (ts.isPropertySignature(member) && member.type) {
+    const readonly = member.modifiers?.some((m) => m.kind === ts.SyntaxKind.ReadonlyKeyword) ? "readonly " : "";
+    return `${readonly}${member.name.getText(sf)}${member.questionToken ? "?" : ""}: ${typeText(member.type, sf)}`;
+  }
+  // Methods, call and index signatures: as written, on one line.
+  return textWithoutComments(member, sf)
+    .replace(/\s+/g, " ")
+    .replace(/[;,]\s*$/, "")
+    .trim();
+}
+
+interface ShapeMember {
+  key: string;
+  text: string;
+  node: ts.TypeElement;
+}
+
+/**
+ * An interface's members with those of any base interface in `roots` merged in,
+ * a derived member winning, as `membersWithHeritage` does for props. A base
+ * that isn't ours (`React.ComponentProps<"a">`) can't be listed member by
+ * member, so it's kept by name and the shape is written as an intersection.
+ */
+function interfaceMembers(
+  decl: ts.InterfaceDeclaration,
+  sf: ts.SourceFile,
+  roots: readonly string[],
+  seen = new Set<string>(),
+): { members: ShapeMember[]; foreign: string[] } {
+  const inherited: ShapeMember[] = [];
+  const foreign: string[] = [];
+  if (!seen.has(decl.name.text)) {
+    seen.add(decl.name.text);
+    for (const clause of decl.heritageClauses ?? []) {
+      if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
+      for (const type of clause.types) {
+        const base = ts.isIdentifier(type.expression) ? lookupType(type.expression.text, roots) : undefined;
+        if (base && ts.isInterfaceDeclaration(base.decl)) {
+          const fromBase = interfaceMembers(base.decl, base.sf, roots, seen);
+          inherited.push(...fromBase.members);
+          foreign.push(...fromBase.foreign);
+        } else {
+          foreign.push(textWithoutComments(type, sf).replace(/\s+/g, " ").trim());
+        }
+      }
+    }
+  }
+  const own = decl.members.map((m) => ({
+    key: m.name ? m.name.getText(sf) : m.getText(sf),
+    text: memberText(m, sf),
+    node: m,
+  }));
+  const byKey = new Map<string, ShapeMember>();
+  for (const member of [...inherited, ...own]) byKey.set(member.key, member);
+  return { members: [...byKey.values()], foreign };
+}
+
+/**
+ * Whether an alias can be written out usefully: everything it names is a type
+ * parameter, a TypeScript utility type or another type of ours. That keeps
+ * `ReorderSetting` (`boolean | "always" | "toggle"`) and drops the aliases that
+ * only rename a library's type — `IconComponent` is React's `ComponentType`,
+ * `TableInstance` is TanStack's `Table` — whose shape would be that library's,
+ * not ours. An alias of a bare keyword (`IconName = string`) is dropped too: it
+ * names an open set, and "it's a string" adds nothing to the name. An alias
+ * of ours is checked the same way in turn, since one can rename another that
+ * only renames a library's type.
+ */
+function aliasIsOurs(decl: ts.TypeAliasDeclaration, roots: readonly string[], seen = new Set<string>()): boolean {
+  const kind = decl.type.kind;
+  if (kind >= ts.SyntaxKind.FirstKeyword && kind <= ts.SyntaxKind.LastKeyword) return false;
+  if (seen.has(decl.name.text)) return true;
+  seen.add(decl.name.text);
+  const params = new Set(decl.typeParameters?.map((p) => p.name.text));
+  let ours = true;
+  const visit = (n: ts.Node) => {
+    if (!ours) return;
+    if (ts.isTypeQueryNode(n) || ts.isImportTypeNode(n)) {
+      ours = false;
+      return;
+    }
+    if (ts.isTypeReferenceNode(n)) {
+      const name = ts.isIdentifier(n.typeName) ? n.typeName.text : undefined;
+      const target = name ? lookupType(name, roots) : undefined;
+      const known =
+        name !== undefined &&
+        (params.has(name) ||
+          UTILITY_TYPES.has(name) ||
+          (target !== undefined &&
+            (!ts.isTypeAliasDeclaration(target.decl) || aliasIsOurs(target.decl, roots, seen))));
+      if (!known) {
+        ours = false;
+        return;
+      }
+    }
+    ts.forEachChild(n, visit);
+  };
+  visit(decl.type);
+  return ours;
+}
+
+/**
+ * A branded type — a member keyed by a symbol, like Angular's `IconGlyph`
+ * `[BRAND]` — is opaque on purpose: only its factory makes one. Writing out its
+ * shape would only invite an agent to forge a value.
+ */
+function isBranded(members: readonly ts.TypeElement[]): boolean {
+  return members.some((m) => m.name !== undefined && ts.isComputedPropertyName(m.name));
+}
+
+/**
+ * A declaration's compact shape, and the type names it shows, to follow next.
+ * Read from the text, so a member type that was inlined (`placement` written as
+ * its union) doesn't bring its alias along.
+ */
+function shapeOf(found: TypeDecl, roots: readonly string[]): { text: string; names: string[] } | null {
+  const { decl, sf } = found;
+  const withNames = (text: string) => ({ text, names: typeNamesInText(text) });
+  const objectShape = (members: ShapeMember[], foreign: string[] = []) => {
+    if (isBranded(members.map((m) => m.node))) return null;
+    const body = members.length ? `{ ${members.map((m) => m.text).join("; ")} }` : "{}";
+    return withNames([...foreign, body].join(" & "));
+  };
+  if (ts.isInterfaceDeclaration(decl)) {
+    const { members, foreign } = interfaceMembers(decl, sf, roots);
+    return objectShape(members, foreign);
+  }
+  if (!aliasIsOurs(decl, roots)) return null;
+  if (ts.isTypeLiteralNode(decl.type)) {
+    return objectShape(decl.type.members.map((m) => ({ key: "", text: memberText(m, sf), node: m })));
+  }
+  return withNames(typeText(decl.type, sf));
+}
+
+/**
+ * What the named types in a component's props are, by name, one level each:
+ * `{ SelectOption: "{ value: string; label: string; disabled?: boolean }" }`.
+ *
+ * A prop table that says `options: SelectOption[]` sends an agent looking for a
+ * declaration it can't see, and the usual result is a guessed shape —
+ * `{ id, name }` instead of `{ value, label }`. Only types declared in `roots`
+ * are written out; React's, the DOM's and other libraries' are left as names an
+ * agent already knows. Types a shape itself names are followed too, up to
+ * `REFERENCE_DEPTH` and within `REFERENCE_BUDGET`, and each name is written
+ * once, so a recursive type (`TreeViewNode.children: TreeViewNode[]`) refers
+ * back to its own entry instead of unrolling forever.
+ */
+export function referencedTypesFor(
+  props: readonly PropDefinition[],
+  roots: readonly string[],
+): Record<string, string> | undefined {
+  const out: Record<string, string> = {};
+  const seen = new Set<string>();
+  let spent = 0;
+  let frontier = props.flatMap((p) => typeNamesInText(p.type));
+  for (let depth = 0; depth < REFERENCE_DEPTH && frontier.length; depth++) {
+    const next: string[] = [];
+    for (const name of frontier) {
+      if (seen.has(name) || UTILITY_TYPES.has(name)) continue;
+      seen.add(name);
+      const found = lookupType(name, roots);
+      const shape = found && shapeOf(found, roots);
+      if (!shape) continue;
+      if (depth > 0 && spent + shape.text.length > REFERENCE_BUDGET) continue;
+      if (depth > 0) spent += shape.text.length;
+      out[name] = shape.text;
+      next.push(...shape.names);
+    }
+    frontier = next;
+  }
+  return Object.keys(out).length ? out : undefined;
 }
 
 /** Locate the `${propsName}` declaration within a directory's source files. */
@@ -532,6 +855,13 @@ export function scanLibrary(repoRoot: string, config: LibraryScanConfig): Scanne
           ...config.roots.map((r) => packageRootOf(dirname(resolve(repoRoot, r.index)))),
           resolve(repoRoot, "packages/core"),
         ];
+  // Where a prop's named types are looked up: the component's own package, the
+  // rest of its library, then the two cores every library builds on.
+  // Table-core is here but not in `aliasRoots`: its literal aliases
+  // (`TableSize`) are written out as referenced types rather than inlined into
+  // the prop's type, which would move every library's DataTable hash.
+  const libraryRoots = config.roots.map((r) => packageRootOf(dirname(resolve(repoRoot, r.index))));
+  const sharedRoots = [resolve(repoRoot, "packages/core"), resolve(repoRoot, "packages/table-core")];
   try {
     for (const mod of modules) {
       for (const codeName of mod.values) {
@@ -546,12 +876,15 @@ export function scanLibrary(repoRoot: string, config: LibraryScanConfig): Scanne
           (config.framework === "react" ? null : findSfcProps(mod.searchDir, codeName, config.framework));
         if (!found) continue;
 
+        const typeRoots = [...new Set([packageRootOf(dirname(found.file)), ...libraryRoots, ...sharedRoots])];
+        const referencedTypes = referencedTypesFor(found.props, typeRoots);
         scanned.push({
           codeName,
           codePath: relative(repoRoot, found.file),
           framework: config.framework,
           importStatement: `import { ${codeName} } from '${mod.pkg}';`,
           props: found.props,
+          ...(referencedTypes ? { referencedTypes } : {}),
           propSignatureHash: hashProps(found.props),
           usageSnippet: config.usageSeed(codeName, found.props),
         });

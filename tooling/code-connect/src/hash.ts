@@ -9,7 +9,9 @@
  * defaultValue) sorted by name, stable-stringified. `description` and
  * `figmaVariantMapping` are deliberately excluded — they're human/plugin
  * annotations, not part of the code signature, so re-documenting or re-mapping a
- * prop must not read as a code drift.
+ * prop must not read as a code drift. An entry's `referencedTypes` never reaches
+ * this either: it describes the types the props name, and an option type gaining
+ * a field is not a change to any prop's signature.
  */
 
 import { createHash } from "node:crypto";
