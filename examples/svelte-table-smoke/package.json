@@ -3,10 +3,11 @@
   "version": "0.0.3",
   "private": true,
   "type": "module",
-  "description": "The smallest Svelte app that uses the documented data-table setup. Built and rendered by the svelte-table smoke gate.",
+  "description": "The smallest Svelte app that uses the documented setup, entry copied verbatim from Get Started. Built and rendered by the svelte-table smoke gate, and type-checked by the lint gate.",
   "scripts": {
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
     "@lucide/svelte": "^1.33.0",
@@ -17,6 +18,8 @@
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "svelte-check": "^4.0.0",
+    "typescript": "^5.4.0",
     "vite": "^5.4.0"
   }
 }

@@ -32,7 +32,7 @@
     "test": "turbo test",
     "audit:contrast": "node scripts/audit-contrast.mjs",
     "typecheck": "turbo typecheck",
-    "typecheck:packages": "turbo typecheck --filter=./packages/* --filter=./tooling/*",
+    "typecheck:packages": "turbo typecheck --filter=./packages/* --filter=./tooling/* --filter=./examples/*",
     "version-packages": "changeset version"
   },
   "devDependencies": {

@@ -23,3 +23,11 @@ apps/marketing/public/roadmap.json
 
 # Generated report, not source
 FIGMA-PARITY.html
+
+# ── Get Started's snippets, verbatim ─────────────────────────────────────────
+# These examples hold the docs page's code in the docs' own style (single
+# quotes, no semicolons), and apps/marketing/src/docs/pages/
+# getStartedSnippets.test.ts compares them with the page as code. Formatting
+# them would fail that test; edit them together with getStartedSnippets.ts.
+examples/svelte-table-smoke/src/main.ts
+examples/vue-table-smoke/src/main.ts

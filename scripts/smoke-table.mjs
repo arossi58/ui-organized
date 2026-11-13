@@ -40,6 +40,13 @@
  * would put all four frameworks in a single closure — weakening precisely what
  * this gate tests, which is that each adapter resolves *on its own*.
  *
+ * ── Two of them are also Get Started ────────────────────────────────────────
+ *
+ * The Svelte and Vue apps are the docs page's consumers: their entry files are
+ * the page's snippets copied verbatim. So for those two this also checks what
+ * the page promises past the table: its App (a Card, an Input, a Save Button)
+ * renders, and the icon set it registers draws its Reload Button's icon.
+ *
  * jsdom rather than a real browser, for the same reason
  * `packages/react/scripts/smoke-icons.mjs` uses it: the failure under test
  * happens at build time, and running the output only has to answer "did this
@@ -61,6 +68,9 @@ const repoRoot = dirname(dirname(fileURLToPath(import.meta.url)));
  * `adapterDist` is the built entry to assert exists — each toolchain names it
  * differently, and checking the wrong path would make this gate pass on a
  * package that never built.
+ *
+ * `getStarted` marks the apps Get Started's snippets are copied into (see the
+ * header).
  */
 const FRAMEWORKS = {
   react: {
@@ -72,11 +82,16 @@ const FRAMEWORKS = {
     example: "vue-table-smoke",
     pkg: "packages/vue-table",
     adapterDist: "dist/index.js",
+    // The docs' `createApp(App).mount('#app')`, which is also create-vite's.
+    mountHtml: '<div id="app"></div>',
+    getStarted: true,
   },
   svelte: {
     example: "svelte-table-smoke",
     pkg: "packages/svelte-table",
     adapterDist: "dist/index.js",
+    mountHtml: '<div id="app"></div>',
+    getStarted: true,
   },
   angular: {
     example: "angular-table-smoke",
@@ -242,6 +257,24 @@ try {
     doc.querySelectorAll('tbody input[type="checkbox"]').length === EXPECTED_ROWS,
     `a dropped @ui-organized/${framework} peer shows up here first`,
   );
+
+  if (config.getStarted) {
+    const button = (label) =>
+      [...doc.querySelectorAll("button")].find((el) => el.textContent?.trim() === label);
+    const save = button("Save");
+    check(
+      "Get Started's App renders: a Card with an Input and a primary Button",
+      Boolean(doc.querySelector('input[placeholder="you@example.com"]')) &&
+        Boolean(save?.classList.contains("btn--primary")),
+      save ? [...save.classList].join(" ") : "no Save button",
+    );
+    const drawn = Boolean(button("Reload")?.querySelector("svg"));
+    check(
+      "and the icon set it registers draws the Reload Button's icon",
+      drawn,
+      drawn ? "" : "the icon-set import, or the provider's `library`, did not reach the build",
+    );
+  }
 } catch (error) {
   console.warn = realWarn;
   console.error = realError;
