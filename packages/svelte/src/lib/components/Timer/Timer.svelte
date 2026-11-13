@@ -69,39 +69,32 @@
         start and resume can both be present without a conditional here.
 
         Each is the library Button projected through Ark's asChild, so they
-        inherit every interactive token instead of restating them. `class` is
-        pulled out and handed over separately because Ark types the projected
-        props in Svelte's own shapes, where it is a `ClassValue` that may be
-        null while the Button takes a string.
+        inherit every interactive token instead of restating them.
       -->
       <ArkTimer.ActionTrigger action="start">
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="primary" {size} icon={glyph("play")} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="primary" {size} icon={glyph("play")} type="button" {...withoutAction(props())}>
             Start
           </Button>
         {/snippet}
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="pause">
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="secondary" {size} icon={glyph("pause")} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} icon={glyph("pause")} type="button" {...withoutAction(props())}>
             Pause
           </Button>
         {/snippet}
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="resume">
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="secondary" {size} icon={glyph("play")} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} icon={glyph("play")} type="button" {...withoutAction(props())}>
             Resume
           </Button>
         {/snippet}
       </ArkTimer.ActionTrigger>
       <ArkTimer.ActionTrigger action="reset">
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = withoutAction(props())}
-          <Button intent="ghost" {size} icon={glyph("refresh")} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="ghost" {size} icon={glyph("refresh")} type="button" {...withoutAction(props())}>
             Reset
           </Button>
         {/snippet}

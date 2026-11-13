@@ -74,22 +74,17 @@
 
   <!--
     The clear control *is* the library Button, projected through Ark's asChild so
-    it inherits every interactive token instead of restating them. `class` is
-    pulled out and handed over separately because Ark types the projected props
-    in Svelte's own shapes, where it is a `ClassValue` that may be null while the
-    Button takes a string.
+    it inherits every interactive token instead of restating them.
   -->
   {#if showClear}
     <ArkSignaturePad.ClearTrigger>
       {#snippet asChild(props)}
-        {@const { class: arkClass, ...triggerProps } = props()}
         <Button
           intent="ghost"
           {size}
           type="button"
           icon={glyph("refresh")}
-          class={clsx(arkClass)}
-          {...triggerProps}
+          {...props()}
         >
           {clearLabel}
         </Button>

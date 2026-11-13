@@ -53,7 +53,7 @@
       {#snippet asChild(props)}
         {#if iconOnly}
           <Button
-            {...(props() as Record<string, never>)}
+            {...props()}
             intent="secondary"
             size={table.size}
             icon={glyph("filter")}
@@ -62,7 +62,7 @@
           />
         {:else}
           <Button
-            {...(props() as Record<string, never>)}
+            {...props()}
             intent="ghost"
             size="sm"
             icon={glyph("plus")}

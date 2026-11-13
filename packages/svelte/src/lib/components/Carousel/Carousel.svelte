@@ -70,20 +70,16 @@
       <!--
         The two arrows *are* the library Button, projected through Ark's
         asChild so they inherit every interactive token instead of restating
-        them. `class` is pulled out and handed over separately because Ark
-        types the projected props in Svelte's own shapes, where it is a
-        `ClassValue` that may be null while the Button takes a string.
+        them.
       -->
       <ArkCarousel.PrevTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
           <Button
             intent="ghost"
             {size}
             icon={glyph("chevron-left")}
             aria-label="Previous slide"
-            class={clsx(arkClass)}
-            {...triggerProps}
+            {...props()}
           />
         {/snippet}
       </ArkCarousel.PrevTrigger>
@@ -104,14 +100,12 @@
     {#if variant !== "minimal"}
       <ArkCarousel.NextTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
           <Button
             intent="ghost"
             {size}
             icon={glyph("chevron-right")}
             aria-label="Next slide"
-            class={clsx(arkClass)}
-            {...triggerProps}
+            {...props()}
           />
         {/snippet}
       </ArkCarousel.NextTrigger>
