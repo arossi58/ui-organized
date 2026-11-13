@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * The MCP server a consumer installs. Same read tools as the repo server, reading
- * the manifest and tokens this package shipped with, so answers match the version
- * installed. The Figma tools stay in the repo: they re-scan source this package
- * doesn't have.
+ * The MCP server a consumer installs. Same read tools as the repo server,
+ * including get_figma_frame and resolve_figma_components, reading the manifest
+ * and tokens this package shipped with, so answers match the version installed.
+ * Only the mapping-health tools (get_component_context, validate_mapping,
+ * list_stale) stay in the repo: they re-scan source this package doesn't have.
  *
  * It answers for one library by default — `--framework svelte|vue|angular|react`,
  * or `UI_ORGANIZED_FRAMEWORK` — which `uiorg init` sets from the project. Every

@@ -4,7 +4,10 @@
  * and the published `@ui-organized/mcp`.
  *
  * This module must stay free of `staleness.ts`, which pulls in the TypeScript
- * scanner and expects a repo checkout. That's why the Figma tools aren't here.
+ * scanner and expects a repo checkout. That's why the mapping-health tools
+ * (get_component_context, validate_mapping, list_stale) live in
+ * `create-server.ts`; the Figma frame tools need only the manifest, the tokens
+ * and Figma's REST API, so they're here.
  */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -253,11 +256,12 @@ export function registerReadTools(server: McpServer, options: ReadToolsOptions):
     "search_components",
     {
       title: "Search components",
+      // Shared by the repo server and the published one, which has no
+      // get_component_context: name only tools both of them register.
       description:
-        "Fuzzy-search real, mapped code components by name or path. Use this to browse " +
-        "available components before generating code for an unmapped design, or when " +
-        "get_component_context returned no exact match. Every result carries a " +
-        "similarity score — treat low scores as unconfirmed.",
+        "Fuzzy-search real code components by name or path. Use it to find a component " +
+        "before calling get_component, or when a lookup by name or Figma key found no exact " +
+        "match. Every result carries a similarity score — treat low scores as unconfirmed.",
       inputSchema: {
         query: z.string().describe("Name or path fragment to search for"),
         framework: FRAMEWORK_ENUM.optional().describe("Library to search; defaults to this project's"),

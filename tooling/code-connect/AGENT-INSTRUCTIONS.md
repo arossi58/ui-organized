@@ -1,7 +1,7 @@
 # Code Connect — consuming-agent contract
 
-Instructions for any AI agent generating code from the Code Connect MCP server
-(`Connect.md` §6.4, §7). MCP cannot force client behavior, so these are a documented
+Instructions for any AI agent generating code from the Code Connect MCP server.
+MCP cannot force client behavior, so these are a documented
 contract the agent is expected to follow — and the Layer 4 `verify` check (below)
 enforces the parts that can be checked statically. The rules are also embedded in the
 server's `instructions` and each tool's `description`.

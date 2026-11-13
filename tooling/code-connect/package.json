@@ -2,7 +2,7 @@
   "name": "@ui-organized/code-connect",
   "version": "0.0.0",
   "private": true,
-  "description": "Figma Code Connect for UI Organized — maps Figma components to real @ui-organized/react components (props, source paths, usage), stores the mapping as a git-native manifest, and serves it to AI coding agents over MCP so generated code references real components instead of hallucinating new ones. Connect.md Phases 1–3 (schema, scanner, stdio MCP server).",
+  "description": "Figma Code Connect for UI Organized — maps Figma components to real @ui-organized/react components (props, source paths, usage), stores the mapping as a git-native manifest, and serves it to AI coding agents over MCP so generated code references real components instead of hallucinating new ones. Scanners for all four libraries, figma:sync, the MCP server and the AI specs it shares with the docs site.",
   "type": "module",
   "bin": {
     "code-connect-mcp": "src/mcp/server.ts"
