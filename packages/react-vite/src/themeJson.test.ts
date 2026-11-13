@@ -10,7 +10,8 @@ import { themeJsonToCss, themeJsonToVars } from "./themeJson.js";
  * `buildThemeJson` / `buildThemeCss` in apps/marketing if the export format
  * changes; the parity test in buildConfig.test.ts checks the live builder.
  */
-const fixture = (name: string) => readFileSync(new URL(`./__fixtures__/${name}`, import.meta.url), "utf-8");
+const fixture = (name: string) =>
+  readFileSync(new URL(`./__fixtures__/${name}`, import.meta.url), "utf-8");
 const theme = () => JSON.parse(fixture("theme.json")) as Record<string, any>;
 const builderCss = fixture("theme.css");
 
@@ -36,7 +37,9 @@ describe("themeJsonToCss", () => {
 
   it("declares every token in the contract, in every default mode", () => {
     for (const mode of ["light", "dark", "system"] as const) {
-      const declared = new Set(declarations(themeJsonToCss(theme(), { defaultMode: mode })).map(([k]) => k));
+      const declared = new Set(
+        declarations(themeJsonToCss(theme(), { defaultMode: mode })).map(([k]) => k),
+      );
       const missing = contract.tokens.filter((name) => !declared.has(name));
       expect(missing, mode).toEqual([]);
     }
@@ -118,7 +121,11 @@ describe("themeJsonToCss", () => {
     const names = declarations(themeJsonToCss(theme()))
       .map(([k]) => k)
       .filter((k) => k.startsWith("--border-radius-") || k.startsWith("--dimension-"));
-    expect(names.slice(0, 3)).toEqual(["--border-radius-01", "--border-radius-02", "--border-radius-03"]);
+    expect(names.slice(0, 3)).toEqual([
+      "--border-radius-01",
+      "--border-radius-02",
+      "--border-radius-03",
+    ]);
     expect(names.indexOf("--border-radius-12")).toBeLessThan(names.indexOf("--border-radius-full"));
     expect(names.indexOf("--dimension-09")).toBeLessThan(names.indexOf("--dimension-10"));
   });
@@ -172,7 +179,9 @@ describe("themeJsonToCss errors", () => {
       message = (err as Error).message;
     }
     expect(message).toContain("3 tokens");
-    expect(message).toContain("color.light.surface.primary: {primitive.color.brand.9999} doesn't resolve");
+    expect(message).toContain(
+      "color.light.surface.primary: {primitive.color.brand.9999} doesn't resolve",
+    );
     expect(message).toContain('color.dark.surface.primary: unsupported reference in "{a} {b}"');
     expect(message).toContain("spacing.space-04: unsupported $value true");
   });

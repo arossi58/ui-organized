@@ -109,13 +109,21 @@ class Problems {
  * them. The builder's colors alias `{primitive.color.<group>.<step>}`; a file
  * re-exported from Figma can alias anything.
  */
-function resolve(doc: Group, value: unknown, at: string, problems: Problems, seen: string[] = []): unknown {
+function resolve(
+  doc: Group,
+  value: unknown,
+  at: string,
+  problems: Problems,
+  seen: string[] = [],
+): unknown {
   if (typeof value !== "string") return value;
   const match = ALIAS.exec(value.trim());
   if (!match) return value;
   const ref = match[1]!;
   if (seen.includes(ref)) {
-    return problems.add(`${at}: circular reference ${[...seen, ref].map((r) => `{${r}}`).join(" → ")}`);
+    return problems.add(
+      `${at}: circular reference ${[...seen, ref].map((r) => `{${r}}`).join(" → ")}`,
+    );
   }
   let node: unknown = doc;
   for (const part of ref.split(".")) node = isGroup(node) ? node[part] : undefined;
@@ -140,7 +148,12 @@ function fontStack(value: unknown): string | undefined {
  * other shapes are DTCG's, accepted so a hand-edited file doesn't need to
  * match the builder's formatting.
  */
-function cssValue(leaf: Leaf, doc: Group, defaultType: string | undefined, problems: Problems): string | undefined {
+function cssValue(
+  leaf: Leaf,
+  doc: Group,
+  defaultType: string | undefined,
+  problems: Problems,
+): string | undefined {
   const at = leaf.path.join(".");
   const value = resolve(doc, leaf.token.$value, at, problems);
   if (value === undefined) return undefined;
@@ -238,8 +251,22 @@ const componentName = (p: string[]): string => {
  */
 function constantVars(doc: Group, problems: Problems): Record<string, string> {
   const fromDoc = {
-    ...collect(doc, doc.dimension, "dimension", (p) => `--dimension-${p.join("-")}`, problems, "dimension"),
-    ...collect(doc, doc["z-index"], "z-index", (p) => `--z-index-${p.join("-")}`, problems, "number"),
+    ...collect(
+      doc,
+      doc.dimension,
+      "dimension",
+      (p) => `--dimension-${p.join("-")}`,
+      problems,
+      "dimension",
+    ),
+    ...collect(
+      doc,
+      doc["z-index"],
+      "z-index",
+      (p) => `--z-index-${p.join("-")}`,
+      problems,
+      "number",
+    ),
   };
   const merged = { ...globalConstantVars(), ...fromDoc };
   const step = (k: string) => Number(k.slice("--dimension-".length));
@@ -301,7 +328,14 @@ export function themeJsonToVars(input: unknown, options: ThemeJsonToCssOptions =
   const dark = collect(doc, color!.dark, "color.dark", colorName, problems, "color");
   const shared = {
     ...typeVars(doc, problems),
-    ...collect(doc, doc.spacing, "spacing", (p) => `--spacing-${p.join("-")}`, problems, "dimension"),
+    ...collect(
+      doc,
+      doc.spacing,
+      "spacing",
+      (p) => `--spacing-${p.join("-")}`,
+      problems,
+      "dimension",
+    ),
     ...collect(
       doc,
       doc["border-radius"],

@@ -61,10 +61,10 @@ Vue and Angular libraries.
 
 ## Options
 
-| Option | Default | |
-| --- | --- | --- |
-| `config` | `"./theme.json"` | Path to the theme.json, relative to Vite's `root`. |
-| `defaultMode` | the theme's own | `"light"`, `"dark"` or `"system"`: which mode lands on bare `:root`. Defaults to the Default mode set in the builder's export panel, which theme.json records, else `"light"`. |
+| Option        | Default          | What it sets                                                                                                                                                                   |
+| ------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `config`      | `"./theme.json"` | Path to the theme.json, relative to Vite's `root`.                                                                                                                             |
+| `defaultMode` | the theme's own  | `"light"`, `"dark"` or `"system"`: which mode lands on bare `:root`. Defaults to the Default mode set in the builder's export panel, which theme.json records, else `"light"`. |
 
 ## Without Vite
 

@@ -142,7 +142,8 @@ describe("themePlugin in a build", () => {
         },
       },
     });
-    const chunks = (Array.isArray(output) ? output[0]! : (output as { output: unknown[] })).output as Array<{
+    const chunks = (Array.isArray(output) ? output[0]! : (output as { output: unknown[] }))
+      .output as Array<{
       fileName: string;
       type: string;
       source?: string | Uint8Array;

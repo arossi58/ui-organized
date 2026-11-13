@@ -24,11 +24,7 @@ import { posix, resolve } from "node:path";
 import { themeJsonToVars, themeVarsToCss, type ThemeMode } from "./themeJson.js";
 import { loadTokenContract, missingTokens } from "./contract.js";
 
-export {
-  themeJsonToCss,
-  type ThemeJsonToCssOptions,
-  type ThemeMode,
-} from "./themeJson.js";
+export { themeJsonToCss, type ThemeJsonToCssOptions, type ThemeMode } from "./themeJson.js";
 
 // ─── Module ids ────────────────────────────────────────────────────────────────
 

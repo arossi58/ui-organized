@@ -30,7 +30,9 @@ function fakePackage(at: string, name: string, tokens: string[]) {
 
 describe("loadTokenContract", () => {
   it("uses the project's own @ui-organized/core when it resolves (npm, Yarn)", () => {
-    fakePackage(join(dir, "node_modules/@ui-organized/core"), "@ui-organized/core", ["--from-core"]);
+    fakePackage(join(dir, "node_modules/@ui-organized/core"), "@ui-organized/core", [
+      "--from-core",
+    ]);
     const contract = loadTokenContract(dir);
     expect(contract.tokens).toEqual(["--from-core"]);
     expect(contract.source).toBe("@ui-organized/core/token-contract.json");
@@ -42,7 +44,10 @@ describe("loadTokenContract", () => {
     const store = join(dir, "store/node_modules/@ui-organized");
     fakePackage(join(store, "core"), "@ui-organized/core", ["--via-pnpm"]);
     mkdirSync(join(store, "svelte"), { recursive: true });
-    writeFileSync(join(store, "svelte/package.json"), JSON.stringify({ name: "@ui-organized/svelte" }));
+    writeFileSync(
+      join(store, "svelte/package.json"),
+      JSON.stringify({ name: "@ui-organized/svelte" }),
+    );
     const app = join(dir, "app");
     mkdirSync(join(app, "node_modules/@ui-organized"), { recursive: true });
     symlinkSync(join(store, "svelte"), join(app, "node_modules/@ui-organized/svelte"), "dir");
@@ -53,7 +58,9 @@ describe("loadTokenContract", () => {
   });
 
   it("reads React 5.x's own contract, which predates core", () => {
-    fakePackage(join(dir, "node_modules/@ui-organized/react"), "@ui-organized/react", ["--react-5"]);
+    fakePackage(join(dir, "node_modules/@ui-organized/react"), "@ui-organized/react", [
+      "--react-5",
+    ]);
     const contract = loadTokenContract(dir);
     expect(contract.tokens).toEqual(["--react-5"]);
     expect(contract.source).toBe("@ui-organized/react/token-contract.json");
