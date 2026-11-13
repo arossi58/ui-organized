@@ -365,7 +365,8 @@ export function ThemingPage() {
             <code>theme.json</code> re-exported from Figma keeps every variable a designer edited
             there, which loading it back into the builder does not. Use this when{" "}
             <code>theme.json</code>, not the CSS, is the file you version. Despite the name,
-            nothing in it is React-specific: it works the same with all four libraries.
+            nothing in it is React-specific: it works the same with all four libraries, in any
+            app Vite builds.
           </p>
         </DocsSection>
 

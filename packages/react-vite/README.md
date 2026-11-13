@@ -40,7 +40,8 @@ import the theme after it: both declare the same tokens on `:root`, so the later
 one wins. The theme is complete on its own, so the baseline is optional.
 
 Nothing in the plugin is React-specific, so it works the same for the Svelte,
-Vue and Angular libraries.
+Vue and Angular libraries in any app Vite builds. For a build that doesn't run
+Vite plugins, see [Without Vite](#without-vite).
 
 ## What it does
 
