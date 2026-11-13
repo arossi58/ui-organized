@@ -6,6 +6,7 @@
   import { CONTROL_ICON_SIZE, comboboxFieldStyles } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
+  import SelectedLabelSync from "./SelectedLabelSync.svelte";
   import type { ComboboxProps } from "./Combobox.types.js";
   import "@ui-organized/core/components/Combobox/Combobox.css";
   import { glyph } from "../../icons/glyph.js";
@@ -93,6 +94,7 @@
     {required}
     positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed" }}
   >
+    <SelectedLabelSync {options} />
     {#if label}
       <ArkCombobox.Label class="field__label">
         {label}
