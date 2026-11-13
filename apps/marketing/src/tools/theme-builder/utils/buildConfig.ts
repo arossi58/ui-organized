@@ -479,9 +479,10 @@ entry:
 
 \`\`\`ts
 // src/main.tsx
-import '@ui-organized/react/styles'   // 1. component styles
-import './styles/theme.css'           // 2. this export (after, so it wins)
-import './index.css'                  // 3. your own layout, last
+import '@ui-organized/tokens/variables.css'  // 1. token baseline (optional)
+import '@ui-organized/react/styles'          // 2. component styles
+import './styles/theme.css'                  // 3. this export, after the baseline so it wins
+import './index.css'                         // 4. your own layout, last
 \`\`\`
 
 Order is load-bearing. \`theme.css\` and any baseline token stylesheet both
