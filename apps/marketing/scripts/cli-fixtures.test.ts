@@ -27,7 +27,11 @@ import { describe, expect, it } from "vitest";
 import { globalConstantVars } from "@ui-organized/tokens";
 import { useBuilderStore } from "../src/tools/theme-builder/state/themeState";
 import { buildThemeCss, CSS_FILENAME } from "../src/tools/theme-builder/utils/buildCss";
-import { buildIconsModule, buildReadme, buildThemeJson } from "../src/tools/theme-builder/utils/buildConfig";
+import {
+  buildIconsModule,
+  buildReadme,
+  buildThemeJson,
+} from "../src/tools/theme-builder/utils/buildConfig";
 import { buildFontsModule } from "../src/tools/theme-builder/utils/buildFonts";
 
 const FIXTURES = fileURLToPath(new URL("../../../packages/cli/test/fixtures/", import.meta.url));
@@ -78,9 +82,12 @@ function layoutConstants(css: string): Record<string, string> {
 describe("CLI theme fixtures", () => {
   // Declared first: vitest runs a file's tests in order, so a regeneration run
   // checks what it just wrote.
-  it.runIf(process.env.REGENERATE_CLI_FIXTURES)("regenerate from the fixture's theme.json", async () => {
-    await regenerate();
-  });
+  it.runIf(process.env.REGENERATE_CLI_FIXTURES)(
+    "regenerate from the fixture's theme.json",
+    async () => {
+      await regenerate();
+    },
+  );
 
   it.each([
     ["kitchen-sink-teal-theme.zip", STORED],
