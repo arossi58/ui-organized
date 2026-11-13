@@ -113,16 +113,27 @@ export function GetStartedPage() {
         <DocsSection title="Add your theme">
           <CodeBlock code={CLI_APPLY} language="sh" />
           <p>
-            The CLI writes <code>theme.css</code>, <code>theme.json</code>, <code>fonts.ts</code>{" "}
-            and <code>icons.ts</code> where your project keeps them. Add <code>--dry-run</code> to
-            see the plan without writing.
+            The CLI writes <code>theme.css</code>, <code>theme.json</code>
+            {framework === "react" ? (
+              <>
+                , <code>fonts.ts</code> and <code>icons.ts</code>
+              </>
+            ) : (
+              <>
+                {" "}
+                and <code>fonts.ts</code>
+              </>
+            )}{" "}
+            where your project keeps them, after checking the theme covers every token the
+            components read. It finishes by printing the stylesheet, icon and font steps for{" "}
+            {label}, with your theme's values filled in. Add <code>--dry-run</code> to see the
+            plan without writing.
           </p>
           {framework !== "react" && (
             <p className={styles.propNote}>
-              For {label}, the CLI checks fonts and your CSS but can't check token coverage yet.
-              Its <code>icons.ts</code> is written for React and won't type-check in a {label} app,
-              so delete it and follow <a href="#set-up-icons">Set up icons</a> below instead. The
-              steps it prints at the end are React's too.
+              The Theme Builder's bundle also holds <code>icons.ts</code>, which is
+              React's. The CLI skips it for {label} and prints your icon settings as{" "}
+              {label}'s provider instead; see <a href="#set-up-icons">Set up icons</a>.
             </p>
           )}
         </DocsSection>
