@@ -229,6 +229,12 @@ const metadataSchema = z.object({
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 
+/**
+ * @deprecated The legacy theme config (`metadata` + 16-step `resolvedPrimitives`
+ * + `color.modes`), removed in the next major. Nothing reads it since
+ * `@ui-organized/react-vite` 3, which builds from the Theme Builder's DTCG
+ * `theme.json`. For DTCG documents use `DtcgDocumentSchema`.
+ */
 export const themeConfigSchema = z.object({
   metadata: metadataSchema,
   color: colorSchema,
@@ -243,6 +249,10 @@ export type ThemeConfig = z.infer<typeof themeConfigSchema>;
 /**
  * Validates an unknown value against the theme config schema.
  * Throws a descriptive error if validation fails.
+ *
+ * @deprecated Validates the legacy theme config, which nothing reads since
+ * `@ui-organized/react-vite` 3. A Theme Builder `theme.json` fails it by
+ * design. Removed in the next major.
  */
 export function validateConfig(input: unknown): ThemeConfig {
   const result = themeConfigSchema.safeParse(input);

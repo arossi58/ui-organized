@@ -17,6 +17,14 @@
  * ramp name and step is a 100-1600 value.
  */
 
+/**
+ * @deprecated The semantic layer of the legacy `transformConfig` → `buildCss`
+ * pipeline, removed in the next major. Its names are retired
+ * (`color-border.subtle`, `color-surface.base`, …) and it references
+ * `{black.*}`/`{white.*}`/`{neutral.*}` ramps the real tokens don't have. The
+ * shipped semantic tokens are the DTCG JSON built into `variables.css`;
+ * `semanticColorMap` in `@ui-organized/utils` mirrors them in code.
+ */
 export const semanticColorTokens = {
   // ── Borders ──────────────────────────────────────────────────────────────
   "color-border": {

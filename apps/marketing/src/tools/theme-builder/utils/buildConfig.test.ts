@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { typeSizeTokens, typeLeadingTokens } from "@ui-organized/tokens";
 import { DEFAULT_NEUTRAL_TINT } from "@ui-organized/utils";
+import { themeJsonToCss } from "@ui-organized/react-vite";
 import { useBuilderStore } from "../state/themeState";
 import { buildThemeTokens, buildThemeJson, buildIconsModule, buildReadme } from "./buildConfig";
 import { buildThemeCss } from "./buildCss";
@@ -297,5 +298,43 @@ describe("buildReadme", () => {
     expect(buildReadme(state())).toContain('data-theme="dark"');
     state().setExportDefaultMode("light");
     expect(buildReadme(state())).toContain('data-theme="light"');
+  });
+});
+
+describe("theme.json → CSS parity with @ui-organized/react-vite", () => {
+  // The Vite plugin builds the stylesheet from theme.json alone; the builder
+  // builds theme.css from its own state. They are two routes to one file, so a
+  // format change on either side that the other doesn't follow fails here
+  // rather than in someone's app. Compared block for block, below the header
+  // comment (which names whichever tool wrote it).
+  const body = (css: string) => css.slice(css.indexOf("*/") + 2);
+  const fromJson = () => themeJsonToCss(JSON.parse(buildThemeJson(state())));
+
+  it("writes the builder's theme.css from its theme.json, in every default mode", () => {
+    for (const mode of ["light", "dark", "system"] as const) {
+      state().setExportDefaultMode(mode);
+      expect(declaredVars(fromJson()), mode).toEqual(declaredVars(buildThemeCss(state())));
+      expect(body(fromJson()), mode).toBe(body(buildThemeCss(state())));
+    }
+  });
+
+  it("holds for a custom brand, a tinted neutral and non-default scales", () => {
+    const initial = useBuilderStore.getState();
+    try {
+      state().setBrandColor("#0f8f87");
+      state().setNeutralColor("#3355ff");
+      state().setNeutralTint(0.041);
+      state().setHeadingFont("Oswald", { default: 300, emphasis: 400, strong: 600, heavy: 700 });
+      state().setTypeScale(18, 1.333);
+      state().setBodyLineHeight(1.6);
+      state().setRadiusBase(6);
+      state().setSpacingBase(5);
+      for (const mode of ["light", "dark", "system"] as const) {
+        state().setExportDefaultMode(mode);
+        expect(body(fromJson()), mode).toBe(body(buildThemeCss(state())));
+      }
+    } finally {
+      useBuilderStore.setState(initial, true);
+    }
   });
 });

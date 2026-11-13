@@ -185,6 +185,9 @@ importers:
       '@types/react-dom':
         specifier: ^18.0.0
         version: 18.3.7(@types/react@18.3.28)
+      '@ui-organized/react-vite':
+        specifier: workspace:*
+        version: link:../../packages/react-vite
       '@ui-organized/ui-inspect':
         specifier: ^0.1.2
         version: 0.1.2
@@ -853,9 +856,6 @@ importers:
 
   packages/react-vite:
     dependencies:
-      '@ui-organized/schema':
-        specifier: workspace:*
-        version: link:../schema
       '@ui-organized/tokens':
         specifier: workspace:*
         version: link:../tokens
@@ -863,6 +863,9 @@ importers:
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
+      '@ui-organized/core':
+        specifier: workspace:*
+        version: link:../core
       '@ui-organized/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig

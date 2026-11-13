@@ -58,5 +58,12 @@ export const componentTokensMobile = {
   },
 } as const;
 
-/** Default export — desktop values are the canonical baseline */
+/**
+ * Default export — desktop values are the canonical baseline
+ *
+ * @deprecated The component layer of the legacy `transformConfig` →
+ * `buildCss` pipeline, removed in the next major. Every Theme Builder theme
+ * carries the component aliases the components read (`--radius-*`,
+ * `--Button-*`, `--control-height-*`), resolved to values.
+ */
 export const componentTokens = componentTokensDesktop;
