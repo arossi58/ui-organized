@@ -1,9 +1,10 @@
 /**
  * What automated testing knows about this component.
  *
- * Five gates, one row: visual regression, interaction, accessibility, tokens &
- * lint, and cross-browser rendering. Data comes from `manifest/test-status.json`
- * via `testStatusFor` — see `../testStatus`.
+ * Every gate, one row: visual regression, interaction (unit tests fold in
+ * here), accessibility, the same three for Svelte, Vue and Angular, tokens &
+ * lint, and cross-browser rendering — `GATE_ORDER` in `../testStatus`. Data
+ * comes from `manifest/test-status.json` via `testStatusFor`.
  *
  * This is deliberately NOT an extension of `StatusBadge`. That component is a
  * provenance *warning* and documents why it renders nothing when healthy: a
