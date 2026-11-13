@@ -44,12 +44,16 @@ globalConstantVars();
 ```
 
 Other typed exports: `typeSizeTokens`, `typeLeadingTokens`, `typeFontTokens`,
-`typeWeightTokens`, `semanticColorTokens`, `componentTokens`. Or consume the
-build pipeline directly:
+`typeWeightTokens`.
 
-```ts
-import { transformConfig, buildCss } from "@ui-organized/tokens";
-```
+**Deprecated:** `transformConfig`, `buildCss`, `semanticColorTokens` and
+`componentTokens`. They're the old theme-config pipeline, which predates the
+token contract: its semantic names are retired and its output misses tokens the
+components read. Nothing in the system uses them since
+`@ui-organized/react-vite` 3, and they're removed in the next major. To build a
+theme stylesheet, export one from the
+[Theme Builder](https://uiorganized.com/tools/theme-builder), or build its
+`theme.json` with [`@ui-organized/react-vite`](https://www.npmjs.com/package/@ui-organized/react-vite).
 
 To regenerate `output/variables.css` from the DTCG source files:
 
