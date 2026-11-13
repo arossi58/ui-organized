@@ -1,5 +1,5 @@
 import type { Snippet } from "svelte";
-import type { HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
+import type { ClassValue, HTMLAttributes, HTMLButtonAttributes } from "svelte/elements";
 import type { ChipSegmentPart } from "@ui-organized/core";
 
 export interface ChipProps extends Omit<HTMLAttributes<HTMLSpanElement>, "children"> {
@@ -25,8 +25,12 @@ export interface ChipProps extends Omit<HTMLAttributes<HTMLSpanElement>, "childr
    * whole meaning. Required whenever `onremove` is set.
    */
   removeLabel?: string;
-  /** Class for the chip's wrapper. */
-  class?: string;
+  /**
+   * Class for the chip's wrapper. A `ClassValue`, like any element's `class`,
+   * not a string: the wrapper is a plain element, so it can receive an Ark
+   * `asChild`'s props, which arrive in Svelte's own shapes. See ../../types.ts.
+   */
+  class?: ClassValue | null;
 }
 
 export interface ChipSegmentProps extends HTMLButtonAttributes {

@@ -23,6 +23,7 @@
   },
   "sideEffects": [
     "**/*.css",
+    "./dist/index.js",
     "./dist/icons/*.js"
   ],
   "type": "module",
@@ -64,7 +65,8 @@
     "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "vue-tsc --noEmit",
-    "test:smoke": "node scripts/smoke-icons.mjs"
+    "test:smoke": "node scripts/smoke-icons.mjs",
+    "test:smoke:css": "node ../../scripts/smoke-css.mjs vue"
   },
   "peerDependencies": {
     "@heroicons/vue": ">=2.0.0",

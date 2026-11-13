@@ -3,10 +3,12 @@
  * at a time.
  *
  * The framework packages do `import "@ui-organized/core/components/Button/Button.css"`
- * rather than pulling the whole bundle, which is what keeps a consumer who uses
- * three components from shipping all sixty-five stylesheets. That needs the
- * files to exist individually under `dist/`, mirroring `src/`, and no bundler
- * will put them there — hence this script.
+ * rather than pulling the whole bundle. In Svelte and Vue that import survives
+ * into the published module, which is what keeps a consumer who uses three
+ * components from shipping all sixty-six stylesheets; React's build reads the
+ * same files to assemble its own `styles.css`. Either way the files have to
+ * exist individually under `dist/`, mirroring `src/`, and no bundler will put
+ * them there — hence this script.
  *
  * Runs after tsup, which owns `clean`, so this must not run before it.
  */

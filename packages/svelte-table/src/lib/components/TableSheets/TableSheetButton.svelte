@@ -5,36 +5,39 @@
 -->
 <script lang="ts">
   import { Button } from "@ui-organized/svelte";
-  import type { IconComponent, IconName } from "@ui-organized/svelte";
+  import type { ButtonProps, IconComponent, IconName } from "@ui-organized/svelte";
+  import type { ClassValue } from "svelte/elements";
   import { getTable } from "../../core/tableContext.js";
 
+  // Everything else is the Button's own props, typed as such, because this sits
+  // on the receiving end of a SheetTrigger's `asChild` and forwards what it is
+  // handed. An index signature of `unknown` here needed a cast to reach the
+  // Button at all.
   let {
     icon,
     label,
     count,
     unit,
-    class: className,
     ...rest
-  }: {
+  }: Omit<ButtonProps, "intent" | "size" | "icon" | "children" | "asChild"> & {
     icon: IconName | IconComponent;
     label: string;
     /** What is applied. Drawn as a badge from 1 up, and spoken as words. */
     count: number;
     /** The word the count is read with: "2 applied". */
     unit: string;
-    class?: string;
-    [key: string]: unknown;
+    /** Merged after the Button's own classes. */
+    class?: ClassValue | null;
   } = $props();
 
   const table = getTable();
 </script>
 
 <Button
-  {...rest as Record<string, never>}
+  {...rest}
   intent="secondary"
   size={table.size}
   {icon}
-  class={className}
 >
   {label}
   {#if count > 0}

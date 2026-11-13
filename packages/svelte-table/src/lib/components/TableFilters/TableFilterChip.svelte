@@ -104,7 +104,7 @@
   <Menu open={menu === "field"} onOpenChange={setMenu("field")}>
     <MenuTrigger>
       {#snippet asChild(props)}
-        <ChipSegment {...(props() as Record<string, never>)} part="label">{description.field}</ChipSegment>
+        <ChipSegment {...props()} part="label">{description.field}</ChipSegment>
       {/snippet}
     </MenuTrigger>
     <MenuContent class="data-table__filter-picker">
@@ -124,7 +124,7 @@
   <Menu open={menu === "operator"} onOpenChange={setMenu("operator")}>
     <MenuTrigger>
       {#snippet asChild(props)}
-        <ChipSegment {...(props() as Record<string, never>)} part="operator">{description.relative}</ChipSegment>
+        <ChipSegment {...props()} part="operator">{description.relative}</ChipSegment>
       {/snippet}
     </MenuTrigger>
     <MenuContent class="data-table__filter-picker">
@@ -143,7 +143,7 @@
     <Popover {open} onOpenChange={setOpen}>
       <PopoverTrigger>
         {#snippet asChild(props)}
-          <ChipSegment {...(props() as Record<string, never>)} part="value">{description.value}</ChipSegment>
+          <ChipSegment {...props()} part="value">{description.value}</ChipSegment>
         {/snippet}
       </PopoverTrigger>
       <PopoverContent

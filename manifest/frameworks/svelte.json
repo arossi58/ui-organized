@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-13T15:36:11.261Z",
+  "generatedAt": "2026-11-13T16:08:55.862Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -641,8 +641,9 @@
       "props": [
         {
           "name": "class",
-          "type": "string",
-          "required": false
+          "type": "ClassValue | null",
+          "required": false,
+          "description": "Merged after the Button's own classes."
         },
         {
           "name": "count",
@@ -668,8 +669,8 @@
         }
       ],
       "usageSnippet": "<TableSheetButton count={/* number */} icon={/* IconName | IconComponent */} label={/* string */} unit={/* string */} />",
-      "propSignatureHash": "sha256:9620411384ea865c",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:85a630ffe5f0429e",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft"
     },
     {
@@ -1865,8 +1866,9 @@
         },
         {
           "name": "class",
-          "type": "string",
-          "required": false
+          "type": "ClassValue | null",
+          "required": false,
+          "description": "Merged after the recipe's classes."
         },
         {
           "name": "icon",
@@ -1903,8 +1905,8 @@
         }
       ],
       "usageSnippet": "<Button>…</Button>",
-      "propSignatureHash": "sha256:e7260830740fb8ef",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:222f487a50f3d919",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft",
       "referencedTypes": {
         "ButtonPropsFn": "() => Record<string, unknown>"
@@ -1926,8 +1928,9 @@
         },
         {
           "name": "class",
-          "type": "string",
-          "required": false
+          "type": "ClassValue | null",
+          "required": false,
+          "description": "Merged after the recipe's classes."
         },
         {
           "name": "padding",
@@ -1945,8 +1948,8 @@
         }
       ],
       "usageSnippet": "<Card>…</Card>",
-      "propSignatureHash": "sha256:883ec5329a8503e2",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:88782d0749faad1c",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft"
     },
     {
@@ -2196,7 +2199,7 @@
         },
         {
           "name": "class",
-          "type": "string",
+          "type": "ClassValue | null",
           "required": false,
           "description": "Class for the chip's wrapper."
         },
@@ -2250,8 +2253,8 @@
         }
       ],
       "usageSnippet": "<Chip>…</Chip>",
-      "propSignatureHash": "sha256:51f137a50979d8fe",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:b5b81a3a13ca687b",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft"
     },
     {
@@ -3692,8 +3695,9 @@
       "props": [
         {
           "name": "class",
-          "type": "string",
-          "required": false
+          "type": "ClassValue | null",
+          "required": false,
+          "description": "Merged after the recipe's classes."
         },
         {
           "name": "orientation",
@@ -3711,8 +3715,8 @@
         }
       ],
       "usageSnippet": "<Divider />",
-      "propSignatureHash": "sha256:8f8e454f5cfb12c5",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:3365a93472b65590",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft"
     },
     {
@@ -7871,8 +7875,9 @@
         },
         {
           "name": "class",
-          "type": "string",
-          "required": false
+          "type": "ClassValue | null",
+          "required": false,
+          "description": "Merged after the recipe's classes."
         },
         {
           "name": "emphasized",
@@ -7908,8 +7913,8 @@
         }
       ],
       "usageSnippet": "<Tag>…</Tag>",
-      "propSignatureHash": "sha256:062f8a1beb7b1f38",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:04dba12903a097be",
+      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
       "status": "draft"
     },
     {

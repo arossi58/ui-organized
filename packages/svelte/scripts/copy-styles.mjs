@@ -1,11 +1,13 @@
 /**
  * Publish the whole-stylesheet convenience entry.
  *
- * Individual components import their own CSS from @ui-organized/core, so an app
- * only ships the stylesheets for what it uses. This is the other door: one file
- * for consumers who would rather import everything once, mirroring
- * `@ui-organized/react/styles`. It is core's bundle, copied — not a second
- * concatenation that could fall out of step with it.
+ * It is optional. Each component imports its own CSS from @ui-organized/core,
+ * and the package entry imports the typography and base rules they share, so a
+ * bundler that drops the components an app doesn't use drops their stylesheets
+ * with them. This is the other door: one file, every component, in core's
+ * cascade order, for consumers who would rather import everything once,
+ * mirroring `@ui-organized/react/styles.css`. It is core's bundle, copied — not
+ * a second concatenation that could fall out of step with it.
  */
 import { copyFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";

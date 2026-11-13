@@ -1,5 +1,5 @@
 import type { IconName } from "../Icon/Icon.types.js";
-import type { HTMLAttributes } from "svelte/elements";
+import type { ClassValue, HTMLAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
 import type { IconComponent } from "../../icons/registry.js";
 import type { ControlSize } from "@ui-organized/core";
@@ -22,6 +22,12 @@ export interface TagProps extends Omit<HTMLAttributes<HTMLSpanElement>, "class">
   icon?: IconName | IconComponent;
   /** Which side of the label the icon sits on. Defaults to 'left'. */
   iconPosition?: "left" | "right";
-  class?: string;
+  /**
+   * Merged after the recipe's classes. A `ClassValue`, like any element's
+   * `class`, not a string: this renders a plain element, so it can receive an
+   * Ark `asChild`'s props, which arrive in Svelte's own shapes. See
+   * ../../types.ts.
+   */
+  class?: ClassValue | null;
   children?: Snippet;
 }

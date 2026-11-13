@@ -45,14 +45,12 @@
     <ArkClipboard.Trigger>
       {#snippet asChild(props)}
         <!--
-          `class` is pulled out and handed over separately: Ark types the
-          projected props in Svelte's own shapes, where it is a `ClassValue` that
-          may be null, while the Button takes a string. Passing it through clsx
-          merges it the way Ark's React `asChild` does, rather than dropping a
-          class the Trigger might one day carry.
+          Spread whole, `class` included: the Button types it as a `ClassValue`,
+          the shape Ark projects it in, and merges it after its own classes the
+          way Ark's React `asChild` does, so a class the Trigger might one day
+          carry is kept rather than dropped.
         -->
-        {@const { class: arkClass, ...triggerProps } = props()}
-        <Button intent="secondary" {size} class={clsx(arkClass)} {...triggerProps}>
+        <Button intent="secondary" {size} {...props()}>
           {#snippet children()}
             <!--
               The trigger swaps both its icon and its label on copy. Indicator
