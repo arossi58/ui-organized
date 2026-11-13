@@ -1,14 +1,21 @@
 /**
  * `pnpm quality` — every gate, one command, one report.
  *
- * Runs the five gates in cost order (cheap and blocking first), always
- * aggregates at the end, and exits non-zero only if a **blocking** gate failed.
- * Visual and cross-browser are advisory: they still run, still report, and still
- * show on the docs pages, but they do not fail the command.
+ * Runs the nine gates in cost order (lint and unit first, then the seven browser
+ * gates: four on React through Storybook, three on Svelte/Vue/Angular through
+ * the parity harness), always aggregates at the end, and exits non-zero only if
+ * a **blocking** gate failed. Both visual gates and cross-browser are advisory:
+ * they still run, still report, and still show on the docs pages, but they do
+ * not fail the command.
+ *
+ * CI runs these as parallel jobs (`.github/workflows/ci.yml`; lint and unit
+ * share one), plus two this leaves out: the parity gate's browser half, sharded four ways because it
+ * takes 35–40 minutes on its own, and the release smoke (`check:tarballs` and
+ * `pnpm smoke`). A gate added here is not a gate until ci.yml runs it too.
  *
  * Nothing short-circuits. A failing lint gate must not hide a failing a11y gate
  * — the point of running everything is to see everything, and a stop-on-first
- * gate turns one run into six.
+ * gate turns one run into nine.
  *
  * Flags:
  *   --skip-build    reuse the existing Storybook build (much faster to iterate)

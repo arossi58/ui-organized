@@ -8,7 +8,7 @@ Thanks for contributing to UI Organized! This repo is a pnpm + Turborepo monorep
 pnpm install
 pnpm dev        # run the apps
 pnpm test       # unit tests (turbo test)
-pnpm quality    # every automated gate — this is what CI runs
+pnpm quality    # the nine gates in scripts/quality/run.mjs (CI runs them as parallel jobs)
 pnpm lint
 pnpm typecheck
 ```
@@ -18,25 +18,40 @@ Node `>=20` and pnpm `>=9` (the version is pinned via `packageManager` in
 
 ## Continuous integration
 
-Every push and pull request runs **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)),
-which runs five automated gates over the component library, then builds the site. CI must be
-green for a PR to merge — it also gates every deploy.
+Every push to `main` and every pull request runs **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
+It runs the nine gates in [`scripts/quality/run.mjs`](scripts/quality/run.mjs) as parallel
+jobs: lint and unit tests in one, then a job each for four browser gates on React through
+Storybook and three on Svelte, Vue and Angular through the parity harness. It adds two that
+`pnpm quality` leaves out, the browser half of the cross-framework parity gate and the release
+smoke, and last it builds the site. CI must be green for a PR to merge — it also gates every
+deploy.
 
-| Gate                  | What it checks                                                                                  | Command                    | Blocks merge? |
-| --------------------- | ----------------------------------------------------------------------------------------------- | -------------------------- | ------------- |
-| **Visual regression** | A screenshot of every story, diffed against a committed baseline                                | `pnpm quality:visual`      | No — reports  |
-| **Interaction**       | The keyboard contract on every component, plus behaviour specs, on Chromium/Firefox/WebKit      | `pnpm quality:interaction` | **Yes**       |
-| **Accessibility**     | axe-core over every story (all of them on Chromium, each component's canonical story elsewhere) | `pnpm quality:a11y`        | **Yes**       |
-| **Tokens & lint**     | ESLint, Stylelint, the derived token contract, typecheck; Prettier reports                      | `pnpm quality:lint`        | **Yes**       |
-| **Cross-browser**     | Every story renders on Firefox and WebKit with no console errors                                | `pnpm quality:browsers`    | No — reports  |
+| Gate                                   | What it checks                                                                                                                                                                                                        | Command                                           | Blocks merge? |
+| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- | ------------- |
+| **Tokens & lint**                      | ESLint, Stylelint, typecheck, the derived token contract, the component manifest, undeclared workspace imports, one version per fixed release group; Prettier reports                                                 | `pnpm quality:lint`                               | **Yes**       |
+| **Unit**                               | Every workspace package's vitest suite, including the SSR half of the parity gate. A package with a `test` script the gate doesn't list fails it                                                                      | `pnpm quality:unit`                               | **Yes**       |
+| **Accessibility**                      | axe-core over every story (all of them on Chromium, each component's canonical story elsewhere)                                                                                                                       | `pnpm quality:a11y`                               | **Yes**       |
+| **Accessibility · svelte/vue/angular** | axe-core on the other three libraries, compared against React's result for the same scenario                                                                                                                          | `pnpm quality:a11y:frameworks`                    | **Yes**       |
+| **Interaction**                        | The keyboard contract on every component, plus behaviour specs, on Chromium/Firefox/WebKit                                                                                                                            | `pnpm quality:interaction`                        | **Yes**       |
+| **Interaction · svelte/vue/angular**   | The keyboard contract in the other three libraries: hidden parts stay unrendered, interactive parts are reachable, focus is visible                                                                                   | `pnpm quality:interaction:frameworks`             | **Yes**       |
+| **Visual regression**                  | A screenshot of every story, diffed against a committed baseline                                                                                                                                                      | `pnpm quality:visual`                             | No — reports  |
+| **Visual · svelte/vue/angular**        | Each of the other three libraries screenshotted beside React in the same run                                                                                                                                          | `pnpm quality:visual:frameworks`                  | No — reports  |
+| **Cross-browser**                      | Every story renders on Firefox and WebKit with no console errors                                                                                                                                                      | `pnpm quality:browsers`                           | No — reports  |
+| **Parity (browser)** · CI only         | The DOM all four libraries render, compared in a browser: portalled overlays, open states, toasts, and all of Angular. Sharded four ways                                                                              | `pnpm --filter @ui-organized/parity test:browser` | **Yes**       |
+| **Smoke** · CI only                    | Every publishable tarball carries what its `exports` map promises. Then the packed CLI and MCP server run as installed, each library's icons register and render, and the four data tables survive a production build | `pnpm check:tarballs && pnpm smoke`               | **Yes**       |
 
-`pnpm quality` runs all of them and writes `manifest/test-status.json`, which the docs site
+`pnpm quality` runs the first nine and writes `manifest/test-status.json`, which the docs site
 reads: every component page has a **Quality** section, and
 [Foundations → Quality](https://uiorganized.com/docs/foundations/quality) lists the whole
 library. CI regenerates that file _before_ building the marketing app, so a
 deployed page always shows the results of the run that built it.
 
-Visual regression and cross-browser are advisory on purpose. A pixel diff is usually an
+On a pull request the gates run only for the components your diff can reach
+([`scripts/quality/affected.mjs`](scripts/quality/affected.mjs) decides, and a path it doesn't
+recognise runs everything), and a draft runs nothing until it's marked ready. Everything runs
+nightly, and `pnpm quality` locally always runs everything.
+
+The visual gates and cross-browser are advisory on purpose. A pixel diff is usually an
 intended redesign, and a gate that cries wolf on every restyle is one people learn to
 force-merge past. They still report, and the result still shows on the docs page.
 
