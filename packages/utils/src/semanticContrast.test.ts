@@ -25,9 +25,20 @@ const PAIRS: Array<[string, string[], number]> = [
   ["--color-content-secondary", BEDS, 4.5],
   ["--color-content-tertiary", BEDS, 4.5],
   ["--color-content-placeholder", BEDS, 4.5],
+  // The outline button at rest: label and border in this color on the surface.
   ["--color-interactive-tertiary-default", BEDS, 4.5],
-  ["--color-interactive-tertiary-hover", BEDS, 4.5],
-  ["--color-interactive-tertiary-active", BEDS, 4.5],
+  // The outline button on hover and press: these two are FILLS, with
+  // `--color-content-light` drawn on them (Button.css). They used to be checked
+  // as text on the surfaces instead, which is how utils 4.0.0 walked them
+  // lighter in dark mode and left every dark brand failing, down to 1.22:1.
+  [
+    "--color-content-light",
+    ["--color-interactive-tertiary-hover", "--color-interactive-tertiary-active"],
+    4.5,
+  ],
+  // The label on every primary fill: Button, Toggle, Pagination, Chip, the
+  // date pickers, and the selected Navigation item, SegmentedControl pill and
+  // current Steps indicator.
   [
     "--color-interactive-contents",
     [

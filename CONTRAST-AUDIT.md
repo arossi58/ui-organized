@@ -1,6 +1,11 @@
 # Contrast audit — semantic colour roles fail WCAG AA across the palette
 
-**Status:** open. **Scope:** `@ui-organized/utils`, `@ui-organized/tokens`, `@ui-organized/core`.
+**Status:** resolved in `utils@4.0.0` / `tokens@3.5.0` / `core@6.0.0` (e6613d2), with one
+regression from Task 3 fixed after `core@6.1.0` (see the outcome table). Kept as the record
+of why the contrast-derived roles exist. The live checks are
+`packages/utils/src/semanticContrast.test.ts`, `packages/core/src/brandFillLabel.test.ts`
+and `pnpm audit:contrast`. The code excerpts and expected output below are historical.
+**Scope:** `@ui-organized/utils`, `@ui-organized/tokens`, `@ui-organized/core`.
 **Written:** 25 September 2026, against `react@5.1.0 · tokens@3.4.0 · utils@3.2.0 · schema@3.1.0`.
 
 Found while switching a consumer site (arossi.design) from light-only to a light/dark
@@ -10,6 +15,37 @@ turned out not to be dark-specific at all.
 This is a work order. Every claim below was measured, and every measurement is
 reproducible with the script in §2 — **run it before changing anything**, so you have
 the baseline, and again after each task.
+
+## Outcome
+
+| # | What shipped | Where |
+|---|---|---|
+| 1 | `getCoreFamily` returns neutrals re-derived to grey's lightness; the authored ramps moved to `getAuthoredFamily` | utils 4.0.0 |
+| 2 | `--color-interactive-contents` chosen per brand (`pickPrimaryLabel`), and primary fill states walk away from it | utils 4.0.0 |
+| 2 | Follow-up: Navigation, SegmentedControl and Steps drew `--color-content-light` on primary fills instead of that label (1.99:1 on candlelight); they now use `--color-interactive-contents`, and Navigation's focus rule no longer puts the grey resting label on the selected fill | core, after 6.1.0 |
+| 3 | `--color-interactive-tertiary-default` walks the brand ramp until it clears 4.5:1 on both surfaces | utils 4.0.0 |
+| 3 | **Regression, now fixed:** hover and active were walked the same way, as links. They are fills (see the note under Task 3) | utils, tokens, after 6.1.0 |
+| 4 | An unresolvable ref throws instead of reaching CSS | utils 4.0.0 |
+| 5 | Focus rings drawn with `outline` in every component | core 6.0.0 |
+| 6 | Alpha documented at the point of definition and in the README rather than renamed; Button hover/press rules wrapped in `:where()` | tokens 3.5.0, core 6.0.0 |
+| 7 | `initTheme()` follows the OS until an explicit choice; `no-preference` resolves to light | tokens 3.5.0 |
+| 8 | `sun`, `moon` and `monitor` added; icons have since moved to the icon library's own names | core 6.0.0 |
+| 9 | `semanticContrast.test.ts` over all 572 combinations. The `border-primary` 3:1 row was dropped on purpose (decorative dividers; see the test) | utils 4.0.0 |
+
+**The Task 3 regression.** Button.css fills the outline button with
+`--color-interactive-tertiary-hover` / `-active` and draws `--color-content-light` on top.
+Task 3 asked for those two to be treated like the link, so utils 4.0.0 / tokens 3.5.0 moved dark mode from
+`brand.1600` / `brand.1300` to `brand.1200` / `brand.1000` and walked them toward the
+page's light end. That is the right direction for link text and the wrong one for a fill
+under a light label. Mars dark hover fell from 7.29:1 to 3.45:1 and press to 2.70:1;
+every one of the 286 dark combinations failed, down to 1.15:1 (candlelight). Nothing
+caught it: the contrast test checked these tokens as text on the surfaces, and the axe gate
+only scans light mode at rest.
+
+The fix keeps the white label and darkens the fills. Dark defaults are now `brand.1400` /
+`brand.1500` (mars: 5.00:1 and 6.02:1), and the resolver walks each fill away from
+`--color-content-light` until it clears 4.5:1, each state a step deeper than the one
+before. Light mode resolves exactly as before. The test now pairs the label with the fills.
 
 ---
 
@@ -270,6 +306,12 @@ treatment to `-hover` and `-active`, which are `brand.1600` / `brand.1300` in bo
 **Acceptance:** repro line T3 reports `0/26`, and the hover/active states also clear
 4.5:1 on both `surface.primary` and `surface.secondary`.
 
+> **Correction (after 6.1.0).** The second half of this task was wrong. `-hover` and
+> `-active` are not link text: the outline button fills with them and puts
+> `--color-content-light` on top, so their floor is that label on the fill, not the fill
+> on the surface. Following this task regressed every dark brand; see the outcome table at
+> the top. `scripts/audit-contrast.mjs` now checks them as line T3b.
+
 ---
 
 ## Task 4 — Make `getNeutralPreset()` satisfy the map, or fail loudly (P2)
@@ -378,7 +420,7 @@ runs in well under a second:
 | pair | minimum |
 |---|---|
 | `content-primary` / `-secondary` / `-tertiary` / `-placeholder` on `surface-primary` **and** `surface-secondary` | 4.5:1 |
-| `interactive-tertiary-*` (links) on both surfaces | 4.5:1 |
+| `interactive-tertiary-*` (links) on both surfaces (corrected: `-default` only; `content-light` on `-hover` / `-active`, see Task 3) | 4.5:1 |
 | `interactive-contents` on `interactive-primary-default` / `-hover` / `-active` | 4.5:1 |
 | `interactive-focus` on both surfaces | 3:1 |
 | `border-primary` on `surface-primary` | 3:1 |

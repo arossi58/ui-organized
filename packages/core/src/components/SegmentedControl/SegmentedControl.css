@@ -65,8 +65,11 @@
   background-color: var(--color-interactive-ui-hover);
 }
 
+/* The checked item sits on the indicator pill, a primary fill, so it takes the
+   filled-button label: chosen against the brand, unlike --color-content-light,
+   which read at 1.99:1 on a light brand such as candlelight. */
 .segmented__item[data-state="checked"] {
-  color: var(--color-content-light);
+  color: var(--color-interactive-contents);
 }
 
 /* The radio is inside the item.
