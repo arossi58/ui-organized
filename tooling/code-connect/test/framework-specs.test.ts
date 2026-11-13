@@ -115,6 +115,12 @@ describe("specs never send another library's reader to React", () => {
     expect(text).not.toContain("={");
   });
 
+  it("does tell a React reader: Button's `render` is in its table", () => {
+    expect(buildComponentSpec(entry("Button"), manifest, latest, "0.0.0")).toContain(
+      "| `render` | `React.ReactElement` | no | — | Render the button as a supplied element (e.g. an `<a>` or router `Link`)",
+    );
+  });
+
   it("names the Angular classes in a usage guide's cross-references", () => {
     const text = servedSpec("angular", "Button");
     expect(text).toContain("Use `UioSwitch` or `UioToggle` instead.");

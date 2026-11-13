@@ -30,6 +30,14 @@ describe("scanReact", () => {
     expect(button!.importStatement).toBe("import { Button } from '@ui-organized/react';");
   });
 
+  it("lists `render` where a component declares it, and only there", () => {
+    expect(button!.props.find((p) => p.name === "render")).toMatchObject({ type: "React.ReactElement", required: false });
+    const declaring = scanned.filter((s) => s.props.some((p) => p.name === "render")).map((s) => s.codeName);
+    expect(declaring).toEqual(expect.arrayContaining(["Button", "DialogTrigger", "PopoverTrigger", "MenuTrigger", "SheetTrigger"]));
+    expect(declaring).not.toContain("Card");
+    expect(declaring).not.toContain("DialogContent");
+  });
+
   it("keeps a note whole through an `e.g.`, and still ends it at the first sentence", () => {
     expect(firstSentence("Locks the crop box to a ratio, e.g. `1` for square. Omit it for freeform.")).toBe(
       "Locks the crop box to a ratio, e.g. `1` for square.",

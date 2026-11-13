@@ -81,8 +81,14 @@ export const ROOTS: { pkg: string; index: string }[] = [
  * Members that are never part of React's meaningful public API surface. The
  * other libraries keep `asChild` (Vue) and snippet props (Svelte): there they
  * are real API, not React plumbing.
+ *
+ * `render` is not on the list. It was from when every Base UI part inherited
+ * one, but since the Ark migration a component has `render` only where it
+ * declares it — Button, and the overlay triggers and closes — and there it is
+ * the documented way to render the control as a link or a custom element.
+ * Skipping it left the React spec unable to say how to make a Button navigate.
  */
-const SKIP_NAMES = new Set(["ref", "key", "asChild", "render"]);
+const SKIP_NAMES = new Set(["ref", "key", "asChild"]);
 
 function isSourceFile(name: string): boolean {
   return (
