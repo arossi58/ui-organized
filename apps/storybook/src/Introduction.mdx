@@ -4,29 +4,35 @@ import { Meta } from "@storybook/addon-docs/blocks";
 export const NPM = "https://www.npmjs.com/package/@ui-organized/react";
 export const FIGMA = "https://www.figma.com/community/file/1658347068449240470/ui-organized-core";
 export const GITHUB = "https://github.com/arossi58/ui-organized";
+export const BUILDER = "https://uiorganized.com/tools/theme-builder";
 
 <Meta title="Introduction" />
 
 # UI Organized
 
-**UI Organized is an open-source, token-driven design system ecosystem.** A
-single theme config drives everything — design and code — so a brand color
-chosen once shows up identically in Figma, in the component library, and on the
-products built with it. This Storybook is the live component reference; it's
-itself built with the system.
+**UI Organized is an open-source, token-driven design system ecosystem.** Every
+component reads its color, type, spacing and radius from CSS variables, so a
+theme is just a stylesheet that sets them: a brand color chosen once shows up
+identically in Figma, in the component library, and on the products built with
+it. This Storybook is the live reference for the React library; it's itself
+built with the system.
 
 ## The ecosystem
 
-One config flows through every layer:
+Tokens flow through every layer:
 
 ```
-theme config
-   │   (@ui-organized/schema — Zod-validated shape)
+DTCG token files
+   │   (built with Style Dictionary, generated with @ui-organized/utils)
    ▼
-design tokens  ──►  generation utils  ──►  React components
-(@ui-organized/tokens)   (@ui-organized/utils)        (@ui-organized/react, on Ark UI)
-   │                                          ▲
-   └──►  Figma plugin  ·  theme builder  ·  Vite plugin (@ui-organized/react-vite)
+design tokens  ──►  shared core  ──►  four component libraries
+(@ui-organized/tokens:   (@ui-organized/core:   (React, Svelte and Vue on Ark UI;
+ CSS variables)           styles + variants)     Angular on the Angular CDK)
+
+Theme Builder  ──►  exported theme (theme.json + theme.css)
+                       ├──►  uiorg theme (@ui-organized/cli): applies it, checks every token is set
+                       ├──►  Vite plugin (@ui-organized/react-vite): builds theme.json into your CSS
+                       └──►  Figma plugin: theme.json in and out of Figma variables
 ```
 
 ### Published packages
@@ -34,24 +40,27 @@ design tokens  ──►  generation utils  ──►  React components
 | Package | Role |
 | --- | --- |
 | `@ui-organized/react` | React component library, built on Ark UI |
-| `@ui-organized/tokens` | Design tokens — typed exports + generated CSS variables |
-| `@ui-organized/schema` | Zod schema / types for the theme config |
+| `@ui-organized/svelte` · `vue` · `angular` | The same components for Svelte and Vue (Ark UI) and Angular (Angular CDK) |
+| `@ui-organized/core` | The framework-neutral stylesheets and variant recipes all four share |
+| `@ui-organized/tokens` | Design tokens — CSS variables (`variables.css`) + typed exports |
 | `@ui-organized/utils` | Color, type-scale, spacing & semantic-token utilities |
-| `@ui-organized/react-vite` | Vite plugin that builds & injects theme tokens |
+| `@ui-organized/cli` | `uiorg theme` applies a Theme Builder export and checks it covers every token the components read |
+| `@ui-organized/react-vite` | Vite plugin that builds a Theme Builder `theme.json` into your app's CSS |
+| `@ui-organized/schema` | Zod schemas for DTCG token documents. Its older theme config format is deprecated; nothing reads it any more |
 
 ### Tools
 
-- **Figma plugin** — pushes the same config into Figma as variables, modes, and styles, keeping design and code in lockstep.
-- **Theme builder** — a web tool to pick a brand + neutral and preview the whole system live, then export the tokens.
-- **This Storybook** — white-labeled component docs (also embedded in the marketing site under **Docs**).
+- **<a href={BUILDER} target="_blank" rel="noreferrer">Theme builder</a>** — pick colors, type, spacing, radius and icons, preview the whole system live, then export `theme.json` and `theme.css`.
+- **Figma plugin** — imports a `theme.json` as Figma variables and modes, and exports edited variables back to `theme.json`, keeping design and code in lockstep.
+- **This Storybook** — the React library's component playground, linked from each component's page on the docs site.
 
 ## What makes it better
 
 - **One source of truth.** Components reference semantic *roles*, not hexes. Re-theme by swapping the brand/neutral family — every surface, border, and control follows. See [Foundations → Color](?path=/docs/foundations-color--docs).
-- **Design ↔ code parity.** The Figma plugin emits the *same* config the code consumes, so there's no hand-translation drift between the two.
+- **Design ↔ code parity.** The Figma plugin imports and exports the *same* `theme.json` the code's theme is built from, so there's no hand-translation drift between the two.
 - **Accessible by construction.** Brand steps are contrast-checked against on-brand text, and light/dark are first-class — each token carries its own assignment per mode.
-- **Framework-agnostic foundation.** Tokens ship as plain CSS variables and typed exports; the React library is one consumer, not the boundary.
-- **Built on Ark UI.** Behaviour, focus management, and accessibility come from a robust headless layer; the design system owns only the look.
+- **Framework-agnostic foundation.** Tokens ship as plain CSS variables, and the component styles live in a framework-neutral core; React is one of four libraries on it, not the boundary.
+- **Built on Ark UI.** Behaviour, focus management, and accessibility come from a robust headless layer (the Angular CDK, for Angular); the design system owns only the look.
 
 ## Resources
 
