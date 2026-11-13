@@ -337,7 +337,7 @@ export function GetStartedPage() {
           <ul>
             <li>
               <Link to="/docs/theming">Theming</Link> covers generating a theme, overriding tokens
-              by hand, or building them from a config with the Vite plugin.
+              by hand, or building the Theme Builder's theme.json with the Vite plugin.
             </li>
             <li>
               <Link to="/docs/foundations/color">Foundations → Color</Link> is the palette and the

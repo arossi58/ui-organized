@@ -151,8 +151,8 @@ export default {
   plugins: [themePlugin({ config: './theme.json' })],
 }
 
-// src/main.ts: the import is what puts the tokens on the page
-import 'virtual:@ui-organized/theme'`;
+// src/main.ts: the import is what puts the theme on the page
+import 'virtual:@ui-organized/theme.css'`;
 
 const OBSERVER = `const observer = new MutationObserver(readTokens)
 observer.observe(document.documentElement, {
@@ -177,8 +177,8 @@ export function ThemingPage() {
         lede={
           <>
             Every component reads its color, type and spacing from CSS
-            properties. Generate a theme, write one by hand, or build one from a
-            config at bundle time.
+            properties. Generate a theme, write one by hand, or build one from
+            its theme.json at bundle time.
           </>
         }
       />
@@ -349,17 +349,23 @@ export function ThemingPage() {
         </DocsSection>
 
         <DocsSection
-          title="Option C: build from a config"
-          subtitle="A theme.json compiled into CSS at bundle time, with HMR."
+          title="Option C: build from theme.json"
+          subtitle="The Theme Builder's theme.json, compiled into CSS at bundle time."
         >
           <CodeBlock code={VITE_PLUGIN} language="ts" />
           <p>
-            <code>@ui-organized/react-vite</code> reads a theme config, validates it against{" "}
-            <code>@ui-organized/schema</code>, runs the token pipeline and injects the result,
-            which it exposes as <code>virtual:@ui-organized/theme</code> and emits as{" "}
-            <code>ds-theme.css</code>. Editing the config in development rebuilds and reloads.
-            Use this when the config, not the CSS, is the artifact you version. Despite the
-            name, nothing in it is React-specific: it works the same with all four libraries.
+            <code>@ui-organized/react-vite</code> reads the <code>theme.json</code> from a Theme
+            Builder export and writes the same stylesheet the builder exports as{" "}
+            <code>theme.css</code>, into your bundle's CSS. The build fails, naming each one, if
+            the theme leaves out a token the components read. Editing <code>theme.json</code> in
+            development updates the page in place, without a reload.
+          </p>
+          <p>
+            It reads the token values rather than the builder's settings, so a{" "}
+            <code>theme.json</code> re-exported from Figma keeps every variable a designer edited
+            there, which loading it back into the builder does not. Use this when{" "}
+            <code>theme.json</code>, not the CSS, is the file you version. Despite the name,
+            nothing in it is React-specific: it works the same with all four libraries.
           </p>
         </DocsSection>
 

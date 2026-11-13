@@ -28,9 +28,12 @@ const PACKAGES: Array<[string, string]> = [
   ["@ui-organized/core", "The framework-neutral stylesheets and variant recipes all four share"],
   ["@ui-organized/table-core", "The framework-neutral table engine the four table packages share"],
   ["@ui-organized/tokens", "Design tokens: typed exports and generated CSS variables"],
-  ["@ui-organized/schema", "Zod schema / types for the theme config"],
+  ["@ui-organized/schema", "Zod schemas / types for DTCG token documents"],
   ["@ui-organized/utils", "Color, type-scale, spacing & semantic-token utilities"],
-  ["@ui-organized/react-vite", "Vite plugin that builds & injects theme tokens (any framework)"],
+  [
+    "@ui-organized/react-vite",
+    "Vite plugin that builds a Theme Builder theme.json into your CSS (any framework)",
+  ],
   ["@ui-organized/cli", "uiorg: applies a theme bundle, and sets up AI coding agents"],
   ["@ui-organized/mcp", "MCP server giving AI agents each library's real components and tokens"],
 ];

@@ -1,5 +1,5 @@
 /**
- * The "one config flows through every layer" diagram on the Introduction page.
+ * The "how the packages fit together" diagram on the Introduction page.
  *
  * Drawn as SVG rather than the ASCII block it replaces: box-drawing characters
  * only line up in a monospace font at one size, they carry no structure for a
@@ -47,10 +47,13 @@ const METRICS: Record<LineKind, { size: number; lead: number }> = {
 /* ── Node content ───────────────────────────────────────────────────────────
    Shared by both drawings, so the two can never drift apart in wording. */
 
-const CONFIG_LINES: Line[] = [
+// The tokens' DTCG JSON, not a theme config: the Zod-validated config that used
+// to head this diagram fed only the Vite plugin, which now reads the Theme
+// Builder's theme.json instead.
+const SOURCE_LINES: Line[] = [
   { text: "SINGLE SOURCE OF TRUTH", kind: "eyebrow" },
-  { text: "Theme config", kind: "title" },
-  { text: "@ui-organized/schema", kind: "pkg" },
+  { text: "DTCG token files", kind: "title" },
+  { text: "W3C Design Tokens format", kind: "note" },
 ];
 // Utils isn't a step after tokens: tokens are *built with* utils, so it rides
 // as a note on the tokens box rather than drawing an arrow the wrong way.
@@ -62,7 +65,7 @@ const TOKENS_LINES: Line[] = [
 const CORE_LINES: Line[] = [
   { text: "Shared core", kind: "title" },
   { text: "@ui-organized/core", kind: "pkg" },
-  { text: "styles · variants · table engine", kind: "note" },
+  { text: "styles · variants · helpers", kind: "note" },
 ];
 const LIBRARY_LINES: Line[] = [
   { text: "Four libraries", kind: "title" },
@@ -80,7 +83,7 @@ const BUILDER_LINES: Line[] = [
 const VITE_LINES: Line[] = [
   { text: "Vite plugin", kind: "title" },
   { text: "@ui-organized/react-vite", kind: "pkg" },
-  { text: "builds & injects theme tokens", kind: "note" },
+  { text: "builds theme.json into your CSS", kind: "note" },
 ];
 
 interface DiagramNodeProps {
@@ -88,7 +91,7 @@ interface DiagramNodeProps {
   y: number;
   w: number;
   h: number;
-  /** `source` is the config, `core` the pipeline, `tool` the dashed consumers. */
+  /** `source` is the token source, `core` the pipeline, `tool` the dashed consumers. */
   tone?: "source" | "core" | "tool";
   /** Left padding from the box edge to the text. */
   inset?: number;
@@ -151,8 +154,8 @@ const H = 408;
 const COL = [20, 324, 628];
 const NODE_W = 252;
 
-/** Row 1: the config. Row 2: the pipeline. Row 3: the tools. */
-const CONFIG = { y: 8, h: 76 };
+/** Row 1: the token source. Row 2: the pipeline. Row 3: the tools. */
+const SOURCE = { y: 8, h: 76 };
 const CORE = { y: 132, h: 88 };
 const TOOL = { y: 316, h: 80 };
 
@@ -166,8 +169,8 @@ const coreMid = CORE.y + CORE.h / 2;
 function WideFlow() {
   return (
     <>
-      {/* Config → tokens → core → libraries: the accented spine. */}
-      <Edge d={`M${COL[0] + 126} ${CONFIG.y + CONFIG.h} V${CORE.y}`} />
+      {/* Source → tokens → core → libraries: the accented spine. */}
+      <Edge d={`M${COL[0] + 126} ${SOURCE.y + SOURCE.h} V${CORE.y}`} />
       <Edge d={`M${COL[0] + NODE_W} ${coreMid} H${COL[1]}`} />
       <Edge d={`M${COL[1] + NODE_W} ${coreMid} H${COL[2]}`} />
 
@@ -181,11 +184,11 @@ function WideFlow() {
       <Edge d={`M${COL[1] + 126} ${BUS_Y} V${TOOL.y}`} tone="tool" />
       <Edge d={`M${VITE_IN} ${BUS_Y} V${TOOL.y}`} tone="tool" />
 
-      {/* …and back up: the Vite plugin injects the built tokens into the app. */}
+      {/* …and back up: the Vite plugin builds a theme into the app's CSS. */}
       <Edge d={`M${VITE_OUT} ${TOOL.y} V${CORE.y + CORE.h}`} tone="tool" />
 
       <text x={COL[0] + 142} y={112} className={styles.edgeLabel}>
-        Zod-validated shape
+        Style Dictionary build
       </text>
       <text x={COL[0] + 142} y={252} className={styles.edgeLabel}>
         the same tokens drive every tool
@@ -193,11 +196,11 @@ function WideFlow() {
 
       <DiagramNode
         x={COL[0]}
-        y={CONFIG.y}
+        y={SOURCE.y}
         w={NODE_W}
-        h={CONFIG.h}
+        h={SOURCE.h}
         tone="source"
-        lines={CONFIG_LINES}
+        lines={SOURCE_LINES}
       />
 
       <DiagramNode x={COL[0]} y={CORE.y} w={NODE_W} h={CORE.h} lines={TOKENS_LINES} />
@@ -253,8 +256,8 @@ const N_RETURN_X = 344;
 const N_MID = N_X + N_NODE_W / 2;
 const N_RIGHT = N_X + N_NODE_W;
 
-/** Rows, top to bottom: the config, the three pipeline layers (tokens, core, libraries), the three tools. */
-const N_CONFIG = { y: 8, h: 78 };
+/** Rows, top to bottom: the token source, the three pipeline layers (tokens, core, libraries), the three tools. */
+const N_SOURCE = { y: 8, h: 78 };
 const N_TOKENS = { y: 126, h: 80 };
 const N_CORE = { y: 232, h: 80 };
 const N_LIBS = { y: 338, h: 80 };
@@ -268,8 +271,8 @@ const bottom = (row: { y: number; h: number }) => row.y + row.h;
 function NarrowFlow() {
   return (
     <>
-      {/* Config → tokens → core → libraries, straight down the middle. */}
-      <Edge d={`M${N_MID} ${bottom(N_CONFIG)} V${N_TOKENS.y}`} />
+      {/* Source → tokens → core → libraries, straight down the middle. */}
+      <Edge d={`M${N_MID} ${bottom(N_SOURCE)} V${N_TOKENS.y}`} />
       <Edge d={`M${N_MID} ${bottom(N_TOKENS)} V${N_CORE.y}`} />
       <Edge d={`M${N_MID} ${bottom(N_CORE)} V${N_LIBS.y}`} />
 
@@ -284,15 +287,15 @@ function NarrowFlow() {
       <Edge d={`M${N_BUS_X} ${mid(N_BUILDER)} H${N_X}`} tone="tool" />
       <Edge d={`M${N_BUS_X} ${mid(N_VITE)} H${N_X}`} tone="tool" />
 
-      {/* …and back up the right margin: the Vite plugin injects the built tokens
-          into the app the components run in. */}
+      {/* …and back up the right margin: the Vite plugin builds a theme into the
+          CSS of the app the components run in. */}
       <Edge
         d={`M${N_RIGHT} ${mid(N_VITE)} H${N_RETURN_X} V${mid(N_LIBS)} H${N_RIGHT}`}
         tone="tool"
       />
 
       <text x={N_MID + 8} y={110} className={styles.edgeLabel}>
-        Zod-validated shape
+        Style Dictionary build
       </text>
       <text x={N_X} y={450} className={styles.edgeLabel}>
         the same tokens drive every tool
@@ -300,12 +303,12 @@ function NarrowFlow() {
 
       <DiagramNode
         x={N_X}
-        y={N_CONFIG.y}
+        y={N_SOURCE.y}
         w={N_NODE_W}
-        h={N_CONFIG.h}
+        h={N_SOURCE.h}
         tone="source"
         inset={N_INSET}
-        lines={CONFIG_LINES}
+        lines={SOURCE_LINES}
       />
 
       <DiagramNode
@@ -377,14 +380,15 @@ export function EcosystemDiagram() {
       >
         <title id="eco-title">How the packages fit together</title>
         <desc id="eco-desc">
-          A single theme config, validated by @ui-organized/schema, feeds the design
-          tokens in @ui-organized/tokens, generated with @ui-organized/utils. The tokens
-          feed the shared core in @ui-organized/core, which holds every component's
-          styles and variants plus the table engine. The core feeds four component
-          libraries: React, Svelte and Vue, built on Ark UI, and Angular, built on the
-          Angular CDK. The same tokens also feed three tools: the Figma plugin, the
-          theme builder, and the Vite plugin @ui-organized/react-vite, which builds and
-          injects the tokens back into the app the components run in.
+          The design tokens are authored as DTCG token files and built with Style
+          Dictionary into @ui-organized/tokens, generated with @ui-organized/utils. The
+          tokens feed the shared core in @ui-organized/core, which holds every
+          component's styles and variants plus the helpers the libraries share. The core
+          feeds four component libraries: React, Svelte and Vue, built on Ark UI, and
+          Angular, built on the Angular CDK. The same tokens also feed three tools: the
+          Figma plugin, the theme builder, and the Vite plugin @ui-organized/react-vite,
+          which builds a theme builder theme.json into the CSS of the app the components
+          run in.
         </desc>
 
         <defs>
