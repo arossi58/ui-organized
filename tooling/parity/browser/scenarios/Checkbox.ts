@@ -1,4 +1,4 @@
-import { part, staticScenarios, type BrowserScenario } from "./scenario.js";
+import { part, CLICKED, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 const scenarios: BrowserScenario[] = staticScenarios("Checkbox", [
   { name: "default" },
@@ -28,7 +28,7 @@ scenarios.push({
   props: { label: "Accept" },
   steps: [
     { do: "click", target: "label.checkbox" },
-    { do: "wait", target: `${part("checkbox", "root")}[data-state="checked"]` },
+    { do: "wait", target: `${part("checkbox", "root")}${CLICKED}` },
   ],
   regions: ["#mount"],
 });

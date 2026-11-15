@@ -1,4 +1,4 @@
-import { part, staticScenarios, type BrowserScenario } from "./scenario.js";
+import { part, CLICKED, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 const scenarios: BrowserScenario[] = staticScenarios("Switch", [
   { name: "default" },
@@ -29,7 +29,7 @@ scenarios.push(
     props: { label: "Wifi" },
     steps: [
       { do: "click", target: "label.switch" },
-      { do: "wait", target: `${part("switch", "root")}[data-state="checked"]` },
+      { do: "wait", target: `${part("switch", "root")}${CLICKED}` },
     ],
     regions: ["#mount"],
   },
