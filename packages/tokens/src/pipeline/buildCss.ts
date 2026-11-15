@@ -117,6 +117,12 @@ export interface CssBuildResult {
  * transform pipeline programmatically and returns the CSS string.
  * Style Dictionary is used for its token resolution model; we handle
  * the CSS output format ourselves to keep full control.
+ *
+ * @deprecated The legacy theme-config pipeline, removed in the next major.
+ * Its component aliases resolve against primitives and radius only, so
+ * spacing-based ones (every `--Button-*`) come out `transparent`. Nothing in
+ * the system calls it since `@ui-organized/react-vite` 3, which builds from
+ * the Theme Builder's `theme.json` (`themeJsonToCss`).
  */
 export function buildCss(result: TransformResult): CssBuildResult {
   const { primitiveTokens, radiusTokens, spacingTokens, typeTokens, modeOverrides } = result;

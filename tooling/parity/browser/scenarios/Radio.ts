@@ -1,4 +1,4 @@
-import { part, FRUIT, staticScenarios, type BrowserScenario } from "./scenario.js";
+import { part, CLICKED, FRUIT, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 /**
  * Named for the component the library exports; the spec it drives is the SSR
@@ -42,7 +42,7 @@ scenarios.push(
     props: { options: FRUIT, label: "Fruit" },
     steps: [
       { do: "click", target: part("radio-group", "item") },
-      { do: "wait", target: `${part("radio-group", "item")}[data-state="checked"]` },
+      { do: "wait", target: `${part("radio-group", "item")}${CLICKED}` },
     ],
     regions: ["#mount"],
   },
