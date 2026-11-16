@@ -50,6 +50,9 @@ const d = semanticColorMap.dark;
 }
 
 // ── Task 2: filled-button label on every primary fill state ─────────────────
+// The label Button, Toggle, Pagination, Chip, the date pickers, and the
+// selected Navigation item, SegmentedControl pill and current Steps indicator
+// all draw on these fills.
 const FILLS = ["default", "hover", "active", "selected"].map((s) => `--color-interactive-primary-${s}`);
 for (const mode of ["light", "dark"]) {
   const fails = BRAND_FAMILY_NAMES
@@ -59,14 +62,27 @@ for (const mode of ["light", "dark"]) {
   console.log(`T2 button label ${mode.padEnd(5)} ${fails.length}/${BRAND_FAMILY_NAMES.length} fail  ${fails.map(([b, r]) => b + " " + r.toFixed(2)).join(", ")}`);
 }
 
-// ── Task 3: link states on both surfaces ────────────────────────────────────
-const LINKS = ["default", "hover", "active"].map((s) => `--color-interactive-tertiary-${s}`);
+// ── Task 3: link text on both surfaces ──────────────────────────────────────
+// Only `-default` is text. Hover and active are the outline button's fills;
+// checking them here as text is what let utils 4.0.0 walk them lighter in dark
+// mode, under a light label (T3b).
 for (const mode of ["light", "dark"]) {
   const fails = BRAND_FAMILY_NAMES
-    .map((b) => { const v = resolve(mode, b); return [b, Math.min(...LINKS.map((l) => worstOn(v, l, BEDS)))]; })
+    .map((b) => { const v = resolve(mode, b); return [b, worstOn(v, "--color-interactive-tertiary-default", BEDS)]; })
     .filter(([, r]) => r < 4.5);
   failed += fails.length;
   console.log(`T3 links ${mode.padEnd(5)} ${fails.length}/${BRAND_FAMILY_NAMES.length} fail  ${fails.map(([b, r]) => b + " " + r.toFixed(2)).join(", ")}`);
+}
+
+// ── Task 3b: the light label on the outline button's hover/press fills ──────
+// Button.css draws `--color-content-light` on these.
+const OUTLINE_FILLS = ["hover", "active"].map((s) => `--color-interactive-tertiary-${s}`);
+for (const mode of ["light", "dark"]) {
+  const fails = BRAND_FAMILY_NAMES
+    .map((b) => { const v = resolve(mode, b); return [b, worstOn(v, "--color-content-light", OUTLINE_FILLS)]; })
+    .filter(([, r]) => r < 4.5);
+  failed += fails.length;
+  console.log(`T3b outline fills ${mode.padEnd(5)} ${fails.length}/${BRAND_FAMILY_NAMES.length} fail  ${fails.map(([b, r]) => b + " " + r.toFixed(2)).join(", ")}`);
 }
 
 // ── Task 4: a short ramp must throw, not emit "grey.2400" as a color ────────
