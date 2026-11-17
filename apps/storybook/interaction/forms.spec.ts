@@ -101,6 +101,39 @@ test.describe("Combobox", () => {
     await page.keyboard.press("Escape");
     await expect(page.locator(content)).toBeHidden();
   });
+
+  // zag works out the input text once, when the machine starts, so a value set
+  // before its options loaded used to leave the box empty, the placeholder
+  // showing over a perfectly good selection, until someone opened it. The
+  // story's options land 300ms after mount.
+  storyTest(
+    "components-forms-combobox--async-options",
+    "shows the chosen label once its options load, without opening",
+    async (page) => {
+      await expect(page.locator(input)).toHaveValue("Banana");
+      await expect(page.locator(content)).toBeHidden();
+      await expect(page.locator(input)).toHaveAttribute("aria-expanded", "false");
+    },
+  );
+
+  storyTest(
+    "components-forms-combobox--async-options",
+    "still filters as you type once the label is in",
+    async (page) => {
+      await expect(page.locator(input)).toHaveValue("Banana");
+      await page.click(input);
+      await page.fill(input, "");
+      await page.type(input, "berr");
+      await expectSettledOpen(page, content);
+      // Typing replaces the label rather than being replaced by it: the sync
+      // that put "Banana" in the box must not run again while it is open.
+      await expect(page.locator(input)).toHaveValue("berr");
+      await expect(page.locator(`${content} [data-part="item"]`)).toHaveText([
+        "Blueberry",
+        "Strawberry",
+      ]);
+    },
+  );
 });
 
 // ── Checkbox ─────────────────────────────────────────────────────────────────

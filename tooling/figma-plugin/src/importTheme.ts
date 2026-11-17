@@ -1,11 +1,15 @@
 /**
- * Imports a theme.json into Figma Variables across four collections:
+ * Imports a theme.json into Figma Variables across four collections, plus a
+ * fifth, Icons, when the theme has dynamic stroke scaling on:
  *
  *   Primitives  (1 mode "Value")          the used global color steps
  *   Semantic    (modes "Light" / "Dark")  one variable per semantic token,
  *                                          aliasing a Primitive (or a raw color)
  *   Scale       (1 mode "Value")          spacing / radius / component dimensions
  *   Typography  (1 mode "Value")          font families, weights, sizes, leading
+ *   Icons       (1 mode "Value")          per icon size, its size and its
+ *                                          optically-corrected stroke (only with
+ *                                          stroke scaling on outline icons)
  *
  * Collections and variables are matched by name: existing ones are updated in
  * place (the user's "override if present" requirement) and missing ones are

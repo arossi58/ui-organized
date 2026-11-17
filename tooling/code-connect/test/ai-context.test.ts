@@ -18,6 +18,7 @@ import {
   humanizeLabel,
   packageFromImport,
 } from "../src/ai-context.js";
+import { derivePropHints } from "../src/ai-context-rules.js";
 import { USAGE_GUIDES } from "../src/usage/index.js";
 import type { ComponentManifest, ComponentManifestEntry } from "../src/schema.js";
 
@@ -143,7 +144,10 @@ describe("buildAiContext — invariants across every manifest entry", () => {
     // would make an agent distrust a component that is entirely correct.
     for (const entry of all) {
       const { text } = buildAiContext({ entry, meta: META });
-      expect(text.toLowerCase(), entry.codeName).not.toContain("draft");
+      // Outside code spans: a referenced type may well have a member named
+      // `draft` (the table's `EditState` does), and that isn't the status.
+      const prose = text.replace(/`[^`\n]*`/g, "");
+      expect(prose.toLowerCase(), entry.codeName).not.toContain("draft");
     }
   });
 
@@ -275,6 +279,60 @@ describe("expandPropType", () => {
   });
 });
 
+describe("referenced types", () => {
+  it("writes out Select's option type right after its prop table", () => {
+    const { text, data } = buildAiContext({ entry: byName("Select") });
+    const line = "- `SelectOption` is `{ value: string; label: string; disabled?: boolean }`";
+    expect(text).toContain(`The types named above:\n\n${line}`);
+    expect(data.referencedTypes).toEqual({ SelectOption: "{ value: string; label: string; disabled?: boolean }" });
+    // After the table, before the pass-through note that closes the section.
+    expect(text.indexOf(line)).toBeGreaterThan(text.indexOf("| `options` |"));
+    expect(text.indexOf(line)).toBeLessThan(text.indexOf("Beyond the props above"));
+  });
+
+  const entryWith = (props: ComponentManifestEntry["props"], referencedTypes: Record<string, string>) => ({
+    ...byName("Select"),
+    props,
+    referencedTypes,
+  });
+
+  it("follows the types a shape names, and leaves out ones no shown prop reaches", () => {
+    const { data } = buildAiContext({
+      entry: entryWith([{ name: "steps", type: "TourStep[]", required: true }], {
+        TourStep: "{ title: string; actions?: TourStepAction[] }",
+        TourStepAction: "{ label: string }",
+        Unrelated: "{ x: number }",
+      }),
+    });
+    expect(Object.keys(data.referencedTypes!)).toEqual(["TourStep", "TourStepAction"]);
+  });
+
+  it("doesn't repeat a type the table already expands", () => {
+    const { text, data } = buildAiContext({
+      entry: entryWith([{ name: "size", type: "ControlSize", required: false }], { ControlSize: '"sm" | "md"' }),
+      typeValues: { ControlSize: ["sm", "md"] },
+    });
+    expect(data.referencedTypes).toBeUndefined();
+    expect(text).not.toContain("The types named above");
+  });
+
+  it("isn't fooled by a type name inside a string literal", () => {
+    const { data } = buildAiContext({
+      entry: entryWith([{ name: "mode", type: '"Row" | "cell"', required: false }], { Row: "{ id: string }" }),
+    });
+    expect(data.referencedTypes).toBeUndefined();
+  });
+
+  it("keeps a template literal type readable inside a code span", () => {
+    // `data-${string}`, spelled so it isn't read as a template placeholder.
+    const shape = "{ [key: `data-$" + "{string}`]: string }";
+    const { text } = buildAiContext({
+      entry: entryWith([{ name: "attrs", type: "DataAttrs", required: false }], { DataAttrs: shape }),
+    });
+    expect(text).toContain(`- \`DataAttrs\` is \`\` ${shape} \`\``);
+  });
+});
+
 describe("jsxFromArgs", () => {
   it("renders strings, booleans, numbers and children", () => {
     // With no explicit order, attributes sort alphabetically — insertion order
@@ -395,6 +453,90 @@ describe("usage guidance", () => {
     const after = buildAiContext({ entry, usage: undefined, meta: META }).text;
     expect(after).toBe(before);
     expect(before).not.toContain("## When to use");
+  });
+
+  it("names cross-references as the target library exports them", () => {
+    const angular = { framework: "angular" as const, symbol: "UioButton" };
+    const surface = {
+      exports: ["UioButton", "UioSwitch", "UioMenu", "UioToolbar", "UioTag"],
+      selectors: {
+        UioButton: { element: "button", attribute: "uioButton" },
+        UioSwitch: { element: "uio-switch" },
+        UioMenu: { element: "uio-menu" },
+        UioToolbar: { element: "div", attribute: "uioToolbar" },
+        UioTag: { element: "span", attribute: "uioTag" },
+      },
+    };
+    const { text } = buildAiContext({ entry, usage: guide, target: angular, surface });
+    // A shipped neighbour under its own name; one the surface lacks is left out
+    // rather than named under React's.
+    expect(text).toContain("Use `UioSwitch` instead.");
+    expect(text).not.toContain("Toggle`");
+    // Without a surface, the library's prefix is still applied.
+    expect(buildAiContext({ entry, usage: guide, target: angular }).text).toContain(
+      "Use `UioSwitch` or `UioToggle` instead.",
+    );
+  });
+});
+
+/**
+ * One guide reaches all four libraries' specs and the docs site's Usage tab
+ * unchanged, so React's spelling in it is wrong three times out of four:
+ * "pass one to `render`" sent Vue agents to a prop Vue doesn't have.
+ */
+describe("usage guides are written for every library", () => {
+  const REACT_SYNTAX: [string, RegExp][] = [
+    ["a JSX expression attribute", /=\{/],
+    ["`className`", /\bclassName\b/],
+    ["`onClick`", /\bonClick\b/],
+    ["React's `render` prop", /`render`/],
+    ["a JSX component tag", /<[A-Z][A-Za-z]*[\s/>]/],
+  ];
+
+  function strings(value: unknown): string[] {
+    if (typeof value === "string") return [value];
+    if (Array.isArray(value)) return value.flatMap(strings);
+    if (value && typeof value === "object") return Object.values(value).flatMap(strings);
+    return [];
+  }
+
+  const offenders = (text: string) =>
+    REACT_SYNTAX.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
+
+  it("contains no React-only syntax", () => {
+    const found = Object.entries(USAGE_GUIDES).flatMap(([slug, guide]) =>
+      strings(guide).flatMap((text) => offenders(text).map((label) => `${slug}: ${label} in "${text}"`)),
+    );
+    expect(found).toEqual([]);
+  });
+
+  it("would catch the sentences that shipped (guards the guard)", () => {
+    expect(offenders("so pass one to `render` to keep the button's appearance")).toEqual(["React's `render` prop"]);
+    expect(offenders("and `animated={false}` turns it off outright")).toEqual(["a JSX expression attribute"]);
+    expect(offenders("wrap it in `<Tooltip>`")).toEqual(["a JSX component tag"]);
+  });
+});
+
+describe("derivePropHints per library", () => {
+  const button = byName("Button");
+  const iconHint = (framework?: "react" | "svelte" | "vue" | "angular") =>
+    derivePropHints(button, framework).find((hint) => hint.startsWith("`icon`"))!;
+
+  it("writes the icon component in each library's binding syntax", () => {
+    expect(iconHint()).toContain("`icon={CircleAlert}`");
+    expect(iconHint("svelte")).toContain("`icon={CircleAlert}`");
+    expect(iconHint("vue")).toContain('`:icon="CircleAlert"`');
+    expect(iconHint("vue")).not.toContain("={");
+    // Angular takes a name only.
+    expect(iconHint("angular")).toContain('`icon="circle-alert"`');
+    expect(iconHint("angular")).not.toContain("={");
+  });
+
+  it("gives a name pair every library's Lucide and Tabler adapters ship, and no Heroicons", () => {
+    for (const framework of ["react", "svelte", "vue", "angular"] as const) {
+      expect(iconHint(framework)).toContain('Lucide `"circle-alert"` is Tabler\'s `"alert-circle"`');
+      expect(iconHint(framework)).not.toMatch(/heroicons/i);
+    }
   });
 });
 

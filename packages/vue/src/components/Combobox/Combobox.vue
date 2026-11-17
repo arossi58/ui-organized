@@ -6,6 +6,7 @@ import { CONTROL_ICON_SIZE, comboboxFieldStyles } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
+import SelectedLabelSync from "./SelectedLabelSync.vue";
 import type { ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
 import { glyph } from "../../icons/glyph.js";
@@ -93,6 +94,7 @@ const rootProps = computed(() =>
       @input-value-change="(details) => (query = details.inputValue)"
       @open-change="(details) => emit('openChange', details.open)"
     >
+      <SelectedLabelSync :options="options" />
       <ArkCombobox.Label v-if="label" class="field__label">
         {{ label }}
         <span v-if="required" class="field__required" aria-hidden="true" />

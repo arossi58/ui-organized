@@ -101,8 +101,12 @@
   height: var(--spacing-space-03);
 }
 
+/* On the primary fill the number takes the filled-button label, which is chosen
+   against the brand; the --color-content-light it would otherwise inherit read
+   at 1.99:1 on a light brand such as candlelight. */
 .steps__trigger[data-current] .steps__indicator {
   background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
 }
 
 .steps__trigger[data-complete] .steps__indicator {

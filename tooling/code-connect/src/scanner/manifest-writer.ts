@@ -16,8 +16,13 @@
  *                                             routes to `search_components`.
  *
  * Human/plugin-owned fields (figmaComponentKey, figmaComponentName,
- * usageSnippet once edited, customInstructions, lastVerifiedBy) are always
- * preserved across a rewrite — the scanner only owns code-derived fields.
+ * usageSnippet once edited, customInstructions, lastVerifiedBy, and each
+ * prop's figmaVariantMapping) are always preserved across a rewrite — the
+ * scanner only owns code-derived fields. `pnpm figma:sync` writes
+ * figmaVariantMapping onto props the scanner then replaces wholesale, and the
+ * lint gate rescans before it diffs, so dropping it here would turn every
+ * committed sync into a red CI run that only a rescan (which loses the
+ * mappings) could clear.
  *
  * Pure function (no fs) so it's unit-testable; the CLI in scripts/scan.ts does I/O.
  */
@@ -78,6 +83,7 @@ export function reconcile(
         propSignatureHash: s.propSignatureHash,
         lastSyncedAt: now,
         status: "draft",
+        ...(s.referencedTypes ? { referencedTypes: s.referencedTypes } : {}),
       });
       changes.push({ component: s.codeName, codePath: s.codePath, kind: "created" });
       continue;
@@ -85,15 +91,27 @@ export function reconcile(
 
     const codeChanged = prev.propSignatureHash !== s.propSignatureHash;
     const wasDeprecated = prev.status === "deprecated";
+    const prevProps = new Map(prev.props.map((p) => [p.name, p]));
+    // Scanner-owned like `props`, so the previous value never survives; and
+    // written last, as a newly created entry writes it, so every entry has the
+    // same key order. It isn't hashed: a shape changing alone is not drift,
+    // and leaves `lastSyncedAt` and the change kind alone.
+    const { referencedTypes: _previousTypes, ...kept } = prev;
     components.push({
-      ...prev,
+      ...kept,
       // Scanner-owned, code-derived fields are always refreshed:
       codeName: s.codeName,
       framework: s.framework,
       importStatement: s.importStatement,
       ...(s.selector ? { selector: s.selector } : {}),
       ...(s.reactName ? { reactName: s.reactName } : {}),
-      props: s.props,
+      // The props are the scanner's, but a prop's Figma variant mapping is the
+      // sync's. Same key order as planSync's `{ ...rest, figmaVariantMapping }`,
+      // so a synced manifest rescans byte-identical.
+      props: s.props.map((p) => {
+        const mapping = prevProps.get(p.name)?.figmaVariantMapping;
+        return mapping ? { ...p, figmaVariantMapping: mapping } : p;
+      }),
       propSignatureHash: s.propSignatureHash,
       // Seed usageSnippet only if none was ever set/edited:
       usageSnippet: prev.usageSnippet?.trim() ? prev.usageSnippet : s.usageSnippet,
@@ -101,6 +119,7 @@ export function reconcile(
       lastSyncedAt: codeChanged || wasDeprecated ? now : prev.lastSyncedAt,
       // A component that reappeared in code un-deprecates:
       status: statusFor(prev),
+      ...(s.referencedTypes ? { referencedTypes: s.referencedTypes } : {}),
     });
     changes.push({
       component: s.codeName,

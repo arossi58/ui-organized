@@ -1,7 +1,7 @@
 {
   "name": "@ui-organized/react-vite",
   "version": "2.2.4",
-  "description": "Vite plugin for the ui-organized design system: validates a theme config, runs the token pipeline, and injects CSS variables at build time and during dev with HMR.",
+  "description": "Vite plugin for the ui-organized design system: builds a Theme Builder theme.json into your app's CSS, checks it against the token contract, and updates it in place during dev.",
   "keywords": [
     "design-system",
     "design-tokens",
@@ -48,18 +48,18 @@
   "scripts": {
     "build": "tsup src/index.ts --format esm,cjs --dts --clean",
     "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@ui-organized/schema": "workspace:*",
     "@ui-organized/tokens": "workspace:*"
   },
   "peerDependencies": {
-    "vite": ">=5"
+    "vite": ">=5.1"
   },
   "devDependencies": {
+    "@ui-organized/core": "workspace:*",
     "@ui-organized/tsconfig": "workspace:*",
     "@types/node": "^20.0.0",
     "tsup": "^8.0.0",

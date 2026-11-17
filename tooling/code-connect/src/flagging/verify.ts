@@ -81,7 +81,9 @@ const NATIVE = new Set([
   "minlength", "inputMode", "inputmode", "enterKeyHint", "enterkeyhint", "rows", "cols", "wrap", "list",
   // links and media
   "href", "target", "rel", "download", "src", "alt", "width", "height", "loading",
-  // polymorphism the scanners deliberately skip
+  // polymorphism (React's `render`, Vue's `asChild`). Both are in the manifests
+  // now wherever a component declares them; allowing them on every component is
+  // left from when the React scan skipped `render`.
   "render", "asChild",
   // Angular forms directives: valid on any control that implements ControlValueAccessor,
   // which the Angular library's form components do.

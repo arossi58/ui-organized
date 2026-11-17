@@ -11,6 +11,7 @@ import { CheckboxFixture } from "./checkbox.fixture.js";
 import { ClipboardFixture } from "./clipboard.fixture.js";
 import { CollapsibleFixture } from "./collapsible.fixture.js";
 import { ComboboxFixture } from "./combobox.fixture.js";
+import { ComboboxAsyncFixture } from "./combobox-async.fixture.js";
 import { ContextMenuFixture } from "./context-menu.fixture.js";
 import { DataTableFixture } from "./data-table.fixture.js";
 import { DialogFixture } from "./dialog.fixture.js";
@@ -97,6 +98,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Clipboard: ClipboardFixture,
   Collapsible: CollapsibleFixture,
   Combobox: ComboboxFixture,
+  ComboboxAsync: ComboboxAsyncFixture,
   ContextMenu: ContextMenuFixture,
   DataTable: DataTableFixture,
   Dialog: DialogFixture,

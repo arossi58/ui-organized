@@ -30,9 +30,10 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildComponentSpec, SITE_ORIGIN } from "../src/component-spec.js";
 import { parseTokens, renderTokensMarkdown } from "../src/tokens/catalog.js";
-import { FRAMEWORK_INFO, aiSpecPath, resolveTarget, type DocFramework, type FrameworkTarget } from "../src/frameworks.js";
+import { FRAMEWORK_INFO, aiIndexPath, aiSpecPath, resolveTarget, type DocFramework, type FrameworkTarget } from "../src/frameworks.js";
 import { loadFrameworkData, OTHER_FRAMEWORKS as OTHER_FRAMEWORK_LIST } from "../src/framework-data.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
+import { COMPONENT_SLUGS, usageReferenceName } from "../src/usage/index.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
@@ -90,6 +91,23 @@ function targetIn(framework: Exclude<DocFramework, "react">, codeName: string) {
 /** How many specs each library got, for the index and the summary line. */
 const frameworkCounts: Record<string, string[]> = { svelte: [], vue: [], angular: [] };
 
+/**
+ * How many components each index says it has: one per docs page the library
+ * ships, as every spec's "All components" line and Copy for AI count them.
+ * The spec files are per export, so their number (174 for React) counts every
+ * part of a compound component as well, and an index headed "174 components"
+ * contradicted the 67 its own specs report.
+ */
+const COMPONENT_COUNT: Record<DocFramework, number> = {
+  react: COMPONENT_SLUGS.length,
+  ...(Object.fromEntries(
+    OTHER_FRAMEWORKS.map((fw) => [
+      fw,
+      COMPONENT_SLUGS.filter((slug) => targetIn(fw, usageReferenceName(slug))).length,
+    ]),
+  ) as Record<Exclude<DocFramework, "react">, number>),
+};
+
 const byCodePath = new Map<string, ComponentManifestEntry[]>();
 for (const entry of manifest.components) {
   const list = byCodePath.get(entry.codePath) ?? [];
@@ -137,6 +155,7 @@ for (const entry of manifest.components) {
         target,
         relatedTargets,
         frameworkManifest: FRAMEWORK_MANIFESTS[framework],
+        surface: OTHER_SURFACES[framework],
       });
       writeFileSync(join(out, aiSpecPath(framework, entry.codeName)), fwText);
       frameworkCounts[framework]!.push(entry.codeName);
@@ -204,10 +223,11 @@ const live = rows.filter((r) => !r.deprecated);
 
 const llms = `# UI Organized
 
-> A React design system (\`@ui-organized/react\` v${reactPkg.version}) with ${live.length} verified components.
-> Each link below is the complete, machine-verified spec for one component: its exact
-> import, every prop with its allowed values, and the rules for using it. The specs are
-> generated from the components' real TypeScript signatures, not written by hand.
+> A React design system (\`@ui-organized/react\` v${reactPkg.version}) with ${COMPONENT_COUNT.react} verified components,
+> ${live.length} exports counting each part of a compound component. Each link below is the
+> complete, machine-verified spec for one export: its exact import, every prop with its
+> allowed values, and the rules for using it. The specs are generated from the components'
+> real TypeScript signatures, not written by hand.
 >
 > Do not generate code against this design system without reading the relevant file.
 > If a component you want is not listed here, it does not exist — ask rather than invent one.
@@ -237,8 +257,8 @@ and specs, with its own props, import, markup and conventions:
 
 ${OTHER_FRAMEWORKS.map(
   (fw) =>
-    `- [${FRAMEWORK_INFO[fw].label}](${SITE_ORIGIN}/llms-${fw}.txt) (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
-    `${frameworkCounts[fw]!.length} components): ${SITE_ORIGIN}/ai/${fw}/<Component>.md`,
+    `- [${FRAMEWORK_INFO[fw].label}](${SITE_ORIGIN}${aiIndexPath(fw)}) (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
+    `${COMPONENT_COUNT[fw]} components): ${SITE_ORIGIN}/ai/${fw}/<Component>.md`,
 ).join("\n")}
 
 ## Human documentation
@@ -266,8 +286,9 @@ for (const fw of OTHER_FRAMEWORKS) {
   const fwRows = [...frameworkRows[fw]!].sort((a, b) => a.symbol.localeCompare(b.symbol));
   const index = `# UI Organized — ${info.label}
 
-> \`${info.packageName}\` v${VERSIONS[fw]}, ${fwRows.length} components. Each link below is the complete,
-> machine-verified spec for one component as ${info.label} ships it: its exact import, ${
+> \`${info.packageName}\` v${VERSIONS[fw]}, ${COMPONENT_COUNT[fw]} components, ${fwRows.length} exports counting each part
+> of a compound component. Each link below is the complete, machine-verified spec for one
+> export as ${info.label} ships it: its exact import, ${
     FRAMEWORK_MANIFESTS[fw]
       ? "every\n> prop scanned from the library's own source,"
       : "the\n> props of the shared API it implements,"
@@ -289,11 +310,11 @@ ${fwRows.map((r) => `- [${r.symbol}](${SITE_ORIGIN}${aiSpecPath(fw, r.file)}): $
 ## Optional
 
 - [Everything in one file](${SITE_ORIGIN}/llms-full-${fw}.txt): The tokens and every ${info.label} spec.
-- [Other libraries](${SITE_ORIGIN}/llms.txt): React, and the index of every library.
+- [Other libraries](${SITE_ORIGIN}${aiIndexPath("react")}): React, and the index of every library.
 
 Generated ${generatedAt} from manifest version ${manifest.manifestVersion}.
 `;
-  writeFileSync(join(out, `llms-${fw}.txt`), index);
+  writeFileSync(join(out, aiIndexPath(fw)), index);
   writeFileSync(join(out, `llms-full-${fw}.txt`), [tokensMd, ...frameworkSpecs[fw]!].join("\n\n---\n\n"));
 }
 

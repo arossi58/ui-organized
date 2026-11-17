@@ -6,7 +6,12 @@
  * follows the framework picker: a Vue reader is shown the Vue index, the Vue MCP
  * entry and a Vue prompt, never React's.
  */
-import { FRAMEWORK_INFO, type DocFramework } from "@ui-organized/code-connect/browser";
+import {
+  FRAMEWORK_INFO,
+  aiIndexPath,
+  aiSpecPath,
+  type DocFramework,
+} from "@ui-organized/code-connect/browser";
 import mcpPkg from "../../../../../packages/mcp/package.json";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
@@ -34,11 +39,17 @@ function mcpConfig(framework: DocFramework): string {
 }`;
 }
 
-/** The library's own index and spec path; React keeps the original URLs. */
+/**
+ * The library's own index and spec path; React keeps the original URLs. The
+ * index and spec come from the helpers every spec and agent rule uses, so this
+ * page can't send a reader somewhere the specs don't.
+ */
 function paths(framework: DocFramework) {
-  return framework === "react"
-    ? { index: "llms.txt", full: "llms-full.txt", spec: "ai/<Component>.md" }
-    : { index: `llms-${framework}.txt`, full: `llms-full-${framework}.txt`, spec: `ai/${framework}/<Component>.md` };
+  return {
+    index: aiIndexPath(framework).slice(1),
+    full: framework === "react" ? "llms-full.txt" : `llms-full-${framework}.txt`,
+    spec: aiSpecPath(framework, "<Component>").slice(1),
+  };
 }
 
 const PROMPTS = `Build a settings page with a profile form: name, email, a timezone select and a Save button.
@@ -99,9 +110,11 @@ Use only the components and tokens it lists: <what you want>`;
             In a monorepo, run it at the root. It finds the library in your workspace packages.
           </p>
           <p>
-            Running it again is safe. It updates its own section of each file and leaves the rest
-            of your content alone. Run it again after upgrading {label}, too: the MCP server is
-            pinned to the version you have installed.
+            Running it again is safe. It updates its own section of <code>AGENTS.md</code> and{" "}
+            <code>CLAUDE.md</code> and its own entry in <code>.mcp.json</code>, and leaves the rest
+            of your content alone. The files it owns, the <code>ui-organized-figma</code> skill and
+            the Cursor rules, it replaces. Run it again after upgrading {label}, too: the MCP
+            server is pinned to the version you have installed.
           </p>
         </DocsSection>
 
@@ -126,18 +139,12 @@ Use only the components and tokens it lists: <what you want>`;
         </DocsSection>
 
         <DocsSection title="Build from a Figma design">
-          <p>Connect Figma once, in either of two ways:</p>
-          <ul>
-            <li>
-              <strong>A Figma token.</strong> In Figma, create a personal access token under
-              Settings, Security. Set it as <code>FIGMA_TOKEN</code> in the shell you start your
-              agent from.
-            </li>
-            <li>
-              <strong>Figma&apos;s own MCP server.</strong> If you already use it, turn it on
-              alongside this one. No token is needed.
-            </li>
-          </ul>
+          <p>
+            Turn on Figma&apos;s own MCP server alongside this one. No token is needed.{" "}
+            <code>init</code> installs a <code>ui-organized-figma</code> skill that combines the
+            two: Figma&apos;s server reads the design, and this one turns each component and
+            variable into real {label} code.
+          </p>
           <p>Then, for each design:</p>
           <ol>
             <li>
@@ -160,6 +167,12 @@ Use only the components and tokens it lists: <what you want>`;
             <li>use library components instead of detaching them;</li>
             <li>bind colours, spacing and radius to the library&apos;s variables.</li>
           </ul>
+          <p>
+            This server also has a <code>get_figma_frame</code> tool, which reads a frame itself
+            with a Figma token. It can&apos;t match components or variables yet, because the
+            library&apos;s Figma file hasn&apos;t been linked to the code, so for now it tells
+            your agent to use Figma&apos;s server instead.
+          </p>
         </DocsSection>
 
         <DocsSection title="Use another agent">
@@ -169,7 +182,8 @@ Use only the components and tokens it lists: <what you want>`;
           <CodeBlock code={mcpConfig(framework)} language="json" />
           <p>
             Change the version to match the <code>{packageName}</code> you have installed. The
-            server answers for that version only.
+            server answers for that version only. On 6.0.x, use <code>0.1.0</code>, which carries
+            6.0.0&apos;s data: the server&apos;s own 6.0.0 was never published.
           </p>
           <p>
             Then tell the agent, in its rules or your prompt, to look up each{" "}

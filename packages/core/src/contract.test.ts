@@ -10,7 +10,7 @@ import {
 /**
  * Guards the token contract — the set of CSS custom properties this library
  * consumes but does not define — against silent drift. See the header of
- * `scripts/token-contract.ts` for why this exists (a theme export that dropped
+ * `contract.ts` for why this exists (a theme export that dropped
  * seven tokens, broke the sidebar and every overlay, and threw nothing).
  *
  * Companion to `typography.test.ts`: same approach of asserting against the real
@@ -66,7 +66,7 @@ describe("token contract", () => {
   });
 
   it("matches the checked-in token-contract.json", () => {
-    // Regenerate with `pnpm --filter @ui-organized/react gen:contract`.
+    // Regenerate with `pnpm --filter @ui-organized/core gen:contract`.
     const onDisk = JSON.parse(readFileSync(CONTRACT_PATH, "utf8")) as { tokens: string[] };
     expect(onDisk.tokens).toEqual(required);
   });

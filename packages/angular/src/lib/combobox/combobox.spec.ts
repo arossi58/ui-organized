@@ -1,4 +1,10 @@
-import { Component, ViewChild, provideZonelessChangeDetection, signal } from "@angular/core";
+import {
+  Component,
+  ViewChild,
+  isSignal,
+  provideZonelessChangeDetection,
+  signal,
+} from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 import { FormControl, ReactiveFormsModule } from "@angular/forms";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
@@ -56,7 +62,9 @@ describe("UioCombobox", () => {
     const fixture = TestBed.createComponent(Host);
     live.push(fixture);
     const instance = fixture.componentInstance.combobox as unknown as Record<string, unknown>;
-    instance["options"] = signal(props["options"] ?? FRUIT);
+    // A signal is taken as-is, so a test can change the list after mount.
+    const options = props["options"] ?? FRUIT;
+    instance["options"] = isSignal(options) ? options : signal(options);
     for (const [key, value] of Object.entries(props)) {
       if (key !== "options") instance[key] = signal(value);
     }
@@ -193,6 +201,68 @@ describe("UioCombobox", () => {
     fixture.componentInstance.control.setValue("b");
     fixture.detectChanges();
     expect(input.value).toBe("Banana");
+  });
+
+  /**
+   * A value that arrives before its options — a list fetched after the form was
+   * filled in. The value effect tracks `value` alone, so on its own it ran once,
+   * found nothing to show, and never looked again: an empty box with the
+   * placeholder over a perfectly good selection. Ark's three libraries had the
+   * same bug for their own reason; see `SelectedLabelSync` in each.
+   */
+  describe("when the options arrive after the value", () => {
+    const loading = () => {
+      const options = signal<ComboboxOption[]>([]);
+      const view = render({ options });
+      const load = (next: ComboboxOption[]) => {
+        options.set(next);
+        view.fixture.detectChanges();
+      };
+      return { ...view, load };
+    };
+
+    it("shows the chosen label once the options holding it arrive", () => {
+      const { fixture, input, load } = loading();
+      fixture.componentInstance.control.setValue("b");
+      fixture.detectChanges();
+      expect(input.value).toBe("");
+
+      load(FRUIT);
+      expect(input.value).toBe("Banana");
+    });
+
+    it("waits for the option it needs, not merely for some options", () => {
+      const { fixture, input, load } = loading();
+      fixture.componentInstance.control.setValue("b");
+      fixture.detectChanges();
+
+      load([FRUIT[0]!]);
+      expect(input.value).toBe("");
+      load(FRUIT);
+      expect(input.value).toBe("Banana");
+    });
+
+    it("leaves typed text alone when the options arrive mid-query", () => {
+      const { fixture, input, load, type } = loading();
+      fixture.componentInstance.control.setValue("b");
+      fixture.detectChanges();
+      type("ch");
+
+      load(FRUIT);
+      expect(input.value).toBe("ch");
+    });
+
+    it("leaves typed text alone when the options re-render", () => {
+      const { fixture, input, load, type } = loading();
+      fixture.componentInstance.control.setValue("b");
+      load(FRUIT);
+      type("ch");
+
+      // A fresh array with the same options in it — a refetch, or a parent that
+      // rebuilds the list every render — must not put the label back.
+      load(FRUIT.map((option) => ({ ...option })));
+      expect(input.value).toBe("ch");
+    });
   });
 
   it("closes on Escape without clearing what was chosen", () => {

@@ -18,6 +18,8 @@ import {
   typeWeightTokens,
 } from "@ui-organized/tokens";
 import { pickAccessibleShade } from "../utils/accessibleShades";
+import { buildThemeTokens } from "../utils/buildConfig";
+import { diffThemeTokens, type ReplacedValue } from "../utils/themeDiff";
 
 /**
  * Starting line-height multiplier for the slider once the user switches the
@@ -250,8 +252,14 @@ export interface BuilderState {
   setPreviewMode: (mode: "light" | "dark") => void;
   setLineHeightGuides: (on: boolean) => void;
   setActiveExample: (id: ExampleId) => void;
-  /** Reconstruct the full editor state from an exported theme.json (round-trip import). */
-  loadFromThemeJson: (theme: unknown) => void;
+  /**
+   * Reconstruct the full editor state from an exported theme.json (round-trip
+   * import). Returns the file's color, spacing, radius, component and dimension
+   * values the builder re-derived differently, which is every per-variable edit
+   * made outside it (see `utils/themeDiff.ts`). Empty for the builder's own
+   * unmodified export.
+   */
+  loadFromThemeJson: (theme: unknown) => ReplacedValue[];
 }
 
 /**
@@ -261,7 +269,8 @@ export interface BuilderState {
  * behave identically: the preset supplies a hue, the custom color supplies a
  * hue, and `tint` supplies the chroma for either. Every result keeps grey's
  * per-step lightness, so switching neutral re-colors the UI without
- * re-lightening it (see docs/theme-test.md for the divergence this avoids).
+ * re-lightening it. The authored tinted ramps sit at about half grey's
+ * luminance at step 1400, which is the divergence this avoids.
  */
 /**
  * Floor the tint for a selection that is meant to show one.
@@ -289,7 +298,7 @@ function computeNeutralRamp(
 
 // ─── Store ────────────────────────────────────────────────────────────────────
 
-export const useBuilderStore = create<BuilderState>((set) => ({
+export const useBuilderStore = create<BuilderState>((set, get) => ({
   // Color
   brandMode: "family",
   brandFamily: DEFAULT_BRAND_FAMILY,
@@ -525,7 +534,10 @@ export const useBuilderStore = create<BuilderState>((set) => ({
 
   setActiveExample: (id) => set(() => ({ activeExample: id })),
 
-  loadFromThemeJson: (theme) => set((state) => buildStateFromTheme(theme, state)),
+  loadFromThemeJson: (theme) => {
+    set((state) => buildStateFromTheme(theme, state));
+    return diffThemeTokens(theme, buildThemeTokens(get()));
+  },
 }));
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

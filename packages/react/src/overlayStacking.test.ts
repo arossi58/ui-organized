@@ -32,8 +32,8 @@ const CSS_DIR = "../core/src";
  * surface, often a dialog, so the popover tier has to outrank the dialog tier.
  * See the `zIndexTokens` doc comment in @ui-organized/tokens.
  *
- * Companion to `tokenContract.test.ts`: same approach of asserting against the
- * real stylesheets rather than a hand-maintained list.
+ * Companion to @ui-organized/core's `contract.test.ts`: same approach of
+ * asserting against the real stylesheets rather than a hand-maintained list.
  */
 
 /** Positioner class → the popup that must carry the `z-index` for it. */

@@ -48,6 +48,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Create Release PR or publish to npm
+        id: changesets
         uses: changesets/action@v1
         with:
           version: pnpm version-packages
@@ -58,3 +59,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # A green run means the workflow finished, not that npm has what this
+      # commit says was released. Asks the registry for every publishable
+      # package at its version here (scripts/check-published.mjs derives the
+      # list), so a publish that skipped or lost a package fails the run instead
+      # of passing quietly. Only after a publish: on a run that opened the
+      # Version Packages PR, the versions here are not meant to be on npm yet.
+      - name: Check that npm has every published version
+        if: steps.changesets.outputs.published == 'true'
+        # setup-node's .npmrc reads the token from here; without it npm sends a
+        # placeholder, and a registry that rejects it is not a missing package.
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: node scripts/check-published.mjs

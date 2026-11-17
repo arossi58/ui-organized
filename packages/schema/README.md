@@ -1,8 +1,8 @@
 # @ui-organized/schema
 
-[Zod](https://zod.dev/) schemas and TypeScript types for the **ui-organized**
-design system theme configuration. This is the single source of truth that the
-token pipeline and the Vite plugin validate against.
+[Zod](https://zod.dev/) schemas and TypeScript types for **ui-organized** token
+documents: DTCG 2025.10 tokens and groups, and the project document the token
+tooling reads and writes.
 
 ## Install
 
@@ -13,11 +13,19 @@ npm install @ui-organized/schema
 ## Usage
 
 ```ts
-import { validateConfig } from "@ui-organized/schema";
+import { DtcgDocumentSchema } from "@ui-organized/schema";
 
-const config = validateConfig(JSON.parse(rawThemeJson));
-//    ^ fully typed ThemeConfig, throws on invalid input
+const result = DtcgDocumentSchema.safeParse(JSON.parse(rawTokensJson));
 ```
+
+## Deprecated: the legacy theme config
+
+`themeConfigSchema` and `validateConfig` describe the old theme config
+(`metadata`, 16-step `resolvedPrimitives`, `color.modes`). Nothing reads that
+format any more: the Theme Builder exports a DTCG `theme.json`, and
+[`@ui-organized/react-vite`](https://www.npmjs.com/package/@ui-organized/react-vite)
+3 builds that. A Theme Builder `theme.json` fails `validateConfig` by design.
+Both are removed in the next major.
 
 ## License
 

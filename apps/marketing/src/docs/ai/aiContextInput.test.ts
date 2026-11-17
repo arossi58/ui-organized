@@ -21,6 +21,12 @@ describe("Copy for AI per library", () => {
     expect(aiContextFor(button, "markdown", { framework: "vue", frameworkManifest: vue })!.text).toContain("| `asChild` |");
   });
 
+  it("writes out the option type, as the published spec does", () => {
+    const shape = "- `SelectOption` is `{ value: string; label: string; disabled?: boolean }`";
+    expect(aiContextFor(select, "markdown")!.text).toContain(shape);
+    expect(aiContextFor(select, "markdown", { framework: "vue", frameworkManifest: vue })!.text).toContain(shape);
+  });
+
   it("still copies something correct before the scan arrives", () => {
     const text = aiContextFor(select, "markdown", { framework: "vue" })!.text;
     expect(text).toContain('import { Select } from "@ui-organized/vue"');

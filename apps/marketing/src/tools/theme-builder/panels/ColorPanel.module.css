@@ -177,6 +177,44 @@
   word-break: break-word;
 }
 
+/* Same treatment as the Typography panel's weight warning: worth reading, not
+   an error. */
+.importNotice {
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: rgba(214, 158, 46, 0.12);
+  border: 1px solid rgba(214, 158, 46, 0.35);
+  color: var(--builder-text-secondary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.importNotice p {
+  margin: 0 0 6px;
+}
+
+.importNotice strong {
+  color: var(--builder-text-primary);
+}
+
+.importNotice summary {
+  cursor: pointer;
+  color: var(--builder-text-primary);
+}
+
+.importNoticeList {
+  margin: 6px 0 0;
+  padding-left: 16px;
+  max-height: 160px;
+  overflow-y: auto;
+  word-break: break-word;
+}
+
+.importNoticeList code {
+  font-family: monospace;
+  color: var(--builder-text-primary);
+}
+
 /* ── Neutral surface preview ─────────────────────────────────────────────── */
 
 .surfacePreview {

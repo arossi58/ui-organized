@@ -89,13 +89,16 @@ export function slugForTestTitle(title) {
 }
 
 /**
- * `"packages/react/src/components/ColorPicker/ColorPicker.css"` → `"color-picker"`.
- * Used to attribute lint and unit results. Returns undefined for files that are
- * not inside a component directory — those roll up into the repo-wide gate
- * rather than being attributed to an arbitrary component.
+ * `"packages/core/src/components/ColorPicker/ColorPicker.css"` → `"color-picker"`.
+ * Used to attribute lint and unit results. React's component directories match
+ * too (its `.tsx`, for eslint); the CSS lives in core. Returns undefined for
+ * files that are not inside a component directory — those roll up into the
+ * repo-wide gate rather than being attributed to an arbitrary component.
  */
 export function slugForFilePath(filePath) {
-  const match = filePath.replace(/\\/g, "/").match(/packages\/react\/src\/components\/([^/]+)\//);
+  const match = filePath
+    .replace(/\\/g, "/")
+    .match(/packages\/(?:react|core)\/src\/components\/([^/]+)\//);
   return match ? kebab(match[1]) : undefined;
 }
 

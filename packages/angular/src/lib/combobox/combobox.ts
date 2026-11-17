@@ -371,6 +371,16 @@ export class UioCombobox
     return value === null ? null : this.optionId(value);
   });
 
+  /**
+   * The chosen option's label, or `undefined` until an option with that value
+   * is in the list. A `computed` only notifies when its result changes, so a
+   * list rebuilt with the same labels in it is not a change here.
+   */
+  private readonly chosenLabel = computed(() => {
+    const value = this.value();
+    return this.options().find((option) => option.value === value)?.label;
+  });
+
   @ViewChild("surface", { static: true }) private surface!: TemplateRef<unknown>;
   @ViewChild("anchor", { read: ViewContainerRef, static: true }) private anchor!: ViewContainerRef;
 
@@ -410,6 +420,28 @@ export class UioCombobox
       untracked(() => {
         const chosen = this.options().find((option) => option.value === value);
         this.inputValue.set(chosen?.label ?? "");
+      });
+    });
+    /**
+     * …and once the options holding that value arrive, if they came after it.
+     *
+     * The effect above runs when the value is set, and a value set before a
+     * fetched list has landed finds nothing to show — an empty box with the
+     * placeholder over a perfectly good selection, and nothing that ever looks
+     * again. This one tracks the chosen *label*, which changes once, from
+     * `undefined` to the string, rather than the list, which changes on every
+     * refetch.
+     *
+     * Only into an empty, closed box, so it cannot overwrite a query: typing
+     * opens the popup, and text in a closed box was put there on purpose. Ark's
+     * three libraries had the same gap for their own reason, and close it with
+     * the same rule — see `SelectedLabelSync` in each.
+     */
+    effect(() => {
+      const label = this.chosenLabel();
+      untracked(() => {
+        if (!label || this.open() || this.inputValue() !== "") return;
+        this.inputValue.set(label);
       });
     });
     effect(() => {
