@@ -1,9 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Combobox as ArkCombobox,
   Field,
   Portal,
   createListCollection,
+  useComboboxContext,
   useFilter,
 } from "@ark-ui/react";
 import { clsx } from "clsx";
@@ -91,6 +92,7 @@ export function Combobox({
         required={required}
         positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed", ...containedPositioning }}
       >
+        <SelectedLabelSync options={options} />
         {label && (
           <ArkCombobox.Label className="field__label">
             {label}
@@ -137,4 +139,47 @@ export function Combobox({
       )}
     </Field.Root>
   );
+}
+
+/**
+ * Puts the chosen option's label in the box once the options holding it arrive.
+ *
+ * zag works out the input text once, when the machine starts, as
+ * `collection.stringifyMany(value)`. A value set before its options have loaded
+ * therefore gives an empty box showing the placeholder over a perfectly good
+ * selection. When the options do arrive the machine sends `CHILDREN_CHANGE`,
+ * which only its open states handle, and the value has not changed, so its own
+ * value watcher stays quiet too. Nothing re-derives the text. `syncSelectedItems`
+ * is zag's public way to ask for exactly that.
+ *
+ * Keyed on the *label*, not on `options`. A list rebuilt on every render, or
+ * refetched as the user types, gives a new array each time; re-syncing on that
+ * would wipe whatever they were halfway through typing. The label changes once,
+ * from `undefined` to the string, and that is the moment worth acting on.
+ *
+ * And only into an empty, closed box. Open means someone is using it, and text
+ * in a closed box was put there by the machine or the user, never by the
+ * missing option. Resolved against `options` rather than the machine's
+ * collection, which is narrowed by the query. With the box empty the query is
+ * too, so the collection zag syncs from is the whole list.
+ *
+ * Split out because the machine is only reachable below `Combobox.Root`, the
+ * same reason `SelectTrigger` is its own component.
+ */
+function SelectedLabelSync({ options }: { options: ComboboxProps["options"] }) {
+  const combobox = useComboboxContext();
+  const chosen = combobox.value[0];
+  const label = chosen == null ? undefined : options.find((o) => o.value === chosen)?.label;
+
+  // Read through a ref so the effect below depends on the label alone.
+  const latest = useRef(combobox);
+  latest.current = combobox;
+
+  useEffect(() => {
+    const { open, inputValue, syncSelectedItems } = latest.current;
+    if (!label || open || inputValue !== "") return;
+    syncSelectedItems();
+  }, [label]);
+
+  return null;
 }
