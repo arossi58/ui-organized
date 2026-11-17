@@ -26,11 +26,20 @@ export interface ApplyPlan {
   writes: PlannedWrite[];
   /** Where theme.css will land — the anchor for the cascade check and advice. */
   themeCssPath: string;
+  /** Where icons.ts will land, when it's written at all. */
+  iconsTsPath?: string;
 }
 
 export interface PlanOptions {
   /** Explicit destination directory for the stylesheet (`--out`). */
   out?: string;
+  /**
+   * Whether to write `icons.ts`. Default true. It is React's `IconProvider`
+   * config, typed by an import from `@ui-organized/react`, so in a Svelte, Vue
+   * or Angular app it fails to compile (TS2307) and configures nothing; those
+   * get their own provider printed from the same values instead.
+   */
+  icons?: boolean;
 }
 
 /**
@@ -66,8 +75,9 @@ export function planApply(bundle: Bundle, project: Project, options: PlanOptions
   const fonts = bundle.files.get(FONTS_TS);
   if (fonts) writes.push(plan(join(codeDir, FONTS_TS), fonts));
 
-  const icons = bundle.files.get(ICONS_TS);
-  if (icons) writes.push(plan(join(codeDir, ICONS_TS), normaliseIcons(icons)));
+  const icons = options.icons === false ? undefined : bundle.files.get(ICONS_TS);
+  const iconsTsPath = icons ? join(codeDir, ICONS_TS) : undefined;
+  if (icons && iconsTsPath) writes.push(plan(iconsTsPath, normaliseIcons(icons)));
 
   // theme.json is the canonical config and the thing the Figma plugin reads.
   // Kept next to the stylesheet so a re-export has an obvious home, but only
@@ -75,7 +85,7 @@ export function planApply(bundle: Bundle, project: Project, options: PlanOptions
   const json = bundle.files.get(THEME_JSON);
   if (json) writes.push(plan(join(dirname(themeCssPath), THEME_JSON), json));
 
-  return { writes, themeCssPath };
+  return iconsTsPath ? { writes, themeCssPath, iconsTsPath } : { writes, themeCssPath };
 }
 
 /** Is `path` inside `dir`? False for an undefined path or a non-directory source. */

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Input, SegmentedControl } from "@ui-organized/react";
 import { useBuilderStore, type ExportDefaultMode } from "../state/themeState";
 import { useExport } from "../hooks/useExport";
+import { BUNDLE_FILES } from "../utils/bundle";
 import { SavedThemes } from "./SavedThemes";
 import styles from "./ExportPanel.module.css";
 
@@ -37,12 +38,14 @@ export function ExportPanel() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Export theme</h3>
         <p className={styles.hint}>
-          Download a theme bundle: one config in three shapes.
+          Download a theme bundle: one config, the files derived from it, and a README.
         </p>
         <ul className={styles.steps}>
-          <li><code>theme.json</code>: DTCG design tokens (code + Figma).</li>
-          <li><code>theme.css</code>: ready-to-use CSS custom properties (web).</li>
-          <li><code>icons.ts</code>: <code>IconProvider</code> config (library, size, stroke).</li>
+          {BUNDLE_FILES.map((file) => (
+            <li key={file.name}>
+              <code>{file.name}</code>: {file.description}
+            </li>
+          ))}
         </ul>
       </section>
 

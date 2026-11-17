@@ -9,6 +9,7 @@
  * same function.
  */
 import {
+  aiIndexPath,
   aiSpecPath,
   buildAiContext,
   frameworkUsage,
@@ -29,7 +30,7 @@ import reactPkg from "../../../../../packages/react/package.json";
 import sveltePkg from "../../../../../packages/svelte/package.json";
 import vuePkg from "../../../../../packages/vue/package.json";
 import { SITE_ORIGIN } from "../../lib/links";
-import { targetFor } from "../frameworks/surfaces";
+import { frameworkSurfaces, targetFor } from "../frameworks/surfaces";
 import { docsComponents, type DocsComponent } from "../registry";
 
 const VERSIONS: Record<DocFramework, string> = {
@@ -133,7 +134,7 @@ export function aiContextInputFor(
   return {
     entry,
     related: component.related,
-    ...(target ? { target, relatedTargets } : {}),
+    ...(target ? { target, relatedTargets, surface: frameworkSurfaces[framework] } : {}),
     ...(own ? { frameworkEntry: own, relatedFrameworkEntries: relatedOwn } : {}),
     staleness: options.staleness,
     confidence: "exact",
@@ -153,7 +154,7 @@ export function aiContextInputFor(
       setupImports: setupImportsFor(framework, { table: component.slug === "data-table" }),
       siteUrl: `${SITE_ORIGIN}/docs/${component.slug}${query}`,
       docUrl: `${SITE_ORIGIN}${aiSpecPath(framework, entry.codeName)}`,
-      indexUrl: `${SITE_ORIGIN}/${framework === "react" ? "llms.txt" : `llms-${framework}.txt`}`,
+      indexUrl: `${SITE_ORIGIN}${aiIndexPath(framework)}`,
       componentCount: docsComponents.length,
       storybookUrl: options.storybookUrl,
     },

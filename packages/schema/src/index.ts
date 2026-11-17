@@ -1,6 +1,8 @@
-// ─── Legacy UI-Organized theme config (drives apps/builder) ──────────────────
-// Kept for the existing builder/site. The neutral token-manager does not use it;
-// the token-manager's opinionated config lives in packs/ui-organized.
+// ─── Legacy UI-Organized theme config (deprecated) ───────────────────────────
+// Nothing reads it any more: @ui-organized/react-vite 3 builds from the Theme
+// Builder's DTCG theme.json, and apps/builder lists this package but never
+// imports it. Removed in the next major. The token-manager's opinionated config
+// lives in packs/ui-organized.
 export { themeConfigSchema, validateConfig } from "./themeConfig.js";
 export type { ThemeConfig } from "./themeConfig.js";
 

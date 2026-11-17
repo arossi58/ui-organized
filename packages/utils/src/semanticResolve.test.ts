@@ -75,22 +75,41 @@ describe("resolveSemanticColors — filled-button label", () => {
   });
 });
 
-describe("resolveSemanticColors — links", () => {
-  it.each(["purple", "lapis", "persian", "cerulean"])("%s dark links clear 4.5:1 on both surfaces", (brand) => {
+describe("resolveSemanticColors — outline button", () => {
+  it.each(["purple", "lapis", "persian", "cerulean"])("%s dark link clears 4.5:1 on both surfaces", (brand) => {
     const v = resolveSemanticColors("dark", opts(brand));
-    for (const state of ["default", "hover", "active"]) {
-      for (const bed of ["primary", "secondary"]) {
+    for (const bed of ["primary", "secondary"]) {
+      expect(
+        contrastRatio(v["--color-interactive-tertiary-default"]!, v[`--color-surface-${bed}`]!),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  // Hover and press are fills under the light label, not link text. Walked as
+  // links (utils 4.0.0) they went lighter in dark mode: mars 3.45/2.70:1,
+  // candlelight 1.22:1.
+  it.each(["mars", "candlelight", "lapis", "lime"])("%s hover and press fills hold the light label", (brand) => {
+    for (const mode of ["light", "dark"] as const) {
+      const v = resolveSemanticColors(mode, opts(brand));
+      for (const state of ["hover", "active"]) {
         expect(
-          contrastRatio(v[`--color-interactive-tertiary-${state}`]!, v[`--color-surface-${bed}`]!),
+          contrastRatio(v["--color-content-light"]!, v[`--color-interactive-tertiary-${state}`]!),
+          `${mode} ${state}`,
         ).toBeGreaterThanOrEqual(4.5);
       }
     }
   });
 
-  it("keeps link states on distinct steps", () => {
-    for (const brand of ["purple", "lapis", "candlelight", "mars"]) {
+  // Each state a step deeper than the last, so hover and press still show. Lime
+  // in light mode is the case that needs the floor: its outline walks to 1800,
+  // past the mapped 1600 hover, which would otherwise lighten on hover.
+  it("deepens from rest to hover to press", () => {
+    for (const brand of ["purple", "lapis", "candlelight", "mars", "lime"]) {
       for (const mode of ["light", "dark"] as const) {
-        const steps = ["default", "hover", "active"].map((s) => refStep(mode, brand, `--color-interactive-tertiary-${s}`));
+        const steps = ["default", "hover", "active"].map(
+          (s) => +refStep(mode, brand, `--color-interactive-tertiary-${s}`).replace("brand.", ""),
+        );
+        expect(steps, `${mode} ${brand}`).toEqual([...steps].sort((a, b) => a - b));
         expect(new Set(steps).size, `${mode} ${brand} ${steps}`).toBe(3);
       }
     }

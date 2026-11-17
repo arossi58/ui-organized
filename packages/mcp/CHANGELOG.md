@@ -8,6 +8,8 @@
 
 ## 6.0.0
 
+Never published. The version was set by hand rather than by `changeset version`, which then moved the whole group on to 6.1.0. For a 6.0.x library, use `@ui-organized/mcp@0.1.0`: it was built from 6.0.0 and carries the same data. `uiorg init` pins it for you.
+
 ### Major Changes
 
 - The server now releases with the UI Organized libraries and shares their version: `@ui-organized/mcp@6.0.0` describes `@ui-organized/react`, `svelte`, `vue` and `angular` 6.0.0. Its data is the same as 0.1.0's, which was built from 6.0.0 too. Pin it to your library's version; `uiorg init` does this for you, and re-running it after an upgrade moves the pin.

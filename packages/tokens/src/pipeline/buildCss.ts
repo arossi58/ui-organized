@@ -4,7 +4,8 @@
  * Takes the output of transformConfig() and runs Style Dictionary to produce:
  *   - Base CSS file: all primitive, radius, spacing, and typography tokens
  *     as CSS custom properties on :root
- *   - Semantic defaults on :root (light mode values)
+ *   - Semantic defaults on :root (the dark-first values in
+ *     `definitions/semantic-color.ts`)
  *   - Per-mode overrides: [data-theme="dark"] { ... } etc.
  *
  * Returns the generated CSS as a string (no file I/O — callers decide
@@ -117,6 +118,12 @@ export interface CssBuildResult {
  * transform pipeline programmatically and returns the CSS string.
  * Style Dictionary is used for its token resolution model; we handle
  * the CSS output format ourselves to keep full control.
+ *
+ * @deprecated The legacy theme-config pipeline, removed in the next major.
+ * Its component aliases resolve against primitives and radius only, so
+ * spacing-based ones (every `--Button-*`) come out `transparent`. Nothing in
+ * the system calls it since `@ui-organized/react-vite` 3, which builds from
+ * the Theme Builder's `theme.json` (`themeJsonToCss`).
  */
 export function buildCss(result: TransformResult): CssBuildResult {
   const { primitiveTokens, radiusTokens, spacingTokens, typeTokens, modeOverrides } = result;
@@ -134,7 +141,7 @@ export function buildCss(result: TransformResult): CssBuildResult {
     }
   }
 
-  // ── 2. Default semantic tokens (light mode) on :root ─────────────────────
+  // ── 2. Default semantic tokens (dark-first) on :root ─────────────────────
   // Build the flat map for alias resolution
   const allPrimitives = buildFlatMap(
     primitiveTokens as Record<string, unknown>,
@@ -172,8 +179,8 @@ export function buildCss(result: TransformResult): CssBuildResult {
   // ── 4. Mode override blocks ───────────────────────────────────────────────
   const modeBlocks: string[] = [];
 
-  // The "light" mode is the default (already on :root via semantic defaults).
-  // We still emit [data-theme="light"] so explicit mode switching works.
+  // :root already carries the dark-first semantic defaults. Every mode still
+  // gets its own [data-theme="…"] block so explicit mode switching works.
   for (const [modeName, semanticValues] of Object.entries(modeOverrides)) {
     const declarations: string[] = [];
 

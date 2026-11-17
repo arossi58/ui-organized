@@ -244,6 +244,21 @@ export function staticScenarios(
 export const part = (scope: string, name: string) => `[data-scope="${scope}"][data-part="${name}"]`;
 
 /**
+ * Appended to the target of the `wait` after a pointer click on a control that
+ * tracks hover: the end state is checked *and* hovered, because the pointer
+ * stays where the click left it.
+ *
+ * Waiting on `checked` alone races React, the reference. zag keeps hover in
+ * plain React state set from `pointermove`, which React 18 renders at
+ * continuous priority, and Chromium dispatches the click's input events ahead
+ * of that render. So the click's discrete update can paint first, and a capture
+ * taken in the gap has React without `data-hover` where Svelte, Vue and
+ * Angular have it. It surfaced in CI as RadioGroup's three ports all "gaining"
+ * the attribute, on a PR that touched none of them.
+ */
+export const CLICKED = '[data-state="checked"][data-hover]';
+
+/**
  * "These libraries do not ship this component yet."
  *
  * A `skip` entry per framework, with a reason that says so plainly rather than

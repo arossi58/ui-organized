@@ -36,9 +36,8 @@ export interface PropDefinition {
 
 export interface ComponentManifestEntry {
   /**
-   * Figma's stable component key (survives file changes) — the pointer written
-   * into the Figma node's pluginData. Empty string until a designer links this
-   * code component to a Figma component via the plugin (Connect.md §4.1).
+   * Figma's stable component (set) key. Written by `pnpm figma:sync` from the
+   * library file; empty until then.
    */
   figmaComponentKey: string;
   /** Human-readable Figma component name, for search/debugging. */
@@ -65,6 +64,18 @@ export interface ComponentManifestEntry {
    */
   reactName?: string;
   props: PropDefinition[];
+  /**
+   * What the named types in `props` are, written out one level deep, by name:
+   * `{ SelectOption: "{ value: string; label: string; disabled?: boolean }" }`.
+   * Only the library's own types (and its cores'): React's, the DOM's and other
+   * packages' stay names. Types a shape names are listed too, within a size
+   * budget and each once, so a recursive type refers back to its own entry.
+   *
+   * Not part of `propSignatureHash`. It describes the props rather than being
+   * one, and a hash that moved whenever an option type gained a field would
+   * mark the component stale without any of its props changing.
+   */
+  referencedTypes?: Record<string, string>;
   /** Canonical real-world usage example. */
   usageSnippet: string;
   /** Prop patterns, a11y notes, team conventions the agent should honor. */

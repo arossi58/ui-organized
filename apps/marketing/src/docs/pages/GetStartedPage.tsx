@@ -4,7 +4,7 @@
  * This page exists because the site had no install instructions at all: `/docs`
  * went Introduction → Foundations → components, and the only setup guidance
  * anywhere shipped inside the Theme Builder's export zip, where it was both
- * hard to find and wrong (see `docs/theme-test.md`). Everything here has been
+ * hard to find and wrong. Everything here has been
  * checked against a real app build, so the snippets are copy-paste correct.
  *
  * The four libraries differ in exactly the places a reader copies from, so the
@@ -16,7 +16,8 @@ import { FRAMEWORK_INFO } from "@ui-organized/code-connect/browser";
 import { CodeBlock, DocsPageHeader, DocsProse, DocsSection } from "../components";
 import { FrameworkSwitcher, useDocsFramework } from "../frameworks";
 import styles from "../components/content.module.css";
-import { ANGULAR_VITE_CONFIG, ANGULAR_VITE_ENTRY, SETUP } from "./getStartedSnippets";
+import { ANGULAR_VITE_CONFIG, ANGULAR_VITE_ENTRY, OWN_WHY, SETUP } from "./getStartedSnippets";
+import { pageCss } from "./pageCss";
 
 const PEERS = {
   react: (
@@ -63,6 +64,9 @@ export function GetStartedPage() {
   const { label, packageName, language } = FRAMEWORK_INFO[framework];
   const isAngular = framework === "angular";
   const [firstIconPkg, ...otherIconPkgs] = setup.iconPackages;
+  // The entry imports it relative to `src/`; Angular lists it from the root.
+  const ownImport = setup.imports.find((row) => row.why === OWN_WHY)?.path ?? "./index.css";
+  const ownStylesheet = ownImport.startsWith("./") ? `src/${ownImport.slice(2)}` : ownImport;
 
   return (
     <>
@@ -113,16 +117,27 @@ export function GetStartedPage() {
         <DocsSection title="Add your theme">
           <CodeBlock code={CLI_APPLY} language="sh" />
           <p>
-            The CLI writes <code>theme.css</code>, <code>theme.json</code>, <code>fonts.ts</code>{" "}
-            and <code>icons.ts</code> where your project keeps them. Add <code>--dry-run</code> to
-            see the plan without writing.
+            The CLI writes <code>theme.css</code>, <code>theme.json</code>
+            {framework === "react" ? (
+              <>
+                , <code>fonts.ts</code> and <code>icons.ts</code>
+              </>
+            ) : (
+              <>
+                {" "}
+                and <code>fonts.ts</code>
+              </>
+            )}{" "}
+            where your project keeps them, after checking the theme covers every token the
+            components read. It finishes by printing the stylesheet, icon and font steps for{" "}
+            {label}, with your theme's values filled in. Add <code>--dry-run</code> to see the
+            plan without writing.
           </p>
           {framework !== "react" && (
             <p className={styles.propNote}>
-              For {label}, the CLI checks fonts and your CSS but can't check token coverage yet.
-              Its <code>icons.ts</code> is written for React and won't type-check in a {label} app,
-              so delete it and follow <a href="#set-up-icons">Set up icons</a> below instead. The
-              steps it prints at the end are React's too.
+              The Theme Builder's bundle also holds <code>icons.ts</code>, which is
+              React's. The CLI skips it for {label} and prints your icon settings as{" "}
+              {label}'s provider instead; see <a href="#set-up-icons">Set up icons</a>.
             </p>
           )}
         </DocsSection>
@@ -300,6 +315,16 @@ export function GetStartedPage() {
           </p>
         </DocsSection>
 
+        <DocsSection title="Style the page">
+          <CodeBlock code={pageCss(ownStylesheet)} language="css" />
+          <p>
+            The library styles its components, not the page around them. Without this, text
+            outside a component renders in the browser's default serif, and in dark mode the
+            components sit on a white page. Reading tokens rather than fixed values means the
+            page follows your theme and switches with <code>data-theme</code>.
+          </p>
+        </DocsSection>
+
         <DocsSection title="Render something">
           <CodeBlock code={setup.app} language={setup.appLanguage} />
           <p>Switch modes at runtime by setting the attribute. There is nothing to re-import:</p>
@@ -337,7 +362,7 @@ export function GetStartedPage() {
           <ul>
             <li>
               <Link to="/docs/theming">Theming</Link> covers generating a theme, overriding tokens
-              by hand, or building them from a config with the Vite plugin.
+              by hand, or building the Theme Builder's theme.json with the Vite plugin.
             </li>
             <li>
               <Link to="/docs/foundations/color">Foundations → Color</Link> is the palette and the

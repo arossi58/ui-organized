@@ -1,4 +1,4 @@
-import { part, staticScenarios, type BrowserScenario } from "./scenario.js";
+import { part, CLICKED, staticScenarios, type BrowserScenario } from "./scenario.js";
 
 const ITEMS = [
   { value: "day", label: "Day" },
@@ -56,7 +56,7 @@ const scenarios: BrowserScenario[] = [
      */
     steps: [
       { do: "click", target: item("week") },
-      { do: "wait", target: `${item("week")}[data-state="checked"]` },
+      { do: "wait", target: `${item("week")}${CLICKED}` },
       { do: "awaitFocus", target: part("segment-group", "item") },
     ],
     regions: ["#mount"],

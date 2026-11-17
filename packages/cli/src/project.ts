@@ -1,15 +1,28 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative, resolve, sep } from "node:path";
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from "node:fs";
+import { dirname, join, relative, resolve, sep } from "node:path";
 
 /**
  * What we can learn about the target project without being told.
  *
  * Every field here exists because assuming it would be wrong somewhere:
  * `src/styles/theme.css` is one project's convention rather than a standard,
- * `npm` is not the only package manager, and overwriting files in a dirty tree
- * removes the user's ability to undo.
+ * `npm` is not the only package manager, React is not the only library, and
+ * overwriting files in a dirty tree removes the user's ability to undo.
  */
+
+/** The four libraries, and the package each is installed as. */
+export const LIBRARIES = {
+  react: "@ui-organized/react",
+  svelte: "@ui-organized/svelte",
+  vue: "@ui-organized/vue",
+  angular: "@ui-organized/angular",
+} as const;
+export type Framework = keyof typeof LIBRARIES;
+
+export const FRAMEWORKS = Object.keys(LIBRARIES) as Framework[];
+
+export const LABELS: Record<Framework, string> = { react: "React", svelte: "Svelte", vue: "Vue", angular: "Angular" };
 
 export interface Project {
   root: string;
@@ -18,8 +31,12 @@ export interface Project {
   /** Where the app's entry module is, for the import-order advice. */
   entry?: string;
   packageManager: "npm" | "pnpm" | "yarn" | "bun";
-  /** The installed @ui-organized/react, when resolvable. */
-  reactPackageDir?: string;
+  /** package.json's dependencies and devDependencies; empty when there's none to read. */
+  dependencies: Record<string, string>;
+  /** The UI Organized libraries package.json lists, in `LIBRARIES` order. */
+  libraries: Framework[];
+  /** An Angular CLI workspace's angular.json, which takes the global stylesheets. */
+  angularJson?: string;
   /** Undefined when not a git repo at all. */
   gitClean?: boolean;
 }
@@ -45,9 +62,12 @@ export function inspectProject(root: string, options: InspectOptions = {}): Proj
   const outside = (path: string): boolean =>
     !ignore || relative(ignore, path).startsWith("..") || relative(ignore, path) === "";
 
+  const dependencies = readDependencies(join(root, "package.json")) ?? {};
   const project: Project = {
     root,
     packageManager: detectPackageManager(root),
+    dependencies,
+    libraries: librariesIn(dependencies),
   };
 
   const existing = findFile(root, (name) => name === "theme.css", outside);
@@ -56,13 +76,105 @@ export function inspectProject(root: string, options: InspectOptions = {}): Proj
   const entry = findEntry(root);
   if (entry) project.entry = entry;
 
-  const reactDir = findReactPackage(root);
-  if (reactDir) project.reactPackageDir = reactDir;
+  if (existsSync(join(root, "angular.json"))) project.angularJson = join(root, "angular.json");
 
   const clean = gitClean(root);
   if (clean !== undefined) project.gitClean = clean;
 
   return project;
+}
+
+/**
+ * A package.json's dependencies and devDependencies, or undefined when there's
+ * no manifest or it doesn't parse. Never throws: `theme` only reads this to
+ * tailor its advice, so an unreadable manifest means less tailoring, not a
+ * failed apply. (`init` reads its own way, because it must refuse instead.)
+ */
+export function readDependencies(manifest: string): Record<string, string> | undefined {
+  try {
+    const pkg = JSON.parse(readFileSync(manifest, "utf8")) as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
+    return { ...pkg.dependencies, ...pkg.devDependencies };
+  } catch {
+    return undefined;
+  }
+}
+
+/** The UI Organized libraries a dependency list names, in `LIBRARIES` order. */
+export function librariesIn(dependencies: Record<string, string>): Framework[] {
+  return FRAMEWORKS.filter((fw) => dependencies[LIBRARIES[fw]] !== undefined);
+}
+
+/**
+ * Workspace packages that declare a UI Organized library, for when `root` is a
+ * monorepo root that declares none itself. A theme applied there lands in the
+ * root's `src/`, beside no app, so the useful answer is which `--cwd` to use.
+ */
+export function workspaceLibraries(root: string): { dir: string; libraries: Framework[] }[] {
+  return workspacePackages(root)
+    .map((dir) => ({ dir, libraries: librariesIn(readDependencies(join(root, dir, "package.json")) ?? {}) }))
+    .filter((pkg) => pkg.libraries.length > 0);
+}
+
+/**
+ * The real directory of `node_modules/<name>`, from `root` or any directory
+ * above it: where Node would look, so a hoisted install in a monorepo's root
+ * counts. Real, because pnpm and workspaces install through symlinks, and only
+ * from the real path does resolution find the package's own dependencies.
+ */
+export function findInstalled(root: string, name: string): string | undefined {
+  for (let dir = resolve(root); ; dir = dirname(dir)) {
+    const candidate = join(dir, "node_modules", name);
+    if (existsSync(join(candidate, "package.json"))) {
+      try {
+        return realpathSync(candidate);
+      } catch {
+        return candidate;
+      }
+    }
+    if (dirname(dir) === dir) return undefined;
+  }
+}
+
+/** The installed version of `name`, else the range package.json asks for. */
+export function versionOf(project: Project, name: string): string | undefined {
+  const installed = findInstalled(project.root, name);
+  if (installed) {
+    try {
+      const { version } = JSON.parse(readFileSync(join(installed, "package.json"), "utf8")) as { version?: string };
+      if (version) return version;
+    } catch {
+      // Fall through to the declared range.
+    }
+  }
+  return project.dependencies[name];
+}
+
+/**
+ * The token contract the installed library was built against.
+ *
+ * `@ui-organized/core` ships it and all four libraries depend on core, so it is
+ * looked up *through* the library: walking up from the library's real path the
+ * way Node resolves its imports finds the core that library uses, wherever the
+ * package manager put it. Looking from the project root instead misses it
+ * under pnpm, which doesn't hoist a dependency's dependencies next to the app.
+ * React 5.x predates core and ships its own copy, so that is the fallback.
+ *
+ * Walked by hand rather than with `createRequire().resolve()`, which also
+ * searches NODE_PATH and the global folders: pnpm sets NODE_PATH for every bin
+ * it runs, so a React 5 install with no core of its own "resolved" to whatever
+ * core the virtual store held.
+ */
+export function findTokenContract(root: string, framework: Framework): string | undefined {
+  const library = findInstalled(root, LIBRARIES[framework]);
+  if (!library) return undefined;
+  const core = findInstalled(library, "@ui-organized/core");
+  for (const path of [core && join(core, "token-contract.json"), join(library, "token-contract.json")]) {
+    if (path && existsSync(path)) return path;
+  }
+  return undefined;
 }
 
 function detectPackageManager(root: string): Project["packageManager"] {
@@ -229,11 +341,6 @@ function findEntry(root: string): string | undefined {
   return undefined;
 }
 
-function findReactPackage(root: string): string | undefined {
-  const dir = join(root, "node_modules", "@ui-organized", "react");
-  return existsSync(join(dir, "package.json")) ? dir : undefined;
-}
-
 /**
  * Whether the working tree is clean, or undefined if this isn't a git repo.
  *
@@ -257,17 +364,4 @@ function gitClean(root: string): boolean | undefined {
 export function display(project: Project, path: string): string {
   const rel = relative(project.root, path);
   return (rel.startsWith("..") ? path : rel).split(sep).join("/");
-}
-
-/** The version of @ui-organized/react the project has installed, if any. */
-export function reactVersion(project: Project): string | undefined {
-  if (!project.reactPackageDir) return undefined;
-  try {
-    const pkg = JSON.parse(
-      readFileSync(join(project.reactPackageDir, "package.json"), "utf8"),
-    ) as { version?: string };
-    return pkg.version;
-  } catch {
-    return undefined;
-  }
 }

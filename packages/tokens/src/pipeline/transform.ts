@@ -88,6 +88,13 @@ export interface TransformResult {
 
 /**
  * Transform a validated ThemeConfig into DTCG token structures.
+ *
+ * @deprecated The legacy theme-config pipeline, removed in the next major.
+ * It predates the token contract: its output uses retired semantic names and
+ * misses tokens the components read. Nothing in the system calls it since
+ * `@ui-organized/react-vite` 3, which builds from the Theme Builder's
+ * `theme.json` (`themeJsonToCss`). Export a theme from the Theme Builder
+ * instead.
  */
 export function transformConfig(config: ThemeConfig): TransformResult {
   const { color, typography, borderRadius, spacing } = config;

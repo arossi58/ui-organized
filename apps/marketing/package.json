@@ -8,8 +8,9 @@
     "dev:copy": "COPY_EDITOR=1 vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p copy-editor && tsc --noEmit -p contributors-manager",
-    "test": "vitest run"
+    "typecheck": "tsc --noEmit && tsc --noEmit -p copy-editor && tsc --noEmit -p contributors-manager && tsc --noEmit -p scripts",
+    "test": "vitest run",
+    "fixtures:cli": "REGENERATE_CLI_FIXTURES=1 vitest run scripts/cli-fixtures.test.ts"
   },
   "dependencies": {
     "@fontsource/eb-garamond": "^5.0.0",
@@ -38,6 +39,7 @@
     "@types/node": "^20.0.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@ui-organized/react-vite": "workspace:*",
     "@ui-organized/ui-inspect": "^0.1.2",
     "@vitejs/plugin-react": "^4.0.0",
     "agentation": "^3.0.2",
