@@ -2,10 +2,32 @@
 //
 // Component styles are NOT imported here. A Svelte library is not bundled at
 // publish time — svelte-package transpiles and copies — so each component's
-// `import "@ui-organized/core/components/X/X.css"` is resolved by the consumer's
-// bundler, which means an app that uses three components ships three
-// stylesheets. Importing them all here would undo that. Consumers who want the
-// whole sheet at once take `@ui-organized/svelte/styles`.
+// `import "@ui-organized/core/components/X/X.css"` survives into dist and is
+// resolved by the consumer's bundler, which drops it along with any component
+// the app never imports: an app that uses three components ships three
+// component stylesheets. Importing them all here would undo that. Consumers who
+// want the whole sheet at once take `@ui-organized/svelte/styles.css`.
+//
+// What every component shares IS imported here, because no component imports
+// it for itself. Before it was, the per-component route was a trap: a Button
+// arrived with its `.btn` rules but the `.text-*` class its label is set in had
+// none, so an app had to import the whole sheet anyway and the per-component
+// imports bought nothing.
+//
+// package.json lists `./dist/index.js` in `sideEffects` for these two imports.
+// A bundler told this entry is pure keeps the components imported through it
+// and drops its own bare imports, with no error. `scripts/smoke-css.mjs` builds
+// a one-Button app to catch it.
+
+// Global typography utilities (`.text-{weight}-{step}`) — the single source of
+// truth for text styles. Imported first so component CSS can override on source
+// order where needed, the order React's entry and core's `styles.css` use.
+import "@ui-organized/core/typography.css";
+// Restores `[hidden] { display: none }`, which component-level `display` rules
+// beat by accident. A correctness rule, not styling — see core's base.css. It
+// used to reach a Svelte app only through `styles.css`, so one on the
+// per-component route kept every hidden part that sets `display` on screen.
+import "@ui-organized/core/base.css";
 
 export { Icon } from "./components/Icon/index.js";
 export type { IconComponent, IconName, IconProps } from "./components/Icon/index.js";

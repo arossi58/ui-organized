@@ -1,8 +1,14 @@
-import type { HTMLAttributes } from "svelte/elements";
+import type { ClassValue, HTMLAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
 
 interface CardPartProps extends Omit<HTMLAttributes<HTMLDivElement>, "class"> {
-  class?: string;
+  /**
+   * Merged after the recipe's classes. A `ClassValue`, like any element's
+   * `class`, not a string: this renders a plain element, so it can receive an
+   * Ark `asChild`'s props, which arrive in Svelte's own shapes. See
+   * ../../types.ts.
+   */
+  class?: ClassValue | null;
   children?: Snippet;
 }
 

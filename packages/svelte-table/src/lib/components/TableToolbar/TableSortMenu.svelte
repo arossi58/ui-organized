@@ -43,7 +43,7 @@
     <MenuTrigger>
       {#snippet asChild(props)}
         <Button
-          {...(props() as Record<string, never>)}
+          {...props()}
           intent="secondary"
           size={table.size}
           icon={triggerIcon}

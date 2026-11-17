@@ -1,0 +1,20 @@
+{
+  "name": "@ui-organized/example-svelte-css-smoke",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A one-Button Svelte app with no whole-sheet import. Built by the CSS smoke gate, which asserts it ships the Button's stylesheet and not every other component's.",
+  "scripts": {
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ui-organized/svelte": "workspace:*",
+    "@ui-organized/tokens": "workspace:*",
+    "svelte": "^5.56.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^4.0.4",
+    "vite": "^5.4.0"
+  }
+}

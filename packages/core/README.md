@@ -17,12 +17,19 @@ any one framework:
 
 ## Consuming it
 
-Framework packages import stylesheets one component at a time, so a consumer who
-uses three components does not ship all sixty-five:
+There are sixty-six component stylesheets, and each one can be imported on its
+own:
 
 ```ts
 import "@ui-organized/core/components/Button/Button.css";
 ```
+
+Svelte and Vue components import their stylesheets one at a time from here, so
+a bundler drops the sheets of components an app doesn't use. Both libraries'
+entries also import `typography.css` and `base.css`, the rules every component
+shares. React bundles the component sheets at build time into the one file
+`@ui-organized/react/styles.css` serves, and Angular takes the whole bundle as a
+global style.
 
 Consumers who want the whole stylesheet at once — Angular's global styles, say —
 take the bundle:

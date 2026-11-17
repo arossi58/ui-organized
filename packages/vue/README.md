@@ -88,7 +88,7 @@ Import the stylesheets once, at your app entry, **in this order**:
 ```ts
 // src/main.ts
 import "@ui-organized/tokens/variables.css"; // 1. token baseline
-import "@ui-organized/vue/styles"; // 2. component styles
+import "@ui-organized/vue/styles.css"; // 2. component styles
 import "./styles/theme.css"; // 3. your theme — last, so it wins
 ```
 
@@ -96,8 +96,13 @@ Order is load-bearing. A theme and the baseline both declare on `:root`, and
 `:root` vs `:root` is a specificity tie — decided by source order. Import the
 theme earlier and the baseline silently wins.
 
-`@ui-organized/vue/styles.css` is exported as an alias of `/styles`, so either
+`@ui-organized/vue/styles` is exported as an alias of `/styles.css`, so either
 spelling resolves.
+
+Line 2 is optional. Each component imports its own stylesheet, and the package
+imports the typography and base rules they share, so without it your bundle
+carries only the components you use. `/styles.css` puts every component's
+stylesheet in one file, for when you'd rather load them all up front.
 
 ```vue
 <script setup>

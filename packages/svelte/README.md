@@ -34,11 +34,15 @@ import { ChevronDown, Search, X } from "@lucide/svelte";
 registerIcons({ ChevronDown, Search, X });
 ```
 
-Names are the icon library's own, exactly as it publishes them: `search` and
-`x` in Lucide, `x-mark` in Heroicons. Nothing is renamed, so a name belongs to
+Names are the icon library's own, exactly as it publishes them: `circle-alert`
+in Lucide, `alert-circle` in Tabler. Nothing is renamed, so a name belongs to
 one library, and only the icons you register reach your bundle. The subpath
 import alone is enough for the components' own icons (a dialog's close button,
 a select's chevron), which follow whichever library is active.
+
+There is no Heroicons adapter for Svelte, because Heroicons publishes no Svelte
+components. To use it, build the set yourself and pass it as `icons` to
+`IconProvider`.
 
 ```svelte
 <script>
@@ -81,7 +85,7 @@ Import the stylesheets once, at your app entry, **in this order**:
 ```ts
 // src/main.ts
 import "@ui-organized/tokens/variables.css"; // 1. token baseline
-import "@ui-organized/svelte/styles"; // 2. component styles
+import "@ui-organized/svelte/styles.css"; // 2. component styles
 import "./styles/theme.css"; // 3. your theme — last, so it wins
 ```
 
@@ -89,8 +93,13 @@ Order is load-bearing. A theme and the baseline both declare on `:root`, and
 `:root` vs `:root` is a specificity tie — decided by source order. Import the
 theme earlier and the baseline silently wins.
 
-`@ui-organized/svelte/styles.css` is exported as an alias of `/styles`, so either
+`@ui-organized/svelte/styles` is exported as an alias of `/styles.css`, so either
 spelling resolves.
+
+Line 2 is optional. Each component imports its own stylesheet, and the package
+imports the typography and base rules they share, so without it your bundle
+carries only the components you use. `/styles.css` puts every component's
+stylesheet in one file, for when you'd rather load them all up front.
 
 ```svelte
 <script>

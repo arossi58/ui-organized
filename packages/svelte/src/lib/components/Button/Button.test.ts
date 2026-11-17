@@ -55,4 +55,23 @@ describe("Button", () => {
     expect(button.hasAttribute("disabled")).toBe(true);
     expect(button.getAttribute("aria-label")).toBe("Save");
   });
+
+  // `class` is typed as Svelte's `ClassValue`, the shape an Ark `asChild` hands
+  // over, so `<Button {...props()}>` typechecks without a cast. The type is
+  // only honest if the merge takes every shape it admits, not just strings.
+  it("merges a class given as an array, an object or null", () => {
+    const { container } = render(Button, {
+      props: { class: ["mine", { on: true, off: false }, null] },
+    });
+    const classes = container.querySelector("button")!.classList;
+    expect(classes.contains("btn")).toBe(true);
+    expect(classes.contains("mine")).toBe(true);
+    expect(classes.contains("on")).toBe(true);
+    expect(classes.contains("off")).toBe(false);
+
+    const { container: bare } = render(Button, { props: { class: null } });
+    expect([...bare.querySelector("button")!.classList].sort()).toEqual(
+      ["btn", "btn--primary", "btn--md", "text-default-body-large"].sort(),
+    );
+  });
 });

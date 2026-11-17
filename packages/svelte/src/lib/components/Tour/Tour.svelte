@@ -119,19 +119,14 @@
                     <!--
                       The button *is* the library Button, projected through Ark's
                       asChild so it inherits every interactive token instead of
-                      restating them. `class` is pulled out and handed over
-                      separately because Ark types the projected props in
-                      Svelte's own shapes, where it is a `ClassValue` that may be
-                      null while the Button takes a string.
+                      restating them.
                     -->
                     {#snippet asChild(props)}
-                      {@const { class: arkClass, ...triggerProps } = props()}
                       <Button
                         intent={action.action === "next" ? "primary" : "secondary"}
                         {size}
                         type="button"
-                        class={clsx(arkClass)}
-                        {...triggerProps}
+                        {...props()}
                       >
                         {action.label}
                       </Button>

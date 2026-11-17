@@ -139,7 +139,7 @@
         </Button>
         <SheetClose>
           {#snippet asChild(props)}
-            <Button {...(props() as Record<string, never>)} intent="primary" size="lg">
+            <Button {...props()} intent="primary" size="lg">
               Done
             </Button>
           {/snippet}

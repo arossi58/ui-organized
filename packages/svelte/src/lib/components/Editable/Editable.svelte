@@ -72,33 +72,27 @@
     Ark keeps the edit trigger and the submit/cancel pair mounted in opposite
     states, so the row swaps without any local state here.
 
-    Each trigger *is* the library Button, projected through Ark's asChild. `class`
-    is pulled out and handed over separately because Ark types the projected props
-    in Svelte's own shapes, where it is a `ClassValue` that may be null while the
-    Button takes a string — same reason Clipboard's trigger does it.
+    Each trigger *is* the library Button, projected through Ark's asChild.
   -->
   {#if showControls}
     <ArkEditable.Control class="editable__control">
       <ArkEditable.EditTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
-          <Button intent="ghost" {size} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="ghost" {size} type="button" {...props()}>
             Edit
           </Button>
         {/snippet}
       </ArkEditable.EditTrigger>
       <ArkEditable.SubmitTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
-          <Button intent="secondary" {size} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} type="button" {...props()}>
             Save
           </Button>
         {/snippet}
       </ArkEditable.SubmitTrigger>
       <ArkEditable.CancelTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
-          <Button intent="ghost" {size} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="ghost" {size} type="button" {...props()}>
             Cancel
           </Button>
         {/snippet}

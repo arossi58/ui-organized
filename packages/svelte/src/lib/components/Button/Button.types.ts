@@ -1,5 +1,5 @@
 import type { IconName } from "../Icon/Icon.types.js";
-import type { HTMLButtonAttributes } from "svelte/elements";
+import type { ClassValue, HTMLButtonAttributes } from "svelte/elements";
 import type { Snippet } from "svelte";
 import type { ControlSize } from "@ui-organized/core";
 import type { IconComponent } from "../../icons/registry.js";
@@ -35,7 +35,13 @@ export interface ButtonProps extends Omit<HTMLButtonAttributes, "class"> {
   iconPosition?: "left" | "right";
   /** @default "button" — so a button inside a form does not submit by accident. */
   type?: HTMLButtonAttributes["type"];
-  class?: string;
+  /**
+   * Merged after the recipe's classes. A `ClassValue`, the same as any element's
+   * `class`, rather than a string: the Button is the most common receiver of an
+   * Ark `asChild`, whose props arrive in Svelte's own shapes, and a narrower
+   * type makes `<Button {...props()}>` fail to typecheck. See ../../types.ts.
+   */
+  class?: ClassValue | null;
   children?: Snippet;
   /**
    * Render something else as the button — an anchor, a router link — combining
@@ -48,8 +54,14 @@ export interface ButtonProps extends Omit<HTMLButtonAttributes, "class"> {
    * right for its parts — they have no content of their own to contribute.
    * Dropping the second argument here would silently lose the icon.
    *
+   * The label goes in the body beside the snippet, not inside it: Svelte
+   * passes a body that is only a `{#snippet}` as that snippet and nothing
+   * else, so with no label there `children` is unset, `content()` has nothing
+   * to render, and the link comes out empty.
+   *
    * ```svelte
    * <Button intent="primary">
+   *   See pricing
    *   {#snippet asChild(props, content)}
    *     <a href="/pricing" {...props()}>{@render content()}</a>
    *   {/snippet}

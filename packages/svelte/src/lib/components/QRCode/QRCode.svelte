@@ -55,22 +55,17 @@
   {/if}
   <!--
     The download control *is* the library Button, projected through Ark's asChild
-    so it inherits every interactive token instead of restating them. `class` is
-    pulled out and handed over separately because Ark types the projected props
-    in Svelte's own shapes, where it is a `ClassValue` that may be null while the
-    Button takes a string.
+    so it inherits every interactive token instead of restating them.
   -->
   {#if showDownload}
     <ArkQrCode.DownloadTrigger mimeType="image/png" fileName={`${downloadFileName}.png`}>
       {#snippet asChild(props)}
-        {@const { class: arkClass, ...triggerProps } = props()}
         <Button
           intent="secondary"
           {size}
           type="button"
           icon={glyph("download")}
-          class={clsx(arkClass)}
-          {...triggerProps}
+          {...props()}
         >
           {downloadLabel}
         </Button>

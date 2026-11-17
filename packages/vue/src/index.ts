@@ -1,9 +1,33 @@
 // The public surface of @ui-organized/vue.
 //
 // Component styles are NOT imported here. Each component imports its own
-// stylesheet from @ui-organized/core, so an app that uses three components ships
-// three stylesheets rather than all sixty-five. Consumers who want the whole
-// sheet at once take `@ui-organized/vue/styles`.
+// stylesheet from @ui-organized/core, and the library build keeps one output
+// module per source module (`preserveModules` in vite.config.ts) so that import
+// stays beside its component. The consumer's bundler then drops the sheet along
+// with any component the app never imports: an app that uses three components
+// ships three component stylesheets. Consumers who want the whole sheet at once
+// take `@ui-organized/vue/styles.css`.
+//
+// Neither half of that used to hold. The build was a single file, which hoisted
+// all sixty-six component imports into this entry, so importing anything
+// brought every stylesheet; and nothing imported the typography and base rules
+// below, so the `.text-*` classes the components set their labels in had no
+// rules behind them. Either way an app needed the whole sheet.
+//
+// package.json lists `./dist/index.js` in `sideEffects` for these two imports.
+// A bundler told this entry is pure keeps the components imported through it
+// and drops its own bare imports, with no error. `scripts/smoke-css.mjs` builds
+// a one-Button app to catch either regression.
+
+// Global typography utilities (`.text-{weight}-{step}`) — the single source of
+// truth for text styles. Imported first so component CSS can override on source
+// order where needed, the order React's entry and core's `styles.css` use.
+import "@ui-organized/core/typography.css";
+// Restores `[hidden] { display: none }`, which component-level `display` rules
+// beat by accident. A correctness rule, not styling — see core's base.css. It
+// used to reach a Vue app only through `styles.css`, so one without it kept
+// every hidden part that sets `display` on screen.
+import "@ui-organized/core/base.css";
 
 export { Icon } from "./components/Icon/index.js";
 export type { IconComponent, IconName, IconProps } from "./components/Icon/index.js";

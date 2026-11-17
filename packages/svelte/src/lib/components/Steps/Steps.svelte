@@ -114,22 +114,17 @@
       <!--
         The two actions *are* the library Button, projected through Ark's asChild
         so they inherit every interactive token instead of restating them.
-        `class` is pulled out and handed over separately because Ark types the
-        projected props in Svelte's own shapes, where it is a `ClassValue` that
-        may be null while the Button takes a string.
       -->
       <ArkSteps.PrevTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
-          <Button intent="secondary" {size} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="secondary" {size} type="button" {...props()}>
             Back
           </Button>
         {/snippet}
       </ArkSteps.PrevTrigger>
       <ArkSteps.NextTrigger>
         {#snippet asChild(props)}
-          {@const { class: arkClass, ...triggerProps } = props()}
-          <Button intent="primary" {size} type="button" class={clsx(arkClass)} {...triggerProps}>
+          <Button intent="primary" {size} type="button" {...props()}>
             Next
           </Button>
         {/snippet}
