@@ -41,9 +41,10 @@ StyleDictionary.registerTransform({
 // and stay on :root.
 //
 // Each theme is just a folder of DTCG semantic color files that re-point the same
-// token names at different primitive ramp steps. Add `src/themes/<name>/` and a
-// matching entry here to ship more themes — see THEMES section in
-// instructions/theme-token-mappings.md.
+// token names at different primitive ramp steps. To ship another theme, add
+// `src/themes/<name>/` with the five `color-*.json` files, a
+// `buildThemeBlock("<name>", …)` call below, and the name in `THEMES`
+// (`src/theme.ts`). See UPDATING-TOKENS.md.
 
 const SEMANTIC_COLOR_FILES = [
   "color-border.json",

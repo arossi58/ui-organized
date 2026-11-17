@@ -23,6 +23,7 @@ import {
 import { dimensionTokens } from "@ui-organized/tokens";
 import { listPhrase, normalizeWeights, unservableWeights } from "../hooks/useGoogleFonts";
 import { fontLinkTags, resolveThemeFonts } from "./buildFonts";
+import { bundleFileName } from "./bundle";
 import {
   resolveSemanticRefs,
   getCoreFamily,
@@ -455,14 +456,7 @@ Point the CLI at this bundle and it files everything where your project keeps
 things, then tells you what's left to do:
 
 \`\`\`sh
-npx @ui-organized/cli theme ${
-    state.themeName
-      ? `${state.themeName
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "")}-theme.zip`
-      : "my-theme.zip"
-  }
+npx @ui-organized/cli theme ${bundleFileName(state.themeName)}
 \`\`\`
 
 No install step. Before writing anything it checks that this theme defines every
@@ -574,7 +568,8 @@ logs how to fix it; without the package installed the import itself fails.
 ## Use in Figma
 
 Import **theme.json** with the **UI Organized - Theme Import** plugin. It creates
-(or updates) four variable collections:
+(or updates) four variable collections, plus a fifth, **Icons**, when dynamic
+stroke scaling is on:
 
 - **Primitives**: the used global colors from \`primitive.color\`.
 - **Semantic**: \`color.light\` / \`color.dark\` as the collection's Light/Dark
@@ -584,12 +579,18 @@ Import **theme.json** with the **UI Organized - Theme Import** plugin. It create
   including the shared \`control-height\` (sm/md/lg) that keeps buttons, inputs and
   selects aligned.
 - **Typography**: font families, weights, sizes and line-heights.
-- **Icons**: only when dynamic stroke scaling is on: each icon size with its
-  optically-corrected stroke weight (Figma can't compute strokes the way the
-  \`<Icon>\` component does at runtime, so the plugin materialises them).
+- **Icons** (stroke scaling only): each icon size with its optically-corrected
+  stroke weight (Figma can't compute strokes the way the \`<Icon>\` component
+  does at runtime, so the plugin materialises them).
 
 Re-running the import overwrites existing variables in place and adds new ones.
 Icon library/style settings are otherwise metadata; apply them in code via
 \`icons.ts\`.
+
+The plugin's Export tab writes the variables back out as a \`theme.json\`. Loading
+that into the Theme Builder restores the builder's settings, not individual
+variables: it re-derives colors, spacing, radius and component sizes from those
+settings, and tells you which values from the file it replaced. Keep the
+exported file as your source if the Figma edits need to survive.
 `;
 }

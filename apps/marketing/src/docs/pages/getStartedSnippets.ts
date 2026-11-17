@@ -49,7 +49,8 @@ const STYLES_WHY =
   "The component styles.";
 const THEME_WHY =
   "Your theme, from the Theme Builder. Last of the stylesheets above. It and the baseline both declare on :root. ";
-const OWN_WHY = "Any styling of your own.";
+/** Exported so Get Started can name each framework's own stylesheet from its row. */
+export const OWN_WHY = "Any styling of your own.";
 
 function iconWhy(pkg: string): string {
   return `Not a stylesheet. It registers your icon set. Swap lucide for the set you installed: ${pkg}.`;
