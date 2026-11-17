@@ -39,7 +39,8 @@ runs:
     # Run Vite / Storybook directly rather than each package's `build` script, which
     # also runs `tsc --noEmit`. The apps have pre-existing type errors that would
     # block the build; esbuild bundling does not typecheck. (Type safety is still
-    # enforced elsewhere via `pnpm test` / the packages' own builds.)
+    # enforced elsewhere: `quality:lint` typechecks packages/* and tooling/*, and
+    # the packages' own builds emit declarations. CI never runs `pnpm test`.)
     - name: Build marketing (site root)
       shell: bash
       env:

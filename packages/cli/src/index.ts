@@ -1,24 +1,18 @@
 import { readFileSync } from "node:fs";
-import { relative } from "node:path";
 import { commit, describeWrite, planApply } from "./apply.js";
-import {
-  BundleError,
-  FONTS_TS,
-  ICONS_TS,
-  loadBundle,
-  parseFonts,
-  parseIconLibrary,
-  type BundleFont,
-} from "./bundle.js";
+import { BundleError, FONTS_TS, loadBundle, parseFonts, readIconSettings, type BundleFont } from "./bundle.js";
 import {
   checkCascade,
   checkFontsPresent,
   checkFontWeights,
+  checkIconAdapter,
   checkTokenCoverage,
+  targetFramework,
   type Finding,
 } from "./checks.js";
-import { commitInit, InitError, LIBRARIES, planInit } from "./init.js";
-import { display, inspectProject, installCommand, type Project } from "./project.js";
+import { commitInit, describePin, InitError, planInit } from "./init.js";
+import { nextSteps } from "./next-steps.js";
+import { display, FRAMEWORKS, inspectProject, LABELS, LIBRARIES, type Framework } from "./project.js";
 
 /**
  * `uiorg` — apply a UI Organized theme bundle, and check it actually works.
@@ -42,12 +36,13 @@ Options
   --out <dir>     Where to write, relative to the project. Default: beside an
                   existing theme.css, else src/styles/
   --dry-run       Alias for --check
-  --force         Apply even with uncommitted changes in the working tree
+  --force         (theme) Apply despite blocking findings or uncommitted
+                  changes. Exits 1 anyway when a check blocked
   --offline       Skip the Google Fonts weight verification (no network)
   --cwd <dir>     Treat <dir> as the project root. Default: the current directory
+  --framework <f> react, svelte, vue or angular. Needed only when package.json
+                  lists more than one UI Organized library, or (theme) none
   --cursor        (init) Write Cursor's files even without a .cursor/ directory
-  --framework <f> (init) react, svelte, vue or angular — needed only when the
-                  project installs more than one UI Organized library
   -h, --help      Show this
   -v, --version   Show the version
 
@@ -84,6 +79,7 @@ interface Options {
   force: boolean;
   offline: boolean;
   cwd: string;
+  framework?: Framework;
 }
 
 export async function run(argv: string[]): Promise<number> {
@@ -127,22 +123,26 @@ export async function run(argv: string[]): Promise<number> {
   return applyTheme(options);
 }
 
+/** The value after an option, or a usage error naming the option. */
+function valueAfter(args: string[], i: number, name: string): string {
+  const value = args[i + 1];
+  if (!value) throw new Error(`${name} needs a value.`);
+  return value;
+}
+
 function parseOptions(args: string[]): Options {
   const options: Options = { check: false, force: false, offline: false, cwd: process.cwd() };
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]!;
-    const takeValue = (name: string): string => {
-      const value = args[++i];
-      if (!value) throw new Error(`${name} needs a value.`);
-      return value;
-    };
+    const takeValue = (name: string): string => valueAfter(args, i++, name);
 
     if (arg === "--check" || arg === "--dry-run") options.check = true;
     else if (arg === "--force") options.force = true;
     else if (arg === "--offline") options.offline = true;
     else if (arg === "--out") options.out = takeValue("--out");
     else if (arg === "--cwd") options.cwd = takeValue("--cwd");
+    else if (arg === "--framework") options.framework = frameworkOption(takeValue("--framework"));
     else if (arg.startsWith("-")) throw new Error(`Unknown option "${arg}".`);
     else if (options.bundle) throw new Error(`Unexpected extra argument "${arg}".`);
     else options.bundle = arg;
@@ -151,22 +151,33 @@ function parseOptions(args: string[]): Options {
   return options;
 }
 
+function frameworkOption(value: string): Framework {
+  if (!(FRAMEWORKS as string[]).includes(value)) {
+    throw new Error(`Unknown --framework "${value}". Use one of: ${FRAMEWORKS.join(", ")}.`);
+  }
+  return value as Framework;
+}
+
 function runInit(args: string[]): number {
   const options: { cwd: string; check: boolean; cursor: boolean; framework?: string } = {
     cwd: process.cwd(),
     check: false,
     cursor: false,
   };
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i]!;
-    if (arg === "--check" || arg === "--dry-run") options.check = true;
-    else if (arg === "--cursor") options.cursor = true;
-    else if (arg === "--cwd" && args[i + 1]) options.cwd = args[++i]!;
-    else if (arg === "--framework" && args[i + 1]) options.framework = args[++i]!;
-    else {
-      process.stderr.write(`Unknown option "${arg}" for init.\n\n${USAGE}`);
-      return 2;
+  try {
+    for (let i = 0; i < args.length; i++) {
+      const arg = args[i]!;
+      if (arg === "--check" || arg === "--dry-run") options.check = true;
+      else if (arg === "--cursor") options.cursor = true;
+      // A missing value used to fall through to "Unknown option", which names
+      // the one option that does exist.
+      else if (arg === "--cwd") options.cwd = valueAfter(args, i++, "--cwd");
+      else if (arg === "--framework") options.framework = valueAfter(args, i++, "--framework");
+      else throw new Error(`Unknown option "${arg}" for init.`);
     }
+  } catch (error) {
+    process.stderr.write(`${(error as Error).message}\n\n${USAGE}`);
+    return 2;
   }
 
   let plan;
@@ -182,7 +193,7 @@ function runInit(args: string[]): number {
 
   const from = plan.packages.some((dir) => dir !== ".") ? ` in ${plan.packages.join(", ")}` : "";
   process.stdout.write(`\n${bold("UI Organized")} — AI agent setup\n\n`);
-  process.stdout.write(`  ${dim(`${LIBRARIES[plan.framework]} ${plan.version}${from}; MCP server pinned to match`)}\n\n`);
+  process.stdout.write(`  ${dim(`${LIBRARIES[plan.framework]} ${plan.version}${from}; ${describePin(plan)}`)}\n\n`);
   for (const write of plan.writes) process.stdout.write(`  ${write.status.padEnd(9)} ${write.path}\n`);
 
   if (options.check) {
@@ -193,8 +204,7 @@ function runInit(args: string[]): number {
   commitInit(options.cwd, plan.writes);
   process.stdout.write(
     `\n✓ Done. Restart your agent so it picks up the MCP server.\n` +
-      `${dim("  Building from Figma links: get_figma_frame needs FIGMA_TOKEN in your shell, not in .mcp.json.")}\n` +
-      `${dim("  Without it, the ui-organized-figma skill uses Figma's own MCP server.")}\n\n`,
+      `${dim("  Building from Figma links: turn on Figma's MCP server; the ui-organized-figma skill combines the two.")}\n\n`,
   );
   return 0;
 }
@@ -215,19 +225,28 @@ async function applyTheme(options: Options): Promise<number> {
   // unzipped bundle inside the project has a theme.css of its own, and it is
   // usually shallower than the app's.
   const project = inspectProject(options.cwd, { ignore: bundle.source });
+  const target = targetFramework(project, options.framework);
+  const { framework } = target;
 
   const fontsSource = bundle.files.get(FONTS_TS);
   const fonts: BundleFont[] = fontsSource ? parseFonts(fontsSource) : [];
+  const icons = readIconSettings(bundle.files);
 
-  const plan = planApply(bundle, project, options.out ? { out: options.out } : {});
+  // icons.ts is React's; the other libraries get their provider printed instead.
+  const plan = planApply(bundle, project, {
+    ...(options.out ? { out: options.out } : {}),
+    icons: framework === "react",
+  });
 
   // Checks run before anything is written, so `--check` and a real run report
   // identically — and a failing theme is reported before it lands on disk.
   const findings: Finding[] = [
-    ...checkTokenCoverage(bundle, project),
+    ...target.findings,
+    ...checkTokenCoverage(bundle, project, framework),
     ...checkFontsPresent(bundle, fonts),
     ...(await checkFontWeights(fonts, { offline: options.offline })),
     ...checkCascade(project, plan.themeCssPath, bundle.source),
+    ...checkIconAdapter(framework, icons),
   ];
 
   process.stdout.write(`\n${bold("UI Organized")} — applying ${display(project, options.bundle!)}\n\n`);
@@ -235,9 +254,15 @@ async function applyTheme(options: Options): Promise<number> {
 
   const blocking = findings.filter((f) => f.severity === "error");
   if (blocking.length > 0) {
+    const problems = `${blocking.length} problem${blocking.length > 1 ? "s" : ""} above`;
+    // --force used to print "Not applied" here and then apply, so the one
+    // line that mattered said the opposite of what happened.
     process.stdout.write(
-      `\n✗ Not applied — ${blocking.length} problem${blocking.length > 1 ? "s" : ""} above would leave the app rendering wrong.\n` +
-        `  Re-run with --force to apply anyway.\n\n`,
+      options.force && !options.check
+        ? `\n${yellow("!")} Applying anyway (--force). The ${problems} will leave the app rendering wrong,\n` +
+            `  so this still exits 1.\n\n`
+        : `\n✗ Not applied — ${problems} would leave the app rendering wrong.\n` +
+            `  Re-run with --force to apply anyway.\n\n`,
     );
     if (!options.force) return 1;
   }
@@ -270,7 +295,17 @@ async function applyTheme(options: Options): Promise<number> {
       : `\n✓ Applied ${changed.length} file${changed.length > 1 ? "s" : ""}.\n`,
   );
 
-  nextSteps(project, bundle, fonts, plan.themeCssPath);
+  const steps = nextSteps({
+    project,
+    framework,
+    themeCssPath: plan.themeCssPath,
+    ...(plan.iconsTsPath ? { iconsTsPath: plan.iconsTsPath } : {}),
+    ...(icons ? { icons } : {}),
+    fonts,
+  });
+  process.stdout.write(`\n${bold("Next")} ${dim(`(${LABELS[framework]})`)}\n`);
+  steps.forEach((step, i) => process.stdout.write(`  ${i + 1}. ${step}\n`));
+  process.stdout.write("\n");
   return blocking.length > 0 ? 1 : 0;
 }
 
@@ -283,11 +318,17 @@ const red = (s: string): string => (useColor ? `\u001b[31m${s}\u001b[0m` : s);
 const yellow = (s: string): string => (useColor ? `\u001b[33m${s}\u001b[0m` : s);
 const green = (s: string): string => (useColor ? `\u001b[32m${s}\u001b[0m` : s);
 
+const MARKS: Record<Finding["severity"], string> = {
+  error: red("✗"),
+  warning: yellow("!"),
+  pass: green("✓"),
+  // Context, not a result: only a check that ran and passed wears a tick.
+  info: dim("·"),
+};
+
 function report(findings: Finding[]): void {
   for (const finding of findings) {
-    const mark =
-      finding.severity === "error" ? red("✗") : finding.severity === "warning" ? yellow("!") : green("✓");
-    process.stdout.write(`${mark} ${finding.title}\n`);
+    process.stdout.write(`${MARKS[finding.severity]} ${finding.title}\n`);
     if (finding.detail) {
       for (const line of finding.detail.split("\n")) {
         process.stdout.write(line ? `    ${dim(line)}\n` : "\n");
@@ -295,62 +336,6 @@ function report(findings: Finding[]): void {
     }
   }
   if (findings.length > 0) process.stdout.write("\n");
-}
-
-/**
- * What the CLI can't do for you.
- *
- * Import sites differ by framework and the head is not ours to edit, so this
- * prints the lines rather than guessing where they go.
- */
-function nextSteps(
-  project: Project,
-  bundle: ReturnType<typeof loadBundle>,
-  fonts: BundleFont[],
-  themeCssPath: string,
-): void {
-  const steps: string[] = [];
-  const cssImport = importSpecifier(project, themeCssPath);
-
-  steps.push(
-    `Import the stylesheets at your app entry${project.entry ? ` (${display(project, project.entry)})` : ""}, in this order:\n` +
-      `      import '@ui-organized/react/styles'\n` +
-      `      import '${cssImport}'\n` +
-      `    Order matters: both declare on :root, and that tie goes to whichever loads last.`,
-  );
-
-  const iconsSource = bundle.files.get(ICONS_TS);
-  const library = iconsSource ? parseIconLibrary(iconsSource) : undefined;
-  if (library) {
-    const pkg =
-      library === "lucide" ? "lucide-react" : library === "tabler" ? "@tabler/icons-react" : "@heroicons/react";
-    steps.push(
-      `Install and register the icon set — @ui-organized/react imports none itself:\n` +
-        `      ${installCommand(project, pkg)}\n` +
-        `      import '@ui-organized/react/icons/${library}'`,
-    );
-  }
-
-  if (fonts.length > 0) {
-    steps.push(
-      `Add the font links to your document head — a stylesheet can name a\n` +
-        `    typeface but not efficiently load one:\n` +
-        `      <link rel="preconnect" href="https://fonts.googleapis.com">\n` +
-        `      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n` +
-        fonts.map((f) => `      <link rel="stylesheet" href="${f.href}">`).join("\n"),
-    );
-  }
-
-  process.stdout.write(`\n${bold("Next")}\n`);
-  steps.forEach((step, i) => process.stdout.write(`  ${i + 1}. ${step}\n`));
-  process.stdout.write("\n");
-}
-
-/** How the entry module would import the stylesheet we just wrote. */
-function importSpecifier(project: Project, themeCssPath: string): string {
-  if (!project.entry) return `./${display(project, themeCssPath)}`;
-  const rel = relative(project.entry.replace(/[^/\\]+$/, ""), themeCssPath).split(/[\\/]/).join("/");
-  return rel.startsWith(".") ? rel : `./${rel}`;
 }
 
 /**

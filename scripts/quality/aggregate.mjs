@@ -94,12 +94,36 @@ for (const [gate, file] of [
 // question, and splitting them across two cells on the docs page would suggest
 // they aren't.
 const unit = existsSync(Q("unit")) ? JSON.parse(readFileSync(Q("unit"), "utf8")) : null;
+// Only the attributed suites' tests are here; see the verdict-only rows below.
 if (unit?.tests) {
   for (const test of unit.tests) {
     const slug = slugForFilePath(test.file ?? "");
     const row = { title: test.name, status: test.status, project: "vitest", attachments: [] };
     if (byGate.interaction) byGate.interaction.push(row);
     if (slug && perComponent.has(slug)) perComponent.get(slug).interaction.push(row);
+  }
+}
+
+/**
+ * The suites with no component to attach to, one row each.
+ *
+ * unit.mjs runs these for their verdict only (`attribute: false`): parity's SSR
+ * half, code-connect, the CLI, the token pipeline. Their tests are not about
+ * interaction and are not filed one by one, but a failure in one still has to
+ * turn this gate red, or the dashboard reads green over a red CI job.
+ *
+ * Any suite that failed with no failing test to show for it gets a row too,
+ * attributed or not: an import error, a config that would not load, a package
+ * nothing runs at all. Those are failures with no rows of their own to say so.
+ * A suite that ran nothing and did not fail gets no row — "none", not "pass".
+ */
+for (const suite of unit?.suites ?? []) {
+  const crashed = suite.status === "fail" && !suite.failed;
+  if (suite.attribute && !crashed) continue;
+  if (!crashed && suite.passed + suite.failed + suite.skipped === 0) continue;
+  const status = suite.status === "fail" ? "fail" : suite.passed ? "pass" : "skip";
+  if (byGate.interaction) {
+    byGate.interaction.push({ title: suite.name, status, project: "vitest", attachments: [] });
   }
 }
 

@@ -131,3 +131,65 @@ export function parseFonts(source: string): BundleFont[] {
 export function parseIconLibrary(source: string): string | undefined {
   return /library:\s*"([^"]+)"/.exec(source)?.[1];
 }
+
+/** The theme's icon settings: `IconProvider`'s props, whichever library takes them. */
+export interface IconSettings {
+  library: string;
+  style?: string;
+  strokeAdjustment?: boolean;
+  baseSize?: number;
+  baseStroke?: number;
+}
+
+/**
+ * The bundle's icon settings, for printing as another library's provider.
+ *
+ * `icons.ts` is React's, so for Svelte, Vue and Angular its values are what
+ * matter, not the file. theme.json carries them as data under
+ * `$extensions["com.ui-organized.theme-builder"].icons`, so that is read first;
+ * an older bundle without it falls back to `icons.ts`, read without executing
+ * it, as `parseFonts` reads `fonts.ts`.
+ */
+export function readIconSettings(files: Map<string, string>): IconSettings | undefined {
+  const json = files.get(THEME_JSON);
+  if (json) {
+    try {
+      const icons = (JSON.parse(json) as { $extensions?: Record<string, { icons?: unknown }> }).$extensions?.[
+        "com.ui-organized.theme-builder"
+      ]?.icons;
+      const settings = iconSettingsFrom(icons as Record<string, unknown> | undefined);
+      if (settings) return settings;
+    } catch {
+      // Not JSON we can read; icons.ts may still say.
+    }
+  }
+
+  const source = files.get(ICONS_TS);
+  if (!source) return undefined;
+  // Only the exported literal: the header comment quotes code of its own.
+  const literal = source.slice(Math.max(0, source.indexOf("export const iconConfig")));
+  const field = (name: string): unknown => {
+    const raw = new RegExp(`\\b${name}:\\s*("[^"]*"|true|false|[\\d.]+)`).exec(literal)?.[1];
+    if (raw === undefined) return undefined;
+    if (raw.startsWith('"')) return raw.slice(1, -1);
+    return raw === "true" ? true : raw === "false" ? false : Number(raw);
+  };
+  return iconSettingsFrom({
+    library: field("library"),
+    style: field("style"),
+    strokeAdjustment: field("strokeAdjustment"),
+    baseSize: field("baseSize"),
+    baseStroke: field("baseStroke"),
+  });
+}
+
+/** The well-typed fields of a settings object; undefined without a library. */
+function iconSettingsFrom(raw: Record<string, unknown> | undefined): IconSettings | undefined {
+  if (!raw || typeof raw.library !== "string") return undefined;
+  const settings: IconSettings = { library: raw.library };
+  if (typeof raw.style === "string") settings.style = raw.style;
+  if (typeof raw.strokeAdjustment === "boolean") settings.strokeAdjustment = raw.strokeAdjustment;
+  if (typeof raw.baseSize === "number" && Number.isFinite(raw.baseSize)) settings.baseSize = raw.baseSize;
+  if (typeof raw.baseStroke === "number" && Number.isFinite(raw.baseStroke)) settings.baseStroke = raw.baseStroke;
+  return settings;
+}

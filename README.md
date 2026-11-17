@@ -1,8 +1,8 @@
 # ui-organized
 
-A token-driven design system: design tokens, a Zod-validated theme schema,
-generation utilities, component libraries for React, Svelte, Vue and Angular on
-one shared core, AI tooling for coding agents, and a Vite plugin — plus a
+A token-driven design system: design tokens, generation utilities, component
+libraries for React, Svelte, Vue and Angular on one shared core, AI tooling for
+coding agents, and a Vite plugin that builds Theme Builder themes — plus a
 Storybook, a theme builder, and a marketing site.
 
 ## Packages
@@ -16,9 +16,9 @@ Storybook, a theme builder, and a marketing site.
 | `@ui-organized/{react,svelte,vue,angular}-table` | The data table for each library |
 | [`@ui-organized/core`](packages/core) | The framework-neutral stylesheets and variant recipes all four share |
 | [`@ui-organized/tokens`](packages/tokens) | Design tokens (typed exports + generated CSS variables) |
-| [`@ui-organized/schema`](packages/schema) | Zod schemas / types for the theme config |
+| [`@ui-organized/schema`](packages/schema) | Zod schemas / types for DTCG token documents |
 | [`@ui-organized/utils`](packages/utils) | Color, type-scale, spacing & semantic-token utilities |
-| [`@ui-organized/react-vite`](packages/react-vite) | Vite plugin that builds & injects theme tokens |
+| [`@ui-organized/react-vite`](packages/react-vite) | Vite plugin that builds a Theme Builder `theme.json` into your app's CSS |
 | [`@ui-organized/cli`](packages/cli) | `uiorg` — applies a theme bundle and checks it actually works; sets up AI agents |
 | [`@ui-organized/mcp`](packages/mcp) | MCP server giving AI agents each library's real components and tokens |
 
