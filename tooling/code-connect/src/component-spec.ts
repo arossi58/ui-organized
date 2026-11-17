@@ -6,11 +6,19 @@
  */
 
 import { buildAiContext } from "./ai-context.js";
-import { aiSpecPath, setupImportsFor, type DocFramework, type FrameworkTarget } from "./frameworks.js";
+import {
+  aiIndexPath,
+  aiSpecPath,
+  setupImportsFor,
+  type DocFramework,
+  type FrameworkSurface,
+  type FrameworkTarget,
+} from "./frameworks.js";
 import { entryId } from "./schema.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "./schema.js";
 import { computeStalenessCore } from "./staleness-core.js";
 import { usageGuideForCodeName } from "./usage/index.js";
+import { COMPONENT_SLUGS } from "./usage/slugs.js";
 
 export const SITE_ORIGIN = "https://uiorganized.com";
 
@@ -38,6 +46,11 @@ export interface SpecFrameworkOptions {
    * the spec lists the library's real props; without it, React's.
    */
   frameworkManifest?: ComponentManifest;
+  /**
+   * Everything the library exports, so the usage guide's cross-references
+   * ("use `Switch` instead") name the symbol this library ships (`UioSwitch`).
+   */
+  surface?: FrameworkSurface;
 }
 
 /** The framework entry implementing a React export, found by its `reactName` link. */
@@ -75,6 +88,7 @@ export function buildComponentSpec(
     confidence: "exact",
     usage,
     ...(options.target ? { target: options.target, relatedTargets: options.relatedTargets ?? {} } : {}),
+    ...(options.target && options.surface ? { surface: options.surface } : {}),
     ...(options.target && options.frameworkManifest
       ? {
           frameworkEntry: implementing(options.frameworkManifest, entry.codeName),
@@ -93,8 +107,11 @@ export function buildComponentSpec(
       setupImports: setupImportsFor(framework, { table }),
       siteUrl: `${SITE_ORIGIN}/docs/${slug}${framework === "react" ? "" : `?framework=${framework}`}`,
       docUrl: `${SITE_ORIGIN}${aiSpecPath(framework, entry.codeName)}`,
-      indexUrl: `${SITE_ORIGIN}/llms.txt`,
-      componentCount: manifest.components.length,
+      // The library's own index, not React's, and the number of components: one
+      // per docs page, as Copy for AI counts them. The manifest's length counts
+      // every subcomponent export as well (174 entries for 67 components).
+      indexUrl: `${SITE_ORIGIN}${aiIndexPath(framework)}`,
+      componentCount: COMPONENT_SLUGS.length,
       // The manifest's timestamp, not a clock, so output stays deterministic.
       generatedAt: manifest.generatedAt,
     },

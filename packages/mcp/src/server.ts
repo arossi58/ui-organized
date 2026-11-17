@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
- * The MCP server a consumer installs. Same read tools as the repo server, reading
- * the manifest and tokens this package shipped with, so answers match the version
- * installed. The Figma tools stay in the repo: they re-scan source this package
- * doesn't have.
+ * The MCP server a consumer installs. Same read tools as the repo server,
+ * including get_figma_frame and resolve_figma_components, reading the manifest
+ * and tokens this package shipped with, so answers match the version installed.
+ * Only the mapping-health tools (get_component_context, validate_mapping,
+ * list_stale) stay in the repo: they re-scan source this package doesn't have.
  *
  * It answers for one library by default — `--framework svelte|vue|angular|react`,
  * or `UI_ORGANIZED_FRAMEWORK` — which `uiorg init` sets from the project. Every
@@ -53,7 +54,9 @@ const server = new McpServer(
       `Real components and design tokens of ${library}. ` +
       "Call search_components to find a component and get_component to read its spec before " +
       "using it. Use search_tokens for any custom colour, spacing, radius or type value. For a " +
-      "Figma link, call get_figma_frame first. " +
+      "Figma link, read the frame with Figma's own MCP server, then call get_component for each " +
+      "component it shows and get_token for each Figma variable name; get_figma_frame works only " +
+      "once the library's components are linked to Figma. " +
       "ANTI-HALLUCINATION CONTRACT: when a tool returns found:false or no results, do NOT " +
       "invent a component, prop or token — say so and offer the real alternatives.",
   },

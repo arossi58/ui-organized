@@ -88,6 +88,17 @@ export class ManifestLoader {
     return this.getManifest().components;
   }
 
+  /**
+   * Whether any live entry carries a Figma component key. None does until
+   * `pnpm figma:sync` has been run against the library file, and until then no
+   * Figma node can resolve to a component by key.
+   */
+  hasFigmaLinks(): boolean {
+    this.getManifest(); // ensure index current
+    for (const entry of this.keyIndex.values()) if (entry.status !== "deprecated") return true;
+    return false;
+  }
+
   /** Direct lookup by Figma component key. Only maps non-empty keys. */
   byKey(figmaComponentKey: string): ComponentManifestEntry | undefined {
     this.getManifest(); // ensure index current

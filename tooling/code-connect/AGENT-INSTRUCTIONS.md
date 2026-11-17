@@ -1,15 +1,19 @@
 # Code Connect — consuming-agent contract
 
-Instructions for any AI agent generating code from the Code Connect MCP server
-(`Connect.md` §6.4, §7). MCP cannot force client behavior, so these are a documented
+Instructions for any AI agent generating code from the Code Connect MCP server.
+MCP cannot force client behavior, so these are a documented
 contract the agent is expected to follow — and the Layer 4 `verify` check (below)
 enforces the parts that can be checked statically. The rules are also embedded in the
 server's `instructions` and each tool's `description`.
 
 ## 1. Never invent a component (Layer 1 — §6.4)
 
-- For a Figma link, call `get_figma_frame` first. It returns the frame as JSX using real
-  components and tokens. Report anything in `unmapped` or `unbound`; don't rebuild it by eye.
+- For a Figma link, read the frame with Figma's own MCP server (`get_design_context`), then
+  call `get_component` for each component it shows and `get_token` for each Figma variable
+  name. `get_figma_frame` returns the frame as JSX, or as the project's Svelte, Vue or
+  Angular template, using real components and tokens, but only once the library's
+  components are linked to Figma; until then it returns `found: false`. Report anything
+  left unmapped or unbound; don't rebuild it by eye.
 - If you already hold a node's component set key, use `resolve_figma_components` or
   `get_component_context`. Keys come from Figma itself, written to the manifest by
   `pnpm figma:sync`, and nodes carry no pluginData.

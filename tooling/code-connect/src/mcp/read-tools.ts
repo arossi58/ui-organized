@@ -4,7 +4,10 @@
  * and the published `@ui-organized/mcp`.
  *
  * This module must stay free of `staleness.ts`, which pulls in the TypeScript
- * scanner and expects a repo checkout. That's why the Figma tools aren't here.
+ * scanner and expects a repo checkout. That's why the mapping-health tools
+ * (get_component_context, validate_mapping, list_stale) live in
+ * `create-server.ts`; the Figma frame tools need only the manifest, the tokens
+ * and Figma's REST API, so they're here.
  */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -159,6 +162,7 @@ export function getComponent(
       target,
       relatedTargets,
       ...(data.manifest ? { frameworkManifest: data.manifest } : {}),
+      surface: data.surface,
     }),
   };
 }
@@ -252,11 +256,12 @@ export function registerReadTools(server: McpServer, options: ReadToolsOptions):
     "search_components",
     {
       title: "Search components",
+      // Shared by the repo server and the published one, which has no
+      // get_component_context: name only tools both of them register.
       description:
-        "Fuzzy-search real, mapped code components by name or path. Use this to browse " +
-        "available components before generating code for an unmapped design, or when " +
-        "get_component_context returned no exact match. Every result carries a " +
-        "similarity score — treat low scores as unconfirmed.",
+        "Fuzzy-search real code components by name or path. Use it to find a component " +
+        "before calling get_component, or when a lookup by name or Figma key found no exact " +
+        "match. Every result carries a similarity score — treat low scores as unconfirmed.",
       inputSchema: {
         query: z.string().describe("Name or path fragment to search for"),
         framework: FRAMEWORK_ENUM.optional().describe("Library to search; defaults to this project's"),
@@ -321,12 +326,14 @@ export function registerReadTools(server: McpServer, options: ReadToolsOptions):
     {
       title: "Read a Figma frame as code",
       description:
-        "Start here for any Figma link. Returns one frame as a compact skeleton in this project's " +
-        "library (JSX, or a Svelte, Vue or Angular template) using real " +
-        "components and tokens, without each component's internal layers. Read get_component only " +
-        "for a component you need to know more about. Items in `unmapped` and `unbound` have no " +
-        "verified code equivalent: report them, do not invent one. Needs FIGMA_TOKEN in the " +
-        "server's environment; without it, use resolve_figma_components.",
+        "Returns one Figma frame as a compact skeleton in this project's library (JSX, or a " +
+        "Svelte, Vue or Angular template) using real components and tokens, without each " +
+        "component's internal layers. It works only once the library's components are linked " +
+        "to Figma; until then it returns found:false, and the route is Figma's own MCP server " +
+        "(get_design_context), then get_component for each component and get_token for each " +
+        "Figma variable name. Items in `unmapped` and `unbound` have no verified code " +
+        "equivalent: report them, do not invent one. Needs FIGMA_TOKEN in the server's " +
+        "environment.",
       inputSchema: {
         url: z.string().optional().describe("Figma URL including node-id"),
         fileKey: z.string().optional().describe("File key, if no URL"),
@@ -341,6 +348,22 @@ export function registerReadTools(server: McpServer, options: ReadToolsOptions):
       const node = parsed?.nodeId ?? nodeId;
       if (!file || !node) {
         return json({ found: false, warning: "Provide a Figma URL with a node-id, or fileKey and nodeId." });
+      }
+      // Without a single linked component, every instance in the frame comes back
+      // unmapped and every bound variable unnamed: a larger answer than Figma's own
+      // MCP gives, carrying less. Say so before spending a request on it, so agent
+      // rules written when this tool was the first stop still land somewhere useful.
+      if (!loader.hasFigmaLinks()) {
+        return json({
+          found: false,
+          warning:
+            "This library's components aren't linked to Figma yet, so this tool can't match a " +
+            "frame's components or variables. Read the frame with Figma's own MCP server " +
+            "(get_design_context, with the fileKey and nodeId below), then call get_component " +
+            "for each component it shows and pass each Figma variable name it reports to get_token.",
+          fileKey: file,
+          nodeId: node,
+        });
       }
       const token = process.env.FIGMA_TOKEN;
       if (!token) {

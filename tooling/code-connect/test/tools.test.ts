@@ -3,7 +3,9 @@
  * The fixture manifest is built from the REAL scan so hashes and live re-scans line
  * up, then a few entries are perturbed to exercise stale / deprecated / no-match.
  */
-import { describe, it, expect, beforeAll } from "vitest";
+import { describe, it, expect, beforeAll, afterEach } from "vitest";
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { resolve, dirname, join } from "node:path";
@@ -17,6 +19,7 @@ import {
   validateMapping,
   listStale,
 } from "../src/mcp/tools.js";
+import { registerReadTools } from "../src/mcp/read-tools.js";
 import { MANIFEST_VERSION, entryId, type ComponentManifestEntry } from "../src/schema.js";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -184,5 +187,74 @@ describe("list_stale", () => {
     const keys = staleEntries.map((e) => e.componentKey);
     expect(keys).toContain("fig-button");
     expect(keys).not.toContain("fig-tag");
+  });
+});
+
+describe("get_figma_frame", () => {
+  type Handler = (args: Record<string, unknown>) => Promise<CallToolResult>;
+
+  /** The registered tool, called the way the SDK calls it. */
+  function frameTool(manifestLoader: ManifestLoader): Handler {
+    const tools = new Map<string, Handler>();
+    const server = {
+      registerTool: (name: string, _config: unknown, handler: Handler) => tools.set(name, handler),
+      registerResource: () => undefined,
+    } as unknown as McpServer;
+    registerReadTools(server, {
+      loader: manifestLoader,
+      tokensCssPath: join(REPO, "packages/tokens/output/variables.css"),
+      packageVersion: "0.0.0",
+    });
+    return tools.get("get_figma_frame")!;
+  }
+
+  const body = (result: CallToolResult) =>
+    JSON.parse((result.content[0] as { text: string }).text) as Record<string, unknown>;
+  const FRAME_URL = "https://www.figma.com/design/abc123/Library?node-id=12-345";
+
+  /** Real entries and not one Figma key: the state until `figma:sync` has run. */
+  function unlinked(): ManifestLoader {
+    const dir = mkdtempSync(join(tmpdir(), "code-connect-unlinked-"));
+    const components = loader.all().map((e) => ({ ...e, figmaComponentKey: "", status: "draft" }));
+    writeFileSync(
+      join(dir, "components.json"),
+      JSON.stringify({ manifestVersion: MANIFEST_VERSION, generatedAt: "", components }),
+    );
+    return new ManifestLoader(dir);
+  }
+
+  const savedToken = process.env.FIGMA_TOKEN;
+  const realFetch = globalThis.fetch;
+  afterEach(() => {
+    if (savedToken === undefined) delete process.env.FIGMA_TOKEN;
+    else process.env.FIGMA_TOKEN = savedToken;
+    globalThis.fetch = realFetch;
+  });
+
+  it("knows whether anything is linked", () => {
+    expect(loader.hasFigmaLinks()).toBe(true);
+    expect(unlinked().hasFigmaLinks()).toBe(false);
+  });
+
+  it("routes to Figma's own MCP while nothing is linked, before spending a request", async () => {
+    process.env.FIGMA_TOKEN = "a-token-that-would-be-sent";
+    let requests = 0;
+    globalThis.fetch = (async () => {
+      requests++;
+      throw new Error("get_figma_frame must not call Figma with no linked components");
+    }) as typeof fetch;
+
+    const result = body(await frameTool(unlinked())({ url: FRAME_URL }));
+    expect(result).toMatchObject({ found: false, fileKey: "abc123", nodeId: "12:345" });
+    expect(result.warning).toContain("get_design_context");
+    expect(result.warning).toContain("get_token");
+    expect(requests).toBe(0);
+  });
+
+  it("goes on to the token check once a component is linked", async () => {
+    delete process.env.FIGMA_TOKEN;
+    const result = body(await frameTool(loader)({ url: FRAME_URL }));
+    expect(result).toMatchObject({ found: false });
+    expect(result.warning).toContain("FIGMA_TOKEN");
   });
 });

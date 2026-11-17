@@ -30,7 +30,7 @@ import { resolve, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { buildComponentSpec, SITE_ORIGIN } from "../src/component-spec.js";
 import { parseTokens, renderTokensMarkdown } from "../src/tokens/catalog.js";
-import { FRAMEWORK_INFO, aiSpecPath, resolveTarget, type DocFramework, type FrameworkTarget } from "../src/frameworks.js";
+import { FRAMEWORK_INFO, aiIndexPath, aiSpecPath, resolveTarget, type DocFramework, type FrameworkTarget } from "../src/frameworks.js";
 import { loadFrameworkData, OTHER_FRAMEWORKS as OTHER_FRAMEWORK_LIST } from "../src/framework-data.js";
 import type { ComponentManifest, ComponentManifestEntry, LatestHashes } from "../src/schema.js";
 
@@ -137,6 +137,7 @@ for (const entry of manifest.components) {
         target,
         relatedTargets,
         frameworkManifest: FRAMEWORK_MANIFESTS[framework],
+        surface: OTHER_SURFACES[framework],
       });
       writeFileSync(join(out, aiSpecPath(framework, entry.codeName)), fwText);
       frameworkCounts[framework]!.push(entry.codeName);
@@ -237,7 +238,7 @@ and specs, with its own props, import, markup and conventions:
 
 ${OTHER_FRAMEWORKS.map(
   (fw) =>
-    `- [${FRAMEWORK_INFO[fw].label}](${SITE_ORIGIN}/llms-${fw}.txt) (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
+    `- [${FRAMEWORK_INFO[fw].label}](${SITE_ORIGIN}${aiIndexPath(fw)}) (\`${FRAMEWORK_INFO[fw].packageName}\` v${VERSIONS[fw]}, ` +
     `${frameworkCounts[fw]!.length} components): ${SITE_ORIGIN}/ai/${fw}/<Component>.md`,
 ).join("\n")}
 
@@ -289,11 +290,11 @@ ${fwRows.map((r) => `- [${r.symbol}](${SITE_ORIGIN}${aiSpecPath(fw, r.file)}): $
 ## Optional
 
 - [Everything in one file](${SITE_ORIGIN}/llms-full-${fw}.txt): The tokens and every ${info.label} spec.
-- [Other libraries](${SITE_ORIGIN}/llms.txt): React, and the index of every library.
+- [Other libraries](${SITE_ORIGIN}${aiIndexPath("react")}): React, and the index of every library.
 
 Generated ${generatedAt} from manifest version ${manifest.manifestVersion}.
 `;
-  writeFileSync(join(out, `llms-${fw}.txt`), index);
+  writeFileSync(join(out, aiIndexPath(fw)), index);
   writeFileSync(join(out, `llms-full-${fw}.txt`), [tokensMd, ...frameworkSpecs[fw]!].join("\n\n---\n\n"));
 }
 

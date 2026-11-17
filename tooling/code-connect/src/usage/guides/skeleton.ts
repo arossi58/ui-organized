@@ -44,7 +44,7 @@ export const skeletonUsage: UsageGuide = {
   ],
   accessibility: [
     "A skeleton conveys nothing to a screen reader: mark the region as busy, or announce the load another way.",
-    "The shimmer stops under a reduced-motion preference, and `animated={false}` turns it off outright.",
+    "The shimmer stops under a reduced-motion preference, and setting `animated` to false turns it off outright.",
     "Never leave focus on a control that a skeleton is standing in for, since it isn't there yet.",
   ],
   related: [

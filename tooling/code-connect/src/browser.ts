@@ -82,6 +82,7 @@ export {
   TOKEN_FAMILIES,
 } from "./ai-context-rules.js";
 export {
+  aiIndexPath,
   aiSpecPath,
   setupImportsFor,
   DOC_FRAMEWORKS,
