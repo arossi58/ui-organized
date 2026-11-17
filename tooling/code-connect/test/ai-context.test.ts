@@ -144,7 +144,10 @@ describe("buildAiContext — invariants across every manifest entry", () => {
     // would make an agent distrust a component that is entirely correct.
     for (const entry of all) {
       const { text } = buildAiContext({ entry, meta: META });
-      expect(text.toLowerCase(), entry.codeName).not.toContain("draft");
+      // Outside code spans: a referenced type may well have a member named
+      // `draft` (the table's `EditState` does), and that isn't the status.
+      const prose = text.replace(/`[^`\n]*`/g, "");
+      expect(prose.toLowerCase(), entry.codeName).not.toContain("draft");
     }
   });
 
@@ -273,6 +276,60 @@ describe("expandPropType", () => {
     });
     expect(text).toContain("is one of exactly these 40 values");
     expect(text).toContain("tone-39");
+  });
+});
+
+describe("referenced types", () => {
+  it("writes out Select's option type right after its prop table", () => {
+    const { text, data } = buildAiContext({ entry: byName("Select") });
+    const line = "- `SelectOption` is `{ value: string; label: string; disabled?: boolean }`";
+    expect(text).toContain(`The types named above:\n\n${line}`);
+    expect(data.referencedTypes).toEqual({ SelectOption: "{ value: string; label: string; disabled?: boolean }" });
+    // After the table, before the pass-through note that closes the section.
+    expect(text.indexOf(line)).toBeGreaterThan(text.indexOf("| `options` |"));
+    expect(text.indexOf(line)).toBeLessThan(text.indexOf("Beyond the props above"));
+  });
+
+  const entryWith = (props: ComponentManifestEntry["props"], referencedTypes: Record<string, string>) => ({
+    ...byName("Select"),
+    props,
+    referencedTypes,
+  });
+
+  it("follows the types a shape names, and leaves out ones no shown prop reaches", () => {
+    const { data } = buildAiContext({
+      entry: entryWith([{ name: "steps", type: "TourStep[]", required: true }], {
+        TourStep: "{ title: string; actions?: TourStepAction[] }",
+        TourStepAction: "{ label: string }",
+        Unrelated: "{ x: number }",
+      }),
+    });
+    expect(Object.keys(data.referencedTypes!)).toEqual(["TourStep", "TourStepAction"]);
+  });
+
+  it("doesn't repeat a type the table already expands", () => {
+    const { text, data } = buildAiContext({
+      entry: entryWith([{ name: "size", type: "ControlSize", required: false }], { ControlSize: '"sm" | "md"' }),
+      typeValues: { ControlSize: ["sm", "md"] },
+    });
+    expect(data.referencedTypes).toBeUndefined();
+    expect(text).not.toContain("The types named above");
+  });
+
+  it("isn't fooled by a type name inside a string literal", () => {
+    const { data } = buildAiContext({
+      entry: entryWith([{ name: "mode", type: '"Row" | "cell"', required: false }], { Row: "{ id: string }" }),
+    });
+    expect(data.referencedTypes).toBeUndefined();
+  });
+
+  it("keeps a template literal type readable inside a code span", () => {
+    // `data-${string}`, spelled so it isn't read as a template placeholder.
+    const shape = "{ [key: `data-$" + "{string}`]: string }";
+    const { text } = buildAiContext({
+      entry: entryWith([{ name: "attrs", type: "DataAttrs", required: false }], { DataAttrs: shape }),
+    });
+    expect(text).toContain(`- \`DataAttrs\` is \`\` ${shape} \`\``);
   });
 });
 

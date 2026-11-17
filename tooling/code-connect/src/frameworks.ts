@@ -100,6 +100,12 @@ export interface AngularSelector {
    * *is* its own element — the overlays are all written that way.
    */
   attribute?: string;
+  /**
+   * Every host element the selector accepts for `attribute`, when it accepts
+   * more than one: `["button", "a"]` for `button[uioButton], a[uioButton]`.
+   * `element` is the first of them, the one a generated sample uses.
+   */
+  elements?: string[];
 }
 
 /**
@@ -124,16 +130,24 @@ export function parseAngularSelectors(sources: Iterable<string>): Record<string,
   // is the one immediately after it even in a file declaring several.
   const decorated = /selector:\s*["'`]([^"'`]+)["'`][\s\S]*?export class (\w+)/g;
 
+  const attributeSelector = /^([a-zA-Z][\w-]*)?\[([\w-]+)\]$/;
   for (const source of sources) {
     for (let m = decorated.exec(source); m; m = decorated.exec(source)) {
-      const first = (m[1] ?? "").split(",")[0]!.trim();
-      const attributeForm = /^([a-zA-Z][\w-]*)?\[([\w-]+)\]$/.exec(first);
+      const alternatives = (m[1] ?? "").split(",").map((part) => part.trim());
+      const first = alternatives[0]!;
+      const attributeForm = attributeSelector.exec(first);
       if (attributeForm) {
+        const attribute = attributeForm[2]!;
+        // A bare `[uioCard]` matches any element; `div` is the neutral choice and
+        // the one the library's own docs use.
+        const elements = alternatives.flatMap((part) => {
+          const form = attributeSelector.exec(part);
+          return form && form[2] === attribute ? [form[1] || "div"] : [];
+        });
         out[m[2]!] = {
-          // A bare `[uioCard]` matches any element; `div` is the neutral choice and
-          // the one the library's own docs use.
           element: attributeForm[1] || "div",
-          attribute: attributeForm[2]!,
+          attribute,
+          ...(elements.length > 1 ? { elements } : {}),
         };
         continue;
       }

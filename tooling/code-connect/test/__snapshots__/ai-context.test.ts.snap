@@ -34,13 +34,14 @@ The \`icons/lucide\` line registers the icon set — \`@ui-organized/react\` imp
 
 Buttons trigger actions. Use \`intent\` to convey emphasis and tone, \`size\` for density.
 
-## Props — complete (4 own props)
+## Props — complete (5 own props)
 
 | Prop | Allowed values | Required | Default | Notes |
 | --- | --- | --- | --- | --- |
 | \`icon\` | \`IconName \\| IconComponent\` | no | — | Optional icon to render inside the button. |
 | \`iconPosition\` | \`"left"\` \\| \`"right"\` | no | \`"left"\` | Whether the icon appears before or after the button label. |
 | \`intent\` | \`"primary"\` \\| \`"secondary"\` \\| \`"tertiary"\` \\| \`"ghost"\` \\| \`"destructive"\` \\| \`"destructive-ghost"\` | no | \`"primary"\` | Visual style intent. |
+| \`render\` | \`React.ReactElement\` | no | — | Render the button as a supplied element (e.g. an \`<a>\` or router \`Link\`) instead of a native \`<button>\`. |
 | \`size\` | \`"sm"\` \\| \`"md"\` \\| \`"lg"\` | no | \`"md"\` | Size variant. |
 
 Beyond the props above, this component forwards the standard React props of its underlying element — \`children\`, \`className\`, \`id\`, \`style\`, \`ref\`, its native event handlers (\`onClick\`, \`onChange\`, …), and \`aria-*\` / \`data-*\` attributes. Those are the ONLY additions; they do not extend the variant API above.
@@ -65,7 +66,7 @@ Beyond the props above, this component forwards the standard React props of its 
 - Package: @ui-organized/react@4.1.0
 - Source: packages/react/src/components/Button/Button.types.ts
 - Confidence: exact
-- Props: in sync with code (last scanned 2026-11-05T02:51:10.385Z)
+- Props: in sync with code (last scanned 2026-11-13T15:40:04.020Z)
 - Docs: https://uiorganized.com/docs/button
 - Spec: https://uiorganized.com/ai/Button.md
 - All components: 114 components — https://uiorganized.com/llms.txt
