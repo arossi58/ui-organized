@@ -1,0 +1,39 @@
+{
+  // create-vite's vue-ts template (its tsconfig.app.json), so the check a new
+  // Vue app runs is the one this gate runs. Its base,
+  // @vue/tsconfig/tsconfig.dom.json, is inlined rather than installed.
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+
+    /* Linting */
+    "strict": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    // TypeScript 6's default, set by hand on the workspace's TypeScript 5.9.
+    // With it, a side-effect import that resolves to no module is an error, so
+    // `@ui-organized/vue/styles` (no `.css`, no declarations) fails here the
+    // way it fails in a new app, while `/styles.css` matches vite/client's
+    // `*.css` declaration.
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+}

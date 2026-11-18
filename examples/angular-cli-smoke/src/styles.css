@@ -1,0 +1,5 @@
+/* The app's own styles, last in angular.json's "styles", as Get Started shows. */
+app-root {
+  display: block;
+  padding: 1rem;
+}

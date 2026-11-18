@@ -194,14 +194,20 @@ if (contractDiff.status > 1) {
   );
 }
 
-// ── 5. Typecheck (packages only) ─────────────────────────────────────────────
+// ── 5. Typecheck (packages, tooling and examples) ────────────────────────────
 // Scoped to packages and tooling on purpose: the apps have pre-existing type
 // errors, which .github/actions/build-site works around by calling `vite build`
 // directly. Gating on those here would make this red for reasons that have
 // nothing to do with component quality.
+//
+// The examples are in because two of them hold Get Started's Svelte and Vue
+// entries verbatim, under create-vite's tsconfig with TypeScript 6's
+// `noUncheckedSideEffectImports`. A docs import a new app's type check rejects
+// (`/styles` with no `.css` was one) fails here, on every PR, rather than in a
+// reader's terminal. Examples without a `typecheck` script are skipped.
 const typecheck = run("pnpm", ["run", "typecheck:packages"]);
 if (typecheck.status !== 0) console.log(typecheck.stdout ?? "");
-record("typecheck", typecheck.status === 0, "packages/* and tooling/* must typecheck");
+record("typecheck", typecheck.status === 0, "packages/*, tooling/* and examples/* must typecheck");
 
 // ── 6. Undeclared workspace imports ──────────────────────────────────────────
 /**

@@ -1,0 +1,4 @@
+/* Stands in for a Theme Builder export, so the documented import has a file to resolve. */
+[data-theme="light"] {
+  --color-interactive-primary-default: #6d28d9;
+}

@@ -47,7 +47,8 @@
     "test": "vitest run",
     "lint": "eslint src/",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test:smoke": "node ../../scripts/smoke-table.mjs angular"
+    "test:smoke": "node ../../scripts/smoke-table.mjs angular",
+    "test:smoke:cli": "node ../../scripts/smoke-table.mjs angular-cli"
   },
   "peerDependencies": {
     "@angular/cdk": ">=21.0.0",
