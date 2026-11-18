@@ -7,6 +7,8 @@ import { definedOnly } from "../../props.js";
 import AngleSliderValue from "./AngleSliderValue.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { AngleSliderProps } from "./AngleSlider.types.js";
+// The shared field chrome, ahead of this component's own sheet, which may override it.
+import "@ui-organized/core/components/Field/Field.css";
 import "@ui-organized/core/components/AngleSlider/AngleSlider.css";
 
 defineOptions({ inheritAttrs: false });

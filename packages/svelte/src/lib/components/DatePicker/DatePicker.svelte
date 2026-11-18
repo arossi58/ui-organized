@@ -12,6 +12,8 @@
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import type { DatePickerProps } from "./DatePicker.types.js";
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/DatePicker/DatePicker.css";
   import { glyph } from "../../icons/glyph.js";
 

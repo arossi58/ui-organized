@@ -3,6 +3,8 @@
   import { clsx } from "clsx";
   import { imageCropperStyles } from "@ui-organized/core";
   import type { ImageCropperProps } from "./ImageCropper.types.js";
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/ImageCropper/ImageCropper.css";
 
   /** Every corner and edge, in the order zag names them. */

@@ -5,6 +5,8 @@
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import type { NumberFieldProps } from "./NumberField.types.js";
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/NumberField/NumberField.css";
   import { glyph } from "../../icons/glyph.js";
   import { onMount } from "svelte";

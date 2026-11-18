@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Release gate for Svelte's and Vue's per-component stylesheets: does a
- * one-Button **production** build ship the Button's CSS, the typography and
- * base rules it leans on, and nothing else?
+ * **production** build of a Button and an Input ship their CSS, the shared
+ * rules they lean on, and nothing else?
  *
  * Usage: `node scripts/smoke-css.mjs <framework>` where framework is `svelte`
  * or `vue`. Each library runs it as its `test:smoke:css`, so jsdom resolves
@@ -31,10 +31,19 @@
  *    off `sideEffects` and the components imported through it survive while
  *    those two imports vanish, in `vite build` only.
  *
+ * 4. **A family's shared chrome is missing.** Input, TextArea, Combobox and
+ *    the rest of the field family draw their label, control and border from
+ *    `.field` and `.field__control`, which live in `Field.css`, and only the
+ *    Field component imported it. So without `/styles.css` every form control
+ *    rendered as a bare browser input, while a one-Button app passed this
+ *    gate. Each of them now imports `Field.css` ahead of its own sheet: ahead,
+ *    because Combobox and NumberField override it, and the shipped sheet's
+ *    computed styles only hold with it first.
+ *
  * Unit tests import modules by name, which defeats tree shaking, and `vite dev`
  * does not tree-shake, so only a production build of a real consumer answers
  * any of this. `examples/<framework>-css-smoke` is that consumer: the token
- * baseline, one Button, and deliberately no `/styles.css`.
+ * baseline, a Button, an Input, and deliberately no `/styles.css`.
  *
  * jsdom rather than a real browser, as in `scripts/smoke-table.mjs`: what is
  * under test happens at build time. The render only has to show that the
@@ -239,6 +248,16 @@ try {
     "and the emitted stylesheet styles it",
     style?.display === "inline-flex" && /--type-size-body-large/.test(style?.fontSize ?? ""),
     `display: ${style?.display}; font-size: ${style?.fontSize}`,
+  );
+  // The field family's chrome. `background-color` on `.field__control` is set
+  // by Field.css alone, so it reads as that token only if Field.css shipped.
+  const control = dom.window.document.querySelector("input.field__control");
+  check("the Input renders in the production build", !!control);
+  const controlStyle = control ? dom.window.getComputedStyle(control) : undefined;
+  check(
+    "and Field.css styles its control",
+    /--color-interactive-ui-default/.test(controlStyle?.backgroundColor ?? ""),
+    `background-color: ${controlStyle?.backgroundColor}`,
   );
   check("no console warnings or errors", noise.length === 0, noise[0]?.slice(0, 100) ?? "");
 } catch (error) {
