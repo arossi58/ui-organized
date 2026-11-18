@@ -21,6 +21,8 @@
   import FormatInputs from "./FormatInputs.svelte";
   import type { ColorLike } from "./channelFields.js";
   import type { ColorPickerProps } from "./ColorPicker.types.js";
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/ColorPicker/ColorPicker.css";
   import { glyph } from "../../icons/glyph.js";
 

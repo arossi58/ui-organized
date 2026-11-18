@@ -9,6 +9,8 @@ import FieldError from "../FieldError/FieldError.vue";
 import FileUploadLabel from "./FileUploadLabel.vue";
 import FileUploadTrigger from "./FileUploadTrigger.vue";
 import type { FileUploadProps } from "./FileUpload.types.js";
+// The shared field chrome, ahead of this component's own sheet, which may override it.
+import "@ui-organized/core/components/Field/Field.css";
 import "@ui-organized/core/components/FileUpload/FileUpload.css";
 import { glyph } from "../../icons/glyph.js";
 

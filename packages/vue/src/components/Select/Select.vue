@@ -8,6 +8,8 @@ import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import SelectTrigger from "./SelectTrigger.vue";
 import type { SelectProps } from "./Select.types.js";
+// The shared field chrome, ahead of this component's own sheet, which may override it.
+import "@ui-organized/core/components/Field/Field.css";
 import "@ui-organized/core/components/Select/Select.css";
 import { glyph } from "../../icons/glyph.js";
 

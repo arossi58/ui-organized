@@ -7,6 +7,8 @@ import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { NumberFieldProps } from "./NumberField.types.js";
+// The shared field chrome, ahead of this component's own sheet, which may override it.
+import "@ui-organized/core/components/Field/Field.css";
 import "@ui-organized/core/components/NumberField/NumberField.css";
 import { glyph } from "../../icons/glyph.js";
 import { trackFocusModality } from "@ui-organized/core/focus-modality";

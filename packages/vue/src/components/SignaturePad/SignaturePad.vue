@@ -7,6 +7,8 @@ import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import type { SignaturePadProps } from "./SignaturePad.types.js";
+// The shared field chrome, ahead of this component's own sheet, which may override it.
+import "@ui-organized/core/components/Field/Field.css";
 import "@ui-organized/core/components/SignaturePad/SignaturePad.css";
 import { glyph } from "../../icons/glyph.js";
 

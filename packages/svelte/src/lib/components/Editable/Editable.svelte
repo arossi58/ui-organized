@@ -5,6 +5,8 @@
   import Button from "../Button/Button.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import type { EditableProps } from "./Editable.types.js";
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/Editable/Editable.css";
   import { onMount } from "svelte";
   import { trackFocusModality } from "@ui-organized/core/focus-modality";

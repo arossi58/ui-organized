@@ -7,6 +7,8 @@
   import type { SearchInputProps } from "./SearchInput.types.js";
   // Shares the Input field surface/state styling; InputAffix.css layers on the
   // leading icon and clear button.
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
   import { glyph } from "../../icons/glyph.js";

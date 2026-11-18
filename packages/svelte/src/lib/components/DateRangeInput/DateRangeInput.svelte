@@ -29,6 +29,8 @@
   import type { DateRangeInputProps, DateRangeValue } from "./DateRangeInput.types.js";
   // Shares the Input field surface/state styling; InputAffix.css supplies the
   // leading calendar buttons; DateRangeInput.css lays out the start/end pair.
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
   import "@ui-organized/core/components/DateRangeInput/DateRangeInput.css";

@@ -6,6 +6,8 @@
   import type { TextAreaProps } from "./TextArea.types.js";
   // Shares the Input field surface/state styling; TextArea.css layers on the
   // multi-line specifics (min-height, resize).
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/TextArea/TextArea.css";
   import { onMount } from "svelte";

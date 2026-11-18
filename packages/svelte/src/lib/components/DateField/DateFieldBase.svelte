@@ -33,6 +33,8 @@
   import type { DateFieldBaseProps } from "./DateFieldBase.types.js";
   // Shares the Input field surface/state styling; InputAffix.css supplies the
   // leading calendar button and hides the native picker chrome.
+  // The shared field chrome, ahead of this component's own sheet, which may override it.
+  import "@ui-organized/core/components/Field/Field.css";
   import "@ui-organized/core/components/Input/Input.css";
   import "@ui-organized/core/components/Input/InputAffix.css";
   import { glyph } from "../../icons/glyph.js";
