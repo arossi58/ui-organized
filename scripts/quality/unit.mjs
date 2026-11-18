@@ -28,7 +28,7 @@ mkdirSync(QUALITY, { recursive: true });
  * some 2,500 to a total that is meant to say something about interaction, while
  * measuring nothing about it.
  */
-const verdictOnly = (name, options = {}) => ({ name, attribute: false, ...options });
+const verdictOnly = (name) => ({ name, attribute: false });
 
 /**
  * Every package with a unit suite, not just React's.
@@ -83,10 +83,7 @@ const PACKAGES = [
   verdictOnly("@ui-organized/token-io"),
   verdictOnly("@ui-organized/pack-ui-organized"),
   verdictOnly("@ui-organized/figma-token-plugin"),
-  // No tests yet, and its own `test` script passes with none. Listed now so its
-  // first suite runs in CI the day it lands; drop the flag then, so an include
-  // glob that stops matching fails rather than passes.
-  verdictOnly("@ui-organized/react-vite", { passWithNoTests: true }),
+  verdictOnly("@ui-organized/react-vite"),
 ].map((entry) => (typeof entry === "string" ? { name: entry, attribute: true } : entry));
 
 /**
@@ -226,7 +223,6 @@ for (const pkg of selected) {
       "run",
       "--reporter=json",
       `--outputFile=${out}`,
-      ...(pkg.passWithNoTests ? ["--passWithNoTests"] : []),
     ],
     { cwd: root, encoding: "utf8" },
   );

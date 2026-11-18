@@ -12,7 +12,8 @@
  *   tested against a theme no current export could produce.
  * - With `REGENERATE_CLI_FIXTURES=1` (`pnpm --filter @ui-organized/marketing
  *   fixtures:cli`): rebuild both zips from the fixture's own theme.json, with
- *   the builders and file order of the Export tab (`useExport.ts`).
+ *   the Export tab's own builders and file list (`BUILDERS` in `useExport.ts`,
+ *   `BUNDLE_FILES` in `bundle.ts`), so a file the tab adds reaches them too.
  *
  * Two archives, because the CLI's zip reader has two paths. JSZip's default,
  * STORE with the sizes in each local header, is what the Export tab downloads.
@@ -25,14 +26,9 @@ import { fileURLToPath } from "node:url";
 import JSZip from "jszip";
 import { describe, expect, it } from "vitest";
 import { globalConstantVars } from "@ui-organized/tokens";
+import { BUILDERS } from "../src/tools/theme-builder/hooks/useExport";
 import { useBuilderStore } from "../src/tools/theme-builder/state/themeState";
-import { buildThemeCss, CSS_FILENAME } from "../src/tools/theme-builder/utils/buildCss";
-import {
-  buildIconsModule,
-  buildReadme,
-  buildThemeJson,
-} from "../src/tools/theme-builder/utils/buildConfig";
-import { buildFontsModule } from "../src/tools/theme-builder/utils/buildFonts";
+import { BUNDLE_FILES } from "../src/tools/theme-builder/utils/bundle";
 
 const FIXTURES = fileURLToPath(new URL("../../../packages/cli/test/fixtures/", import.meta.url));
 const STORED = `${FIXTURES}kitchen-sink-teal-theme.zip`;
@@ -52,15 +48,7 @@ async function regenerate(): Promise<void> {
   const state = useBuilderStore.getState();
 
   const zip = new JSZip();
-  for (const [name, content] of [
-    ["theme.json", buildThemeJson(state)],
-    [CSS_FILENAME, buildThemeCss(state)],
-    ["icons.ts", buildIconsModule(state)],
-    ["fonts.ts", buildFontsModule(state)],
-    ["README.md", buildReadme(state)],
-  ] as const) {
-    zip.file(name, content, { date: DATE });
-  }
+  for (const { name } of BUNDLE_FILES) zip.file(name, BUILDERS[name](state), { date: DATE });
 
   writeFileSync(STORED, await zip.generateAsync({ type: "nodebuffer" }));
   writeFileSync(

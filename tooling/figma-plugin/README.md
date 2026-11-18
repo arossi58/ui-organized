@@ -40,13 +40,14 @@ and merged back in on export, so a builder → Figma → builder round-trip is l
 when the variables weren't edited. (A file with no stashed metadata still exports a
 valid token tree, with default `$extensions`.)
 
-Load the result back with **Import theme** in the theme builder's Color panel, or drop
-the `theme.json` straight into code. The builder keeps its inputs, not individual
-variables: it restores brand, neutral and tint, primary shade, type scale, line
-heights, fonts and weights, radius and spacing bases, and icons, then re-derives
-everything else from them. Edits to individual color, spacing, radius or component
-variables are replaced, and the builder lists which ones. Keep the exported
-`theme.json` as your source if those edits need to survive.
+Load the result back with **Import theme** in the theme builder's Color panel, or
+build it straight into code with `@ui-organized/react-vite`. The builder keeps its
+inputs, not individual variables: it restores brand, neutral and tint, primary shade,
+type scale, line heights, fonts and weights, radius and spacing bases, and icons, then
+re-derives everything else from them. Edits to individual color, spacing, radius or
+component variables are replaced, and the builder lists which ones. The Vite plugin
+reads the token values as they are, so keep the exported `theme.json` as your source,
+built that way, if those edits need to survive.
 
 ## Develop
 
