@@ -1,10 +1,10 @@
 /**
- * Canonical `get_component_context` serialization (Connect.md §0.5, §4.2, §6.2, §6.4).
+ * Canonical `get_component_context` serialization.
  *
  * The Node-side composition: resolve a key against the loaded manifest, compute
  * staleness from the published hashes, and hand off to the PURE builders in
  * `../serialize-core.ts`. The plugin's Preview Payload imports those same builders,
- * so a human preview and the agent's payload can never diverge (§0.5 criterion 5).
+ * so a human preview and the agent's payload can never diverge.
  */
 
 import type {
@@ -27,14 +27,14 @@ export function buildComponentContext(
 ): GetComponentContextOutput {
   const { figmaComponentKey, figmaNodeId } = input;
 
-  // A bare node id can't be resolved from the manifest alone — Figma stores only
-  // the pointer (component key) on the node, not us (§1, §4.1).
+  // A bare node id can't be resolved from the manifest alone — the manifest is
+  // keyed by component key, and only the Figma node knows which key it holds.
   if (!figmaComponentKey) {
     return figmaNodeId ? unresolvableNode(figmaNodeId) : missingInput();
   }
 
   const entry = resolveByKey(loader, figmaComponentKey);
-  if (!entry) return noMatchForKey(figmaComponentKey); // never synthesize (§6.4.1)
+  if (!entry) return noMatchForKey(figmaComponentKey); // fail explicitly, never synthesize
 
   return contextForEntry(entry, computeStaleness(entry, loader));
 }

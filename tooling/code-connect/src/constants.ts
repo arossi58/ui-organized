@@ -4,8 +4,8 @@
  */
 
 /**
- * The keys the Figma plugin writes onto a mapped node via `setPluginData`
- * (Connect.md §4.1). Only a pointer + timestamp live on the node; the real
+ * The keys the Figma plugin writes onto a mapped node via `setPluginData`.
+ * Only a pointer + timestamp live on the node; the real
  * mapping lives in the manifest, looked up by this component key.
  */
 export const PLUGIN_DATA_KEYS = {

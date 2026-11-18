@@ -1,4 +1,4 @@
-# Code Connect MCP server — HTTP transport (Connect.md §9).
+# Code Connect MCP server — HTTP transport (src/mcp/http-server.ts).
 # Build from the MONOREPO ROOT so workspace linking + the packages/react source
 # (needed by validate_mapping's live re-scan) are available:
 #   docker build -f tooling/code-connect/deploy/Dockerfile -t code-connect-mcp .

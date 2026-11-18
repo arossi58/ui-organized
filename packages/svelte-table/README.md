@@ -93,7 +93,7 @@ in the engine, so it is identical across all four adapters.
 
 ## Peer dependencies
 
-`svelte >= 5.20`, `@ui-organized/svelte >= 0.1.0`.
+`svelte >= 5.20`, `@ui-organized/svelte >= 6.0.0`.
 
 ## License
 

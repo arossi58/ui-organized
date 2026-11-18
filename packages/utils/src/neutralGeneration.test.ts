@@ -250,8 +250,9 @@ describe("getNeutralRamp", () => {
   });
 
   it("fixes the luminance divergence the authored families had", () => {
-    // docs/theme-test.md recorded juniper.1400 at roughly half grey.1400's
-    // luminance. Re-derived, they match.
+    // The authored juniper.1400 has roughly half grey.1400's luminance (OKLCH
+    // L 0.454 against 0.673), so a theme that switched its neutral from grey to
+    // juniper darkened every token on that step. Re-derived, they match.
     const authored = relativeLuminance(coreColors.juniper!["1400"]!.hex);
     const derived = relativeLuminance(getNeutralRamp("juniper")["1400"]!.hex);
     const grey = relativeLuminance(GREY["1400"]!.hex);

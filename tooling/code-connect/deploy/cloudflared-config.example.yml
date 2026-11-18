@@ -1,4 +1,4 @@
-# Example Cloudflare Tunnel ingress (Connect.md §9) — if you run cloudflared with a
+# Example Cloudflare Tunnel ingress — if you run cloudflared with a
 # named tunnel + credentials file instead of the token-based service in
 # docker-compose.yml. Maps the public subdomain to the container's HTTP endpoint.
 #

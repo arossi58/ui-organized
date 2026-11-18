@@ -121,7 +121,7 @@ in the engine, so it is identical across all four adapters.
 ## Peer dependencies
 
 `@angular/core >= 21`, `@angular/common >= 21`, `@angular/cdk >= 21`,
-`@ui-organized/angular >= 0.1.0`.
+`@ui-organized/angular >= 6.0.0`.
 
 If you build with Vite rather than the Angular CLI, you need the `style` resolve
 condition for the CDK's overlay stylesheet — see

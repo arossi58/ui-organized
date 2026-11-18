@@ -1,5 +1,6 @@
 /**
- * Layer 4 — retroactive verification pass (Connect.md §7.4).
+ * Layer 4 — retroactive verification pass. (The four layers are listed under
+ * "Hallucination flagging" in this package's README.)
  *
  * Statically scans generated files against the manifest and flags what the
  * earlier layers can't guarantee (an agent can ignore the Layer 2 instruction):
@@ -9,7 +10,8 @@
  *  - a `var(--…)` that isn't a real design token (error), when the token
  *    catalog is given;
  *  - a usage of a non-exact mapping (deprecated or stale) with no Layer 2
- *    annotation above it (error, React) — what catches an ignored §7.2 instruction;
+ *    annotation above it (error, React) — what catches an ignored Layer 2
+ *    instruction;
  *  - use of a deprecated component (warning).
  *
  * Every library is read with its own parser: TSX with TypeScript, `.vue` with
@@ -18,7 +20,7 @@
  * component is checked against THAT library's own scan, so Vue's `modelValue`
  * passes and React's `onValueChange` on a Vue component does not.
  *
- * Run as a CI gate the same way lint/type-check gate (§7.4). Node-only.
+ * Run as a CI gate the same way lint/type-check gate. Node-only.
  */
 
 import ts from "typescript";

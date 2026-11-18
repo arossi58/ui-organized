@@ -1,12 +1,12 @@
 /**
- * `verify-generated-code` CLI (Connect.md §7.4, Layer 4) —
+ * `verify-generated-code` CLI (Layer 4 of the README's "Hallucination flagging") —
  * `pnpm --filter @ui-organized/code-connect verify <files...>`.
  *
  * Scans agent-generated files against the manifest and reports hallucinated
  * components, unknown props, and missing uncertainty annotations. Exits non-zero on
  * any `error`-severity finding so it can gate a PR the same way lint does. Pass
- * `--strict` to also fail on warnings (§12 open decision — start non-blocking on
- * warnings, tighten later).
+ * `--strict` to also fail on warnings (non-blocking on warnings by default, to be
+ * tightened once they prove reliable).
  */
 
 import { existsSync, readFileSync } from "node:fs";

@@ -1,5 +1,5 @@
 /**
- * Manifest Sync CLI (Connect.md §5) — `pnpm --filter @ui-organized/code-connect scan`.
+ * Manifest Sync CLI — `pnpm --filter @ui-organized/code-connect scan`.
  *
  * Reads real component code, reconciles it against the committed manifest, and
  * writes `manifest/components.json`, `manifest/latest-hashes.json` and
@@ -7,7 +7,7 @@
  * write it: the lint gate (`scripts/quality/lint.mjs`, check 8
  * "component-manifest") re-runs it and fails if anything under `manifest/` changes.
  *
- * The scanner is the ONLY writer of `propSignatureHash` (Connect.md §8) — it always
+ * The scanner is the ONLY writer of `propSignatureHash` — it always
  * computes from current code, never from memory of when a mapping was made.
  */
 

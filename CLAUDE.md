@@ -71,13 +71,15 @@ Every workspace package is `@ui-organized/<dir>`, except `apps/figma-plugin` =
 ```
 pnpm build | test | typecheck        # turbo, all workspaces
 pnpm lint                            # eslint over the whole repo, direct (turbo lint runs per-package)
-pnpm quality                         # all eight gates + aggregate report
-pnpm quality:unit|visual|a11y|interaction|browsers    # one gate, React via Storybook
+pnpm quality                         # all nine gates + aggregate report
+pnpm quality:lint|unit               # lint + token checks; every workspace vitest suite
+pnpm quality:visual|a11y|interaction|browsers    # one gate, React via Storybook
 pnpm quality:a11y:frameworks|interaction:frameworks|visual:frameworks   # the other three libraries
 pnpm quality --skip-build            # reuse existing Storybook build; much faster
+pnpm --filter @ui-organized/parity test:browser   # parity's browser half: CI only (4 shards), 35–40 min whole
 pnpm check:tarballs                  # pack every publishable package, assert its exports resolve inside
 pnpm check:published                 # every publishable package@version is on npm (release.yml runs it after a publish)
-pnpm smoke                           # packed-tarball smoke, 9 suites: cli + react/svelte/vue/angular + the four tables
+pnpm smoke                           # release smoke, 10 suites: cli + mcp (packed tarballs), each library's icons, the four tables (production builds)
 ```
 
 Lint, unit, a11y and interaction block — including the `:frameworks` pair, which

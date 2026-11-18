@@ -1,9 +1,8 @@
 /**
- * Pure, browser-safe payload construction for `get_component_context`
- * (Connect.md §6.2, §6.4). No Node imports — so the Figma plugin's "Preview
- * Payload" (§4.2, §7) and the MCP server both build the EXACT same shape from this
- * one place, with no daylight between what a human previews and what the agent
- * gets (§0.5 success criterion 5).
+ * Pure, browser-safe payload construction for `get_component_context`. No Node
+ * imports — so the Figma plugin's "Preview Payload" and the MCP server both build
+ * the EXACT same shape from this one place, with no daylight between what a human
+ * previews and what the agent gets.
  *
  * The Node-only concerns (loading the manifest, computing staleness from the
  * filesystem) live in `mcp/serialize.ts`, which composes these builders.
@@ -25,7 +24,7 @@ export function missingInput(): GetComponentContextOutput {
   };
 }
 
-/** A bare node id can't be resolved from the manifest — direct the caller (§4.1). */
+/** A bare node id can't be resolved from the manifest — direct the caller. */
 export function unresolvableNode(figmaNodeId: string): GetComponentContextOutput {
   return {
     found: false,
@@ -38,7 +37,7 @@ export function unresolvableNode(figmaNodeId: string): GetComponentContextOutput
   };
 }
 
-/** Explicit failure over guessing (§6.4.1). */
+/** Explicit failure over guessing. */
 export function noMatchForKey(figmaComponentKey: string): GetComponentContextOutput {
   return {
     found: false,
@@ -52,8 +51,9 @@ export function noMatchForKey(figmaComponentKey: string): GetComponentContextOut
 
 /**
  * A resolved, exact-confidence entry. Composes deprecated/stale warnings so they're
- * impossible to miss (§6.4.4, §6.4.5). `staleness` is optional: the MCP server
- * always supplies it; a plugin preview may omit it (staleness UI is a later phase).
+ * impossible to miss: a deprecated or stale mapping still resolves, with a warning
+ * saying so, rather than 404ing. `staleness` is optional: the MCP server always
+ * supplies it; a plugin preview may omit it (staleness UI is a later phase).
  */
 export function contextForEntry(
   entry: ComponentManifestEntry,

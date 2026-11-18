@@ -1,5 +1,6 @@
 /**
- * Layer 3 — structured uncertainty log (Connect.md §7.3).
+ * Layer 3 — structured uncertainty log. (The four layers are listed under
+ * "Hallucination flagging" in this package's README.)
  *
  * A generation run (single component or full page) emits a `mapping-warnings.json`
  * companion file: a flat list of every place the agent wasn't fully sure, so a

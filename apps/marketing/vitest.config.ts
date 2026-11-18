@@ -1,8 +1,11 @@
 import { defineConfig } from "vitest/config";
 
-// The marketing app's only unit tests are the pure lattice math (SITE.md §4) —
-// no DOM, so the node environment is enough. Kept separate from vite.config.ts
-// so the build config stays free of test concerns.
+// None of the marketing app's unit tests render anything: they cover the theme
+// builder's state and export, the docs registry and its data, the lattice math,
+// and the copy editor's source rewriting. So the node environment is enough, and
+// a test that needs a browser global fakes just that one (savedThemes.test.ts
+// brings its own localStorage). Kept separate from vite.config.ts so the build
+// config stays free of test concerns.
 export default defineConfig({
   test: {
     globals: false,

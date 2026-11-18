@@ -1,9 +1,9 @@
 /**
- * MCP tool implementations (Connect.md §6.2), transport-agnostic.
+ * MCP tool implementations, transport-agnostic.
  *
  * Pure functions over a {@link ManifestLoader} so they can be unit-tested directly
- * (§6.4 anti-hallucination behavior) and wrapped identically by the stdio server
- * now and the HTTP transport later — no forked logic between transports (§6.1).
+ * (the anti-hallucination behaviour in `test/tools.test.ts`) and wrapped
+ * identically by the stdio and HTTP servers — no forked logic between transports.
  */
 
 import type {
@@ -19,7 +19,7 @@ import { computeStaleness, liveValidate } from "./staleness.js";
 
 export { buildComponentContext } from "./serialize.js";
 
-/** `search_components` — fuzzy browse of real components (§6.2). */
+/** `search_components` — fuzzy browse of real components. */
 export function searchComponents(
   loader: ManifestLoader,
   input: SearchComponentsInput,
@@ -27,7 +27,7 @@ export function searchComponents(
   return { results: runSearch(loader, input) };
 }
 
-/** `validate_mapping` — health-check a single mapping via a live re-scan (§6.2). */
+/** `validate_mapping` — health-check a single mapping via a live re-scan. */
 export function validateMapping(
   loader: ManifestLoader,
   input: ValidateMappingInput,
@@ -51,7 +51,7 @@ export function validateMapping(
   };
 }
 
-/** `list_stale` — surface drift across the whole manifest (§6.2). */
+/** `list_stale` — surface drift across the whole manifest. */
 export function listStale(loader: ManifestLoader): ListStaleOutput {
   const staleEntries: ListStaleOutput["staleEntries"] = [];
   for (const entry of loader.all()) {

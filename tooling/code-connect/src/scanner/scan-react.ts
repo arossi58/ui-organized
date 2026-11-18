@@ -1,5 +1,5 @@
 /**
- * React scanner (Connect.md §5) — code → PropDefinition[], driven by the library's
+ * React scanner — code → PropDefinition[], driven by the library's
  * PUBLIC API.
  *
  * The scan is anchored on `packages/react/src/index.ts` — the export barrel that
@@ -14,7 +14,8 @@
  * that interface (or type-literal alias) in the component's source and read its
  * OWN declared members via the TypeScript compiler API in source-file-only mode —
  * the meaningful, component-specific props, not inherited DOM attributes. We never
- * regex-parse (Connect.md §5).
+ * regex-parse: a type that spans lines, nests generics or comes through an alias
+ * is exactly what a regex gets quietly wrong.
  */
 
 import ts from "typescript";
