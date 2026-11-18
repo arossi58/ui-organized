@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-13T16:08:55.862Z",
+  "generatedAt": "2026-11-17T15:43:02.848Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -670,7 +670,7 @@
       ],
       "usageSnippet": "<TableSheetButton count={/* number */} icon={/* IconName | IconComponent */} label={/* string */} unit={/* string */} />",
       "propSignatureHash": "sha256:85a630ffe5f0429e",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft"
     },
     {
@@ -1906,7 +1906,7 @@
       ],
       "usageSnippet": "<Button>…</Button>",
       "propSignatureHash": "sha256:222f487a50f3d919",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft",
       "referencedTypes": {
         "ButtonPropsFn": "() => Record<string, unknown>"
@@ -1949,7 +1949,7 @@
       ],
       "usageSnippet": "<Card>…</Card>",
       "propSignatureHash": "sha256:88782d0749faad1c",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft"
     },
     {
@@ -2254,7 +2254,7 @@
       ],
       "usageSnippet": "<Chip>…</Chip>",
       "propSignatureHash": "sha256:b5b81a3a13ca687b",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft"
     },
     {
@@ -3716,7 +3716,7 @@
       ],
       "usageSnippet": "<Divider />",
       "propSignatureHash": "sha256:3365a93472b65590",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft"
     },
     {
@@ -7914,7 +7914,7 @@
       ],
       "usageSnippet": "<Tag>…</Tag>",
       "propSignatureHash": "sha256:04dba12903a097be",
-      "lastSyncedAt": "2026-11-13T16:08:55.862Z",
+      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
       "status": "draft"
     },
     {

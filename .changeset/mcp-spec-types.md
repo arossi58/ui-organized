@@ -1,5 +1,5 @@
 ---
-"@ui-organized/mcp": patch
+"@ui-organized/mcp": minor
 ---
 
 Specs from `get_component` now spell out the types their props name, so an agent no longer has to guess them:
