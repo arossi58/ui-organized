@@ -1169,17 +1169,42 @@
       "attributes": {},
       "classes": [
         "tag",
+        "tag--brand",
         "tag--caution",
         "tag--error",
         "tag--info",
         "tag--info-secondary",
         "tag--lg",
         "tag--md",
+        "tag--neutral",
+        "tag--outline",
+        "tag--pill",
         "tag--sm",
         "tag--subdued",
         "tag--success",
+        "tag__dot",
         "tag__icon",
-        "tag__label"
+        "tag__label",
+        "tag__remove"
+      ],
+      "runtime": []
+    },
+    "TagGroup": {
+      "attributes": {},
+      "classes": [
+        "tag-group",
+        "tag-group--brand",
+        "tag-group--caution",
+        "tag-group--error",
+        "tag-group--info",
+        "tag-group--info-secondary",
+        "tag-group--lg",
+        "tag-group--neutral",
+        "tag-group--success",
+        "tag-group--trailing",
+        "tag-group__icon",
+        "tag-group__message",
+        "tag-group__tag"
       ],
       "runtime": []
     },

@@ -8,6 +8,11 @@ const scenarios: BrowserScenario[] = staticScenarios("Tag", [
   { name: "subdued", props: { emphasized: false } },
   { name: "icon left", props: { icon: "check" } },
   { name: "icon right", props: { icon: "check", iconPosition: "right" } },
+  { name: "brand/subtle", props: { variant: "brand", appearance: "subtle" } },
+  { name: "neutral/solid", props: { variant: "neutral" } },
+  { name: "outline pill dot", props: { appearance: "outline", shape: "pill", dot: true } },
+  // The remove button is a sibling of the label, named by `removeLabel`.
+  { name: "removable", props: { removable: true, removeLabel: "Remove Label" } },
 ]);
 
 export default scenarios;

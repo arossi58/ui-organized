@@ -49,7 +49,7 @@ export const tagExamples: UsageExampleSet = {
     Dont: () => (
       <div style={row}>
         <Tag variant="info">Draft</Tag>
-        <Tag variant="success" emphasized>
+        <Tag variant="success" appearance="solid">
           Published
         </Tag>
         <Tag variant="caution">Scheduled</Tag>

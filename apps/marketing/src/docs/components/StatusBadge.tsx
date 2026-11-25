@@ -10,17 +10,21 @@
  * and AI context block are built on an unresolved or drifted mapping says so,
  * loudly. Silence here means verified and in sync, and nothing else.
  */
+import { Tag } from "@ui-organized/react";
 import type { Staleness } from "@ui-organized/code-connect/browser";
 import type { DocsComponent } from "../registry";
 import styles from "./content.module.css";
 
 type Tone = "ok" | "warn" | "info" | "error";
 
+/** Tag has no `warning`; a warning-coloured tag is `caution`, as Tag's own docs say. */
+const VARIANT = { ok: "success", warn: "caution", info: "info", error: "error" } as const;
+
 function Badge({ tone, children, title }: { tone: Tone; children: string; title?: string }) {
   return (
-    <span className={styles.badge} data-tone={tone} title={title}>
+    <Tag variant={VARIANT[tone]} appearance="outline" shape="pill" size="sm" title={title}>
       {children}
-    </span>
+    </Tag>
   );
 }
 

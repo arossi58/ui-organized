@@ -83,6 +83,8 @@ export type { EmptyStateProps } from "./components/EmptyState/index.js";
 
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";
+export { TagGroup } from "./components/TagGroup/index.js";
+export type { TagGroupProps } from "./components/TagGroup/index.js";
 
 export { Chip, ChipSegment } from "./components/Chip/index.js";
 export type { ChipProps, ChipSegmentPart, ChipSegmentProps } from "./components/Chip/index.js";

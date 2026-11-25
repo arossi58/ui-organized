@@ -1,5 +1,14 @@
 {
   "components": {},
-  "figmaOnly": ["Toast"],
-  "ignoreProperties": {}
+  "figmaOnly": [
+    "Toast"
+  ],
+  "ignoreProperties": {
+    "Tag": [
+      "removable"
+    ],
+    "TagGroup": [
+      "href"
+    ]
+  }
 }

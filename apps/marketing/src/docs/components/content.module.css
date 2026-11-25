@@ -382,39 +382,3 @@
   align-items: center;
   gap: var(--spacing-space-02);
 }
-
-.badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-space-01);
-  padding: 0.15em 0.55em;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius-full);
-  font-size: var(--type-size-caption);
-  font-weight: var(--type-weight-body-strong);
-  white-space: nowrap;
-}
-
-.badge[data-tone="ok"] {
-  border-color: var(--color-status-success);
-  background: var(--color-status-success-bg);
-  color: var(--color-status-success-content);
-}
-
-.badge[data-tone="warn"] {
-  border-color: var(--color-status-warning);
-  background: var(--color-status-warning-bg);
-  color: var(--color-status-warning-content);
-}
-
-.badge[data-tone="info"] {
-  border-color: var(--color-status-info);
-  background: var(--color-status-info-bg);
-  color: var(--color-status-info-content);
-}
-
-.badge[data-tone="error"] {
-  border-color: var(--color-status-error);
-  background: var(--color-status-error-bg);
-  color: var(--color-status-error-content);
-}

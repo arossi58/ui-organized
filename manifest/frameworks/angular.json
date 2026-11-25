@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T16:11:31.744Z",
+  "generatedAt": "2026-11-25T16:39:17.646Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1342,7 +1342,7 @@
         },
         {
           "name": "shape",
-          "type": "\"circle\" | \"rounded\" | \"square\"",
+          "type": "\"square\" | \"circle\" | \"rounded\"",
           "required": false
         },
         {
@@ -1358,8 +1358,8 @@
         }
       ],
       "usageSnippet": "<!-- div[uioAvatar] -->",
-      "propSignatureHash": "sha256:c2c75504d072ac41",
-      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
+      "propSignatureHash": "sha256:5d537750d8ea9f96",
+      "lastSyncedAt": "2026-11-25T16:39:17.646Z",
       "status": "draft"
     },
     {
@@ -2835,7 +2835,7 @@
       "props": [
         {
           "name": "appearance",
-          "type": "\"outline\" | \"solid\" | \"subtle\"",
+          "type": "\"solid\" | \"subtle\" | \"outline\"",
           "required": false,
           "defaultValue": "subtle"
         },
@@ -2853,7 +2853,7 @@
         },
         {
           "name": "shape",
-          "type": "\"circle\" | \"square\"",
+          "type": "\"square\" | \"circle\"",
           "required": false,
           "defaultValue": "circle"
         },
@@ -2865,14 +2865,14 @@
         },
         {
           "name": "variant",
-          "type": "\"info\" | \"success\" | \"error\" | \"caution\" | \"brand\" | \"neutral\"",
+          "type": "\"info\" | \"success\" | \"error\" | \"brand\" | \"neutral\" | \"caution\"",
           "required": false,
           "defaultValue": "brand"
         }
       ],
       "usageSnippet": "<!-- span[uioFeaturedIcon] -->",
-      "propSignatureHash": "sha256:17e7ae2387fa3c61",
-      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
+      "propSignatureHash": "sha256:f787bf53624accf3",
+      "lastSyncedAt": "2026-11-25T16:39:17.646Z",
       "status": "draft"
     },
     {
@@ -5908,6 +5908,52 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioTagGroup",
+      "codeName": "UioTagGroup",
+      "codePath": "packages/angular/src/lib/tag-group/tag-group.ts",
+      "framework": "angular",
+      "importStatement": "import { UioTagGroup } from '@ui-organized/angular';",
+      "selector": "a[uioTagGroup], span[uioTagGroup]",
+      "reactName": "TagGroup",
+      "props": [
+        {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": false,
+          "description": "A trailing icon."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "tag",
+          "type": "string",
+          "required": true,
+          "description": "The short label in the inner pill: \"New\", \"Beta\", \"v6.2\"."
+        },
+        {
+          "name": "tagPosition",
+          "type": "\"leading\" | \"trailing\"",
+          "required": false,
+          "defaultValue": "leading"
+        },
+        {
+          "name": "variant",
+          "type": "\"info\" | \"success\" | \"error\" | \"brand\" | \"neutral\" | \"caution\" | \"info-secondary\"",
+          "required": false,
+          "defaultValue": "brand"
+        }
+      ],
+      "usageSnippet": "<!-- a[uioTagGroup], span[uioTagGroup] -->",
+      "propSignatureHash": "sha256:a1e077ea30e87324",
+      "lastSyncedAt": "2026-11-25T16:39:17.646Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioTag",
       "codeName": "UioTag",
       "codePath": "packages/angular/src/lib/tag/tag.ts",
@@ -5917,11 +5963,23 @@
       "reactName": "Tag",
       "props": [
         {
+          "name": "appearance",
+          "type": "\"solid\" | \"subtle\" | \"outline\"",
+          "required": false,
+          "description": "`solid` (the default), `subtle` or `outline`."
+        },
+        {
+          "name": "dot",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "A leading dot in the label's colour."
+        },
+        {
           "name": "emphasized",
           "type": "boolean",
           "required": false,
-          "defaultValue": "true",
-          "description": "Subdued tags drop the filled treatment; the default is the filled one."
+          "defaultValue": "true"
         },
         {
           "name": "icon",
@@ -5935,6 +5993,24 @@
           "defaultValue": "left"
         },
         {
+          "name": "removable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Renders the remove button."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "shape",
+          "type": "\"square\" | \"pill\"",
+          "required": false,
+          "defaultValue": "square"
+        },
+        {
           "name": "size",
           "type": "\"sm\" | \"md\" | \"lg\"",
           "required": false,
@@ -5942,14 +6018,14 @@
         },
         {
           "name": "variant",
-          "type": "\"info\" | \"success\" | \"error\" | \"caution\" | \"info-secondary\"",
+          "type": "\"info\" | \"success\" | \"error\" | \"brand\" | \"neutral\" | \"caution\" | \"info-secondary\"",
           "required": false,
           "defaultValue": "success"
         }
       ],
       "usageSnippet": "<!-- span[uioTag] -->",
-      "propSignatureHash": "sha256:e7d608b3a8628567",
-      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
+      "propSignatureHash": "sha256:c43fa9336fd8ba29",
+      "lastSyncedAt": "2026-11-25T16:39:17.646Z",
       "status": "draft"
     },
     {

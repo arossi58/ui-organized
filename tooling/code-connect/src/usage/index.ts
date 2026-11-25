@@ -23,6 +23,7 @@ import type { UsageGuide } from "./types.js";
 import { buttonUsage } from "./guides/button.js";
 import { meterUsage } from "./guides/meter.js";
 import { tagUsage } from "./guides/tag.js";
+import { tagGroupUsage } from "./guides/tag-group.js";
 import { toggleUsage } from "./guides/toggle.js";
 import { toolbarUsage } from "./guides/toolbar.js";
 import { alertUsage } from "./guides/alert.js";
@@ -101,6 +102,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   button: buttonUsage,
   meter: meterUsage,
   tag: tagUsage,
+  "tag-group": tagGroupUsage,
   toggle: toggleUsage,
   toolbar: toolbarUsage,
   alert: alertUsage,

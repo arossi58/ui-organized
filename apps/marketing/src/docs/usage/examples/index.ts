@@ -9,6 +9,7 @@ import type { UsageExampleSet } from "./types";
 import { buttonExamples } from "./button";
 import { meterExamples } from "./meter";
 import { tagExamples } from "./tag";
+import { tagGroupExamples } from "./tag-group";
 import { toggleExamples } from "./toggle";
 import { toolbarExamples } from "./toolbar";
 import { alertExamples } from "./alert";
@@ -80,6 +81,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   button: buttonExamples,
   meter: meterExamples,
   tag: tagExamples,
+  "tag-group": tagGroupExamples,
   toggle: toggleExamples,
   toolbar: toolbarExamples,
   alert: alertExamples,

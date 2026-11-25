@@ -28,7 +28,13 @@ export {
   type CardPadding,
 } from "./lib/card/card.js";
 export { UioDivider, type DividerOrientation, type DividerSpacing } from "./lib/divider/divider.js";
-export { UioTag, type TagVariant, type TagSize } from "./lib/tag/tag.js";
+export { UioTag, type TagVariant, type TagSize, type TagShape, type TagAppearance } from "./lib/tag/tag.js";
+export {
+  UioTagGroup,
+  type TagGroupVariant,
+  type TagGroupSize,
+  type TagGroupTagPosition,
+} from "./lib/tag-group/tag-group.js";
 export { UioChip, UioChipSegment } from "./lib/chip/chip.js";
 // Re-exported from core, the way React's Chip barrel does: a segment's `part`
 // is one of these, and a consumer cannot name the input's type without it.

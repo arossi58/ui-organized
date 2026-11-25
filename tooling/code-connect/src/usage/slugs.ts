@@ -73,6 +73,7 @@ export const COMPONENT_SLUGS = [
   "switch",
   "tabs",
   "tag",
+  "tag-group",
   "tags-input",
   "text-area",
   "timer",

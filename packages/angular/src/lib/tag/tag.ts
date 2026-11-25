@@ -1,12 +1,15 @@
-import { Component, computed, input } from "@angular/core";
+import { Component, booleanAttribute, computed, input, output } from "@angular/core";
 import { UioIcon } from "../icons/icon.js";
 import { clsx } from "clsx";
-import { tagStyles, type TagVariants } from "@ui-organized/core";
+import { resolveTagAppearance, tagStyles, type TagAppearance, type TagVariants } from "@ui-organized/core";
+import { glyph } from "../icons/glyph.js";
 import type { IconGlyph } from "../icons/glyph.js";
 import type { IconName } from "../icons/icon.js";
 
 export type TagVariant = NonNullable<TagVariants["variant"]>;
 export type TagSize = NonNullable<TagVariants["size"]>;
+export type TagShape = NonNullable<TagVariants["shape"]>;
+export type { TagAppearance };
 
 /**
  * A small status label.
@@ -24,7 +27,7 @@ export type TagSize = NonNullable<TagVariants["size"]>;
   standalone: true,
   imports: [UioIcon],
   template: `
-    @if (icon(); as name) {
+    @if (dot()) {<span class="tag__dot" aria-hidden="true"></span>}@if (icon(); as name) {
       @if (iconPosition() === "left") {
         <span uioIcon class="tag__icon" [name]="name" [size]="ICON_SIZE"></span>
       }
@@ -32,6 +35,10 @@ export type TagSize = NonNullable<TagVariants["size"]>;
       @if (iconPosition() === "right") {
         <span uioIcon class="tag__icon" [name]="name" [size]="ICON_SIZE"></span>
       }
+    }@if (removable()) {
+      <button type="button" class="tag__remove" [attr.aria-label]="removeLabel() ?? null" (click)="remove.emit($event)">
+        <span uioIcon [name]="CLOSE" [size]="REMOVE_ICON_SIZE"></span>
+      </button>
     }
   `,
   host: { "[class]": "hostClass()" },
@@ -39,18 +46,37 @@ export type TagSize = NonNullable<TagVariants["size"]>;
 export class UioTag {
   readonly variant = input<TagVariant>("success");
   readonly size = input<TagSize>("md");
-  /** Subdued tags drop the filled treatment; the default is the filled one. */
+  /** `solid` (the default), `subtle` or `outline`. */
+  readonly appearance = input<TagAppearance | undefined>(undefined);
+  /**
+   * @deprecated Use `appearance`. `true` is solid and `false` subtle;
+   * `appearance` wins when both are given.
+   */
   readonly emphasized = input(true);
+  readonly shape = input<TagShape>("square");
+  /** A leading dot in the label's colour. */
+  readonly dot = input(false, { transform: booleanAttribute });
   readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   readonly iconPosition = input<"left" | "right">("left");
+  /** Renders the remove button. `removeLabel` is its whole accessible name. */
+  readonly removable = input(false, { transform: booleanAttribute });
+  readonly removeLabel = input<string | undefined>(undefined);
+  readonly remove = output<MouseEvent>();
 
   /** Icons render at 16px across every tag size. */
   protected readonly ICON_SIZE = 16;
+  /** The remove glyph is smaller than a content icon, so it reads as a control. */
+  protected readonly REMOVE_ICON_SIZE = 12;
+  protected readonly CLOSE = glyph("close");
 
   protected readonly hostClass = computed(() =>
     clsx(
-      tagStyles({ variant: this.variant(), size: this.size() }),
-      !this.emphasized() && "tag--subdued",
+      tagStyles({
+        variant: this.variant(),
+        size: this.size(),
+        appearance: resolveTagAppearance(this.appearance(), this.emphasized()),
+        shape: this.shape(),
+      }),
     ),
   );
 }
