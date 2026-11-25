@@ -63,6 +63,27 @@
         "--angle"
       ]
     },
+    "Attachment": {
+      "attributes": {
+        "data-status": [
+          "error"
+        ]
+      },
+      "classes": [
+        "attachment",
+        "attachment--chip",
+        "attachment--row",
+        "attachment__action",
+        "attachment__actions",
+        "attachment__body",
+        "attachment__icon",
+        "attachment__meta",
+        "attachment__name",
+        "attachment__progress",
+        "attachment__progress-bar"
+      ],
+      "runtime": []
+    },
     "Avatar": {
       "attributes": {
         "data-status": [
@@ -583,7 +604,10 @@
       "attributes": {
         "data-disabled": [],
         "data-dragging": [],
-        "data-invalid": []
+        "data-invalid": [],
+        "data-status": [
+          "error"
+        ]
       },
       "classes": [
         "file-upload--compact",
@@ -598,7 +622,11 @@
         "file-upload__item-meta",
         "file-upload__item-name",
         "file-upload__item-preview",
+        "file-upload__item-progress",
+        "file-upload__item-progress-bar",
+        "file-upload__item-retry",
         "file-upload__item-size",
+        "file-upload__item-status",
         "file-upload__items"
       ],
       "runtime": []

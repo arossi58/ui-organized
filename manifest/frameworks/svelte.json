@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:15:58.332Z",
+  "generatedAt": "2026-11-25T22:45:03.731Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1754,6 +1754,102 @@
       "usageSnippet": "<AngleSlider />",
       "propSignatureHash": "sha256:2621f7889a85b0f7",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Attachment",
+      "codeName": "Attachment",
+      "codePath": "packages/svelte/src/lib/components/Attachment/Attachment.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { Attachment } from '@ui-organized/svelte';",
+      "reactName": "Attachment",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Upload",
+          "description": "What went wrong, while `status` is `error`."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "A link to the file: the name becomes a download link."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "The file's name."
+        },
+        {
+          "name": "onRemove",
+          "type": "() => void",
+          "required": false,
+          "description": "Adds a remove button."
+        },
+        {
+          "name": "onRetry",
+          "type": "() => void",
+          "required": false,
+          "description": "Adds a retry button while `status` is `error`."
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "description": "Upload progress, 0 to 100, while `status` is `uploading`."
+        },
+        {
+          "name": "progressLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Uploading",
+          "description": "The word before the percentage while uploading."
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Remove",
+          "description": "The remove button's accessible name."
+        },
+        {
+          "name": "retryLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Retry",
+          "description": "The retry button's accessible name."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "description": "Its size in bytes, shown as 4.2 kB once it is done."
+        },
+        {
+          "name": "status",
+          "type": "\"uploading\" | \"done\" | \"error\"",
+          "required": false,
+          "description": "`uploading` shows progress, `error` the message and a retry."
+        },
+        {
+          "name": "variant",
+          "type": "\"row\" | \"chip\"",
+          "required": false,
+          "description": "`row` (the default) for lists; `chip` for a compact token beside a message."
+        }
+      ],
+      "usageSnippet": "<Attachment name={/* string */} />",
+      "propSignatureHash": "sha256:efe34d587b9f28df",
+      "lastSyncedAt": "2026-11-25T22:45:03.731Z",
       "status": "draft"
     },
     {
@@ -4750,6 +4846,12 @@
           "description": "Error state."
         },
         {
+          "name": "fileStatus",
+          "type": "(file: File) => FileUploadStatus | undefined",
+          "required": false,
+          "description": "The upload state of each listed file, which the component cannot know: the caller does the uploading."
+        },
+        {
           "name": "helperText",
           "type": "string",
           "required": false,
@@ -4799,6 +4901,19 @@
           "description": "Called with the files that failed validation."
         },
         {
+          "name": "onRetry",
+          "type": "(file: File) => void",
+          "required": false,
+          "description": "Called from a failed file's retry button."
+        },
+        {
+          "name": "progressLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Uploading",
+          "description": "The word before the percentage while uploading."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
@@ -4834,9 +4949,12 @@
         }
       ],
       "usageSnippet": "<FileUpload />",
-      "propSignatureHash": "sha256:3f5b3efbbd7c305c",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
-      "status": "draft"
+      "propSignatureHash": "sha256:66cf15627d3623c0",
+      "lastSyncedAt": "2026-11-25T22:45:03.731Z",
+      "status": "draft",
+      "referencedTypes": {
+        "FileUploadStatus": "{ progress?: number; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",

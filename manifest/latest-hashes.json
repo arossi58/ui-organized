@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T22:15:58.332Z",
+  "generatedAt": "2026-11-25T22:45:03.731Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -12,6 +12,7 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
+    "packages/react/src/components/Attachment/Attachment.types.ts::Attachment": "sha256:b3d681e3d3ab6771",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:e833306dff1f0246",
     "packages/react/src/components/AvatarGroup/AvatarGroup.types.ts::AvatarGroup": "sha256:f97ac24b509c3966",
     "packages/react/src/components/AvatarLabel/AvatarLabel.types.ts::AvatarLabel": "sha256:a19a50ab3cf8d601",
@@ -67,7 +68,7 @@
     "packages/react/src/components/Field/Field.types.ts::FieldLabel": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::Fieldset": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldsetLegend": "sha256:4f53cda18c2baa0c",
-    "packages/react/src/components/FileUpload/FileUpload.types.ts::FileUpload": "sha256:5037daf8df9203b2",
+    "packages/react/src/components/FileUpload/FileUpload.types.ts::FileUpload": "sha256:851bcd4a869bf79a",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanel": "sha256:de71f68bc5505cbb",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/FloatingPanel/FloatingPanel.types.ts::FloatingPanelClose": "sha256:8e43c867ebd12f85",
@@ -438,6 +439,84 @@
         "type": "number",
         "required": false,
         "description": "Controlled angle in degrees, 0–360."
+      }
+    ],
+    "packages/react/src/components/Attachment/Attachment.types.ts::Attachment": [
+      {
+        "name": "error",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Upload",
+        "description": "What went wrong, while `status` is `error`."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "A link to the file: the name becomes a download link."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": "The file's name."
+      },
+      {
+        "name": "onRemove",
+        "type": "() => void",
+        "required": false,
+        "description": "Adds a remove button."
+      },
+      {
+        "name": "onRetry",
+        "type": "() => void",
+        "required": false,
+        "description": "Adds a retry button while `status` is `error`."
+      },
+      {
+        "name": "progress",
+        "type": "number",
+        "required": false,
+        "description": "Upload progress, 0 to 100, while `status` is `uploading`."
+      },
+      {
+        "name": "progressLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Uploading",
+        "description": "The word before the percentage while uploading."
+      },
+      {
+        "name": "removeLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Remove",
+        "description": "The remove button's accessible name."
+      },
+      {
+        "name": "retryLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Retry",
+        "description": "The retry button's accessible name."
+      },
+      {
+        "name": "size",
+        "type": "number",
+        "required": false,
+        "description": "Its size in bytes, shown as 4.2 kB once it is done."
+      },
+      {
+        "name": "status",
+        "type": "\"uploading\" | \"done\" | \"error\"",
+        "required": false,
+        "description": "`uploading` shows progress, `error` the message and a retry."
+      },
+      {
+        "name": "variant",
+        "type": "\"row\" | \"chip\"",
+        "required": false,
+        "description": "`row` (the default) for lists; `chip` for a compact token beside a message."
       }
     ],
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": [
@@ -2484,6 +2563,12 @@
         "description": "Error state."
       },
       {
+        "name": "fileStatus",
+        "type": "(file: File) => FileUploadStatus | undefined",
+        "required": false,
+        "description": "The upload state of each listed file, which the component cannot know: the caller does the uploading."
+      },
+      {
         "name": "helperText",
         "type": "string",
         "required": false,
@@ -2531,6 +2616,19 @@
         "type": "(files: unknown[]) => void",
         "required": false,
         "description": "Called with the files that failed validation."
+      },
+      {
+        "name": "onRetry",
+        "type": "(file: File) => void",
+        "required": false,
+        "description": "Called from a failed file's retry button."
+      },
+      {
+        "name": "progressLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Uploading",
+        "description": "The word before the percentage while uploading."
       },
       {
         "name": "required",

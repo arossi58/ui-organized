@@ -79,6 +79,7 @@ import "./components/ColorPicker/ColorPicker.css";
 import "./components/DatePicker/DatePicker.css";
 import "./components/FloatingPanel/FloatingPanel.css";
 import "./components/Tour/Tour.css";
+import "./components/Attachment/Attachment.css";
 import "./components/FileUpload/FileUpload.css";
 import "./components/ImageCropper/ImageCropper.css";
 import "./components/SignaturePad/SignaturePad.css";

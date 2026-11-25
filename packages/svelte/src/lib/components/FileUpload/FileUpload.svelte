@@ -1,7 +1,7 @@
 <script lang="ts">
   import { FileUpload as ArkFileUpload } from "@ark-ui/svelte";
   import { clsx } from "clsx";
-  import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize, OMIT_ARIA } from "@ui-organized/core";
+  import { CONTROL_ICON_SIZE, clampProgress, fileUploadStyles, type ControlSize, OMIT_ARIA } from "@ui-organized/core";
   import Button from "../Button/Button.svelte";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
@@ -37,6 +37,9 @@
     required,
     disabled,
     name,
+    fileStatus,
+    onRetry,
+    progressLabel = "Uploading",
     class: className,
   }: FileUploadProps = $props();
 
@@ -157,7 +160,11 @@
         <ArkFileUpload.Context>
           {#snippet render(api)}
             {#each api().acceptedFiles as file (file.name)}
-              <ArkFileUpload.Item {file} class="file-upload__item">
+              {@const reported = fileStatus?.(file)}
+              {@const pct = clampProgress(reported?.progress)}
+              {@const status = reported?.error ? "error" : pct != null && pct < 100 ? "uploading" : undefined}
+              <!-- The caller does the uploading, so the state is theirs to report. -->
+              <ArkFileUpload.Item {file} class="file-upload__item" data-status={status}>
                 {#if showPreview}
                   <ArkFileUpload.ItemPreview type="image/*" class="file-upload__item-preview">
                     <ArkFileUpload.ItemPreviewImage class="file-upload__item-image" />
@@ -172,8 +179,36 @@
                 </ArkFileUpload.ItemPreview>
                 <span class="file-upload__item-meta">
                   <ArkFileUpload.ItemName class="file-upload__item-name" />
-                  <ArkFileUpload.ItemSizeText class="file-upload__item-size" />
+                  {#if status === "uploading"}
+                    <span class="file-upload__item-status">{`${progressLabel} ${pct}%`}</span>
+                  {:else if status === "error"}
+                    <span class="file-upload__item-status">{reported?.error}</span>
+                  {:else}
+                    <ArkFileUpload.ItemSizeText class="file-upload__item-size" />
+                  {/if}
+                  {#if status === "uploading"}
+                    <div
+                      class="file-upload__item-progress"
+                      role="progressbar"
+                      aria-label={`${progressLabel} ${file.name}`}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={pct ?? undefined}
+                    >
+                      <span class="file-upload__item-progress-bar" style:width={`${pct}%`}></span>
+                    </div>
+                  {/if}
                 </span>
+                {#if status === "error" && onRetry}
+                  <button
+                    type="button"
+                    class="file-upload__item-retry"
+                    aria-label={`Retry ${file.name}`}
+                    onclick={() => onRetry(file)}
+                  >
+                    <Icon name={glyph("refresh")} size={DELETE_ICON_SIZE} />
+                  </button>
+                {/if}
                 <ArkFileUpload.ItemDeleteTrigger
                   class="file-upload__item-delete"
                   aria-label={`Remove ${file.name}`}

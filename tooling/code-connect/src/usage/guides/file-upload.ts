@@ -44,10 +44,16 @@ export const fileUploadUsage: UsageGuide = {
       do: "Explain a rejected file in the error, naming the file and the rule it broke.",
       dont: "Drop a rejected file silently, so the reader thinks it was attached.",
     },
+    {
+      do: "Report each upload through `fileStatus`, so a slow file shows its progress and a failed one its reason and a retry.",
+      dont: "Leave every row looking finished while the upload is still running or has failed.",
+      example: "upload-state",
+    },
   ],
   accessibility: [
     "The browse button is the keyboard path; the drop target itself is not a separate control.",
     "Each chosen file has a remove button named after that file, so the list is navigable.",
+    "A file's progress bar and retry button are named for it too, so several uploads read apart.",
     "Dragging is never the only way in, so keep the trigger label clear about what it opens.",
   ],
   content: [

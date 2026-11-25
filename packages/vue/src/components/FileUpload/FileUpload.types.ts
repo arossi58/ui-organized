@@ -1,6 +1,27 @@
 import type { ControlSize } from "@ui-organized/core";
 
+/** What `fileStatus` reports for one file. */
+export interface FileUploadStatus {
+  /** Upload progress, 0 to 100. Below 100 the row shows a progress bar. */
+  progress?: number;
+  /** What went wrong. The row shows it, and a retry button when `@retry` is bound. */
+  error?: string;
+}
+
 export interface FileUploadProps {
+  /**
+   * The upload state of each listed file, which the component cannot know:
+   * the caller does the uploading. Return a `progress` while it runs and an
+   * `error` if it fails; return nothing for a file that is done.
+   */
+  fileStatus?: (file: File) => FileUploadStatus | undefined;
+  /**
+   * Called from a failed file's retry button. Declared as a prop so `@retry`
+   * binds to it, and so the button shows only when something listens.
+   */
+  onRetry?: (file: File) => void;
+  /** The word before the percentage while uploading. Defaults to "Uploading". */
+  progressLabel?: string;
   /** Accessible label rendered above the control. */
   label?: string;
   /** Helper text rendered below the control. Hidden when an error is shown. */

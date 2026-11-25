@@ -323,6 +323,7 @@ export {
   type FileUploadVariant,
   type FileRejection,
   type FileRejectionReason,
+  type FileUploadStatus,
 } from "./lib/file-upload/file-upload.js";
 export {
   UioSteps,
@@ -491,3 +492,4 @@ export {
 export { UioVideoEmbed } from "./lib/video-embed/video-embed.js";
 export { UioCalendar, UioCalendarFooter, type CalendarVariant } from "./lib/calendar/calendar.js";
 export type { DatePreset } from "./lib/calendar/calendar-presets.js";
+export { UioAttachment, type AttachmentStatus, type AttachmentVariant } from "./lib/attachment/attachment.js";

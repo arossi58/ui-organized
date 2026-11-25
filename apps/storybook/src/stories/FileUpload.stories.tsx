@@ -127,3 +127,42 @@ export const Invalid: Story = {
     },
   },
 };
+
+const UPLOAD_FILES = [
+  new File([new Uint8Array(48_000)], "contract.pdf", { type: "application/pdf" }),
+  new File([new Uint8Array(1_200_000)], "site-walkthrough.mov", { type: "video/quicktime" }),
+  new File([new Uint8Array(300_000)], "floor-plan.png", { type: "application/octet-stream" }),
+];
+
+/**
+ * The caller does the uploading and reports each file's state through
+ * `fileStatus`: a progress bar while it runs, the error and a retry if it fails.
+ */
+export const UploadState: Story = {
+  render: () => (
+    <FileUpload
+      label="Attachments"
+      showPreview={false}
+      defaultAcceptedFiles={UPLOAD_FILES}
+      fileStatus={(file) =>
+        file.name === "site-walkthrough.mov"
+          ? { progress: 45 }
+          : file.name === "floor-plan.png"
+            ? { error: "The connection dropped." }
+            : undefined
+      }
+      onRetry={() => {}}
+    />
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `<FileUpload
+  label="Attachments"
+  fileStatus={(file) => uploads[file.name]}
+  onRetry={(file) => upload(file)}
+/>`,
+      },
+    },
+  },
+};

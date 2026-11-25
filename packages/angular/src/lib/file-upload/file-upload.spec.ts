@@ -191,6 +191,33 @@ describe("UioFileUpload", () => {
     expect(names()).toEqual(["b.txt"]);
   });
 
+  it("shows a reported upload's progress, named for the file", () => {
+    const { host, drop } = render({ fileStatus: () => ({ progress: 45 }) });
+    drop([file("a.txt", "text/plain")]);
+    const row = host.querySelector<HTMLElement>('[data-part="item"]')!;
+    expect(row.getAttribute("data-status")).toBe("uploading");
+    expect(row.querySelector(".file-upload__item-status")!.textContent).toBe("Uploading 45%");
+    const bar = row.querySelector('[role="progressbar"]')!;
+    expect(bar.getAttribute("aria-label")).toBe("Uploading a.txt");
+    expect(bar.getAttribute("aria-valuenow")).toBe("45");
+  });
+
+  it("shows a reported failure, and a retry that emits the file when retryable", () => {
+    const { host, drop, component, fixture } = render({
+      fileStatus: () => ({ error: "Network lost" }),
+      retryable: true,
+    });
+    const retried: File[] = [];
+    component.retry.subscribe((f) => retried.push(f));
+    drop([file("a.txt", "text/plain")]);
+    const row = host.querySelector<HTMLElement>('[data-part="item"]')!;
+    expect(row.getAttribute("data-status")).toBe("error");
+    expect(row.querySelector(".file-upload__item-status")!.textContent).toBe("Network lost");
+    row.querySelector<HTMLButtonElement>(".file-upload__item-retry")!.click();
+    fixture.detectChanges();
+    expect(retried.map((f) => f.name)).toEqual(["a.txt"]);
+  });
+
   it("takes files chosen through the picker as well as dropped ones", () => {
     const { fixture, host, names } = render();
     const input = host.querySelector<HTMLInputElement>('input[type="file"]')!;
