@@ -21,7 +21,8 @@ import {
   type ControlSize,
   type DateRangeInputVariants,
 } from "@ui-organized/core";
-import { UioCalendar, type CalendarRange } from "../calendar/calendar.js";
+import { UioCalendarGrid, type CalendarRange } from "../calendar/calendar-grid.js";
+import { UioCalendarPresets, type DatePreset } from "../calendar/calendar-presets.js";
 import { UioDatePopover, UioDatePopoverTrigger } from "../date-field/date-popover.js";
 import { coarsePointer } from "../date-field/coarse-pointer.js";
 import { openDatePicker } from "../date-field/open-date-picker.js";
@@ -82,7 +83,7 @@ const ADORNMENT =
   selector: "div[uioDateRangeInput]",
   standalone: true,
   exportAs: "uioDateRangeInput",
-  imports: [NgTemplateOutlet, UioCalendar, UioDatePopover, UioDatePopoverTrigger, UioIcon],
+  imports: [NgTemplateOutlet, UioCalendarGrid, UioCalendarPresets, UioDatePopover, UioDatePopoverTrigger, UioIcon],
   host: {
     role: "group",
     "[class]": "hostClass()",
@@ -131,16 +132,36 @@ const ADORNMENT =
       </div>
 
       <uio-date-popover #surface="uioDatePopover" [label]="popupLabel()">
-        <div
-          uioCalendar
-          mode="range"
-          [numMonths]="2"
-          [rangeValue]="calendarRange()"
-          [min]="calendarMin()"
-          [max]="calendarMax()"
-          (rangeChange)="onRangeChange($event)"
-          (rangeComplete)="surface.hide()"
-        ></div>
+        @if (presets().length) {
+          <div class="calendar-panel">
+            <div
+              uioCalendarPresets
+              [presets]="presets()"
+              [selected]="calendarRange()"
+              [min]="min()"
+              [max]="max()"
+              [label]="presetsLabel()"
+              (pick)="onPreset($event); surface.hide()"
+            ></div>
+            <div class="calendar-panel__body">
+              <ng-container [ngTemplateOutlet]="rangeGrid" />
+            </div>
+          </div>
+        } @else {
+          <ng-container [ngTemplateOutlet]="rangeGrid" />
+        }
+        <ng-template #rangeGrid>
+          <div
+            uioCalendarGrid
+            mode="range"
+            [numMonths]="2"
+            [rangeValue]="calendarRange()"
+            [min]="calendarMin()"
+            [max]="calendarMax()"
+            (rangeChange)="onRangeChange($event)"
+            (rangeComplete)="surface.hide()"
+          ></div>
+        </ng-template>
       </uio-date-popover>
     }
 
@@ -230,6 +251,13 @@ export class UioDateRangeInput implements AfterViewInit {
   readonly min = input<string | undefined>(undefined);
   /** Latest selectable date for both controls (ISO `YYYY-MM-DD`). */
   readonly max = input<string | undefined>(undefined);
+  /**
+   * Shortcuts beside the calendar: "Last 7 days", "This month", a fixed range.
+   * Picking one sets both ends and closes the popover.
+   */
+  readonly presets = input<readonly DatePreset[]>([]);
+  /** The presets column's accessible name. Defaults to "Presets". */
+  readonly presetsLabel = input<string | undefined>(undefined);
 
   readonly startName = input<string | undefined>(undefined);
   readonly endName = input<string | undefined>(undefined);
@@ -289,7 +317,7 @@ export class UioDateRangeInput implements AfterViewInit {
   @ViewChild("row") private row?: ElementRef<HTMLElement>;
   @ViewChild("startControl") private startControl?: ElementRef<HTMLInputElement>;
   @ViewChild("endControl") private endControl?: ElementRef<HTMLInputElement>;
-  @ViewChild(UioCalendar) private calendar?: UioCalendar;
+  @ViewChild(UioCalendarGrid) private calendar?: UioCalendarGrid;
   @ViewChild(UioDatePopover) private popover?: UioDatePopover;
 
   ngAfterViewInit(): void {
@@ -332,6 +360,10 @@ export class UioDateRangeInput implements AfterViewInit {
       start: range.start ? toISODate(range.start) : "",
       end: range.end ? toISODate(range.end) : "",
     });
+  }
+
+  protected onPreset(range: { start: { year: number; month: number; day: number }; end: { year: number; month: number; day: number } }): void {
+    this.update({ start: toISODate(range.start), end: toISODate(range.end) });
   }
 
   private update(next: DateRangeValue): void {

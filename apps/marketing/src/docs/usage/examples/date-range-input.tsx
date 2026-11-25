@@ -48,4 +48,22 @@ export const dateRangeInputExamples: UsageExampleSet = {
       />
     ),
   },
+
+  presets: {
+    layout: "padded",
+    Do: () => (
+      <DateRangeInput
+        label="Reporting period"
+        presets={[
+          { label: "Last 7 days", value: "last7Days" },
+          { label: "Last 30 days", value: "last30Days" },
+          { label: "This month", value: "thisMonth" },
+          { label: "Last month", value: "lastMonth" },
+        ]}
+        helperText="Open the calendar for common periods."
+      />
+    ),
+    // Every reader picks two ends by hand for a period most of them want.
+    Dont: () => <DateRangeInput label="Reporting period" helperText="Pick a start and an end." />,
+  },
 };

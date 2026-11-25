@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T21:47:31.651Z",
+  "generatedAt": "2026-11-25T22:15:58.332Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2102,6 +2102,19 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Calendar",
+      "codeName": "Calendar",
+      "codePath": "packages/react/src/components/Calendar/Calendar.types.ts",
+      "framework": "react",
+      "importStatement": "import { Calendar } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<Calendar />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Card",
       "codeName": "Card",
       "codePath": "packages/react/src/components/Card/Card.types.ts",
@@ -3531,6 +3544,19 @@
           "description": "DOM element to portal the calendar popover into."
         },
         {
+          "name": "presets",
+          "type": "DatePreset[]",
+          "required": false,
+          "description": "Shortcuts beside the calendar: \"Last 7 days\", \"This month\", a fixed range."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Presets",
+          "description": "The presets column's accessible name."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
@@ -3571,11 +3597,14 @@
         }
       ],
       "usageSnippet": "<DateRangeInput />",
-      "propSignatureHash": "sha256:bad361f95577ae6e",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:1cb7da49ba7e06a9",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
       "status": "draft",
       "referencedTypes": {
-        "DateRangeValue": "{ start: string; end: string }"
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: DatePresetValue; disabled?: boolean }",
+        "DatePresetValue": "string | { start: string; end: string } | DatePresetName",
+        "DatePresetName": "\"today\" | \"yesterday\" | \"last3Days\" | \"last7Days\" | \"last14Days\" | \"last30Days\" | \"last90Days\" | \"thisWeek\" | \"lastWeek\" | \"thisMonth\" | \"lastMonth\" | \"thisQuarter\" | \"lastQuarter\" | \"thisYear\" | \"lastYear\""
       }
     },
     {

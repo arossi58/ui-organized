@@ -1,7 +1,7 @@
 import { Component, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR } from "@angular/forms";
 import { UioButton } from "../button/button.js";
-import { UioCalendar } from "../calendar/calendar.js";
+import { UioCalendarGrid } from "../calendar/calendar-grid.js";
 import { UioFieldContext } from "../field/field-context.js";
 import { UioFieldLabel } from "../field/field.js";
 import { UioFieldError } from "../field-error/field-error.js";
@@ -42,7 +42,7 @@ export type DateInputSize = DateFieldSize;
   ],
   imports: [
     UioButton,
-    UioCalendar,
+    UioCalendarGrid,
     UioDatePopover,
     UioDatePopoverTrigger,
     UioFieldError,

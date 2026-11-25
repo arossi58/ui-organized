@@ -102,10 +102,10 @@ describe("specs never send another library's reader to React", () => {
     expect(text).toContain("https://uiorganized.com/llms-vue.txt");
     expect(text).not.toContain("https://uiorganized.com/llms.txt");
     // One per docs page, as Copy for AI says, not the manifest's 174 entries.
-    expect(COMPONENT_SLUGS).toHaveLength(76);
-    expect(text).toContain("76 components — https://uiorganized.com/llms-vue.txt");
+    expect(COMPONENT_SLUGS).toHaveLength(77);
+    expect(text).toContain("77 components — https://uiorganized.com/llms-vue.txt");
     expect(buildComponentSpec(entry("Button"), manifest, latest, "0.0.0")).toContain(
-      "76 components — https://uiorganized.com/llms.txt",
+      "77 components — https://uiorganized.com/llms.txt",
     );
   });
 

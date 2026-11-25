@@ -3,7 +3,7 @@ import { addDays, addMonths, ymdToDate, type YMD } from "@ui-organized/core";
 /**
  * Where a key press moves the calendar's roving focus, before any clamping.
  *
- * Split out of the component because the grid is the one part of `UioCalendar`
+ * Split out of the component because the grid is the one part of `UioCalendarGrid`
  * the parity gate is blind to: `tabindex` is not a contract attribute, so a port
  * whose arrows moved by the wrong amount would render an identical DOM and fail
  * nothing. `input()` is invisible to the JIT compiler the specs run under, so a

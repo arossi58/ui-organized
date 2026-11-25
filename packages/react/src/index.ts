@@ -67,6 +67,16 @@ export type {
   DateTimeInputVariants,
 } from "./components/DateTimeInput/index.js";
 
+export { Calendar } from "./components/Calendar/index.js";
+export type {
+  CalendarProps,
+  CalendarSingleProps,
+  CalendarRangeProps,
+  DatePreset,
+  CalendarPanelVariants,
+  DatePresetName,
+  DatePresetValue,
+} from "./components/Calendar/index.js";
 export { DateRangeInput } from "./components/DateRangeInput/index.js";
 export type {
   DateRangeInputProps,

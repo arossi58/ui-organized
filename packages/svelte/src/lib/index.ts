@@ -290,9 +290,11 @@ export type {
   NavItemVariants, NavSubItemVariants,
 } from "./components/Navigation/index.js";
 
-// The date cluster. `Calendar` and `DateField` are deliberately absent: they are
-// the shared internals these four are built from, with no DOM of their own that
-// a consumer could style or assert against.
+// The date cluster. `Calendar` is the public, ISO-string month grid; the day
+// grid inside it (CalendarGrid) and `DateField` stay internal: they are the
+// shared pieces these are built from.
+export { Calendar } from "./components/Calendar/index.js";
+export type { CalendarProps, DatePreset } from "./components/Calendar/index.js";
 export { DateInput } from "./components/DateInput/index.js";
 export type { DateInputProps, DateInputVariants } from "./components/DateInput/index.js";
 

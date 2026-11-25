@@ -10,7 +10,7 @@ import {
   type YMD,
 } from "@ui-organized/core";
 import { calendarKeyTarget } from "./calendar-keys.js";
-import { UioCalendar } from "./calendar.js";
+import { UioCalendarGrid } from "./calendar-grid.js";
 
 /**
  * The half of the calendar the parity gate is blind to.
@@ -73,14 +73,14 @@ describe("calendarKeyTarget", () => {
   });
 });
 
-describe("UioCalendar roving focus", () => {
+describe("UioCalendarGrid roving focus", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({ providers: [provideZonelessChangeDetection()] });
   });
   afterEach(() => TestBed.resetTestingModule());
 
   const render = () => {
-    const fixture = TestBed.createComponent(UioCalendar);
+    const fixture = TestBed.createComponent(UioCalendarGrid);
     fixture.detectChanges();
     const root = fixture.nativeElement as HTMLElement;
     const days = () => [...root.querySelectorAll<HTMLElement>(".calendar__day")];

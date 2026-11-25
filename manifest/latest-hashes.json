@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T21:47:31.651Z",
+  "generatedAt": "2026-11-25T22:15:58.332Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -17,6 +17,7 @@
     "packages/react/src/components/AvatarLabel/AvatarLabel.types.ts::AvatarLabel": "sha256:a19a50ab3cf8d601",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
     "packages/react/src/components/Button/Button.types.ts::Button": "sha256:f004b79877fd0a17",
+    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
@@ -45,7 +46,7 @@
     "packages/react-table/src/DataTable/DataTable.types.ts::DataTable": "sha256:a769880d950878d9",
     "packages/react/src/components/DateInput/DateInput.types.ts::DateInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
-    "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:bad361f95577ae6e",
+    "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:1cb7da49ba7e06a9",
     "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:be543467ad5a668c",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:36a696a8661c284e",
@@ -688,6 +689,7 @@
         "description": "Passed to the anchor when `href` is set."
       }
     ],
+    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": [],
     "packages/react/src/components/Card/Card.types.ts::Card": [
       {
         "name": "children",
@@ -1988,6 +1990,19 @@
         "type": "HTMLElement | null",
         "required": false,
         "description": "DOM element to portal the calendar popover into."
+      },
+      {
+        "name": "presets",
+        "type": "DatePreset[]",
+        "required": false,
+        "description": "Shortcuts beside the calendar: \"Last 7 days\", \"This month\", a fixed range."
+      },
+      {
+        "name": "presetsLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Presets",
+        "description": "The presets column's accessible name."
       },
       {
         "name": "required",

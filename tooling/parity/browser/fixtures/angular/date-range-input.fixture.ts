@@ -23,6 +23,7 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [disabled]="!!p['disabled']"
       [min]="p['min']"
       [max]="p['max']"
+      [presets]="p['presets'] ?? []"
       [startName]="p['startName']"
       [endName]="p['endName']"
       [value]="initial"

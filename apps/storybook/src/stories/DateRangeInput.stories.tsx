@@ -79,6 +79,20 @@ export const Bounded: Story = {
   },
 };
 
+/** `presets` puts shortcuts beside the calendar; picking one fills both ends and closes it. */
+export const WithPresets: Story = {
+  args: {
+    label: "Reporting period",
+    defaultValue: { start: "2026-03-02", end: "2026-03-04" },
+    presets: [
+      { label: "Last 7 days", value: "last7Days" },
+      { label: "Last 30 days", value: "last30Days" },
+      { label: "This month", value: "thisMonth" },
+      { label: "Last month", value: "lastMonth" },
+    ],
+  },
+};
+
 export const AllSizes: Story = {
   parameters: {
     docs: {

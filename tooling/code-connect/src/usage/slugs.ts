@@ -21,6 +21,7 @@ export const COMPONENT_SLUGS = [
   "avatar-label",
   "breadcrumb",
   "button",
+  "calendar",
   "card",
   "carousel",
   "checkbox",

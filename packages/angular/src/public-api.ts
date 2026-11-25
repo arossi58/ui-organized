@@ -489,3 +489,5 @@ export {
   type ChannelRange,
 } from "./lib/color-picker/color.js";
 export { UioVideoEmbed } from "./lib/video-embed/video-embed.js";
+export { UioCalendar, UioCalendarFooter, type CalendarVariant } from "./lib/calendar/calendar.js";
+export type { DatePreset } from "./lib/calendar/calendar-presets.js";
