@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T21:19:16.621Z",
+  "generatedAt": "2026-11-25T21:47:31.651Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -7002,6 +7002,92 @@
       "referencedTypes": {
         "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: string | IconGlyph; disabled?: boolean }"
       }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioVideoEmbed",
+      "codeName": "UioVideoEmbed",
+      "codePath": "packages/angular/src/lib/video-embed/video-embed.ts",
+      "framework": "angular",
+      "importStatement": "import { UioVideoEmbed } from '@ui-organized/angular';",
+      "selector": "div[uioVideoEmbed]",
+      "reactName": "VideoEmbed",
+      "props": [
+        {
+          "name": "aspectRatio",
+          "type": "string",
+          "required": false,
+          "description": "The box's CSS `aspect-ratio`."
+        },
+        {
+          "name": "background",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "A muted, looping, decorative video with no controls, paused under reduced motion."
+        },
+        {
+          "name": "captions",
+          "type": "string",
+          "required": false,
+          "description": "A WebVTT captions file for a `video`, shown by default."
+        },
+        {
+          "name": "captionsLang",
+          "type": "string",
+          "required": false,
+          "defaultValue": "en",
+          "description": "The captions' language, as a BCP 47 tag."
+        },
+        {
+          "name": "lightbox",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Play in a full-screen dialog instead of in place."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Two-way: bind with [(open)]. Whether the lightbox is open."
+        },
+        {
+          "name": "playLabel",
+          "type": "string",
+          "required": false,
+          "description": "The play button's accessible name."
+        },
+        {
+          "name": "poster",
+          "type": "string",
+          "required": false,
+          "description": "An image shown until the video plays."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "A video file, or the embed URL of a player page."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "What the video is."
+        },
+        {
+          "name": "type",
+          "type": "\"video\" | \"iframe\"",
+          "required": false,
+          "description": "`video` or `iframe`; inferred from `src` when absent."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioVideoEmbed] -->",
+      "propSignatureHash": "sha256:44965a74af91a3c9",
+      "lastSyncedAt": "2026-11-25T21:47:31.651Z",
+      "status": "draft"
     }
   ]
 }

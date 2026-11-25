@@ -75,5 +75,6 @@ Toggle → Toggle (component)
 Toolbar → Toolbar (component)
 Tooltip → Tooltip (component)
 Tour → Tour (component)
-TreeView → TreeView (component)"
+TreeView → TreeView (component)
+VideoEmbed → VideoEmbed (component)"
 `;

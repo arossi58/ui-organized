@@ -488,3 +488,4 @@ export {
   type HsbaColor,
   type ChannelRange,
 } from "./lib/color-picker/color.js";
+export { UioVideoEmbed } from "./lib/video-embed/video-embed.js";

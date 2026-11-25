@@ -44,6 +44,7 @@ import { PopoverInDialogFixture } from "./popover-in-dialog.fixture.js";
 import { ProgressFixture } from "./progress.fixture.js";
 import { QRCodeFixture } from "./qr-code.fixture.js";
 import { RadioGroupFixture } from "./radio-group.fixture.js";
+import { VideoEmbedFixture } from "./video-embed.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
 import { RangeFixture } from "./range.fixture.js";
@@ -138,6 +139,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Progress: ProgressFixture,
   QRCode: QRCodeFixture,
   RadioGroup: RadioGroupFixture,
+  VideoEmbed: VideoEmbedFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,
   Range: RangeFixture,

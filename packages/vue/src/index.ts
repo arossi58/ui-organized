@@ -346,3 +346,5 @@ export type {
 
 export { Tour } from "./components/Tour/index.js";
 export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";
+export { VideoEmbed } from "./components/VideoEmbed/index.js";
+export type { VideoEmbedProps } from "./components/VideoEmbed/index.js";

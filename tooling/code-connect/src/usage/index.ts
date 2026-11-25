@@ -35,6 +35,7 @@ import { checkboxUsage } from "./guides/checkbox.js";
 import { radioGroupUsage } from "./guides/radio-group.js";
 import { radioCardGroupUsage } from "./guides/radio-card-group.js";
 import { checkboxCardGroupUsage } from "./guides/checkbox-card-group.js";
+import { videoEmbedUsage } from "./guides/video-embed.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -118,6 +119,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "radio-group": radioGroupUsage,
   "radio-card-group": radioCardGroupUsage,
   "checkbox-card-group": checkboxCardGroupUsage,
+  "video-embed": videoEmbedUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T21:19:16.621Z",
+  "generatedAt": "2026-11-25T21:47:31.651Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -9425,6 +9425,88 @@
       "referencedTypes": {
         "TreeViewNode": "{ id: string; label: string; children?: TreeViewNode[]; icon?: IconName | IconComponent; disabled?: boolean }"
       }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "VideoEmbed",
+      "codeName": "VideoEmbed",
+      "codePath": "packages/svelte/src/lib/components/VideoEmbed/VideoEmbed.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { VideoEmbed } from '@ui-organized/svelte';",
+      "reactName": "VideoEmbed",
+      "props": [
+        {
+          "name": "aspectRatio",
+          "type": "string",
+          "required": false,
+          "description": "The box's CSS `aspect-ratio`."
+        },
+        {
+          "name": "background",
+          "type": "boolean",
+          "required": false,
+          "description": "A muted, looping, decorative video with no controls, paused under reduced motion."
+        },
+        {
+          "name": "captions",
+          "type": "string",
+          "required": false,
+          "description": "A WebVTT captions file for a `video`, shown by default."
+        },
+        {
+          "name": "captionsLang",
+          "type": "string",
+          "required": false,
+          "defaultValue": "en",
+          "description": "The captions' language, as a BCP 47 tag."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "lightbox",
+          "type": "boolean",
+          "required": false,
+          "description": "Play in a full-screen dialog instead of in place."
+        },
+        {
+          "name": "playLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Play",
+          "description": "The play button's accessible name."
+        },
+        {
+          "name": "poster",
+          "type": "string",
+          "required": false,
+          "description": "An image shown until the video plays."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": true,
+          "description": "A video file, or the embed URL of a player page."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "What the video is."
+        },
+        {
+          "name": "type",
+          "type": "\"video\" | \"iframe\"",
+          "required": false,
+          "description": "`video` plays a file in a `<video>`; `iframe` embeds a player page."
+        }
+      ],
+      "usageSnippet": "<VideoEmbed src={/* string */} title={/* string */} />",
+      "propSignatureHash": "sha256:590d97d39d8accfb",
+      "lastSyncedAt": "2026-11-25T21:47:31.651Z",
+      "status": "draft"
     },
     {
       "figmaComponentKey": "",
