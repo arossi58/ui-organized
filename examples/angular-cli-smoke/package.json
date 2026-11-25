@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-angular-cli-smoke",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "description": "An `ng new` app wired up exactly as Get Started's Angular CLI path says, with the data table. Built with `ng build` and rendered by the angular-cli smoke gate.",

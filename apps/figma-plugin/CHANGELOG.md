@@ -1,5 +1,14 @@
 # @ui-organized/figma-token-plugin
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [abddf1f]
+  - @ui-organized/schema@3.1.1
+  - @ui-organized/resolver@0.1.6
+  - @ui-organized/token-io@0.1.6
+
 ## 0.1.5
 
 ### Patch Changes

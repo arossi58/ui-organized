@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/react-vite",
-  "version": "2.2.4",
+  "version": "3.0.0",
   "description": "Vite plugin for the ui-organized design system: builds a Theme Builder theme.json into your app's CSS, checks it against the token contract, and updates it in place during dev.",
   "keywords": [
     "design-system",

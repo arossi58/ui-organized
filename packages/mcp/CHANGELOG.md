@@ -1,5 +1,27 @@
 # @ui-organized/mcp
 
+## 6.2.0
+
+### Minor Changes
+
+- 638e77c: Specs from `get_component` now spell out the types their props name, so an agent no longer has to guess them:
+  - After the props table, each named type the table uses is written out: "`SelectOption` is `{ value: string; label: string; disabled?: boolean }`". This covers option and item types (Select, Combobox, Listbox, RadioGroup, Tabs, Accordion, Breadcrumb, Steps, Tour, TreeView and more) and the data table's config, filter and action types. Each library's spec uses that library's own declaration, so Svelte's `TabItem` takes snippets and Angular's `TreeViewNode` is read from the Angular source.
+  - React props typed with a named union now list its values, as Svelte and Vue already did. Tooltip's `side` reads `"top" | "right" | "bottom" | "left"`, not `TooltipSide`. The same applies to the `side` and `align` props of Menu, Popover and HoverCard, Chip's segment `part`, and props typed from a style recipe (Sheet's `side` and `size`, AlertDialog's and Toggle's `size`, in Svelte and Vue too).
+  - React specs list `render` on Button and on the overlay triggers and closes that accept it, so they say how to render a Button as a link.
+  - Prop notes no longer stop at "e.g.". Meter's `format`, for example, used to read "Options to format the displayed value (e.g.".
+  - The Angular conventions line names every element a directive accepts. UioButton goes on `<button uioButton>` or `<a uioButton>`.
+
+### Patch Changes
+
+- ed4dc70: `get_figma_frame` no longer sends agents down a dead end. None of the library's components are linked to Figma yet, so it used to return every component in a frame as unmapped and every variable as unnamed. It now answers `found: false` straight away, before looking for a `FIGMA_TOKEN` or calling Figma, and says what works instead: read the frame with Figma's own MCP server (`get_design_context`), then call `get_component` for each component and `get_token` for each Figma variable name. The server's instructions and the tool descriptions say the same.
+
+  Specs from `get_component` for Svelte, Vue and Angular are written for that library:
+  - The "All components" line links the library's own index (`llms-vue.txt`, not `llms.txt`) and counts 67 components, not the 174 manifest entries it counted before. React specs get the corrected count too.
+  - The once-per-app imports use `/styles.css` and `-table/styles.css`. The bare `/styles` subpath has no type declarations, so `svelte-check` and `vue-tsc` reject it under TypeScript 6.
+  - Usage guidance no longer uses React syntax. Button's "pass one to `render`" and Skeleton's `animated={false}` are reworded for every library.
+  - The `icon` hint uses the library's own binding syntax (`:icon="…"` in Vue, a name string in Angular). Its example names, Lucide's `circle-alert` and Tabler's `alert-circle`, exist in every library's adapters. Heroicons, which has no Svelte adapter, is no longer mentioned.
+  - Cross-references use the library's own names. An Angular spec now says "Use `UioSwitch` or `UioToggle` instead", not `Switch` and `Toggle`.
+
 ## 6.1.0
 
 ### Patch Changes

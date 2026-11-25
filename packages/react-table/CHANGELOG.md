@@ -1,5 +1,13 @@
 # @ui-organized/react-table
 
+## 6.2.0
+
+### Patch Changes
+
+- Updated dependencies [d77dcaa]
+  - @ui-organized/utils@4.0.1
+  - @ui-organized/table-core@6.2.0
+
 ## 6.1.0
 
 ### Patch Changes

@@ -1,5 +1,17 @@
 # @ui-organized/core
 
+## 6.2.0
+
+### Patch Changes
+
+- bc745a0: Text on a brand-colored fill now uses the filled-button label, `--color-interactive-contents`, in three more places: the selected, hovered and pressed Navigation item, the checked SegmentedControl segment, and the current Steps indicator. They drew `--color-content-light`, which stays white whatever the brand, so a light brand such as candlelight read at 1.99:1 there in both modes. `--color-interactive-contents` is chosen against your brand's fill and turns dark when white wouldn't read. Nothing changes for brands where white already passed, including the default mars.
+
+  Also fixed in Navigation: the selected item lost its label color while it had keyboard focus, and showed the grey resting color on the brand fill (2.39:1 on mars in light mode).
+
+- 2a052c9: Sheet's stylesheet now declares `.sheet__popup` once: the slide timing variables moved into the panel's main rule. Nothing renders differently. The CSS lint gate had not been checking the component stylesheets since they moved into `@ui-organized/core`, and this was the one rule it flagged once it did.
+- Updated dependencies [d77dcaa]
+  - @ui-organized/utils@4.0.1
+
 ## 6.1.0
 
 ## 6.0.0

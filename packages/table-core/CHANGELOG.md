@@ -1,5 +1,13 @@
 # @ui-organized/table-core
 
+## 6.2.0
+
+### Patch Changes
+
+- Updated dependencies [d77dcaa]
+- Updated dependencies [abddf1f]
+  - @ui-organized/tokens@3.5.1
+
 ## 6.1.0
 
 ## 6.0.0

@@ -1,5 +1,14 @@
 # @ui-organized/pack-ui-organized
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [d77dcaa]
+- Updated dependencies [abddf1f]
+  - @ui-organized/utils@4.0.1
+  - @ui-organized/schema@3.1.1
+
 ## 0.1.5
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @ui-organized/example-icon-smoke
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [c7fe12f]
+  - @ui-organized/react@6.2.0
+
 ## 0.0.4
 
 ### Patch Changes
