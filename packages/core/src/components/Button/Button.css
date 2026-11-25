@@ -41,6 +41,19 @@
   opacity: 0.4;
 }
 
+/* ─── Loading ─────────────────────────────────────────────────────────────── */
+
+/* A loading button keeps its focus and its accessible name but stops
+   responding: the component sets `aria-disabled` rather than `disabled`, so a
+   keyboard user's focus is not thrown back to the document the moment their
+   request starts, and swallows the click itself. It stays at full opacity,
+   because it is busy rather than unavailable, and every intent's hover and
+   press fills skip `[data-loading]` so it does not look pressable. The spinner
+   that replaces the icon is a decorative Spinner. */
+.btn[data-loading] {
+  cursor: progress;
+}
+
 /* ─── Intent: primary ─────────────────────────────────────────────────────── */
 
 .btn--primary {
@@ -49,11 +62,11 @@
   border-color: transparent;
 }
 
-.btn--primary:where(:hover:not(:disabled)) {
+.btn--primary:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-primary-hover);
 }
 
-.btn--primary:where(:active:not(:disabled)) {
+.btn--primary:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-primary-active);
 }
 
@@ -65,11 +78,11 @@
   border-color: transparent;
 }
 
-.btn--secondary:where(:hover:not(:disabled)) {
+.btn--secondary:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-secondary-hover);
 }
 
-.btn--secondary:where(:active:not(:disabled)) {
+.btn--secondary:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-secondary-active);
 }
 
@@ -82,13 +95,13 @@
 }
 
 /* On interaction the outline fills solid with light text (Figma 23:313 / 23:477). */
-.btn--tertiary:where(:hover:not(:disabled)) {
+.btn--tertiary:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-tertiary-hover);
   border-color: var(--color-interactive-tertiary-hover);
   color: var(--color-content-light);
 }
 
-.btn--tertiary:where(:active:not(:disabled)) {
+.btn--tertiary:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-tertiary-active);
   border-color: var(--color-interactive-tertiary-active);
   color: var(--color-content-light);
@@ -102,11 +115,11 @@
   border-color: transparent;
 }
 
-.btn--ghost:where(:hover:not(:disabled)) {
+.btn--ghost:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-ghost-hover);
 }
 
-.btn--ghost:where(:active:not(:disabled)) {
+.btn--ghost:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-ghost-active);
 }
 
@@ -121,11 +134,11 @@
   border-color: transparent;
 }
 
-.btn--destructive:where(:hover:not(:disabled)) {
+.btn--destructive:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-destructive-hover);
 }
 
-.btn--destructive:where(:active:not(:disabled)) {
+.btn--destructive:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-destructive-active);
 }
 
@@ -138,12 +151,12 @@
 }
 
 /* On interaction the ghost fills solid with light text (Figma 23:319 / 23:483). */
-.btn--destructive-ghost:where(:hover:not(:disabled)) {
+.btn--destructive-ghost:where(:hover:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-destructive-hover);
   color: var(--color-content-light);
 }
 
-.btn--destructive-ghost:where(:active:not(:disabled)) {
+.btn--destructive-ghost:where(:active:not(:disabled, [data-loading])) {
   background-color: var(--color-interactive-destructive-active);
   color: var(--color-content-light);
 }
@@ -188,4 +201,44 @@
 .btn--icon-only.btn--lg {
   width: var(--control-height-lg);
   padding: 0;
+}
+
+/* ─── Intent: link / link-neutral ─────────────────────────────────────────── */
+
+/* Text that acts: no fill, no border, no padding and no fixed height, so it can
+   sit in a sentence, a card footer or a row of metadata without the box a
+   button draws. The label still comes from the size's text class, and an icon
+   still scales with the size.
+
+   Written as `.btn:is(…)` and placed after the size and icon-only blocks on
+   purpose: those set `height`, `padding` and `width` at the same or lower
+   specificity, and a link has to undo all three whatever size it is given.
+
+   Hover underlines rather than shifting colour. The brand text colour is
+   tertiary's, chosen to read on surfaces; tertiary's hover and press steps are
+   fills meant to sit under light text, and as text on a surface they would not
+   keep their contrast. */
+.btn:is(.btn--link, .btn--link-neutral) {
+  width: auto;
+  height: auto;
+  padding: 0;
+  background-color: transparent;
+  border-color: transparent;
+  text-underline-offset: 0.2em;
+}
+
+.btn--link {
+  color: var(--color-interactive-tertiary-default);
+}
+
+.btn--link-neutral {
+  color: var(--color-content-secondary);
+}
+
+.btn:is(.btn--link, .btn--link-neutral):where(:hover:not(:disabled, [data-loading], [data-disabled])) {
+  text-decoration: underline;
+}
+
+.btn--link-neutral:where(:hover:not(:disabled, [data-loading], [data-disabled])) {
+  color: var(--color-content-primary);
 }

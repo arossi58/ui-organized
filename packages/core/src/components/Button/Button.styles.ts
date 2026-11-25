@@ -9,6 +9,8 @@ export const buttonStyles = cva("btn", {
       ghost:             "btn--ghost",
       destructive:       "btn--destructive",
       "destructive-ghost": "btn--destructive-ghost",
+      link:              "btn--link",
+      "link-neutral":    "btn--link-neutral",
     },
     size: {
       sm: "btn--sm",

@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ButtonLink } from "../chrome/ButtonLink";
+import { Button } from "@ui-organized/react";
 import { useReducedMotion } from "../../hooks/useReducedMotion";
 import type { ShowcaseEngine, ShowcaseLayout, Slot } from "../../lib/showcaseStageEngine";
 import { ShowcaseMockup } from "./showcase/ShowcaseMockup";
@@ -470,9 +470,9 @@ function HeroStage() {
           {/* Inert until revealed, so the invisible link can't take focus. The
               attribute is set imperatively by the timeline from then on. */}
           <div className="hero-showcase__cta" ref={ctaRef} {...{ inert: "" }}>
-            <ButtonLink href="#overview" intent="primary" size="lg">
+            <Button href="#overview" intent="primary" size="lg">
               Get Started
-            </ButtonLink>
+            </Button>
           </div>
         </div>
 

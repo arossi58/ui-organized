@@ -52,4 +52,23 @@ export const buttonExamples: UsageExampleSet = {
       </div>
     ),
   },
+
+  loading: {
+    Do: () => (
+      <div style={row}>
+        <Button intent="primary" loading>
+          Saving
+        </Button>
+        <Button intent="secondary">Cancel</Button>
+      </div>
+    ),
+    Dont: () => (
+      <div style={row}>
+        <Button intent="primary" disabled>
+          Save changes
+        </Button>
+        <Button intent="secondary">Cancel</Button>
+      </div>
+    ),
+  },
 };

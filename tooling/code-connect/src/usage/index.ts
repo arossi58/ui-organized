@@ -29,6 +29,7 @@ import { alertUsage } from "./guides/alert.js";
 import { toastUsage } from "./guides/toast.js";
 import { progressUsage } from "./guides/progress.js";
 import { skeletonUsage } from "./guides/skeleton.js";
+import { spinnerUsage } from "./guides/spinner.js";
 import { checkboxUsage } from "./guides/checkbox.js";
 import { radioGroupUsage } from "./guides/radio-group.js";
 import { switchUsage } from "./guides/switch.js";
@@ -104,6 +105,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   toast: toastUsage,
   progress: progressUsage,
   skeleton: skeletonUsage,
+  spinner: spinnerUsage,
   checkbox: checkboxUsage,
   "radio-group": radioGroupUsage,
   switch: switchUsage,

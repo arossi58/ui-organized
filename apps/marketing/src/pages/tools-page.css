@@ -116,10 +116,14 @@
   overflow: hidden;
 }
 
-/* Suspense fallback while a tool's code-split bundle loads. */
+/* Suspense fallback while a tool's code-split bundle loads: a decorative
+   Spinner over the line that says what is loading (the line is the status). */
 .tools-panel__loading {
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-space-03);
   flex: 1 1 auto;
   min-height: 0;
   padding: var(--spacing-space-12);

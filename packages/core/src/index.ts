@@ -175,6 +175,8 @@ export { signaturePadStyles } from "./components/SignaturePad/SignaturePad.style
 export type { SignaturePadVariants } from "./components/SignaturePad/SignaturePad.styles.js";
 export { skeletonStyles } from "./components/Skeleton/Skeleton.styles.js";
 export type { SkeletonVariants } from "./components/Skeleton/Skeleton.styles.js";
+export { spinnerStyles } from "./components/Spinner/Spinner.styles.js";
+export type { SpinnerVariants } from "./components/Spinner/Spinner.styles.js";
 export { splitterStyles } from "./components/Splitter/Splitter.styles.js";
 export type { SplitterVariants } from "./components/Splitter/Splitter.styles.js";
 export { stepsStyles } from "./components/Steps/Steps.styles.js";

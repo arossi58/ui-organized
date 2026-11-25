@@ -1,6 +1,6 @@
 import { Fragment, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Sidebar, NavItem, Icon, useNavContext } from "@ui-organized/react";
+import { Sidebar, NavItem, Icon, Spinner, useNavContext } from "@ui-organized/react";
 import { Monitor } from "lucide-react";
 import { TOOLS, resolveTool } from "../lib/tools";
 import { TOOL_COMPONENTS } from "../lib/toolComponents";
@@ -114,7 +114,10 @@ export function ToolsPage() {
             >
               <Suspense
                 fallback={
-                  <div className="tools-panel__loading">Loading {active.name}…</div>
+                  <div className="tools-panel__loading" role="status">
+                    <Spinner size="lg" decorative />
+                    Loading {active.name}…
+                  </div>
                 }
               >
                 <ToolComponent />

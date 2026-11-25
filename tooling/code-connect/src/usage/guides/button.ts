@@ -13,7 +13,7 @@ export const buttonUsage: UsageGuide = {
   ],
   avoid: [
     {
-      text: "For navigation. A control that changes the URL should be a link: render the button as an anchor element, which keeps its appearance and the link's behaviour.",
+      text: "For navigation. A control that changes the URL should be a link: pass `href`, which renders a real anchor with the button's appearance.",
     },
     {
       text: "For a setting that takes effect the moment it changes rather than on activation.",
@@ -45,6 +45,11 @@ export const buttonUsage: UsageGuide = {
       example: "icon-only",
     },
     {
+      do: "Show `loading` on the button that started the work, so the reader sees their click land.",
+      dont: "Disable the button while the work runs, which drops focus and gives no sign the click was received.",
+      example: "loading",
+    },
+    {
       do: "Disable an action only while it cannot run, and say elsewhere what would enable it.",
       dont: "Treat the disabled state as the explanation, when it takes no focus and announces nothing.",
     },
@@ -53,6 +58,7 @@ export const buttonUsage: UsageGuide = {
     "Renders a real `<button>`, so Enter and Space activate it and it takes focus in DOM order.",
     "An icon-only button has no text to announce: give it an `aria-label` naming the action, not the glyph.",
     "Intent is a ranking, not a status. If the outcome matters, the label has to say so too, because color alone reaches nobody who can't see it.",
+    "While `loading`, the button keeps its focus, is announced as busy and unavailable, and ignores a second click.",
   ],
   content: [
     "Name the outcome rather than the mechanism: Delete, not Confirm.",
@@ -62,5 +68,6 @@ export const buttonUsage: UsageGuide = {
     { slug: "toggle", when: "the control stays pressed to show a state you can see." },
     { slug: "menu", when: "one trigger should open a set of related actions." },
     { slug: "tag", when: "the thing is a label or category rather than an action." },
+    { slug: "spinner", when: "a wait isn't tied to one action the reader started." },
   ],
 };

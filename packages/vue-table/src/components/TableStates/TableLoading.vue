@@ -1,7 +1,7 @@
 <!--
   Skeleton rows sized to the real row height, so the table does not resize when
   the data lands — which is the entire reason to prefer a skeleton to a spinner.
-  (There is no Spinner in the library, which settles it anyway.)
+  (A Spinner would hold no height at all, and the rows would jump when the data lands.)
 -->
 <script setup lang="ts">
 import { computed } from "vue";

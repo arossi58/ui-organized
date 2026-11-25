@@ -2,7 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Renderer2,
+  booleanAttribute,
   computed,
+  effect,
   inject,
   input,
   signal,
@@ -18,6 +21,7 @@ import {
 import { UioIcon } from "../icons/icon.js";
 import type { IconGlyph } from "../icons/glyph.js";
 import type { IconName } from "../icons/icon.js";
+import { UioSpinner } from "../spinner/spinner.js";
 
 export type ButtonIntent = NonNullable<ButtonVariants["intent"]>;
 
@@ -41,21 +45,44 @@ export type ButtonIntent = NonNullable<ButtonVariants["intent"]>;
  * `cloneElement` to turn a Button into an anchor; here the caller just writes an
  * anchor. That is the same capability, expressed in the idiom of the framework.
  *
+ * ── Loading, and why there is no `disabled` input ───────────────────────────
+ *
+ * `loading` marks the host busy instead of disabling it, so focus is not thrown
+ * back to the document when a request starts, and swallows the click. Its
+ * spinner takes the icon's slot, or the leading one when there is no icon. On
+ * an `<a>` it also takes the `href` off while it runs, the way the other three
+ * libraries render a loading `href` button.
+ *
+ * `disabled` stays the native property. An input of that name would shadow
+ * `<button [disabled]>` everywhere this button is used, and under JIT, where
+ * signal inputs are not registered, its host binding would strip the native
+ * attribute the template just set. The cost is a disabled *anchor*, which the
+ * other three libraries render as an inert link: Angular's compiler rejects
+ * `[disabled]` on `<a>` anyway, so the caller renders a `<button>` instead.
+ *
  * This deliberately does **not** extend `UioPart`: Ark has no button primitive,
  * so a React button carries no `data-scope`/`data-part` and neither may this one.
  */
 @Component({
   selector: "button[uioButton], a[uioButton]",
   standalone: true,
-  imports: [UioIcon],
+  imports: [UioIcon, UioSpinner],
   template: `
-    @if (icon(); as name) {
+    @if (loading()) {
+      @if (spinnerSide() === "left") {
+        <span uioSpinner [size]="size()" decorative></span>
+      }
+    } @else if (icon(); as name) {
       @if (iconPosition() === "left") {
         <span uioIcon [name]="name" [size]="iconSize()"></span>
       }
     }
     <ng-content />
-    @if (icon(); as name) {
+    @if (loading()) {
+      @if (spinnerSide() === "right") {
+        <span uioSpinner [size]="size()" decorative></span>
+      }
+    } @else if (icon(); as name) {
       @if (iconPosition() === "right") {
         <span uioIcon [name]="name" [size]="iconSize()"></span>
       }
@@ -64,6 +91,11 @@ export type ButtonIntent = NonNullable<ButtonVariants["intent"]>;
   host: {
     "[class]": "hostClass()",
     "[attr.type]": "typeAttribute()",
+    "[attr.role]": "isAnchor && loading() ? 'link' : null",
+    "[attr.aria-disabled]": "loading() ? 'true' : null",
+    "[attr.aria-busy]": "loading() ? 'true' : null",
+    "[attr.data-loading]": "loading() ? '' : null",
+    "(click)": "onClick($event)",
   },
 })
 export class UioButton implements AfterViewInit {
@@ -77,11 +109,16 @@ export class UioButton implements AfterViewInit {
   readonly type = input<"button" | "submit" | "reset">("button");
   readonly icon = input<IconName | IconGlyph | undefined>(undefined);
   readonly iconPosition = input<"left" | "right">("left");
+  readonly loading = input(false, { transform: booleanAttribute });
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
+
+  protected readonly isAnchor = this.host.nativeElement.tagName === "A";
 
   /** Icons scale with the control size, from the shared table. */
   protected readonly iconSize = computed(() => CONTROL_ICON_SIZE[this.size()]);
+  protected readonly spinnerSide = computed(() => (this.icon() ? this.iconPosition() : "left"));
 
   /**
    * An icon with no label collapses to a square whose side matches the labelled
@@ -105,12 +142,49 @@ export class UioButton implements AfterViewInit {
     ),
   );
 
+  /**
+   * The `href` the caller wrote, held while the anchor is loading.
+   *
+   * Taken off the element rather than bound: `[attr.href]` here would fight
+   * RouterLink, which binds the same attribute, and lose or win depending on
+   * directive order. A binding the caller changes while the anchor is loading
+   * (`[href]`) writes the attribute back; that case is not supported.
+   */
+  private heldHref: string | null = null;
+
+  constructor() {
+    effect(() => {
+      if (!this.isAnchor) return;
+      const element = this.host.nativeElement;
+      if (this.loading()) {
+        const href = element.getAttribute("href");
+        if (href !== null) {
+          this.heldHref = href;
+          this.renderer.removeAttribute(element, "href");
+        }
+      } else if (this.heldHref !== null) {
+        this.renderer.setAttribute(element, "href", this.heldHref);
+        this.heldHref = null;
+      }
+    });
+  }
+
   ngAfterViewInit(): void {
     this.iconOnly.set(!!this.icon() && !this.host.nativeElement.textContent?.trim());
   }
 
+  /**
+   * A busy button or anchor swallows the click. A part's own host
+   * listener runs before the caller's `(click)` on the same element, so
+   * stopping it here keeps the caller's handler from running too.
+   */
+  protected onClick(event: Event): void {
+    if (this.loading()) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+    }
+  }
+
   /** An anchor has no `type`, and stamping one on it would be invalid HTML. */
-  protected readonly typeAttribute = computed(() =>
-    this.host.nativeElement.tagName === "BUTTON" ? this.type() : null,
-  );
+  protected readonly typeAttribute = computed(() => (this.isAnchor ? null : this.type()));
 }

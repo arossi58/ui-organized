@@ -25,7 +25,7 @@ describe("Button", () => {
   });
 
   it("agrees with the shared recipe for every intent and size", () => {
-    const intents = ["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"] as const;
+    const intents = ["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost", "link", "link-neutral"] as const;
     const sizes = ["sm", "md", "lg"] as const;
     for (const intent of intents) {
       for (const size of sizes) {
@@ -73,5 +73,55 @@ describe("Button", () => {
     expect([...bare.querySelector("button")!.classList].sort()).toEqual(
       ["btn", "btn--primary", "btn--md", "text-default-body-large"].sort(),
     );
+  });
+  it("marks a loading button busy rather than disabled, and swallows the click", async () => {
+    let clicks = 0;
+    const { container } = render(Button, {
+      props: { loading: true, onclick: () => clicks++ },
+    });
+    const button = container.querySelector("button")!;
+    expect(button.hasAttribute("disabled")).toBe(false);
+    expect(button.getAttribute("aria-busy")).toBe("true");
+    expect(button.getAttribute("aria-disabled")).toBe("true");
+    expect(button.hasAttribute("data-loading")).toBe(true);
+    const event = new MouseEvent("click", { bubbles: true, cancelable: true });
+    button.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(true);
+    expect(clicks).toBe(0);
+  });
+
+  it("puts a decorative spinner in the icon's place while loading", () => {
+    const { container } = render(Button, {
+      props: { loading: true, icon: "check", iconPosition: "right" },
+    });
+    const spinner = container.querySelector(".spinner")!;
+    expect(spinner).toBeTruthy();
+    expect(spinner.getAttribute("aria-hidden")).toBe("true");
+    expect(spinner.hasAttribute("role")).toBe(false);
+    expect(container.querySelector(".icon")).toBeNull();
+  });
+
+  it("renders a real anchor for href, and an inert link while loading", () => {
+    const { container } = render(Button, { props: { href: "/docs", target: "_blank" } });
+    const anchor = container.querySelector("a")!;
+    expect(anchor.getAttribute("href")).toBe("/docs");
+    expect(anchor.getAttribute("target")).toBe("_blank");
+    expect(anchor.hasAttribute("type")).toBe(false);
+    expect(anchor.classList.contains("btn")).toBe(true);
+
+    const { container: busy } = render(Button, { props: { href: "/docs", loading: true } });
+    const inert = busy.querySelector("a")!;
+    expect(inert.hasAttribute("href")).toBe(false);
+    expect(inert.getAttribute("role")).toBe("link");
+    expect(inert.getAttribute("aria-disabled")).toBe("true");
+  });
+
+  it("renders a disabled href as an inert link with the disabled appearance", () => {
+    const { container } = render(Button, { props: { href: "/docs", disabled: true } });
+    const anchor = container.querySelector("a")!;
+    expect(anchor.hasAttribute("href")).toBe(false);
+    expect(anchor.hasAttribute("disabled")).toBe(false);
+    expect(anchor.hasAttribute("data-disabled")).toBe(true);
+    expect(anchor.getAttribute("aria-disabled")).toBe("true");
   });
 });

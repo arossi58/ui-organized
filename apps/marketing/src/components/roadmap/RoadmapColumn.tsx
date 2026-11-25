@@ -1,6 +1,6 @@
 import { type RoadmapColumn as Column, DONE_VISIBLE_LIMIT } from "../../lib/roadmap";
 import { useRevealOnScroll } from "../../hooks/useRevealOnScroll";
-import { ButtonLink } from "../chrome/ButtonLink";
+import { Button } from "@ui-organized/react";
 import { RoadmapCard } from "./RoadmapCard";
 import "./roadmap-column.css";
 
@@ -38,7 +38,7 @@ export function RoadmapColumn({ column, doneOverflowUrl }: RoadmapColumnProps) {
       </ol>
 
       {showOverflow && (
-        <ButtonLink
+        <Button
           className="roadmap-column__overflow"
           href={doneOverflowUrl}
           intent="tertiary"
@@ -47,7 +47,7 @@ export function RoadmapColumn({ column, doneOverflowUrl }: RoadmapColumnProps) {
           rel="noreferrer"
         >
           See everything shipped →
-        </ButtonLink>
+        </Button>
       )}
     </section>
   );

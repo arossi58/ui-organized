@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-12T07:22:07.538Z",
+  "generatedAt": "2026-11-25T15:14:02.128Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -985,7 +985,7 @@
         "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
         "RowAction": "{ id: string; label: string; icon?: string; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
         "BulkAction": "{ id: string; label: string; icon?: string; destructive?: boolean; confirm?: { title?: string | undefined; description?: string | undefined; confirmLabel?: string | undefined }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
-        "TableAction": "{ id: string; label: string; icon?: string; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "TableAction": "{ id: string; label: string; icon?: string; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
         "DetailConfig": "{ render: (row: T) => AngularNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => AngularNode }",
         "ResponsiveConfig": "{ mode?: \"auto\" | \"table\" | \"cards\"; breakpoint?: number }",
         "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
@@ -1341,7 +1341,7 @@
         },
         {
           "name": "size",
-          "type": "\"sm\" | \"md\" | \"lg\" | \"xs\" | \"xl\"",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\"",
           "required": false,
           "defaultValue": "md"
         },
@@ -1352,8 +1352,8 @@
         }
       ],
       "usageSnippet": "<!-- div[uioAvatar] -->",
-      "propSignatureHash": "sha256:9d00f3db4f840a43",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:c2c75504d072ac41",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {
@@ -1411,9 +1411,15 @@
         },
         {
           "name": "intent",
-          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"",
+          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"",
           "required": false,
           "defaultValue": "primary"
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
         },
         {
           "name": "size",
@@ -1430,8 +1436,8 @@
         }
       ],
       "usageSnippet": "<!-- button[uioButton], a[uioButton] -->",
-      "propSignatureHash": "sha256:f51814d0c3344e6e",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:27f83e7815ade77d",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {
@@ -5527,6 +5533,43 @@
       "usageSnippet": "<!-- [uioSkeletonGroup] -->",
       "propSignatureHash": "sha256:04b3f18179d307fa",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSpinner",
+      "codeName": "UioSpinner",
+      "codePath": "packages/angular/src/lib/spinner/spinner.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSpinner } from '@ui-organized/angular';",
+      "selector": "[uioSpinner]",
+      "reactName": "Spinner",
+      "props": [
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Hide it from assistive technology, when something else already says the work is running."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Loading",
+          "description": "What is loading, announced by assistive technology."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "sm, md and lg are 16, 20 and 24 px, a control's icon size; xl is 40 px."
+        }
+      ],
+      "usageSnippet": "<!-- [uioSpinner] -->",
+      "propSignatureHash": "sha256:f37e57b4f9c3c3ae",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {

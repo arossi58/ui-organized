@@ -194,6 +194,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Sheet",
   "SignaturePad",
   "Skeleton",
+  "Spinner",
   "Splitter",
   "Steps",
   "Switch",
