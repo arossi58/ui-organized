@@ -159,6 +159,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Dialog",
   "Divider",
   "Editable",
+  "FeaturedIcon",
   "Field",
   "FieldError",
   "Fieldset",

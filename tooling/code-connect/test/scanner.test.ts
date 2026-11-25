@@ -256,7 +256,12 @@ describe("scanAngular — signal inputs, through the type checker", async () => 
 
   it("resolves an aliased input type to its literal union, with its default", () => {
     const variant = byName("UioTag")!.props.find((p) => p.name === "variant")!;
-    expect(variant.type).toBe('"info" | "success" | "error" | "info-secondary" | "caution"');
+    // Members, not spelling: the checker prints a union in the order it first
+    // met each literal anywhere in the program, so a new component that uses
+    // "caution" earlier reorders Tag's union without changing it.
+    expect(variant.type.split(" | ").sort()).toEqual(
+      ['"caution"', '"error"', '"info"', '"info-secondary"', '"success"'],
+    );
     expect(variant.defaultValue).toBe("success");
     const intent = byName("UioButton")!.props.find((p) => p.name === "intent")!;
     expect(intent.type).toContain('"destructive-ghost"');

@@ -127,6 +127,12 @@ export { editableStyles } from "./components/Editable/Editable.styles.js";
 export type { EditableVariants } from "./components/Editable/Editable.styles.js";
 export { fieldStyles } from "./components/Field/Field.styles.js";
 export type { FieldVariants } from "./components/Field/Field.styles.js";
+export {
+  featuredIconStyles,
+  FEATURED_ICON_GLYPH_SIZE,
+  type FeaturedIconSize,
+} from "./components/FeaturedIcon/FeaturedIcon.styles.js";
+export type { FeaturedIconVariants } from "./components/FeaturedIcon/FeaturedIcon.styles.js";
 export { fileUploadStyles } from "./components/FileUpload/FileUpload.styles.js";
 export type { FileUploadVariants } from "./components/FileUpload/FileUpload.styles.js";
 export { floatingPanelStyles } from "./components/FloatingPanel/FloatingPanel.styles.js";

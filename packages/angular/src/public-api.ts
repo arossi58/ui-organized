@@ -41,6 +41,13 @@ export {
 } from "./lib/skeleton/skeleton.js";
 export { UioSpinner, type SpinnerSize } from "./lib/spinner/spinner.js";
 export {
+  UioFeaturedIcon,
+  type FeaturedIconVariant,
+  type FeaturedIconAppearance,
+  type FeaturedIconShape,
+  type FeaturedIconSize,
+} from "./lib/featured-icon/featured-icon.js";
+export {
   getIconSet,
   registerIconSet,
   registeredLibraries,

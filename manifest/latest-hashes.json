@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T15:14:02.128Z",
+  "generatedAt": "2026-11-25T15:43:56.216Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -53,6 +53,7 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:f411b86fd0af3040",
     "packages/react/src/components/Editable/Editable.types.ts::Editable": "sha256:4acc88909e051c06",
+    "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": "sha256:7e233281cd254757",
     "packages/react/src/components/Field/Field.types.ts::Field": "sha256:1381062600517458",
     "packages/react/src/components/Field/Field.types.ts::FieldControl": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Field/Field.types.ts::FieldDescription": "sha256:4f53cda18c2baa0c",
@@ -2050,6 +2051,48 @@
         "type": "string",
         "required": false,
         "description": "Controlled value."
+      }
+    ],
+    "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": [
+      {
+        "name": "appearance",
+        "type": "\"subtle\" | \"solid\" | \"outline\"",
+        "required": false,
+        "defaultValue": "subtle",
+        "description": "`subtle` is a tint with the colour's content tone, `solid` the full colour, `outline` no fill and two faded rings."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": true,
+        "description": "The icon: its native name in the active library (registered with `registerIcons`), or a library icon component supplied directly."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "An accessible name, for an icon that means something on its own."
+      },
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"square\"",
+        "required": false,
+        "defaultValue": "circle",
+        "description": "Defaults to 'circle'."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "32, 40, 48 or 56 px, holding a 16, 20, 24 or 28 px icon."
+      },
+      {
+        "name": "variant",
+        "type": "\"brand\" | \"neutral\" | \"success\" | \"info\" | \"caution\" | \"error\"",
+        "required": false,
+        "defaultValue": "brand",
+        "description": "Colour."
       }
     ],
     "packages/react/src/components/Field/Field.types.ts::Field": [

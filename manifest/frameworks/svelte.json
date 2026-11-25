@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T15:14:02.128Z",
+  "generatedAt": "2026-11-25T15:43:56.216Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3879,6 +3879,66 @@
       "usageSnippet": "<Editable />",
       "propSignatureHash": "sha256:b65f50e5f376034b",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FeaturedIcon",
+      "codeName": "FeaturedIcon",
+      "codePath": "packages/svelte/src/lib/components/FeaturedIcon/FeaturedIcon.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { FeaturedIcon } from '@ui-organized/svelte';",
+      "reactName": "FeaturedIcon",
+      "props": [
+        {
+          "name": "appearance",
+          "type": "\"subtle\" | \"solid\" | \"outline\"",
+          "required": false,
+          "defaultValue": "subtle",
+          "description": "`subtle` is a tint with the colour's content tone, `solid` the full colour, `outline` no fill and two faded rings."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": true,
+          "description": "The icon: its native name in the active library, or a component."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "An accessible name, for an icon that means something on its own."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle",
+          "description": "Defaults to 'circle'."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "32, 40, 48 or 56 px, holding a 16, 20, 24 or 28 px icon."
+        },
+        {
+          "name": "variant",
+          "type": "\"brand\" | \"neutral\" | \"success\" | \"info\" | \"caution\" | \"error\"",
+          "required": false,
+          "defaultValue": "brand",
+          "description": "Colour."
+        }
+      ],
+      "usageSnippet": "<FeaturedIcon icon={/* IconName | IconComponent */} />",
+      "propSignatureHash": "sha256:dbbd657987f625a8",
+      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
       "status": "draft"
     },
     {
