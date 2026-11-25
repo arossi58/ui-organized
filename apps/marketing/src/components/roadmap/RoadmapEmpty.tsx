@@ -1,5 +1,5 @@
+import { Button, EmptyState } from "@ui-organized/react";
 import { FALLBACK_PROJECT_URL } from "../../lib/roadmap";
-import { Button } from "@ui-organized/react";
 import "./roadmap-empty.css";
 
 /**
@@ -9,15 +9,15 @@ import "./roadmap-empty.css";
  */
 export function RoadmapEmpty({ projectUrl = FALLBACK_PROJECT_URL }: { projectUrl?: string }) {
   return (
-    <div className="roadmap-empty">
-      <p className="roadmap-empty__title">Roadmap is syncing</p>
-      <p className="roadmap-empty__body">
-        This board updates from GitHub Projects, and the next sync hasn&rsquo;t
-        come through yet.
-      </p>
-      <Button href={projectUrl} intent="primary" size="md" target="_blank" rel="noreferrer">
-        Open the board on GitHub
-      </Button>
-    </div>
+    <EmptyState
+      className="roadmap-empty"
+      title="Roadmap is syncing"
+      description="This board updates from GitHub Projects, and the next sync hasn’t come through yet."
+      actions={
+        <Button href={projectUrl} intent="primary" size="md" target="_blank" rel="noreferrer">
+          Open the board on GitHub
+        </Button>
+      }
+    />
   );
 }

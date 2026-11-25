@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T15:43:56.216Z",
+  "generatedAt": "2026-11-25T16:11:31.744Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -518,14 +518,20 @@
           "required": false
         },
         {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": false,
+          "description": "A topic icon above the title, drawn as a neutral FeaturedIcon."
+        },
+        {
           "name": "title",
           "type": "string",
           "required": false
         }
       ],
       "usageSnippet": "<!-- tr[uioTableEmpty] -->",
-      "propSignatureHash": "sha256:4dc81020206d5873",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:1fdb5e176ff8aa83",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
       "status": "draft"
     },
     {
@@ -980,7 +986,7 @@
       "status": "draft",
       "referencedTypes": {
         "VirtualConfig": "{ threshold?: number; overscan?: number }",
-        "EmptyStateConfig": "{ title?: string; description?: string; action?: null | string | number | TemplateRef<unknown> }",
+        "EmptyStateConfig": "{ title?: string; description?: string; icon?: string; action?: null | string | number | TemplateRef<unknown> }",
         "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
         "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
         "RowAction": "{ id: string; label: string; icon?: string; destructive?: boolean; disabled?: (row: T) => boolean; onRun: (row: T) => void | Promise<void> }",
@@ -2742,6 +2748,79 @@
       "usageSnippet": "<!-- div[uioEditable] -->",
       "propSignatureHash": "sha256:698b19d14d52d5c0",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioEmptyState",
+      "codeName": "UioEmptyState",
+      "codePath": "packages/angular/src/lib/empty-state/empty-state.ts",
+      "framework": "angular",
+      "importStatement": "import { UioEmptyState } from '@ui-organized/angular';",
+      "selector": "div[uioEmptyState]",
+      "reactName": "EmptyState",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "description": "Render the title as a heading at this level."
+        },
+        {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": false,
+          "description": "An icon for the topic, drawn as a neutral subtle FeaturedIcon."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "What is missing, in a few words."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioEmptyState] -->",
+      "propSignatureHash": "sha256:c80cfcd4e877cd78",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioEmptyStateActions",
+      "codeName": "UioEmptyStateActions",
+      "codePath": "packages/angular/src/lib/empty-state/empty-state.ts",
+      "framework": "angular",
+      "importStatement": "import { UioEmptyStateActions } from '@ui-organized/angular';",
+      "selector": "[uioEmptyStateActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioEmptyStateActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioEmptyStateMedia",
+      "codeName": "UioEmptyStateMedia",
+      "codePath": "packages/angular/src/lib/empty-state/empty-state.ts",
+      "framework": "angular",
+      "importStatement": "import { UioEmptyStateMedia } from '@ui-organized/angular';",
+      "selector": "[uioEmptyStateMedia]",
+      "props": [],
+      "usageSnippet": "<!-- [uioEmptyStateMedia] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
       "status": "draft"
     },
     {

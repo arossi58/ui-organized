@@ -40,6 +40,7 @@ import "./components/Navigation/Navigation.css";
 import "./components/Divider/Divider.css";
 import "./components/Skeleton/Skeleton.css";
 import "./components/FeaturedIcon/FeaturedIcon.css";
+import "./components/EmptyState/EmptyState.css";
 import "./components/Avatar/Avatar.css";
 import "./components/Progress/Progress.css";
 import "./components/Field/Field.css";

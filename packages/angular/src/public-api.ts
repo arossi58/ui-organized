@@ -48,6 +48,12 @@ export {
   type FeaturedIconSize,
 } from "./lib/featured-icon/featured-icon.js";
 export {
+  UioEmptyState,
+  UioEmptyStateMedia,
+  UioEmptyStateActions,
+  type EmptyStateSize,
+} from "./lib/empty-state/empty-state.js";
+export {
   getIconSet,
   registerIconSet,
   registeredLibraries,

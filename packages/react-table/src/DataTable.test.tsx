@@ -218,7 +218,7 @@ describe("DataTable markup", () => {
       />,
     );
     expect(dom.querySelector("thead")).not.toBeNull();
-    expect(dom.querySelector(".data-table__state-title")?.textContent).toBe("No members yet");
+    expect(dom.querySelector(".empty-state__title")?.textContent).toBe("No members yet");
   });
 
   it("announces a load failure rather than leaving an empty table", () => {

@@ -9,14 +9,23 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import { clsx } from "clsx";
+  import { EmptyState, type IconComponent, type IconName } from "@ui-organized/svelte";
   import { getTable } from "../../core/tableContext.js";
 
   let {
     title,
     description,
+    icon,
     class: className,
     action,
-  }: { title?: string; description?: string; class?: string; action?: Snippet } = $props();
+  }: {
+    title?: string;
+    description?: string;
+    /** A topic icon above the title, drawn as a neutral FeaturedIcon. */
+    icon?: IconName | IconComponent;
+    class?: string;
+    action?: Snippet;
+  } = $props();
 
   const table = getTable();
   const empty = $derived(table.options.empty);
@@ -26,10 +35,6 @@
 
 <tr class="data-table__row">
   <td class={clsx("data-table__state-cell", className)} colspan={table.chrome.colCount}>
-    <div class="data-table__state">
-      <span class="data-table__state-title">{heading}</span>
-      {#if detail}<span class="data-table__state-description">{detail}</span>{/if}
-      {#if action}<div class="data-table__state-actions">{@render action()}</div>{/if}
-    </div>
+    <EmptyState size="sm" icon={icon ?? empty?.icon} title={heading} description={detail} actions={action} />
   </td>
 </tr>

@@ -1,0 +1,70 @@
+/* ─── EmptyState ──────────────────────────────────────────────────────────── */
+
+/* Centred and capped, so a page-wide empty state still reads as one short
+   block. The width cap is on the text, not the root, so the actions row can
+   be as wide as its buttons need. */
+.empty-state {
+  --empty-state-measure: var(--dimension-10, 400px);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-space-04);
+  box-sizing: border-box;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.empty-state__media {
+  display: flex;
+  justify-content: center;
+}
+
+.empty-state__body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  max-width: var(--empty-state-measure);
+}
+
+.empty-state__title {
+  margin: 0;
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.empty-state__description {
+  margin: 0;
+  color: var(--color-content-secondary);
+}
+
+.empty-state__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-space-03);
+}
+
+/* An actions row with nothing in it takes no gap. Angular's TableEmpty projects
+   its actions, so it can't know whether any arrived and renders the row
+   either way. */
+.empty-state__actions:empty {
+  display: none;
+}
+
+/* ─── Sizes ───────────────────────────────────────────────────────────────── */
+
+.empty-state--sm {
+  --empty-state-measure: var(--dimension-08, 320px);
+  gap: var(--spacing-space-03);
+}
+
+.empty-state--lg {
+  --empty-state-measure: var(--dimension-11, 480px);
+  gap: var(--spacing-space-05);
+}
+
+.empty-state--lg .empty-state__body {
+  gap: var(--spacing-space-02);
+}

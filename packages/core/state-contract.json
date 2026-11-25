@@ -456,6 +456,20 @@
       ],
       "runtime": []
     },
+    "EmptyState": {
+      "attributes": {},
+      "classes": [
+        "empty-state",
+        "empty-state--lg",
+        "empty-state--sm",
+        "empty-state__actions",
+        "empty-state__body",
+        "empty-state__description",
+        "empty-state__media",
+        "empty-state__title"
+      ],
+      "runtime": []
+    },
     "FeaturedIcon": {
       "attributes": {
         "hidden": []

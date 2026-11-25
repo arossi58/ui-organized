@@ -9,13 +9,21 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { clsx } from "clsx";
+import { EmptyState, type IconComponent, type IconName } from "@ui-organized/vue";
 import { useTableContext } from "../../core/tableContext.js";
 
-const props = defineProps<{ title?: string; description?: string; class?: string }>();
+const props = defineProps<{
+  title?: string;
+  description?: string;
+  /** A topic icon above the title, drawn as a neutral FeaturedIcon. */
+  icon?: IconName | IconComponent;
+  class?: string;
+}>();
 const table = useTableContext();
 const empty = computed(() => table.options.empty);
 const title = computed(() => props.title ?? empty.value?.title ?? "Nothing to show");
 const description = computed(() => props.description ?? empty.value?.description);
+const icon = computed(() => props.icon ?? empty.value?.icon);
 </script>
 
 <template>
@@ -24,15 +32,13 @@ const description = computed(() => props.description ?? empty.value?.description
       :class="clsx('data-table__state-cell', $props.class)"
       :colspan="table.chrome.value.colCount"
     >
-      <div class="data-table__state">
-        <span class="data-table__state-title">{{ title }}</span>
-        <span v-if="description" class="data-table__state-description">{{ description }}</span>
-        <div v-if="$slots.action || empty?.action" class="data-table__state-actions">
+      <EmptyState size="sm" :icon="icon" :title="title" :description="description">
+        <template v-if="$slots.action || empty?.action" #actions>
           <slot name="action">
             <component :is="() => empty?.action" />
           </slot>
-        </div>
-      </div>
+        </template>
+      </EmptyState>
     </td>
   </tr>
 </template>

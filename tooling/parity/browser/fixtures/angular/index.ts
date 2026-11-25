@@ -17,6 +17,7 @@ import { DataTableFixture } from "./data-table.fixture.js";
 import { DialogFixture } from "./dialog.fixture.js";
 import { DividerFixture } from "./divider.fixture.js";
 import { EditableFixture } from "./editable.fixture.js";
+import { EmptyStateFixture } from "./empty-state.fixture.js";
 import { FeaturedIconFixture } from "./featured-icon.fixture.js";
 import { FieldFixture } from "./field.fixture.js";
 import { FieldErrorFixture } from "./field-error.fixture.js";
@@ -106,6 +107,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Dialog: DialogFixture,
   Divider: DividerFixture,
   Editable: EditableFixture,
+  EmptyState: EmptyStateFixture,
   FeaturedIcon: FeaturedIconFixture,
   Field: FieldFixture,
   FieldError: FieldErrorFixture,
