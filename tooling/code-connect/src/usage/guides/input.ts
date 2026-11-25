@@ -44,11 +44,17 @@ export const inputUsage: UsageGuide = {
       dont: "Stretch every field to the full width, so nothing hints at what is expected.",
       example: "sized-to-content",
     },
+    {
+      do: "Put a fixed part of the value in an add-on, such as `https://` or a currency, so the reader types only what varies.",
+      dont: "Make the reader type a prefix the field could have shown, then reject the value without it.",
+      example: "addons",
+    },
   ],
   accessibility: [
     "The `label` is the accessible name, so a field without one is unusable by anyone who can't see its context.",
     "`error` is announced with the field, which is why the message belongs there rather than in a separate list.",
     "Mark required fields in words as well as styling, since color and an asterisk carry no meaning alone.",
+    "A text add-on is read with the field, so `https://` is announced on focus. A control in an add-on slot needs a name of its own.",
   ],
   content: [
     "Label with a noun for the value, not an instruction: Full name, not Enter your name.",

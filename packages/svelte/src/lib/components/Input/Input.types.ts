@@ -1,6 +1,9 @@
 import type { HTMLInputAttributes } from "svelte/elements";
 import type { ControlSize } from "@ui-organized/core";
+import type { Snippet } from "svelte";
 import type { ArkForwardable } from "../../types.js";
+import type { IconName } from "../Icon/Icon.types.js";
+import type { IconComponent } from "../../icons/registry.js";
 
 export interface InputProps
   extends ArkForwardable<Omit<HTMLInputAttributes, "size" | "class">> {
@@ -18,4 +21,15 @@ export interface InputProps
   class?: string;
   /** The control's value. Bindable: `bind:value`. */
   value?: string | number | null;
+  /** An icon inside the control, before the text. */
+  startIcon?: IconName | IconComponent;
+  /** An icon inside the control, after the text. */
+  endIcon?: IconName | IconComponent;
+  /**
+   * An add-on before the control, inside its border: text such as `https://`,
+   * or a snippet holding a control of its own, such as a ghost `Select`.
+   */
+  startAddon?: string | Snippet;
+  /** An add-on after the control: text such as `.com`, or a snippet. */
+  endAddon?: string | Snippet;
 }

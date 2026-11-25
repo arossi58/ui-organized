@@ -534,18 +534,27 @@
         "data-invalid": []
       },
       "classes": [
+        "btn",
         "combobox-field__input",
         "field",
         "field--inline",
         "field--lg",
         "field--sm",
+        "field__addon",
+        "field__addon--end",
+        "field__addon--slot",
+        "field__addon--start",
         "field__control",
         "field__description",
+        "field__group",
         "field__label",
         "field__required",
         "fieldset",
         "fieldset__legend",
+        "input-affix",
         "number-field__input",
+        "select-field",
+        "select-field__trigger",
         "textarea-field__control"
       ],
       "runtime": []

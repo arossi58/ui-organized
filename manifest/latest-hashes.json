@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T17:07:25.357Z",
+  "generatedAt": "2026-11-25T17:37:01.086Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -79,7 +79,7 @@
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:bef6759e7e844295",
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
-    "packages/react/src/components/Input/Input.types.ts::Input": "sha256:7a065a645590a677",
+    "packages/react/src/components/Input/Input.types.ts::Input": "sha256:1a73cceef72037d9",
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
     "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": "sha256:5990e288f07f2275",
     "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
@@ -2832,6 +2832,18 @@
     ],
     "packages/react/src/components/Input/Input.types.ts::Input": [
       {
+        "name": "endAddon",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "An add-on after the control: text such as `.com`, or a control of its own."
+      },
+      {
+        "name": "endIcon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "An icon inside the control, after the text."
+      },
+      {
         "name": "error",
         "type": "string | boolean",
         "required": false,
@@ -2855,6 +2867,18 @@
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
+      },
+      {
+        "name": "startAddon",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "An add-on before the control, inside its border: text such as `https://`, or a control of its own, such as a ghost `Select` or a `Button`."
+      },
+      {
+        "name": "startIcon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "An icon inside the control, before the text: a search glass, an at sign."
       }
     ],
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": [
