@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T20:10:02.442Z",
+  "generatedAt": "2026-11-25T21:19:16.621Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -23,6 +23,7 @@
     "packages/react/src/components/Card/Card.types.ts::CardHeader": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Carousel/Carousel.types.ts::Carousel": "sha256:3d523f34e49c29cb",
     "packages/react/src/components/Checkbox/Checkbox.types.ts::Checkbox": "sha256:cf4b0e586ed96657",
+    "packages/react/src/components/CheckboxCardGroup/CheckboxCardGroup.types.ts::CheckboxCardGroup": "sha256:6a9954707d408789",
     "packages/react/src/components/Chip/Chip.types.ts::Chip": "sha256:4cd111a1f868c3b9",
     "packages/react/src/components/Chip/Chip.types.ts::ChipSegment": "sha256:9ccd14beb2c04af9",
     "packages/react/src/components/Clipboard/Clipboard.types.ts::Clipboard": "sha256:1f0e2a3c80b01679",
@@ -109,6 +110,7 @@
     "packages/react/src/components/Popover/Popover.types.ts::PopoverTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Progress/Progress.types.ts::Progress": "sha256:107504ef664f40a5",
     "packages/react/src/components/QRCode/QRCode.types.ts::QRCode": "sha256:651243f891e80bbe",
+    "packages/react/src/components/RadioCardGroup/RadioCardGroup.types.ts::RadioCardGroup": "sha256:bb87d95212f5c458",
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": "sha256:6b1a92c950305c6c",
     "packages/react/src/components/Range/Range.types.ts::Range": "sha256:0ffbd394cc54fdad",
     "packages/react/src/components/RatingGroup/RatingGroup.types.ts::RatingGroup": "sha256:f91adc6c16e05917",
@@ -885,6 +887,88 @@
         "type": "boolean",
         "required": false,
         "description": "Whether the checkbox is required for form submission."
+      }
+    ],
+    "packages/react/src/components/CheckboxCardGroup/CheckboxCardGroup.types.ts::CheckboxCardGroup": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible name for the group when it has no visible `label`."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "1 | 2 | 3 | 4",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Cards per row, 1 to 4."
+      },
+      {
+        "name": "defaultValue",
+        "type": "string[]",
+        "required": false,
+        "description": "Initial checked values for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the entire group should ignore user interaction."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+      },
+      {
+        "name": "indicator",
+        "type": "\"start\" | \"end\"",
+        "required": false,
+        "defaultValue": "end",
+        "description": "Which side of the card the check box sits on."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Group label rendered above the cards."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission; each checked card submits its value."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string[]) => void",
+        "required": false,
+        "description": "Callback fired when the checked set changes."
+      },
+      {
+        "name": "options",
+        "type": "SelectionCardOption[]",
+        "required": true,
+        "description": "The cards, one per option."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Card padding and type scale."
+      },
+      {
+        "name": "value",
+        "type": "string[]",
+        "required": false,
+        "description": "Controlled checked values."
       }
     ],
     "packages/react/src/components/Chip/Chip.types.ts::Chip": [
@@ -3898,6 +3982,88 @@
         "required": false,
         "defaultValue": "default",
         "description": "Surface treatment."
+      }
+    ],
+    "packages/react/src/components/RadioCardGroup/RadioCardGroup.types.ts::RadioCardGroup": [
+      {
+        "name": "aria-label",
+        "type": "string",
+        "required": false,
+        "description": "Accessible name for the group when it has no visible `label`."
+      },
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "columns",
+        "type": "1 | 2 | 3 | 4",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Cards per row, 1 to 4."
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "description": "Initial selected value for uncontrolled usage."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the entire group should ignore user interaction."
+      },
+      {
+        "name": "error",
+        "type": "string | boolean",
+        "required": false,
+        "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+      },
+      {
+        "name": "indicator",
+        "type": "\"start\" | \"end\"",
+        "required": false,
+        "defaultValue": "end",
+        "description": "Which side of the card the radio or check box sits on."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "Group label rendered above the cards."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": false,
+        "description": "Name attribute for form submission."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Callback fired when selection changes."
+      },
+      {
+        "name": "options",
+        "type": "SelectionCardOption[]",
+        "required": true,
+        "description": "The cards, one per option."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Card padding and type scale."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "Controlled selected value."
       }
     ],
     "packages/react/src/components/Radio/Radio.types.ts::RadioGroup": [

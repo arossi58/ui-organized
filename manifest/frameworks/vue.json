@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T20:10:02.442Z",
+  "generatedAt": "2026-11-25T21:19:16.621Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2137,6 +2137,93 @@
       "propSignatureHash": "sha256:23fabe4aa3911728",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CheckboxCardGroup",
+      "codeName": "CheckboxCardGroup",
+      "codePath": "packages/vue/src/components/CheckboxCardGroup/CheckboxCardGroup.types.ts",
+      "framework": "vue",
+      "importStatement": "import { CheckboxCardGroup } from '@ui-organized/vue';",
+      "reactName": "CheckboxCardGroup",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Cards per row, 1 to 4."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial checked values for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire group should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end",
+          "description": "Which side of the card the check box sits on."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Group label rendered above the cards."
+        },
+        {
+          "name": "modelValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Checked values."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission; each checked card submits its value."
+        },
+        {
+          "name": "options",
+          "type": "SelectionCardOption[]",
+          "required": true,
+          "description": "The cards, one per option."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Card padding and type scale."
+        }
+      ],
+      "usageSnippet": "<CheckboxCardGroup :options=\"/* SelectionCardOption[] */\">…</CheckboxCardGroup>",
+      "propSignatureHash": "sha256:f23ebf5570638097",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -5866,6 +5953,93 @@
       "status": "draft",
       "referencedTypes": {
         "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "RadioCardGroup",
+      "codeName": "RadioCardGroup",
+      "codePath": "packages/vue/src/components/RadioCardGroup/RadioCardGroup.types.ts",
+      "framework": "vue",
+      "importStatement": "import { RadioCardGroup } from '@ui-organized/vue';",
+      "reactName": "RadioCardGroup",
+      "props": [
+        {
+          "name": "ariaLabel",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Cards per row, 1 to 4."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire group should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end",
+          "description": "Which side of the card the radio sits on."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Group label rendered above the cards."
+        },
+        {
+          "name": "modelValue",
+          "type": "string",
+          "required": false,
+          "description": "Selected value."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "options",
+          "type": "SelectionCardOption[]",
+          "required": true,
+          "description": "The cards, one per option."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Card padding and type scale."
+        }
+      ],
+      "usageSnippet": "<RadioCardGroup :options=\"/* SelectionCardOption[] */\">…</RadioCardGroup>",
+      "propSignatureHash": "sha256:b67ba469a71d4bda",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: IconName | IconComponent; disabled?: boolean }"
       }
     },
     {

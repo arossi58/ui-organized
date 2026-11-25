@@ -18,6 +18,14 @@ export { UioFieldset, UioFieldsetLegend, withFieldsetDisabled } from "./lib/fiel
 export { UioInput, UioInputStartAddon, UioInputEndAddon, type InputSize } from "./lib/input/input.js";
 export { UioTextArea, type TextAreaSize, type TextAreaResize } from "./lib/text-area/text-area.js";
 export { UioRadioGroup, type RadioOption, type RadioOrientation } from "./lib/radio/radio.js";
+export {
+  UioRadioCardGroup,
+  type SelectionCardOption,
+  type SelectionCardColumns,
+  type SelectionCardSize,
+  type SelectionCardIndicator,
+} from "./lib/radio-card-group/radio-card-group.js";
+export { UioCheckboxCardGroup } from "./lib/checkbox-card-group/checkbox-card-group.js";
 export { VISUALLY_HIDDEN_INPUT, nextMachineId } from "./lib/part-ids.js";
 export {
   UioCard,

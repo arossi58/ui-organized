@@ -1,0 +1,173 @@
+/* ─── Selection cards ───────────────────────────────────────────────────────────
+   Shared by RadioCardGroup and CheckboxCardGroup: a grid of cards, each one a
+   <label> holding an optional icon, a title, an optional description and the
+   group's own control (a radio dot or a check box). The whole card is the hit
+   target. These rules live outside either family's directory because both use
+   them, and a change here runs the full suite rather than half of the pair. */
+
+.selection-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+}
+
+.selection-card-group__label {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-secondary);
+  margin-bottom: var(--spacing-space-01);
+}
+
+.selection-card-group__items {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--spacing-space-03);
+}
+
+.selection-card-group--columns-2 .selection-card-group__items {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.selection-card-group--columns-3 .selection-card-group__items {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.selection-card-group--columns-4 .selection-card-group__items {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.selection-card-group--sm .selection-card-group__items {
+  gap: var(--spacing-space-02);
+}
+
+/* ─── Card ────────────────────────────────────────────────────────────────── */
+
+.selection-card {
+  /* Contains the visually hidden input, as Radio.css and Checkbox.css do. */
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-03);
+  box-sizing: border-box;
+  padding: var(--spacing-space-04);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.selection-card-group--sm .selection-card {
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+}
+
+.selection-card:hover:not([data-disabled]) {
+  border-color: var(--color-border-secondary);
+}
+
+/* Checked: the brand border doubled by an inset ring, so the selection reads
+   without a layout shift, over a faint brand wash. The wash is derived, as
+   Tag's subtle brand is, rather than a token a theme might lack. */
+.selection-card[data-state="checked"] {
+  border-color: var(--color-interactive-primary-selected);
+  box-shadow: inset 0 0 0 1px var(--color-interactive-primary-selected);
+  background-color: color-mix(in srgb, var(--color-interactive-primary-default) 6%, var(--color-surface-primary));
+}
+
+/* Keyboard focus rings the whole card. zag's data-focus-visible also lights on
+   a click forwarded through the <label>, so the browser's own :focus-visible
+   on the hidden input decides, as it does for the plain controls. */
+.selection-card:has(:focus-visible) {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.selection-card[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.selection-card-group--invalid .selection-card {
+  border-color: var(--color-status-error-message);
+}
+
+.selection-card-group--invalid .selection-card[data-state="checked"] {
+  box-shadow: inset 0 0 0 1px var(--color-status-error-message);
+}
+
+/* ─── Parts ───────────────────────────────────────────────────────────────── */
+
+.selection-card__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--color-content-secondary);
+}
+
+.selection-card[data-state="checked"] .selection-card__icon {
+  color: color-mix(in oklab, var(--color-interactive-primary-default) 50%, var(--color-content-primary));
+}
+
+.selection-card__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+}
+
+.selection-card__title {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-large);
+  color: var(--color-content-primary);
+}
+
+.selection-card__description {
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+.selection-card-group--sm .selection-card__title {
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.selection-card-group--sm .selection-card__description {
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* The control keeps its own look from Radio.css or Checkbox.css; the card only
+   places it. The DOM order is the same either way, so `indicator` is order. */
+.selection-card__control {
+  flex: none;
+  margin-top: 3px;
+}
+
+.selection-card--indicator-start .selection-card__control {
+  order: -1;
+}
+
+/* ─── Error message ───────────────────────────────────────────────────────── */
+
+.selection-card-group__error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  margin-top: var(--spacing-space-01);
+  color: var(--color-status-error-message);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-small);
+}

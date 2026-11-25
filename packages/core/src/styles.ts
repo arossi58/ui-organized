@@ -28,6 +28,7 @@ import "./components/RatingGroup/RatingGroup.css";
 import "./components/Clipboard/Clipboard.css";
 import "./components/Checkbox/Checkbox.css";
 import "./components/Radio/Radio.css";
+import "./components/SelectionCard/SelectionCard.css";
 import "./components/Switch/Switch.css";
 import "./components/Range/Range.css";
 import "./components/Card/Card.css";

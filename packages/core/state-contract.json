@@ -1070,6 +1070,33 @@
         "--reference-width"
       ]
     },
+    "SelectionCard": {
+      "attributes": {
+        "data-disabled": [],
+        "data-state": [
+          "checked"
+        ]
+      },
+      "classes": [
+        "selection-card",
+        "selection-card--indicator-start",
+        "selection-card-group",
+        "selection-card-group--columns-2",
+        "selection-card-group--columns-3",
+        "selection-card-group--columns-4",
+        "selection-card-group--invalid",
+        "selection-card-group--sm",
+        "selection-card-group__error",
+        "selection-card-group__items",
+        "selection-card-group__label",
+        "selection-card__body",
+        "selection-card__control",
+        "selection-card__description",
+        "selection-card__icon",
+        "selection-card__title"
+      ],
+      "runtime": []
+    },
     "Sheet": {
       "attributes": {
         "data-state": [

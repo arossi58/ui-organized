@@ -188,6 +188,8 @@ export const ANGULAR_COMPONENTS = new Set([
   "Progress",
   "QRCode",
   "RadioGroup",
+  "RadioCardGroup",
+  "CheckboxCardGroup",
   "Range",
   "RatingGroup",
   "ScrollArea",
