@@ -10,9 +10,27 @@ import "@ui-organized/core/components/Divider/Divider.css";
 export function Divider({
   orientation = "horizontal",
   spacing = "none",
+  labelPosition = "center",
   className,
+  children,
   ...props
 }: DividerProps) {
+  // With a label it is not a separator: a separator's children are
+  // presentational, so "or" would never be read. It is horizontal, and the
+  // rules are drawn either side of the label by CSS.
+  if (children != null && children !== false) {
+    return (
+      <div
+        className={clsx(
+          dividerStyles({ orientation: "horizontal", spacing, labelled: true, labelPosition }),
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  }
   return (
     <div
       role="separator"

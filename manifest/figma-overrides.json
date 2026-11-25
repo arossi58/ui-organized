@@ -19,6 +19,9 @@
     ],
     "Input": [
       "addons"
+    ],
+    "Divider": [
+      "label"
     ]
   }
 }

@@ -49,4 +49,22 @@ export const dividerExamples: UsageExampleSet = {
       </div>
     ),
   },
+
+  labelled: {
+    layout: "padded",
+    Do: () => (
+      <div style={{ ...column, gap: "var(--spacing-space-02)", maxWidth: 280 }}>
+        <Button intent="secondary">Continue with SSO</Button>
+        <Divider spacing="sm">or</Divider>
+        <Button intent="primary">Continue with email</Button>
+      </div>
+    ),
+    // The label is doing a heading's job, so the section has no real title.
+    Dont: () => (
+      <div style={{ ...column, maxWidth: 280 }}>
+        <Divider spacing="sm" labelPosition="start">Billing preferences</Divider>
+        <p style={text}>Statements go to the account owner.</p>
+      </div>
+    ),
+  },
 };

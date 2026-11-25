@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:37:01.086Z",
+  "generatedAt": "2026-11-25T20:10:02.442Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3420,6 +3420,13 @@
       "reactName": "Divider",
       "props": [
         {
+          "name": "labelPosition",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Where a label sits when the default slot has content: text such as \"or\", or a control such as a \"Show more\" button."
+        },
+        {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "required": false,
@@ -3435,8 +3442,8 @@
         }
       ],
       "usageSnippet": "<Divider>…</Divider>",
-      "propSignatureHash": "sha256:f411b86fd0af3040",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:61b596398a2dcd45",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft"
     },
     {
@@ -6935,14 +6942,20 @@
           "type": "TabItem[]",
           "required": true,
           "description": "Tab definitions including labels and panel content."
+        },
+        {
+          "name": "variant",
+          "type": "\"underline\" | \"pill\" | \"bordered\"",
+          "required": false,
+          "description": "The look."
         }
       ],
       "usageSnippet": "<Tabs :tabs=\"/* TabItem[] */\">…</Tabs>",
-      "propSignatureHash": "sha256:e9383724384efa4b",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:40b8a021ee7466b2",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft",
       "referencedTypes": {
-        "TabItem": "{ value: string | number; label: string | Component; content: string | Component; disabled?: boolean }"
+        "TabItem": "{ value: string | number; label: string | Component; content: string | Component; disabled?: boolean; count?: number }"
       }
     },
     {

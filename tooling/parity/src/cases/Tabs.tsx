@@ -35,6 +35,21 @@ const spec: ParitySpec = {
       { name: "second selected", props: { tabs, defaultValue: "two" } },
       { name: "vertical", props: { tabs, orientation: "vertical" } },
       { name: "small", props: { tabs, size: "small" } },
+      { name: "variant/pill", props: { tabs, variant: "pill" } },
+      { name: "variant/bordered", props: { tabs, variant: "bordered" } },
+      { name: "pill vertical", props: { tabs, variant: "pill", orientation: "vertical" } },
+      // A count is a Tag after the label, inside the trigger.
+      {
+        name: "counts",
+        props: {
+          variant: "bordered",
+          tabs: [
+            { value: "inbox", label: "Inbox", content: "Mail", count: 12 },
+            { value: "sent", label: "Sent", content: "Sent mail", count: 0 },
+            { value: "drafts", label: "Drafts", content: "Drafts" },
+          ],
+        },
+      },
       // Numeric values are coerced at the zag boundary in both libraries.
       {
         name: "numeric values",

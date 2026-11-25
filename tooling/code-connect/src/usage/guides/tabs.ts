@@ -39,6 +39,16 @@ export const tabsUsage: UsageGuide = {
       example: "small-set",
     },
     {
+      do: "Pick one look per surface: `underline` for a page's sections, `pill` or `bordered` for the views inside a panel.",
+      dont: "Mix tab looks on one page, so the reader cannot tell which set is in charge.",
+      example: "variants",
+    },
+    {
+      do: "Add a `count` only when the number changes what the reader does next, such as unread items.",
+      dont: "Count every tab, until the numbers stop meaning anything.",
+      example: "counts",
+    },
+    {
       do: "Preserve each panel's state, so returning to a tab shows what was left there.",
       dont: "Reset a panel every time it is revisited, punishing the reader for comparing.",
     },
@@ -47,6 +57,7 @@ export const tabsUsage: UsageGuide = {
     "The strip is one tab stop with arrow keys moving between tabs, so keep the set short and ordered.",
     "Each tab is tied to its panel, which is why the label has to describe the content rather than the click.",
     "A disabled tab still announces itself, so remove one that will never apply rather than disabling it.",
+    "A count is part of the tab's name, so a screen reader announces Inbox 12 rather than Inbox alone.",
   ],
   content: [
     "Use one or two words per tab, in one grammatical form.",

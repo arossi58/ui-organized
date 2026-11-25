@@ -22,6 +22,7 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [value]="p['defaultValue']"
       [orientation]="p['orientation'] ?? 'horizontal'"
       [size]="p['size'] ?? 'default'"
+      [variant]="p['variant'] ?? 'underline'"
     ></div>
   `,
 })

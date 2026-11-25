@@ -1,6 +1,7 @@
 import { Tabs as ArkTabs } from "@ark-ui/react";
 import { clsx } from "clsx";
 import { tabsStyles } from "@ui-organized/core";
+import { Tag } from "../Tag/index.js";
 import type { TabsProps } from "./Tabs.types.js";
 import "@ui-organized/core/components/Tabs/Tabs.css";
 
@@ -11,6 +12,7 @@ export function Tabs({
   onValueChange,
   orientation = "horizontal",
   size = "default",
+  variant = "underline",
   className,
 }: TabsProps) {
   // Zag tabs are keyed by string; coerce at the boundary so numeric tab values
@@ -28,7 +30,7 @@ export function Tabs({
       defaultValue={resolvedDefault}
       onValueChange={onValueChange ? (details) => onValueChange(details.value) : undefined}
       orientation={orientation}
-      className={clsx(tabsStyles({ orientation, size }), className)}
+      className={clsx(tabsStyles({ orientation, size, variant }), className)}
     >
       <ArkTabs.List className="tabs__list">
         {tabs.map((tab) => (
@@ -39,6 +41,11 @@ export function Tabs({
             className="tabs__tab text-emphasis-body-large"
           >
             {tab.label}
+            {tab.count != null && (
+              <Tag variant="neutral" appearance="subtle" shape="pill" size="sm" className="tabs__count">
+                {tab.count}
+              </Tag>
+            )}
           </ArkTabs.Trigger>
         ))}
       </ArkTabs.List>

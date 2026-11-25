@@ -6,7 +6,8 @@ import type { ParitySpec } from "./spec.js";
 
 const spec: ParitySpec = {
   component: "Divider",
-  react: (p) => <RDivider {...p} />,
+  // `label` stands for the children: text or a control between two rules.
+  react: ({ label, ...p }) => <RDivider {...p}>{label as string | undefined}</RDivider>,
   svelte: DividerFixture as unknown as ComponentType<any>,
   vue: VueDividerFixture as unknown as ComponentType<any>,
   cases: [
@@ -16,6 +17,12 @@ const spec: ParitySpec = {
       name: `spacing/${spacing}`,
       props: { spacing },
     })),
+    { name: "labelled", props: { label: "or" } },
+    ...(["start", "end"] as const).map((labelPosition) => ({
+      name: `labelled/${labelPosition}`,
+      props: { label: "Today", labelPosition },
+    })),
+    { name: "labelled spacing", props: { label: "or", spacing: "md" } },
   ],
 };
 

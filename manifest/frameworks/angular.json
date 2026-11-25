@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:37:01.086Z",
+  "generatedAt": "2026-11-25T20:10:02.442Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2790,6 +2790,20 @@
       "reactName": "Divider",
       "props": [
         {
+          "name": "labelled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "The divider holds a label: text such as \"or\", or a control such as a \"Show more\" button, written as its content."
+        },
+        {
+          "name": "labelPosition",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Where the label sits."
+        },
+        {
           "name": "orientation",
           "type": "\"vertical\" | \"horizontal\"",
           "required": false,
@@ -2803,8 +2817,8 @@
         }
       ],
       "usageSnippet": "<!-- [uioDivider] -->",
-      "propSignatureHash": "sha256:c721de67bc96021a",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:2caf0e432b4eff55",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft"
     },
     {
@@ -6096,14 +6110,21 @@
           "type": "string | number",
           "required": false,
           "description": "Two-way: bind with [(value)]. Uncontrolled until something binds it, which is what makes React's `value`/`defaultValue` fork unnecessary — see `UioSwitch` for the same note."
+        },
+        {
+          "name": "variant",
+          "type": "\"pill\" | \"bordered\" | \"underline\"",
+          "required": false,
+          "defaultValue": "underline",
+          "description": "The look."
         }
       ],
       "usageSnippet": "<!-- div[uioTabs] -->",
-      "propSignatureHash": "sha256:598f5453d1162abf",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:bc1e30476ec2c586",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft",
       "referencedTypes": {
-        "TabItem": "{ value: string | number; label: string; content?: string | TemplateRef<unknown>; disabled?: boolean }"
+        "TabItem": "{ value: string | number; label: string; content?: string | TemplateRef<unknown>; disabled?: boolean; count?: number }"
       }
     },
     {

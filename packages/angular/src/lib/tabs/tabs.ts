@@ -19,9 +19,11 @@ import { nextMachineId } from "../part-ids.js";
 import { flushNow } from "../overlay/flush.js";
 import { firstFocusable } from "../overlay/focus.js";
 import { moveHighlight } from "../overlay/roving.js";
+import { UioTag } from "../tag/tag.js";
 
 export type TabsOrientation = NonNullable<TabsVariants["orientation"]>;
 export type TabsSize = NonNullable<TabsVariants["size"]>;
+export type TabsVariant = NonNullable<TabsVariants["variant"]>;
 
 export interface TabItem {
   /** Identifies the tab. Coerced to a string at the boundary, as Zag does. */
@@ -38,6 +40,11 @@ export interface TabItem {
    */
   content?: string | TemplateRef<unknown>;
   disabled?: boolean;
+  /**
+   * A count after the label, such as unread items. It is visible text, so it
+   * is read as part of the tab's name.
+   */
+  count?: number;
 }
 
 /**
@@ -74,7 +81,7 @@ export interface TabItem {
   selector: "div[uioTabs]",
   standalone: true,
   exportAs: "uioTabs",
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, UioTag],
   template: `
     <div
       class="tabs__list"
@@ -114,7 +121,14 @@ export interface TabItem {
           (click)="choose(keyOf(tab))"
           (focus)="onTriggerFocus(keyOf(tab))"
           (blur)="onTriggerBlur($event)"
-        >{{ tab.label }}</button>
+        >{{ tab.label }}@if (tab.count != null) {<span
+            uioTag
+            variant="neutral"
+            appearance="subtle"
+            shape="pill"
+            size="sm"
+            class="tabs__count"
+          >{{ tab.count }}</span>}</button>
       }
     </div>
     <!--
@@ -165,6 +179,12 @@ export class UioTabs extends UioPart {
    */
   readonly value = model<string | number | undefined>(undefined);
   readonly size = input<TabsSize>("default");
+  /**
+   * The look. `underline` (the default) rules the list and marks the selected
+   * tab with a bar; `pill` fills the selected tab with the brand tint;
+   * `bordered` sits the tabs in a track with the selected one raised.
+   */
+  readonly variant = input<TabsVariant>("underline");
   override readonly orientation = input<TabsOrientation>("horizontal");
   readonly valueChange = output<string>();
 
@@ -173,7 +193,7 @@ export class UioTabs extends UioPart {
 
   protected readonly flag = stateFlag;
   protected readonly hostClass = computed(() =>
-    tabsStyles({ orientation: this.orientation(), size: this.size() }),
+    tabsStyles({ orientation: this.orientation(), size: this.size(), variant: this.variant() }),
   );
 
   /**

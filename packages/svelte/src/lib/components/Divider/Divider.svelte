@@ -13,14 +13,33 @@
   let {
     orientation = "horizontal",
     spacing = "none",
+    labelPosition = "center",
     class: className,
+    children,
     ...rest
   }: DividerProps = $props();
 </script>
 
-<div
-  role="separator"
-  aria-orientation={orientation}
-  class={clsx(dividerStyles({ orientation, spacing }), className)}
-  {...rest}
-></div>
+<!--
+  With a label it is not a separator: a separator's children are
+  presentational, so "or" would never be read. It is horizontal, and the rules
+  are drawn either side of the label by CSS.
+-->
+{#if children}
+  <div
+    class={clsx(
+      dividerStyles({ orientation: "horizontal", spacing, labelled: true, labelPosition }),
+      className,
+    )}
+    {...rest}
+  >
+    {@render children()}
+  </div>
+{:else}
+  <div
+    role="separator"
+    aria-orientation={orientation}
+    class={clsx(dividerStyles({ orientation, spacing }), className)}
+    {...rest}
+  ></div>
+{/if}

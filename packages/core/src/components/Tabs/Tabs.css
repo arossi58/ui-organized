@@ -105,6 +105,71 @@
   border-right-color: var(--color-interactive-primary-selected);
 }
 
+/* ─── Pill and bordered variants ──────────────────────────────────────────────
+   Neither draws the underline: the selected tab is a filled shape instead, so
+   the list loses its rule and each tab its bar, in both orientations. */
+
+.tabs--pill .tabs__list,
+.tabs--bordered .tabs__list {
+  gap: var(--spacing-space-01);
+  border-bottom: none;
+}
+
+.tabs--pill.tabs--vertical .tabs__list {
+  border-right: none;
+}
+
+.tabs--pill .tabs__tab,
+.tabs--bordered .tabs__tab {
+  border: none;
+  margin: 0;
+  border-radius: var(--radius-interactive);
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.tabs--vertical.tabs--pill .tabs__tab,
+.tabs--vertical.tabs--bordered .tabs__tab {
+  justify-content: flex-start;
+}
+
+.tabs--pill .tabs__tab:hover:not([data-disabled]):not([data-selected]),
+.tabs--bordered .tabs__tab:hover:not([data-disabled]):not([data-selected]) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* The brand pair Tag and FeaturedIcon use, derived rather than a token: the
+   fill at 12% over the surface, and the fill mixed halfway toward the primary
+   text colour, at least 6.1:1 for every brand colour on every surface. */
+.tabs--pill .tabs__tab[data-selected] {
+  background-color: color-mix(in srgb, var(--color-interactive-primary-default) 12%, transparent);
+  color: color-mix(in oklab, var(--color-interactive-primary-default) 50%, var(--color-content-primary));
+}
+
+/* The SegmentedControl's well: it hugs its tabs rather than ruling the page. */
+.tabs--bordered .tabs__list,
+.tabs--bordered.tabs--vertical .tabs__list {
+  align-self: flex-start;
+  padding: var(--spacing-space-01);
+  background-color: var(--color-surface-overlay-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.tabs--bordered .tabs__tab[data-selected] {
+  background-color: var(--color-surface-primary);
+  box-shadow: 0 0 0 1px var(--color-border-primary);
+}
+
+/* ─── Count ───────────────────────────────────────────────────────────────────
+   A Tag after the label. It is visible text, so a screen reader reads it as
+   part of the tab's name: "Inbox 12". */
+
+.tabs__count {
+  flex: none;
+}
+
 /* ─── Tab panels ──────────────────────────────────────────────────────────── */
 
 .tabs__panels {
