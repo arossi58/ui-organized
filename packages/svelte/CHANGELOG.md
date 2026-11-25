@@ -1,5 +1,24 @@
 # @ui-organized/svelte
 
+## 6.2.0
+
+### Patch Changes
+
+- c7fe12f: A Combobox whose value is set before its options load now shows the selected option's label once the options arrive. Before, the input stayed empty with the placeholder showing until someone opened the combobox, even though the value was selected. This affected any list fetched after the form was filled in, such as a saved setting meeting a list loaded from an API.
+
+  The label is filled in only while the combobox is closed and its input is empty. Text someone is typing is never replaced, including when the options are refetched or rebuilt as they type.
+
+- 2d14c5f: Form controls are styled without `/styles.css`. Input, TextArea, Select, Combobox, NumberField, the date pickers and the rest of the field family draw their label, control and border from the shared field stylesheet, which only `Field` imported, so an app that left out `/styles.css` got bare browser inputs. Each of them now imports it, so the per-component route Get Started describes works for forms as well as buttons.
+- 40eead4: Svelte and Vue apps now ship only the component CSS they import. Each component brings its own stylesheet, and the package entry brings the typography and base rules every component relies on, so `@ui-organized/svelte/styles.css` and `@ui-organized/vue/styles.css` are optional: leave them out and a page with one Button carries the Button's styles, not every component's. Before, a Vue app got all sixty-six component stylesheets as soon as it imported anything, and in both libraries the typography classes the components set their text in had no rules unless you imported the whole sheet. Importing `/styles.css` still works exactly as before.
+
+  The Svelte `Button` accepts the same `class` values as any element (a string, an array, an object or `null`), as do `Chip`, `Tag`, `Card` and `Divider`. Projecting one of them through an Ark trigger's `asChild`, as in `<Button {...props()}>`, now type-checks without a cast.
+
+- Updated dependencies [d77dcaa]
+- Updated dependencies [bc745a0]
+- Updated dependencies [2a052c9]
+  - @ui-organized/utils@4.0.1
+  - @ui-organized/core@6.2.0
+
 ## 6.1.0
 
 ### Patch Changes

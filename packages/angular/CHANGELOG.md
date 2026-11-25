@@ -1,5 +1,19 @@
 # @ui-organized/angular
 
+## 6.2.0
+
+### Patch Changes
+
+- c7fe12f: A Combobox whose value is set before its options load now shows the selected option's label once the options arrive. Before, the input stayed empty with the placeholder showing until someone opened the combobox, even though the value was selected. This affected any list fetched after the form was filled in, such as a saved setting meeting a list loaded from an API.
+
+  The label is filled in only while the combobox is closed and its input is empty. Text someone is typing is never replaced, including when the options are refetched or rebuilt as they type.
+
+- Updated dependencies [d77dcaa]
+- Updated dependencies [bc745a0]
+- Updated dependencies [2a052c9]
+  - @ui-organized/utils@4.0.1
+  - @ui-organized/core@6.2.0
+
 ## 6.1.0
 
 ### Minor Changes

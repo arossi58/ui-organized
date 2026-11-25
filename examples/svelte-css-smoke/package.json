@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-svelte-css-smoke",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "description": "A one-Button Svelte app with no whole-sheet import. Built by the CSS smoke gate, which asserts it ships the Button's stylesheet and not every other component's.",

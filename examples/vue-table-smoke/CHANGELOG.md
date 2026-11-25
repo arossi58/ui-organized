@@ -1,5 +1,18 @@
 # @ui-organized/example-vue-table-smoke
 
+## 0.0.4
+
+### Patch Changes
+
+- Updated dependencies [c7fe12f]
+- Updated dependencies [d77dcaa]
+- Updated dependencies [abddf1f]
+- Updated dependencies [2d14c5f]
+- Updated dependencies [40eead4]
+  - @ui-organized/vue@6.2.0
+  - @ui-organized/tokens@3.5.1
+  - @ui-organized/vue-table@6.2.0
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "@ui-organized/example-vue-table-smoke",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "type": "module",
   "description": "The smallest Vue app that uses the documented setup, entry copied verbatim from Get Started. Built and rendered by the vue-table smoke gate, and type-checked by the lint gate.",

@@ -1,5 +1,28 @@
 # @ui-organized/parity
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [c7fe12f]
+- Updated dependencies [d77dcaa]
+- Updated dependencies [abddf1f]
+- Updated dependencies [2d14c5f]
+- Updated dependencies [40eead4]
+- Updated dependencies [bc745a0]
+- Updated dependencies [2a052c9]
+  - @ui-organized/react@6.2.0
+  - @ui-organized/svelte@6.2.0
+  - @ui-organized/vue@6.2.0
+  - @ui-organized/angular@6.2.0
+  - @ui-organized/tokens@3.5.1
+  - @ui-organized/svelte-table@6.2.0
+  - @ui-organized/core@6.2.0
+  - @ui-organized/react-table@6.2.0
+  - @ui-organized/vue-table@6.2.0
+  - @ui-organized/angular-table@6.2.0
+  - @ui-organized/table-core@6.2.0
+
 ## 0.0.2
 
 ### Patch Changes
