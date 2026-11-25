@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-10-20T19:31:07.209Z",
+  "syncedAt": "2026-11-25T14:47:42.485Z",
   "projectUrl": "https://github.com/users/arossi58/projects/2",
   "doneOverflowUrl": "https://github.com/users/arossi58/projects/2/views/1?filterQuery=status%3ADone",
   "columns": [
@@ -33,34 +33,6 @@
           "type": "design",
           "url": "https://github.com/arossi58/ui-organized/issues/11",
           "labels": []
-        },
-        {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeNg",
-          "title": "Table Library",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/4",
-          "labels": []
-        },
-        {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNec0",
-          "title": "Vue Support",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/6",
-          "labels": []
-        },
-        {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNekM",
-          "title": "Angular Support",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/8",
-          "labels": []
-        },
-        {
-          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
-          "title": "Svelte Support",
-          "type": "development",
-          "url": "https://github.com/arossi58/ui-organized/issues/7",
-          "labels": []
         }
       ]
     },
@@ -87,6 +59,34 @@
           "title": "Example Pages",
           "type": "development",
           "url": "https://github.com/arossi58/ui-organized/issues/10",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNehA",
+          "title": "Svelte Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/7",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNekM",
+          "title": "Angular Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/8",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNec0",
+          "title": "Vue Support",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/6",
+          "labels": []
+        },
+        {
+          "id": "PVTI_lAHOAd2RT84BaZqpzgwNeNg",
+          "title": "Table Library",
+          "type": "development",
+          "url": "https://github.com/arossi58/ui-organized/issues/4",
           "labels": []
         }
       ]
