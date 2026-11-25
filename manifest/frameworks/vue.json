@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T16:39:17.646Z",
+  "generatedAt": "2026-11-25T17:07:25.357Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1628,11 +1628,169 @@
           "type": "string",
           "required": false,
           "description": "Image source URL."
+        },
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "required": false,
+          "description": "A presence dot at the bottom corner: green, amber, red or grey."
+        },
+        {
+          "name": "statusLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "the",
+          "description": "The status dot's accessible name."
+        },
+        {
+          "name": "verified",
+          "type": "boolean",
+          "required": false,
+          "description": "A check badge in the brand colour, for a verified account."
+        },
+        {
+          "name": "verifiedLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Verified",
+          "description": "The verified badge's accessible name."
         }
       ],
       "usageSnippet": "<Avatar>…</Avatar>",
-      "propSignatureHash": "sha256:87aca7ed6adace71",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:6291decafc442913",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AvatarGroup",
+      "codeName": "AvatarGroup",
+      "codePath": "packages/vue/src/components/AvatarGroup/AvatarGroup.types.ts",
+      "framework": "vue",
+      "importStatement": "import { AvatarGroup } from '@ui-organized/vue';",
+      "reactName": "AvatarGroup",
+      "props": [
+        {
+          "name": "items",
+          "type": "AvatarGroupItem[]",
+          "required": true,
+          "description": "The avatars, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The group's accessible name: \"Project members\"."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "The most avatars to show, counting the `+N` as one."
+        },
+        {
+          "name": "moreLabel",
+          "type": "(count: number) => string",
+          "required": false,
+          "defaultValue": "N",
+          "description": "The `+N` avatar's accessible name."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"rounded\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle",
+          "description": "Shape of every avatar."
+        },
+        {
+          "name": "size",
+          "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Size of every avatar."
+        }
+      ],
+      "usageSnippet": "<AvatarGroup :items=\"/* AvatarGroupItem[] */\">…</AvatarGroup>",
+      "propSignatureHash": "sha256:f97ac24b509c3966",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
+      "status": "draft",
+      "referencedTypes": {
+        "AvatarGroupItem": "{ src?: string; name?: string; alt?: string; fallback?: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AvatarLabel",
+      "codeName": "AvatarLabel",
+      "codePath": "packages/vue/src/components/AvatarLabel/AvatarLabel.types.ts",
+      "framework": "vue",
+      "importStatement": "import { AvatarLabel } from '@ui-organized/vue';",
+      "reactName": "AvatarLabel",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "A line of supporting text: an email, a role, a handle."
+        },
+        {
+          "name": "fallback",
+          "type": "string",
+          "required": false,
+          "description": "Text in place of the initials."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "The person or entity's name, shown beside the avatar and used for its initials."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"rounded\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle",
+          "description": "Avatar shape."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`sm`, `md`, `lg` or `xl`: the avatar's size step, with type to match."
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false,
+          "description": "Avatar image source."
+        },
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "required": false,
+          "description": "A presence dot on the avatar, also announced after the name."
+        },
+        {
+          "name": "statusLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "verified",
+          "type": "boolean",
+          "required": false,
+          "description": "A verified badge on the avatar, also announced after the name."
+        },
+        {
+          "name": "verifiedLabel",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<AvatarLabel :name=\"/* string */\">…</AvatarLabel>",
+      "propSignatureHash": "sha256:dffd4610d7ecb65b",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
       "status": "draft"
     },
     {

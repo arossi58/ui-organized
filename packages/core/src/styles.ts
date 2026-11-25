@@ -43,6 +43,8 @@ import "./components/Skeleton/Skeleton.css";
 import "./components/FeaturedIcon/FeaturedIcon.css";
 import "./components/EmptyState/EmptyState.css";
 import "./components/Avatar/Avatar.css";
+import "./components/AvatarGroup/AvatarGroup.css";
+import "./components/AvatarLabel/AvatarLabel.css";
 import "./components/Progress/Progress.css";
 import "./components/Field/Field.css";
 import "./components/Accordion/Accordion.css";

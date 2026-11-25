@@ -9,4 +9,12 @@ export interface AvatarProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   /** Shape. Defaults to 'circle'. */
   shape?: "circle" | "rounded" | "square";
+  /** A presence dot at the bottom corner: green, amber, red or grey. */
+  status?: "online" | "away" | "busy" | "offline";
+  /** The status dot's accessible name. Defaults to the status, capitalised: "Online". */
+  statusLabel?: string;
+  /** A check badge in the brand colour, for a verified account. */
+  verified?: boolean;
+  /** The verified badge's accessible name. Defaults to "Verified". */
+  verifiedLabel?: string;
 }

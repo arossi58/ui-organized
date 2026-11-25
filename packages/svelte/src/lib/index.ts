@@ -94,6 +94,10 @@ export type { SwitchProps } from "./components/Switch/index.js";
 
 export { Avatar } from "./components/Avatar/index.js";
 export type { AvatarProps } from "./components/Avatar/index.js";
+export { AvatarGroup } from "./components/AvatarGroup/index.js";
+export type { AvatarGroupItem, AvatarGroupProps } from "./components/AvatarGroup/index.js";
+export { AvatarLabel } from "./components/AvatarLabel/index.js";
+export type { AvatarLabelProps } from "./components/AvatarLabel/index.js";
 
 export { FieldError } from "./components/FieldError/index.js";
 export type { FieldErrorProps } from "./components/FieldError/index.js";

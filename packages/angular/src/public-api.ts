@@ -212,6 +212,9 @@ export {
   type SegmentedControlSize,
 } from "./lib/segmented-control/segmented-control.js";
 export { UioAvatar, type AvatarSize, type AvatarShape } from "./lib/avatar/avatar.js";
+export type { AvatarStatus } from "@ui-organized/core";
+export { UioAvatarGroup, type AvatarGroupItem } from "./lib/avatar-group/avatar-group.js";
+export { UioAvatarLabel, type AvatarLabelSize } from "./lib/avatar-label/avatar-label.js";
 export {
   UioProgress,
   type ProgressVariant,

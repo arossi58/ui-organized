@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Avatar as ArkAvatar } from "@ark-ui/svelte";
   import { clsx } from "clsx";
-  import { avatarStyles, initials } from "@ui-organized/core";
+  import { AVATAR_BADGE_ICON_SIZE, AVATAR_STATUS_LABEL, avatarStyles, initials } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import type { AvatarProps } from "./Avatar.types.js";
   import "@ui-organized/core/components/Avatar/Avatar.css";
@@ -22,6 +22,10 @@
     fallback,
     size = "md",
     shape,
+    status,
+    statusLabel,
+    verified = false,
+    verifiedLabel = "Verified",
     class: className,
     ...rest
   }: AvatarProps = $props();
@@ -40,4 +44,17 @@
       <Icon name={glyph("user")} size={ICON_SIZE[size]} />
     {/if}
   </ArkAvatar.Fallback>
+  {#if status}
+    <span
+      class="avatar__status"
+      data-status={status}
+      role="img"
+      aria-label={statusLabel ?? AVATAR_STATUS_LABEL[status]}
+    ></span>
+  {/if}
+  {#if verified}
+    <span class="avatar__badge" role="img" aria-label={verifiedLabel}>
+      <Icon name={glyph("check")} size={AVATAR_BADGE_ICON_SIZE[size]} />
+    </span>
+  {/if}
 </ArkAvatar.Root>

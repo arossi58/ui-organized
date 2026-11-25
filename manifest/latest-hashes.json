@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T16:39:17.646Z",
+  "generatedAt": "2026-11-25T17:07:25.357Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -12,7 +12,9 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
-    "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:db15fd262669d931",
+    "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:e833306dff1f0246",
+    "packages/react/src/components/AvatarGroup/AvatarGroup.types.ts::AvatarGroup": "sha256:f97ac24b509c3966",
+    "packages/react/src/components/AvatarLabel/AvatarLabel.types.ts::AvatarLabel": "sha256:a19a50ab3cf8d601",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
     "packages/react/src/components/Button/Button.types.ts::Button": "sha256:f004b79877fd0a17",
     "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
@@ -472,6 +474,135 @@
         "type": "string",
         "required": false,
         "description": "Image source URL."
+      },
+      {
+        "name": "status",
+        "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+        "required": false,
+        "description": "A presence dot at the bottom corner: green, amber, red or grey."
+      },
+      {
+        "name": "statusLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "the",
+        "description": "The status dot's accessible name."
+      },
+      {
+        "name": "verified",
+        "type": "boolean",
+        "required": false,
+        "description": "A check badge in the brand colour, for a verified account."
+      },
+      {
+        "name": "verifiedLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Verified",
+        "description": "The verified badge's accessible name."
+      }
+    ],
+    "packages/react/src/components/AvatarGroup/AvatarGroup.types.ts::AvatarGroup": [
+      {
+        "name": "items",
+        "type": "AvatarGroupItem[]",
+        "required": true,
+        "description": "The avatars, in order."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "description": "The group's accessible name: \"Project members\"."
+      },
+      {
+        "name": "max",
+        "type": "number",
+        "required": false,
+        "description": "The most avatars to show, counting the `+N` as one: `max={4}` with six items shows three and +3."
+      },
+      {
+        "name": "moreLabel",
+        "type": "(count: number) => string",
+        "required": false,
+        "defaultValue": "N",
+        "description": "The `+N` avatar's accessible name."
+      },
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"rounded\" | \"square\"",
+        "required": false,
+        "defaultValue": "circle",
+        "description": "Shape of every avatar."
+      },
+      {
+        "name": "size",
+        "type": "\"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Size of every avatar."
+      }
+    ],
+    "packages/react/src/components/AvatarLabel/AvatarLabel.types.ts::AvatarLabel": [
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A line of supporting text: an email, a role, a handle."
+      },
+      {
+        "name": "fallback",
+        "type": "string",
+        "required": false,
+        "description": "Text in place of the initials."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "required": true,
+        "description": "The person or entity's name, shown beside the avatar and used for its initials."
+      },
+      {
+        "name": "shape",
+        "type": "\"circle\" | \"rounded\" | \"square\"",
+        "required": false,
+        "defaultValue": "circle",
+        "description": "Avatar shape."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "`sm`, `md`, `lg` or `xl`: the avatar's size step, with type to match."
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": false,
+        "description": "Avatar image source."
+      },
+      {
+        "name": "status",
+        "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+        "required": false,
+        "description": "A presence dot on the avatar, also announced after the name."
+      },
+      {
+        "name": "statusLabel",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "verified",
+        "type": "boolean",
+        "required": false,
+        "description": "A verified badge on the avatar, also announced after the name."
+      },
+      {
+        "name": "verifiedLabel",
+        "type": "string",
+        "required": false
       }
     ],
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": [

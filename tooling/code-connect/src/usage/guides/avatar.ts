@@ -46,6 +46,7 @@ export const avatarUsage: UsageGuide = {
     "The image is decorative when the name is already beside it, and needs `alt` when it stands alone.",
     "Initials are not a name: anything identifying has to exist as text somewhere reachable.",
     "Never encode a state in the avatar's shape or color alone.",
+    "A status dot and the verified badge are images named by `statusLabel` and `verifiedLabel`, so name them in the reader's language.",
   ],
   content: [
     "Use the person's own display name, so the initials match how they are addressed.",
@@ -54,5 +55,7 @@ export const avatarUsage: UsageGuide = {
   related: [
     { slug: "tag", when: "the thing is a label rather than an identity." },
     { slug: "hover-card", when: "a name deserves a richer preview." },
+    { slug: "avatar-group", when: "several people share one thing and a row of faces says so." },
+    { slug: "avatar-label", when: "the avatar sits beside the person's name and a line about them." },
   ],
 };

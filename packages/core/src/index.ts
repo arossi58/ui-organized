@@ -94,8 +94,26 @@ export { alertStyles } from "./components/Alert/Alert.styles.js";
 export type { AlertVariants } from "./components/Alert/Alert.styles.js";
 export { angleSliderStyles } from "./components/AngleSlider/AngleSlider.styles.js";
 export type { AngleSliderVariants } from "./components/AngleSlider/AngleSlider.styles.js";
-export { avatarStyles } from "./components/Avatar/Avatar.styles.js";
+export {
+  avatarStyles,
+  AVATAR_STATUS_LABEL,
+  AVATAR_BADGE_ICON_SIZE,
+  type AvatarStatus,
+} from "./components/Avatar/Avatar.styles.js";
 export type { AvatarVariants } from "./components/Avatar/Avatar.styles.js";
+export {
+  avatarGroupStyles,
+  splitAvatarGroup,
+  defaultAvatarGroupMoreLabel,
+} from "./components/AvatarGroup/AvatarGroup.styles.js";
+export type { AvatarGroupVariants } from "./components/AvatarGroup/AvatarGroup.styles.js";
+export {
+  avatarLabelStyles,
+  AVATAR_LABEL_TEXT_CLASS,
+  avatarLabelAnnouncement,
+  type AvatarLabelSize,
+} from "./components/AvatarLabel/AvatarLabel.styles.js";
+export type { AvatarLabelVariants } from "./components/AvatarLabel/AvatarLabel.styles.js";
 export { buttonStyles } from "./components/Button/Button.styles.js";
 export type { ButtonVariants } from "./components/Button/Button.styles.js";
 export { cardStyles } from "./components/Card/Card.styles.js";

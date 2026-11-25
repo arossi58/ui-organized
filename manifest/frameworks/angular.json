@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T16:39:17.646Z",
+  "generatedAt": "2026-11-25T17:07:25.357Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1315,6 +1315,130 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioAvatarGroup",
+      "codeName": "UioAvatarGroup",
+      "codePath": "packages/angular/src/lib/avatar-group/avatar-group.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAvatarGroup } from '@ui-organized/angular';",
+      "selector": "div[uioAvatarGroup]",
+      "reactName": "AvatarGroup",
+      "props": [
+        {
+          "name": "items",
+          "type": "AvatarGroupItem[]",
+          "required": true
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The group's accessible name: \"Project members\"."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "required": false,
+          "description": "The most avatars to show, counting the `+N` as one."
+        },
+        {
+          "name": "moreLabel",
+          "type": "(count: number) => string",
+          "required": false,
+          "defaultValue": "defaultAvatarGroupMoreLabel",
+          "description": "The `+N` avatar's accessible name."
+        },
+        {
+          "name": "shape",
+          "type": "\"square\" | \"circle\" | \"rounded\"",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\" | \"xs\"",
+          "required": false,
+          "defaultValue": "md"
+        }
+      ],
+      "usageSnippet": "<!-- div[uioAvatarGroup] -->",
+      "propSignatureHash": "sha256:eee90df3e5f2d2a0",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
+      "status": "draft",
+      "referencedTypes": {
+        "AvatarGroupItem": "{ src?: string; name?: string; alt?: string; fallback?: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAvatarLabel",
+      "codeName": "UioAvatarLabel",
+      "codePath": "packages/angular/src/lib/avatar-label/avatar-label.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAvatarLabel } from '@ui-organized/angular';",
+      "selector": "div[uioAvatarLabel]",
+      "reactName": "AvatarLabel",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "A line of supporting text: an email, a role, a handle."
+        },
+        {
+          "name": "fallback",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true,
+          "description": "The person or entity's name, shown beside the avatar and used for its initials."
+        },
+        {
+          "name": "shape",
+          "type": "\"square\" | \"circle\" | \"rounded\"",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "src",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "required": false
+        },
+        {
+          "name": "statusLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "verified",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "verifiedLabel",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<!-- div[uioAvatarLabel] -->",
+      "propSignatureHash": "sha256:da3e6235ed3ef421",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioAvatar",
       "codeName": "UioAvatar",
       "codePath": "packages/angular/src/lib/avatar/avatar.ts",
@@ -1355,11 +1479,35 @@
           "name": "src",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "status",
+          "type": "\"online\" | \"away\" | \"busy\" | \"offline\"",
+          "required": false,
+          "description": "A presence dot at the bottom corner."
+        },
+        {
+          "name": "statusLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "verified",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "A check badge in the brand colour, for a verified account."
+        },
+        {
+          "name": "verifiedLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Verified"
         }
       ],
       "usageSnippet": "<!-- div[uioAvatar] -->",
-      "propSignatureHash": "sha256:5d537750d8ea9f96",
-      "lastSyncedAt": "2026-11-25T16:39:17.646Z",
+      "propSignatureHash": "sha256:8312e648d13451e4",
+      "lastSyncedAt": "2026-11-25T17:07:25.357Z",
       "status": "draft"
     },
     {

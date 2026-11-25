@@ -42,11 +42,14 @@
 
 /* ─── Sizes ───────────────────────────────────────────────────────────────── */
 
-.avatar--xs { width: 24px; height: 24px; font-size: var(--type-size-caption); }
-.avatar--sm { width: 32px; height: 32px; font-size: var(--type-size-body-small); }
-.avatar--md { width: 40px; height: 40px; font-size: var(--type-size-body-medium); }
-.avatar--lg { width: 48px; height: 48px; font-size: var(--type-size-body-large); }
+.avatar--xs { --avatar-indicator: 6px; --avatar-badge: 10px; width: 24px; height: 24px; font-size: var(--type-size-caption); }
+.avatar--sm { --avatar-indicator: 8px; --avatar-badge: 12px; width: 32px; height: 32px; font-size: var(--type-size-body-small); }
+.avatar--md { --avatar-indicator: 10px; --avatar-badge: 14px; width: 40px; height: 40px; font-size: var(--type-size-body-medium); }
+.avatar--lg { --avatar-indicator: 12px; --avatar-badge: 16px; width: 48px; height: 48px; font-size: var(--type-size-body-large); }
 .avatar--xl {
+  --avatar-indicator: 14px;
+  --avatar-badge: 20px;
+
   width: 64px;
   height: 64px;
   font-family: var(--type-font-heading);
@@ -58,3 +61,61 @@
 .avatar--circle  { border-radius: var(--border-radius-full); }
 .avatar--rounded { border-radius: var(--border-radius-04); }
 .avatar--square  { border-radius: 0; }
+
+/* ─── Status and verified indicators ──────────────────────────────────────────
+   The root clips its image to the shape with `overflow: hidden`, which would
+   also clip an indicator sitting on its edge. So only an avatar that has one
+   lets its overflow show, and its image and fallback clip themselves instead:
+   every avatar without an indicator renders exactly as before. */
+.avatar:has(> .avatar__status, > .avatar__badge) {
+  --avatar-ring: var(--color-surface-base);
+
+  position: relative;
+  overflow: visible;
+}
+
+.avatar:has(> .avatar__status, > .avatar__badge) > .avatar__image,
+.avatar:has(> .avatar__status, > .avatar__badge) > .avatar__fallback {
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+/* A ring in the surface colour separates the indicator from the photo. On a
+   different surface, set `--avatar-ring` on the avatar (`.my-card .avatar`). */
+.avatar__status,
+.avatar__badge {
+  position: absolute;
+  inset-inline-end: 0;
+  inset-block-end: 0;
+  box-sizing: content-box;
+  border-radius: var(--border-radius-full);
+  box-shadow: 0 0 0 2px var(--avatar-ring);
+}
+
+.avatar__status {
+  width: var(--avatar-indicator, 10px);
+  height: var(--avatar-indicator, 10px);
+  background-color: var(--color-content-tertiary);
+}
+
+.avatar__status[data-status="online"] { background-color: var(--color-status-success); }
+.avatar__status[data-status="away"]   { background-color: var(--color-status-caution); }
+.avatar__status[data-status="busy"]   { background-color: var(--color-status-error); }
+
+.avatar__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-badge, 14px);
+  height: var(--avatar-badge, 14px);
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+/* With both, the status keeps the bottom corner and the badge moves up. */
+.avatar__status ~ .avatar__badge {
+  inset-block-end: auto;
+  inset-block-start: 0;
+}
+
+

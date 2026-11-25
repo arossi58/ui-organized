@@ -4,6 +4,8 @@ import { AlertDialogFixture } from "./alert-dialog.fixture.js";
 import { AlertFixture } from "./alert.fixture.js";
 import { AngleSliderFixture } from "./angle-slider.fixture.js";
 import { AvatarFixture } from "./avatar.fixture.js";
+import { AvatarGroupFixture } from "./avatar-group.fixture.js";
+import { AvatarLabelFixture } from "./avatar-label.fixture.js";
 import { BreadcrumbFixture } from "./breadcrumb.fixture.js";
 import { ButtonFixture } from "./button.fixture.js";
 import { CardFixture } from "./card.fixture.js";
@@ -95,6 +97,8 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   AlertDialog: AlertDialogFixture,
   AngleSlider: AngleSliderFixture,
   Avatar: AvatarFixture,
+  AvatarGroup: AvatarGroupFixture,
+  AvatarLabel: AvatarLabelFixture,
   Breadcrumb: BreadcrumbFixture,
   Button: ButtonFixture,
   Card: CardFixture,

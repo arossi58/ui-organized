@@ -1,0 +1,41 @@
+/* ─── AvatarGroup ─────────────────────────────────────────────────────────── */
+
+/* Each avatar after the first tucks under the one before it by about a
+   quarter of its width, and a ring in the surface colour keeps the edges
+   legible where they overlap. On a different surface, set `--avatar-ring`. */
+.avatar-group {
+  --avatar-ring: var(--color-surface-base);
+  --avatar-group-overlap: -10px;
+
+  display: inline-flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+/* The fallback fill is translucent, so an avatar would show the one it
+   overlaps through it. Each one is backed by the ring colour, with its own
+   tint laid over it, so a fallback is as opaque as a photo. */
+.avatar-group > .avatar {
+  background-color: var(--avatar-ring);
+  background-image: linear-gradient(
+    var(--color-interactive-secondary-default),
+    var(--color-interactive-secondary-default)
+  );
+  box-shadow: 0 0 0 2px var(--avatar-ring);
+}
+
+.avatar-group > .avatar + .avatar {
+  margin-inline-start: var(--avatar-group-overlap);
+}
+
+/* The `+N` is an avatar of its own, in the neutral fill, so it lines up. */
+.avatar-group__overflow {
+  font-weight: var(--type-weight-body-strong);
+  color: var(--color-content-secondary);
+}
+
+.avatar-group--xs { --avatar-group-overlap: -4px; }
+.avatar-group--sm { --avatar-group-overlap: -8px; }
+.avatar-group--md { --avatar-group-overlap: -10px; }
+.avatar-group--lg { --avatar-group-overlap: -12px; }
+.avatar-group--xl { --avatar-group-overlap: -16px; }

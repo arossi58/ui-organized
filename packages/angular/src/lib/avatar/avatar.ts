@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  booleanAttribute,
   ElementRef,
   computed,
   effect,
@@ -9,7 +10,14 @@ import {
   signal,
 } from "@angular/core";
 import { clsx } from "clsx";
-import { avatarStyles, initials, type AvatarVariants } from "@ui-organized/core";
+import {
+  AVATAR_BADGE_ICON_SIZE,
+  AVATAR_STATUS_LABEL,
+  avatarStyles,
+  initials,
+  type AvatarStatus,
+  type AvatarVariants,
+} from "@ui-organized/core";
 import { UioPart } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
@@ -84,6 +92,19 @@ const ICON_SIZE: Record<AvatarSize, number> = { xs: 14, sm: 16, md: 20, lg: 24, 
         <span uioIcon [name]="glyph('user')" [size]="iconSize()"></span>
       }
     </span>
+    @if (status(); as current) {
+      <span
+        class="avatar__status"
+        [attr.data-status]="current"
+        role="img"
+        [attr.aria-label]="statusLabel() ?? statusLabels[current]"
+      ></span>
+    }
+    @if (verified()) {
+      <span class="avatar__badge" role="img" [attr.aria-label]="verifiedLabel()">
+        <span uioIcon [name]="glyph('check')" [size]="badgeIconSize()"></span>
+      </span>
+    }
   `,
   host: {
     "[class]": "hostClass()",
@@ -103,6 +124,15 @@ export class UioAvatar extends UioPart implements AfterViewInit {
   readonly fallback = input<string | undefined>(undefined);
   readonly size = input<AvatarSize>("md");
   readonly shape = input<AvatarShape | undefined>(undefined);
+  /** A presence dot at the bottom corner. */
+  readonly status = input<AvatarStatus | undefined>(undefined);
+  readonly statusLabel = input<string | undefined>(undefined);
+  /** A check badge in the brand colour, for a verified account. */
+  readonly verified = input(false, { transform: booleanAttribute });
+  readonly verifiedLabel = input("Verified");
+
+  protected readonly statusLabels = AVATAR_STATUS_LABEL;
+  protected readonly badgeIconSize = computed(() => AVATAR_BADGE_ICON_SIZE[this.size()]);
 
   private readonly machine = nextMachineId();
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

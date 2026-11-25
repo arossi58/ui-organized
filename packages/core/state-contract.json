@@ -65,6 +65,11 @@
     },
     "Avatar": {
       "attributes": {
+        "data-status": [
+          "away",
+          "busy",
+          "online"
+        ],
         "hidden": []
       },
       "classes": [
@@ -77,8 +82,37 @@
         "avatar--square",
         "avatar--xl",
         "avatar--xs",
+        "avatar__badge",
         "avatar__fallback",
-        "avatar__image"
+        "avatar__image",
+        "avatar__status"
+      ],
+      "runtime": []
+    },
+    "AvatarGroup": {
+      "attributes": {},
+      "classes": [
+        "avatar",
+        "avatar-group",
+        "avatar-group--lg",
+        "avatar-group--md",
+        "avatar-group--sm",
+        "avatar-group--xl",
+        "avatar-group--xs",
+        "avatar-group__overflow"
+      ],
+      "runtime": []
+    },
+    "AvatarLabel": {
+      "attributes": {},
+      "classes": [
+        "avatar-label",
+        "avatar-label--sm",
+        "avatar-label--xl",
+        "avatar-label__description",
+        "avatar-label__name",
+        "avatar-label__sr",
+        "avatar-label__text"
       ],
       "runtime": []
     },
