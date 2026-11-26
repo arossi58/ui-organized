@@ -221,15 +221,17 @@
 }
 
 /* ─── Multiple ────────────────────────────────────────────────────────────────
-   With `multiple`, the chosen values are tags in the control, before the text
-   box. The row takes the room the box leaves, so its width does not move as
-   tags are hidden: the input keeps a fixed width beside it. The tags are not
+   With `multiple`, the chosen values are tags in the control, and the text box
+   follows straight after the last one and takes the rest of the line. The row
+   is only as wide as its tags, shrinking when they do not fit; the overflow is
+   measured against the room it could have, which is its own width plus the
+   text box's above its minimum (see measureTagRow's `extra`). The tags are not
    aria-hidden, since the input's text is the query and these are the only
    place the selection is written; their remove buttons are pointer-only. */
 
 .combobox-field__tags {
   display: flex;
-  flex: 1 1 0;
+  flex: 0 1 auto;
   align-items: center;
   gap: var(--spacing-space-01);
   min-width: 0;
@@ -237,11 +239,13 @@
   overflow: hidden;
 }
 
-/* Room to type, scrolling past it; small enough that a narrow field still has
-   space for a tag beside the "+N". */
+/* The rest of the line, and never less than room to type: 6ch, scrolling past
+   it, which still leaves a narrow field space for a tag beside the "+N".
+   Border-box, so the minimum the measurement reads is the width it takes. */
 .combobox-field__tags + .combobox-field__input {
-  flex: 0 0 6ch;
-  min-width: 0;
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: calc(6ch + 2 * var(--spacing-space-01));
   /* The row before it already pads the start of the box. */
   padding-inline: var(--spacing-space-01);
 }

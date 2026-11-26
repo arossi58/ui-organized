@@ -43,10 +43,16 @@ export interface TagRowLike {
  * Measure a tag row: its tags are the children marked `data-tag`. `gap` is the
  * row's computed column gap, which the caller reads (core has no DOM globals).
  * Returns how many fit, or `null` when there is no layout to measure.
+ *
+ * `extra` adjusts the room the row's own width suggests. A Combobox's row is
+ * only as wide as its tags, with the text box taking the rest of the line, so
+ * it passes the box's width above its minimum (room the row could grow into)
+ * less the row's padding (room no tag can sit in). Without that the room would
+ * shrink every time a tag was hidden, and the count would never settle.
  */
-export function measureTagRow(row: TagRowLike, gap: number): number | null {
-  const available = row.clientWidth;
-  if (!available) return null;
+export function measureTagRow(row: TagRowLike, gap: number, extra = 0): number | null {
+  if (!row.clientWidth) return null;
+  const available = row.clientWidth + extra;
   const tags = Array.from(row.querySelectorAll(":scope > [data-tag]"));
   const widths = tags.map((tag) => tag.getBoundingClientRect().width);
   return fitTagCount(widths, available, gap, TAG_MORE_WIDTH);

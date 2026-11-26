@@ -16,6 +16,19 @@
 
   const combobox = useComboboxContext();
   let row = $state<HTMLDivElement | null>(null);
+
+  /**
+   * The text box after the row takes the rest of the line, so its room above
+   * its minimum is the row's too; the row's padding is not. See measureTagRow.
+   */
+  function extra(el: HTMLElement): number {
+    const style = getComputedStyle(el);
+    const padding = (Number.parseFloat(style.paddingInlineStart) || 0) + (Number.parseFloat(style.paddingInlineEnd) || 0);
+    const next = el.nextElementSibling;
+    if (!(next instanceof HTMLElement)) return -padding;
+    const min = Number.parseFloat(getComputedStyle(next).minWidth) || 0;
+    return Math.max(0, next.getBoundingClientRect().width - min) - padding;
+  }
   let fits = $state<number | null>(null);
 
   const chosen = $derived(
@@ -28,12 +41,14 @@
     void chosen.length;
     const el = row;
     if (!el) return;
-    const measure = () => (fits = measureTagRow(el, Number.parseFloat(getComputedStyle(el).columnGap) || 0));
+    const measure = () =>
+      (fits = measureTagRow(el, Number.parseFloat(getComputedStyle(el).columnGap) || 0, extra(el)));
     measure();
     if (typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(measure);
     observer.observe(el);
     for (const tag of el.querySelectorAll(":scope > [data-tag]")) observer.observe(tag);
+    if (el.nextElementSibling) observer.observe(el.nextElementSibling);
     return () => observer.disconnect();
   });
 

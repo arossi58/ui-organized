@@ -25,10 +25,22 @@ const chosen = computed(() =>
 );
 
 let observer: ResizeObserver | null = null;
+/**
+ * The text box after the row takes the rest of the line, so its room above
+ * its minimum is the row's too; the row's padding is not. See measureTagRow.
+ */
+function extra(el: HTMLElement): number {
+  const style = getComputedStyle(el);
+  const padding = (Number.parseFloat(style.paddingInlineStart) || 0) + (Number.parseFloat(style.paddingInlineEnd) || 0);
+  const next = el.nextElementSibling;
+  if (!(next instanceof HTMLElement)) return -padding;
+  const min = Number.parseFloat(getComputedStyle(next).minWidth) || 0;
+  return Math.max(0, next.getBoundingClientRect().width - min) - padding;
+}
 function measure() {
   const el = row.value;
   if (!el) return;
-  fits.value = measureTagRow(el, Number.parseFloat(getComputedStyle(el).columnGap) || 0);
+  fits.value = measureTagRow(el, Number.parseFloat(getComputedStyle(el).columnGap) || 0, extra(el));
 }
 watch(
   [row, () => chosen.value.length],
@@ -41,6 +53,7 @@ watch(
     observer = new ResizeObserver(measure);
     observer.observe(el);
     for (const tag of el.querySelectorAll(":scope > [data-tag]")) observer.observe(tag);
+    if (el.nextElementSibling) observer.observe(el.nextElementSibling);
   },
   { flush: "post", immediate: true },
 );

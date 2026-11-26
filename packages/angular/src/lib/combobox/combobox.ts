@@ -103,6 +103,22 @@ export interface ComboboxOption {
  * `ControlValueAccessor`, so `[(ngModel)]` and Reactive Forms both drive it,
  * including `control.disable()` reaching every part's `data-disabled`.
  */
+/**
+ * The room beyond the tag row's own width that its tags may use. The row is
+ * only as wide as its tags and the text box after it takes the rest of the
+ * line, so the box's width above its minimum is the row's too; the row's own
+ * padding is not. See `measureTagRow` in core.
+ */
+function tagRowExtra(row: HTMLElement): number {
+  const style = getComputedStyle(row);
+  const padding =
+    (Number.parseFloat(style.paddingInlineStart) || 0) + (Number.parseFloat(style.paddingInlineEnd) || 0);
+  const next = row.nextElementSibling;
+  if (!(next instanceof HTMLElement)) return -padding;
+  const min = Number.parseFloat(getComputedStyle(next).minWidth) || 0;
+  return Math.max(0, next.getBoundingClientRect().width - min) - padding;
+}
+
 @Component({
   selector: "div[uioCombobox]",
   standalone: true,
@@ -540,12 +556,16 @@ export class UioCombobox
       this.tagObserver?.disconnect();
       if (!row) return;
       const measure = () =>
-        this.fits.set(measureTagRow(row, Number.parseFloat(getComputedStyle(row).columnGap) || 0));
+        this.fits.set(
+          measureTagRow(row, Number.parseFloat(getComputedStyle(row).columnGap) || 0, tagRowExtra(row)),
+        );
       measure();
       if (typeof ResizeObserver === "undefined") return;
       this.tagObserver = new ResizeObserver(measure);
       this.tagObserver.observe(row);
       for (const tag of row.querySelectorAll(":scope > [data-tag]")) this.tagObserver.observe(tag);
+      // The text box after the row: when the field resizes, it is what changes.
+      if (row.nextElementSibling) this.tagObserver.observe(row.nextElementSibling);
     });
   }
 

@@ -210,7 +210,8 @@ function ComboboxTags({ options }: { options: ComboboxOption[] }) {
     .map((v) => options.find((o) => o.value === v))
     .filter((o): o is ComboboxOption => o != null);
 
-  const { rowRef, fits } = useTagOverflow(combobox.value.join("\u0000"));
+  // The text box after the row takes the rest of the line; its spare room is the row's too.
+  const { rowRef, fits } = useTagOverflow(combobox.value.join("\u0000"), true);
 
   if (chosen.length === 0) return null;
   const shown = fits ?? chosen.length;
