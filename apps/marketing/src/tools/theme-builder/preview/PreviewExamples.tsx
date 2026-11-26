@@ -22,6 +22,8 @@ import {
   Icon,
   PageHeader,
   Stat,
+  Item,
+  ItemGroup,
 } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import { usePreviewPortalContainer } from "./previewPortal";
@@ -237,6 +239,12 @@ function DashboardExample() {
 
 // ─── Form / Settings ──────────────────────────────────────────────────────────
 
+const PREFS = [
+  { title: "Product updates", description: "News about features and releases.", on: true },
+  { title: "Weekly digest", description: "A summary of your account activity.", on: true },
+  { title: "Marketing emails", description: "Tips, offers, and product news.", on: false },
+];
+
 function FormExample({ portal }: { portal: HTMLElement | null }) {
   return (
     <div className={styles.page}>
@@ -287,30 +295,18 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
           <CardHeader className={styles.cardHeaderPlain}>
             <strong>Notifications</strong>
           </CardHeader>
-          <CardBody className={styles.prefBody}>
-            <div className={styles.prefRow}>
-              <div className={styles.prefText}>
-                <span className={styles.prefTitle}>Product updates</span>
-                <span className={styles.prefDesc}>News about features and releases.</span>
-              </div>
-              <Switch defaultChecked aria-label="Product updates" />
-            </div>
-            <Divider spacing="sm" />
-            <div className={styles.prefRow}>
-              <div className={styles.prefText}>
-                <span className={styles.prefTitle}>Weekly digest</span>
-                <span className={styles.prefDesc}>A summary of your account activity.</span>
-              </div>
-              <Switch defaultChecked aria-label="Weekly digest" />
-            </div>
-            <Divider spacing="sm" />
-            <div className={styles.prefRow}>
-              <div className={styles.prefText}>
-                <span className={styles.prefTitle}>Marketing emails</span>
-                <span className={styles.prefDesc}>Tips, offers, and product news.</span>
-              </div>
-              <Switch aria-label="Marketing emails" />
-            </div>
+          <CardBody>
+            <ItemGroup>
+              {PREFS.map((pref) => (
+                <Item
+                  key={pref.title}
+                  size="sm"
+                  title={pref.title}
+                  description={pref.description}
+                  actions={<Switch defaultChecked={pref.on} aria-label={pref.title} />}
+                />
+              ))}
+            </ItemGroup>
           </CardBody>
         </Card>
       </div>

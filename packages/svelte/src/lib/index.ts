@@ -380,3 +380,5 @@ export type {
 } from "./components/DescriptionList/index.js";
 export { Stat } from "./components/Stat/index.js";
 export type { StatProps } from "./components/Stat/index.js";
+export { Item, ItemGroup } from "./components/Item/index.js";
+export type { ItemProps, ItemGroupProps } from "./components/Item/index.js";

@@ -520,3 +520,12 @@ export {
   type StatSize,
   type StatTrend,
 } from "./lib/stat/stat.js";
+export {
+  UioItem,
+  UioItemGroup,
+  UioItemMedia,
+  UioItemActions,
+  UioItemLink,
+  type ItemSize,
+  type ItemVariant,
+} from "./lib/item/item.js";

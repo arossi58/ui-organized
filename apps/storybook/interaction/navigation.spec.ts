@@ -1,8 +1,9 @@
-import { expect, test } from "@playwright/test";
-import { storyTest } from "../shared/interaction";
+import { expect, test, type Page } from "@playwright/test";
+import { WEBKIT_TAB_ORDER, storyTest } from "../shared/interaction";
 
 /**
- * Navigation and disclosure: Tabs, Accordion, Collapsible, Pagination, TreeView.
+ * Navigation and disclosure: Tabs, Accordion, Collapsible, Pagination, TreeView,
+ * and Item's link rows.
  *
  * The shared theme here is roving focus and expand/collapse state — the two
  * places where a component can look completely correct and still be unusable
@@ -142,6 +143,62 @@ test.describe("TreeView", () => {
       const expanded = await branch.getAttribute("aria-expanded");
       await branch.click();
       await expect(branch).not.toHaveAttribute("aria-expanded", expanded ?? "");
+    },
+  );
+});
+
+// ── Item ─────────────────────────────────────────────────────────────────────
+test.describe("Item", () => {
+  // A link row is a stretched link, not an <a> around the row: a press anywhere
+  // on the row follows it, and the actions sit above that layer as their own
+  // controls. Both halves break silently if a z-index or a position goes.
+  const row = (page: Page, title: string) =>
+    page
+      .locator(".item")
+      .filter({ has: page.locator(".item__title", { hasText: new RegExp(`^${title}$`) }) });
+
+  storyTest(
+    "components-data-display-item--links",
+    "follows the link from anywhere on the row",
+    async (page) => {
+      // A real pointer at the description's spot: the link's layer is on top of
+      // it, which is the point, so Playwright's own click on the description
+      // would wait forever for it to be uncovered.
+      const box = await row(page, "Profile").locator(".item__description").boundingBox();
+      if (!box) throw new Error("the description is not laid out");
+      await page.mouse.click(box.x + 4, box.y + box.height / 2);
+      await expect.poll(() => page.evaluate(() => location.hash)).toBe("#profile");
+    },
+  );
+
+  storyTest(
+    "components-data-display-item--links",
+    "leaves the link alone when an action is pressed",
+    async (page) => {
+      const notifications = row(page, "Notifications");
+      const switchRoot = notifications.locator('[data-scope="switch"][data-part="root"]');
+      await expect(switchRoot).toHaveAttribute("data-state", "checked");
+      await notifications.locator('[data-scope="switch"][data-part="control"]').click();
+      await expect(switchRoot).toHaveAttribute("data-state", "unchecked");
+
+      const shared = row(page, "Shared files");
+      await shared.getByRole("button", { name: "Share" }).click();
+      await expect(shared.locator(".item__description")).toHaveText("Shared 1 time this session.");
+      expect(await page.evaluate(() => location.hash)).toBe("");
+    },
+  );
+
+  storyTest(
+    "components-data-display-item--links",
+    "is one tab stop per link, then its actions",
+    async (page) => {
+      // See WEBKIT_TAB_ORDER: Safari's default tab order skips links.
+      test.skip(page.context().browser()?.browserType().name() === "webkit", WEBKIT_TAB_ORDER);
+      await row(page, "Profile").locator(".item__link").focus();
+      await page.keyboard.press("Tab");
+      await expect(row(page, "Notifications").locator(".item__link")).toBeFocused();
+      await page.keyboard.press("Tab");
+      await expect(row(page, "Notifications").locator('[data-scope="switch"] input')).toBeFocused();
     },
   );
 });
