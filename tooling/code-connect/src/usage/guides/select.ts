@@ -40,6 +40,11 @@ export const selectUsage: UsageGuide = {
       example: "helper-vs-error",
     },
     {
+      do: "Set `multiple` when the reader may choose several values, so they share one field that stays one line high.",
+      dont: "Repeat a single Select for each extra value, such as Region 1 and Region 2.",
+      example: "multiple",
+    },
+    {
       do: "Order options the way the reader thinks: common ones first, then predictably.",
       dont: "Leave the options in whatever order the data arrived in.",
     },
@@ -48,6 +53,7 @@ export const selectUsage: UsageGuide = {
     "The `label` is what assistive technology announces, so a placeholder can never stand in for it.",
     "Error text is tied to the field, so it is read out with the field rather than announced alone.",
     "Keep option labels to plain readable text, since that is what typeahead and screen readers work from.",
+    "With `multiple`, the trigger reads out every chosen value, and the tags beside it are hidden from screen readers so nothing is announced twice.",
   ],
   content: [
     "Write the placeholder as a prompt: Select a region, not Region.",

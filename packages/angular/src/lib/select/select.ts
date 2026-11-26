@@ -12,6 +12,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewContainerRef,
+  afterRenderEffect,
   booleanAttribute,
   computed,
   effect,
@@ -26,9 +27,12 @@ import {
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { clsx } from "clsx";
+import { NgTemplateOutlet } from "@angular/common";
 import {
   CONTROL_ICON_SIZE,
+  measureTagRow,
   selectFieldStyles,
+  tagStyles,
   type ControlSize,
   type SelectVariants,
 } from "@ui-organized/core";
@@ -93,7 +97,7 @@ export interface SelectOption {
   selector: "div[uioSelect]",
   standalone: true,
   exportAs: "uioSelect",
-  imports: [UioIcon, UioFieldError],
+  imports: [UioIcon, UioFieldError, NgTemplateOutlet],
   providers: [
     UioFieldContext,
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => UioSelect), multi: true },
@@ -122,40 +126,103 @@ export interface SelectOption {
           ></span>}</label
         >
       }
-      <button
-        class="select-field__trigger text-default-body-large"
-        data-scope="select"
-        data-part="trigger"
-        type="button"
-        role="combobox"
-        aria-haspopup="listbox"
-        [id]="partId('trigger')"
-        [attr.data-state]="openState()"
-        [attr.aria-expanded]="open() ? 'true' : 'false'"
-        [attr.aria-invalid]="invalid() ? 'true' : 'false'"
-        [attr.aria-required]="required() ? 'true' : 'false'"
-        [attr.aria-labelledby]="label() ? field.partId('label') : null"
-        [attr.aria-controls]="open() ? partId('content') : null"
-        [attr.data-placement]="anchored.placement()"
-        [attr.data-side]="anchored.side()"
-        [attr.data-placeholder-shown]="flag(!chosen())"
-        [attr.data-invalid]="flag(invalid())"
-        [attr.data-disabled]="flag(isDisabled())"
-        [disabled]="isDisabled()"
-        (click)="toggle()"
-        (keydown)="onTriggerKeydown($event)"
-        (focus)="focused.set(true)"
-        (blur)="focused.set(false); onTouched()"
-      >
-        <span
-          class="select-field__value"
+      <!--
+        With multiple, the chosen values are tags, which hold buttons and so cannot
+        sit inside the trigger <button>. Ark's Control part becomes the box: the
+        trigger still draws the border and every state, stretched under the tags,
+        the clear button and the chevron. See Select.css.
+      -->
+      @if (multiple()) {
+        <div
+          class="select-field__box"
           data-scope="select"
-          data-part="value-text"
+          data-part="control"
+          [id]="partId('control')"
+          [attr.data-state]="openState()"
           [attr.data-focus]="flag(focused())"
+          [attr.data-disabled]="flag(isDisabled())"
+          [attr.data-invalid]="flag(invalid())"
+        >
+          <ng-container [ngTemplateOutlet]="trigger" />
+          <div #tagRow class="select-field__tags" aria-hidden="true">
+            @for (option of chosenOptions(); track option.value; let i = $index) {
+              <span [class]="TAG" data-tag="" [attr.data-overflowed]="i >= shown() ? '' : null"
+                ><span class="tag__label">{{ option.label }}</span
+                ><button
+                  type="button"
+                  class="tag__remove"
+                  tabindex="-1"
+                  [attr.aria-label]="'Remove ' + option.label"
+                  (pointerdown)="$event.preventDefault()"
+                  (click)="removeValue(option.value)"
+                ><span uioIcon [name]="glyph('close')" [size]="12"></span></button
+              ></span>
+            }
+            @if (more() > 0) {
+              <span [class]="TAG_MORE"><span class="tag__label">+{{ more() }}</span></span>
+            }
+          </div>
+          <button
+            class="select-field__clear"
+            data-scope="select"
+            data-part="clear-trigger"
+            type="button"
+            [id]="partId('clear-trigger')"
+            [attr.aria-label]="clearLabel()"
+            [attr.hidden]="values().length ? null : ''"
+            [attr.data-invalid]="flag(invalid())"
+            [attr.data-disabled]="flag(isDisabled())"
+            [disabled]="isDisabled()"
+            (click)="clearAll()"
+          >
+            <span uioIcon [name]="glyph('close')" [size]="16"></span>
+          </button>
+          <ng-container [ngTemplateOutlet]="indicator" />
+        </div>
+      } @else {
+        <ng-container [ngTemplateOutlet]="trigger" />
+      }
+      <ng-template #trigger>
+        <button
+          class="select-field__trigger text-default-body-large"
+          data-scope="select"
+          data-part="trigger"
+          type="button"
+          role="combobox"
+          aria-haspopup="listbox"
+          [id]="partId('trigger')"
+          [attr.data-state]="openState()"
+          [attr.aria-expanded]="open() ? 'true' : 'false'"
+          [attr.aria-invalid]="invalid() ? 'true' : 'false'"
+          [attr.aria-required]="required() ? 'true' : 'false'"
+          [attr.aria-labelledby]="label() ? field.partId('label') : null"
+          [attr.aria-controls]="open() ? partId('content') : null"
+          [attr.data-placement]="anchored.placement()"
+          [attr.data-side]="anchored.side()"
+          [attr.data-placeholder-shown]="flag(!hasValue())"
           [attr.data-invalid]="flag(invalid())"
           [attr.data-disabled]="flag(isDisabled())"
-          >{{ valueText() }}</span
+          [disabled]="isDisabled()"
+          (click)="toggle()"
+          (keydown)="onTriggerKeydown($event)"
+          (focus)="focused.set(true)"
+          (blur)="focused.set(false); onTouched()"
         >
+          <span
+            [class]="valueClass()"
+            data-scope="select"
+            data-part="value-text"
+            [attr.data-focus]="flag(focused())"
+            [attr.data-invalid]="flag(invalid())"
+            [attr.data-disabled]="flag(isDisabled())"
+            >{{ valueText() }}</span
+          >
+          @if (!multiple()) {
+            <ng-container [ngTemplateOutlet]="indicator" />
+          }
+        </button>
+      </ng-template>
+      <ng-template #indicator>
         <div
           class="select-field__icon"
           data-scope="select"
@@ -167,7 +234,7 @@ export interface SelectOption {
         >
           <span uioIcon [name]="glyph('chevron-down')" [size]="iconSize()"></span>
         </div>
-      </button>
+      </ng-template>
       <!--
         The control a form actually submits. Ark calls it HiddenSelect; it takes
         the name, the validation attributes and the field's description, and the
@@ -183,18 +250,23 @@ export interface SelectOption {
         [disabled]="isDisabled()"
         [attr.aria-labelledby]="label() ? field.partId('label') : null"
         [attr.aria-describedby]="field.describedBy()"
-        [value]="value() ?? ''"
+        [attr.multiple]="multiple() ? '' : null"
+        [value]="multiple() ? '' : (value() ?? '')"
       >
         <!--
           The placeholder option, and only while nothing is chosen. Ark drops it
           the moment there is a value — leaving it would offer "no answer" as a
           choice in a native form long after one had been made.
         -->
-        @if (!chosen()) {
+        @if (!hasValue()) {
           <option value=""></option>
         }
         @for (option of options(); track option.value) {
-          <option [value]="option.value" [disabled]="!!option.disabled">{{ option.label }}</option>
+          <option
+            [value]="option.value"
+            [disabled]="!!option.disabled"
+            [selected]="multiple() && isChosen(option.value)"
+          >{{ option.label }}</option>
         }
       </select>
     </div>
@@ -230,6 +302,7 @@ export interface SelectOption {
           [attr.data-placement]="anchored.placement()"
           [attr.data-side]="anchored.side()"
           [attr.aria-labelledby]="label() ? field.partId('label') : null"
+          [attr.aria-multiselectable]="multiple() ? 'true' : null"
           [attr.aria-activedescendant]="activeDescendant()"
           [attr.data-activedescendant]="activeDescendant()"
           (keydown)="onListKeydown($event)"
@@ -242,8 +315,8 @@ export interface SelectOption {
               role="option"
               [id]="optionId(option.value)"
               [attr.data-value]="option.value"
-              [attr.aria-selected]="value() === option.value ? 'true' : 'false'"
-              [attr.data-state]="value() === option.value ? 'checked' : 'unchecked'"
+              [attr.aria-selected]="isChosen(option.value) ? 'true' : 'false'"
+              [attr.data-state]="isChosen(option.value) ? 'checked' : 'unchecked'"
               [attr.data-disabled]="flag(!!option.disabled)"
               [attr.aria-disabled]="option.disabled ? 'true' : null"
               [attr.data-highlighted]="flag(highlightedValue() === option.value)"
@@ -253,7 +326,7 @@ export interface SelectOption {
               <span
                 data-scope="select"
                 data-part="item-text"
-                [attr.data-state]="value() === option.value ? 'checked' : 'unchecked'"
+                [attr.data-state]="isChosen(option.value) ? 'checked' : 'unchecked'"
                 [attr.data-disabled]="flag(!!option.disabled)"
                 [attr.data-highlighted]="flag(highlightedValue() === option.value)"
                 >{{ option.label }}</span
@@ -263,8 +336,8 @@ export interface SelectOption {
                 aria-hidden="true"
                 data-scope="select"
                 data-part="item-indicator"
-                [attr.data-state]="value() === option.value ? 'checked' : 'unchecked'"
-                [attr.hidden]="value() === option.value ? null : ''"
+                [attr.data-state]="isChosen(option.value) ? 'checked' : 'unchecked'"
+                [attr.hidden]="isChosen(option.value) ? null : ''"
               >
                 <span uioIcon [name]="glyph('check')" [size]="iconSize()"></span>
               </div>
@@ -298,6 +371,17 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
   readonly name = input<string | undefined>(undefined);
   readonly required = input(false, { transform: booleanAttribute });
   readonly valueChange = output<string>();
+  /**
+   * Any number of choices: tags on one line with a "+N" for those that do not
+   * fit, and a button that clears them all. The list stays open while choosing.
+   * The chosen values are `values`, a model of their own: widening `value` to a
+   * union would break `[(value)]="sig"` under strict templates.
+   */
+  readonly multiple = input(false, { transform: booleanAttribute });
+  /** With `multiple`: the chosen values. */
+  readonly values = model<string[]>([]);
+  /** With `multiple`: the clear-all button's accessible name. */
+  readonly clearLabel = input("Clear all");
 
   /** `disabled` comes from the caller *or* from a reactive form's disabled state. */
   protected readonly disabledInput = input(false, {
@@ -348,7 +432,33 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
   protected readonly chosen = computed(() =>
     this.options().find((option) => option.value === this.value()),
   );
-  protected readonly valueText = computed(() => this.chosen()?.label ?? this.placeholder() ?? "");
+  protected readonly chosenOptions = computed(() => {
+    const values = this.values();
+    return values
+      .map((v) => this.options().find((option) => option.value === v))
+      .filter((option): option is SelectOption => option != null);
+  });
+  protected readonly hasValue = computed(() => (this.multiple() ? this.values().length > 0 : !!this.chosen()));
+  protected readonly valueText = computed(() =>
+    this.multiple()
+      ? this.chosenOptions().map((option) => option.label).join(", ") || this.placeholder() || ""
+      : (this.chosen()?.label ?? this.placeholder() ?? ""),
+  );
+  protected readonly valueClass = computed(() =>
+    clsx("select-field__value", this.multiple() && this.hasValue() && "select-field__value--hidden"),
+  );
+  protected isChosen(value: string): boolean {
+    return this.multiple() ? this.values().includes(value) : this.value() === value;
+  }
+
+  /** How many tags fit on the line; null until there is layout to measure. */
+  private readonly fits = signal<number | null>(null);
+  protected readonly shown = computed(() => this.fits() ?? this.chosenOptions().length);
+  protected readonly more = computed(() => this.chosenOptions().length - this.shown());
+  protected readonly TAG = tagStyles({ variant: "neutral", size: "sm", appearance: "subtle" });
+  protected readonly TAG_MORE = clsx(this.TAG, "select-field__tag-more");
+  @ViewChild("tagRow") private tagRow?: ElementRef<HTMLElement>;
+  private tagObserver?: ResizeObserver;
   protected readonly errorMessage = computed(() =>
     typeof this.error() === "string" ? (this.error() as string) : undefined,
   );
@@ -374,7 +484,12 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
 
   private readonly layer: DismissibleLayer = {
     surface: () => this.contentElement(),
-    trigger: () => this.triggerElement(),
+    // With multiple, the whole box: a click on a tag's remove button is inside
+    // the field, not outside the list.
+    trigger: () =>
+      this.multiple()
+        ? this.host.nativeElement.querySelector<HTMLElement>('[data-part="control"]')
+        : this.triggerElement(),
     dismiss: () => this.close(),
   };
 
@@ -390,6 +505,19 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
     effect(() => {
       this.open();
       untracked(() => this.sync());
+    });
+    // Re-measure the tag row after the selection changes and whenever it resizes.
+    afterRenderEffect(() => {
+      this.chosenOptions();
+      const row = this.tagRow?.nativeElement;
+      this.tagObserver?.disconnect();
+      if (!row) return;
+      const measure = () => this.fits.set(measureTagRow(row, Number.parseFloat(getComputedStyle(row).columnGap) || 0));
+      measure();
+      if (typeof ResizeObserver === "undefined") return;
+      this.tagObserver = new ResizeObserver(measure);
+      this.tagObserver.observe(row);
+      for (const tag of row.querySelectorAll(":scope > [data-tag]")) this.tagObserver.observe(tag);
     });
   }
 
@@ -443,6 +571,7 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
   }
 
   ngOnDestroy(): void {
+    this.tagObserver?.disconnect();
     removeLayer(this.layer);
     this.anchored.dispose();
   }
@@ -463,6 +592,12 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
 
   protected choose(option: SelectOption): void {
     if (option.disabled) return;
+    if (this.multiple()) {
+      // Toggles, and keeps the list open: zag's closeOnSelect is !multiple.
+      const current = this.values();
+      this.setValues(current.includes(option.value) ? current.filter((v) => v !== option.value) : [...current, option.value]);
+      return;
+    }
     this.value.set(option.value);
     this.valueChange.emit(option.value);
     this.onChange(option.value);
@@ -470,6 +605,21 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
   }
 
   /** Space, Enter and the arrows open a closed select — the APG combobox keys. */
+  protected removeValue(value: string): void {
+    this.setValues(this.values().filter((v) => v !== value));
+  }
+
+  protected clearAll(): void {
+    this.setValues([]);
+    this.triggerElement()?.focus();
+  }
+
+  private setValues(next: string[]): void {
+    this.values.set(next);
+    this.onChange(next);
+    flushNow(this.appRef);
+  }
+
   protected onTriggerKeydown(event: KeyboardEvent): void {
     if (this.open()) return;
     if (event.key !== "ArrowDown" && event.key !== "ArrowUp" && event.key !== "Enter" && event.key !== " ") {
@@ -552,7 +702,13 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
     setSurfaceInteractive(ref, true);
     // Ark opens on the current selection when there is one, and on nothing when
     // there is not — which is why a fresh select reports no `aria-activedescendant`.
-    this.highlightedValue.set(this.chosen()?.value ?? null);
+    // With multiple, zag's highlightFirstSelectedItem: the first chosen value
+    // in list order, not in the order it was chosen.
+    this.highlightedValue.set(
+      this.multiple()
+        ? (this.options().find((option) => this.values().includes(option.value))?.value ?? null)
+        : (this.chosen()?.value ?? null),
+    );
     this.contentElement()?.focus({ preventScroll: true });
     pushLayer(this.document, this.layer);
   }
@@ -583,12 +739,13 @@ export class UioSelect extends UioPart implements OnInit, AfterViewInit, OnDestr
   }
 
   protected onTouched: () => void = () => {};
-  private onChange: (value: string) => void = () => {};
+  private onChange: (value: string | string[]) => void = () => {};
 
-  writeValue(value: string | null): void {
-    this.value.set(value ?? undefined);
+  writeValue(value: string | string[] | null): void {
+    if (this.multiple()) this.values.set(Array.isArray(value) ? value : []);
+    else this.value.set((value as string | null) ?? undefined);
   }
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string | string[]) => void): void {
     this.onChange = fn;
   }
   registerOnTouched(fn: () => void): void {

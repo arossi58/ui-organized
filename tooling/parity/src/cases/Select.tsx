@@ -48,6 +48,14 @@ const spec: ParitySpec = {
       // ARIA references point at the Label part.
       { name: "ghost", props: { options, label: "Fruit", variant: "ghost" } },
       ...SIZES.map((size) => ({ name: `size/${size}`, props: { options, size, label: "F" } })),
+      // Multiple: Ark's Control part is the box, the trigger holds the values as
+      // hidden text, the tags beside it are aria-hidden, and a clear button
+      // that is hidden while nothing is chosen.
+      { name: "multiple, empty", props: { options, label: "Fruit", multiple: true, placeholder: "Pick some" } },
+      { name: "multiple, chosen", props: { options, label: "Fruit", multiple: true, defaultValue: ["a", "b"], name: "fruit" } },
+      { name: "multiple, sm", props: { options, label: "Fruit", multiple: true, size: "sm", defaultValue: ["b"] } },
+      { name: "multiple, clear label", props: { options, label: "Fruit", multiple: true, defaultValue: ["a"], clearLabel: "Remove all fruit" } },
+      { name: "multiple, disabled", props: { options, label: "Fruit", multiple: true, disabled: true, defaultValue: ["a"] } },
     ];
   })(),
 };

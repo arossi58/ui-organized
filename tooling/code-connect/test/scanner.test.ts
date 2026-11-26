@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { scanReact, scanLibrary, LIBRARIES, firstSentence } from "../src/scanner/scan-react.js";
+import { scanReact, scanLibrary, LIBRARIES, firstSentence, joinTypes, mergeUnionProps, unionParts } from "../src/scanner/scan-react.js";
 import { reconcile } from "../src/scanner/manifest-writer.js";
 import { hashProps } from "../src/hash.js";
 import type { ComponentManifest } from "../src/schema.js";
@@ -63,6 +63,72 @@ describe("type text — named unions spelled out", () => {
     expect(typeOf(scanned, "AlertDialogContent", "size")).toBe('"sm" | "md" | "lg" | "fullscreen"');
     // Vue spells it `NonNullable<SheetVariants["side"]>`.
     expect(typeOf(scanLibrary(REPO, LIBRARIES.vue), "SheetContent", "side")).toBe('"top" | "right" | "bottom" | "left"');
+  });
+});
+
+describe("props declared as a union of branches", () => {
+  it("splits a type at its top-level bars only", () => {
+    expect(unionParts('"a" | Array<"b" | "c"> | ((v: string | number) => void)')).toEqual([
+      '"a"',
+      'Array<"b" | "c">',
+      "((v: string | number) => void)",
+    ]);
+    // The `>` of an arrow closes nothing.
+    expect(unionParts("(v: string) => void | null")).toEqual(["(v: string) => void", "null"]);
+  });
+
+  it("joins branch types into one union, read the way a person writes it", () => {
+    expect(joinTypes(["false", "true"])).toBe("boolean");
+    expect(joinTypes(['"default" | "ghost"', '"default"'])).toBe('"default" | "ghost"');
+    expect(joinTypes(["(value: string) => void", "(value: string[]) => void"])).toBe(
+      "((value: string) => void) | ((value: string[]) => void)",
+    );
+    // `never` says "not in this branch", which is no part of what the prop takes.
+    expect(joinTypes(["never", "(value: DateRangeValue) => void"])).toBe("(value: DateRangeValue) => void");
+  });
+
+  it("lists each prop once, required only when every branch requires it", () => {
+    const merged = mergeUnionProps([
+      [
+        { name: "options", type: "Option[]", required: true },
+        { name: "value", type: "string", required: false, description: "The value." },
+      ],
+      [
+        { name: "multiple", type: "true", required: true },
+        { name: "options", type: "Option[]", required: true },
+        { name: "value", type: "string[]", required: false },
+      ],
+    ]);
+    expect(merged).toEqual([
+      { name: "multiple", type: "true", required: false },
+      { name: "options", type: "Option[]", required: true },
+      { name: "value", type: "string | string[]", required: false, description: "The value." },
+    ]);
+  });
+
+  it("reads Select's union props, through Omit<…> on the multiple branch", () => {
+    const select = scanned.find((s) => s.codeName === "Select")!;
+    const prop = (name: string) => select.props.find((p) => p.name === name);
+    expect(prop("multiple")).toMatchObject({ type: "boolean", required: false });
+    expect(prop("value")?.type).toBe("string | string[]");
+    expect(prop("options")?.required).toBe(true);
+    expect(prop("variant")?.type).toBe('"default" | "ghost"');
+  });
+
+  it("follows Partial<Pick<…>> as well as Omit<…> on a local interface", () => {
+    const provider = scanned.find((s) => s.codeName === "IconProvider")!;
+    expect(provider.props.find((p) => p.name === "baseSize")).toMatchObject({ required: false });
+    expect(provider.props.find((p) => p.name === "library")).toMatchObject({ required: true });
+  });
+
+  it("widens a switch-like type parameter, and leaves a row type alone", () => {
+    const svelte = scanLibrary(REPO, LIBRARIES.svelte);
+    const select = svelte.find((s) => s.codeName === "Select")!;
+    expect(select.props.find((p) => p.name === "multiple")?.type).toBe("boolean");
+    expect(select.props.find((p) => p.name === "value")?.type).toBe("string | string[]");
+    const typed = scanned.flatMap((s) => s.props).map((p) => p.type);
+    expect(typed.some((t) => t.includes("TableRowModel<T>"))).toBe(true);
+    expect(typed.some((t) => t.includes("<RowData>"))).toBe(false);
   });
 });
 

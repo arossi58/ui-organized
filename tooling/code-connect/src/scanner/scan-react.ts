@@ -320,6 +320,65 @@ export function firstSentence(text: string): string {
 /** The skip list of the library being scanned; set by `scanLibrary`. */
 let activeSkip: ReadonlySet<string> = SKIP_NAMES;
 
+/**
+ * The type parameters of the interface whose members are being read, by name,
+ * with their constraints. Svelte's Select is `SelectProps<M extends boolean>`
+ * and types `value` as `M extends true ? string[] : string`; documented, that
+ * is what `value` can be, `string | string[]`, and `multiple` is a `boolean`.
+ */
+let activeTypeParams: ReadonlyMap<string, ts.TypeNode | undefined> = new Map();
+
+/**
+ * A constraint that makes its parameter a switch rather than a data type:
+ * `boolean`, `string`, `number`, or a union of literals. Only these are
+ * widened. `T extends RowData` is a row type a caller supplies, and writing
+ * `TableRowModel<RowData>` for `TableRowModel<T>` would lose what links it to
+ * the table's other props.
+ */
+function isDiscriminant(constraint: ts.TypeNode): boolean {
+  const keyword = (node: ts.TypeNode) =>
+    node.kind === ts.SyntaxKind.BooleanKeyword ||
+    node.kind === ts.SyntaxKind.StringKeyword ||
+    node.kind === ts.SyntaxKind.NumberKeyword ||
+    ts.isLiteralTypeNode(node);
+  return ts.isUnionTypeNode(constraint) ? constraint.types.every(keyword) : keyword(constraint);
+}
+
+/** A member type with the active type parameters widened, or null when it names none. */
+function widenedTypeText(type: ts.TypeNode, sf: ts.SourceFile): string | null {
+  const params = activeTypeParams;
+  const names = (node: ts.Node): boolean =>
+    (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName) && params.has(node.typeName.text)) ||
+    (ts.forEachChild(node, (child) => names(child) || undefined) ?? false);
+  if (!params.size || !names(type)) return null;
+  const [widened] = ts.transform(type, [
+    (ctx) => (root) => {
+      const visit = (node: ts.Node): ts.Node => {
+        if (
+          ts.isConditionalTypeNode(node) &&
+          ts.isTypeReferenceNode(node.checkType) &&
+          ts.isIdentifier(node.checkType.typeName) &&
+          params.has(node.checkType.typeName.text)
+        ) {
+          // The false branch first: it is the one the default parameter takes.
+          return ts.factory.createUnionTypeNode([
+            visit(node.falseType) as ts.TypeNode,
+            visit(node.trueType) as ts.TypeNode,
+          ]);
+        }
+        if (ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName) && !node.typeArguments) {
+          const constraint = params.get(node.typeName.text);
+          if (constraint) return constraint;
+        }
+        return ts.visitEachChild(node, visit, ctx);
+      };
+      return visit(root) as ts.TypeNode;
+    },
+  ]).transformed;
+  const printed = ts.createPrinter({ removeComments: true }).printNode(ts.EmitHint.Unspecified, widened!, sf);
+  return joinTypes([printed.replace(/\s+/g, " ").trim()]);
+}
+
 function toProp(member: ts.TypeElement, sf: ts.SourceFile): PropDefinition | null {
   if (!ts.isPropertySignature(member)) return null;
   if (!ts.isIdentifier(member.name) && !ts.isStringLiteral(member.name)) return null;
@@ -330,7 +389,7 @@ function toProp(member: ts.TypeElement, sf: ts.SourceFile): PropDefinition | nul
   const { defaultValue, description } = readJsDoc(member, sf);
   return {
     name,
-    type: typeText(member.type, sf),
+    type: widenedTypeText(member.type, sf) ?? typeText(member.type, sf),
     required: !member.questionToken,
     ...(defaultValue ? { defaultValue } : {}),
     ...(description ? { description } : {}),
@@ -425,7 +484,18 @@ function membersWithHeritage(
   packageRoot: string,
   seen = new Set<string>(),
 ): PropDefinition[] {
-  const own = extractProps(decl.members, sf);
+  const outer = activeTypeParams;
+  activeTypeParams = new Map(
+    (decl.typeParameters ?? [])
+      .filter((tp) => tp.constraint && isDiscriminant(tp.constraint))
+      .map((tp) => [tp.name.text, tp.constraint]),
+  );
+  let own: PropDefinition[];
+  try {
+    own = extractProps(decl.members, sf);
+  } finally {
+    activeTypeParams = outer;
+  }
   if (seen.has(decl.name.text)) return own;
   seen.add(decl.name.text);
 
@@ -433,18 +503,132 @@ function membersWithHeritage(
   for (const clause of decl.heritageClauses ?? []) {
     if (clause.token !== ts.SyntaxKind.ExtendsKeyword) continue;
     for (const type of clause.types) {
-      // Only a bare identifier: `React.X` is a property access and `Omit<…>`
-      // names a utility type, neither of which is a local interface.
+      // Only a bare identifier: `React.X` is a property access, not a local
+      // interface. See `heritageMembers` for the utility types followed.
       if (!ts.isIdentifier(type.expression)) continue;
-      const base = interfaceIndex(packageRoot).get(type.expression.text);
-      if (!base) continue;
-      inherited.push(...membersWithHeritage(base.decl, base.sf, packageRoot, seen));
+      inherited.push(...(heritageMembers(type.expression.text, type.typeArguments, packageRoot, seen) ?? []));
     }
   }
 
   const byName = new Map<string, PropDefinition>();
   for (const prop of [...inherited, ...own]) byName.set(prop.name, prop);
   return [...byName.values()].sort((a, b) => a.name.localeCompare(b.name));
+}
+
+/**
+ * The members a base type contributes, or null when it is nothing of ours.
+ * A local interface by name, and the utility types wrapped around one:
+ * `Omit<Local, "a" | "b">` and `Pick<Local, …>` filter its members, and
+ * `Partial<…>` makes them optional. `SelectMultipleProps` extends
+ * `Omit<SelectBaseProps, "variant">`; `IconProviderProps` extends
+ * `Partial<Pick<IconConfig, …>>`. `Omit<React.X, …>` names nothing of ours.
+ */
+function heritageMembers(
+  name: string,
+  args: ts.NodeArray<ts.TypeNode> | undefined,
+  packageRoot: string,
+  seen: Set<string>,
+): PropDefinition[] | null {
+  const ref = (node: ts.TypeNode | undefined) =>
+    node && ts.isTypeReferenceNode(node) && ts.isIdentifier(node.typeName)
+      ? heritageMembers(node.typeName.text, node.typeArguments, packageRoot, seen)
+      : null;
+  if (name === "Partial" && args?.length === 1) {
+    return ref(args[0])?.map((prop) => ({ ...prop, required: false })) ?? null;
+  }
+  if ((name === "Omit" || name === "Pick") && args?.length === 2) {
+    const keys = args[1]!;
+    const names = new Set(
+      (ts.isUnionTypeNode(keys) ? keys.types : [keys]).flatMap((key) =>
+        ts.isLiteralTypeNode(key) && ts.isStringLiteral(key.literal) ? [key.literal.text] : [],
+      ),
+    );
+    return ref(args[0])?.filter((prop) => (name === "Omit" ? !names.has(prop.name) : names.has(prop.name))) ?? null;
+  }
+  const base = interfaceIndex(packageRoot).get(name);
+  return base ? membersWithHeritage(base.decl, base.sf, packageRoot, seen) : null;
+}
+
+// ─── Props declared as a union ───────────────────────────────────────────────
+
+/**
+ * A type's text split at its top-level `|`. Brackets of every kind nest, and
+ * the `>` of an arrow closes nothing, so `(value: string) => void` is one part.
+ */
+export function unionParts(text: string): string[] {
+  const parts: string[] = [];
+  let depth = 0;
+  let start = 0;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i]!;
+    if ("([{<".includes(c)) depth++;
+    else if (")]}".includes(c) || (c === ">" && text[i - 1] !== "=")) depth--;
+    else if (c === "|" && depth === 0) {
+      parts.push(text.slice(start, i).trim());
+      start = i + 1;
+    }
+  }
+  parts.push(text.slice(start).trim());
+  return parts.filter(Boolean);
+}
+
+/** Whether `text` is one parenthesised group, `(…)`, rather than `(…) => …`. */
+function isParenthesised(text: string): boolean {
+  if (!text.startsWith("(")) return false;
+  let depth = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === "(") depth++;
+    else if (text[i] === ")" && --depth === 0) return i === text.length - 1;
+  }
+  return false;
+}
+
+/**
+ * Several branches' types for one prop, as one union: members flattened and
+ * deduplicated, `true | false` read as `boolean`, and a function type wrapped
+ * in parentheses so the `|` cannot be read as part of its return type.
+ */
+export function joinTypes(types: readonly string[]): string {
+  // `never` is a branch saying "not here"; it adds nothing to what the prop takes.
+  const all = [...new Set(types.flatMap(unionParts))];
+  const parts = all.length > 1 ? all.filter((part) => part !== "never") : all;
+  if (parts.length === 1) return parts[0]!;
+  const bools = parts.includes("true") && parts.includes("false");
+  const out: string[] = [];
+  for (const part of parts) {
+    if (bools && (part === "true" || part === "false")) {
+      if (!out.includes("boolean")) out.push("boolean");
+      continue;
+    }
+    out.push(part.includes("=>") && !isParenthesised(part) ? `(${part})` : part);
+  }
+  return out.join(" | ");
+}
+
+/**
+ * Props declared as a union of branches, as `SelectProps = SelectSingleProps |
+ * SelectMultipleProps` is. Each prop is listed once: its type is every branch's
+ * type joined, it is required only when every branch requires it, and its
+ * description and default come from the first branch that has one.
+ */
+export function mergeUnionProps(branches: readonly PropDefinition[][]): PropDefinition[] {
+  const byName = new Map<string, PropDefinition[]>();
+  for (const branch of branches) {
+    for (const prop of branch) byName.set(prop.name, [...(byName.get(prop.name) ?? []), prop]);
+  }
+  const merged: PropDefinition[] = [];
+  for (const [name, defs] of byName) {
+    const description = defs.find((d) => d.description)?.description;
+    const defaultValue = defs.find((d) => d.defaultValue)?.defaultValue;
+    merged.push({
+      name,
+      type: joinTypes(defs.map((d) => d.type)),
+      required: defs.length === branches.length && defs.every((d) => d.required),
+      ...(defaultValue ? { defaultValue } : {}),
+      ...(description ? { description } : {}),
+    });
+  }
+  return merged.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 // ─── Named types the props refer to ──────────────────────────────────────────
@@ -734,7 +918,12 @@ function findPropsDecl(searchDir: string, propsName: string): FoundProps | null 
       if (ts.isTypeAliasDeclaration(stmt) && stmt.name.text === propsName) {
         // `type XProps = { ... }` → read the literal; alias to HTMLAttributes → no
         // own props (a valid, prop-light component entry).
-        const props = ts.isTypeLiteralNode(stmt.type) ? extractProps(stmt.type.members, sf) : [];
+        // `type XProps = A | B` → each branch's props, merged.
+        const props = ts.isTypeLiteralNode(stmt.type)
+          ? extractProps(stmt.type.members, sf)
+          : ts.isUnionTypeNode(stmt.type)
+            ? mergeUnionProps(stmt.type.types.map((t) => propsFromTypeNode(t, sf, packageRoot)))
+            : [];
         return { props, file: full };
       }
     }
@@ -762,6 +951,9 @@ function propsFromTypeNode(
   packageRoot: string,
 ): PropDefinition[] {
   if (ts.isTypeLiteralNode(type)) return extractProps(type.members, sf);
+  if (ts.isUnionTypeNode(type)) {
+    return mergeUnionProps(type.types.map((t) => propsFromTypeNode(t, sf, packageRoot)));
+  }
   if (ts.isIntersectionTypeNode(type)) {
     const byName = new Map<string, PropDefinition>();
     for (const part of type.types) for (const p of propsFromTypeNode(part, sf, packageRoot)) byName.set(p.name, p);

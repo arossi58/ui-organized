@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T22:45:03.731Z",
+  "generatedAt": "2026-11-25T23:35:27.095Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -18,7 +18,7 @@
     "packages/react/src/components/AvatarLabel/AvatarLabel.types.ts::AvatarLabel": "sha256:a19a50ab3cf8d601",
     "packages/react/src/components/Breadcrumb/Breadcrumb.types.ts::Breadcrumb": "sha256:9ec3fcb8186f9831",
     "packages/react/src/components/Button/Button.types.ts::Button": "sha256:f004b79877fd0a17",
-    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": "sha256:442a5b39c1f980ce",
     "packages/react/src/components/Card/Card.types.ts::Card": "sha256:520564c416c01667",
     "packages/react/src/components/Card/Card.types.ts::CardBody": "sha256:8e43c867ebd12f85",
     "packages/react/src/components/Card/Card.types.ts::CardFooter": "sha256:8e43c867ebd12f85",
@@ -33,7 +33,7 @@
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleContent": "sha256:36a696a8661c284e",
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:986a424f729e6c35",
-    "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:afd52166dcebfe72",
+    "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:cc4796c046c537e1",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": "sha256:a689780b8ecb2542",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuContent": "sha256:3a6de950be38dd59",
@@ -80,7 +80,7 @@
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardContent": "sha256:86cfcb7831e4bad1",
     "packages/react/src/components/HoverCard/HoverCard.types.ts::HoverCardTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Icon/Icon.types.ts::Icon": "sha256:bef6759e7e844295",
-    "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:5b45ed467f82e267",
+    "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:b4148665bd6f188b",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:1a73cceef72037d9",
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
@@ -119,7 +119,7 @@
     "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": "sha256:206685e02d9d0872",
     "packages/react/src/components/SearchInput/SearchInput.types.ts::SearchInput": "sha256:102ee6860f02c5fa",
     "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": "sha256:f727abc048f7e838",
-    "packages/react/src/components/Select/Select.types.ts::Select": "sha256:a2c90f2f6a9c57da",
+    "packages/react/src/components/Select/Select.types.ts::Select": "sha256:336f1cbad4a05d1c",
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetClose": "sha256:36a696a8661c284e",
     "packages/react/src/components/Sheet/Sheet.types.ts::SheetContent": "sha256:e80310927344c2fc",
@@ -768,7 +768,93 @@
         "description": "Passed to the anchor when `href` is set."
       }
     ],
-    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": [],
+    "packages/react/src/components/Calendar/Calendar.types.ts::Calendar": [
+      {
+        "name": "className",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "defaultValue",
+        "type": "string | DateRangeValue",
+        "required": false,
+        "description": "Uncontrolled initial value."
+      },
+      {
+        "name": "footer",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A row under the grid, for actions such as Cancel and Apply."
+      },
+      {
+        "name": "max",
+        "type": "string",
+        "required": false,
+        "description": "Latest selectable date (ISO `YYYY-MM-DD`)."
+      },
+      {
+        "name": "min",
+        "type": "string",
+        "required": false,
+        "description": "Earliest selectable date (ISO `YYYY-MM-DD`)."
+      },
+      {
+        "name": "mode",
+        "type": "\"single\" | \"range\"",
+        "required": false,
+        "description": "Pick one day."
+      },
+      {
+        "name": "numMonths",
+        "type": "number",
+        "required": false,
+        "defaultValue": "1",
+        "description": "Months shown side by side."
+      },
+      {
+        "name": "onRangeComplete",
+        "type": "(value: DateRangeValue) => void",
+        "required": false,
+        "description": "Called once both ends are chosen, by picking or by a preset."
+      },
+      {
+        "name": "onValueChange",
+        "type": "((value: string) => void) | ((value: DateRangeValue) => void)",
+        "required": false,
+        "description": "Called with the chosen day."
+      },
+      {
+        "name": "presets",
+        "type": "DatePreset[]",
+        "required": false,
+        "description": "Shortcuts in a column before the grid."
+      },
+      {
+        "name": "presetsLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Presets",
+        "description": "The presets column's accessible name."
+      },
+      {
+        "name": "value",
+        "type": "string | DateRangeValue",
+        "required": false,
+        "description": "Controlled value (ISO `YYYY-MM-DD`; `\"\"` when empty)."
+      },
+      {
+        "name": "variant",
+        "type": "\"plain\" | \"card\"",
+        "required": false,
+        "description": "`card` puts the calendar on a bordered surface."
+      },
+      {
+        "name": "weekStartsOn",
+        "type": "number",
+        "required": false,
+        "description": "First day of the week: 0 = Sunday (the default), 1 = Monday."
+      }
+    ],
     "packages/react/src/components/Card/Card.types.ts::Card": [
       {
         "name": "children",
@@ -1371,6 +1457,13 @@
         "required": false
       },
       {
+        "name": "clearLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Clear",
+        "description": "The clear-all button's accessible name."
+      },
+      {
         "name": "defaultOpen",
         "type": "boolean",
         "required": false,
@@ -1378,9 +1471,9 @@
       },
       {
         "name": "defaultValue",
-        "type": "string",
+        "type": "string | string[]",
         "required": false,
-        "description": "Initial selected value for uncontrolled usage."
+        "description": "Initial selected value for uncontrolled usage; with `multiple`, the initial values."
       },
       {
         "name": "disabled",
@@ -1413,6 +1506,12 @@
         "description": "Accessible label rendered above the control."
       },
       {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Any number of choices, as tags before the text box."
+      },
+      {
         "name": "name",
         "type": "string",
         "required": false,
@@ -1426,9 +1525,9 @@
       },
       {
         "name": "onValueChange",
-        "type": "(value: string) => void",
+        "type": "((value: string) => void) | ((value: string[]) => void)",
         "required": false,
-        "description": "Called with the selected option's value (empty string when cleared)."
+        "description": "Called with the selected option's value (empty string when cleared); with `multiple`, with every selected value."
       },
       {
         "name": "open",
@@ -1469,9 +1568,9 @@
       },
       {
         "name": "value",
-        "type": "string",
+        "type": "string | string[]",
         "required": false,
-        "description": "Controlled selected value."
+        "description": "Controlled selected value; with `multiple`, the selected values."
       }
     ],
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": [
@@ -2919,9 +3018,47 @@
     ],
     "packages/react/src/context/IconContext.tsx::IconProvider": [
       {
+        "name": "baseSize",
+        "type": "number",
+        "required": false,
+        "defaultValue": "24",
+        "description": "The design/reference size in pixels at which the base stroke is defined."
+      },
+      {
+        "name": "baseStroke",
+        "type": "number",
+        "required": false,
+        "defaultValue": "2",
+        "description": "Stroke width at the reference size."
+      },
+      {
         "name": "children",
         "type": "ReactNode",
         "required": true
+      },
+      {
+        "name": "icons",
+        "type": "IconSet",
+        "required": false,
+        "description": "The icon set, supplied explicitly rather than through the import-side-effect registry."
+      },
+      {
+        "name": "library",
+        "type": "\"lucide\" | \"tabler\" | \"heroicons\"",
+        "required": true,
+        "description": "Active icon library."
+      },
+      {
+        "name": "strokeAdjustment",
+        "type": "boolean",
+        "required": true,
+        "description": "When true, stroke width is adjusted per size to maintain consistent optical weight."
+      },
+      {
+        "name": "style",
+        "type": "\"outline\" | \"solid\"",
+        "required": true,
+        "description": "Icon style — outline/stroke or solid/filled."
       }
     ],
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": [
@@ -4599,6 +4736,13 @@
         "required": false
       },
       {
+        "name": "clearLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Clear",
+        "description": "The clear-all button's accessible name."
+      },
+      {
         "name": "defaultOpen",
         "type": "boolean",
         "required": false,
@@ -4606,9 +4750,9 @@
       },
       {
         "name": "defaultValue",
-        "type": "string",
+        "type": "string | string[]",
         "required": false,
-        "description": "Initial selected value for uncontrolled usage."
+        "description": "Initial selected value for uncontrolled usage; with `multiple`, the initial values."
       },
       {
         "name": "disabled",
@@ -4635,6 +4779,12 @@
         "description": "Accessible label rendered above the trigger."
       },
       {
+        "name": "multiple",
+        "type": "boolean",
+        "required": false,
+        "description": "Any number of choices, as tags on one line."
+      },
+      {
         "name": "name",
         "type": "string",
         "required": false,
@@ -4648,9 +4798,9 @@
       },
       {
         "name": "onValueChange",
-        "type": "(value: string) => void",
+        "type": "((value: string) => void) | ((value: string[]) => void)",
         "required": false,
-        "description": "Callback fired when the selected value changes."
+        "description": "Callback fired when the selected value changes; with `multiple`, called with every selected value."
       },
       {
         "name": "open",
@@ -4691,9 +4841,9 @@
       },
       {
         "name": "value",
-        "type": "string",
+        "type": "string | string[]",
         "required": false,
-        "description": "Controlled selected value."
+        "description": "Controlled selected value; with `multiple`, the selected values."
       },
       {
         "name": "variant",

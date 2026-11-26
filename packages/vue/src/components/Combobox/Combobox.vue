@@ -7,6 +7,8 @@ import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import SelectedLabelSync from "./SelectedLabelSync.vue";
+import ComboboxTags from "./ComboboxTags.vue";
+import ComboboxMultiParts from "./ComboboxMultiParts.vue";
 import type { ComboboxProps } from "./Combobox.types.js";
 // The shared field chrome, ahead of this component's own sheet, which may override it.
 import "@ui-organized/core/components/Field/Field.css";
@@ -31,6 +33,8 @@ const props = withDefaults(defineProps<ComboboxProps>(), {
 const emit = defineEmits<{
   "update:modelValue": [value: string];
   valueChange: [value: string];
+  "update:values": [values: string[]];
+  valuesChange: [values: string[]];
   openChange: [open: boolean];
 }>();
 
@@ -63,15 +67,44 @@ const collection = computed(() =>
 // Progress for the same rename.
 const rootProps = computed(() =>
   definedOnly({
-    modelValue: props.modelValue != null ? [props.modelValue] : undefined,
-    defaultValue: props.defaultValue != null ? [props.defaultValue] : undefined,
+    multiple: props.multiple || undefined,
+    modelValue: props.multiple
+      ? props.values
+      : props.modelValue != null
+        ? [props.modelValue]
+        : undefined,
+    defaultValue: props.multiple
+      ? props.defaultValues
+      : props.defaultValue != null
+        ? [props.defaultValue]
+        : undefined,
+    // Multiple: the query clears after each pick and the list stays open.
+    selectionBehavior: props.multiple ? ("clear" as const) : undefined,
+    closeOnSelect: props.multiple ? false : undefined,
     open: props.open,
     defaultOpen: props.defaultOpen,
     disabled: props.disabled,
-    name: props.name,
-    required: props.required,
+    // Multiple submits its own hidden inputs; the text box holds the query.
+    name: props.multiple ? undefined : props.name,
+    required: props.multiple ? undefined : props.required,
   }),
 );
+// The Control part, so a click on a tag's remove button counts as inside the
+// field rather than outside the list.
+const control = ref<{ $el?: HTMLElement } | null>(null);
+function onValueChange(details: { value: string[] }) {
+  if (props.multiple) {
+    emit("update:values", details.value);
+    emit("valuesChange", details.value);
+    return;
+  }
+  const next = details.value[0] ?? "";
+  emit("update:modelValue", next);
+  emit("valueChange", next);
+}
+function onInteractOutside(event: { target: EventTarget | null; preventDefault(): void }) {
+  if (props.multiple && control.value?.$el?.contains(event.target as Node)) event.preventDefault();
+}
 </script>
 
 <template>
@@ -86,26 +119,31 @@ const rootProps = computed(() =>
       v-bind="rootProps"
       :invalid="isInvalid"
       :positioning="{ placement: 'bottom-start', gutter: 4, strategy: 'fixed' }"
-      @value-change="
-        (details) => {
-          const next = details.value[0] ?? '';
-          emit('update:modelValue', next);
-          emit('valueChange', next);
-        }
-      "
+      @value-change="onValueChange"
+      @interact-outside="onInteractOutside"
       @input-value-change="(details) => (query = details.inputValue)"
       @open-change="(details) => emit('openChange', details.open)"
     >
-      <SelectedLabelSync :options="options" />
+      <SelectedLabelSync v-if="!multiple" :options="options" />
       <ArkCombobox.Label v-if="label" class="field__label">
         {{ label }}
         <span v-if="required" class="field__required" aria-hidden="true" />
       </ArkCombobox.Label>
-      <ArkCombobox.Control class="combobox-field__control">
+      <ArkCombobox.Control ref="control" class="combobox-field__control">
+        <ComboboxTags v-if="multiple" :options="options" />
+        <ComboboxMultiParts v-if="multiple" part="input" :placeholder="placeholder" />
         <ArkCombobox.Input
+          v-else
           class="field__control combobox-field__input"
           :placeholder="placeholder"
         />
+        <ArkCombobox.ClearTrigger
+          v-if="multiple"
+          class="combobox-field__clear"
+          :aria-label="clearLabel ?? 'Clear all'"
+        >
+          <Icon :name="glyph('close')" :size="16" />
+        </ArkCombobox.ClearTrigger>
         <ArkCombobox.Trigger class="combobox-field__trigger" aria-label="Toggle options">
           <Icon :name="glyph('chevron-down')" :size="iconSize" />
         </ArkCombobox.Trigger>
@@ -137,6 +175,7 @@ const rootProps = computed(() =>
           </ArkCombobox.Content>
         </ArkCombobox.Positioner>
       </Teleport>
+      <ComboboxMultiParts v-if="multiple && name" part="values" :name="name" />
     </ArkCombobox.Root>
     <Field.HelperText v-if="helperText && !isInvalid" class="field__description">
       {{ helperText }}

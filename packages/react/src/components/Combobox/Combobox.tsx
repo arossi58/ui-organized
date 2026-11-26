@@ -6,27 +6,32 @@ import {
   createListCollection,
   useComboboxContext,
   useFilter,
+  type ComboboxRootProps,
 } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, comboboxFieldStyles } from "@ui-organized/core";
+import { CONTROL_ICON_SIZE, comboboxFieldStyles, tagStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import type { ComboboxProps } from "./Combobox.types.js";
+import type { ComboboxOption, ComboboxProps } from "./Combobox.types.js";
 import "@ui-organized/core/components/Combobox/Combobox.css";
 import { useContainedPositioning, useOverlayPortal } from "../../preview/useOverlayPortal.js";
 import { glyph } from "../../icons/glyph.js";
 import { useFocusModality } from "../../utils/useFocusModality.js";
+import { useTagOverflow } from "../../utils/useTagOverflow.js";
 
 // Module-level so `useFilter`'s memo key is stable (it keys on the props object
 // identity); otherwise `contains` — and the derived collection — would churn
 // every render.
 const FILTER_OPTIONS = { sensitivity: "base" } as const;
 
-export function Combobox({
+export function Combobox(props: ComboboxProps) {
+  // A change of `multiple` is a different component: the value's shape changes.
+  return <ComboboxImpl key={props.multiple ? "multiple" : "single"} {...props} />;
+}
+
+function ComboboxImpl(props: ComboboxProps) {
+  const {
   options,
-  value,
-  defaultValue,
-  onValueChange,
   open,
   defaultOpen,
   onOpenChange,
@@ -41,7 +46,9 @@ export function Combobox({
   className,
   emptyMessage = "No results found.",
   portalContainer,
-}: ComboboxProps) {
+  } = props;
+  const multiple = props.multiple === true;
+  const controlRef = useRef<HTMLDivElement>(null);
   useFocusModality();
   const isInvalid = !!error;
   const errorMessage = typeof error === "string" ? error : undefined;
@@ -66,6 +73,28 @@ export function Combobox({
     });
   }, [options, query, contains]);
 
+  const valueProps: Partial<ComboboxRootProps<ComboboxOption>> = props.multiple
+    ? {
+        multiple: true,
+        value: props.value,
+        defaultValue: props.defaultValue,
+        onValueChange: props.onValueChange && ((details) => props.onValueChange?.(details.value)),
+        // Picking clears the query and keeps the list open for the next.
+        selectionBehavior: "clear",
+        closeOnSelect: false,
+        // A click on a tag's remove button is inside the field, not outside the list.
+        onInteractOutside: (event) => {
+          if (controlRef.current?.contains(event.target as Node)) event.preventDefault();
+        },
+      }
+    : {
+        value: props.value != null ? [props.value] : undefined,
+        defaultValue: props.defaultValue != null ? [props.defaultValue] : undefined,
+        onValueChange: props.onValueChange
+          ? (details) => props.onValueChange?.(details.value[0] ?? "")
+          : undefined,
+      };
+
   return (
     <Field.Root
       className={clsx(comboboxFieldStyles({ size }), className)}
@@ -77,33 +106,41 @@ export function Combobox({
       <ArkCombobox.Root
         className="combobox-field__root"
         collection={collection}
-        value={value != null ? [value] : undefined}
-        defaultValue={defaultValue != null ? [defaultValue] : undefined}
-        onValueChange={
-          onValueChange ? (details) => onValueChange(details.value[0] ?? "") : undefined
-        }
+        {...valueProps}
         onInputValueChange={(details) => setQuery(details.inputValue)}
         open={open}
         defaultOpen={defaultOpen}
         onOpenChange={onOpenChange ? (details) => onOpenChange(details.open) : undefined}
         invalid={isInvalid}
         disabled={disabled}
-        name={name}
-        required={required}
+        // With multiple, the input holds the query, not the value: each value is
+        // submitted as a hidden input instead (see HiddenValues).
+        name={multiple ? undefined : name}
+        required={multiple ? undefined : required}
         positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed", ...containedPositioning }}
       >
-        <SelectedLabelSync options={options} />
+        {!multiple && <SelectedLabelSync options={options} />}
         {label && (
           <ArkCombobox.Label className="field__label">
             {label}
             {required && <span className="field__required" aria-hidden="true" />}
           </ArkCombobox.Label>
         )}
-        <ArkCombobox.Control className="combobox-field__control">
-          <ArkCombobox.Input
-            className="field__control combobox-field__input"
-            placeholder={placeholder}
-          />
+        <ArkCombobox.Control className="combobox-field__control" ref={controlRef}>
+          {multiple && <ComboboxTags options={options} />}
+          {multiple ? (
+            <MultiInput placeholder={placeholder} />
+          ) : (
+            <ArkCombobox.Input className="field__control combobox-field__input" placeholder={placeholder} />
+          )}
+          {multiple && (
+            <ArkCombobox.ClearTrigger
+              className="combobox-field__clear"
+              aria-label={(props.multiple && props.clearLabel) || "Clear all"}
+            >
+              <Icon name={glyph("close")} size={CLEAR_ICON_SIZE} />
+            </ArkCombobox.ClearTrigger>
+          )}
           <ArkCombobox.Trigger className="combobox-field__trigger" aria-label="Toggle options">
             <Icon name={glyph("chevron-down")} size={CONTROL_ICON_SIZE[size ?? "md"]} />
           </ArkCombobox.Trigger>
@@ -128,6 +165,7 @@ export function Combobox({
             </ArkCombobox.Content>
           </ArkCombobox.Positioner>
         </Portal>
+        {multiple && name && <HiddenValues name={name} />}
       </ArkCombobox.Root>
       {helperText && !isInvalid && (
         <Field.HelperText className="field__description">{helperText}</Field.HelperText>
@@ -138,6 +176,82 @@ export function Combobox({
         </Field.ErrorText>
       )}
     </Field.Root>
+  );
+}
+
+const CLEAR_ICON_SIZE = 16;
+/** The remove glyph is smaller than a content icon, as on Tag. */
+const REMOVE_ICON_SIZE = 12;
+
+/** The text box in multiple mode: Backspace in an empty box removes the last value. */
+function MultiInput({ placeholder }: { placeholder?: string }) {
+  const combobox = useComboboxContext();
+  return (
+    <ArkCombobox.Input
+      className="field__control combobox-field__input"
+      placeholder={combobox.value.length ? undefined : placeholder}
+      onKeyDown={(event) => {
+        if (event.key !== "Backspace" || combobox.inputValue !== "") return;
+        const last = combobox.value[combobox.value.length - 1];
+        if (last != null) combobox.clearValue(last);
+      }}
+    />
+  );
+}
+
+/**
+ * The chosen values as tags on one line, with a "+N" for those that do not fit.
+ * Every tag renders so it can be measured; the overflow is marked and hidden by
+ * CSS. Without layout (the server, jsdom) nothing is measured and all show.
+ */
+function ComboboxTags({ options }: { options: ComboboxOption[] }) {
+  const combobox = useComboboxContext();
+  const chosen = combobox.value
+    .map((v) => options.find((o) => o.value === v))
+    .filter((o): o is ComboboxOption => o != null);
+
+  const { rowRef, fits } = useTagOverflow(combobox.value.join("\u0000"));
+
+  if (chosen.length === 0) return null;
+  const shown = fits ?? chosen.length;
+  const more = chosen.length - shown;
+  const tag = tagStyles({ variant: "neutral", size: "sm", appearance: "subtle" });
+  return (
+    <div className="combobox-field__tags" ref={rowRef}>
+      {chosen.map((option, i) => (
+        <span key={option.value} className={tag} data-tag="" data-overflowed={i >= shown ? "" : undefined}>
+          <span className="tag__label">{option.label}</span>
+          <button
+            type="button"
+            className="tag__remove"
+            tabIndex={-1}
+            aria-label={`Remove ${option.label}`}
+            // Cancelled so focus stays in the text box, as zag does for its clear button.
+            onPointerDown={(event) => event.preventDefault()}
+            onClick={() => combobox.clearValue(option.value)}
+          >
+            <Icon name={glyph("close")} size={REMOVE_ICON_SIZE} />
+          </button>
+        </span>
+      ))}
+      {more > 0 && (
+        <span className={clsx(tag, "combobox-field__tag-more")}>
+          <span className="tag__label">+{more}</span>
+        </span>
+      )}
+    </div>
+  );
+}
+
+/** One hidden input per chosen value, which is what a form submits in multiple mode. */
+function HiddenValues({ name }: { name: string }) {
+  const combobox = useComboboxContext();
+  return (
+    <>
+      {combobox.value.map((v) => (
+        <input key={v} type="hidden" name={name} value={v} />
+      ))}
+    </>
   );
 }
 

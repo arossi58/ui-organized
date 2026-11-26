@@ -4,6 +4,7 @@ import {
   HIDDEN_SELECT_TEXT,
   openViaTrigger,
   part,
+  staticScenarios,
   type BrowserScenario,
 } from "./scenario.js";
 
@@ -100,5 +101,37 @@ const scenarios: BrowserScenario[] = [
     allowTextIn: [HIDDEN_SELECT_TEXT],
   },
 ];
+
+scenarios.push(
+  ...staticScenarios("Select", [
+    { name: "multiple, empty", props: { options: FRUIT, label: "Fruit", multiple: true, placeholder: "Pick some" } },
+    { name: "multiple, chosen", props: { options: FRUIT, label: "Fruit", multiple: true, defaultValue: ["a", "b"], name: "fruit" } },
+  ]).map((s) => ({ ...s, allowTextIn: [HIDDEN_SELECT_TEXT] })),
+  {
+    component: "Select",
+    // Choosing toggles and the list stays open: zag's closeOnSelect is !multiple.
+    name: "multiple: choosing keeps the list open",
+    props: { options: FRUIT, label: "Fruit", multiple: true, defaultValue: ["a"] },
+    steps: [
+      ...openViaTrigger("select"),
+      { do: "click", target: `${part("select", "item")}[data-value="b"]` },
+      { do: "wait", target: `${part("select", "item")}[data-value="b"][data-state="checked"]` },
+    ],
+    regions: [part("select", "positioner"), "#mount"],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
+  },
+  {
+    component: "Select",
+    // A tag's remove button drops that value and leaves the rest.
+    name: "multiple: a tag is removed",
+    props: { options: FRUIT, label: "Fruit", multiple: true, defaultValue: ["a", "b"] },
+    steps: [
+      { do: "click", target: ".select-field__tags .tag__remove" },
+      { do: "wait", target: `${part("select", "item")}[data-value="a"][data-state="unchecked"]` },
+    ],
+    regions: ["#mount"],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
+  },
+);
 
 export default scenarios;

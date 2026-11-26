@@ -253,3 +253,5 @@ export { videoEmbedStyles, videoEmbedKind, VIDEO_EMBED_ALLOW } from "./component
 export type { VideoEmbedVariants } from "./components/VideoEmbed/VideoEmbed.styles.js";
 export { attachmentStyles, formatFileSize, clampProgress } from "./components/Attachment/Attachment.styles.js";
 export type { AttachmentVariants, AttachmentStatus } from "./components/Attachment/Attachment.styles.js";
+export { fitTagCount, measureTagRow, TAG_MORE_WIDTH } from "./tagOverflow.js";
+export type { TagRowLike } from "./tagOverflow.js";

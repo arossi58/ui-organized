@@ -219,3 +219,91 @@
 .combobox-popup__item[data-state="checked"] .combobox-popup__item-indicator {
   opacity: 1;
 }
+
+/* ─── Multiple ────────────────────────────────────────────────────────────────
+   With `multiple`, the chosen values are tags in the control, before the text
+   box. The row takes the room the box leaves, so its width does not move as
+   tags are hidden: the input keeps a fixed width beside it. The tags are not
+   aria-hidden, since the input's text is the query and these are the only
+   place the selection is written; their remove buttons are pointer-only. */
+
+.combobox-field__tags {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+  padding-inline-start: var(--spacing-space-02);
+  overflow: hidden;
+}
+
+/* Room to type, scrolling past it; small enough that a narrow field still has
+   space for a tag beside the "+N". */
+.combobox-field__tags + .combobox-field__input {
+  flex: 0 0 6ch;
+  min-width: 0;
+  /* The row before it already pads the start of the box. */
+  padding-inline: var(--spacing-space-01);
+}
+
+.combobox-field__tags .tag {
+  flex: none;
+  max-width: 100%;
+}
+
+.combobox-field__tags .tag__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* One tag beside a "+N" that still does not fit: the tag gives way and its
+   label ellipsizes, so the count stays in sight. Only in that case, since a
+   shrunk tag measures short and every tag would otherwise squeeze onto the
+   line. fitTagCount never shows fewer than one. */
+.combobox-field__tags > .tag:first-child:has(+ [data-overflowed]) {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Past the count that fits: still rendered, so it can be measured when the
+   field widens, but out of flow and out of sight. */
+.combobox-field__tags [data-overflowed] {
+  position: absolute;
+  visibility: hidden;
+}
+
+/* TAG_MORE_WIDTH in core, which fitTagCount reserves for it. */
+.combobox-field__tag-more {
+  box-sizing: border-box;
+  min-width: 32px;
+  justify-content: center;
+}
+
+.combobox-field__clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: var(--spacing-space-005);
+  border: 0;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+}
+
+.combobox-field__clear:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.combobox-field__clear:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.combobox-field__clear[hidden] {
+  display: none;
+}

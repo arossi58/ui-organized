@@ -6,15 +6,23 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+export interface SelectProps<M extends boolean = false> {
+  /**
+   * Any number of choices: tags on one line with a "+N" for those that do not
+   * fit, and a button that clears them all. The list stays open while choosing.
+   * The component is generic on it, so `value` and `onValueChange` are typed
+   * `string` or `string[]` to match, and leaving it off keeps the single form.
+   * A ghost select is single only.
+   */
+  multiple?: M;
   /** Selectable options. */
   options: SelectOption[];
   /** Selected value. Bindable: `bind:value`. */
-  value?: string;
+  value?: M extends true ? string[] : string;
   /** Initial selected value for uncontrolled usage. */
-  defaultValue?: string;
+  defaultValue?: M extends true ? string[] : string;
   /** Callback fired when the selected value changes. */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: M extends true ? string[] : string) => void;
   /** Open state of the dropdown. Bindable: `bind:open`. */
   open?: boolean;
   /** Initial open state for uncontrolled usage. */
@@ -38,7 +46,7 @@ export interface SelectProps {
    * Visual variant. Defaults to 'default'. `'ghost'` renders a borderless,
    * label-less trigger that mirrors the ghost Button's color states.
    */
-  variant?: "default" | "ghost";
+  variant?: M extends true ? "default" : "default" | "ghost";
   /** Whether the select should ignore user interaction. */
   disabled?: boolean;
   /** Name attribute for form submission. */
@@ -52,4 +60,6 @@ export interface SelectProps {
    * so the popup inherits them instead of the document defaults.
    */
   portalContainer?: HTMLElement | null;
+  /** With `multiple`: the clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
 }

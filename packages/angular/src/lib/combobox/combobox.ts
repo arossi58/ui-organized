@@ -24,10 +24,17 @@ import {
   untracked,
   type Signal,
   afterNextRender,
+  afterRenderEffect,
 } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, comboboxFieldStyles, type ControlSize } from "@ui-organized/core";
+import {
+  CONTROL_ICON_SIZE,
+  comboboxFieldStyles,
+  measureTagRow,
+  tagStyles,
+  type ControlSize,
+} from "@ui-organized/core";
 import { UioPart, stateFlag } from "../part.js";
 import { nextMachineId } from "../part-ids.js";
 import { UioFieldContext } from "../field/field-context.js";
@@ -82,6 +89,14 @@ export interface ComboboxOption {
  * option. That is Ark's behaviour in all three other libraries, verified in the
  * browser, and it is not a bug in this port. Anything that "fixed" it here would
  * make Angular the odd one out.
+ *
+ * ── Multiple ────────────────────────────────────────────────────────────────
+ *
+ * `multiple` puts the chosen values on `values`, a model of its own, as
+ * tags before the text box. Picking toggles a value, clears the query and keeps
+ * the list open; Backspace in an empty box removes the last value. The text box
+ * holds the query, so the values are submitted as one hidden input each under
+ * `name`, and a multiple combobox is never `required`.
  *
  * ── The Angular-specific win ────────────────────────────────────────────────
  *
@@ -138,6 +153,30 @@ export interface ComboboxOption {
         [attr.data-invalid]="flag(invalid())"
         [attr.data-disabled]="flag(isDisabled())"
       >
+        @if (multiple() && chosenOptions().length) {
+          <!--
+            pointerdown is cancelled on each remove button so focus stays in the
+            text box, as zag does for its clear button.
+          -->
+          <div #tagRow class="combobox-field__tags">
+            @for (option of chosenOptions(); track option.value; let i = $index) {
+              <span [class]="TAG" data-tag="" [attr.data-overflowed]="i >= shown() ? '' : null"
+                ><span class="tag__label">{{ option.label }}</span
+                ><button
+                  type="button"
+                  class="tag__remove"
+                  tabindex="-1"
+                  [attr.aria-label]="'Remove ' + option.label"
+                  (pointerdown)="$event.preventDefault()"
+                  (click)="removeValue(option.value)"
+                ><span uioIcon [name]="glyph('close')" [size]="12"></span></button
+              ></span>
+            }
+            @if (more() > 0) {
+              <span [class]="TAG_MORE"><span class="tag__label">+{{ more() }}</span></span>
+            }
+          </div>
+        }
         <input
           class="field__control combobox-field__input"
           data-scope="combobox"
@@ -151,9 +190,9 @@ export interface ComboboxOption {
           aria-autocomplete="list"
           [id]="field.controlId"
           [value]="inputValue()"
-          [attr.placeholder]="placeholder()"
-          [attr.name]="name()"
-          [attr.required]="required() ? '' : null"
+          [attr.placeholder]="multiple() && values().length ? null : placeholder()"
+          [attr.name]="multiple() ? null : name()"
+          [attr.required]="!multiple() && required() ? '' : null"
           [disabled]="isDisabled()"
           [attr.aria-controls]="partId('content')"
           [attr.aria-expanded]="open() ? 'true' : 'false'"
@@ -167,6 +206,25 @@ export interface ComboboxOption {
           (focus)="focused.set(true)"
           (blur)="onInputBlur()"
         />
+        @if (multiple()) {
+          <button
+            class="combobox-field__clear"
+            data-scope="combobox"
+            data-part="clear-trigger"
+            type="button"
+            tabindex="-1"
+            [id]="partId('clear-btn')"
+            [attr.aria-label]="clearLabel()"
+            [attr.aria-controls]="field.controlId"
+            [attr.hidden]="values().length ? null : ''"
+            [attr.data-invalid]="flag(invalid())"
+            [disabled]="isDisabled()"
+            (pointerdown)="$event.preventDefault()"
+            (click)="clearAll()"
+          >
+            <span uioIcon [name]="glyph('close')" [size]="16"></span>
+          </button>
+        }
         <!--
           tabindex="-1": the input is the tab stop, and a second one beside it
           would make every combobox in a form take two Tabs to leave.
@@ -192,6 +250,11 @@ export interface ComboboxOption {
           <span uioIcon [name]="glyph('chevron-down')" [size]="iconSize()"></span>
         </button>
       </div>
+      @if (multiple() && name()) {
+        @for (v of values(); track v) {
+          <input type="hidden" [attr.name]="name()" [attr.value]="v" />
+        }
+      }
     </div>
     @if (helperVisible()) {
       <span
@@ -225,6 +288,7 @@ export interface ComboboxOption {
           [attr.data-placement]="anchored.placement()"
           [attr.data-side]="anchored.side()"
           [attr.aria-labelledby]="field.partId('label')"
+          [attr.aria-multiselectable]="multiple() ? 'true' : null"
           [attr.data-empty]="flag(!matches().length)"
           (pointerdown)="$event.preventDefault()"
         >
@@ -305,6 +369,12 @@ export class UioCombobox
   readonly name = input<string | undefined>(undefined);
   readonly required = input(false, { transform: booleanAttribute });
   readonly emptyMessage = input("No results found.");
+  /** Any number of choices. See "Multiple" in the class comment. */
+  readonly multiple = input(false, { transform: booleanAttribute });
+  /** With `multiple`: the chosen values. */
+  readonly values = model<string[]>([]);
+  /** With `multiple`: the clear-all button's accessible name. */
+  readonly clearLabel = input("Clear all");
   readonly valueChange = output<string>();
   readonly openChange = output<boolean>();
 
@@ -381,6 +451,21 @@ export class UioCombobox
     return this.options().find((option) => option.value === value)?.label;
   });
 
+  /** With `multiple`: the chosen options, in the order they were chosen. */
+  protected readonly chosenOptions = computed(() =>
+    this.values()
+      .map((v) => this.options().find((option) => option.value === v))
+      .filter((option): option is ComboboxOption => option != null),
+  );
+  /** How many tags fit on the line; null until there is layout to measure. */
+  private readonly fits = signal<number | null>(null);
+  protected readonly shown = computed(() => this.fits() ?? this.chosenOptions().length);
+  protected readonly more = computed(() => this.chosenOptions().length - this.shown());
+  protected readonly TAG = tagStyles({ variant: "neutral", size: "sm", appearance: "subtle" });
+  protected readonly TAG_MORE = clsx(this.TAG, "combobox-field__tag-more");
+  @ViewChild("tagRow") private tagRow?: ElementRef<HTMLElement>;
+  private tagObserver?: ResizeObserver;
+
   @ViewChild("surface", { static: true }) private surface!: TemplateRef<unknown>;
   @ViewChild("anchor", { read: ViewContainerRef, static: true }) private anchor!: ViewContainerRef;
 
@@ -448,6 +533,20 @@ export class UioCombobox
       this.open();
       untracked(() => this.sync());
     });
+    // Re-measure the tag row after the selection changes and whenever it resizes.
+    afterRenderEffect(() => {
+      this.chosenOptions();
+      const row = this.tagRow?.nativeElement;
+      this.tagObserver?.disconnect();
+      if (!row) return;
+      const measure = () =>
+        this.fits.set(measureTagRow(row, Number.parseFloat(getComputedStyle(row).columnGap) || 0));
+      measure();
+      if (typeof ResizeObserver === "undefined") return;
+      this.tagObserver = new ResizeObserver(measure);
+      this.tagObserver.observe(row);
+      for (const tag of row.querySelectorAll(":scope > [data-tag]")) this.tagObserver.observe(tag);
+    });
   }
 
   get comboboxId(): string {
@@ -483,6 +582,7 @@ export class UioCombobox
   }
 
   ngOnDestroy(): void {
+    this.tagObserver?.disconnect();
     removeLayer(this.layer);
     this.anchored.dispose();
   }
@@ -498,7 +598,7 @@ export class UioCombobox
   }
 
   protected isChosen(value: string): boolean {
-    return this.value() === value;
+    return this.multiple() ? this.values().includes(value) : this.value() === value;
   }
 
   protected highlight(option: ComboboxOption): void {
@@ -508,11 +608,43 @@ export class UioCombobox
 
   protected choose(option: ComboboxOption): void {
     if (option.disabled) return;
+    if (this.multiple()) {
+      // Toggles, clears the query and keeps the list open: zag's
+      // selectionBehavior "clear" with closeOnSelect off.
+      const current = this.values();
+      this.inputValue.set("");
+      this.setValues(
+        current.includes(option.value)
+          ? current.filter((v) => v !== option.value)
+          : [...current, option.value],
+      );
+      this.refresh();
+      return;
+    }
     this.value.set(option.value);
     this.inputValue.set(option.label);
     this.valueChange.emit(option.value);
     this.onChange(option.value);
     this.close();
+  }
+
+  protected removeValue(value: string): void {
+    this.setValues(this.values().filter((v) => v !== value));
+    if (this.open()) this.refresh();
+  }
+
+  /** zag's VALUE.CLEAR: empties the box and the values, closes, focuses the box. */
+  protected clearAll(): void {
+    this.inputValue.set("");
+    this.setValues([]);
+    this.close();
+    this.inputElement()?.focus({ preventScroll: true });
+  }
+
+  private setValues(next: string[]): void {
+    this.values.set(next);
+    this.onChange(next);
+    flushNow(this.appRef);
   }
 
   /**
@@ -589,6 +721,13 @@ export class UioCombobox
         if (!this.open()) return;
         event.preventDefault();
         return this.close();
+      }
+      case "Backspace": {
+        // Ours, not zag's: an empty box gives Backspace nothing to delete, so it
+        // removes the last value instead. React, Svelte and Vue do the same.
+        const last = this.values()[this.values().length - 1];
+        if (!this.multiple() || this.inputValue() !== "" || last == null) return;
+        return this.removeValue(last);
       }
       default:
         return;
@@ -673,7 +812,13 @@ export class UioCombobox
     if (!ref) return;
     // Ark opens on the current selection when there is one, and on nothing when
     // there is not — which is why a fresh combobox reports no active descendant.
-    this.highlightedValue.set(this.value() ?? null);
+    // With multiple, zag's highlightFirstSelectedItem: the first chosen value
+    // in list order, not in the order it was chosen.
+    this.highlightedValue.set(
+      this.multiple()
+        ? (this.matches().find((option) => this.values().includes(option.value))?.value ?? null)
+        : (this.value() ?? null),
+    );
     this.surfaceView?.detectChanges();
     this.sizeToControl();
     this.anchored.reposition();
@@ -713,12 +858,14 @@ export class UioCombobox
   }
 
   protected onTouched: () => void = () => {};
-  private onChange: (value: string) => void = () => {};
+  private onChange: (value: string | string[]) => void = () => {};
 
-  writeValue(value: string | null): void {
-    this.value.set(value ?? undefined);
+  /** A string, or with `multiple` an array of them. */
+  writeValue(value: string | string[] | null): void {
+    if (this.multiple()) this.values.set(Array.isArray(value) ? value : []);
+    else this.value.set((value as string | null) ?? undefined);
   }
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string | string[]) => void): void {
     this.onChange = fn;
   }
   registerOnTouched(fn: () => void): void {
