@@ -115,3 +115,93 @@
   background-color: var(--color-status-error-bg);
   color: var(--color-status-error-content);
 }
+
+/* ─── Brand and neutral ───────────────────────────────────────────────────────
+   Solid brand is the primary fill with the one label chosen against it by
+   contrast. Subtle brand is the FeaturedIcon pair, derived rather than a token
+   (a new token is one older exported themes lack, and react-vite fails the
+   build on a missing token): the fill at 12% over the surface, and the fill
+   mixed halfway toward the primary text colour, at least 6.1:1 for every brand
+   colour on every surface in both modes. Neutral is the content grey, inverted
+   for solid. */
+.tag--brand {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+.tag--neutral {
+  background-color: var(--color-content-secondary);
+  color: var(--color-content-inverse);
+}
+
+.tag--subdued.tag--brand {
+  background-color: color-mix(in srgb, var(--color-interactive-primary-default) 12%, transparent);
+  color: color-mix(in oklab, var(--color-interactive-primary-default) 50%, var(--color-content-primary));
+}
+
+.tag--subdued.tag--neutral {
+  background-color: var(--color-interactive-secondary-default);
+  color: var(--color-content-secondary);
+}
+
+/* ─── Outline ─────────────────────────────────────────────────────────────────
+   Subdued plus a ring in the label's own colour. Inset, so an outline tag is
+   the same size as a solid one beside it. */
+.tag--outline {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 40%, transparent);
+}
+
+/* ─── Pill ────────────────────────────────────────────────────────────────── */
+.tag--pill {
+  border-radius: var(--radius-status);
+}
+
+/* sm has almost no inline padding as a square; a pill needs the room or its
+   rounded ends crowd the label. */
+.tag--pill.tag--sm {
+  padding-inline: var(--spacing-space-02);
+}
+
+/* ─── Dot ─────────────────────────────────────────────────────────────────── */
+.tag__dot {
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--border-radius-full);
+  background-color: currentColor;
+}
+
+/* ─── Remove ──────────────────────────────────────────────────────────────────
+   A sibling of the label, never inside it, as on Chip. It takes the label's
+   colour and shows a faint fill of it on hover, so it reads on every variant
+   and appearance without a colour table of its own. */
+.tag__remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  margin-inline-end: calc(var(--spacing-space-005) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: var(--border-radius-01);
+  background: none;
+  color: inherit;
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.tag__remove:hover {
+  opacity: 1;
+  background-color: color-mix(in srgb, currentColor 16%, transparent);
+}
+
+.tag__remove:focus-visible {
+  opacity: 1;
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+

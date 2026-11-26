@@ -260,7 +260,7 @@ describe("scanAngular — signal inputs, through the type checker", async () => 
     // met each literal anywhere in the program, so a new component that uses
     // "caution" earlier reorders Tag's union without changing it.
     expect(variant.type.split(" | ").sort()).toEqual(
-      ['"caution"', '"error"', '"info"', '"info-secondary"', '"success"'],
+      ['"brand"', '"caution"', '"error"', '"info"', '"info-secondary"', '"neutral"', '"success"'],
     );
     expect(variant.defaultValue).toBe("success");
     const intent = byName("UioButton")!.props.find((p) => p.name === "intent")!;

@@ -122,6 +122,9 @@ export type {
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps, TagVariants } from "./components/Tag/index.js";
 
+export { TagGroup } from "./components/TagGroup/index.js";
+export type { TagGroupProps, TagGroupVariants } from "./components/TagGroup/index.js";
+
 export { Chip, ChipSegment } from "./components/Chip/index.js";
 export type { ChipProps, ChipSegmentPart, ChipSegmentProps } from "./components/Chip/index.js";
 

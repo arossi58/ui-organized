@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T16:11:31.744Z",
+  "generatedAt": "2026-11-25T16:39:17.646Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -165,7 +165,8 @@
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
     "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
-    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:a7b5818327447e8e",
+    "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:6a954f4503203af3",
+    "packages/react/src/components/TagGroup/TagGroup.types.ts::TagGroup": "sha256:199676f8d2d2a85f",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
     "packages/react/src/components/TextArea/TextArea.types.ts::TextArea": "sha256:44fdc445b5e5ca23",
     "packages/react/src/components/Timer/Timer.types.ts::Timer": "sha256:d64df2ef063762e0",
@@ -5470,15 +5471,27 @@
     ],
     "packages/react/src/components/Tag/Tag.types.ts::Tag": [
       {
+        "name": "appearance",
+        "type": "\"solid\" | \"subtle\" | \"outline\"",
+        "required": false,
+        "description": "`solid` (the default) is the full colour with a label that reads on it, `subtle` a tint with the colour's content tone, `outline` the tint with a ring."
+      },
+      {
         "name": "children",
         "type": "React.ReactNode",
         "required": false
       },
       {
+        "name": "dot",
+        "type": "boolean",
+        "required": false,
+        "description": "A leading dot in the label's colour, for a status read at a glance."
+      },
+      {
         "name": "emphasized",
         "type": "boolean",
         "required": false,
-        "description": "When true (default), renders a solid filled tag with high-contrast text."
+        "description": "`appearance=\"subtle\"`; `appearance` wins when both are given."
       },
       {
         "name": "icon",
@@ -5494,6 +5507,24 @@
         "description": "Which side of the label the icon sits on."
       },
       {
+        "name": "onRemove",
+        "type": "(event: React.MouseEvent<HTMLButtonElement>) => void",
+        "required": false,
+        "description": "Renders a remove button after the label and calls this when it is pressed."
+      },
+      {
+        "name": "removeLabel",
+        "type": "string",
+        "required": false,
+        "description": "The remove button's accessible name, naming what it removes: \"Remove Design\"."
+      },
+      {
+        "name": "shape",
+        "type": "\"square\" | \"pill\"",
+        "required": false,
+        "description": "`square` (the default, a 4px radius) or `pill`."
+      },
+      {
         "name": "size",
         "type": "\"sm\" | \"md\" | \"lg\"",
         "required": false,
@@ -5502,9 +5533,70 @@
       },
       {
         "name": "variant",
-        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\"",
+        "type": "\"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\" | \"brand\" | \"neutral\"",
         "required": false,
-        "description": "Status color variant."
+        "defaultValue": "success",
+        "description": "Colour: a status, or `brand` (follows the theme) or `neutral`."
+      }
+    ],
+    "packages/react/src/components/TagGroup/TagGroup.types.ts::TagGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The message beside it."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "Renders the whole pill as a real `<a>`, with a trailing chevron."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "defaultValue": "a",
+        "description": "A trailing icon."
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "description": "Passed to the anchor when `href` is set."
+      },
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "`md` (12px text) or `lg` (14px)."
+      },
+      {
+        "name": "tag",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The short label in the inner pill: \"New\", \"Beta\", \"v6.2\"."
+      },
+      {
+        "name": "tagPosition",
+        "type": "\"leading\" | \"trailing\"",
+        "required": false,
+        "defaultValue": "leading",
+        "description": "Whether the tag comes before the message or after it."
+      },
+      {
+        "name": "target",
+        "type": "React.HTMLAttributeAnchorTarget",
+        "required": false,
+        "description": "Passed to the anchor when `href` is set."
+      },
+      {
+        "name": "variant",
+        "type": "\"brand\" | \"neutral\" | \"success\" | \"info\" | \"info-secondary\" | \"caution\" | \"error\"",
+        "required": false,
+        "defaultValue": "brand",
+        "description": "Colour of the pill and its tag."
       }
     ],
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": [

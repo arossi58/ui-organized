@@ -8,6 +8,7 @@
  * started reading a new token — which is the exact class of bug this page
  * documents (see the header of `packages/core/src/contract.ts`).
  */
+import { Tag } from "@ui-organized/react";
 import { Link } from "react-router-dom";
 import { type DocFramework } from "@ui-organized/code-connect/browser";
 import { getAuthoredFamily, getCoreFamily, relativeLuminance } from "@ui-organized/utils";
@@ -408,9 +409,9 @@ export function ThemingPage() {
                     <td>
                       <span className={styles.propName}>{family.label}</span>
                       {!family.themeable && (
-                        <span className={styles.badge} data-tone="info">
+                        <Tag variant="info" appearance="outline" shape="pill" size="sm">
                           constant
-                        </span>
+                        </Tag>
                       )}
                     </td>
                     <td>{countFor(family.prefix)}</td>

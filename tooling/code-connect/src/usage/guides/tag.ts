@@ -39,15 +39,20 @@ export const tagUsage: UsageGuide = {
       example: "consistent-variants",
     },
     {
-      do: "Keep one emphasis level within a list, so the tags rank equally.",
-      dont: "Mix emphasised and subdued tags in one column, implying a hierarchy that isn't there.",
+      do: "Keep one `appearance` within a list, so the tags rank equally.",
+      dont: "Mix solid and subtle tags in one column, implying a hierarchy that isn't there.",
       example: "one-emphasis",
+    },
+    {
+      do: "Name what a remove button removes with `removeLabel`: Remove Design.",
+      dont: "Leave it as a bare cross, which a screen reader announces as an unnamed button.",
     },
   ],
   accessibility: [
     "A tag is read as plain text, so the word has to carry the meaning the color repeats.",
-    "Emphasised tags are the palette's tightest pairing: check contrast before restyling them.",
+    "Solid tags are the palette's tightest pairing: check contrast before restyling them.",
     "Nothing announces a tag as a status, so where the state is critical put it in the row's own text too.",
+    "The dot is decorative and hidden from assistive technology, so the label still has to say the state.",
   ],
   content: [
     "Name the state, not the event: Failed, not A failure occurred.",
@@ -57,5 +62,6 @@ export const tagUsage: UsageGuide = {
     { slug: "alert", when: "the state needs explaining rather than naming." },
     { slug: "button", when: "the label is something you can act on." },
     { slug: "avatar", when: "the label identifies a person or entity." },
+    { slug: "tag-group", when: "a short tag introduces a message, as in an announcement above a heading." },
   ],
 };

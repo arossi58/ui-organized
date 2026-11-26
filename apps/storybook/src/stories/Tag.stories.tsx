@@ -20,13 +20,15 @@ const meta: Meta<typeof Tag> = {
   argTypes: {
     variant: {
       control: "select",
-      options: VARIANTS,
+      options: [...VARIANTS, "brand", "neutral"],
     },
     size: {
       control: "select",
       options: SIZES,
     },
-    emphasized: { control: "boolean" },
+    appearance: { control: "select", options: ["solid", "subtle", "outline"] },
+    shape: { control: "select", options: ["square", "pill"] },
+    dot: { control: "boolean" },
     icon: {
       control: "select",
       options: [undefined, "circle-check-big", "info", "clock", "triangle-alert", "x"],
@@ -48,7 +50,7 @@ export const Inspect: Story = {
     children: "Status",
     variant: "success",
     size: "md",
-    emphasized: true,
+    appearance: "solid",
     icon: "circle-check-big",
     iconPosition: "left",
   },
@@ -65,7 +67,7 @@ export const WithIcons: Story = {
 <Tag variant="error" icon="triangle-alert">Failed</Tag>
 
 {/* Trailing icon (e.g. a removable tag) */}
-<Tag variant="info" emphasized={false} icon="x" iconPosition="right">Dismiss</Tag>
+<Tag variant="info" appearance="subtle" icon="x" iconPosition="right">Dismiss</Tag>
 `.trim(),
       },
     },
@@ -79,10 +81,10 @@ export const WithIcons: Story = {
         <Tag variant="error" icon="triangle-alert">Failed</Tag>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
-        <Tag variant="success" emphasized={false} icon="circle-check-big">Complete</Tag>
-        <Tag variant="info" emphasized={false} icon="info">Info</Tag>
-        <Tag variant="caution" emphasized={false} icon="clock">Pending</Tag>
-        <Tag variant="info" emphasized={false} icon="x" iconPosition="right">Dismiss</Tag>
+        <Tag variant="success" appearance="subtle" icon="circle-check-big">Complete</Tag>
+        <Tag variant="info" appearance="subtle" icon="info">Info</Tag>
+        <Tag variant="caution" appearance="subtle" icon="clock">Pending</Tag>
+        <Tag variant="info" appearance="subtle" icon="x" iconPosition="right">Dismiss</Tag>
       </div>
     </div>
   ),
@@ -119,11 +121,11 @@ export const Emphasized: Story = {
     docs: {
       source: {
         code: `
-<Tag variant="success" emphasized>success</Tag>
-<Tag variant="info" emphasized>info</Tag>
-<Tag variant="info-secondary" emphasized>info-secondary</Tag>
-<Tag variant="caution" emphasized>caution</Tag>
-<Tag variant="error" emphasized>error</Tag>
+<Tag variant="success" appearance="solid">success</Tag>
+<Tag variant="info" appearance="solid">info</Tag>
+<Tag variant="info-secondary" appearance="solid">info-secondary</Tag>
+<Tag variant="caution" appearance="solid">caution</Tag>
+<Tag variant="error" appearance="solid">error</Tag>
 `.trim(),
       },
     },
@@ -131,7 +133,7 @@ export const Emphasized: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
       {VARIANTS.map((variant) => (
-        <Tag key={variant} variant={variant} emphasized>
+        <Tag key={variant} variant={variant} appearance="solid">
           {variant}
         </Tag>
       ))}
@@ -144,11 +146,11 @@ export const Subdued: Story = {
     docs: {
       source: {
         code: `
-<Tag variant="success" emphasized={false}>success</Tag>
-<Tag variant="info" emphasized={false}>info</Tag>
-<Tag variant="info-secondary" emphasized={false}>info-secondary</Tag>
-<Tag variant="caution" emphasized={false}>caution</Tag>
-<Tag variant="error" emphasized={false}>error</Tag>
+<Tag variant="success" appearance="subtle">success</Tag>
+<Tag variant="info" appearance="subtle">info</Tag>
+<Tag variant="info-secondary" appearance="subtle">info-secondary</Tag>
+<Tag variant="caution" appearance="subtle">caution</Tag>
+<Tag variant="error" appearance="subtle">error</Tag>
 `.trim(),
       },
     },
@@ -156,7 +158,7 @@ export const Subdued: Story = {
   render: () => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
       {VARIANTS.map((variant) => (
-        <Tag key={variant} variant={variant} emphasized={false}>
+        <Tag key={variant} variant={variant} appearance="subtle">
           {variant}
         </Tag>
       ))}
@@ -195,12 +197,12 @@ export const AllVariantsGrid: Story = {
 {SIZES.map((size) => (
   <React.Fragment key={size}>
     {VARIANTS.map((variant) => (
-      <Tag key={variant} variant={variant} size={size} emphasized>
+      <Tag key={variant} variant={variant} size={size} appearance="solid">
         {variant}
       </Tag>
     ))}
     {VARIANTS.map((variant) => (
-      <Tag key={variant} variant={variant} size={size} emphasized={false}>
+      <Tag key={variant} variant={variant} size={size} appearance="subtle">
         {variant}
       </Tag>
     ))}
@@ -216,14 +218,14 @@ export const AllVariantsGrid: Story = {
         <div key={size} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
             {VARIANTS.map((variant) => (
-              <Tag key={variant} variant={variant} size={size} emphasized>
+              <Tag key={variant} variant={variant} size={size} appearance="solid">
                 {variant}
               </Tag>
             ))}
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
             {VARIANTS.map((variant) => (
-              <Tag key={variant} variant={variant} size={size} emphasized={false}>
+              <Tag key={variant} variant={variant} size={size} appearance="subtle">
                 {variant}
               </Tag>
             ))}
@@ -233,3 +235,98 @@ export const AllVariantsGrid: Story = {
     </div>
   ),
 };
+
+const ALL_COLORS = [...VARIANTS, "brand", "neutral"] as const;
+
+/** `brand` follows the theme's primary colour; `neutral` is the content grey. */
+export const BrandAndNeutral: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Tag variant="brand">Brand</Tag>
+<Tag variant="brand" appearance="subtle">Brand</Tag>
+<Tag variant="neutral">Neutral</Tag>
+<Tag variant="neutral" appearance="subtle">Neutral</Tag>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+      <Tag variant="brand">Brand</Tag>
+      <Tag variant="brand" appearance="subtle">Brand</Tag>
+      <Tag variant="neutral">Neutral</Tag>
+      <Tag variant="neutral" appearance="subtle">Neutral</Tag>
+    </div>
+  ),
+};
+
+/** Every colour in every appearance: `solid`, `subtle` and `outline`. */
+export const Appearances: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+      {(["solid", "subtle", "outline"] as const).map((appearance) => (
+        <div key={appearance} style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+          {ALL_COLORS.map((variant) => (
+            <Tag key={variant} variant={variant} appearance={appearance}>
+              {variant}
+            </Tag>
+          ))}
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/** Pill shape with a status dot: the badge a status column or a card header uses. */
+export const PillWithDot: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Tag shape="pill" appearance="outline" variant="success" dot>Active</Tag>
+<Tag shape="pill" appearance="outline" variant="caution" dot>Paused</Tag>
+<Tag shape="pill" appearance="outline" variant="neutral" dot>Archived</Tag>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <div key={size} style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <Tag size={size} shape="pill" appearance="outline" variant="success" dot>Active</Tag>
+          <Tag size={size} shape="pill" appearance="outline" variant="caution" dot>Paused</Tag>
+          <Tag size={size} shape="pill" appearance="outline" variant="neutral" dot>Archived</Tag>
+        </div>
+      ))}
+    </div>
+  ),
+};
+
+/** `onRemove` adds a remove button after the label; `removeLabel` names it. */
+export const Removable: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Tag variant="neutral" appearance="subtle" onRemove={() => {}} removeLabel="Remove Design">Design</Tag>
+<Tag variant="brand" appearance="subtle" shape="pill" onRemove={() => {}} removeLabel="Remove Research">Research</Tag>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
+      <Tag variant="neutral" appearance="subtle" onRemove={() => {}} removeLabel="Remove Design">Design</Tag>
+      <Tag variant="brand" appearance="subtle" shape="pill" onRemove={() => {}} removeLabel="Remove Research">
+        Research
+      </Tag>
+      <Tag variant="info" appearance="outline" size="lg" onRemove={() => {}} removeLabel="Remove Engineering">
+        Engineering
+      </Tag>
+    </div>
+  ),
+};
+

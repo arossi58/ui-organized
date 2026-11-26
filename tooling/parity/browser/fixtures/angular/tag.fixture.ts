@@ -11,9 +11,14 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       uioTag
       [variant]="p['variant'] ?? 'success'"
       [size]="p['size'] ?? 'md'"
+      [appearance]="p['appearance']"
       [emphasized]="p['emphasized'] ?? true"
+      [shape]="p['shape'] ?? 'square'"
+      [dot]="!!p['dot']"
       [icon]="p['icon']"
       [iconPosition]="p['iconPosition'] ?? 'left'"
+      [removable]="!!p['removable']"
+      [removeLabel]="p['removeLabel']"
     >Label</span>
   `,
 })

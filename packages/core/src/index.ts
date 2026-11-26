@@ -197,8 +197,16 @@ export type { StepsVariants } from "./components/Steps/Steps.styles.js";
 export { switchBaseClass } from "./components/Switch/Switch.styles.js";
 export { tabsStyles } from "./components/Tabs/Tabs.styles.js";
 export type { TabsVariants } from "./components/Tabs/Tabs.styles.js";
-export { tagStyles } from "./components/Tag/Tag.styles.js";
+export { tagStyles, resolveTagAppearance, type TagAppearance } from "./components/Tag/Tag.styles.js";
 export type { TagVariants } from "./components/Tag/Tag.styles.js";
+export {
+  tagGroupStyles,
+  TAG_GROUP_TAG_SIZE,
+  TAG_GROUP_TEXT_CLASS,
+  TAG_GROUP_ICON_SIZE,
+  type TagGroupSize,
+} from "./components/TagGroup/TagGroup.styles.js";
+export type { TagGroupVariants } from "./components/TagGroup/TagGroup.styles.js";
 export { tagsInputStyles } from "./components/TagsInput/TagsInput.styles.js";
 export type { TagsInputVariants } from "./components/TagsInput/TagsInput.styles.js";
 export { textAreaFieldStyles } from "./components/TextArea/TextArea.styles.js";

@@ -202,6 +202,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Switch",
   "Tabs",
   "Tag",
+  "TagGroup",
   "TagsInput",
   "TextArea",
   "Timer",

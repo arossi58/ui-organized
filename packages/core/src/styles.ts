@@ -32,6 +32,7 @@ import "./components/Switch/Switch.css";
 import "./components/Range/Range.css";
 import "./components/Card/Card.css";
 import "./components/Tag/Tag.css";
+import "./components/TagGroup/TagGroup.css";
 import "./components/Chip/Chip.css";
 import "./components/Alert/Alert.css";
 import "./components/Tabs/Tabs.css";
