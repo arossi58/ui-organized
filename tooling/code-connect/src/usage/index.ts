@@ -45,6 +45,7 @@ import { descriptionListUsage } from "./guides/description-list.js";
 import { statUsage } from "./guides/stat.js";
 import { itemUsage } from "./guides/item.js";
 import { codeBlockUsage } from "./guides/code-block.js";
+import { drawerUsage } from "./guides/drawer.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -138,6 +139,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   stat: statUsage,
   item: itemUsage,
   "code-block": codeBlockUsage,
+  drawer: drawerUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

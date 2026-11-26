@@ -42,6 +42,7 @@ export const COMPONENT_SLUGS = [
   "description-list",
   "dialog",
   "divider",
+  "drawer",
   "editable",
   "empty-state",
   "featured-icon",

@@ -384,3 +384,22 @@ export { Item, ItemGroup } from "./components/Item/index.js";
 export type { ItemProps, ItemGroupProps } from "./components/Item/index.js";
 export { CodeBlock } from "./components/CodeBlock/index.js";
 export type { CodeBlockProps } from "./components/CodeBlock/index.js";
+export {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+  DrawerFooter,
+} from "./components/Drawer/index.js";
+export type {
+  DrawerProps,
+  DrawerTriggerProps,
+  DrawerContentProps,
+  DrawerTitleProps,
+  DrawerDescriptionProps,
+  DrawerCloseProps,
+  DrawerFooterProps,
+  DrawerPropsFn,
+} from "./components/Drawer/index.js";

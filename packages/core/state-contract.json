@@ -573,6 +573,28 @@
       ],
       "runtime": []
     },
+    "Drawer": {
+      "attributes": {
+        "data-dragging": [],
+        "data-state": [
+          "closed",
+          "open"
+        ],
+        "hidden": []
+      },
+      "classes": [
+        "drawer__backdrop",
+        "drawer__footer",
+        "drawer__grabber",
+        "drawer__grabber-indicator",
+        "drawer__popup",
+        "drawer__positioner"
+      ],
+      "runtime": [
+        "--drawer-swipe-progress",
+        "--drawer-swipe-strength"
+      ]
+    },
     "Editable": {
       "attributes": {
         "data-disabled": [],

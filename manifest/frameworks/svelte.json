@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T13:45:39.535Z",
+  "generatedAt": "2026-11-26T15:10:27.777Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4555,6 +4555,241 @@
       "usageSnippet": "<Divider />",
       "propSignatureHash": "sha256:37b4682c68caeacb",
       "lastSyncedAt": "2026-11-25T20:10:02.442Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Drawer",
+      "codeName": "Drawer",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { Drawer } from '@ui-organized/svelte';",
+      "reactName": "Drawer",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes, including a swipe that closes it."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Open state."
+        }
+      ],
+      "usageSnippet": "<Drawer>…</Drawer>",
+      "propSignatureHash": "sha256:d1425eb43f529a50",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerClose",
+      "codeName": "DrawerClose",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerClose } from '@ui-organized/svelte';",
+      "reactName": "DrawerClose",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "Snippet<[DrawerPropsFn]>",
+          "required": false,
+          "description": "Project the close control onto a custom element."
+        },
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerClose>…</DrawerClose>",
+      "propSignatureHash": "sha256:fac5a49d3d4a259c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerContent",
+      "codeName": "DrawerContent",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerContent } from '@ui-organized/svelte';",
+      "reactName": "DrawerContent",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "container",
+          "type": "HTMLElement | null",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether a press on the content can drag the panel."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "A close (x) button in the top-right corner."
+        },
+        {
+          "name": "showGrabber",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "The handle along the top edge, which always drags."
+        }
+      ],
+      "usageSnippet": "<DrawerContent>…</DrawerContent>",
+      "propSignatureHash": "sha256:a4bf4e65328ec948",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerDescription",
+      "codeName": "DrawerDescription",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerDescription } from '@ui-organized/svelte';",
+      "reactName": "DrawerDescription",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerDescription>…</DrawerDescription>",
+      "propSignatureHash": "sha256:9d95fa82b8ff9b63",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerFooter",
+      "codeName": "DrawerFooter",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerFooter } from '@ui-organized/svelte';",
+      "reactName": "DrawerFooter",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerFooter>…</DrawerFooter>",
+      "propSignatureHash": "sha256:9d95fa82b8ff9b63",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTitle",
+      "codeName": "DrawerTitle",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerTitle } from '@ui-organized/svelte';",
+      "reactName": "DrawerTitle",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerTitle>…</DrawerTitle>",
+      "propSignatureHash": "sha256:9d95fa82b8ff9b63",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTrigger",
+      "codeName": "DrawerTrigger",
+      "codePath": "packages/svelte/src/lib/components/Drawer/Drawer.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DrawerTrigger } from '@ui-organized/svelte';",
+      "reactName": "DrawerTrigger",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "Snippet<[DrawerPropsFn]>",
+          "required": false,
+          "description": "Project the trigger onto a custom element instead of rendering a button."
+        },
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerTrigger>…</DrawerTrigger>",
+      "propSignatureHash": "sha256:fac5a49d3d4a259c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
       "status": "draft"
     },
     {

@@ -535,3 +535,11 @@ export {
   type CodeHighlighter,
   type CodeLineSpec,
 } from "./lib/code-block/code-block.js";
+export {
+  UioDrawer,
+  UioDrawerTrigger,
+  UioDrawerTitle,
+  UioDrawerDescription,
+  UioDrawerFooter,
+  UioDrawerClose,
+} from "./lib/drawer/drawer.js";

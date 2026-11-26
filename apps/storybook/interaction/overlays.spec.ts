@@ -7,7 +7,7 @@ import {
 } from "../shared/interaction";
 
 /**
- * Anchored and modal overlays: Dialog, AlertDialog, Popover, Menu, Tooltip.
+ * Anchored and modal overlays: Dialog, AlertDialog, Popover, Menu, Tooltip, Drawer.
  *
  * These are the components the visual gate structurally cannot cover — Ark
  * portals their content to <body>, outside the `#storybook-root` element the
@@ -151,4 +151,95 @@ test.describe("Tooltip", () => {
     // users — WCAG 1.4.13 exists precisely because this is such a common miss.
     await expect(page.locator(part("tooltip", "content")).first()).toBeVisible();
   });
+});
+
+// ── Drawer ───────────────────────────────────────────────────────────────────
+test.describe("Drawer", () => {
+  const trigger = part("drawer", "trigger");
+  const content = part("drawer", "content");
+  const grabber = part("drawer", "grabber");
+
+  /** Open, focused, and done sliding in, so a press lands where the panel rests. */
+  async function openSettled(page: import("@playwright/test").Page) {
+    await page.click(trigger);
+    await expectSettledOpen(page, content);
+    await expectFocusWithin(page, content);
+    await page.waitForFunction(
+      (sel) =>
+        (document.querySelector(sel)?.getAnimations() ?? []).every(
+          (a) => a.playState !== "running",
+        ),
+      content,
+    );
+  }
+
+  /** Press `selector`'s centre, move `dy` down in steps, hold so there is no fling, and let go. */
+  async function drag(page: import("@playwright/test").Page, selector: string, dy: number) {
+    const box = await page.locator(selector).first().boundingBox();
+    if (!box) throw new Error(`${selector} has no box`);
+    const x = box.x + box.width / 2;
+    const y = box.y + box.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    // Paced, as a hand moves: zag reads a stopped pointer's speed off the whole
+    // gesture, so twelve instant moves would read as a fling and close the
+    // panel from a short drag.
+    for (let i = 1; i <= 12; i++) {
+      await page.mouse.move(x, y + (dy * i) / 12);
+      await page.waitForTimeout(16);
+    }
+    await page.waitForTimeout(120);
+    await page.mouse.up();
+  }
+
+  storyTest(
+    "components-overlay-drawer--inspect",
+    "closes on Escape and returns focus",
+    async (page) => {
+      await openSettled(page);
+      await page.keyboard.press("Escape");
+      await expect(page.locator(content)).toBeHidden();
+      await expect(page.locator(trigger)).toBeFocused();
+    },
+  );
+
+  storyTest(
+    "components-overlay-drawer--inspect",
+    "closes when swiped down past halfway",
+    async (page) => {
+      await openSettled(page);
+      // 150px of a ~175px panel: past halfway, and still inside the viewport, which
+      // matters: Firefox reports a pointer dragged off the bottom of the window
+      // with nonsense coordinates.
+      await drag(page, grabber, 150);
+      await expect(page.locator(content)).toBeHidden();
+      await expect(page.locator(trigger)).toHaveAttribute("aria-expanded", "false");
+    },
+  );
+
+  storyTest(
+    "components-overlay-drawer--inspect",
+    "springs back from a short drag",
+    async (page) => {
+      await openSettled(page);
+      await drag(page, grabber, 30);
+      const panel = page.locator(content);
+      await expect(panel).toHaveAttribute("data-state", "open");
+      await expect(panel).not.toHaveAttribute("data-swiping", /.*/);
+      await expect(panel).toBeVisible();
+    },
+  );
+
+  storyTest(
+    "components-overlay-drawer--long-content",
+    "scrolls rather than drags once scrolled down",
+    async (page) => {
+      await openSettled(page);
+      const panel = page.locator(content);
+      await panel.evaluate((el) => el.scrollTo({ top: 200 }));
+      // A drag down on the scrolled content is the reader scrolling back up.
+      await drag(page, `${content} p:nth-of-type(8)`, 120);
+      await expect(panel).toHaveAttribute("data-state", "open");
+    },
+  );
 });

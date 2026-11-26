@@ -1,5 +1,7 @@
 {
-  "components": {},
+  "components": {
+    "Drawer": "DrawerContent"
+  },
   "figmaOnly": [
     "Toast"
   ],

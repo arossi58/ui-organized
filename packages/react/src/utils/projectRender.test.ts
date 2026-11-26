@@ -81,7 +81,7 @@ describe("every render-prop trigger routes through projectRender", () => {
     expect(offenders, "use projectRender(render, children, name) instead").toEqual([]);
   });
 
-  it("covers all ten known triggers", () => {
+  it("covers all twelve known triggers", () => {
     const found = tsxFiles()
       .flatMap((f) => [
         ...readFileSync(f, "utf8").matchAll(/projectRender\(render, children, "(\w+)"\)/g),
@@ -92,6 +92,8 @@ describe("every render-prop trigger routes through projectRender", () => {
       "AlertDialogTrigger",
       "DialogClose",
       "DialogTrigger",
+      "DrawerClose",
+      "DrawerTrigger",
       "FloatingPanelTrigger",
       "HoverCardTrigger",
       "MenuTrigger",

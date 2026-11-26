@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T13:45:39.535Z",
+  "generatedAt": "2026-11-26T15:10:27.777Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3999,6 +3999,164 @@
       "usageSnippet": "<Divider>…</Divider>",
       "propSignatureHash": "sha256:61b596398a2dcd45",
       "lastSyncedAt": "2026-11-25T20:10:02.442Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Drawer",
+      "codeName": "Drawer",
+      "codePath": "packages/vue/src/components/Drawer/Drawer.types.ts",
+      "framework": "vue",
+      "importStatement": "import { Drawer } from '@ui-organized/vue';",
+      "reactName": "Drawer",
+      "props": [
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Open state."
+        }
+      ],
+      "usageSnippet": "<Drawer>…</Drawer>",
+      "propSignatureHash": "sha256:b089c879ca5707c9",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerContent",
+      "codeName": "DrawerContent",
+      "codePath": "packages/vue/src/components/Drawer/Drawer.types.ts",
+      "framework": "vue",
+      "importStatement": "import { DrawerContent } from '@ui-organized/vue';",
+      "reactName": "DrawerContent",
+      "props": [
+        {
+          "name": "container",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to teleport into."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether a press on the content can drag the panel."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "A close (x) button in the top-right corner."
+        },
+        {
+          "name": "showGrabber",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "The handle along the top edge, which always drags."
+        }
+      ],
+      "usageSnippet": "<DrawerContent>…</DrawerContent>",
+      "propSignatureHash": "sha256:e6d7acfaedadfb43",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerClose",
+      "codeName": "DrawerClose",
+      "codePath": "packages/vue/src/components/Drawer/DrawerClose.vue",
+      "framework": "vue",
+      "importStatement": "import { DrawerClose } from '@ui-organized/vue';",
+      "reactName": "DrawerClose",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerClose>…</DrawerClose>",
+      "propSignatureHash": "sha256:1f48d4bbd38e0d79",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerDescription",
+      "codeName": "DrawerDescription",
+      "codePath": "packages/vue/src/components/Drawer/DrawerDescription.vue",
+      "framework": "vue",
+      "importStatement": "import { DrawerDescription } from '@ui-organized/vue';",
+      "reactName": "DrawerDescription",
+      "props": [],
+      "usageSnippet": "<DrawerDescription>…</DrawerDescription>",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerFooter",
+      "codeName": "DrawerFooter",
+      "codePath": "packages/vue/src/components/Drawer/DrawerFooter.vue",
+      "framework": "vue",
+      "importStatement": "import { DrawerFooter } from '@ui-organized/vue';",
+      "reactName": "DrawerFooter",
+      "props": [],
+      "usageSnippet": "<DrawerFooter>…</DrawerFooter>",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTitle",
+      "codeName": "DrawerTitle",
+      "codePath": "packages/vue/src/components/Drawer/DrawerTitle.vue",
+      "framework": "vue",
+      "importStatement": "import { DrawerTitle } from '@ui-organized/vue';",
+      "reactName": "DrawerTitle",
+      "props": [],
+      "usageSnippet": "<DrawerTitle>…</DrawerTitle>",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTrigger",
+      "codeName": "DrawerTrigger",
+      "codePath": "packages/vue/src/components/Drawer/DrawerTrigger.vue",
+      "framework": "vue",
+      "importStatement": "import { DrawerTrigger } from '@ui-organized/vue';",
+      "reactName": "DrawerTrigger",
+      "props": [
+        {
+          "name": "asChild",
+          "type": "boolean",
+          "required": false
+        }
+      ],
+      "usageSnippet": "<DrawerTrigger>…</DrawerTrigger>",
+      "propSignatureHash": "sha256:1f48d4bbd38e0d79",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
       "status": "draft"
     },
     {

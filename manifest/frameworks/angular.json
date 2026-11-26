@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T13:45:39.535Z",
+  "generatedAt": "2026-11-26T15:10:27.777Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3355,6 +3355,138 @@
       "usageSnippet": "<!-- [uioDivider] -->",
       "propSignatureHash": "sha256:c859ab864d4b8005",
       "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawer",
+      "codeName": "UioDrawer",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawer } from '@ui-organized/angular';",
+      "selector": "uio-drawer",
+      "reactName": "Drawer",
+      "props": [
+        {
+          "name": "controlled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Off by default: Escape, an outside click, a swipe past the threshold, the × and `uioDrawerClose` close the drawer and report it through `openChange`."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether a press on the content, not only on the grabber, can drag."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true"
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Two-way: bind with [(open)]."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "On by default, as on a Sheet: a keyboard needs a way out a swipe is not."
+        },
+        {
+          "name": "showGrabber",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "The handle along the top edge, which always drags."
+        }
+      ],
+      "usageSnippet": "<!-- uio-drawer -->",
+      "propSignatureHash": "sha256:867d13e7269872fd",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawerClose",
+      "codeName": "UioDrawerClose",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawerClose } from '@ui-organized/angular';",
+      "selector": "button[uioDrawerClose]",
+      "reactName": "DrawerClose",
+      "props": [],
+      "usageSnippet": "<!-- button[uioDrawerClose] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawerDescription",
+      "codeName": "UioDrawerDescription",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawerDescription } from '@ui-organized/angular';",
+      "selector": "[uioDrawerDescription]",
+      "reactName": "DrawerDescription",
+      "props": [],
+      "usageSnippet": "<!-- [uioDrawerDescription] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawerFooter",
+      "codeName": "UioDrawerFooter",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawerFooter } from '@ui-organized/angular';",
+      "selector": "[uioDrawerFooter]",
+      "reactName": "DrawerFooter",
+      "props": [],
+      "usageSnippet": "<!-- [uioDrawerFooter] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawerTitle",
+      "codeName": "UioDrawerTitle",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawerTitle } from '@ui-organized/angular';",
+      "selector": "[uioDrawerTitle]",
+      "reactName": "DrawerTitle",
+      "props": [],
+      "usageSnippet": "<!-- [uioDrawerTitle] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDrawerTrigger",
+      "codeName": "UioDrawerTrigger",
+      "codePath": "packages/angular/src/lib/drawer/drawer.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDrawerTrigger } from '@ui-organized/angular';",
+      "selector": "button[uioDrawerTrigger]",
+      "reactName": "DrawerTrigger",
+      "props": [],
+      "usageSnippet": "<!-- button[uioDrawerTrigger] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
       "status": "draft"
     },
     {

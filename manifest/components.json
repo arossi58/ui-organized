@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T13:45:39.535Z",
+  "generatedAt": "2026-11-26T15:10:27.777Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4311,6 +4311,171 @@
       "usageSnippet": "<Divider />",
       "propSignatureHash": "sha256:61b596398a2dcd45",
       "lastSyncedAt": "2026-11-25T20:10:02.442Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Drawer",
+      "codeName": "Drawer",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { Drawer } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "modal",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Trap focus and block outside interaction while open."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Callback fired when the open state changes, including a swipe that closes it."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        }
+      ],
+      "usageSnippet": "<Drawer>…</Drawer>",
+      "propSignatureHash": "sha256:8e605567ead9a6fd",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerClose",
+      "codeName": "DrawerClose",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerClose } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the close control onto a custom element."
+        }
+      ],
+      "usageSnippet": "<DrawerClose />",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerContent",
+      "codeName": "DrawerContent",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerContent } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "container",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "defaultValue": "document",
+          "description": "Portal container."
+        },
+        {
+          "name": "draggable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether a press on the content can drag the panel, once it moves clearly downward."
+        },
+        {
+          "name": "showClose",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "A close (×) button in the top-right corner."
+        },
+        {
+          "name": "showGrabber",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "The handle along the top edge, which always drags."
+        }
+      ],
+      "usageSnippet": "<DrawerContent />",
+      "propSignatureHash": "sha256:35db4ed976096d5a",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerDescription",
+      "codeName": "DrawerDescription",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerDescription } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DrawerDescription />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerFooter",
+      "codeName": "DrawerFooter",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerFooter } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DrawerFooter />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTitle",
+      "codeName": "DrawerTitle",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerTitle } from '@ui-organized/react';",
+      "props": [],
+      "usageSnippet": "<DrawerTitle />",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DrawerTrigger",
+      "codeName": "DrawerTrigger",
+      "codePath": "packages/react/src/components/Drawer/Drawer.types.ts",
+      "framework": "react",
+      "importStatement": "import { DrawerTrigger } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "render",
+          "type": "React.ReactElement",
+          "required": false,
+          "description": "Project the trigger onto a custom element."
+        }
+      ],
+      "usageSnippet": "<DrawerTrigger />",
+      "propSignatureHash": "sha256:36a696a8661c284e",
+      "lastSyncedAt": "2026-11-26T15:10:27.777Z",
       "status": "draft"
     },
     {

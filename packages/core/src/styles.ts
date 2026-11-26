@@ -68,6 +68,7 @@ import "./components/Menubar/Menubar.css";
 import "./components/Toolbar/Toolbar.css";
 import "./components/HoverCard/HoverCard.css";
 import "./components/Sheet/Sheet.css";
+import "./components/Drawer/Drawer.css";
 import "./components/Listbox/Listbox.css";
 import "./components/TreeView/TreeView.css";
 import "./components/Steps/Steps.css";

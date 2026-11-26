@@ -85,6 +85,10 @@ export const RUNTIME_PROVIDED = new Set([
   // Tree view tags every node with its nesting level; indentation is computed
   // from it rather than from a per-level rule.
   "--depth",
+  // The drawer's swipe: how far a drag has got toward closed (the backdrop
+  // fades with it), and how hard the release was (a fling shortens the exit).
+  "--drawer-swipe-progress",
+  "--drawer-swipe-strength",
   // Ours, not zag's: CodeBlock writes the widest line number's digit count on
   // its <pre>, and the line-number gutter is sized from it.
   "--code-block-digits",

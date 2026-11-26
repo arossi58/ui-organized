@@ -64,7 +64,19 @@ export type Step =
    * the same place, and a capture taken before the animation finishes would
    * compare one library mid-close with another already settled.
    */
-  | { do: "awaitHidden"; target: string };
+  | { do: "awaitHidden"; target: string }
+  /**
+   * Press `target`'s centre with the mouse, move `dy` pixels down (negative is
+   * up) in a dozen steps, hold, and let go.
+   *
+   * The hold is the point. A release still moving carries a fling, and how
+   * much depends on how fast the machine ran the steps, so a drag that ends
+   * short of a threshold could close on an idle laptop and spring back on a
+   * loaded CI runner. Holding before the release leaves nothing but the
+   * distance to decide, which is the same in every library: only end states
+   * are compared.
+   */
+  | { do: "drag"; target: string; dy: number };
 
 export interface BrowserScenario {
   /** A key in BROWSER_SPECS. */
@@ -202,6 +214,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Item",
   "ItemGroup",
   "CodeBlock",
+  "Drawer",
   "CommandMenu",
   "Range",
   "RatingGroup",

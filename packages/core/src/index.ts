@@ -321,3 +321,14 @@ export {
   lineNumberDigits,
 } from "./codeLines.js";
 export type { CodeLine, CodeDiffKind, CodeHighlighter, CodeLineSpec, BuildCodeLinesOptions } from "./codeLines.js";
+export { DRAWER_CLASS, DRAWER_CLOSE_ICON_SIZE } from "./components/Drawer/Drawer.styles.js";
+export {
+  DRAWER_SWIPE,
+  drawerDragOffset,
+  drawerDragStarted,
+  drawerReleaseVelocity,
+  drawerShouldDismiss,
+  drawerSwipeProgress,
+  drawerSwipeStrength,
+} from "./drawerSwipe.js";
+export type { DrawerSwipeSample } from "./drawerSwipe.js";

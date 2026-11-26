@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T13:45:39.535Z",
+  "generatedAt": "2026-11-26T15:10:27.777Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -61,6 +61,13 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:61b596398a2dcd45",
+    "packages/react/src/components/Drawer/Drawer.types.ts::Drawer": "sha256:8e605567ead9a6fd",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerClose": "sha256:36a696a8661c284e",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerContent": "sha256:35db4ed976096d5a",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerDescription": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerFooter": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerTitle": "sha256:4f53cda18c2baa0c",
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Editable/Editable.types.ts::Editable": "sha256:4acc88909e051c06",
     "packages/react/src/components/EmptyState/EmptyState.types.ts::EmptyState": "sha256:607f0bbac47fb32f",
     "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": "sha256:7e233281cd254757",
@@ -2574,6 +2581,87 @@
         "required": false,
         "defaultValue": "none",
         "description": "Margin along the cross axis (block margin when horizontal, inline when vertical)."
+      }
+    ],
+    "packages/react/src/components/Drawer/Drawer.types.ts::Drawer": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "modal",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Trap focus and block outside interaction while open."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Callback fired when the open state changes, including a swipe that closes it."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      }
+    ],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerClose": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the close control onto a custom element."
+      }
+    ],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerContent": [
+      {
+        "name": "container",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "defaultValue": "document",
+        "description": "Portal container."
+      },
+      {
+        "name": "draggable",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Whether a press on the content can drag the panel, once it moves clearly downward."
+      },
+      {
+        "name": "showClose",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "A close (×) button in the top-right corner."
+      },
+      {
+        "name": "showGrabber",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "The handle along the top edge, which always drags."
+      }
+    ],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerDescription": [],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerFooter": [],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerTitle": [],
+    "packages/react/src/components/Drawer/Drawer.types.ts::DrawerTrigger": [
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "Project the trigger onto a custom element."
       }
     ],
     "packages/react/src/components/Editable/Editable.types.ts::Editable": [
