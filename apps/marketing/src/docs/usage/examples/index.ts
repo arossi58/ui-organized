@@ -18,6 +18,8 @@ import { skeletonExamples } from "./skeleton";
 import { spinnerExamples } from "./spinner";
 import { checkboxExamples } from "./checkbox";
 import { radioGroupExamples } from "./radio-group";
+import { radioCardGroupExamples } from "./radio-card-group";
+import { checkboxCardGroupExamples } from "./checkbox-card-group";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -92,6 +94,8 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   spinner: spinnerExamples,
   checkbox: checkboxExamples,
   "radio-group": radioGroupExamples,
+  "radio-card-group": radioCardGroupExamples,
+  "checkbox-card-group": checkboxCardGroupExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

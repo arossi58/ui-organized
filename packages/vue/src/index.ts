@@ -127,6 +127,10 @@ export type { AccordionProps, AccordionItem } from "./components/Accordion/index
 
 export { RadioGroup } from "./components/Radio/index.js";
 export type { RadioGroupProps, RadioOption } from "./components/Radio/index.js";
+export { RadioCardGroup } from "./components/RadioCardGroup/index.js";
+export type { RadioCardGroupProps, SelectionCardOption } from "./components/RadioCardGroup/index.js";
+export { CheckboxCardGroup } from "./components/CheckboxCardGroup/index.js";
+export type { CheckboxCardGroupProps } from "./components/CheckboxCardGroup/index.js";
 
 export { Select } from "./components/Select/index.js";
 export type { SelectProps, SelectOption } from "./components/Select/index.js";

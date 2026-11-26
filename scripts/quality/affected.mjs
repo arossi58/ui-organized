@@ -160,6 +160,16 @@ const COMPONENT = [
 const TABLE = /^packages\/(table-core|react-table|svelte-table|vue-table|angular-table)\//;
 
 /**
+ * A core stylesheet directory that backs more than one component. Its own name
+ * is no component's slug, so the COMPONENT rule would attribute it to nothing
+ * that has stories — the silent empty set the header warns about. Each entry
+ * names every component that reads it.
+ */
+const SHARED_STYLES = [
+  [/^packages\/core\/src\/components\/SelectionCard\//, ["radio-card-group", "checkbox-card-group"]],
+];
+
+/**
  * Publishable packages that back no component.
  *
  * They still need the smoke gate — it packs and runs the real tarball, which is
@@ -184,6 +194,12 @@ function classify(files) {
     // Skipped for the component gates, but `touchedPackages` below still sees
     // it, so the smoke gate runs.
     if (NON_COMPONENT.test(file)) continue;
+
+    const shared = SHARED_STYLES.find(([re]) => re.test(file));
+    if (shared) {
+      for (const slug of shared[1]) components.add(slug);
+      continue;
+    }
 
     const component = COMPONENT.map((re) => file.match(re)).find(Boolean);
     if (component) {

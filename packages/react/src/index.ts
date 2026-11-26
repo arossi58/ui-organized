@@ -103,6 +103,10 @@ export type { CheckboxProps } from "./components/Checkbox/index.js";
 
 export { RadioGroup } from "./components/Radio/index.js";
 export type { RadioGroupProps, RadioOption, RadioGroupVariants } from "./components/Radio/index.js";
+export { RadioCardGroup } from "./components/RadioCardGroup/index.js";
+export type { RadioCardGroupProps, SelectionCardOption, RadioCardGroupVariants } from "./components/RadioCardGroup/index.js";
+export { CheckboxCardGroup } from "./components/CheckboxCardGroup/index.js";
+export type { CheckboxCardGroupProps, CheckboxCardGroupVariants } from "./components/CheckboxCardGroup/index.js";
 
 export { Switch } from "./components/Switch/index.js";
 export type { SwitchProps } from "./components/Switch/index.js";

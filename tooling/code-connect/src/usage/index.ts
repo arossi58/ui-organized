@@ -33,6 +33,8 @@ import { skeletonUsage } from "./guides/skeleton.js";
 import { spinnerUsage } from "./guides/spinner.js";
 import { checkboxUsage } from "./guides/checkbox.js";
 import { radioGroupUsage } from "./guides/radio-group.js";
+import { radioCardGroupUsage } from "./guides/radio-card-group.js";
+import { checkboxCardGroupUsage } from "./guides/checkbox-card-group.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -114,6 +116,8 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   spinner: spinnerUsage,
   checkbox: checkboxUsage,
   "radio-group": radioGroupUsage,
+  "radio-card-group": radioCardGroupUsage,
+  "checkbox-card-group": checkboxCardGroupUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

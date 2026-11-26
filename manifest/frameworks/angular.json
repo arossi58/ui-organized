@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T20:10:02.442Z",
+  "generatedAt": "2026-11-25T21:19:16.621Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1757,6 +1757,77 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioCheckboxCardGroup",
+      "codeName": "UioCheckboxCardGroup",
+      "codePath": "packages/angular/src/lib/checkbox-card-group/checkbox-card-group.ts",
+      "framework": "angular",
+      "importStatement": "import { UioCheckboxCardGroup } from '@ui-organized/angular';",
+      "selector": "div[uioCheckboxCardGroup]",
+      "reactName": "CheckboxCardGroup",
+      "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "name": "error",
+          "type": "boolean | string",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "options",
+          "type": "readonly SelectionCardOption[]",
+          "required": false,
+          "defaultValue": "[]"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Two-way: bind with [(value)]."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioCheckboxCardGroup] -->",
+      "propSignatureHash": "sha256:e074772610fec77f",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: string | IconGlyph; disabled?: boolean }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioCheckbox",
       "codeName": "UioCheckbox",
       "codePath": "packages/angular/src/lib/checkbox/checkbox.ts",
@@ -2798,7 +2869,7 @@
         },
         {
           "name": "labelPosition",
-          "type": "\"start\" | \"center\" | \"end\"",
+          "type": "\"start\" | \"end\" | \"center\"",
           "required": false,
           "defaultValue": "center",
           "description": "Where the label sits."
@@ -2817,8 +2888,8 @@
         }
       ],
       "usageSnippet": "<!-- [uioDivider] -->",
-      "propSignatureHash": "sha256:2caf0e432b4eff55",
-      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
+      "propSignatureHash": "sha256:c859ab864d4b8005",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
       "status": "draft"
     },
     {
@@ -3486,7 +3557,7 @@
       "props": [
         {
           "name": "align",
-          "type": "\"start\" | \"center\" | \"end\"",
+          "type": "\"start\" | \"end\" | \"center\"",
           "required": false,
           "defaultValue": "center"
         },
@@ -3538,8 +3609,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-hover-card -->",
-      "propSignatureHash": "sha256:4a95d8bfc0b84898",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:4213abf559d50280",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
       "status": "draft"
     },
     {
@@ -4022,7 +4093,7 @@
       "props": [
         {
           "name": "align",
-          "type": "\"start\" | \"center\" | \"end\"",
+          "type": "\"start\" | \"end\" | \"center\"",
           "required": false,
           "defaultValue": "start"
         },
@@ -4059,8 +4130,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-menu -->",
-      "propSignatureHash": "sha256:30c01ae534f32569",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:7d48a6846cf3d70c",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
       "status": "draft"
     },
     {
@@ -4874,7 +4945,7 @@
       "props": [
         {
           "name": "align",
-          "type": "\"start\" | \"center\" | \"end\"",
+          "type": "\"start\" | \"end\" | \"center\"",
           "required": false,
           "defaultValue": "center"
         },
@@ -4912,8 +4983,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-popover -->",
-      "propSignatureHash": "sha256:0cfd2761a846f59e",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:22fa6062d98c0ef8",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
       "status": "draft"
     },
     {
@@ -5112,6 +5183,76 @@
       "propSignatureHash": "sha256:5cfd172f49be6c02",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioRadioCardGroup",
+      "codeName": "UioRadioCardGroup",
+      "codePath": "packages/angular/src/lib/radio-card-group/radio-card-group.ts",
+      "framework": "angular",
+      "importStatement": "import { UioRadioCardGroup } from '@ui-organized/angular';",
+      "selector": "div[uioRadioCardGroup]",
+      "reactName": "RadioCardGroup",
+      "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1"
+        },
+        {
+          "name": "error",
+          "type": "boolean | string",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "options",
+          "type": "readonly SelectionCardOption[]",
+          "required": false,
+          "defaultValue": "[]"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Two-way: bind with [(value)]."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioRadioCardGroup] -->",
+      "propSignatureHash": "sha256:cde60933ef590552",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: string | IconGlyph; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6647,7 +6788,7 @@
       "props": [
         {
           "name": "align",
-          "type": "\"start\" | \"center\" | \"end\"",
+          "type": "\"start\" | \"end\" | \"center\"",
           "required": false,
           "defaultValue": "center"
         },
@@ -6695,8 +6836,8 @@
         }
       ],
       "usageSnippet": "<!-- [uioTooltip] -->",
-      "propSignatureHash": "sha256:94ce95e2ac8634cf",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:3727f3ee88f3291e",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
       "status": "draft"
     },
     {

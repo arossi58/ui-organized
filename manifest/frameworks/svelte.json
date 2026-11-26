@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T20:10:02.442Z",
+  "generatedAt": "2026-11-25T21:19:16.621Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2385,6 +2385,104 @@
       "propSignatureHash": "sha256:2440c2c462836eba",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CheckboxCardGroup",
+      "codeName": "CheckboxCardGroup",
+      "codePath": "packages/svelte/src/lib/components/CheckboxCardGroup/CheckboxCardGroup.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { CheckboxCardGroup } from '@ui-organized/svelte';",
+      "reactName": "CheckboxCardGroup",
+      "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Cards per row, 1 to 4."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string[]",
+          "required": false,
+          "description": "Initial checked values for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire group should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end",
+          "description": "Which side of the card the check box sits on."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Group label rendered above the cards."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission; each checked card submits its value."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string[]) => void",
+          "required": false,
+          "description": "Callback fired when the checked set changes."
+        },
+        {
+          "name": "options",
+          "type": "SelectionCardOption[]",
+          "required": true,
+          "description": "The cards, one per option."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Card padding and type scale."
+        },
+        {
+          "name": "value",
+          "type": "string[]",
+          "required": false,
+          "description": "Checked values."
+        }
+      ],
+      "usageSnippet": "<CheckboxCardGroup options={/* SelectionCardOption[] */} />",
+      "propSignatureHash": "sha256:7ce4628b11142c77",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: IconName | IconComponent; disabled?: boolean }"
+      }
     },
     {
       "figmaComponentKey": "",
@@ -6942,6 +7040,104 @@
       "status": "draft",
       "referencedTypes": {
         "RadioOption": "{ value: string; label: string; disabled?: boolean; error?: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "RadioCardGroup",
+      "codeName": "RadioCardGroup",
+      "codePath": "packages/svelte/src/lib/components/RadioCardGroup/RadioCardGroup.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { RadioCardGroup } from '@ui-organized/svelte';",
+      "reactName": "RadioCardGroup",
+      "props": [
+        {
+          "name": "aria-label",
+          "type": "string",
+          "required": false,
+          "description": "Accessible name for the group when it has no visible `label`."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3 | 4",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Cards per row, 1 to 4."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the entire group should ignore user interaction."
+        },
+        {
+          "name": "error",
+          "type": "string | boolean",
+          "required": false,
+          "description": "A string shows an error message under the cards; `true` marks the group invalid without one."
+        },
+        {
+          "name": "indicator",
+          "type": "\"start\" | \"end\"",
+          "required": false,
+          "defaultValue": "end",
+          "description": "Which side of the card the radio sits on."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "Group label rendered above the cards."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": false,
+          "description": "Name attribute for form submission."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Callback fired when selection changes."
+        },
+        {
+          "name": "options",
+          "type": "SelectionCardOption[]",
+          "required": true,
+          "description": "The cards, one per option."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Card padding and type scale."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "Selected value."
+        }
+      ],
+      "usageSnippet": "<RadioCardGroup options={/* SelectionCardOption[] */} />",
+      "propSignatureHash": "sha256:2f69eb0af222069d",
+      "lastSyncedAt": "2026-11-25T21:19:16.621Z",
+      "status": "draft",
+      "referencedTypes": {
+        "SelectionCardOption": "{ value: string; label: string; description?: string; icon?: IconName | IconComponent; disabled?: boolean }"
       }
     },
     {
