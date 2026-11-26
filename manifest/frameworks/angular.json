@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T00:43:14.997Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3027,6 +3027,71 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioDescriptionList",
+      "codeName": "UioDescriptionList",
+      "codePath": "packages/angular/src/lib/description-list/description-list.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDescriptionList } from '@ui-organized/angular';",
+      "selector": "dl[uioDescriptionList]",
+      "reactName": "DescriptionList",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "items",
+          "type": "readonly DescriptionListEntry[]",
+          "required": false,
+          "defaultValue": "[]"
+        },
+        {
+          "name": "layout",
+          "type": "\"stacked\" | \"inline\"",
+          "required": false,
+          "defaultValue": "inline"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        }
+      ],
+      "usageSnippet": "<!-- dl[uioDescriptionList] -->",
+      "propSignatureHash": "sha256:992ab9571c501ebd",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: string; details: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDescriptionListItem",
+      "codeName": "UioDescriptionListItem",
+      "codePath": "packages/angular/src/lib/description-list/description-list.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDescriptionListItem } from '@ui-organized/angular';",
+      "selector": "div[uioDescriptionListItem]",
+      "reactName": "DescriptionListItem",
+      "props": [
+        {
+          "name": "term",
+          "type": "string",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioDescriptionListItem] -->",
+      "propSignatureHash": "sha256:28e4dd25dcb341a1",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioDialog",
       "codeName": "UioDialog",
       "codePath": "packages/angular/src/lib/dialog/dialog.ts",
@@ -5056,6 +5121,209 @@
       "usageSnippet": "<!-- [uioOverlayStacking] -->",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioPageHeader",
+      "codeName": "UioPageHeader",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioPageHeader } from '@ui-organized/angular';",
+      "selector": "div[uioPageHeader]",
+      "reactName": "PageHeader",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<!-- div[uioPageHeader] -->",
+      "propSignatureHash": "sha256:db7df8321824aa1d",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioPageHeaderActions",
+      "codeName": "UioPageHeaderActions",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioPageHeaderActions } from '@ui-organized/angular';",
+      "selector": "[uioPageHeaderActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioPageHeaderActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioPageHeaderBreadcrumbs",
+      "codeName": "UioPageHeaderBreadcrumbs",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioPageHeaderBreadcrumbs } from '@ui-organized/angular';",
+      "selector": "[uioPageHeaderBreadcrumbs]",
+      "props": [],
+      "usageSnippet": "<!-- [uioPageHeaderBreadcrumbs] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioPageHeaderTabs",
+      "codeName": "UioPageHeaderTabs",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioPageHeaderTabs } from '@ui-organized/angular';",
+      "selector": "[uioPageHeaderTabs]",
+      "props": [],
+      "usageSnippet": "<!-- [uioPageHeaderTabs] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSectionFooter",
+      "codeName": "UioSectionFooter",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSectionFooter } from '@ui-organized/angular';",
+      "selector": "div[uioSectionFooter]",
+      "reactName": "SectionFooter",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        }
+      ],
+      "usageSnippet": "<!-- div[uioSectionFooter] -->",
+      "propSignatureHash": "sha256:daf1dcb413b2d886",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSectionFooterActions",
+      "codeName": "UioSectionFooterActions",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSectionFooterActions } from '@ui-organized/angular';",
+      "selector": "[uioSectionFooterActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioSectionFooterActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSectionFooterContent",
+      "codeName": "UioSectionFooterContent",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSectionFooterContent } from '@ui-organized/angular';",
+      "selector": "[uioSectionFooterContent]",
+      "props": [],
+      "usageSnippet": "<!-- [uioSectionFooterContent] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSectionHeader",
+      "codeName": "UioSectionHeader",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSectionHeader } from '@ui-organized/angular';",
+      "selector": "div[uioSectionHeader]",
+      "reactName": "SectionHeader",
+      "props": [
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "required": false,
+          "defaultValue": "start"
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "2",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "usageSnippet": "<!-- div[uioSectionHeader] -->",
+      "propSignatureHash": "sha256:81745dc9c3881084",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioSectionHeaderActions",
+      "codeName": "UioSectionHeaderActions",
+      "codePath": "packages/angular/src/lib/page-header/page-header.ts",
+      "framework": "angular",
+      "importStatement": "import { UioSectionHeaderActions } from '@ui-organized/angular';",
+      "selector": "[uioSectionHeaderActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioSectionHeaderActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
       "status": "draft"
     },
     {

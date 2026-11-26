@@ -1,0 +1,93 @@
+/* ─── DescriptionList ─────────────────────────────────────────────────────────
+   A <dl> whose term and details pairs are each wrapped in a <div> (valid HTML,
+   and what axe's definition-list rule accepts). The list is the grid; each item
+   spans it and takes its columns by subgrid, so every term lines up in one
+   column however long its neighbours are, and a divider can run under a whole
+   row. The term column is as wide as the widest term unless
+   `--description-list-term-width` says otherwise. Terms are tertiary and
+   regular; details are primary at emphasis weight, so the values carry the
+   row. */
+
+/* Declared at zero specificity, so any class a consumer puts on the list wins. */
+:where(.description-list) {
+  --description-list-term-width: max-content;
+}
+
+.description-list {
+  display: grid;
+  grid-template-columns: minmax(0, var(--description-list-term-width)) minmax(0, 1fr);
+  gap: var(--spacing-space-02) var(--spacing-space-04);
+  margin: 0;
+  font-family: var(--type-font-body);
+  font-weight: var(--type-weight-body-default);
+}
+
+.description-list__item {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: baseline;
+  min-width: 0;
+}
+
+@supports not (grid-template-columns: subgrid) {
+  .description-list__item {
+    grid-template-columns: minmax(0, var(--description-list-term-width)) minmax(0, 1fr);
+    column-gap: var(--spacing-space-04);
+  }
+}
+
+.description-list__term {
+  color: var(--color-content-tertiary);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.description-list__details {
+  min-width: 0;
+  margin: 0;
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-emphasis);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  overflow-wrap: anywhere;
+}
+
+.description-list--sm {
+  gap: var(--spacing-space-01) var(--spacing-space-03);
+}
+
+.description-list--sm .description-list__term,
+.description-list--sm .description-list__details {
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+/* Divided: the rows carry their own padding and a rule between them, so the
+   list's row gap goes. */
+.description-list--divided {
+  row-gap: 0;
+}
+
+.description-list--divided > .description-list__item {
+  padding-block: var(--spacing-space-03);
+}
+
+.description-list--sm.description-list--divided > .description-list__item {
+  padding-block: var(--spacing-space-02);
+}
+
+/* 1px hairline — there is no border-width token family. */
+.description-list--divided > .description-list__item + .description-list__item {
+  border-block-start: 1px solid var(--color-border-secondary);
+}
+
+/* Stacked: one column, the details straight under their term. */
+.description-list--stacked {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.description-list--stacked > .description-list__item {
+  display: flex;
+  flex-direction: column;
+}

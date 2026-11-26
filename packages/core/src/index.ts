@@ -267,3 +267,20 @@ export {
   orderCommandItems,
 } from "./components/CommandMenu/CommandMenu.styles.js";
 export type { CommandMenuItemLike } from "./components/CommandMenu/CommandMenu.styles.js";
+export {
+  pageHeaderStyles,
+  sectionHeaderStyles,
+  sectionFooterStyles,
+  PAGE_HEADER_TEXT_CLASS,
+  SECTION_HEADER_TEXT_CLASS,
+  SECTION_FOOTER_TEXT_CLASS,
+} from "./components/PageHeader/PageHeader.styles.js";
+export type {
+  PageHeaderVariants,
+  PageHeaderSize,
+  SectionHeaderVariants,
+  SectionHeaderSize,
+  SectionFooterVariants,
+} from "./components/PageHeader/PageHeader.styles.js";
+export { descriptionListStyles } from "./components/DescriptionList/DescriptionList.styles.js";
+export type { DescriptionListVariants } from "./components/DescriptionList/DescriptionList.styles.js";

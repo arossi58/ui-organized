@@ -499,3 +499,19 @@ export { Kbd } from "./components/Kbd/index.js";
 export type { KbdProps, KbdVariants, KbdPlatform } from "./components/Kbd/index.js";
 export { CommandMenu } from "./components/CommandMenu/index.js";
 export type { CommandMenuProps, CommandMenuItem } from "./components/CommandMenu/index.js";
+export { PageHeader, SectionHeader, SectionFooter } from "./components/PageHeader/index.js";
+export type {
+  PageHeaderProps,
+  SectionHeaderProps,
+  SectionFooterProps,
+  PageHeaderVariants,
+  SectionHeaderVariants,
+  SectionFooterVariants,
+} from "./components/PageHeader/index.js";
+export { DescriptionList, DescriptionListItem } from "./components/DescriptionList/index.js";
+export type {
+  DescriptionListProps,
+  DescriptionListItemProps,
+  DescriptionListEntry,
+  DescriptionListVariants,
+} from "./components/DescriptionList/index.js";

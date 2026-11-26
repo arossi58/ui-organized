@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T00:43:14.997Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4122,6 +4122,93 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionList",
+      "codeName": "DescriptionList",
+      "codePath": "packages/svelte/src/lib/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DescriptionList } from '@ui-organized/svelte';",
+      "reactName": "DescriptionList",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "`DescriptionListItem`s, for details that need markup."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule between rows."
+        },
+        {
+          "name": "items",
+          "type": "DescriptionListEntry[]",
+          "required": false,
+          "description": "The pairs, as data."
+        },
+        {
+          "name": "layout",
+          "type": "\"inline\" | \"stacked\"",
+          "required": false,
+          "defaultValue": "inline",
+          "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        }
+      ],
+      "usageSnippet": "<DescriptionList>…</DescriptionList>",
+      "propSignatureHash": "sha256:fda78b1723bb952a",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: string; details: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionListItem",
+      "codeName": "DescriptionListItem",
+      "codePath": "packages/svelte/src/lib/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DescriptionListItem } from '@ui-organized/svelte';",
+      "reactName": "DescriptionListItem",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "The details."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "term",
+          "type": "string",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<DescriptionListItem term={/* string */}>…</DescriptionListItem>",
+      "propSignatureHash": "sha256:226019c7fa78ab2b",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Dialog",
       "codeName": "Dialog",
       "codePath": "packages/svelte/src/lib/components/Dialog/Dialog.types.ts",
@@ -6731,6 +6818,179 @@
       "usageSnippet": "<NumberField />",
       "propSignatureHash": "sha256:fa7a0f88fd5c7445",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PageHeader",
+      "codeName": "PageHeader",
+      "codePath": "packages/svelte/src/lib/components/PageHeader/PageHeader.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { PageHeader } from '@ui-organized/svelte';",
+      "reactName": "PageHeader",
+      "props": [
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "required": false,
+          "description": "The page's actions, beside the title; they wrap below it when the page is narrow."
+        },
+        {
+          "name": "breadcrumbs",
+          "type": "Snippet",
+          "required": false,
+          "description": "A Breadcrumb trail above the title."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One sentence on what the page is for."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`md` for an app page, `lg` for a docs or landing page."
+        },
+        {
+          "name": "tabs",
+          "type": "Snippet",
+          "required": false,
+          "description": "A row of Tabs under the title, whose panels hold the page body."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The page's name."
+        }
+      ],
+      "usageSnippet": "<PageHeader title={/* string */} />",
+      "propSignatureHash": "sha256:ddfe47a0d20c087a",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionFooter",
+      "codeName": "SectionFooter",
+      "codePath": "packages/svelte/src/lib/components/PageHeader/PageHeader.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { SectionFooter } from '@ui-organized/svelte';",
+      "reactName": "SectionFooter",
+      "props": [
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "required": false,
+          "description": "The section's closing actions, at the end."
+        },
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "The status line at the start, such as \"Showing 1 to 10 of 48\"."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule above the footer."
+        }
+      ],
+      "usageSnippet": "<SectionFooter>…</SectionFooter>",
+      "propSignatureHash": "sha256:c58aa1040c8bbbb5",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionHeader",
+      "codeName": "SectionHeader",
+      "codePath": "packages/svelte/src/lib/components/PageHeader/PageHeader.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { SectionHeader } from '@ui-organized/svelte';",
+      "reactName": "SectionHeader",
+      "props": [
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "required": false,
+          "description": "The section's actions, beside the title."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "required": false,
+          "defaultValue": "start",
+          "description": "`center` stacks and centres everything."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One sentence on what the section holds."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "2",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`sm` for a card or panel, `md` for a page section."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The section's name."
+        }
+      ],
+      "usageSnippet": "<SectionHeader title={/* string */} />",
+      "propSignatureHash": "sha256:3d806f873ad5354d",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
       "status": "draft"
     },
     {

@@ -28,6 +28,9 @@
     ],
     "CommandMenu": [
       "content"
+    ],
+    "SectionFooter": [
+      "content"
     ]
   }
 }

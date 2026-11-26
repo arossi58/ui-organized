@@ -25,6 +25,8 @@ import { calendarExamples } from "./calendar";
 import { attachmentExamples } from "./attachment";
 import { kbdExamples } from "./kbd";
 import { commandMenuExamples } from "./command-menu";
+import { pageHeaderExamples } from "./page-header";
+import { descriptionListExamples } from "./description-list";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -106,6 +108,8 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   attachment: attachmentExamples,
   kbd: kbdExamples,
   "command-menu": commandMenuExamples,
+  "page-header": pageHeaderExamples,
+  "description-list": descriptionListExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

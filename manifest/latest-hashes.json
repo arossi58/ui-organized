@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T00:43:14.997Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -50,6 +50,8 @@
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:1cb7da49ba7e06a9",
     "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:be543467ad5a668c",
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionList": "sha256:c8c205713828c286",
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionListItem": "sha256:6a2407a7e9d4c123",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:36a696a8661c284e",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": "sha256:c5b2bf0497293634",
@@ -103,6 +105,7 @@
     "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": "sha256:c3f9c36951922c79",
     "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": "sha256:4eec07fc20eae447",
     "packages/react/src/components/NumberField/NumberField.types.ts::NumberField": "sha256:b91cfb22028b086d",
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::PageHeader": "sha256:a0a571d42ff635a8",
     "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": "sha256:3db469cd143dd0c1",
     "packages/react/src/components/PasswordInput/PasswordInput.types.ts::PasswordInput": "sha256:c14424eb19ef5d89",
     "packages/react/src/components/PinInput/PinInput.types.ts::PinInput": "sha256:7bb9543b95a35aa0",
@@ -120,6 +123,8 @@
     "packages/react/src/components/RatingGroup/RatingGroup.types.ts::RatingGroup": "sha256:f91adc6c16e05917",
     "packages/react/src/components/ScrollArea/ScrollArea.types.ts::ScrollArea": "sha256:206685e02d9d0872",
     "packages/react/src/components/SearchInput/SearchInput.types.ts::SearchInput": "sha256:102ee6860f02c5fa",
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::SectionFooter": "sha256:719420a4aa03f91f",
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::SectionHeader": "sha256:076961d4e3dadd5a",
     "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": "sha256:f727abc048f7e838",
     "packages/react/src/components/Select/Select.types.ts::Select": "sha256:336f1cbad4a05d1c",
     "packages/react/src/components/Sheet/Sheet.types.ts::Sheet": "sha256:8e605567ead9a6fd",
@@ -2335,6 +2340,54 @@
         "description": "Size variant."
       }
     ],
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionList": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "`DescriptionListItem`s, for details that need markup."
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "description": "A rule between rows."
+      },
+      {
+        "name": "items",
+        "type": "DescriptionListEntry[]",
+        "required": false,
+        "description": "The pairs, as data."
+      },
+      {
+        "name": "layout",
+        "type": "\"inline\" | \"stacked\"",
+        "required": false,
+        "defaultValue": "inline",
+        "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Defaults to 'md'."
+      }
+    ],
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionListItem": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The details."
+      },
+      {
+        "name": "term",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What the details describe: \"Plan\", \"Renews\"."
+      }
+    ],
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": [
       {
         "name": "children",
@@ -3924,6 +3977,58 @@
         "description": "Controlled numeric value."
       }
     ],
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::PageHeader": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The page's actions, beside the title; they wrap below it when the page is narrow."
+      },
+      {
+        "name": "breadcrumbs",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A Breadcrumb trail above the title."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One sentence on what the page is for."
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "description": "A rule under the header."
+      },
+      {
+        "name": "headingLevel",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "defaultValue": "1",
+        "description": "The title's heading level."
+      },
+      {
+        "name": "size",
+        "type": "\"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "`md` for an app page, `lg` for a docs or landing page."
+      },
+      {
+        "name": "tabs",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A row of Tabs under the title."
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The page's name."
+      }
+    ],
     "packages/react/src/components/Pagination/Pagination.types.ts::Pagination": [
       {
         "name": "boundaryCount",
@@ -4776,6 +4881,73 @@
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::SectionFooter": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The section's closing actions, at the end."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The status line at the start, such as \"Showing 1 to 10 of 48\"."
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "description": "A rule above the footer."
+      }
+    ],
+    "packages/react/src/components/PageHeader/PageHeader.types.ts::SectionHeader": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The section's actions, beside the title."
+      },
+      {
+        "name": "align",
+        "type": "\"start\" | \"center\"",
+        "required": false,
+        "defaultValue": "start",
+        "description": "`center` stacks and centres everything, for a marketing section."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One sentence on what the section holds."
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "description": "A rule under the header."
+      },
+      {
+        "name": "headingLevel",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "defaultValue": "2",
+        "description": "The title's heading level."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "`sm` for a card or panel, `md` for a page section."
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The section's name."
       }
     ],
     "packages/react/src/components/SegmentedControl/SegmentedControl.types.ts::SegmentedControl": [
