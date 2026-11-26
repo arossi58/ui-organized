@@ -495,3 +495,7 @@ export { VideoEmbed } from "./components/VideoEmbed/index.js";
 export type { VideoEmbedProps, VideoEmbedVariants } from "./components/VideoEmbed/index.js";
 export { Attachment } from "./components/Attachment/index.js";
 export type { AttachmentProps, AttachmentVariants, AttachmentStatus } from "./components/Attachment/index.js";
+export { Kbd } from "./components/Kbd/index.js";
+export type { KbdProps, KbdVariants, KbdPlatform } from "./components/Kbd/index.js";
+export { CommandMenu } from "./components/CommandMenu/index.js";
+export type { CommandMenuProps, CommandMenuItem } from "./components/CommandMenu/index.js";

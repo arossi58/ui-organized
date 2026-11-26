@@ -31,6 +31,7 @@ import { clsx } from "clsx";
 import {
   CONTROL_ICON_SIZE,
   comboboxFieldStyles,
+  createContains,
   measureTagRow,
   tagStyles,
   type ControlSize,
@@ -433,17 +434,11 @@ export class UioCombobox
   protected readonly helperVisible = computed(() => !!this.helperText() && !this.invalid());
 
   /**
-   * A `search`-usage collator, built once.
-   *
-   * `usage: "search"` is what makes `compare` answer "are these the same word"
-   * rather than "which sorts first", and base sensitivity is what makes it
-   * ignore case and accents. Rebuilding it per keystroke is the expensive part
-   * of this comparison, which is why it is a field.
+   * Core's `createContains`: a `search`-usage collator at base sensitivity,
+   * built once, so case and accents are ignored and "cafe" finds "Café". It
+   * is zag's `contains`, and CommandMenu filters with the same function.
    */
-  private readonly collator = new Intl.Collator(undefined, {
-    usage: "search",
-    sensitivity: "base",
-  });
+  private readonly contains = createContains();
 
   /** The options on screen. An empty query shows everything, unfiltered. */
   protected readonly matches = computed(() => {
@@ -777,25 +772,6 @@ export class UioCombobox
       if (option && !option.disabled) return option;
     }
     return undefined;
-  }
-
-  /**
-   * Zag's `contains`, which is a collator scan rather than a substring test.
-   *
-   * `String.includes` after `toLowerCase` gets the common cases right and the
-   * ones that matter wrong: it does not fold accents, and its idea of "lower
-   * case" is the invariant one, so a Turkish user typing "i" fails to find
-   * "İstanbul".
-   */
-  private contains(text: string, query: string): boolean {
-    const haystack = text.normalize("NFC");
-    const needle = query.normalize("NFC");
-    for (let start = 0; start + needle.length <= haystack.length; start++) {
-      if (this.collator.compare(needle, haystack.slice(start, start + needle.length)) === 0) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private inputElement(): HTMLInputElement | null {

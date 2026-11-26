@@ -22,6 +22,12 @@
     ],
     "Divider": [
       "label"
+    ],
+    "Kbd": [
+      "keys"
+    ],
+    "CommandMenu": [
+      "content"
     ]
   }
 }

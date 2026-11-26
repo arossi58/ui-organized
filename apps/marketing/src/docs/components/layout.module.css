@@ -48,6 +48,13 @@
    land on its Root: it owns the overflow, and these only give it the box to
    scroll inside. Padding goes on the content beneath, leaving the Root a plain
    box the viewport can fill and the overlay bar can run the height of. */
+/* Full width, label at the start and the ⌘K hint at the end. */
+.searchButton {
+  flex: none;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .sidebarScroll {
   flex: 1 1 auto;
   min-height: 0;

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T23:35:27.095Z",
+  "generatedAt": "2026-11-26T00:43:14.997Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2485,6 +2485,78 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioCommandMenu",
+      "codeName": "UioCommandMenu",
+      "codePath": "packages/angular/src/lib/command-menu/command-menu.ts",
+      "framework": "angular",
+      "importStatement": "import { UioCommandMenu } from '@ui-organized/angular';",
+      "selector": "uio-command-menu",
+      "reactName": "CommandMenu",
+      "props": [
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether running a command closes the menu."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "defaultValue": "No results found."
+        },
+        {
+          "name": "hotkey",
+          "type": "string",
+          "required": false,
+          "description": "A shortcut that toggles the menu from anywhere, such as `mod+k`."
+        },
+        {
+          "name": "items",
+          "type": "readonly CommandMenuItem[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "The commands, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Command menu",
+          "description": "The menu's accessible name, for the dialog, the search box and the list."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Two-way: bind with [(open)]."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Type a command or search…"
+        },
+        {
+          "name": "platform",
+          "type": "\"mac\" | \"other\" | \"auto\"",
+          "required": false,
+          "defaultValue": "auto",
+          "description": "Whose keys the rows' shortcuts draw."
+        }
+      ],
+      "usageSnippet": "<!-- uio-command-menu -->",
+      "propSignatureHash": "sha256:ec4dbaea20ac8fec",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
+      "status": "draft",
+      "referencedTypes": {
+        "CommandMenuItem": "{ value: string; label: string; group?: string; icon?: string | IconGlyph; shortcut?: readonly string[]; keywords?: readonly string[]; disabled?: boolean }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioContextMenu",
       "codeName": "UioContextMenu",
       "codePath": "packages/angular/src/lib/context-menu/context-menu.ts",
@@ -2964,6 +3036,18 @@
       "reactName": "Dialog",
       "props": [
         {
+          "name": "contentClass",
+          "type": "string",
+          "required": false,
+          "description": "Extra classes on the popup, as React's DialogContent takes `className`."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The dialog's accessible name, for a dialog with no `uioDialogTitle`."
+        },
+        {
           "name": "modal",
           "type": "boolean",
           "required": false,
@@ -2990,8 +3074,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-dialog -->",
-      "propSignatureHash": "sha256:9a0eb9d3ec1f337a",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:9fc7fa439b105d8e",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
       "status": "draft"
     },
     {
@@ -4166,6 +4250,41 @@
       "usageSnippet": "<!-- UioInteractionState -->",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioKbd",
+      "codeName": "UioKbd",
+      "codePath": "packages/angular/src/lib/kbd/kbd.ts",
+      "framework": "angular",
+      "importStatement": "import { UioKbd } from '@ui-organized/angular';",
+      "selector": "kbd[uioKbd]",
+      "reactName": "Kbd",
+      "props": [
+        {
+          "name": "keys",
+          "type": "readonly string[]",
+          "required": false,
+          "description": "The keys of a shortcut, pressed together: `['mod', 'k']`."
+        },
+        {
+          "name": "platform",
+          "type": "\"mac\" | \"other\" | \"auto\"",
+          "required": false,
+          "defaultValue": "auto",
+          "description": "Whose keys to draw."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        }
+      ],
+      "usageSnippet": "<!-- kbd[uioKbd] -->",
+      "propSignatureHash": "sha256:93c691a61cfbf190",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
       "status": "draft"
     },
     {

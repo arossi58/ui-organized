@@ -1,0 +1,164 @@
+/* ─── CommandMenu ─────────────────────────────────────────────────────────────
+   A search box over a list of commands, in Dialog's chrome. The popup is
+   `.dialog__popup.command-menu`; the parts inside are a listbox whose search
+   box keeps focus, while the highlighted command is its active descendant.
+   The row recipe follows `.listbox__item`, so a command menu and a listbox
+   read as one family. */
+
+/* Near the top of the screen rather than centred: the list grows downward as
+   it fills, and a centred box would jump up and down while typing. */
+.dialog__positioner:has(> .command-menu) {
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding-block-start: 12vh;
+}
+
+.dialog__popup.command-menu {
+  gap: 0;
+  max-height: calc(100vh - 24vh);
+  padding: 0;
+  overflow: hidden;
+}
+
+.command-menu__listbox {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Names the list for a screen reader; the dialog and the search box are named
+   too, and the placeholder says what to type. */
+.command-menu__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.command-menu__search {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding-inline: var(--spacing-space-04);
+  /* 1px hairline — there is no border-width token family. */
+  border-block-end: 1px solid var(--color-border-secondary);
+  color: var(--color-content-tertiary);
+}
+
+.command-menu__input {
+  flex: 1;
+  min-width: 0;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-content-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  line-height: var(--type-leading-body-large);
+  /* Focus never leaves this box while the menu is open, so a ring would only
+     ever say "the menu is open". The highlighted row is where the cursor is. */
+  outline: none;
+}
+
+.command-menu__input::placeholder {
+  color: var(--color-content-placeholder);
+}
+
+.command-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  max-height: 360px;
+  padding: var(--spacing-space-02);
+  overflow-y: auto;
+  outline: none;
+}
+
+.command-menu__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+}
+
+.command-menu__group + .command-menu__group {
+  margin-block-start: var(--spacing-space-02);
+}
+
+.command-menu__group-label {
+  padding: var(--spacing-space-01) var(--spacing-space-02);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-strong);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+}
+
+.command-menu__item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02);
+  border-radius: var(--radius-interactive);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 150ms ease;
+}
+
+.command-menu__item[data-highlighted] {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.command-menu__item[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* A fixed box, so a row whose icon has not loaded keeps its label in line. */
+.command-menu__item-icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  color: var(--color-content-secondary);
+}
+
+.command-menu__item-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.command-menu__item > .kbd {
+  flex: none;
+}
+
+.command-menu__empty {
+  padding: var(--spacing-space-06) var(--spacing-space-04);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .command-menu__item {
+    transition: none;
+  }
+}

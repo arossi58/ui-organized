@@ -8,7 +8,16 @@
  */
 import { useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Divider, Icon, NavItem, NavProvider, ScrollArea, SearchInput } from "@ui-organized/react";
+import {
+  Button,
+  Divider,
+  Icon,
+  Kbd,
+  NavItem,
+  NavProvider,
+  ScrollArea,
+  SearchInput,
+} from "@ui-organized/react";
 import {
   Boxes,
   ChevronsUpDown,
@@ -22,6 +31,7 @@ import {
   TextCursorInput,
 } from "lucide-react";
 import { getDocsCategories } from "../registry";
+import { useOpenDocsSearch } from "./DocsSearch";
 import styles from "./layout.module.css";
 
 /**
@@ -38,8 +48,8 @@ import styles from "./layout.module.css";
  */
 export const DOCS_COMPACT_QUERY = "(max-width: 900px)";
 
-/** Static entries that sit above the generated component list. */
-const FIXED_LINKS = [
+/** Static entries that sit above the generated component list. Shared with `DocsSearch`. */
+export const FIXED_LINKS = [
   { to: "/docs", label: "Introduction", exact: true },
   { to: "/docs/get-started", label: "Get started" },
   { to: "/docs/use-with-ai", label: "Use with AI" },
@@ -56,7 +66,7 @@ const FIXED_LINKS = [
  * own heading gave the rail two foundations sections — Color and Typography up
  * top, Icon alone at the bottom.
  */
-const FOUNDATION_CATEGORIES = new Set(["Foundation", "Foundations"]);
+export const FOUNDATION_CATEGORIES = new Set(["Foundation", "Foundations"]);
 
 /**
  * A glyph per rail section, keyed by the story category (`Foundations` is the
@@ -111,6 +121,7 @@ interface DocsNavProps {
 
 export function DocsNav({ onNavigate }: DocsNavProps) {
   const [query, setQuery] = useState("");
+  const openSearch = useOpenDocsSearch();
   const categories = useMemo(() => getDocsCategories(), []);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -171,6 +182,21 @@ export function DocsNav({ onNavigate }: DocsNavProps) {
   // here — flexing against that column is the same job in both.
   return (
     <>
+      {/* Jumps to any page; the filter below narrows the rail instead. In the
+          compact sheet it closes the sheet first, so the search is not opened
+          over a panel that is about to go. */}
+      <Button
+        intent="secondary"
+        size="sm"
+        className={styles.searchButton}
+        onClick={() => {
+          onNavigate?.();
+          openSearch();
+        }}
+      >
+        Jump to a page
+        <Kbd keys={["mod", "k"]} size="sm" />
+      </Button>
       <SearchInput
         label="Search components"
         placeholder="Search…"
