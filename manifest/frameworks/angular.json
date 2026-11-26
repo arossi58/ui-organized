@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:51:46.814Z",
+  "generatedAt": "2026-11-26T04:21:31.703Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -6752,6 +6752,84 @@
       "referencedTypes": {
         "SplitterPanelDef": "{ id: string; label?: string; content?: string | TemplateRef<unknown>; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
       }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioStat",
+      "codeName": "UioStat",
+      "codePath": "packages/angular/src/lib/stat/stat.ts",
+      "framework": "angular",
+      "importStatement": "import { UioStat } from '@ui-organized/angular';",
+      "selector": "div[uioStat]",
+      "reactName": "Stat",
+      "props": [
+        {
+          "name": "delta",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "sentiment",
+          "type": "\"neutral\" | \"positive\" | \"negative\"",
+          "required": false,
+          "description": "Defaults from `trend`: up is positive, down negative."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "trend",
+          "type": "\"up\" | \"down\" | \"flat\"",
+          "required": false
+        },
+        {
+          "name": "trendLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"card\"",
+          "required": false,
+          "defaultValue": "card"
+        }
+      ],
+      "usageSnippet": "<!-- div[uioStat] -->",
+      "propSignatureHash": "sha256:7dd68b3656eb6008",
+      "lastSyncedAt": "2026-11-26T04:21:31.703Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioStatChart",
+      "codeName": "UioStatChart",
+      "codePath": "packages/angular/src/lib/stat/stat.ts",
+      "framework": "angular",
+      "importStatement": "import { UioStatChart } from '@ui-organized/angular';",
+      "selector": "[uioStatChart]",
+      "props": [],
+      "usageSnippet": "<!-- [uioStatChart] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T04:21:31.703Z",
+      "status": "draft"
     },
     {
       "figmaComponentKey": "",

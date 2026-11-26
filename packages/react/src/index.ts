@@ -515,3 +515,5 @@ export type {
   DescriptionListEntry,
   DescriptionListVariants,
 } from "./components/DescriptionList/index.js";
+export { Stat } from "./components/Stat/index.js";
+export type { StatProps, StatVariants, StatTrend, StatSentiment } from "./components/Stat/index.js";

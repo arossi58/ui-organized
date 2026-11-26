@@ -1306,6 +1306,21 @@
       ],
       "runtime": []
     },
+    "Stat": {
+      "attributes": {},
+      "classes": [
+        "card",
+        "stat",
+        "stat__chart",
+        "stat__delta",
+        "stat__description",
+        "stat__footer",
+        "stat__label",
+        "stat__sr",
+        "stat__value"
+      ],
+      "runtime": []
+    },
     "Steps": {
       "attributes": {
         "data-complete": [],

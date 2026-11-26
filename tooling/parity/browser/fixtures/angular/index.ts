@@ -50,6 +50,7 @@ import { AttachmentFixture } from "./attachment.fixture.js";
 import { KbdFixture } from "./kbd.fixture.js";
 import { PageHeaderFixture, SectionHeaderFixture, SectionFooterFixture } from "./page-header.fixture.js";
 import { DescriptionListFixture } from "./description-list.fixture.js";
+import { StatFixture } from "./stat.fixture.js";
 import { CommandMenuFixture } from "./command-menu.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
@@ -153,6 +154,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   SectionHeader: SectionHeaderFixture,
   SectionFooter: SectionFooterFixture,
   DescriptionList: DescriptionListFixture,
+  Stat: StatFixture,
   CommandMenu: CommandMenuFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,

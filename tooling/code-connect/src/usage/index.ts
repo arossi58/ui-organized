@@ -42,6 +42,7 @@ import { kbdUsage } from "./guides/kbd.js";
 import { commandMenuUsage } from "./guides/command-menu.js";
 import { pageHeaderUsage } from "./guides/page-header.js";
 import { descriptionListUsage } from "./guides/description-list.js";
+import { statUsage } from "./guides/stat.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -132,6 +133,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "command-menu": commandMenuUsage,
   "page-header": pageHeaderUsage,
   "description-list": descriptionListUsage,
+  stat: statUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

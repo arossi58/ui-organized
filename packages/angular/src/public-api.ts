@@ -513,3 +513,10 @@ export {
   UioDescriptionListItem,
   type DescriptionListEntry,
 } from "./lib/description-list/description-list.js";
+export {
+  UioStat,
+  UioStatChart,
+  type StatSentiment,
+  type StatSize,
+  type StatTrend,
+} from "./lib/stat/stat.js";

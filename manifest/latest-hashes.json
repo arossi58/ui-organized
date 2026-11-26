@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T03:51:46.814Z",
+  "generatedAt": "2026-11-26T04:21:31.703Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -139,6 +139,7 @@
     "packages/react/src/components/Skeleton/Skeleton.types.ts::Skeleton": "sha256:fb1f7adb5e58b02b",
     "packages/react/src/components/Spinner/Spinner.types.ts::Spinner": "sha256:f0d7d188b4f34b49",
     "packages/react/src/components/Splitter/Splitter.types.ts::Splitter": "sha256:333d3414459f7252",
+    "packages/react/src/components/Stat/Stat.types.ts::Stat": "sha256:e89222de7ac9455f",
     "packages/react/src/components/Steps/Steps.types.ts::Steps": "sha256:ba967994bcab4048",
     "packages/react/src/components/Switch/Switch.types.ts::Switch": "sha256:42ffb8903433d9dc",
     "packages/react-table/src/components/Table/Table.types.ts::Table": "sha256:2f00c389ec961ef4",
@@ -5492,6 +5493,71 @@
         "required": false,
         "defaultValue": "default",
         "description": "Handle treatment."
+      }
+    ],
+    "packages/react/src/components/Stat/Stat.types.ts::Stat": [
+      {
+        "name": "chart",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A small chart under the numbers, such as a sparkline or a Meter."
+      },
+      {
+        "name": "delta",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "How it has moved, already formatted: \"+12.4%\", \"-3\"."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "What the change is measured against: \"vs last month\"."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What the number measures: \"Revenue\", \"Active users\"."
+      },
+      {
+        "name": "sentiment",
+        "type": "\"positive\" | \"negative\" | \"neutral\"",
+        "required": false,
+        "description": "Whether the change is good news."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Defaults to 'md'."
+      },
+      {
+        "name": "trend",
+        "type": "\"up\" | \"down\" | \"flat\"",
+        "required": false,
+        "description": "Which way it moved."
+      },
+      {
+        "name": "trendLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Increase",
+        "description": "What a screen reader hears before the delta."
+      },
+      {
+        "name": "value",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "The number, already formatted for the reader: \"$48,260\", \"1.2k\"."
+      },
+      {
+        "name": "variant",
+        "type": "\"card\" | \"plain\"",
+        "required": false,
+        "defaultValue": "card",
+        "description": "`card` on a Card's surface, `plain` with no frame."
       }
     ],
     "packages/react/src/components/Steps/Steps.types.ts::Steps": [
