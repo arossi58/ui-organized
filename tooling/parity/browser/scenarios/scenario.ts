@@ -198,6 +198,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "SectionHeader",
   "SectionFooter",
   "DescriptionList",
+  "Stat",
   "CommandMenu",
   "Range",
   "RatingGroup",

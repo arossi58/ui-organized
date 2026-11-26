@@ -378,3 +378,5 @@ export type {
   DescriptionListItemProps,
   DescriptionListEntry,
 } from "./components/DescriptionList/index.js";
+export { Stat } from "./components/Stat/index.js";
+export type { StatProps } from "./components/Stat/index.js";

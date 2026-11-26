@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:51:46.814Z",
+  "generatedAt": "2026-11-26T04:21:31.703Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -7504,6 +7504,78 @@
       "referencedTypes": {
         "SplitterPanelDef": "{ id: string; label?: string; content?: string | Component; minSize?: number; maxSize?: number; collapsible?: boolean; collapsedSize?: number }"
       }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Stat",
+      "codeName": "Stat",
+      "codePath": "packages/vue/src/components/Stat/Stat.types.ts",
+      "framework": "vue",
+      "importStatement": "import { Stat } from '@ui-organized/vue';",
+      "reactName": "Stat",
+      "props": [
+        {
+          "name": "delta",
+          "type": "string",
+          "required": false,
+          "description": "How it has moved, already formatted: \"+12.4%\", \"-3\"."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "What the change is measured against: \"vs last month\"."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": true,
+          "description": "What the number measures: \"Revenue\", \"Active users\"."
+        },
+        {
+          "name": "sentiment",
+          "type": "\"positive\" | \"negative\" | \"neutral\"",
+          "required": false,
+          "description": "Whether the change is good news."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        },
+        {
+          "name": "trend",
+          "type": "\"up\" | \"down\" | \"flat\"",
+          "required": false,
+          "description": "Which way it moved."
+        },
+        {
+          "name": "trendLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Increase",
+          "description": "What a screen reader hears before the delta."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "The number, already formatted for the reader: \"$48,260\", \"1.2k\"."
+        },
+        {
+          "name": "variant",
+          "type": "\"card\" | \"plain\"",
+          "required": false,
+          "defaultValue": "card",
+          "description": "`card` on a Card's surface, `plain` with no frame."
+        }
+      ],
+      "usageSnippet": "<Stat :label=\"/* string */\" :value=\"/* string */\">…</Stat>",
+      "propSignatureHash": "sha256:61743f57596c74c1",
+      "lastSyncedAt": "2026-11-26T04:21:31.703Z",
+      "status": "draft"
     },
     {
       "figmaComponentKey": "",

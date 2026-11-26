@@ -79,6 +79,7 @@ export const COMPONENT_SLUGS = [
   "skeleton",
   "spinner",
   "splitter",
+  "stat",
   "steps",
   "switch",
   "tabs",

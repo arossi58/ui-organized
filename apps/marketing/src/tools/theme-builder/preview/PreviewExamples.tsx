@@ -21,6 +21,7 @@ import {
   SearchInput,
   Icon,
   PageHeader,
+  Stat,
 } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import { usePreviewPortalContainer } from "./previewPortal";
@@ -53,16 +54,18 @@ function Wordmark({ label = "Acme" }: { label?: string }) {
 // ─── Dashboard ────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { label: "Revenue", value: "$48,260", delta: "+12.4%", variant: "success" as const, meter: 72 },
+  { label: "Revenue", value: "$48,260", delta: "+12.4%", trend: "up" as const, meter: 72 },
+  { label: "New customers", value: "1,204", delta: "+4.1%", trend: "up" as const, meter: 54 },
+  { label: "Orders", value: "862", delta: "-2.3%", trend: "down" as const, meter: 38 },
+  // Up is bad news for a refund rate, so the sentiment is set by hand.
   {
-    label: "New customers",
-    value: "1,204",
-    delta: "+4.1%",
-    variant: "success" as const,
-    meter: 54,
+    label: "Refund rate",
+    value: "1.8%",
+    delta: "+0.2%",
+    trend: "up" as const,
+    sentiment: "negative" as const,
+    meter: 18,
   },
-  { label: "Orders", value: "862", delta: "-2.3%", variant: "error" as const, meter: 38 },
-  { label: "Refund rate", value: "1.8%", delta: "+0.2%", variant: "caution" as const, meter: 18 },
 ];
 
 const ORDERS = [
@@ -143,20 +146,23 @@ function DashboardExample() {
 
         <div className={styles.statRow}>
           {STATS.map((s) => (
-            <Card key={s.label} padding="md" className={styles.statCard}>
-              <span className={styles.statLabel}>{s.label}</span>
-              <span className={styles.statValue}>{s.value}</span>
-              <div className={styles.statFooter}>
-                <Tag variant={s.variant} size="sm" emphasized={false}>
-                  {s.delta}
-                </Tag>
+            <Stat
+              key={s.label}
+              size="sm"
+              label={s.label}
+              value={s.value}
+              delta={s.delta}
+              trend={s.trend}
+              sentiment={s.sentiment}
+              chart={
                 <Meter
                   value={s.meter}
-                  variant={s.variant === "error" ? "warning" : "default"}
+                  variant={s.trend === "down" ? "warning" : "default"}
                   size="sm"
+                  aria-label={`${s.label}, against target`}
                 />
-              </div>
-            </Card>
+              }
+            />
           ))}
         </div>
 

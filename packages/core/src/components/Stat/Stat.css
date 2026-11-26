@@ -1,0 +1,69 @@
+/* ─── Stat ────────────────────────────────────────────────────────────────────
+   A label, a value and how it has moved. The card variant is a Card (its
+   classes come from cardStyles), so a theme's card surface carries through;
+   the plain variant is the same content with no frame. The delta is a Tag
+   whose arrow is decoration: the direction is also written out, visually
+   hidden, in .stat__sr. */
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+}
+
+/* Doubled class, so it outranks the Card padding modifier's own gap whatever
+   order the two stylesheets load in. */
+.stat.card {
+  gap: var(--spacing-space-01);
+}
+
+.stat__label,
+.stat__value,
+.stat__description {
+  margin: 0;
+}
+
+.stat__label {
+  color: var(--color-content-secondary);
+}
+
+.stat__value {
+  color: var(--color-content-primary);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.stat__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  margin-block-start: var(--spacing-space-01);
+}
+
+.stat__delta {
+  flex: none;
+}
+
+.stat__description {
+  color: var(--color-content-secondary);
+}
+
+.stat__chart {
+  min-width: 0;
+  margin-block-start: var(--spacing-space-02);
+}
+
+.stat__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

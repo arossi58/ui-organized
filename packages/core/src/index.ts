@@ -284,3 +284,13 @@ export type {
 } from "./components/PageHeader/PageHeader.styles.js";
 export { descriptionListStyles } from "./components/DescriptionList/DescriptionList.styles.js";
 export type { DescriptionListVariants } from "./components/DescriptionList/DescriptionList.styles.js";
+export {
+  statStyles,
+  statClass,
+  resolveStatSentiment,
+  STAT_SENTIMENT_TAG_VARIANT,
+  STAT_TREND_GLYPH,
+  STAT_TREND_LABEL,
+  STAT_TEXT_CLASS,
+} from "./components/Stat/Stat.styles.js";
+export type { StatVariants, StatSize, StatTrend, StatSentiment } from "./components/Stat/Stat.styles.js";
