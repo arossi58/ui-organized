@@ -170,3 +170,141 @@
   line-height: var(--type-leading-body-large);
   color: var(--color-content-primary);
 }
+
+/* ─── Group: a control with add-ons ───────────────────────────────────────────
+   Input's `startAddon` / `endAddon` put text (`https://`, `.com`) or a slot (a
+   ghost Select, a Button) beside the control inside one bordered shell. The
+   shell takes the control's border, background, height and focus ring, as
+   NumberField's group does, and the control inside it drops its own.
+   Icons (`startIcon` / `endIcon`) stay InputAffix overlays inside the control. */
+.field__group {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  height: var(--control-height-md);
+  background-color: var(--color-interactive-ui-default);
+  border: 1px solid var(--color-border-data-entry);
+  border-radius: var(--radius-interactive);
+  overflow: hidden;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.field--sm .field__group {
+  height: var(--control-height-sm);
+}
+
+.field--lg .field__group {
+  height: var(--control-height-lg);
+}
+
+.field:not([data-disabled]) .field__group:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+/* The control drops its own surface. Out-specifies the control's hover, active,
+   focus and per-size height rules (up to 0,5,0), so it holds in every state. */
+.field .field__group .field__control:not(.textarea-field__control):not(.number-field__input) {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  outline: none;
+  opacity: 1;
+}
+
+.field__group > .input-affix {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Focus rings the shell, only for the control: a focused Select or Button in an
+   add-on draws its own ring. */
+.field__group:has(.field__control:focus-visible) {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.field[data-invalid] .field__group:has(.field__control:focus-visible) {
+  outline-color: var(--color-status-error);
+}
+
+/* Pointer focus: the border takes the focus colour instead of the ring, as on
+   a lone control. */
+:root[data-focus-modality="pointer"] .field__group:has(.field__control:focus-visible) {
+  outline: none;
+  border-color: var(--color-interactive-focus);
+}
+
+:root[data-focus-modality="pointer"] .field[data-invalid] .field__group:has(.field__control:focus-visible) {
+  border-color: var(--color-status-error);
+}
+
+.field[data-disabled] .field__group {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+/* ─── Add-ons ─────────────────────────────────────────────────────────────── */
+
+/* Text add-ons are quieter than the value, and a divider sets them apart. */
+.field__addon {
+  display: flex;
+  align-items: center;
+  flex: none;
+  padding-inline: var(--Button-Medium-horizontal);
+  color: var(--color-content-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-large);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-large);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.field--sm .field__addon {
+  padding-inline: var(--Button-Small-horizontal);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+}
+
+.field--lg .field__addon {
+  padding-inline: var(--Button-Large-horizontal);
+}
+
+.field__addon--start {
+  border-inline-end: 1px solid var(--color-border-data-entry);
+}
+
+.field__addon--end {
+  border-inline-start: 1px solid var(--color-border-data-entry);
+}
+
+/* A slot add-on holds a control of its own and gives it the full height. */
+.field__addon--slot,
+.field--sm .field__addon--slot,
+.field--lg .field__addon--slot {
+  align-items: stretch;
+  padding-inline: 0;
+}
+
+/* A Button joins the shell: square inner corners, no border of its own. */
+.field__addon--slot > .btn {
+  height: auto;
+  border-width: 0;
+  border-radius: 0;
+}
+
+/* A ghost Select fills the slot; its trigger loses its own radius. */
+.field__addon--slot > .select-field {
+  justify-content: center;
+}
+
+.field__addon--slot .select-field__trigger {
+  height: 100%;
+  border-radius: 0;
+}

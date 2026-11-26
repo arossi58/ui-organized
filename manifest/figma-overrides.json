@@ -16,6 +16,9 @@
     ],
     "AvatarGroup": [
       "overflow"
+    ],
+    "Input": [
+      "addons"
     ]
   }
 }

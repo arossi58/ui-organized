@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:07:25.357Z",
+  "generatedAt": "2026-11-25T17:37:01.086Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4768,6 +4768,18 @@
       "importStatement": "import { Input } from '@ui-organized/react';",
       "props": [
         {
+          "name": "endAddon",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "An add-on after the control: text such as `.com`, or a control of its own."
+        },
+        {
+          "name": "endIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, after the text."
+        },
+        {
           "name": "error",
           "type": "string | boolean",
           "required": false,
@@ -4791,11 +4803,23 @@
           "required": false,
           "defaultValue": "md",
           "description": "Size variant."
+        },
+        {
+          "name": "startAddon",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "An add-on before the control, inside its border: text such as `https://`, or a control of its own, such as a ghost `Select` or a `Button`."
+        },
+        {
+          "name": "startIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, before the text: a search glass, an at sign."
         }
       ],
       "usageSnippet": "<Input />",
-      "propSignatureHash": "sha256:7a065a645590a677",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:1a73cceef72037d9",
+      "lastSyncedAt": "2026-11-25T17:37:01.086Z",
       "status": "draft"
     },
     {

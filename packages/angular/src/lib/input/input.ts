@@ -1,6 +1,8 @@
 import {
   Component,
+  Directive,
   booleanAttribute,
+  contentChild,
   computed,
   forwardRef,
   inject,
@@ -10,8 +12,12 @@ import {
   type Signal,
   afterNextRender,
 } from "@angular/core";
+import { NgTemplateOutlet } from "@angular/common";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { inputFieldStyles, type InputVariants } from "@ui-organized/core";
+import { clsx } from "clsx";
+import { CONTROL_ICON_SIZE, inputFieldStyles, type InputVariants } from "@ui-organized/core";
+import { UioIcon, type IconName } from "../icons/icon.js";
+import type { IconGlyph } from "../icons/glyph.js";
 import { UioPart } from "../part.js";
 import { UioFieldContext } from "../field/field-context.js";
 import { UioFieldLabel } from "../field/field.js";
@@ -19,6 +25,33 @@ import { UioFieldError } from "../field-error/field-error.js";
 import { trackFocusModality } from "@ui-organized/core/focus-modality";
 
 export type InputSize = NonNullable<InputVariants["size"]>;
+
+
+/**
+ * A control in the add-on slot before the input: a ghost Select, a Button. The
+ * element it sits on *is* the slot, so the DOM matches the other three
+ * libraries' `div.field__addon--slot` with nothing extra around it.
+ *
+ * ```html
+ * <div uioInput label="Website" endAddon=".com">
+ *   <div uioInputStartAddon><div uioSelect variant="ghost" label="Protocol" [options]="protocols"></div></div>
+ * </div>
+ * ```
+ */
+@Directive({
+  selector: "[uioInputStartAddon]",
+  standalone: true,
+  host: { class: "field__addon field__addon--start field__addon--slot" },
+})
+export class UioInputStartAddon {}
+
+/** A control in the add-on slot after the input. */
+@Directive({
+  selector: "[uioInputEndAddon]",
+  standalone: true,
+  host: { class: "field__addon field__addon--end field__addon--slot" },
+})
+export class UioInputEndAddon {}
 
 /**
  * A single-line text field, with its label, helper text and error already wired
@@ -57,38 +90,74 @@ export type InputSize = NonNullable<InputVariants["size"]>;
     UioFieldContext,
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => UioInput), multi: true },
   ],
-  imports: [UioFieldLabel, UioFieldError],
+  imports: [UioFieldLabel, UioFieldError, UioIcon, NgTemplateOutlet],
   template: `
     @if (label(); as text) {
       <label uioFieldLabel
         >{{ text }}@if (required()) {<span class="field__required" aria-hidden="true"></span>}</label
       >
     }
-    <input
-      class="field__control"
-      data-scope="field"
-      data-part="input"
-      [id]="field.controlId"
-      [attr.type]="type()"
-      [attr.name]="name()"
-      [attr.placeholder]="placeholder()"
-      [attr.autocomplete]="autocomplete()"
-      [attr.aria-label]="ariaLabel()"
-      [attr.inputmode]="inputMode()"
-      [attr.spellcheck]="spellcheck()"
-      [attr.min]="min()"
-      [attr.max]="max()"
-      [attr.step]="step()"
-      [attr.required]="required() ? '' : null"
-      [attr.readonly]="readOnlyInput() ? '' : null"
-      [attr.aria-invalid]="invalid() ? 'true' : null"
-      [attr.aria-describedby]="field.describedBy()"
-      [attr.data-invalid]="flag(invalid())"
-      [disabled]="isDisabled()"
-      [value]="value()"
-      (input)="write($event)"
-      (blur)="onTouched()"
-    />
+    <ng-template #control>
+      <input
+        [class]="controlClass()"
+        data-scope="field"
+        data-part="input"
+        [id]="field.controlId"
+        [attr.type]="type()"
+        [attr.name]="name()"
+        [attr.placeholder]="placeholder()"
+        [attr.autocomplete]="autocomplete()"
+        [attr.aria-label]="ariaLabel()"
+        [attr.inputmode]="inputMode()"
+        [attr.spellcheck]="spellcheck()"
+        [attr.min]="min()"
+        [attr.max]="max()"
+        [attr.step]="step()"
+        [attr.required]="required() ? '' : null"
+        [attr.readonly]="readOnlyInput() ? '' : null"
+        [attr.aria-invalid]="invalid() ? 'true' : null"
+        [attr.aria-describedby]="describedBy()"
+        [attr.data-invalid]="flag(invalid())"
+        [disabled]="isDisabled()"
+        [value]="value()"
+        (input)="write($event)"
+        (blur)="onTouched()"
+      />
+    </ng-template>
+    <ng-template #affixed>
+      @if (hasIcons()) {
+        <div class="input-affix">
+          @if (startIcon(); as name) {
+            <span class="input-affix__adornment input-affix__adornment--start" aria-hidden="true">
+              <span uioIcon [name]="name" [size]="iconSize()"></span>
+            </span>
+          }
+          <ng-container *ngTemplateOutlet="control" />
+          @if (endIcon(); as name) {
+            <span class="input-affix__adornment input-affix__adornment--end" aria-hidden="true">
+              <span uioIcon [name]="name" [size]="iconSize()"></span>
+            </span>
+          }
+        </div>
+      } @else {
+        <ng-container *ngTemplateOutlet="control" />
+      }
+    </ng-template>
+    @if (hasGroup()) {
+      <div class="field__group">
+        @if (startAddon(); as text) {
+          <div class="field__addon field__addon--start" [id]="field.partId('start-addon')">{{ text }}</div>
+        }
+        <ng-content select="[uioInputStartAddon]" />
+        <ng-container *ngTemplateOutlet="affixed" />
+        @if (endAddon(); as text) {
+          <div class="field__addon field__addon--end" [id]="field.partId('end-addon')">{{ text }}</div>
+        }
+        <ng-content select="[uioInputEndAddon]" />
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="affixed" />
+    }
     @if (helperVisible()) {
       <span
         class="field__description"
@@ -165,6 +234,42 @@ export class UioInput extends UioPart implements ControlValueAccessor {
   readonly min = input<number | undefined>(undefined);
   readonly max = input<number | undefined>(undefined);
   readonly step = input<number | undefined>(undefined);
+  /** An icon inside the control, before the text. */
+  readonly startIcon = input<IconName | IconGlyph | undefined>(undefined);
+  /** An icon inside the control, after the text. */
+  readonly endIcon = input<IconName | IconGlyph | undefined>(undefined);
+  /** A text add-on before the control: `https://`. For a control, project `[uioInputStartAddon]`. */
+  readonly startAddon = input<string | undefined>(undefined);
+  /** A text add-on after the control: `.com`. For a control, project `[uioInputEndAddon]`. */
+  readonly endAddon = input<string | undefined>(undefined);
+
+  private readonly startSlot = contentChild(UioInputStartAddon);
+  private readonly endSlot = contentChild(UioInputEndAddon);
+  protected readonly iconSize = computed(() => CONTROL_ICON_SIZE[this.size()]);
+  protected readonly hasIcons = computed(() => this.startIcon() != null || this.endIcon() != null);
+  protected readonly hasGroup = computed(
+    () => !!this.startAddon() || !!this.endAddon() || !!this.startSlot() || !!this.endSlot(),
+  );
+  /**
+   * A text add-on is part of the value (`https://`, `.com`), so it describes
+   * the control, ahead of the field's own helper and error text — the order the
+   * other three libraries join them in.
+   */
+  protected readonly describedBy = computed(() => {
+    const ids = [
+      this.startAddon() && this.field.partId("start-addon"),
+      this.endAddon() && this.field.partId("end-addon"),
+      this.field.describedBy(),
+    ].filter(Boolean);
+    return ids.length ? ids.join(" ") : null;
+  });
+  protected readonly controlClass = computed(() =>
+    clsx(
+      "field__control",
+      this.startIcon() != null && "field__control--affix-start",
+      this.endIcon() != null && "field__control--affix-end",
+    ),
+  );
 
   /** `disabled` comes from the caller *or* from a reactive form's disabled state. */
   protected readonly disabledInput = input(false, {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Input } from "@ui-organized/react";
+import { Button, Input, Select } from "@ui-organized/react";
 
 const meta: Meta<typeof Input> = {
   title: "Components/Forms/Input",
@@ -142,3 +142,82 @@ export const AllVariantsGrid: Story = {
     </div>
   ),
 };
+
+const stack = { display: "flex", flexDirection: "column" as const, gap: "20px", width: 360 };
+
+/**
+ * Icons sit inside the control (`startIcon`, `endIcon`); add-ons sit beside
+ * it inside one border (`startAddon`, `endAddon`): text, or a control of its
+ * own such as a ghost Select or a Button.
+ */
+export const AddOns: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Input label="Email" startIcon="mail" placeholder="you@example.com" />
+<Input label="Website" startAddon="https://" placeholder="example" endAddon=".com" />
+<Input
+  label="Amount"
+  placeholder="0.00"
+  endAddon={<Select variant="ghost" label="Currency" defaultValue="usd" options={currencies} />}
+/>
+<Input label="Share link" defaultValue="https://example.com/r/8f2c" endAddon={<Button intent="secondary" icon="copy">Copy</Button>} />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={stack}>
+      <Input label="Email" startIcon="mail" placeholder="you@example.com" />
+      <Input label="Website" startAddon="https://" placeholder="example" endAddon=".com" />
+      <Input
+        label="Amount"
+        placeholder="0.00"
+        endAddon={
+          <Select
+            variant="ghost"
+            label="Currency"
+            defaultValue="usd"
+            options={[
+              { value: "usd", label: "USD" },
+              { value: "eur", label: "EUR" },
+              { value: "gbp", label: "GBP" },
+            ]}
+          />
+        }
+      />
+      <Input
+        label="Share link"
+        defaultValue="https://example.com/r/8f2c"
+        endAddon={
+          <Button intent="secondary" icon="copy">
+            Copy
+          </Button>
+        }
+      />
+    </div>
+  ),
+};
+
+/** Every size, with text add-ons and an icon. */
+export const AddOnSizes: Story = {
+  render: () => (
+    <div style={stack}>
+      {(["sm", "md", "lg"] as const).map((size) => (
+        <Input key={size} size={size} label={`Website (${size})`} startAddon="https://" startIcon="search" placeholder="example" endAddon=".com" />
+      ))}
+    </div>
+  ),
+};
+
+/** The shell takes the control's states: invalid, and disabled. */
+export const AddOnStates: Story = {
+  render: () => (
+    <div style={stack}>
+      <Input label="Website" startAddon="https://" defaultValue="exa mple" endAddon=".com" error="Use letters, numbers and hyphens only." />
+      <Input label="Website" startAddon="https://" placeholder="example" endAddon=".com" disabled />
+    </div>
+  ),
+};
+

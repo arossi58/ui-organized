@@ -22,6 +22,14 @@ const scenarios: BrowserScenario[] = staticScenarios("Input", [
   { name: "disabled", props: { label: "Email", disabled: true } },
   { name: "placeholder", props: { placeholder: "you@example.com" } },
   { name: "type=email", props: { type: "email" } },
+  { name: "start icon", props: { label: "Search", startIcon: "check" } },
+  { name: "both addons", props: { label: "Website", startAddon: "https://", endAddon: ".com" } },
+  { name: "addon + icon lg", props: { label: "Amount", startAddon: "USD", endIcon: "check", size: "lg" } },
+  // A Button in the end slot joins the shell.
+  { name: "button addon", props: { label: "Share link", withButton: true } },
+  { name: "addon disabled", props: { label: "Website", endAddon: ".com", disabled: true } },
+  // Text add-ons join aria-describedby ahead of the helper text.
+  { name: "addons + helper", props: { label: "Website", startAddon: "https://", endAddon: ".com", helperText: "Your site" } },
 ]);
 
 export default scenarios;

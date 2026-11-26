@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:07:25.357Z",
+  "generatedAt": "2026-11-25T17:37:01.086Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4403,6 +4403,18 @@
           "description": "Disables the control."
         },
         {
+          "name": "endAddon",
+          "type": "string",
+          "required": false,
+          "description": "A text add-on after the control: `.com`."
+        },
+        {
+          "name": "endIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, after the text."
+        },
+        {
           "name": "error",
           "type": "string | boolean",
           "required": false,
@@ -4438,11 +4450,23 @@
           "required": false,
           "defaultValue": "md",
           "description": "Size variant."
+        },
+        {
+          "name": "startAddon",
+          "type": "string",
+          "required": false,
+          "description": "A text add-on before the control, inside its border: `https://`."
+        },
+        {
+          "name": "startIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, before the text."
         }
       ],
       "usageSnippet": "<Input>…</Input>",
-      "propSignatureHash": "sha256:331a1fa21d52dc39",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:7324289d4e6e762b",
+      "lastSyncedAt": "2026-11-25T17:37:01.086Z",
       "status": "draft"
     },
     {

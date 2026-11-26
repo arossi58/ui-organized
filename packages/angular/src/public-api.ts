@@ -15,7 +15,7 @@ export {
   type FieldLayout,
 } from "./lib/field/field.js";
 export { UioFieldset, UioFieldsetLegend, withFieldsetDisabled } from "./lib/field/fieldset.js";
-export { UioInput, type InputSize } from "./lib/input/input.js";
+export { UioInput, UioInputStartAddon, UioInputEndAddon, type InputSize } from "./lib/input/input.js";
 export { UioTextArea, type TextAreaSize, type TextAreaResize } from "./lib/text-area/text-area.js";
 export { UioRadioGroup, type RadioOption, type RadioOrientation } from "./lib/radio/radio.js";
 export { VISUALLY_HIDDEN_INPUT, nextMachineId } from "./lib/part-ids.js";

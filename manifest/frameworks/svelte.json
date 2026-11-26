@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:07:25.357Z",
+  "generatedAt": "2026-11-25T17:37:01.086Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -5185,6 +5185,18 @@
           "required": false
         },
         {
+          "name": "endAddon",
+          "type": "string | Snippet",
+          "required": false,
+          "description": "An add-on after the control: text such as `.com`, or a snippet."
+        },
+        {
+          "name": "endIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, after the text."
+        },
+        {
           "name": "error",
           "type": "string | boolean",
           "required": false,
@@ -5210,6 +5222,18 @@
           "description": "Size variant."
         },
         {
+          "name": "startAddon",
+          "type": "string | Snippet",
+          "required": false,
+          "description": "An add-on before the control, inside its border: text such as `https://`, or a snippet holding a control of its own, such as a ghost `Select`."
+        },
+        {
+          "name": "startIcon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon inside the control, before the text."
+        },
+        {
           "name": "value",
           "type": "string | number | null",
           "required": false,
@@ -5217,8 +5241,8 @@
         }
       ],
       "usageSnippet": "<Input />",
-      "propSignatureHash": "sha256:730483a7ca607462",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:4be165bba2eb62de",
+      "lastSyncedAt": "2026-11-25T17:37:01.086Z",
       "status": "draft"
     },
     {

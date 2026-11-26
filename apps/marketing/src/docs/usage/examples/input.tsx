@@ -47,4 +47,10 @@ export const inputExamples: UsageExampleSet = {
       </div>
     ),
   },
+
+  addons: {
+    layout: "padded",
+    Do: () => <Input label="Website" startAddon="https://" placeholder="example" endAddon=".com" />,
+    Dont: () => <Input label="Website" placeholder="https://example.com" />,
+  },
 };
