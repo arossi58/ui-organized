@@ -4,7 +4,9 @@
    spans it and takes its columns by subgrid, so every term lines up in one
    column however long its neighbours are, and a divider can run under a whole
    row. The term column is as wide as the widest term unless
-   `--description-list-term-width` says otherwise. */
+   `--description-list-term-width` says otherwise. Terms are tertiary and
+   regular; details are primary at emphasis weight, so the values carry the
+   row. */
 
 /* Declared at zero specificity, so any class a consumer puts on the list wins. */
 :where(.description-list) {
@@ -36,7 +38,7 @@
 }
 
 .description-list__term {
-  color: var(--color-content-secondary);
+  color: var(--color-content-tertiary);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);
 }
@@ -45,6 +47,7 @@
   min-width: 0;
   margin: 0;
   color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-emphasis);
   font-size: var(--type-size-body-medium);
   line-height: var(--type-leading-body-medium);
   overflow-wrap: anywhere;
@@ -79,7 +82,7 @@
   border-block-start: 1px solid var(--color-border-secondary);
 }
 
-/* Stacked: one column, the details under their term. */
+/* Stacked: one column, the details straight under their term. */
 .description-list--stacked {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -87,5 +90,4 @@
 .description-list--stacked > .description-list__item {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-space-005);
 }
