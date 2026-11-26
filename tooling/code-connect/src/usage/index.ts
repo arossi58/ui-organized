@@ -69,6 +69,7 @@ import { iconUsage } from "./guides/icon.js";
 import { pinInputUsage } from "./guides/pin-input.js";
 import { tagsInputUsage } from "./guides/tags-input.js";
 import { editableUsage } from "./guides/editable.js";
+import { featuredIconUsage } from "./guides/featured-icon.js";
 import { ratingGroupUsage } from "./guides/rating-group.js";
 import { angleSliderUsage } from "./guides/angle-slider.js";
 import { colorPickerUsage } from "./guides/color-picker.js";
@@ -145,6 +146,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "pin-input": pinInputUsage,
   "tags-input": tagsInputUsage,
   editable: editableUsage,
+  "featured-icon": featuredIconUsage,
   "rating-group": ratingGroupUsage,
   "angle-slider": angleSliderUsage,
   "color-picker": colorPickerUsage,

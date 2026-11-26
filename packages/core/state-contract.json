@@ -456,6 +456,29 @@
       ],
       "runtime": []
     },
+    "FeaturedIcon": {
+      "attributes": {
+        "hidden": []
+      },
+      "classes": [
+        "featured-icon",
+        "featured-icon--brand",
+        "featured-icon--caution",
+        "featured-icon--error",
+        "featured-icon--info",
+        "featured-icon--lg",
+        "featured-icon--md",
+        "featured-icon--neutral",
+        "featured-icon--outline",
+        "featured-icon--sm",
+        "featured-icon--solid",
+        "featured-icon--square",
+        "featured-icon--subtle",
+        "featured-icon--success",
+        "featured-icon--xl"
+      ],
+      "runtime": []
+    },
     "Field": {
       "attributes": {
         "data-disabled": [],

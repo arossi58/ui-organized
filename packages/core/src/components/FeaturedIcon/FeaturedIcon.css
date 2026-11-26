@@ -1,0 +1,136 @@
+/* ─── FeaturedIcon ────────────────────────────────────────────────────────── */
+
+/* An icon in a tinted shape. Colour (`variant`) and treatment (`appearance`)
+   are separate axes: each colour sets the roles below, and each appearance
+   chooses which of them it paints with. The icon itself is `currentColor`. */
+.featured-icon {
+  --featured-icon-size: 40px;
+  --featured-icon-radius: var(--border-radius-04);
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--featured-icon-size);
+  height: var(--featured-icon-size);
+  border-radius: var(--border-radius-full);
+}
+
+/* `display: inline-flex` above out-ranks [hidden]'s `display: none`. */
+.featured-icon[hidden] {
+  display: none;
+}
+
+.featured-icon--square {
+  border-radius: var(--featured-icon-radius);
+}
+
+/* ─── Sizes ───────────────────────────────────────────────────────────────── */
+
+.featured-icon--sm { --featured-icon-size: 32px; --featured-icon-radius: var(--border-radius-03); }
+.featured-icon--md { --featured-icon-size: 40px; --featured-icon-radius: var(--border-radius-04); }
+.featured-icon--lg { --featured-icon-size: 48px; --featured-icon-radius: var(--border-radius-05); }
+.featured-icon--xl { --featured-icon-size: 56px; --featured-icon-radius: var(--border-radius-05); }
+
+/* ─── Colours ─────────────────────────────────────────────────────────────── */
+
+/* `tint` and `ink` are the subtle pair (and outline's ring and icon); `fill`
+   and `on-fill` are the solid pair. The solid label is light on the status
+   colours, as on an emphasized Tag, and `--color-interactive-contents` on the
+   brand fill, the one label chosen by contrast against the brand. */
+/* Brand has no status trio, and gets none: a new semantic token is one a theme
+   exported before it would lack, and @ui-organized/react-vite fails the build
+   on a missing token. So the pair is derived from tokens every theme has.
+   The tint is the brand fill at 12% over whatever surface it sits on; the ink
+   is that fill mixed halfway toward the primary text colour, which darkens it
+   in light mode and lightens it in dark. Checked against all 36 brand
+   families on the base, primary and secondary surfaces in both modes: the
+   lowest is 6.1:1, so it also holds as a text pair (Tag uses it). */
+.featured-icon--brand {
+  --featured-icon-tint: color-mix(in srgb, var(--color-interactive-primary-default) 12%, transparent);
+  --featured-icon-ink: color-mix(in oklab, var(--color-interactive-primary-default) 50%, var(--color-content-primary));
+}
+
+.featured-icon--neutral {
+  --featured-icon-tint: var(--color-interactive-secondary-default);
+  --featured-icon-ink: var(--color-content-secondary);
+  --featured-icon-fill: var(--color-content-secondary);
+  --featured-icon-on-fill: var(--color-content-inverse);
+}
+
+.featured-icon--success {
+  --featured-icon-tint: var(--color-status-success-bg);
+  --featured-icon-ink: var(--color-status-success-content);
+  --featured-icon-fill: var(--color-status-success);
+  --featured-icon-on-fill: var(--color-content-light);
+}
+
+.featured-icon--info {
+  --featured-icon-tint: var(--color-status-info-bg);
+  --featured-icon-ink: var(--color-status-info-content);
+  --featured-icon-fill: var(--color-status-info);
+  --featured-icon-on-fill: var(--color-content-light);
+}
+
+.featured-icon--caution {
+  --featured-icon-tint: var(--color-status-caution-bg);
+  --featured-icon-ink: var(--color-status-caution-content);
+  --featured-icon-fill: var(--color-status-caution);
+  --featured-icon-on-fill: var(--color-content-light);
+}
+
+.featured-icon--error {
+  --featured-icon-tint: var(--color-status-error-bg);
+  --featured-icon-ink: var(--color-status-error-content);
+  --featured-icon-fill: var(--color-status-error);
+  --featured-icon-on-fill: var(--color-content-light);
+}
+
+/* ─── Appearances ─────────────────────────────────────────────────────────── */
+
+.featured-icon--subtle {
+  background-color: var(--featured-icon-tint);
+  color: var(--featured-icon-ink);
+}
+
+.featured-icon--solid {
+  background-color: var(--featured-icon-fill);
+  color: var(--featured-icon-on-fill);
+}
+
+/* Spelled out rather than through the roles above, so the brand-fill label
+   check (brandFillLabel.test.ts) can see the pair. */
+.featured-icon--brand.featured-icon--solid {
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+}
+
+/* No fill: the icon in the content tone inside two faded rings, the outer one
+   on the shape's edge and the inner one an eighth of the size in. Both rings
+   are `currentColor`, so they follow the colour without roles of their own. */
+.featured-icon--outline {
+  background-color: transparent;
+  color: var(--featured-icon-ink);
+}
+
+.featured-icon--outline::before,
+.featured-icon--outline::after {
+  content: "";
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid currentColor;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.featured-icon--outline::before {
+  inset: 0;
+  opacity: 0.1;
+}
+
+.featured-icon--outline::after {
+  inset: calc(var(--featured-icon-size) / 8);
+  opacity: 0.3;
+}

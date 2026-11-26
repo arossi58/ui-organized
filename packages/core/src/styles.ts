@@ -39,6 +39,7 @@ import "./components/SegmentedControl/SegmentedControl.css";
 import "./components/Navigation/Navigation.css";
 import "./components/Divider/Divider.css";
 import "./components/Skeleton/Skeleton.css";
+import "./components/FeaturedIcon/FeaturedIcon.css";
 import "./components/Avatar/Avatar.css";
 import "./components/Progress/Progress.css";
 import "./components/Field/Field.css";

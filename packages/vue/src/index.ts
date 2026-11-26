@@ -75,6 +75,8 @@ export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps } from "./components/Skeleton/index.js";
 export { Spinner } from "./components/Spinner/index.js";
 export type { SpinnerProps } from "./components/Spinner/index.js";
+export { FeaturedIcon } from "./components/FeaturedIcon/index.js";
+export type { FeaturedIconProps } from "./components/FeaturedIcon/index.js";
 
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";

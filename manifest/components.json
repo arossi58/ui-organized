@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T15:14:02.128Z",
+  "generatedAt": "2026-11-25T15:43:56.216Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3679,6 +3679,60 @@
       "usageSnippet": "<Editable />",
       "propSignatureHash": "sha256:4acc88909e051c06",
       "lastSyncedAt": "2026-08-02T14:46:46.619Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "FeaturedIcon",
+      "codeName": "FeaturedIcon",
+      "codePath": "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts",
+      "framework": "react",
+      "importStatement": "import { FeaturedIcon } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "appearance",
+          "type": "\"subtle\" | \"solid\" | \"outline\"",
+          "required": false,
+          "defaultValue": "subtle",
+          "description": "`subtle` is a tint with the colour's content tone, `solid` the full colour, `outline` no fill and two faded rings."
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": true,
+          "description": "The icon: its native name in the active library (registered with `registerIcons`), or a library icon component supplied directly."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "An accessible name, for an icon that means something on its own."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle",
+          "description": "Defaults to 'circle'."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "32, 40, 48 or 56 px, holding a 16, 20, 24 or 28 px icon."
+        },
+        {
+          "name": "variant",
+          "type": "\"brand\" | \"neutral\" | \"success\" | \"info\" | \"caution\" | \"error\"",
+          "required": false,
+          "defaultValue": "brand",
+          "description": "Colour."
+        }
+      ],
+      "usageSnippet": "<FeaturedIcon icon={/* IconName | IconComponent */} />",
+      "propSignatureHash": "sha256:7e233281cd254757",
+      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
       "status": "draft"
     },
     {

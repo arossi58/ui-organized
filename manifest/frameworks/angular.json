@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T15:14:02.128Z",
+  "generatedAt": "2026-11-25T15:43:56.216Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2742,6 +2742,58 @@
       "usageSnippet": "<!-- div[uioEditable] -->",
       "propSignatureHash": "sha256:698b19d14d52d5c0",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioFeaturedIcon",
+      "codeName": "UioFeaturedIcon",
+      "codePath": "packages/angular/src/lib/featured-icon/featured-icon.ts",
+      "framework": "angular",
+      "importStatement": "import { UioFeaturedIcon } from '@ui-organized/angular';",
+      "selector": "span[uioFeaturedIcon]",
+      "reactName": "FeaturedIcon",
+      "props": [
+        {
+          "name": "appearance",
+          "type": "\"outline\" | \"solid\" | \"subtle\"",
+          "required": false,
+          "defaultValue": "subtle"
+        },
+        {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": true,
+          "description": "The icon's native name in the active set, or a system glyph."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "An accessible name, for an icon that means something on its own."
+        },
+        {
+          "name": "shape",
+          "type": "\"circle\" | \"square\"",
+          "required": false,
+          "defaultValue": "circle"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "variant",
+          "type": "\"info\" | \"success\" | \"error\" | \"caution\" | \"brand\" | \"neutral\"",
+          "required": false,
+          "defaultValue": "brand"
+        }
+      ],
+      "usageSnippet": "<!-- span[uioFeaturedIcon] -->",
+      "propSignatureHash": "sha256:17e7ae2387fa3c61",
+      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
       "status": "draft"
     },
     {
@@ -5811,14 +5863,14 @@
         },
         {
           "name": "variant",
-          "type": "\"info\" | \"success\" | \"error\" | \"info-secondary\" | \"caution\"",
+          "type": "\"info\" | \"success\" | \"error\" | \"caution\" | \"info-secondary\"",
           "required": false,
           "defaultValue": "success"
         }
       ],
       "usageSnippet": "<!-- span[uioTag] -->",
-      "propSignatureHash": "sha256:13e10552267890f2",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:e7d608b3a8628567",
+      "lastSyncedAt": "2026-11-25T15:43:56.216Z",
       "status": "draft"
     },
     {
