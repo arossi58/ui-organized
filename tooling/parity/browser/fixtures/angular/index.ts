@@ -46,6 +46,7 @@ import { QRCodeFixture } from "./qr-code.fixture.js";
 import { RadioGroupFixture } from "./radio-group.fixture.js";
 import { VideoEmbedFixture } from "./video-embed.fixture.js";
 import { CalendarFixture } from "./calendar.fixture.js";
+import { AttachmentFixture } from "./attachment.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
 import { RangeFixture } from "./range.fixture.js";
@@ -142,6 +143,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   RadioGroup: RadioGroupFixture,
   VideoEmbed: VideoEmbedFixture,
   Calendar: CalendarFixture,
+  Attachment: AttachmentFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,
   Range: RangeFixture,

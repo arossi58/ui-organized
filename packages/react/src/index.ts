@@ -477,7 +477,7 @@ export { Tour } from "./components/Tour/index.js";
 export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";
 
 export { FileUpload } from "./components/FileUpload/index.js";
-export type { FileUploadProps, FileUploadVariants } from "./components/FileUpload/index.js";
+export type { FileUploadProps, FileUploadStatus, FileUploadVariants } from "./components/FileUpload/index.js";
 
 export { ImageCropper } from "./components/ImageCropper/index.js";
 export type {
@@ -493,3 +493,5 @@ export { QRCode } from "./components/QRCode/index.js";
 export type { QRCodeProps, QRCodeVariants } from "./components/QRCode/index.js";
 export { VideoEmbed } from "./components/VideoEmbed/index.js";
 export type { VideoEmbedProps, VideoEmbedVariants } from "./components/VideoEmbed/index.js";
+export { Attachment } from "./components/Attachment/index.js";
+export type { AttachmentProps, AttachmentVariants, AttachmentStatus } from "./components/Attachment/index.js";

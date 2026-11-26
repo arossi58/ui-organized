@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:15:58.332Z",
+  "generatedAt": "2026-11-25T22:45:03.731Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1311,6 +1311,91 @@
       "usageSnippet": "<!-- div[uioAngleSlider] -->",
       "propSignatureHash": "sha256:3321b16c597fe4d4",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAttachment",
+      "codeName": "UioAttachment",
+      "codePath": "packages/angular/src/lib/attachment/attachment.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAttachment } from '@ui-organized/angular';",
+      "selector": "div[uioAttachment]",
+      "reactName": "Attachment",
+      "props": [
+        {
+          "name": "error",
+          "type": "string",
+          "required": false,
+          "description": "What went wrong, while `status` is `error`."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "A link to the file: the name becomes a download link."
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "progress",
+          "type": "number",
+          "required": false,
+          "description": "Upload progress, 0 to 100, while `status` is `uploading`."
+        },
+        {
+          "name": "progressLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Uploading"
+        },
+        {
+          "name": "removable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "removeLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "retryable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "retryLabel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "required": false,
+          "description": "Its size in bytes, shown as 4.2 kB once it is done."
+        },
+        {
+          "name": "status",
+          "type": "\"error\" | \"uploading\" | \"done\"",
+          "required": false,
+          "defaultValue": "done"
+        },
+        {
+          "name": "variant",
+          "type": "\"chip\" | \"row\"",
+          "required": false,
+          "defaultValue": "row"
+        }
+      ],
+      "usageSnippet": "<!-- div[uioAttachment] -->",
+      "propSignatureHash": "sha256:142d322b6f9a3676",
+      "lastSyncedAt": "2026-11-25T22:45:03.731Z",
       "status": "draft"
     },
     {
@@ -3424,6 +3509,12 @@
           "description": "A string shows a message; `true` marks the field invalid without one."
         },
         {
+          "name": "fileStatus",
+          "type": "(file: File) => FileUploadStatus | undefined",
+          "required": false,
+          "description": "The upload state of each listed file, which the component cannot know: the caller does the uploading."
+        },
+        {
           "name": "helperText",
           "type": "string",
           "required": false
@@ -3455,10 +3546,24 @@
           "required": false
         },
         {
+          "name": "progressLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Uploading",
+          "description": "The word before the percentage while uploading."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
           "defaultValue": "false"
+        },
+        {
+          "name": "retryable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Shows a retry button on a failed file; it emits `retry`."
         },
         {
           "name": "showPreview",
@@ -3486,9 +3591,12 @@
         }
       ],
       "usageSnippet": "<!-- div[uioFileUpload] -->",
-      "propSignatureHash": "sha256:4a77f300c0b8b8bc",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
-      "status": "draft"
+      "propSignatureHash": "sha256:274085438121bf52",
+      "lastSyncedAt": "2026-11-25T22:45:03.731Z",
+      "status": "draft",
+      "referencedTypes": {
+        "FileUploadStatus": "{ progress?: number; error?: string }"
+      }
     },
     {
       "figmaComponentKey": "",

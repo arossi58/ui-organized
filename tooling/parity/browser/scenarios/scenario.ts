@@ -192,6 +192,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "CheckboxCardGroup",
   "VideoEmbed",
   "Calendar",
+  "Attachment",
   "Range",
   "RatingGroup",
   "ScrollArea",

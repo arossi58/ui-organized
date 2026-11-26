@@ -4,7 +4,7 @@ import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { OMIT_ARIA } from "@ui-organized/core";
 import { FieldError } from "../FieldError/index.js";
-import { CONTROL_ICON_SIZE, fileUploadStyles, type ControlSize } from "@ui-organized/core";
+import { CONTROL_ICON_SIZE, clampProgress, fileUploadStyles, type ControlSize } from "@ui-organized/core";
 import type { FileUploadProps } from "./FileUpload.types.js";
 import "@ui-organized/core/components/FileUpload/FileUpload.css";
 import { glyph } from "../../icons/glyph.js";
@@ -35,6 +35,9 @@ export function FileUpload({
   required,
   disabled,
   name,
+  fileStatus,
+  onRetry,
+  progressLabel = "Uploading",
   className,
 }: FileUploadProps) {
   const isInvalid = !!error;
@@ -110,30 +113,68 @@ export function FileUpload({
       <ArkFileUpload.ItemGroup className="file-upload__items">
         <ArkFileUpload.Context>
           {(api) =>
-            api.acceptedFiles.map((file) => (
-              <ArkFileUpload.Item key={file.name} file={file} className="file-upload__item">
-                {showPreview && (
-                  <ArkFileUpload.ItemPreview type="image/*" className="file-upload__item-preview">
-                    <ArkFileUpload.ItemPreviewImage className="file-upload__item-image" />
+            api.acceptedFiles.map((file) => {
+              // The caller does the uploading, so the state is theirs to report.
+              const reported = fileStatus?.(file);
+              const pct = clampProgress(reported?.progress);
+              const status = reported?.error
+                ? "error"
+                : pct != null && pct < 100
+                  ? "uploading"
+                  : undefined;
+              return (
+                <ArkFileUpload.Item key={file.name} file={file} className="file-upload__item" data-status={status}>
+                  {showPreview && (
+                    <ArkFileUpload.ItemPreview type="image/*" className="file-upload__item-preview">
+                      <ArkFileUpload.ItemPreviewImage className="file-upload__item-image" />
+                    </ArkFileUpload.ItemPreview>
+                  )}
+                  {/* Shown for anything that is not an image — `type` is a filter,
+                      and Ark renders only the preview whose filter matches. */}
+                  <ArkFileUpload.ItemPreview type=".*" className="file-upload__item-preview">
+                    <Icon name={glyph("file")} size={iconSize} />
                   </ArkFileUpload.ItemPreview>
-                )}
-                {/* Shown for anything that is not an image — `type` is a filter,
-                    and Ark renders only the preview whose filter matches. */}
-                <ArkFileUpload.ItemPreview type=".*" className="file-upload__item-preview">
-                  <Icon name={glyph("file")} size={iconSize} />
-                </ArkFileUpload.ItemPreview>
-                <span className="file-upload__item-meta">
-                  <ArkFileUpload.ItemName className="file-upload__item-name" />
-                  <ArkFileUpload.ItemSizeText className="file-upload__item-size" />
-                </span>
-                <ArkFileUpload.ItemDeleteTrigger
-                  className="file-upload__item-delete"
-                  aria-label={`Remove ${file.name}`}
-                >
-                  <Icon name={glyph("close")} size={DELETE_ICON_SIZE} />
-                </ArkFileUpload.ItemDeleteTrigger>
-              </ArkFileUpload.Item>
-            ))
+                  <span className="file-upload__item-meta">
+                    <ArkFileUpload.ItemName className="file-upload__item-name" />
+                    {status === "uploading" ? (
+                      <span className="file-upload__item-status">{`${progressLabel} ${pct}%`}</span>
+                    ) : status === "error" ? (
+                      <span className="file-upload__item-status">{reported?.error}</span>
+                    ) : (
+                      <ArkFileUpload.ItemSizeText className="file-upload__item-size" />
+                    )}
+                    {status === "uploading" && (
+                      <div
+                        className="file-upload__item-progress"
+                        role="progressbar"
+                        aria-label={`${progressLabel} ${file.name}`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={pct ?? undefined}
+                      >
+                        <span className="file-upload__item-progress-bar" style={{ width: `${pct}%` }} />
+                      </div>
+                    )}
+                  </span>
+                  {status === "error" && onRetry && (
+                    <button
+                      type="button"
+                      className="file-upload__item-retry"
+                      aria-label={`Retry ${file.name}`}
+                      onClick={() => onRetry(file)}
+                    >
+                      <Icon name={glyph("refresh")} size={DELETE_ICON_SIZE} />
+                    </button>
+                  )}
+                  <ArkFileUpload.ItemDeleteTrigger
+                    className="file-upload__item-delete"
+                    aria-label={`Remove ${file.name}`}
+                  >
+                    <Icon name={glyph("close")} size={DELETE_ICON_SIZE} />
+                  </ArkFileUpload.ItemDeleteTrigger>
+                </ArkFileUpload.Item>
+              );
+            })
           }
         </ArkFileUpload.Context>
       </ArkFileUpload.ItemGroup>

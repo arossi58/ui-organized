@@ -13,6 +13,8 @@ import {
 } from "@angular/core";
 import {
   CONTROL_ICON_SIZE,
+  clampProgress,
+  formatFileSize,
   fileUploadStyles,
   type ControlSize,
   type FileUploadVariants,
@@ -23,6 +25,14 @@ import { UioButton } from "../button/button.js";
 import { UioIcon } from "../icons/icon.js";
 import { UioFieldError } from "../field-error/field-error.js";
 import { glyph } from "../icons/glyph.js";
+
+/** What `fileStatus` reports for one file. */
+export interface FileUploadStatus {
+  /** Upload progress, 0 to 100. Below 100 the row shows a progress bar. */
+  progress?: number;
+  /** What went wrong. The row shows it, and a retry button when `retryable`. */
+  error?: string;
+}
 
 export type FileUploadSize = ControlSize;
 export type FileUploadVariant = NonNullable<FileUploadVariants["variant"]>;
@@ -44,33 +54,12 @@ export interface FileRejection {
  *  inside the row rather than beside it. */
 const DELETE_ICON_SIZE = 16;
 
-/** Zag's ladder, and the reason 1500 bytes reads as `1.5 kB` and not `1.46 kB`. */
-const BYTE_PREFIXES = ["", "kilo", "mega", "giga", "tera", "peta"];
-
 /**
- * A file size in the shape Zag renders it, so the row reads the same in every
- * library.
- *
- * Decimal rather than binary — 1000 to the kilobyte — and three significant
- * figures, which is what turns 1536 into `1.54 kB`. `Intl` supplies the unit
- * name, so the string is localised rather than hand-assembled.
+ * A file size in the shape Zag renders it. Lives in core now, beside
+ * Attachment, which prints the same sizes; re-exported here so this module's
+ * public name keeps working.
  */
-export function formatFileSize(bytes: number, locale = "en-US"): string {
-  if (Number.isNaN(bytes)) return "";
-  if (bytes === 0) return "0 B";
-  let value = Math.abs(bytes);
-  let index = 0;
-  while (value >= 1000 && index < BYTE_PREFIXES.length - 1) {
-    value /= 1000;
-    index++;
-  }
-  const rounded = Number.parseFloat(value.toPrecision(3));
-  return new Intl.NumberFormat(locale, {
-    style: "unit",
-    unit: `${BYTE_PREFIXES[index]}byte`,
-    unitDisplay: "short",
-  }).format(bytes < 0 ? -rounded : rounded);
-}
+export { formatFileSize };
 
 /**
  * Does a file match an `accept` list? The same test the browser's own file
@@ -219,6 +208,7 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
           data-type="accepted"
           [id]="partId('item:' + $index)"
           [attr.data-disabled]="flag(isDisabled())"
+          [attr.data-status]="statusOf(file).status"
         >
           @if (showPreview() && isImage(file)) {
             <div
@@ -261,16 +251,48 @@ export function acceptsFile(file: File, accept: string | undefined): boolean {
             >
               {{ file.name }}
             </div>
-            <div
-              class="file-upload__item-size"
-              data-scope="file-upload"
-              data-part="item-size-text"
-              data-type="accepted"
-              [id]="partId('item-size:' + $index)"
-            >
-              {{ sizeOf(file) }}
-            </div>
+            @switch (statusOf(file).status) {
+              @case ("uploading") {
+                <span class="file-upload__item-status">{{ progressLabel() + " " + statusOf(file).pct + "%" }}</span>
+              }
+              @case ("error") {
+                <span class="file-upload__item-status">{{ statusOf(file).error }}</span>
+              }
+              @default {
+                <div
+                  class="file-upload__item-size"
+                  data-scope="file-upload"
+                  data-part="item-size-text"
+                  data-type="accepted"
+                  [id]="partId('item-size:' + $index)"
+                >
+                  {{ sizeOf(file) }}
+                </div>
+              }
+            }
+            @if (statusOf(file).status === "uploading") {
+              <div
+                class="file-upload__item-progress"
+                role="progressbar"
+                [attr.aria-label]="progressLabel() + ' ' + file.name"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                [attr.aria-valuenow]="statusOf(file).pct"
+              >
+                <span class="file-upload__item-progress-bar" [style.width.%]="statusOf(file).pct"></span>
+              </div>
+            }
           </span>
+          @if (statusOf(file).status === "error" && retryable()) {
+            <button
+              type="button"
+              class="file-upload__item-retry"
+              [attr.aria-label]="'Retry ' + file.name"
+              (click)="retry.emit(file)"
+            >
+              <span uioIcon [name]="glyph('refresh')" [size]="DELETE_ICON_SIZE"></span>
+            </button>
+          }
           <button
             class="file-upload__item-delete"
             data-scope="file-upload"
@@ -352,6 +374,19 @@ export class UioFileUpload extends UioPart {
   readonly showPreview = input(true, { transform: booleanAttribute });
   readonly required = input(false, { transform: booleanAttribute });
   readonly name = input<string | undefined>(undefined);
+  /**
+   * The upload state of each listed file, which the component cannot know:
+   * the caller does the uploading. Return a `progress` while it runs and an
+   * `error` if it fails; return nothing for a file that is done. Signals read
+   * inside it are tracked, so the rows follow the caller's state.
+   */
+  readonly fileStatus = input<((file: File) => FileUploadStatus | undefined) | undefined>(undefined);
+  /** Shows a retry button on a failed file; it emits `retry`. */
+  readonly retryable = input(false, { transform: booleanAttribute });
+  /** The word before the percentage while uploading. */
+  readonly progressLabel = input("Uploading");
+  /** A failed file's retry button was pressed. */
+  readonly retry = output<File>();
 
   protected readonly disabledInput = input(false, {
     alias: "disabled",
@@ -408,6 +443,14 @@ export class UioFileUpload extends UioPart {
 
   protected isImage(file: File): boolean {
     return file.type.startsWith("image/");
+  }
+
+  /** The caller's reported state for one file, resolved to what the row draws. */
+  protected statusOf(file: File): { status: "uploading" | "error" | null; pct: number | null; error: string | undefined } {
+    const reported = this.fileStatus()?.(file);
+    const pct = clampProgress(reported?.progress);
+    const status = reported?.error ? "error" : pct != null && pct < 100 ? "uploading" : null;
+    return { status, pct, error: reported?.error };
   }
 
   protected sizeOf(file: File): string {

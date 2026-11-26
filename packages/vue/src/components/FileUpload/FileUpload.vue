@@ -2,7 +2,7 @@
 import { computed, useAttrs } from "vue";
 import { FileUpload as ArkFileUpload } from "@ark-ui/vue";
 import { clsx } from "clsx";
-import { CONTROL_ICON_SIZE, fileUploadStyles, OMIT_ARIA } from "@ui-organized/core";
+import { CONTROL_ICON_SIZE, clampProgress, fileUploadStyles, OMIT_ARIA } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
@@ -30,6 +30,7 @@ const props = withDefaults(defineProps<FileUploadProps>(), {
   variant: "dropzone",
   size: "md",
   showPreview: true,
+  progressLabel: "Uploading",
   allowDrop: undefined,
   directory: undefined,
   required: undefined,
@@ -42,6 +43,14 @@ const emit = defineEmits<{
 }>();
 
 const attrs = useAttrs();
+
+// The caller does the uploading, so the state is theirs to report.
+function statusOf(file: File) {
+  const reported = props.fileStatus?.(file);
+  const pct = clampProgress(reported?.progress);
+  const status = reported?.error ? "error" : pct != null && pct < 100 ? "uploading" : undefined;
+  return { reported, pct, status };
+}
 
 const isInvalid = computed(() => !!props.error);
 const errorMessage = computed(() => (typeof props.error === "string" ? props.error : undefined));
@@ -130,6 +139,7 @@ function onFileReject(details: { files: unknown[] }) {
           :key="file.name"
           :file="file"
           class="file-upload__item"
+          :data-status="statusOf(file).status"
         >
           <ArkFileUpload.ItemPreview
             v-if="showPreview"
@@ -147,8 +157,34 @@ function onFileReject(details: { files: unknown[] }) {
           </ArkFileUpload.ItemPreview>
           <span class="file-upload__item-meta">
             <ArkFileUpload.ItemName class="file-upload__item-name" />
-            <ArkFileUpload.ItemSizeText class="file-upload__item-size" />
+            <span v-if="statusOf(file).status === 'uploading'" class="file-upload__item-status">{{
+              `${progressLabel} ${statusOf(file).pct}%`
+            }}</span>
+            <span v-else-if="statusOf(file).status === 'error'" class="file-upload__item-status">{{
+              statusOf(file).reported?.error
+            }}</span>
+            <ArkFileUpload.ItemSizeText v-else class="file-upload__item-size" />
+            <div
+              v-if="statusOf(file).status === 'uploading'"
+              class="file-upload__item-progress"
+              role="progressbar"
+              :aria-label="`${progressLabel} ${file.name}`"
+              :aria-valuemin="0"
+              :aria-valuemax="100"
+              :aria-valuenow="statusOf(file).pct ?? undefined"
+            >
+              <span class="file-upload__item-progress-bar" :style="{ width: `${statusOf(file).pct}%` }" />
+            </div>
           </span>
+          <button
+            v-if="statusOf(file).status === 'error' && onRetry"
+            type="button"
+            class="file-upload__item-retry"
+            :aria-label="`Retry ${file.name}`"
+            @click="onRetry(file)"
+          >
+            <Icon :name="glyph('refresh')" :size="DELETE_ICON_SIZE" />
+          </button>
           <ArkFileUpload.ItemDeleteTrigger
             class="file-upload__item-delete"
             :aria-label="`Remove ${file.name}`"

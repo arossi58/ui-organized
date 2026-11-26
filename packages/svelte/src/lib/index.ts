@@ -258,7 +258,7 @@ export { Editable } from "./components/Editable/index.js";
 export type { EditableProps, EditableVariants } from "./components/Editable/index.js";
 
 export { FileUpload } from "./components/FileUpload/index.js";
-export type { FileUploadProps, FileUploadVariants } from "./components/FileUpload/index.js";
+export type { FileUploadProps, FileUploadStatus, FileUploadVariants } from "./components/FileUpload/index.js";
 
 export { Range } from "./components/Range/index.js";
 export type { RangeProps, RangeVariants } from "./components/Range/index.js";
@@ -364,3 +364,5 @@ export { Tour } from "./components/Tour/index.js";
 export type { TourProps, TourStep, TourStepAction, TourVariants } from "./components/Tour/index.js";
 export { VideoEmbed } from "./components/VideoEmbed/index.js";
 export type { VideoEmbedProps } from "./components/VideoEmbed/index.js";
+export { Attachment } from "./components/Attachment/index.js";
+export type { AttachmentProps } from "./components/Attachment/index.js";

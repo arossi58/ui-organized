@@ -1,0 +1,172 @@
+/* ─── Attachment ────────────────────────────────────────────────────────────────
+   A file as a row (name, size or status, progress, actions) or a chip (name and
+   a remove button), for upload lists and for files attached to a message. */
+
+.attachment {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  box-sizing: border-box;
+  min-width: 0;
+  font-family: var(--type-font-body);
+}
+
+.attachment--row {
+  padding: var(--spacing-space-03);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.attachment--row[data-status="error"] {
+  border-color: var(--color-status-error-message);
+}
+
+.attachment__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-interactive);
+  background-color: var(--color-surface-secondary);
+  color: var(--color-content-secondary);
+}
+
+.attachment[data-status="error"] .attachment__icon {
+  color: var(--color-status-error-message);
+}
+
+.attachment__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+}
+
+.attachment__name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-emphasis);
+  line-height: var(--type-leading-body-medium);
+  color: var(--color-content-primary);
+}
+
+a.attachment__name {
+  text-decoration: none;
+}
+
+a.attachment__name:hover {
+  text-decoration: underline;
+}
+
+a.attachment__name:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-interactive);
+}
+
+.attachment__meta {
+  font-size: var(--type-size-body-small);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-small);
+  color: var(--color-content-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.attachment[data-status="error"] .attachment__meta {
+  color: var(--color-status-error-message);
+}
+
+/* The bar, drawn here rather than with Progress: a row names its own bar, and
+   Progress would add a visible header. FileUpload draws the same bar. */
+.attachment__progress {
+  position: relative;
+  height: 4px;
+  margin-top: var(--spacing-space-01);
+  overflow: hidden;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.attachment__progress-bar {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: inherit;
+  background-color: var(--color-interactive-primary-default);
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .attachment__progress-bar {
+    transition: none;
+  }
+}
+
+.attachment__actions {
+  display: inline-flex;
+  flex: none;
+  gap: var(--spacing-space-005);
+}
+
+.attachment__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-01);
+  background: none;
+  border: none;
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.attachment__action:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.attachment__action:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+/* ─── Chip ────────────────────────────────────────────────────────────────── */
+
+.attachment--chip {
+  display: inline-flex;
+  gap: var(--spacing-space-02);
+  max-width: 100%;
+  padding: var(--spacing-space-01) var(--spacing-space-01) var(--spacing-space-01) var(--spacing-space-02);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+}
+
+.attachment--chip .attachment__icon {
+  width: auto;
+  height: auto;
+  background: none;
+}
+
+.attachment--chip .attachment__body {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--spacing-space-02);
+}
+
+.attachment--chip .attachment__action {
+  padding: var(--spacing-space-005);
+}
+
+.attachment--chip[data-status="error"] {
+  border-color: var(--color-status-error-message);
+}

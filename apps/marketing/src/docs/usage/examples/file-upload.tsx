@@ -8,6 +8,11 @@ const stack = {
   width: "100%",
 };
 
+const UPLOADS = [
+  new File([new Uint8Array(1_200_000)], "walkthrough.mov", { type: "video/quicktime" }),
+  new File([new Uint8Array(300_000)], "plan.png", { type: "application/octet-stream" }),
+];
+
 export const fileUploadExamples: UsageExampleSet = {
   constraints: {
     layout: "padded",
@@ -47,5 +52,23 @@ export const fileUploadExamples: UsageExampleSet = {
         <FileUpload label="Attachment" size="lg" />
       </div>
     ),
+  },
+
+  "upload-state": {
+    layout: "padded",
+    Do: () => (
+      <FileUpload
+        label="Attachments"
+        variant="compact"
+        showPreview={false}
+        defaultAcceptedFiles={UPLOADS}
+        fileStatus={(file) =>
+          file.name === "walkthrough.mov" ? { progress: 45 } : file.name === "plan.png" ? { error: "The connection dropped." } : undefined
+        }
+        onRetry={() => {}}
+      />
+    ),
+    // Every row looks finished, whatever its upload is doing.
+    Dont: () => <FileUpload label="Attachments" variant="compact" showPreview={false} defaultAcceptedFiles={UPLOADS} />,
   },
 };
