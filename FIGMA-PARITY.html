@@ -1278,10 +1278,10 @@ _DatePicker/Day                  ComponentSet   state=…, selection=…
     └── row 1…3 (divided=true)   FRAME  padding-block space-03 (space-02 at sm), top rule from row 2 &gt; item
 
 _DescriptionList/Item            ComponentSet   size=…, layout=…
-└── &lt;variant&gt;                    COMPONENT  HORIZONTAL baseline, gap space-04 (space-03 at sm) | VERTICAL gap space-005
-    ├── term                     TEXT default/body-medium | default/body-small, content/secondary, 120 wide (inline)
-    └── details                  TEXT same style, content/primary, FILL</code></pre></div>
-<p class="lead"><strong>Bindings.</strong> Term <code>content/secondary</code>, details <code>content/primary</code>, row rules <code>border/secondary</code>, gaps and padding on <code>spacing/*</code>.</p>
+└── &lt;variant&gt;                    COMPONENT  HORIZONTAL baseline, gap space-04 (space-03 at sm) | VERTICAL, no gap
+    ├── term                     TEXT default/body-medium | default/body-small, content/tertiary, 120 wide (inline)
+    └── details                  TEXT emphasis/body-medium | emphasis/body-small, content/primary, FILL</code></pre></div>
+<p class="lead"><strong>Bindings.</strong> Term <code>content/tertiary</code> at default weight, details <code>content/primary</code> at emphasis weight, row rules <code>border/secondary</code>, gaps and padding on <code>spacing/*</code>.</p>
 <p class="lead"><strong>Divergences.</strong> Figma has no subgrid, so the term column is a fixed 120 rather than the widest term (<code>--description-list-term-width</code>); widen it per instance. <code>divided</code> is a variant here, not a boolean, so each look carries the CSS's exact row padding. <code>items</code> versus composed children has no Figma form: override a row's text, or swap its details for an instance.</p>
 </article>
 <article class="card">
