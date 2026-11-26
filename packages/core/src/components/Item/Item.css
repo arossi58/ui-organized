@@ -1,0 +1,158 @@
+/* ─── Item ────────────────────────────────────────────────────────────────────
+   A row: media, a title with a line of description, and actions at the end.
+
+   A row with a link is never an <a> around the row, which would nest the
+   actions' buttons inside a link. The link sits in the title, and its ::after
+   is stretched over the whole row (the row is its containing block), so a
+   click anywhere follows it. The actions are raised above that layer and stay
+   their own controls. Its focus ring and hover are drawn on the row.
+
+   Hover and press are painted as a background-image overlay, because the
+   interactive-ui colours are translucent: a muted row keeps its fill under it.
+
+   --item-radius is component-local; a divided group sets it to 0. */
+
+.item {
+  --item-radius: var(--border-radius-05);
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  box-sizing: border-box;
+  min-width: 0;
+  padding: var(--spacing-space-03);
+  border-radius: var(--item-radius);
+  font-family: var(--type-font-body);
+}
+
+.item--sm {
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-02);
+}
+
+/* 1px hairline — there is no border-width token family. */
+.item--outline {
+  border: 1px solid var(--color-border-primary);
+}
+
+.item--muted {
+  background-color: var(--color-surface-secondary);
+}
+
+.item__media {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.item__media--icon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-interactive);
+  background-color: var(--color-surface-secondary);
+  color: var(--color-content-secondary);
+}
+
+.item--sm .item__media--icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* On a muted row the tile would vanish into the fill. */
+.item--muted .item__media--icon {
+  background-color: var(--color-surface-primary);
+}
+
+.item__body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+}
+
+.item__title,
+.item__description {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.item__title {
+  color: var(--color-content-primary);
+}
+
+.item__description {
+  color: var(--color-content-secondary);
+}
+
+.item__actions {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+/* ─── The stretched link ──────────────────────────────────────────────────── */
+
+.item__link {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+
+.item__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--item-radius);
+}
+
+.item__link:focus-visible::after {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
+}
+
+.item:has(.item__link:hover) {
+  background-image: linear-gradient(var(--color-interactive-ui-hover), var(--color-interactive-ui-hover));
+}
+
+.item:has(.item__link:active) {
+  background-image: linear-gradient(var(--color-interactive-ui-active), var(--color-interactive-ui-active));
+}
+
+/* ─── ItemGroup ───────────────────────────────────────────────────────────── */
+
+.item-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-02);
+  min-width: 0;
+}
+
+.item-group--divided,
+.item-group--outline {
+  gap: 0;
+}
+
+.item-group--divided > .item {
+  --item-radius: 0;
+}
+
+.item-group--divided > .item + .item {
+  border-block-start: 1px solid var(--color-border-secondary);
+}
+
+/* The group is the frame, so its rows drop their own. The corners clip the
+   first and last rows' hover. */
+.item-group--outline {
+  overflow: hidden;
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.item-group--outline > .item--outline {
+  border: 0;
+}

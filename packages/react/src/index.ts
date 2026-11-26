@@ -517,3 +517,5 @@ export type {
 } from "./components/DescriptionList/index.js";
 export { Stat } from "./components/Stat/index.js";
 export type { StatProps, StatVariants, StatTrend, StatSentiment } from "./components/Stat/index.js";
+export { Item, ItemGroup } from "./components/Item/index.js";
+export type { ItemProps, ItemGroupProps, ItemVariants, ItemGroupVariants } from "./components/Item/index.js";

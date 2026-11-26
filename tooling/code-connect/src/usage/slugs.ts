@@ -51,6 +51,7 @@ export const COMPONENT_SLUGS = [
   "icon",
   "image-cropper",
   "input",
+  "item",
   "kbd",
   "listbox",
   "marquee",

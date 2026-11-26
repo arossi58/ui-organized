@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T04:21:31.703Z",
+  "generatedAt": "2026-11-26T04:49:23.327Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -86,6 +86,8 @@
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:b4148665bd6f188b",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:1a73cceef72037d9",
+    "packages/react/src/components/Item/Item.types.ts::Item": "sha256:361166fd44b90e6a",
+    "packages/react/src/components/Item/Item.types.ts::ItemGroup": "sha256:a3d721ccef08a163",
     "packages/react/src/components/Kbd/Kbd.types.ts::Kbd": "sha256:628ccf7b274eeef5",
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
     "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": "sha256:5990e288f07f2275",
@@ -3355,6 +3357,115 @@
         "type": "IconName | IconComponent",
         "required": false,
         "description": "An icon inside the control, before the text: a search glass, an at sign."
+      }
+    ],
+    "packages/react/src/components/Item/Item.types.ts::Item": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Controls at the end, such as a Switch or a Button."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One line under the title."
+      },
+      {
+        "name": "descriptionId",
+        "type": "string",
+        "required": false,
+        "description": "An id for the description, for `aria-describedby`."
+      },
+      {
+        "name": "headingLevel",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "description": "Render the title as a heading at this level."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "Makes the whole row a link to this address."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "An icon, drawn in a tile."
+      },
+      {
+        "name": "linkRender",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "A router link to use instead of a plain `<a href>`, such as `<Link to=\"/settings\" />`."
+      },
+      {
+        "name": "media",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Anything else at the start, such as an Avatar or an image."
+      },
+      {
+        "name": "rel",
+        "type": "string",
+        "required": false,
+        "description": "Passed to the link when `href` is set."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Defaults to 'md'."
+      },
+      {
+        "name": "target",
+        "type": "React.AnchorHTMLAttributes<HTMLAnchorElement>[\"target\"]",
+        "required": false,
+        "description": "Passed to the link when `href` is set."
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What the row is, in a few words."
+      },
+      {
+        "name": "titleId",
+        "type": "string",
+        "required": false,
+        "description": "An id for the title, so a control in `actions` can be named by it with `aria-labelledby`."
+      },
+      {
+        "name": "variant",
+        "type": "\"plain\" | \"outline\" | \"muted\"",
+        "required": false,
+        "defaultValue": "plain",
+        "description": "`plain` with no frame, `outline` with a border, `muted` on a filled surface."
+      }
+    ],
+    "packages/react/src/components/Item/Item.types.ts::ItemGroup": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "A rule between rows."
+      },
+      {
+        "name": "variant",
+        "type": "\"plain\" | \"outline\"",
+        "required": false,
+        "defaultValue": "plain",
+        "description": "`plain`, or `outline` to put the whole group in one frame."
       }
     ],
     "packages/react/src/components/Kbd/Kbd.types.ts::Kbd": [

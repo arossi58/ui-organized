@@ -28,6 +28,7 @@ import { commandMenuExamples } from "./command-menu";
 import { pageHeaderExamples } from "./page-header";
 import { descriptionListExamples } from "./description-list";
 import { statExamples } from "./stat";
+import { itemExamples } from "./item";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -112,6 +113,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "page-header": pageHeaderExamples,
   "description-list": descriptionListExamples,
   stat: statExamples,
+  item: itemExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

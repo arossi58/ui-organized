@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T04:21:31.703Z",
+  "generatedAt": "2026-11-26T04:49:23.327Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -5790,6 +5790,145 @@
       "usageSnippet": "<Input />",
       "propSignatureHash": "sha256:4be165bba2eb62de",
       "lastSyncedAt": "2026-11-25T17:37:01.086Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Item",
+      "codeName": "Item",
+      "codePath": "packages/svelte/src/lib/components/Item/Item.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { Item } from '@ui-organized/svelte';",
+      "reactName": "Item",
+      "props": [
+        {
+          "name": "actions",
+          "type": "Snippet",
+          "required": false,
+          "description": "Controls at the end, such as a Switch or a Button."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One line under the title."
+        },
+        {
+          "name": "descriptionId",
+          "type": "string",
+          "required": false,
+          "description": "An id for the description, for `aria-describedby`."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "description": "Render the title as a heading at this level."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Makes the whole row a link to this address."
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon, drawn in a tile."
+        },
+        {
+          "name": "media",
+          "type": "Snippet",
+          "required": false,
+          "description": "Anything else at the start, such as an Avatar or an image."
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "required": false,
+          "description": "Passed to the link when `href` is set."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "required": false,
+          "description": "Passed to the link when `href` is set."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "What the row is, in a few words."
+        },
+        {
+          "name": "titleId",
+          "type": "string",
+          "required": false,
+          "description": "An id for the title, so a control in `actions` can be named by it with `aria-labelledby`."
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"outline\" | \"muted\"",
+          "required": false,
+          "defaultValue": "plain",
+          "description": "`plain` with no frame, `outline` with a border, `muted` on a filled surface."
+        }
+      ],
+      "usageSnippet": "<Item title={/* string */} />",
+      "propSignatureHash": "sha256:7722cc08ef2de705",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "ItemGroup",
+      "codeName": "ItemGroup",
+      "codePath": "packages/svelte/src/lib/components/Item/Item.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { ItemGroup } from '@ui-organized/svelte';",
+      "reactName": "ItemGroup",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "A rule between rows."
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"outline\"",
+          "required": false,
+          "defaultValue": "plain",
+          "description": "`plain`, or `outline` to put the whole group in one frame."
+        }
+      ],
+      "usageSnippet": "<ItemGroup>…</ItemGroup>",
+      "propSignatureHash": "sha256:2c440ec82de70dfa",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
       "status": "draft"
     },
     {

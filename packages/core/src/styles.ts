@@ -85,6 +85,7 @@ import "./components/CommandMenu/CommandMenu.css";
 import "./components/PageHeader/PageHeader.css";
 import "./components/DescriptionList/DescriptionList.css";
 import "./components/Stat/Stat.css";
+import "./components/Item/Item.css";
 import "./components/FileUpload/FileUpload.css";
 import "./components/ImageCropper/ImageCropper.css";
 import "./components/SignaturePad/SignaturePad.css";

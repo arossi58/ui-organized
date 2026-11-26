@@ -294,3 +294,13 @@ export {
   STAT_TEXT_CLASS,
 } from "./components/Stat/Stat.styles.js";
 export type { StatVariants, StatSize, StatTrend, StatSentiment } from "./components/Stat/Stat.styles.js";
+export {
+  itemStyles,
+  itemGroupStyles,
+  ITEM_TEXT_CLASS,
+  ITEM_ICON_SIZE,
+  type ItemVariants,
+  type ItemGroupVariants,
+  type ItemSize,
+  type ItemVariant,
+} from "./components/Item/Item.styles.js";

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T04:21:31.703Z",
+  "generatedAt": "2026-11-26T04:49:23.327Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4315,6 +4315,157 @@
       "usageSnippet": "<!-- UioInteractionState -->",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioItem",
+      "codeName": "UioItem",
+      "codePath": "packages/angular/src/lib/item/item.ts",
+      "framework": "angular",
+      "importStatement": "import { UioItem } from '@ui-organized/angular';",
+      "selector": "div[uioItem]",
+      "reactName": "Item",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "descriptionId",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "description": "Render the title as a heading at this level."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Makes the whole row a link to this address."
+        },
+        {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": false,
+          "description": "An icon, drawn in a tile."
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        },
+        {
+          "name": "target",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "What the row is."
+        },
+        {
+          "name": "titleId",
+          "type": "string",
+          "required": false,
+          "description": "An id for the title, so a control in the actions can be named by it with `aria-labelledby`."
+        },
+        {
+          "name": "variant",
+          "type": "\"outline\" | \"plain\" | \"muted\"",
+          "required": false,
+          "defaultValue": "plain"
+        }
+      ],
+      "usageSnippet": "<!-- div[uioItem] -->",
+      "propSignatureHash": "sha256:c48622077a5728d2",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioItemActions",
+      "codeName": "UioItemActions",
+      "codePath": "packages/angular/src/lib/item/item.ts",
+      "framework": "angular",
+      "importStatement": "import { UioItemActions } from '@ui-organized/angular';",
+      "selector": "[uioItemActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioItemActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioItemGroup",
+      "codeName": "UioItemGroup",
+      "codePath": "packages/angular/src/lib/item/item.ts",
+      "framework": "angular",
+      "importStatement": "import { UioItemGroup } from '@ui-organized/angular';",
+      "selector": "div[uioItemGroup]",
+      "reactName": "ItemGroup",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "A rule between rows."
+        },
+        {
+          "name": "variant",
+          "type": "\"outline\" | \"plain\"",
+          "required": false,
+          "defaultValue": "plain",
+          "description": "`plain`, or `outline` to put the whole group in one frame."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioItemGroup] -->",
+      "propSignatureHash": "sha256:e7e8fdc5f63076c1",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioItemLink",
+      "codeName": "UioItemLink",
+      "codePath": "packages/angular/src/lib/item/item.ts",
+      "framework": "angular",
+      "importStatement": "import { UioItemLink } from '@ui-organized/angular';",
+      "selector": "a[uioItemLink]",
+      "props": [],
+      "usageSnippet": "<!-- a[uioItemLink] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioItemMedia",
+      "codeName": "UioItemMedia",
+      "codePath": "packages/angular/src/lib/item/item.ts",
+      "framework": "angular",
+      "importStatement": "import { UioItemMedia } from '@ui-organized/angular';",
+      "selector": "[uioItemMedia]",
+      "props": [],
+      "usageSnippet": "<!-- [uioItemMedia] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T04:49:23.327Z",
       "status": "draft"
     },
     {
