@@ -68,6 +68,7 @@
     "--color-status-success",
     "--color-status-success-bg",
     "--color-status-success-content",
+    "--color-surface-base",
     "--color-surface-curtain",
     "--color-surface-overlay-primary",
     "--color-surface-overlay-tertiary",

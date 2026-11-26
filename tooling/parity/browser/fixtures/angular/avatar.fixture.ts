@@ -21,6 +21,10 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [fallback]="p['fallback']"
       [size]="p['size'] ?? 'md'"
       [shape]="p['shape']"
+      [status]="p['status']"
+      [statusLabel]="p['statusLabel']"
+      [verified]="!!p['verified']"
+      [verifiedLabel]="p['verifiedLabel'] ?? 'Verified'"
     ></div>
   `,
 })

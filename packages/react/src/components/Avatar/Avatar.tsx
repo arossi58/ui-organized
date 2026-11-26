@@ -1,6 +1,6 @@
 import { Avatar as ArkAvatar } from "@ark-ui/react";
 import { clsx } from "clsx";
-import { avatarStyles, initials } from "@ui-organized/core";
+import { AVATAR_BADGE_ICON_SIZE, AVATAR_STATUS_LABEL, avatarStyles, initials } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import type { AvatarProps } from "./Avatar.types.js";
 import "@ui-organized/core/components/Avatar/Avatar.css";
@@ -21,6 +21,10 @@ export function Avatar({
   fallback,
   size = "md",
   shape,
+  status,
+  statusLabel,
+  verified = false,
+  verifiedLabel = "Verified",
   className,
   ...props
 }: AvatarProps) {
@@ -43,6 +47,19 @@ export function Avatar({
       <ArkAvatar.Fallback className="avatar__fallback">
         {derived}
       </ArkAvatar.Fallback>
+      {status && (
+        <span
+          className="avatar__status"
+          data-status={status}
+          role="img"
+          aria-label={statusLabel ?? AVATAR_STATUS_LABEL[status]}
+        />
+      )}
+      {verified && (
+        <span className="avatar__badge" role="img" aria-label={verifiedLabel}>
+          <Icon name={glyph("check")} size={AVATAR_BADGE_ICON_SIZE[size]} />
+        </span>
+      )}
     </ArkAvatar.Root>
   );
 }

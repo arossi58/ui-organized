@@ -139,6 +139,8 @@ export const ANGULAR_COMPONENTS = new Set([
   "AlertDialog",
   "AngleSlider",
   "Avatar",
+  "AvatarGroup",
+  "AvatarLabel",
   "Breadcrumb",
   "Button",
   "Card",

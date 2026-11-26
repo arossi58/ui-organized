@@ -51,6 +51,8 @@ import { cardExamples } from "./card";
 import { dividerExamples } from "./divider";
 import { scrollAreaExamples } from "./scroll-area";
 import { avatarExamples } from "./avatar";
+import { avatarGroupExamples } from "./avatar-group";
+import { avatarLabelExamples } from "./avatar-label";
 import { iconExamples } from "./icon";
 import { pinInputExamples } from "./pin-input";
 import { tagsInputExamples } from "./tags-input";
@@ -123,6 +125,8 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   divider: dividerExamples,
   "scroll-area": scrollAreaExamples,
   avatar: avatarExamples,
+  "avatar-group": avatarGroupExamples,
+  "avatar-label": avatarLabelExamples,
   icon: iconExamples,
   "pin-input": pinInputExamples,
   "tags-input": tagsInputExamples,

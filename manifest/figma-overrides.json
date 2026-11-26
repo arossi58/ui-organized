@@ -9,6 +9,13 @@
     ],
     "TagGroup": [
       "href"
+    ],
+    "Avatar": [
+      "image",
+      "status"
+    ],
+    "AvatarGroup": [
+      "overflow"
     ]
   }
 }

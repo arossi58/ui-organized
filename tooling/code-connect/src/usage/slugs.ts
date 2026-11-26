@@ -17,6 +17,8 @@ export const COMPONENT_SLUGS = [
   "alert-dialog",
   "angle-slider",
   "avatar",
+  "avatar-group",
+  "avatar-label",
   "breadcrumb",
   "button",
   "card",

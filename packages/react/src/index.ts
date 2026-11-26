@@ -176,6 +176,12 @@ export type { EmptyStateProps, EmptyStateVariants } from "./components/EmptyStat
 export { Avatar } from "./components/Avatar/index.js";
 export type { AvatarProps, AvatarVariants } from "./components/Avatar/index.js";
 
+export { AvatarGroup } from "./components/AvatarGroup/index.js";
+export type { AvatarGroupItem, AvatarGroupProps, AvatarGroupVariants } from "./components/AvatarGroup/index.js";
+
+export { AvatarLabel } from "./components/AvatarLabel/index.js";
+export type { AvatarLabelProps, AvatarLabelVariants } from "./components/AvatarLabel/index.js";
+
 export { Progress } from "./components/Progress/index.js";
 export type { ProgressProps, ProgressVariants } from "./components/Progress/index.js";
 

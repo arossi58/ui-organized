@@ -24,6 +24,11 @@ const scenarios: BrowserScenario[] = staticScenarios("Avatar", [
     props: { shape, name: "Ada Lovelace" },
   })),
   { name: "with image", props: { src: "/a.png", name: "Ada Lovelace" } },
+  // Indicators let the root's overflow show; the image and fallback clip themselves.
+  { name: "status/online", props: { name: "Ada Lovelace", status: "online" } },
+  { name: "status/busy labelled", props: { name: "Ada Lovelace", status: "busy", statusLabel: "In a meeting" } },
+  { name: "verified/xl", props: { name: "Ada Lovelace", size: "xl", verified: true } },
+  { name: "status + verified", props: { name: "Ada Lovelace", size: "lg", status: "online", verified: true } },
 ]);
 
 export default scenarios;

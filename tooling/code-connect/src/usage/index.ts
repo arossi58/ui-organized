@@ -66,6 +66,8 @@ import { cardUsage } from "./guides/card.js";
 import { dividerUsage } from "./guides/divider.js";
 import { scrollAreaUsage } from "./guides/scroll-area.js";
 import { avatarUsage } from "./guides/avatar.js";
+import { avatarGroupUsage } from "./guides/avatar-group.js";
+import { avatarLabelUsage } from "./guides/avatar-label.js";
 import { iconUsage } from "./guides/icon.js";
 import { pinInputUsage } from "./guides/pin-input.js";
 import { tagsInputUsage } from "./guides/tags-input.js";
@@ -145,6 +147,8 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   divider: dividerUsage,
   "scroll-area": scrollAreaUsage,
   avatar: avatarUsage,
+  "avatar-group": avatarGroupUsage,
+  "avatar-label": avatarLabelUsage,
   icon: iconUsage,
   "pin-input": pinInputUsage,
   "tags-input": tagsInputUsage,

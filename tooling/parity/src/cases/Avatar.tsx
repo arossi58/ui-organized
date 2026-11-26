@@ -21,6 +21,13 @@ const spec: ParitySpec = {
       props: { shape, name: "Ada Lovelace" },
     })),
     { name: "with image", props: { src: "/a.png", name: "Ada Lovelace" } },
+    ...(["online", "away", "busy", "offline"] as const).map((status) => ({
+      name: `status/${status}`,
+      props: { name: "Ada Lovelace", status },
+    })),
+    { name: "status label", props: { name: "Ada Lovelace", status: "busy", statusLabel: "In a meeting" } },
+    { name: "verified", props: { name: "Ada Lovelace", verified: true } },
+    { name: "status + verified", props: { name: "Ada Lovelace", size: "lg", status: "online", verified: true } },
   ],
 };
 

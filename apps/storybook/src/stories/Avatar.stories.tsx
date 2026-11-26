@@ -64,3 +64,33 @@ export const Shapes: Story = {
     </div>
   ),
 };
+
+/** A presence dot, a verified badge, or both (the badge moves to the top corner). */
+export const StatusAndVerified: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Avatar name="Ada Lovelace" status="online" />
+<Avatar name="Grace Hopper" status="away" />
+<Avatar name="Alan Turing" status="busy" />
+<Avatar name="Katherine Johnson" status="offline" />
+<Avatar name="Edsger Dijkstra" verified />
+<Avatar name="Barbara Liskov" size="lg" status="online" verified />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+      <Avatar name="Ada Lovelace" status="online" />
+      <Avatar name="Grace Hopper" status="away" />
+      <Avatar name="Alan Turing" status="busy" />
+      <Avatar name="Katherine Johnson" status="offline" />
+      <Avatar name="Edsger Dijkstra" verified />
+      <Avatar name="Barbara Liskov" size="lg" status="online" verified />
+      <Avatar name="Margaret Hamilton" size="xl" shape="rounded" status="online" />
+    </div>
+  ),
+};
+
