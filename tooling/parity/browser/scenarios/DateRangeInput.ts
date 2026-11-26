@@ -163,4 +163,41 @@ const scenarios: BrowserScenario[] = [
   },
 ];
 
+scenarios.push(
+  {
+    component: "DateRangeInput",
+    // Presets sit before the two months in the popup; the committed range
+    // presses the one it matches.
+    name: "calendar open with presets",
+    props: {
+      label: "Stay",
+      defaultValue: { start: "2024-03-04", end: "2024-03-08" },
+      presets: [
+        { label: "First week of March", value: { start: "2024-03-04", end: "2024-03-08" } },
+        { label: "Mid-March", value: { start: "2024-03-11", end: "2024-03-15" } },
+      ],
+      ...IN_2024,
+    },
+    steps: openViaTrigger("popover"),
+    regions: [part("popover", "positioner"), "#mount"],
+    allowTextIn: [HIDDEN_SELECT_TEXT],
+  },
+  {
+    component: "DateRangeInput",
+    // Picking a preset fills both inputs and closes the popup.
+    name: "a preset fills both inputs and closes the popup",
+    props: {
+      label: "Stay",
+      presets: [{ label: "Mid-March", value: { start: "2024-03-11", end: "2024-03-15" } }],
+      ...IN_2024,
+    },
+    steps: [
+      ...openViaTrigger("popover"),
+      { do: "click", target: ".calendar-panel__preset" },
+      { do: "wait", target: `${part("popover", "trigger")}[data-state="closed"]` },
+    ],
+    regions: ["#mount"],
+  },
+);
+
 export default scenarios;

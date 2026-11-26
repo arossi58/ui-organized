@@ -72,6 +72,7 @@ export {
   clampYMD,
   compareYMD,
   dateToYMD,
+  endOfMonth,
   isSameMonth,
   isSameYMD,
   isWithin,
@@ -80,13 +81,18 @@ export {
   monthName,
   pad2,
   parseISODate,
+  presetWithin,
+  resolveDatePreset,
   startOfMonth,
+  startOfWeek,
   toISODate,
   todayYMD,
   weekdayLabels,
   ymdToDate,
 } from "./date/dateUtils.js";
-export type { YMD } from "./date/dateUtils.js";
+export type { YMD, YMDRange, DatePresetName, DatePresetValue } from "./date/dateUtils.js";
+export { calendarPanelStyles } from "./components/Calendar/Calendar.styles.js";
+export type { CalendarPanelVariants } from "./components/Calendar/Calendar.styles.js";
 
 export { accordionStyles } from "./components/Accordion/Accordion.styles.js";
 export type { AccordionVariants } from "./components/Accordion/Accordion.styles.js";

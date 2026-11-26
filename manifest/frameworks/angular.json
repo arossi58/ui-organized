@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T21:47:31.651Z",
+  "generatedAt": "2026-11-25T22:15:58.332Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1596,6 +1596,105 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "UioCalendar",
+      "codeName": "UioCalendar",
+      "codePath": "packages/angular/src/lib/calendar/calendar.ts",
+      "framework": "angular",
+      "importStatement": "import { UioCalendar } from '@ui-organized/angular';",
+      "selector": "div[uioCalendar]",
+      "reactName": "Calendar",
+      "props": [
+        {
+          "name": "max",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "mode",
+          "type": "\"single\" | \"range\"",
+          "required": false,
+          "defaultValue": "single",
+          "description": "`single` (the default) picks one day; `range` a start and an end."
+        },
+        {
+          "name": "numMonths",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Months shown side by side."
+        },
+        {
+          "name": "presets",
+          "type": "readonly DatePreset[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Shortcuts in a column before the grid."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "description": "The presets column's accessible name."
+        },
+        {
+          "name": "range",
+          "type": "DateRangeValue",
+          "required": false,
+          "defaultValue": "{ start: \"\", end: \"\" }",
+          "description": "Two-way: bind with [(range)]. Range mode: the chosen range."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "Two-way: bind with [(value)]. Single mode: the chosen day, ISO `YYYY-MM-DD` (`\"\"` when empty)."
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"card\"",
+          "required": false,
+          "defaultValue": "plain",
+          "description": "`card` puts the calendar on a bordered surface."
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "number",
+          "required": false,
+          "defaultValue": "0",
+          "description": "First day of the week: 0 = Sunday, 1 = Monday."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioCalendar] -->",
+      "propSignatureHash": "sha256:0bc1fc97ac1157bd",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: string | { start: string; end: string }; disabled?: boolean }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioCalendarFooter",
+      "codeName": "UioCalendarFooter",
+      "codePath": "packages/angular/src/lib/calendar/calendar.ts",
+      "framework": "angular",
+      "importStatement": "import { UioCalendarFooter } from '@ui-organized/angular';",
+      "selector": "[uioCalendarFooter]",
+      "props": [],
+      "usageSnippet": "<!-- [uioCalendarFooter] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "UioCard",
       "codeName": "UioCard",
       "codePath": "packages/angular/src/lib/card/card.ts",
@@ -2674,6 +2773,19 @@
           "description": "Earliest selectable date for both controls (ISO `YYYY-MM-DD`)."
         },
         {
+          "name": "presets",
+          "type": "readonly DatePreset[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Shortcuts beside the calendar: \"Last 7 days\", \"This month\", a fixed range."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "description": "The presets column's accessible name."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
@@ -2712,11 +2824,12 @@
         }
       ],
       "usageSnippet": "<!-- div[uioDateRangeInput] -->",
-      "propSignatureHash": "sha256:fd70b2726ef3d211",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:ddb8093312a2a2a0",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
       "status": "draft",
       "referencedTypes": {
-        "DateRangeValue": "{ start: string; end: string }"
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: string | { start: string; end: string }; disabled?: boolean }"
       }
     },
     {

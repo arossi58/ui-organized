@@ -4,7 +4,8 @@ import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, inputFieldStyles } from "@ui-organized/core";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { Calendar } from "../Calendar/index.js";
+import { CalendarGrid } from "../Calendar/CalendarGrid.js";
+import { CalendarPresets } from "../Calendar/CalendarPresets.js";
 import { parseISODate, toISODate } from "@ui-organized/core";
 import { DatePopover, datePopoverPositioning } from "../DateField/DatePopover.js";
 import { useContainedPositioning } from "../../preview/useOverlayPortal.js";
@@ -42,6 +43,8 @@ export function DateRangeInput({
   onChange,
   min,
   max,
+  presets,
+  presetsLabel,
   startName,
   endName,
   startLabel = "Start date",
@@ -142,6 +145,26 @@ export function DateRangeInput({
     </span>
   );
 
+  const grid = (
+    <CalendarGrid
+      mode="range"
+      numMonths={2}
+      rangeValue={{
+        start: parseISODate(current.start),
+        end: parseISODate(current.end),
+      }}
+      min={parseISODate(min)}
+      max={parseISODate(max)}
+      onRangeChange={(r) =>
+        update({
+          start: r.start ? toISODate(r.start) : "",
+          end: r.end ? toISODate(r.end) : "",
+        })
+      }
+      onRangeComplete={() => setOpen(false)}
+      activeDayRef={activeDayRef}
+    />
+  );
   let row: ReactNode;
   if (coarse) {
     row = (
@@ -195,24 +218,25 @@ export function DateRangeInput({
           )}
         </div>
         <DatePopover container={portalContainer} label={`${startLabel} — ${endLabel}, choose dates`}>
-          <Calendar
-            mode="range"
-            numMonths={2}
-            rangeValue={{
-              start: parseISODate(current.start),
-              end: parseISODate(current.end),
-            }}
-            min={parseISODate(min)}
-            max={parseISODate(max)}
-            onRangeChange={(r) =>
-              update({
-                start: r.start ? toISODate(r.start) : "",
-                end: r.end ? toISODate(r.end) : "",
-              })
-            }
-            onRangeComplete={() => setOpen(false)}
-            activeDayRef={activeDayRef}
-          />
+          {presets && presets.length > 0 ? (
+            <div className="calendar-panel">
+              <CalendarPresets
+                presets={presets}
+                selected={{ start: parseISODate(current.start), end: parseISODate(current.end) }}
+                min={min}
+                max={max}
+                weekStartsOn={0}
+                label={presetsLabel}
+                onPick={(r) => {
+                  update({ start: toISODate(r.start), end: toISODate(r.end) });
+                  setOpen(false);
+                }}
+              />
+              <div className="calendar-panel__body">{grid}</div>
+            </div>
+          ) : (
+            grid
+          )}
         </DatePopover>
       </ArkPopover.Root>
     );

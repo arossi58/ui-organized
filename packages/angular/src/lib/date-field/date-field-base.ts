@@ -24,7 +24,7 @@ import {
   type InputVariants,
   type YMD,
 } from "@ui-organized/core";
-import { UioCalendar } from "../calendar/calendar.js";
+import { UioCalendarGrid } from "../calendar/calendar-grid.js";
 import { flushNow } from "../overlay/flush.js";
 import { UioFieldContext } from "../field/field-context.js";
 import { UioPart, stateFlag } from "../part.js";
@@ -136,7 +136,7 @@ export abstract class UioDateFieldBase
 
   @ViewChild("row") private row?: ElementRef<HTMLElement>;
   @ViewChild("control") private control?: ElementRef<HTMLInputElement>;
-  @ViewChild(UioCalendar) private calendar?: UioCalendar;
+  @ViewChild(UioCalendarGrid) private calendar?: UioCalendarGrid;
   @ViewChild(UioDatePopover) protected popover?: UioDatePopover;
 
   constructor() {
@@ -316,7 +316,7 @@ export const DATE_FIELD_TEMPLATE = `
 
     <uio-date-popover #surface="uioDatePopover" [label]="pickerLabel">
       <div
-        uioCalendar
+        uioCalendarGrid
         mode="single"
         [value]="calendarValue()"
         [min]="calendarMin()"

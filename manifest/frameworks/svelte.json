@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T21:47:31.651Z",
+  "generatedAt": "2026-11-25T22:15:58.332Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2118,6 +2118,112 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "Calendar",
+      "codeName": "Calendar",
+      "codePath": "packages/svelte/src/lib/components/Calendar/Calendar.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { Calendar } from '@ui-organized/svelte';",
+      "reactName": "Calendar",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | DateRangeValue",
+          "required": false,
+          "description": "Uncontrolled initial value."
+        },
+        {
+          "name": "footer",
+          "type": "Snippet",
+          "required": false,
+          "description": "A row under the grid, for actions such as Cancel and Apply."
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "required": false,
+          "description": "Latest selectable date (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false,
+          "description": "Earliest selectable date (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "mode",
+          "type": "\"single\" | \"range\"",
+          "required": false,
+          "description": "`single` (the default) picks one day; `range` a start and an end."
+        },
+        {
+          "name": "numMonths",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Months shown side by side."
+        },
+        {
+          "name": "onRangeComplete",
+          "type": "(value: DateRangeValue) => void",
+          "required": false,
+          "description": "Range mode: called once both ends are chosen, by picking or by a preset."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string | DateRangeValue) => void",
+          "required": false,
+          "description": "Called with the new selection: a string, or a range in range mode."
+        },
+        {
+          "name": "presets",
+          "type": "DatePreset[]",
+          "required": false,
+          "description": "Shortcuts in a column before the grid."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Presets",
+          "description": "The presets column's accessible name."
+        },
+        {
+          "name": "value",
+          "type": "string | DateRangeValue",
+          "required": false,
+          "description": "The selection."
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"card\"",
+          "required": false,
+          "description": "`card` puts the calendar on a bordered surface."
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "number",
+          "required": false,
+          "description": "First day of the week: 0 = Sunday (the default), 1 = Monday."
+        }
+      ],
+      "usageSnippet": "<Calendar />",
+      "propSignatureHash": "sha256:38c86c7343760a37",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: DatePresetValue; disabled?: boolean }",
+        "DatePresetValue": "string | { start: string; end: string } | DatePresetName",
+        "DatePresetName": "\"today\" | \"yesterday\" | \"last3Days\" | \"last7Days\" | \"last14Days\" | \"last30Days\" | \"last90Days\" | \"thisWeek\" | \"lastWeek\" | \"thisMonth\" | \"lastMonth\" | \"thisQuarter\" | \"lastQuarter\" | \"thisYear\" | \"lastYear\""
+      }
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "Card",
       "codeName": "Card",
       "codePath": "packages/svelte/src/lib/components/Card/Card.types.ts",
@@ -3683,6 +3789,19 @@
           "description": "DOM element to portal the calendar popover into."
         },
         {
+          "name": "presets",
+          "type": "DatePreset[]",
+          "required": false,
+          "description": "Shortcuts beside the calendar: \"Last 7 days\", \"This month\", a fixed range."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Presets",
+          "description": "The presets column's accessible name."
+        },
+        {
           "name": "required",
           "type": "boolean",
           "required": false,
@@ -3723,11 +3842,14 @@
         }
       ],
       "usageSnippet": "<DateRangeInput />",
-      "propSignatureHash": "sha256:3be7d15d9cca89f6",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:dd487f45a927e49a",
+      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
       "status": "draft",
       "referencedTypes": {
-        "DateRangeValue": "{ start: string; end: string }"
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: DatePresetValue; disabled?: boolean }",
+        "DatePresetValue": "string | { start: string; end: string } | DatePresetName",
+        "DatePresetName": "\"today\" | \"yesterday\" | \"last3Days\" | \"last7Days\" | \"last14Days\" | \"last30Days\" | \"last90Days\" | \"thisWeek\" | \"lastWeek\" | \"thisMonth\" | \"lastMonth\" | \"thisQuarter\" | \"lastQuarter\" | \"thisYear\" | \"lastYear\""
       }
     },
     {

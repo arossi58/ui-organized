@@ -6,7 +6,7 @@ import { CONTROL_ICON_SIZE, inputFieldStyles } from "@ui-organized/core";
 import { Button } from "../Button/index.js";
 import { Icon } from "../Icon/index.js";
 import { FieldError } from "../FieldError/index.js";
-import { Calendar } from "../Calendar/index.js";
+import { CalendarGrid } from "../Calendar/CalendarGrid.js";
 import { parseISODate, toISODate, todayYMD, type YMD } from "@ui-organized/core";
 import { popupControls } from "@ui-organized/core";
 import { openDatePicker } from "./openDatePicker.js";
@@ -161,7 +161,7 @@ export function DateFieldBase({
             {control}
           </div>
           <DatePopover container={portalContainer} label={pickerLabel}>
-            <Calendar
+            <CalendarGrid
               mode="single"
               value={parseISODate(datePart)}
               min={parseISODate(minStr)}

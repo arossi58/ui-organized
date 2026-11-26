@@ -165,6 +165,13 @@
 }
 
 /* Selected endpoint / single day — primary fill on top of any band. */
+/* An outside day inside the band sits on the band's fill, where the
+   placeholder grey falls short of 4.5:1, so it takes the secondary tone. The
+   public Calendar's two-month range is what first audited one. */
+.calendar__day[data-outside][data-in-range] .calendar__day-label {
+  color: var(--color-content-secondary);
+}
+
 .calendar__day[data-selected] .calendar__day-label {
   background-color: var(--color-interactive-primary-default);
   color: var(--color-interactive-contents);
@@ -173,4 +180,95 @@
 .calendar__day:disabled {
   cursor: not-allowed;
   opacity: 0.4;
+}
+
+/* ─── Panel: presets, grid and footer ────────────────────────────────────────
+   The public Calendar's frame, and DateRangeInput's popover when it has
+   presets. The presets column comes first in the DOM, as it does on screen. */
+
+.calendar-panel {
+  display: inline-flex;
+  align-items: stretch;
+  max-width: 100%;
+}
+
+.calendar-panel--card {
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--border-radius-05);
+}
+
+.calendar-panel__presets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 144px;
+  padding: var(--spacing-space-03);
+  border-inline-end: 1px solid var(--color-border-primary);
+}
+
+.calendar-panel__preset {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border: 0;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-primary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  text-align: start;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.calendar-panel__preset:hover:not(:disabled) {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.calendar-panel__preset[aria-pressed="true"] {
+  background-color: var(--color-interactive-ui-selected);
+  font-weight: var(--type-weight-body-emphasis);
+}
+
+.calendar-panel__preset:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.calendar-panel__preset:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.calendar-panel__body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.calendar-panel__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-space-02);
+  padding: var(--spacing-space-03);
+  border-top: 1px solid var(--color-border-primary);
+}
+
+/* Narrow: the presets become a scrolling row above the grid. */
+@media (max-width: 560px) {
+  .calendar-panel {
+    flex-direction: column;
+  }
+
+  .calendar-panel__presets {
+    flex-direction: row;
+    overflow-x: auto;
+    min-width: 0;
+    border-inline-end: 0;
+    border-bottom: 1px solid var(--color-border-primary);
+  }
 }

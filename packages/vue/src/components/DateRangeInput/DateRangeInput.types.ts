@@ -1,3 +1,4 @@
+import type { DatePreset } from "../Calendar/Calendar.types.js";
 import type { ControlSize } from "@ui-organized/core";
 
 /**
@@ -35,6 +36,13 @@ export interface DateRangeInputProps {
   min?: string;
   /** Latest selectable date for both controls (ISO `YYYY-MM-DD`). */
   max?: string;
+  /**
+   * Shortcuts beside the calendar: "Last 7 days", "This month", a fixed range.
+   * Picking one sets both ends and closes the popover.
+   */
+  presets?: DatePreset[];
+  /** The presets column's accessible name. Defaults to "Presets". */
+  presetsLabel?: string;
 
   /** `name` for the start control (form submission). */
   startName?: string;

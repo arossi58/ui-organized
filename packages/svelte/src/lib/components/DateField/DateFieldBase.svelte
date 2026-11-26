@@ -24,7 +24,7 @@
   import Button from "../Button/Button.svelte";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
-  import Calendar from "../Calendar/Calendar.svelte";
+  import CalendarGrid from "../Calendar/CalendarGrid.svelte";
   import DatePopover from "./DatePopover.svelte";
   import { datePopoverPositioning } from "./datePopoverPositioning.js";
   import { openDatePicker } from "./openDatePicker.js";
@@ -186,7 +186,7 @@
         {@render control()}
       </div>
       <DatePopover container={portalContainer} label={pickerLabel}>
-        <Calendar
+        <CalendarGrid
           mode="single"
           value={parseISODate(datePart)}
           min={parseISODate(minStr)}

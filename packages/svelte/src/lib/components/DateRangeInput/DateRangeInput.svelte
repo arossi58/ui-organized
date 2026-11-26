@@ -21,7 +21,8 @@
   } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
-  import Calendar from "../Calendar/Calendar.svelte";
+  import CalendarGrid from "../Calendar/CalendarGrid.svelte";
+  import CalendarPresets from "../Calendar/CalendarPresets.svelte";
   import DatePopover from "../DateField/DatePopover.svelte";
   import { datePopoverPositioning } from "../DateField/datePopoverPositioning.js";
   import { openDatePicker } from "../DateField/openDatePicker.js";
@@ -53,6 +54,8 @@
     onChange,
     min,
     max,
+    presets,
+    presetsLabel,
     startName,
     endName,
     startLabel = "Start date",
@@ -124,6 +127,26 @@
       .join(" ") || undefined,
   );
 </script>
+
+{#snippet rangeGrid()}
+  <CalendarGrid
+    mode="range"
+    numMonths={2}
+    rangeValue={{
+      start: parseISODate(current.start),
+      end: parseISODate(current.end),
+    }}
+    min={parseISODate(min)}
+    max={parseISODate(max)}
+    onRangeChange={(r) =>
+      update({
+        start: r.start ? toISODate(r.start) : "",
+        end: r.end ? toISODate(r.end) : "",
+      })}
+    onRangeComplete={() => (open = false)}
+    onActiveDay={(el) => (activeDayEl = el)}
+  />
+{/snippet}
 
 {#snippet calendarIconButton(onclick: (() => void) | undefined, ariaLabel: string)}
   <button
@@ -243,23 +266,24 @@
         container={portalContainer}
         label={`${startLabel} — ${endLabel}, choose dates`}
       >
-        <Calendar
-          mode="range"
-          numMonths={2}
-          rangeValue={{
-            start: parseISODate(current.start),
-            end: parseISODate(current.end),
-          }}
-          min={parseISODate(min)}
-          max={parseISODate(max)}
-          onRangeChange={(r) =>
-            update({
-              start: r.start ? toISODate(r.start) : "",
-              end: r.end ? toISODate(r.end) : "",
-            })}
-          onRangeComplete={() => (open = false)}
-          onActiveDay={(el) => (activeDayEl = el)}
-        />
+        {#if presets && presets.length > 0}
+          <div class="calendar-panel">
+            <CalendarPresets
+              {presets}
+              selected={{ start: parseISODate(current.start), end: parseISODate(current.end) }}
+              {min}
+              {max}
+              label={presetsLabel}
+              onPick={(r) => {
+                update({ start: toISODate(r.start), end: toISODate(r.end) });
+                open = false;
+              }}
+            />
+            <div class="calendar-panel__body">{@render rangeGrid()}</div>
+          </div>
+        {:else}
+          {@render rangeGrid()}
+        {/if}
       </DatePopover>
     </ArkPopover.Root>
   {/if}

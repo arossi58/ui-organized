@@ -120,3 +120,111 @@ export function weekdayLabels(weekStartsOn = 0, locale?: string): string[] {
   }
   return out;
 }
+
+// ─── Presets ─────────────────────────────────────────────────────────────────
+
+/** The last day of `d`'s month. */
+export function endOfMonth(d: YMD): YMD {
+  return dateToYMD(new Date(d.year, d.month + 1, 0));
+}
+
+/** The first day of the week holding `d`. */
+export function startOfWeek(d: YMD, weekStartsOn = 0): YMD {
+  const weekday = (ymdToDate(d).getDay() - weekStartsOn + 7) % 7;
+  return addDays(d, -weekday);
+}
+
+/**
+ * Named presets, resolved against today. The range names follow zag's
+ * date-picker presets; `today` and `yesterday` are one-day ranges.
+ */
+export type DatePresetName =
+  | "today"
+  | "yesterday"
+  | "last3Days"
+  | "last7Days"
+  | "last14Days"
+  | "last30Days"
+  | "last90Days"
+  | "thisWeek"
+  | "lastWeek"
+  | "thisMonth"
+  | "lastMonth"
+  | "thisQuarter"
+  | "lastQuarter"
+  | "thisYear"
+  | "lastYear";
+
+/** A preset's value: an ISO date, an ISO range, or a name resolved against today. */
+export type DatePresetValue = string | { start: string; end: string } | DatePresetName;
+
+/** An inclusive pair of days. */
+export interface YMDRange {
+  start: YMD;
+  end: YMD;
+}
+
+const LAST_N: Partial<Record<DatePresetName, number>> = {
+  last3Days: 3,
+  last7Days: 7,
+  last14Days: 14,
+  last30Days: 30,
+  last90Days: 90,
+};
+
+/**
+ * The days a preset stands for, or `null` when its value cannot be read. A
+ * single ISO date resolves to a one-day range, so callers handle one shape.
+ */
+export function resolveDatePreset(value: DatePresetValue, today: YMD, weekStartsOn = 0): YMDRange | null {
+  if (typeof value === "object") {
+    const start = parseISODate(value.start);
+    const end = parseISODate(value.end);
+    if (!start || !end) return null;
+    return compareYMD(start, end) <= 0 ? { start, end } : { start: end, end: start };
+  }
+  const iso = parseISODate(value);
+  if (iso) return { start: iso, end: iso };
+  const name = value as DatePresetName;
+  const n = LAST_N[name];
+  if (n) return { start: addDays(today, -(n - 1)), end: today };
+  switch (name) {
+    case "today":
+      return { start: today, end: today };
+    case "yesterday": {
+      const day = addDays(today, -1);
+      return { start: day, end: day };
+    }
+    case "thisWeek": {
+      const start = startOfWeek(today, weekStartsOn);
+      return { start, end: addDays(start, 6) };
+    }
+    case "lastWeek": {
+      const start = addDays(startOfWeek(today, weekStartsOn), -7);
+      return { start, end: addDays(start, 6) };
+    }
+    case "thisMonth":
+      return { start: startOfMonth(today), end: endOfMonth(today) };
+    case "lastMonth": {
+      const start = addMonths(today, -1);
+      return { start, end: endOfMonth(start) };
+    }
+    case "thisQuarter":
+    case "lastQuarter": {
+      const first = today.month - (today.month % 3) - (name === "lastQuarter" ? 3 : 0);
+      const start = addMonths({ year: today.year, month: 0, day: 1 }, first);
+      return { start, end: endOfMonth(addMonths(start, 2)) };
+    }
+    case "thisYear":
+      return { start: { year: today.year, month: 0, day: 1 }, end: { year: today.year, month: 11, day: 31 } };
+    case "lastYear":
+      return { start: { year: today.year - 1, month: 0, day: 1 }, end: { year: today.year - 1, month: 11, day: 31 } };
+    default:
+      return null;
+  }
+}
+
+/** Whether a resolved preset lies wholly inside the inclusive [min, max] window. */
+export function presetWithin(range: YMDRange, min: YMD | null, max: YMD | null): boolean {
+  return isWithin(range.start, min, max) && isWithin(range.end, min, max);
+}

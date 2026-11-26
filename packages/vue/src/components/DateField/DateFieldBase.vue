@@ -26,7 +26,7 @@ import { definedOnly } from "../../props.js";
 import Button from "../Button/Button.vue";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
-import Calendar from "../Calendar/Calendar.vue";
+import CalendarGrid from "../Calendar/CalendarGrid.vue";
 import DatePopover from "./DatePopover.vue";
 import { datePopoverPositioning } from "./datePopoverPositioning.js";
 import { openDatePicker } from "./openDatePicker.js";
@@ -187,7 +187,7 @@ const positioning = datePopoverPositioning(() => fieldEl.value);
         />
       </div>
       <DatePopover :container="portalContainer" :label="pickerLabel">
-        <Calendar
+        <CalendarGrid
           mode="single"
           :value="parseISODate(datePart)"
           :min="parseISODate(min)"

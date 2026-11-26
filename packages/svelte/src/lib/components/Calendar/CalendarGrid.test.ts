@@ -1,11 +1,7 @@
-// @vitest-environment jsdom
-//
-// Set per file rather than in the package's vite config: this is the only Vue
-// test that needs a document, and switching the whole package to jsdom would
-// make every other one pay for it.
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { createApp, nextTick, type App } from "vue";
-import Calendar from "./Calendar.vue";
+import { render } from "@testing-library/svelte";
+import { tick } from "svelte";
+import Calendar from "./CalendarGrid.svelte";
 
 /**
  * Roving focus, which the parity gate is structurally unable to see.
@@ -24,19 +20,11 @@ import Calendar from "./Calendar.vue";
  * So the keyboard grid is pinned here instead, in both hand-ported libraries.
  * The trap it exists for is real and specific: React does this with an effect
  * plus a `focusPending` flag, because its `setFocused` is shared with the click
- * and focus handlers; the Vue port drops both and awaits `nextTick()` inside
+ * and focus handlers; the Svelte port drops both and awaits `tick()` inside
  * `moveFocus`, which is the only keyboard path. If that await ever goes, the
  * lookup runs against the previous DOM — and on a `PageUp`/`PageDown` that
  * remounts every button it finds a node that has just been discarded, so focus
  * silently lands nowhere and the calendar stops being keyboard-operable.
- *
- * The Vue port has a second way to lose the same thing. Its day buttons carry a
- * function `ref` that populates the `dayRefs` map keyed by ISO date; Vue calls
- * that ref with `null` on unmount, and it deletes on `null`. If the delete ever
- * ran *after* the insert for a remounted button with the same key — which is
- * what a month page is — the map would end up empty for the day just navigated
- * to. Nothing here is asserted about the map directly; the focus assertions are
- * what would catch it.
  */
 describe("Calendar roving focus", () => {
   /**
@@ -55,52 +43,39 @@ describe("Calendar roving focus", () => {
   /** Cell 0 is February 25, so March N is cell 4 + N. */
   const LEAD = 4;
 
-  const mounted: { app: App; host: HTMLElement }[] = [];
-  afterEach(() => {
-    for (const { app, host } of mounted.splice(0)) {
-      app.unmount();
-      host.remove();
-    }
-    vi.restoreAllMocks();
-  });
+  // No icon set is registered in a unit test, so the header's nav buttons say
+  // so — once per Icon, and irrelevantly to focus.
+  afterEach(() => vi.restoreAllMocks());
 
   const open = (props: Record<string, unknown> = {}) => {
-    // No icon set is registered in a unit test, so the header's nav buttons say
-    // so — once per Icon, and irrelevantly to focus.
     vi.spyOn(console, "warn").mockImplementation(() => {});
-    // Attached to the document, not rendered in a detached fragment: an element
-    // outside the document cannot take focus, and every assertion below is
-    // about `document.activeElement`.
-    const host = document.createElement("div");
-    document.body.append(host);
-    const app = createApp(Calendar, { mode: "single", value: MARCH_15, ...props });
-    app.mount(host);
-    mounted.push({ app, host });
-
-    const grid = () => host.querySelector<HTMLElement>(".calendar__grid")!;
+    const { container } = render(Calendar, {
+      props: { mode: "single", value: MARCH_15, ...props },
+    });
+    const grid = () => container.querySelector<HTMLElement>(".calendar__grid")!;
     // Re-queried on every call: a month change remounts every button, and a
     // list captured before one is a list of detached nodes.
-    const days = () => [...host.querySelectorAll<HTMLButtonElement>(".calendar__day")];
+    const days = () => [...container.querySelectorAll<HTMLButtonElement>(".calendar__day")];
     return {
-      host,
+      container,
       grid,
       days,
       /** The button for the given day of the *displayed* month. */
       march: (day: number) => days()[LEAD + day]!,
-      monthName: () => host.querySelector(".calendar__month-name")!.textContent!.trim(),
+      monthName: () => container.querySelector(".calendar__month-name")!.textContent!.trim(),
       press: async (key: string) => {
         grid().dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
         // Twice: `moveFocus` awaits one tick before looking the node up, and a
         // month change re-renders on the tick after that.
-        await nextTick();
-        await nextTick();
+        await tick();
+        await tick();
       },
     };
   };
 
   it("starts with the selected day as the only tab stop, and does not steal focus", async () => {
     const cal = open();
-    await nextTick();
+    await tick();
 
     // Exactly one 0 among 42 cells — a roving tabindex, not 42 tab stops and
     // not none. The gate cannot assert either, since `tabindex` is not part of
@@ -114,7 +89,7 @@ describe("Calendar roving focus", () => {
 
   it("moves a day at a time with the left and right arrows", async () => {
     const cal = open();
-    await nextTick();
+    await tick();
 
     await cal.press("ArrowRight");
     expect(document.activeElement).toBe(cal.march(16));
@@ -129,7 +104,7 @@ describe("Calendar roving focus", () => {
 
   it("moves a week at a time with the up and down arrows", async () => {
     const cal = open();
-    await nextTick();
+    await tick();
 
     await cal.press("ArrowDown");
     expect(document.activeElement).toBe(cal.march(22));
@@ -141,7 +116,7 @@ describe("Calendar roving focus", () => {
 
   it("moves to the ends of the week with Home and End", async () => {
     const cal = open();
-    await nextTick();
+    await tick();
 
     // The 15th is a Friday, so its week runs Sunday the 10th to Saturday the
     // 16th. Home and End are relative to `weekStartsOn`, not to the month.
@@ -153,7 +128,7 @@ describe("Calendar roving focus", () => {
 
   it("pages the view a month at a time with PageUp and PageDown", async () => {
     const cal = open();
-    await nextTick();
+    await tick();
 
     await cal.press("PageUp");
     expect(cal.monthName()).toBe("February");
@@ -186,7 +161,7 @@ describe("Calendar roving focus", () => {
   it("selects the focused day with Enter and Space, and swallows the key", async () => {
     const onSelect = vi.fn();
     const cal = open({ onSelect });
-    await nextTick();
+    await tick();
 
     await cal.press("ArrowRight");
     /**
@@ -214,7 +189,7 @@ describe("Calendar roving focus", () => {
       min: { year: 2024, month: 2, day: 14 },
       max: { year: 2024, month: 2, day: 16 },
     });
-    await nextTick();
+    await tick();
 
     // A week up from the 15th is the 8th, which is outside the window — and a
     // day outside it is `disabled`, so focus would be lost rather than merely

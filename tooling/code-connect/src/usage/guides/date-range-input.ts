@@ -36,13 +36,15 @@ export const dateRangeInputUsage: UsageGuide = {
       example: "bounded",
     },
     {
-      do: "Offer the common spans nearby when there are obvious ones.",
+      do: "Offer the common spans as `presets` when there are obvious ones, such as last 7 days or last month.",
       dont: "Make every reader assemble last month by hand, twice.",
+      example: "presets",
     },
   ],
   accessibility: [
     "Each end is a native date control with its own name, so both are typeable and both take focus.",
     "One shared message covers the pair, which is what keeps the problem attached to the value that has it.",
+    "Each preset is a toggle button, pressed while the range is exactly the one it stands for.",
     "Say the range's limits in helper text as well as enforcing them, since a disabled day announces nothing.",
   ],
   content: [

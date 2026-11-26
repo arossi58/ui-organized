@@ -153,6 +153,9 @@
     },
     "Calendar": {
       "attributes": {
+        "aria-pressed": [
+          "true"
+        ],
         "data-in-range": [],
         "data-outside": [],
         "data-range-hi": [],
@@ -162,6 +165,12 @@
       },
       "classes": [
         "calendar",
+        "calendar-panel",
+        "calendar-panel--card",
+        "calendar-panel__body",
+        "calendar-panel__footer",
+        "calendar-panel__preset",
+        "calendar-panel__presets",
         "calendar__day",
         "calendar__day-label",
         "calendar__header",

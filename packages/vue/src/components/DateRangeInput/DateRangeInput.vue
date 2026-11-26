@@ -22,7 +22,8 @@ import {
 import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
-import Calendar from "../Calendar/Calendar.vue";
+import CalendarGrid from "../Calendar/CalendarGrid.vue";
+import CalendarPresets from "../Calendar/CalendarPresets.vue";
 import DatePopover from "../DateField/DatePopover.vue";
 import { datePopoverPositioning } from "../DateField/datePopoverPositioning.js";
 import { openDatePicker } from "../DateField/openDatePicker.js";
@@ -268,7 +269,39 @@ const positioning = datePopoverPositioning(() => rowEl.value);
         :container="portalContainer"
         :label="`${startLabel} — ${endLabel}, choose dates`"
       >
-        <Calendar
+        <div v-if="presets && presets.length > 0" class="calendar-panel">
+          <CalendarPresets
+            :presets="presets"
+            :selected="{ start: parseISODate(current.start), end: parseISODate(current.end) }"
+            :min="min"
+            :max="max"
+            :label="presetsLabel"
+            @pick="(r) => { update({ start: toISODate(r.start), end: toISODate(r.end) }); open = false; }"
+          />
+          <div class="calendar-panel__body">
+            <CalendarGrid
+              mode="range"
+              :num-months="2"
+              :range-value="{
+                start: parseISODate(current.start),
+                end: parseISODate(current.end),
+              }"
+              :min="parseISODate(min)"
+              :max="parseISODate(max)"
+              :on-range-change="
+                (r) =>
+                  update({
+                    start: r.start ? toISODate(r.start) : '',
+                    end: r.end ? toISODate(r.end) : '',
+                  })
+              "
+              :on-range-complete="() => (open = false)"
+              :on-active-day="(el: HTMLButtonElement | null) => (activeDayEl = el)"
+            />
+          </div>
+        </div>
+        <CalendarGrid
+          v-else
           mode="range"
           :num-months="2"
           :range-value="{
