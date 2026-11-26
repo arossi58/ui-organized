@@ -12,6 +12,9 @@
 /* ─── Control (bordered shell: input + chevron trigger) ───────────────────── */
 
 .combobox-field__control {
+  /* Component-local: the chevron's column, which the multiple mode's hover
+     layer stops short of. */
+  --combobox-trigger-width: 40px;
   box-sizing: border-box;
   display: flex;
   align-items: stretch;
@@ -22,7 +25,6 @@
   border-radius: var(--radius-interactive);
   overflow: hidden;
   transition:
-    background-color 150ms ease,
     border-color 150ms ease,
     box-shadow 150ms ease;
 }
@@ -100,7 +102,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: var(--combobox-trigger-width);
   border: none;
   background: transparent;
   color: var(--color-content-tertiary);
@@ -253,25 +255,40 @@
 
 /* With tags, the text box no longer starts at the edge of the field, so the
    hover and press fills it takes from .field__control would float partway
-   across, after the last tag. The control takes them instead, from the edge
-   to the chevron, which is where a single combobox's text box paints them;
-   the chevron keeps its own. */
+   across, after the last tag. A layer behind the tags and the text box takes
+   them instead, from the edge to the chevron's column: where a single
+   combobox's text box paints them.
+
+   A layer, not the control's own background, because the interactive fills
+   are overlays (`ui-default` is 2% white, `ui-hover` 6%), not colours. Filling
+   the control and repainting the chevron's column with the resting fill would
+   stack the two, and the chevron would read as hovered too. */
 .combobox-field__control:has(> .combobox-field__tags) > .combobox-field__input:not(:disabled):is(:hover, :active) {
   background-color: transparent;
 }
 
-.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):hover:not(:has(> .combobox-field__trigger:hover)) {
+.combobox-field__control:has(> .combobox-field__tags) {
+  position: relative;
+  isolation: isolate;
+}
+
+.combobox-field__control:has(> .combobox-field__tags)::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0 var(--combobox-trigger-width);
+  z-index: -1;
+  background-color: transparent;
+  pointer-events: none;
+  transition: background-color 150ms ease;
+}
+
+.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):hover:not(:has(> .combobox-field__trigger:hover))::before {
   background-color: var(--color-interactive-ui-hover);
 }
 
-.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):has(> .combobox-field__input:active) {
+.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):has(> .combobox-field__input:active)::before {
   background-color: var(--color-interactive-ui-active);
-}
-
-/* The chevron's column stays the resting fill while the rest of the box is
-   hovered, as it does beside a single combobox's text box. */
-.combobox-field__control:has(> .combobox-field__tags) > .combobox-field__trigger:not(:hover) {
-  background-color: var(--color-interactive-ui-default);
 }
 
 .combobox-field__tags .tag {
