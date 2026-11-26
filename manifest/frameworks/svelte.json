@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T15:10:27.777Z",
+  "generatedAt": "2026-11-26T22:09:52.929Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -7177,6 +7177,184 @@
       "usageSnippet": "<Sidebar>…</Sidebar>",
       "propSignatureHash": "sha256:c0a9a3c5f1dbd686",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenu",
+      "codeName": "NavigationMenu",
+      "codePath": "packages/svelte/src/lib/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { NavigationMenu } from '@ui-organized/svelte';",
+      "reactName": "NavigationMenu",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "`NavigationMenuItem`s."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "300",
+          "description": "How long a panel stays open after the pointer leaves it, in ms."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "none",
+          "description": "The item open on first render."
+        },
+        {
+          "name": "onValueChange",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with the open item's `value`, or `\"\"` when the menu closes."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "200",
+          "description": "How long a pointer rests on a trigger before its panel opens, in ms."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The open item's `value`, or `\"\"` when every panel is closed."
+        }
+      ],
+      "usageSnippet": "<NavigationMenu>…</NavigationMenu>",
+      "propSignatureHash": "sha256:a0a5e7ca447cbb69",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenuItem",
+      "codeName": "NavigationMenuItem",
+      "codePath": "packages/svelte/src/lib/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { NavigationMenuItem } from '@ui-organized/svelte';",
+      "reactName": "NavigationMenuItem",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "A trigger's panel, or, with no `label`, the item's only content."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The panel's columns of links."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "description": "With `href`: this item is the current page."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "The trigger can't be used."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Makes the item a link in the bar rather than a trigger."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The text in the bar."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Names the item."
+        }
+      ],
+      "usageSnippet": "<NavigationMenuItem value={/* string */}>…</NavigationMenuItem>",
+      "propSignatureHash": "sha256:97181e6d74bb18bf",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenuLink",
+      "codeName": "NavigationMenuLink",
+      "codePath": "packages/svelte/src/lib/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { NavigationMenuLink } from '@ui-organized/svelte';",
+      "reactName": "NavigationMenuLink",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "The link's title."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Close the menu when the link is followed."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "description": "This link is the current page."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "In a panel: a line under the title."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "In a panel: an icon before the title."
+        }
+      ],
+      "usageSnippet": "<NavigationMenuLink>…</NavigationMenuLink>",
+      "propSignatureHash": "sha256:4c02e05fe1d3a157",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
       "status": "draft"
     },
     {

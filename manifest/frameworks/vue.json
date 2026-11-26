@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T15:10:27.777Z",
+  "generatedAt": "2026-11-26T22:09:52.929Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -6057,6 +6057,151 @@
       "usageSnippet": "<Sidebar>…</Sidebar>",
       "propSignatureHash": "sha256:56f150a9f8b2ce30",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenu",
+      "codeName": "NavigationMenu",
+      "codePath": "packages/vue/src/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "vue",
+      "importStatement": "import { NavigationMenu } from '@ui-organized/vue';",
+      "reactName": "NavigationMenu",
+      "props": [
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "300",
+          "description": "How long a panel stays open after the pointer leaves it, in ms."
+        },
+        {
+          "name": "defaultValue",
+          "type": "string",
+          "required": false,
+          "defaultValue": "none",
+          "description": "The item open on first render."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "200",
+          "description": "How long a pointer rests on a trigger before its panel opens, in ms."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "description": "The open item's `value`, or `\"\"` when every panel is closed."
+        }
+      ],
+      "usageSnippet": "<NavigationMenu>…</NavigationMenu>",
+      "propSignatureHash": "sha256:53c4615e21306e9b",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenuItem",
+      "codeName": "NavigationMenuItem",
+      "codePath": "packages/vue/src/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "vue",
+      "importStatement": "import { NavigationMenuItem } from '@ui-organized/vue';",
+      "reactName": "NavigationMenuItem",
+      "props": [
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The panel's columns of links."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "description": "With `href`: this item is the current page."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "description": "The trigger can't be used."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Makes the item a link in the bar rather than a trigger."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The text in the bar."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Names the item."
+        }
+      ],
+      "usageSnippet": "<NavigationMenuItem :value=\"/* string */\">…</NavigationMenuItem>",
+      "propSignatureHash": "sha256:511fa2f5bc223624",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "NavigationMenuLink",
+      "codeName": "NavigationMenuLink",
+      "codePath": "packages/vue/src/components/NavigationMenu/NavigationMenu.types.ts",
+      "framework": "vue",
+      "importStatement": "import { NavigationMenuLink } from '@ui-organized/vue';",
+      "reactName": "NavigationMenuLink",
+      "props": [
+        {
+          "name": "as",
+          "type": "string | Component",
+          "required": false,
+          "description": "A router link component to render instead of `<a>`, such as `RouterLink`."
+        },
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Close the menu when the link is followed."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "description": "This link is the current page."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "In a panel: a line under the title."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "In a panel: an icon before the title."
+        }
+      ],
+      "usageSnippet": "<NavigationMenuLink>…</NavigationMenuLink>",
+      "propSignatureHash": "sha256:f0be7d94503dbc34",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
       "status": "draft"
     },
     {

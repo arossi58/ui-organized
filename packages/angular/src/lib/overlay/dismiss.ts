@@ -28,6 +28,12 @@ export interface DismissibleLayer {
    * re-opens it in the trigger's own click handler, so the surface never closes.
    */
   trigger(): HTMLElement | null;
+  /**
+   * Anything else a pointer may land on without dismissing it, for a surface
+   * with more than one trigger: a navigation menu, whose open panel stays open
+   * when a press lands on any trigger in its bar.
+   */
+  contains?(target: Node): boolean;
   dismiss(reason: "escape" | "interact-outside"): void;
 }
 
@@ -65,6 +71,7 @@ function onPointerDown(event: PointerEvent): void {
   if (!layer) return;
   const target = event.target;
   if (contains(layer.surface(), target) || contains(layer.trigger(), target)) return;
+  if (target instanceof Node && layer.contains?.(target)) return;
   layer.dismiss("interact-outside");
 }
 

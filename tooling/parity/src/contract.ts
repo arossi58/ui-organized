@@ -76,16 +76,39 @@ function normalizeIds(root: Element): Map<string, string> {
    * the two ends off. Collect those and map them too.
    */
   let nextMachine = 0;
+  const addMachine = (machine: string) => {
+    if (machine && !ids.has(machine)) ids.set(machine, `@${nextMachine++}`);
+  };
   for (const el of root.querySelectorAll("[id][data-scope][data-part]")) {
     const id = el.getAttribute("id")!;
     const scope = el.getAttribute("data-scope")!;
     const part = el.getAttribute("data-part")!;
-    if (!id.startsWith(`${scope}:`) || !id.endsWith(`:${part}`)) continue;
-    const machine = id.slice(scope.length + 1, id.length - part.length - 1);
-    if (machine && !ids.has(machine)) ids.set(machine, `@${nextMachine++}`);
+    const prefix = ID_PREFIX[scope] ?? scope;
+    if (!id.startsWith(`${prefix}:`) || !id.endsWith(`:${part}`)) continue;
+    addMachine(id.slice(prefix.length + 1, id.length - part.length - 1));
+  }
+  /**
+   * Some machines also stamp their bare id on parts, as `data-uid`, to find
+   * their own triggers and panels among a page's. It is the machine id itself,
+   * so it maps through the same table, and an attribute that embeds it (such as
+   * a navigation menu's `data-trigger-proxy-id`, which names an element only a
+   * viewport renders) is rewritten with it.
+   */
+  for (const el of root.querySelectorAll("[data-scope][data-uid]")) {
+    addMachine(el.getAttribute("data-uid")!);
   }
   return ids;
 }
+
+/**
+ * Scopes whose ids do not start with the scope's own name. Zag builds a
+ * navigation menu's ids as `nav-menu:<machine>:…` while its parts say
+ * `data-scope="navigation-menu"`, so without this its machine id is never
+ * recovered and every reference to it differs by library.
+ */
+const ID_PREFIX: Record<string, string> = {
+  "navigation-menu": "nav-menu",
+};
 
 function applyIdMap(value: string, ids: Map<string, string>): string {
   // Longest first, so one id that is a prefix of another cannot shadow it.

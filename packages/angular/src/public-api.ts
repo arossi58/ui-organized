@@ -543,3 +543,9 @@ export {
   UioDrawerFooter,
   UioDrawerClose,
 } from "./lib/drawer/drawer.js";
+export {
+  UioNavigationMenu,
+  UioNavigationMenuItem,
+  UioNavigationMenuLink,
+  type NavigationMenuColumns,
+} from "./lib/navigation-menu/navigation-menu.js";

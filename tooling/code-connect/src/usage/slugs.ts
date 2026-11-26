@@ -61,6 +61,7 @@ export const COMPONENT_SLUGS = [
   "menubar",
   "meter",
   "navigation",
+  "navigation-menu",
   "number-field",
   "page-header",
   "pagination",

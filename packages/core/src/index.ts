@@ -323,6 +323,16 @@ export {
 export type { CodeLine, CodeDiffKind, CodeHighlighter, CodeLineSpec, BuildCodeLinesOptions } from "./codeLines.js";
 export { DRAWER_CLASS, DRAWER_CLOSE_ICON_SIZE } from "./components/Drawer/Drawer.styles.js";
 export {
+  NAVIGATION_MENU_CLASS,
+  NAVIGATION_MENU_CHEVRON_SIZE,
+  NAVIGATION_MENU_LINK_ICON_SIZE,
+  NAVIGATION_MENU_OPEN_DELAY,
+  NAVIGATION_MENU_CLOSE_DELAY,
+  navigationMenuContentStyles,
+  type NavigationMenuContentVariants,
+  type NavigationMenuColumns,
+} from "./components/NavigationMenu/NavigationMenu.styles.js";
+export {
   DRAWER_SWIPE,
   drawerDragOffset,
   drawerDragStarted,

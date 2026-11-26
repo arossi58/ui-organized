@@ -36,6 +36,9 @@
     ],
     "Item": [
       "state"
+    ],
+    "NavigationMenuLink": [
+      "state"
     ]
   }
 }

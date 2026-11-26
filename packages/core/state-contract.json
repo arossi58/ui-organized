@@ -982,6 +982,29 @@
       ],
       "runtime": []
     },
+    "NavigationMenu": {
+      "attributes": {
+        "data-current": [],
+        "data-state": [
+          "open"
+        ]
+      },
+      "classes": [
+        "navigation-menu",
+        "navigation-menu__chevron",
+        "navigation-menu__content",
+        "navigation-menu__content--columns-2",
+        "navigation-menu__content--columns-3",
+        "navigation-menu__item",
+        "navigation-menu__link",
+        "navigation-menu__link-body",
+        "navigation-menu__link-description",
+        "navigation-menu__link-icon",
+        "navigation-menu__list",
+        "navigation-menu__trigger"
+      ],
+      "runtime": []
+    },
     "NumberField": {
       "attributes": {
         "data-disabled": [],

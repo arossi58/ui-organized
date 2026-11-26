@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T15:10:27.777Z",
+  "generatedAt": "2026-11-26T22:09:52.929Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -111,6 +111,9 @@
     "packages/react/src/components/Menu/Menu.types.ts::MenuSeparator": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Menu/Menu.types.ts::MenuTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Meter/Meter.types.ts::Meter": "sha256:ef09ae151baf0f59",
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenu": "sha256:2e1ecc0870443d1e",
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenuItem": "sha256:a18df52fc4910fed",
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenuLink": "sha256:7d17b199ac237268",
     "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": "sha256:6e365b82364e442b",
     "packages/react/src/components/Navigation/NavContext.tsx::NavProvider": "sha256:c3f9c36951922c79",
     "packages/react/src/components/Navigation/Navigation.types.ts::NavSubItem": "sha256:4eec07fc20eae447",
@@ -4059,6 +4062,136 @@
         "required": false,
         "defaultValue": "default",
         "description": "Color variant."
+      }
+    ],
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenu": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "`NavigationMenuItem`s."
+      },
+      {
+        "name": "closeDelay",
+        "type": "number",
+        "required": false,
+        "defaultValue": "300",
+        "description": "How long a panel stays open after the pointer leaves it, in ms."
+      },
+      {
+        "name": "defaultValue",
+        "type": "string",
+        "required": false,
+        "defaultValue": "none",
+        "description": "The item open on first render."
+      },
+      {
+        "name": "onValueChange",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called with the open item's `value`, or `\"\"` when the menu closes."
+      },
+      {
+        "name": "openDelay",
+        "type": "number",
+        "required": false,
+        "defaultValue": "200",
+        "description": "How long a pointer rests on a trigger before its panel opens, in ms."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "The open item's `value`, or `\"\"` when every panel is closed."
+      }
+    ],
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenuItem": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "A trigger's panel: `NavigationMenuLink`s, usually."
+      },
+      {
+        "name": "columns",
+        "type": "1 | 2 | 3",
+        "required": false,
+        "defaultValue": "1",
+        "description": "The panel's columns of links."
+      },
+      {
+        "name": "current",
+        "type": "boolean",
+        "required": false,
+        "description": "With `href`: this item is the current page."
+      },
+      {
+        "name": "disabled",
+        "type": "boolean",
+        "required": false,
+        "description": "The trigger can't be used."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false,
+        "description": "Makes the item a link in the bar rather than a trigger."
+      },
+      {
+        "name": "label",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The text in the bar."
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": true,
+        "description": "Names the item."
+      }
+    ],
+    "packages/react/src/components/NavigationMenu/NavigationMenu.types.ts::NavigationMenuLink": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The link's title."
+      },
+      {
+        "name": "closeOnClick",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Close the menu when the link is followed."
+      },
+      {
+        "name": "current",
+        "type": "boolean",
+        "required": false,
+        "description": "This link is the current page."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "In a panel: a line under the title."
+      },
+      {
+        "name": "href",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "In a panel: an icon before the title."
+      },
+      {
+        "name": "render",
+        "type": "React.ReactElement",
+        "required": false,
+        "description": "A router link to render instead of a plain `<a>`, such as `<Link to=\"/docs\" />`."
       }
     ],
     "packages/react/src/components/Navigation/Navigation.types.ts::NavItem": [

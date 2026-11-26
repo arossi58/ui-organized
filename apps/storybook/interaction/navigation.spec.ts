@@ -202,3 +202,74 @@ test.describe("Item", () => {
     },
   );
 });
+
+// ── NavigationMenu ───────────────────────────────────────────────────────────
+test.describe("NavigationMenu", () => {
+  const STORY = "components-navigation-navigationmenu--default";
+  const trigger = part("navigation-menu", "trigger");
+  const content = (value: string) => `${part("navigation-menu", "content")}[data-value="${value}"]`;
+  const link = part("navigation-menu", "link");
+
+  storyTest(STORY, "opens a panel on a click and closes it on a second", async (page) => {
+    const product = page.locator(trigger).first();
+    await product.click();
+    await expect(product).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator(content("product"))).toBeVisible();
+    await product.click();
+    await expect(product).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator(content("product"))).toBeHidden();
+  });
+
+  storyTest(STORY, "opens on hover and closes once the pointer has left", async (page) => {
+    await page.locator(trigger).first().hover();
+    await expect(page.locator(content("product"))).toBeVisible();
+    // Down into the panel, over the gap: still open past the close delay.
+    const panel = await page.locator(content("product")).boundingBox();
+    await page.mouse.move(panel!.x + 40, panel!.y + 20, { steps: 4 });
+    await page.waitForTimeout(500);
+    await expect(page.locator(content("product"))).toBeVisible();
+    // Away from both, and it closes after the delay.
+    await page.mouse.move(panel!.x + panel!.width + 300, panel!.y + panel!.height + 100, {
+      steps: 4,
+    });
+    await expect(page.locator(content("product"))).toBeHidden();
+  });
+
+  storyTest(STORY, "moves into the open panel with ArrowDown and back with Escape", async (page) => {
+    // Opened from the keyboard: WebKit does not focus a button it clicks, so a
+    // click would leave the arrow keys on the body.
+    const product = page.locator(trigger).first();
+    await product.focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(content("product"))).toBeVisible();
+    await page.keyboard.press("ArrowDown");
+    const links = page.locator(`${content("product")} ${link}`);
+    await expect(links.first()).toBeFocused();
+    await page.keyboard.press("ArrowDown");
+    await expect(links.nth(1)).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(page.locator(content("product"))).toBeHidden();
+    await expect(product).toBeFocused();
+  });
+
+  storyTest(STORY, "moves along the bar with the arrow keys, without wrapping", async (page) => {
+    const bar = page.locator(`${trigger}, ${part("navigation-menu", "item")} > ${link}`);
+    await bar.first().focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(bar.nth(1)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(bar.last()).toBeFocused();
+    await page.keyboard.press("ArrowRight");
+    await expect(bar.last()).toBeFocused();
+    await page.keyboard.press("Home");
+    await expect(bar.first()).toBeFocused();
+  });
+
+  storyTest(STORY, "closes when a press lands outside it", async (page) => {
+    await page.locator(trigger).first().click();
+    await expect(page.locator(content("product"))).toBeVisible();
+    const panel = await page.locator(content("product")).boundingBox();
+    await page.mouse.click(panel!.x + panel!.width + 200, panel!.y + 10);
+    await expect(page.locator(content("product"))).toBeHidden();
+  });
+});

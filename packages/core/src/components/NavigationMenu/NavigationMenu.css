@@ -1,0 +1,208 @@
+/* ─── NavigationMenu ──────────────────────────────────────────────────────────
+   A site's top navigation: triggers that each drop a panel of links, and plain
+   links between them. Every panel is rendered under its own item (inline, not
+   portalled) and is `hidden` while closed, so it is positioned against the
+   item rather than measured into a shared viewport. */
+
+.navigation-menu {
+  position: relative;
+}
+
+.navigation-menu__list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+}
+
+.navigation-menu__item {
+  position: relative;
+}
+
+/* ─── Trigger, and a link in the bar ──────────────────────────────────────────
+   A button that opens a panel and an <a> that goes straight to a page share
+   one look, so the bar reads as one row of destinations. */
+
+.navigation-menu__trigger {
+  /* A button is border-box by default and an <a> is not; without this the
+     minimum height would add the padding to a link's height alone. */
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  min-height: var(--control-height-md);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border: none;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+.navigation-menu__trigger:hover:not(:disabled),
+.navigation-menu__trigger[data-state="open"] {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.navigation-menu__trigger:active:not(:disabled) {
+  background-color: var(--color-interactive-ui-active);
+  color: var(--color-content-primary);
+}
+
+.navigation-menu__trigger:focus-visible {
+  color: var(--color-content-primary);
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+/* The current page, when it is a link in the bar: the sidebar's selected sub-item. */
+.navigation-menu__trigger[data-current] {
+  background-color: var(--color-interactive-ui-selected);
+  color: var(--color-content-primary);
+  font-weight: var(--type-weight-body-strong);
+}
+
+.navigation-menu__trigger:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.navigation-menu__chevron {
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+.navigation-menu__trigger[data-state="open"] .navigation-menu__chevron {
+  transform: rotate(180deg);
+}
+
+/* ─── Panel ───────────────────────────────────────────────────────────────── */
+
+.navigation-menu__content {
+  --navigation-menu-columns: 1;
+
+  position: absolute;
+  top: calc(100% + var(--spacing-space-02));
+  inset-inline-start: 0;
+  z-index: var(--z-index-popover, 1200);
+  display: grid;
+  grid-template-columns: repeat(var(--navigation-menu-columns), minmax(12rem, 18rem));
+  gap: var(--spacing-space-01);
+  width: max-content;
+  max-width: calc(100vw - 2 * var(--spacing-space-04));
+  padding: var(--spacing-space-02);
+  background-color: var(--color-surface-primary);
+  border: 1px solid var(--color-border-primary);
+  border-radius: var(--radius-interactive);
+  /* Figma shadow-strong, as on the Menu and Popover surfaces. */
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.25);
+  color: var(--color-content-primary);
+}
+
+.navigation-menu__content--columns-2 {
+  --navigation-menu-columns: 2;
+}
+
+.navigation-menu__content--columns-3 {
+  --navigation-menu-columns: 3;
+}
+
+/* A bridge over the gap above the panel. A pointer travelling from the trigger
+   down to the panel is then never outside both, so the close that leaving the
+   trigger schedules is cancelled the moment it lands, not a gap later. */
+.navigation-menu__content::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 100%;
+  height: calc(var(--spacing-space-02) + 1px);
+}
+
+/* Entry only. A closing panel has no animation, so Ark's presence hides it on
+   the next frame instead of waiting for an exit, and the Angular library, which
+   hides it at once, ends in the same place. */
+.navigation-menu__content[data-state="open"] {
+  animation: navigation-menu-in 150ms ease;
+}
+
+@keyframes navigation-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+/* ─── Link in a panel ─────────────────────────────────────────────────────── */
+
+.navigation-menu__link {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-space-03);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border-radius: var(--radius-interactive);
+  color: var(--color-content-primary);
+  text-decoration: none;
+  outline: none;
+  transition: background-color 150ms ease;
+}
+
+.navigation-menu__link:hover {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.navigation-menu__link:active {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.navigation-menu__link:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.navigation-menu__link[data-current] {
+  background-color: var(--color-interactive-ui-selected);
+}
+
+.navigation-menu__link-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  /* At least one title line tall, so the icon centres on the title's first
+     line. A minimum, not a height: a larger icon grows the row rather than
+     overflowing upward out of a centred box, over whatever sits above. */
+  min-height: var(--type-leading-body-medium);
+  color: var(--color-content-secondary);
+}
+
+.navigation-menu__link-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-005);
+  min-width: 0;
+}
+
+.navigation-menu__link-description {
+  color: var(--color-content-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navigation-menu__content[data-state="open"] {
+    animation-name: navigation-menu-fade;
+  }
+
+  .navigation-menu__chevron {
+    transition: none;
+  }
+}
+
+@keyframes navigation-menu-fade {
+  from {
+    opacity: 0;
+  }
+}

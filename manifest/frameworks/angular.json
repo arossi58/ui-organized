@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T15:10:27.777Z",
+  "generatedAt": "2026-11-26T22:09:52.929Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -5216,6 +5216,140 @@
       "usageSnippet": "<!-- div[uioMeter] -->",
       "propSignatureHash": "sha256:0713b17aa6ba5f08",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioNavigationMenu",
+      "codeName": "UioNavigationMenu",
+      "codePath": "packages/angular/src/lib/navigation-menu/navigation-menu.ts",
+      "framework": "angular",
+      "importStatement": "import { UioNavigationMenu } from '@ui-organized/angular';",
+      "selector": "nav[uioNavigationMenu]",
+      "reactName": "NavigationMenu",
+      "props": [
+        {
+          "name": "closeDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "NAVIGATION_MENU_CLOSE_DELAY",
+          "description": "How long a panel stays open after the pointer leaves it, in ms."
+        },
+        {
+          "name": "openDelay",
+          "type": "number",
+          "required": false,
+          "defaultValue": "NAVIGATION_MENU_OPEN_DELAY",
+          "description": "How long a pointer rests on a trigger before its panel opens, in ms."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": false,
+          "defaultValue": "",
+          "description": "Two-way: bind with [(value)]. The open item's `value`, or `\"\"` when every panel is closed."
+        }
+      ],
+      "usageSnippet": "<!-- nav[uioNavigationMenu] -->",
+      "propSignatureHash": "sha256:529856dbe5c7c85a",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioNavigationMenuItem",
+      "codeName": "UioNavigationMenuItem",
+      "codePath": "packages/angular/src/lib/navigation-menu/navigation-menu.ts",
+      "framework": "angular",
+      "importStatement": "import { UioNavigationMenuItem } from '@ui-organized/angular';",
+      "selector": "div[uioNavigationMenuItem]",
+      "reactName": "NavigationMenuItem",
+      "props": [
+        {
+          "name": "columns",
+          "type": "1 | 2 | 3",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The panel's columns of links."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "With `href`: this item is the current page."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "The trigger can't be used."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Makes the item a link in the bar rather than a trigger."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "description": "The text in the bar: a trigger's, or with `href` the link's."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "required": true,
+          "description": "Names the item."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioNavigationMenuItem] -->",
+      "propSignatureHash": "sha256:af3a65598ee5de64",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioNavigationMenuLink",
+      "codeName": "UioNavigationMenuLink",
+      "codePath": "packages/angular/src/lib/navigation-menu/navigation-menu.ts",
+      "framework": "angular",
+      "importStatement": "import { UioNavigationMenuLink } from '@ui-organized/angular';",
+      "selector": "a[uioNavigationMenuLink]",
+      "reactName": "NavigationMenuLink",
+      "props": [
+        {
+          "name": "closeOnClick",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Close the menu when the link is followed."
+        },
+        {
+          "name": "current",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "This link is the current page."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "In a panel: a line under the title."
+        },
+        {
+          "name": "icon",
+          "type": "string | IconGlyph",
+          "required": false,
+          "description": "In a panel: an icon before the title."
+        }
+      ],
+      "usageSnippet": "<!-- a[uioNavigationMenuLink] -->",
+      "propSignatureHash": "sha256:b0bd0da3b164d594",
+      "lastSyncedAt": "2026-11-26T22:09:52.929Z",
       "status": "draft"
     },
     {

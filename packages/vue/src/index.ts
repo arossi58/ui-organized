@@ -380,3 +380,13 @@ export {
   DrawerFooter,
 } from "./components/Drawer/index.js";
 export type { DrawerProps, DrawerContentProps } from "./components/Drawer/index.js";
+export {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+} from "./components/NavigationMenu/index.js";
+export type {
+  NavigationMenuProps,
+  NavigationMenuItemProps,
+  NavigationMenuLinkProps,
+} from "./components/NavigationMenu/index.js";
