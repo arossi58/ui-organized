@@ -289,22 +289,15 @@
   display: flex;
 }
 
-/* CodeBlock's frame (a CSS module, so reached structurally): fill the panel
-   and scroll inside it rather than growing the window. */
-.showcase-code > div {
+/* The CodeBlock fills the panel, on the panel's surface; given that height,
+   its code scrolls inside it rather than growing the window. */
+.showcase-code .code-block {
+  --code-background: var(--color-surface-primary);
+  --code-border: var(--color-border-primary);
   flex: 1 1 0;
   min-width: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-surface-primary);
-  border-color: var(--color-border-primary);
 }
 
-.showcase-code pre {
-  flex: 1 1 0;
-  min-height: 0;
-  overflow: auto;
-}
 
 .showcase-code__loading {
   flex: 1 1 0;

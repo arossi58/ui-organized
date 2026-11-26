@@ -293,6 +293,30 @@
       ],
       "runtime": []
     },
+    "CodeBlock": {
+      "attributes": {
+        "data-diff": [
+          "add",
+          "remove"
+        ],
+        "data-highlighted": []
+      },
+      "classes": [
+        "code-block",
+        "code-block--line-numbers",
+        "code-block--wrap",
+        "code-block__code",
+        "code-block__copy",
+        "code-block__header",
+        "code-block__language",
+        "code-block__line",
+        "code-block__pre",
+        "code-block__title"
+      ],
+      "runtime": [
+        "--code-block-digits"
+      ]
+    },
     "Collapsible": {
       "attributes": {
         "data-disabled": [],

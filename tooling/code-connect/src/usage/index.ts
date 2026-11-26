@@ -44,6 +44,7 @@ import { pageHeaderUsage } from "./guides/page-header.js";
 import { descriptionListUsage } from "./guides/description-list.js";
 import { statUsage } from "./guides/stat.js";
 import { itemUsage } from "./guides/item.js";
+import { codeBlockUsage } from "./guides/code-block.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -136,6 +137,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "description-list": descriptionListUsage,
   stat: statUsage,
   item: itemUsage,
+  "code-block": codeBlockUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

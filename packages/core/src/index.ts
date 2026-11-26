@@ -304,3 +304,20 @@ export {
   type ItemSize,
   type ItemVariant,
 } from "./components/Item/Item.styles.js";
+export {
+  codeBlockStyles,
+  codeBlockTheme,
+  codeBlockMaxHeight,
+  CODE_BLOCK_TITLE_CLASS,
+  type CodeBlockVariants,
+  type CodeBlockVariant,
+} from "./components/CodeBlock/CodeBlock.styles.js";
+export {
+  buildCodeLines,
+  splitCodeLines,
+  splitHighlightedLines,
+  parseLineSpec,
+  diffKindOf,
+  lineNumberDigits,
+} from "./codeLines.js";
+export type { CodeLine, CodeDiffKind, CodeHighlighter, CodeLineSpec, BuildCodeLinesOptions } from "./codeLines.js";

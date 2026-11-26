@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T04:49:23.327Z",
+  "generatedAt": "2026-11-26T13:45:39.535Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2865,6 +2865,115 @@
       "propSignatureHash": "sha256:3e05d94a411b2b80",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "CodeBlock",
+      "codeName": "CodeBlock",
+      "codePath": "packages/svelte/src/lib/components/CodeBlock/CodeBlock.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { CodeBlock } from '@ui-organized/svelte';",
+      "reactName": "CodeBlock",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "code",
+          "type": "string",
+          "required": true,
+          "description": "The code, exactly as it is copied."
+        },
+        {
+          "name": "copiedLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copied",
+          "description": "The copy button's label just after copying."
+        },
+        {
+          "name": "copyable",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Show a copy button in the header."
+        },
+        {
+          "name": "copyLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Copy",
+          "description": "The copy button's label."
+        },
+        {
+          "name": "diff",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Colour lines that start with `+` or `-` as added or removed."
+        },
+        {
+          "name": "highlight",
+          "type": "CodeHighlighter",
+          "required": false,
+          "description": "Turns the code into highlighted HTML; without it the code is plain text."
+        },
+        {
+          "name": "highlightLines",
+          "type": "CodeLineSpec",
+          "required": false,
+          "description": "Lines to mark: 1-based numbers, or a string such as \"1,3-5\"."
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "required": false,
+          "description": "The language: passed to `highlight`, and shown in the header."
+        },
+        {
+          "name": "lineNumbers",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Number the lines."
+        },
+        {
+          "name": "maxHeight",
+          "type": "number | string",
+          "required": false,
+          "description": "Scroll the code past this height: a number of pixels, or any CSS length."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": false,
+          "description": "What the code is for, such as a file name."
+        },
+        {
+          "name": "variant",
+          "type": "\"default\" | \"terminal\"",
+          "required": false,
+          "defaultValue": "default",
+          "description": "`terminal` is dark on any page, for shell commands."
+        },
+        {
+          "name": "wrap",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Wrap long lines instead of scrolling sideways."
+        }
+      ],
+      "usageSnippet": "<CodeBlock code={/* string */} />",
+      "propSignatureHash": "sha256:cc9a1536a03f7867",
+      "lastSyncedAt": "2026-11-26T13:45:39.535Z",
+      "status": "draft",
+      "referencedTypes": {
+        "CodeHighlighter": "(code: string, language?: string) => string",
+        "CodeLineSpec": "readonly number[] | string"
+      }
     },
     {
       "figmaComponentKey": "",

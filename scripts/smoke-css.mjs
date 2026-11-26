@@ -86,8 +86,12 @@ const FRAMEWORKS = {
  * checked against core's whole sheet first, so a renamed class fails here
  * rather than leaving a probe that can never match: the plan for this gate
  * named `.select__trigger`, which no stylesheet has ever contained.
+ *
+ * A probe must be a class only its own component's sheet defines. The bare
+ * `.select-field` stopped qualifying when Field.css took a rule for a ghost
+ * Select in an Input add-on slot, so every app with an Input matched it.
  */
-const UNUSED = [".select-field", ".dialog__popup", ".calendar__day"];
+const UNUSED = [".select-field__value", ".dialog__popup", ".calendar__day"];
 
 /** The typography class `CONTROL_TEXT_CLASS.md` gives the Button's label. */
 const BUTTON_TEXT_CLASS = "text-default-body-large";

@@ -1,0 +1,180 @@
+/* ─── CodeBlock ───────────────────────────────────────────────────────────────
+   A header (title, language, copy button) over the code's lines.
+
+   Lines are inline-block spans separated by newlines, as Shiki writes them, so
+   a selection copies the code exactly. The code element is at least as wide
+   as the block and as wide as its longest line, and every line fills it, so a
+   highlighted or diff line's background runs the whole scroll width. Line
+   numbers are a CSS counter, never text, so they are never copied either.
+
+   Colours are the component-local --code-* properties, declared at zero
+   specificity so any class can override them. Shiki's css-variables theme
+   (--shiki-*) is mapped onto them. A terminal block sets data-theme="dark" on
+   itself, which re-scopes the tokens, so it is dark on any page. */
+
+:where(.code-block) {
+  --code-font: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --code-background: var(--color-surface-secondary);
+  --code-border: var(--color-border-secondary);
+  --code-foreground: var(--color-content-primary);
+  --code-comment: var(--color-content-tertiary);
+  --code-keyword: var(--color-status-warning-content);
+  --code-string: var(--color-status-success-content);
+  --code-function: var(--color-status-info-content);
+  --code-constant: var(--color-status-caution-content);
+  --code-punctuation: var(--color-content-secondary);
+  --code-line-number: var(--color-content-tertiary);
+  --code-highlight: var(--color-interactive-ui-selected);
+  --code-added: var(--color-status-success-bg);
+  --code-removed: var(--color-status-error-bg);
+}
+
+.code-block {
+  --shiki-foreground: var(--code-foreground);
+  --shiki-background: transparent;
+  --shiki-token-constant: var(--code-constant);
+  --shiki-token-string: var(--code-string);
+  --shiki-token-string-expression: var(--code-string);
+  --shiki-token-comment: var(--code-comment);
+  --shiki-token-keyword: var(--code-keyword);
+  --shiki-token-parameter: var(--code-foreground);
+  --shiki-token-function: var(--code-function);
+  --shiki-token-punctuation: var(--code-punctuation);
+  --shiki-token-link: var(--code-function);
+  /* A one-column grid whose track has no minimum: the block contributes no
+     min-content width, so a long line never widens whatever holds it (a
+     fit-content scroll area, a popover, a flex row), yet its max-content is
+     still the longest line, so a shrink-to-fit container sizes to the code
+     up to the space it has. The code scrolls inside. */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  box-sizing: border-box;
+  min-width: 0;
+  overflow: hidden;
+  /* 1px hairline — there is no border-width token family. */
+  border: 1px solid var(--code-border);
+  border-radius: var(--border-radius-05);
+  background-color: var(--code-background);
+  color: var(--code-foreground);
+  font-family: var(--type-font-body);
+}
+
+/* Given a height, the code fills what the header leaves and scrolls. */
+.code-block:has(> .code-block__header) {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+.code-block__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  min-width: 0;
+  padding: var(--spacing-space-02) var(--spacing-space-02) var(--spacing-space-02) var(--spacing-space-04);
+  border-block-end: 1px solid var(--code-border);
+}
+
+.code-block__title {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--color-content-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.code-block__language {
+  flex: none;
+  color: var(--color-content-tertiary);
+  font-family: var(--code-font);
+  font-size: var(--type-size-body-small);
+  line-height: var(--type-leading-body-small);
+}
+
+.code-block__copy {
+  flex: none;
+  margin-inline-start: auto;
+}
+
+/* ─── Code ────────────────────────────────────────────────────────────────── */
+
+.code-block__pre {
+  /* Border-box, so maxHeight bounds the whole code area, padding included. */
+  box-sizing: border-box;
+  margin: 0;
+  overflow: auto;
+  padding-block: var(--spacing-space-04);
+  font-family: var(--code-font);
+  font-size: var(--type-size-body-medium);
+  line-height: var(--type-leading-body-medium);
+  tab-size: 2;
+  white-space: pre;
+}
+
+.code-block__pre:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: -2px;
+}
+
+.code-block__code {
+  display: inline-block;
+  min-width: 100%;
+  font: inherit;
+}
+
+.code-block__line {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  /* An empty line keeps its height, so a highlight on it still shows. Top
+     alignment keeps it from sitting on the baseline, which would add the
+     font's descent and make a blank line taller than the rest. */
+  min-height: var(--type-leading-body-medium);
+  vertical-align: top;
+  padding-inline: var(--spacing-space-04);
+}
+
+.code-block--wrap .code-block__pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.code-block--wrap .code-block__code {
+  display: block;
+}
+
+/* Line numbers: a counter in a gutter as wide as the widest number, which
+   the component writes to --code-block-digits. */
+.code-block--line-numbers .code-block__code {
+  counter-reset: code-line;
+}
+
+.code-block--line-numbers .code-block__line {
+  position: relative;
+  padding-inline-start: calc(var(--spacing-space-04) * 2 + var(--code-block-digits, 1) * 1ch);
+  counter-increment: code-line;
+}
+
+.code-block--line-numbers .code-block__line::before {
+  content: counter(code-line);
+  position: absolute;
+  inset-inline-start: var(--spacing-space-04);
+  width: calc(var(--code-block-digits, 1) * 1ch);
+  color: var(--code-line-number);
+  text-align: end;
+  user-select: none;
+}
+
+/* A highlight is an overlay, so it shows over a diff line's colour too. */
+.code-block__line[data-highlighted] {
+  background-image: linear-gradient(var(--code-highlight), var(--code-highlight));
+}
+
+.code-block__line[data-diff="add"] {
+  background-color: var(--code-added);
+}
+
+.code-block__line[data-diff="remove"] {
+  background-color: var(--code-removed);
+}

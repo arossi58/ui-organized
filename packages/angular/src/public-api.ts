@@ -529,3 +529,9 @@ export {
   type ItemSize,
   type ItemVariant,
 } from "./lib/item/item.js";
+export {
+  UioCodeBlock,
+  type CodeBlockVariant,
+  type CodeHighlighter,
+  type CodeLineSpec,
+} from "./lib/code-block/code-block.js";

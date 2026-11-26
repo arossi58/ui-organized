@@ -15,7 +15,7 @@ export { DocsPageHeader, DocsTabs, type DocsTab } from "./DocsPageHeader";
 export { DocsProse, DocsSection } from "./DocsProse";
 export { InlineMarkdown, renderInline } from "./InlineMarkdown";
 export { MarkdownBlocks, parseBlocks } from "./MarkdownBlocks";
-export { CodeBlock, CopyButton } from "./CodeBlock";
+export { CodeBlock } from "./CodeBlock";
 export { EcosystemDiagram } from "./EcosystemDiagram";
 export { PreviewSurface } from "./PreviewSurface";
 export type { PreviewViewport } from "./PreviewSurface";
@@ -31,4 +31,3 @@ export {
 export { StatusBadge } from "./StatusBadge";
 export { StatusIcon } from "./StatusIcon";
 export { TestStatusPanel, TestStatusChip } from "./TestStatusPanel";
-export { useCopy, copyLabel, type CopyState } from "./useCopy";

@@ -368,3 +368,5 @@ export { Stat } from "./components/Stat/index.js";
 export type { StatProps } from "./components/Stat/index.js";
 export { Item, ItemGroup } from "./components/Item/index.js";
 export type { ItemProps, ItemGroupProps } from "./components/Item/index.js";
+export { CodeBlock } from "./components/CodeBlock/index.js";
+export type { CodeBlockProps } from "./components/CodeBlock/index.js";

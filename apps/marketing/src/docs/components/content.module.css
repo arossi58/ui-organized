@@ -120,11 +120,10 @@
 
 /* ── Code block ───────────────────────────────────────────────────────────── */
 
+/* The frame, header and copy button are the library CodeBlock's. This class
+   is the hook for the prose spacing below. */
 .code {
-  overflow: hidden;
-  border: 1px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-05);
-  background: var(--color-surface-secondary);
+  min-width: 0;
 }
 
 /* Whatever follows a snippet or a table needs the same gap a paragraph leaves
@@ -136,88 +135,10 @@
   margin-top: var(--spacing-space-04);
 }
 
-/* Inside a preview frame the surface already draws the border and radius. */
+/* Inside a PreviewSurface footer, the surface is the frame. */
 .code[data-attached] {
   border: 0;
   border-radius: 0;
-}
-
-.codeBar {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-space-03);
-  padding: var(--spacing-space-02) var(--spacing-space-02) var(--spacing-space-02)
-    var(--spacing-space-04);
-  border-bottom: 1px solid var(--color-border-secondary);
-}
-
-.codeTitle {
-  color: var(--color-content-primary);
-  font-size: var(--type-size-body-small);
-  font-weight: var(--type-weight-body-heavy);
-}
-
-.codeLabel {
-  color: var(--color-content-tertiary);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: var(--type-size-body-small);
-}
-
-.codeMeta {
-  margin-right: auto;
-  color: var(--color-content-tertiary);
-  font-size: var(--type-size-body-small);
-}
-
-.codePre {
-  /* Wide snippets scroll inside the block; the page itself must never scroll
-     sideways. */
-  overflow-x: auto;
-  margin: 0;
-  padding: var(--spacing-space-04);
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: var(--type-size-body-medium);
-  line-height: 1.6;
-  tab-size: 2;
-}
-
-.codePre code {
-  color: var(--color-content-primary);
-  white-space: pre;
-}
-
-/* ── Copy button (shared by code blocks, import lines, AI context) ─────────── */
-
-.copy {
-  flex-shrink: 0;
-  padding: var(--spacing-space-015) var(--spacing-space-03);
-  border: 1px solid var(--color-border-secondary);
-  border-radius: var(--border-radius-03);
-  background: var(--color-surface-primary);
-  color: var(--color-content-secondary);
-  font-family: inherit;
-  font-size: var(--type-size-caption);
-  font-weight: var(--type-weight-body-strong);
-  cursor: pointer;
-  transition:
-    background-color 0.12s ease,
-    color 0.12s ease,
-    border-color 0.12s ease;
-}
-
-.copy:hover {
-  border-color: var(--color-border-primary);
-  color: var(--color-content-primary);
-}
-
-.copy[data-state="copied"] {
-  border-color: var(--color-status-success);
-  color: var(--color-status-success-content);
-}
-
-.copy[data-state="failed"] {
-  border-color: var(--color-status-warning);
-  color: var(--color-status-warning-content);
 }
 
 /* ── Props table ──────────────────────────────────────────────────────────── */

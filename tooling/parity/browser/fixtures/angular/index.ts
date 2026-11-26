@@ -52,6 +52,7 @@ import { PageHeaderFixture, SectionHeaderFixture, SectionFooterFixture } from ".
 import { DescriptionListFixture } from "./description-list.fixture.js";
 import { StatFixture } from "./stat.fixture.js";
 import { ItemFixture, ItemGroupFixture } from "./item.fixture.js";
+import { CodeBlockFixture } from "./code-block.fixture.js";
 import { CommandMenuFixture } from "./command-menu.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
@@ -158,6 +159,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Stat: StatFixture,
   Item: ItemFixture,
   ItemGroup: ItemGroupFixture,
+  CodeBlock: CodeBlockFixture,
   CommandMenu: CommandMenuFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,

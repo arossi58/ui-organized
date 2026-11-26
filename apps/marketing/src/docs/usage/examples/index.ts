@@ -29,6 +29,7 @@ import { pageHeaderExamples } from "./page-header";
 import { descriptionListExamples } from "./description-list";
 import { statExamples } from "./stat";
 import { itemExamples } from "./item";
+import { codeBlockExamples } from "./code-block";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -114,6 +115,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "description-list": descriptionListExamples,
   stat: statExamples,
   item: itemExamples,
+  "code-block": codeBlockExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

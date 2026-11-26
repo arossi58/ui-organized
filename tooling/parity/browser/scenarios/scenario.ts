@@ -201,6 +201,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "Stat",
   "Item",
   "ItemGroup",
+  "CodeBlock",
   "CommandMenu",
   "Range",
   "RatingGroup",

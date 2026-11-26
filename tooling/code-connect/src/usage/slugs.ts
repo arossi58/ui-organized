@@ -29,6 +29,7 @@ export const COMPONENT_SLUGS = [
   "checkbox-card-group",
   "chip",
   "clipboard",
+  "code-block",
   "collapsible",
   "color-picker",
   "combobox",

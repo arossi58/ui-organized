@@ -519,3 +519,5 @@ export { Stat } from "./components/Stat/index.js";
 export type { StatProps, StatVariants, StatTrend, StatSentiment } from "./components/Stat/index.js";
 export { Item, ItemGroup } from "./components/Item/index.js";
 export type { ItemProps, ItemGroupProps, ItemVariants, ItemGroupVariants } from "./components/Item/index.js";
+export { CodeBlock } from "./components/CodeBlock/index.js";
+export type { CodeBlockProps, CodeBlockVariants, CodeHighlighter, CodeLineSpec } from "./components/CodeBlock/index.js";
