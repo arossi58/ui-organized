@@ -83,6 +83,7 @@ import "./components/Attachment/Attachment.css";
 import "./components/Kbd/Kbd.css";
 import "./components/CommandMenu/CommandMenu.css";
 import "./components/PageHeader/PageHeader.css";
+import "./components/DescriptionList/DescriptionList.css";
 import "./components/FileUpload/FileUpload.css";
 import "./components/ImageCropper/ImageCropper.css";
 import "./components/SignaturePad/SignaturePad.css";

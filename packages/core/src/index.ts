@@ -282,3 +282,5 @@ export type {
   SectionHeaderSize,
   SectionFooterVariants,
 } from "./components/PageHeader/PageHeader.styles.js";
+export { descriptionListStyles } from "./components/DescriptionList/DescriptionList.styles.js";
+export type { DescriptionListVariants } from "./components/DescriptionList/DescriptionList.styles.js";

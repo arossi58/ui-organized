@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:25:31.318Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3940,6 +3940,81 @@
       "usageSnippet": "<DateTimeInput />",
       "propSignatureHash": "sha256:be543467ad5a668c",
       "lastSyncedAt": "2026-08-26T18:21:11.562Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionList",
+      "codeName": "DescriptionList",
+      "codePath": "packages/react/src/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "react",
+      "importStatement": "import { DescriptionList } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "`DescriptionListItem`s, for details that need markup."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule between rows."
+        },
+        {
+          "name": "items",
+          "type": "DescriptionListEntry[]",
+          "required": false,
+          "description": "The pairs, as data."
+        },
+        {
+          "name": "layout",
+          "type": "\"inline\" | \"stacked\"",
+          "required": false,
+          "defaultValue": "inline",
+          "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        }
+      ],
+      "usageSnippet": "<DescriptionList>…</DescriptionList>",
+      "propSignatureHash": "sha256:c8c205713828c286",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: React.ReactNode; details: React.ReactNode }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionListItem",
+      "codeName": "DescriptionListItem",
+      "codePath": "packages/react/src/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "react",
+      "importStatement": "import { DescriptionListItem } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The details."
+        },
+        {
+          "name": "term",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<DescriptionListItem term={/* React.ReactNode */}>…</DescriptionListItem>",
+      "propSignatureHash": "sha256:6a2407a7e9d4c123",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
       "status": "draft"
     },
     {

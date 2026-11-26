@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:25:31.318Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -4118,6 +4118,93 @@
       "usageSnippet": "<DateTimeInput />",
       "propSignatureHash": "sha256:edbfe0c27de09f7c",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionList",
+      "codeName": "DescriptionList",
+      "codePath": "packages/svelte/src/lib/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DescriptionList } from '@ui-organized/svelte';",
+      "reactName": "DescriptionList",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "`DescriptionListItem`s, for details that need markup."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule between rows."
+        },
+        {
+          "name": "items",
+          "type": "DescriptionListEntry[]",
+          "required": false,
+          "description": "The pairs, as data."
+        },
+        {
+          "name": "layout",
+          "type": "\"inline\" | \"stacked\"",
+          "required": false,
+          "defaultValue": "inline",
+          "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        }
+      ],
+      "usageSnippet": "<DescriptionList>…</DescriptionList>",
+      "propSignatureHash": "sha256:fda78b1723bb952a",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: string; details: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionListItem",
+      "codeName": "DescriptionListItem",
+      "codePath": "packages/svelte/src/lib/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { DescriptionListItem } from '@ui-organized/svelte';",
+      "reactName": "DescriptionListItem",
+      "props": [
+        {
+          "name": "children",
+          "type": "Snippet",
+          "required": false,
+          "description": "The details."
+        },
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "term",
+          "type": "string",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<DescriptionListItem term={/* string */}>…</DescriptionListItem>",
+      "propSignatureHash": "sha256:226019c7fa78ab2b",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
       "status": "draft"
     },
     {

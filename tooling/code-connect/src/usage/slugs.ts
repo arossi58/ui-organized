@@ -38,6 +38,7 @@ export const COMPONENT_SLUGS = [
   "date-input",
   "date-range-input",
   "date-time-input",
+  "description-list",
   "dialog",
   "divider",
   "editable",

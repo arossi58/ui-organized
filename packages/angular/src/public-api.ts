@@ -508,3 +508,8 @@ export {
   type PageHeaderSize,
   type SectionHeaderSize,
 } from "./lib/page-header/page-header.js";
+export {
+  UioDescriptionList,
+  UioDescriptionListItem,
+  type DescriptionListEntry,
+} from "./lib/description-list/description-list.js";

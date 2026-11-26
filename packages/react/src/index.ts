@@ -508,3 +508,10 @@ export type {
   SectionHeaderVariants,
   SectionFooterVariants,
 } from "./components/PageHeader/index.js";
+export { DescriptionList, DescriptionListItem } from "./components/DescriptionList/index.js";
+export type {
+  DescriptionListProps,
+  DescriptionListItemProps,
+  DescriptionListEntry,
+  DescriptionListVariants,
+} from "./components/DescriptionList/index.js";

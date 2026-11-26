@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:25:31.318Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3023,6 +3023,71 @@
       "usageSnippet": "<!-- div[uioDateTimeInput] -->",
       "propSignatureHash": "sha256:4f53cda18c2baa0c",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDescriptionList",
+      "codeName": "UioDescriptionList",
+      "codePath": "packages/angular/src/lib/description-list/description-list.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDescriptionList } from '@ui-organized/angular';",
+      "selector": "dl[uioDescriptionList]",
+      "reactName": "DescriptionList",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false"
+        },
+        {
+          "name": "items",
+          "type": "readonly DescriptionListEntry[]",
+          "required": false,
+          "defaultValue": "[]"
+        },
+        {
+          "name": "layout",
+          "type": "\"stacked\" | \"inline\"",
+          "required": false,
+          "defaultValue": "inline"
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md"
+        }
+      ],
+      "usageSnippet": "<!-- dl[uioDescriptionList] -->",
+      "propSignatureHash": "sha256:992ab9571c501ebd",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: string; details: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioDescriptionListItem",
+      "codeName": "UioDescriptionListItem",
+      "codePath": "packages/angular/src/lib/description-list/description-list.ts",
+      "framework": "angular",
+      "importStatement": "import { UioDescriptionListItem } from '@ui-organized/angular';",
+      "selector": "div[uioDescriptionListItem]",
+      "reactName": "DescriptionListItem",
+      "props": [
+        {
+          "name": "term",
+          "type": "string",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioDescriptionListItem] -->",
+      "propSignatureHash": "sha256:28e4dd25dcb341a1",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
       "status": "draft"
     },
     {

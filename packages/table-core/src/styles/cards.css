@@ -66,6 +66,10 @@
   overflow-wrap: anywhere;
 }
 
+/* The general-purpose term and details list is core's DescriptionList. The
+   cards keep their own: table-core does not depend on core, and a card's type
+   is a step larger, to read at arm's length on a phone. Moving the cards onto
+   DescriptionList is a follow-up. */
 .data-table__card-fields {
   display: grid;
   /* The label is body-medium and the value body-large; aligning the boxes would

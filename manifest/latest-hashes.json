@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T03:25:31.318Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -50,6 +50,8 @@
     "packages/react/src/components/DatePicker/DatePicker.types.ts::DatePicker": "sha256:8201be7c1bd86fd5",
     "packages/react/src/components/DateRangeInput/DateRangeInput.types.ts::DateRangeInput": "sha256:1cb7da49ba7e06a9",
     "packages/react/src/components/DateTimeInput/DateTimeInput.types.ts::DateTimeInput": "sha256:be543467ad5a668c",
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionList": "sha256:c8c205713828c286",
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionListItem": "sha256:6a2407a7e9d4c123",
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": "sha256:8e605567ead9a6fd",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogClose": "sha256:36a696a8661c284e",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogContent": "sha256:c5b2bf0497293634",
@@ -2336,6 +2338,54 @@
         "required": false,
         "defaultValue": "md",
         "description": "Size variant."
+      }
+    ],
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionList": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "`DescriptionListItem`s, for details that need markup."
+      },
+      {
+        "name": "divided",
+        "type": "boolean",
+        "required": false,
+        "description": "A rule between rows."
+      },
+      {
+        "name": "items",
+        "type": "DescriptionListEntry[]",
+        "required": false,
+        "description": "The pairs, as data."
+      },
+      {
+        "name": "layout",
+        "type": "\"inline\" | \"stacked\"",
+        "required": false,
+        "defaultValue": "inline",
+        "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "Defaults to 'md'."
+      }
+    ],
+    "packages/react/src/components/DescriptionList/DescriptionList.types.ts::DescriptionListItem": [
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The details."
+      },
+      {
+        "name": "term",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What the details describe: \"Plan\", \"Renews\"."
       }
     ],
     "packages/react/src/components/Dialog/Dialog.types.ts::Dialog": [

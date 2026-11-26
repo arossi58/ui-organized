@@ -498,6 +498,19 @@
       ],
       "runtime": []
     },
+    "DescriptionList": {
+      "attributes": {},
+      "classes": [
+        "description-list",
+        "description-list--divided",
+        "description-list--sm",
+        "description-list--stacked",
+        "description-list__details",
+        "description-list__item",
+        "description-list__term"
+      ],
+      "runtime": []
+    },
     "Dialog": {
       "attributes": {
         "data-state": [

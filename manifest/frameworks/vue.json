@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T03:25:31.318Z",
+  "generatedAt": "2026-11-26T03:51:46.814Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3644,6 +3644,71 @@
       "usageSnippet": "<DateTimeInput>…</DateTimeInput>",
       "propSignatureHash": "sha256:95f7035cc1612257",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionList",
+      "codeName": "DescriptionList",
+      "codePath": "packages/vue/src/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "vue",
+      "importStatement": "import { DescriptionList } from '@ui-organized/vue';",
+      "reactName": "DescriptionList",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule between rows."
+        },
+        {
+          "name": "items",
+          "type": "DescriptionListEntry[]",
+          "required": false,
+          "description": "The pairs, as data."
+        },
+        {
+          "name": "layout",
+          "type": "\"inline\" | \"stacked\"",
+          "required": false,
+          "defaultValue": "inline",
+          "description": "`inline` puts each term beside its details; `stacked` puts them under it."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Defaults to 'md'."
+        }
+      ],
+      "usageSnippet": "<DescriptionList>…</DescriptionList>",
+      "propSignatureHash": "sha256:8e2a825f38b0d1ea",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DescriptionListEntry": "{ term: string; details: string }"
+      }
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "DescriptionListItem",
+      "codeName": "DescriptionListItem",
+      "codePath": "packages/vue/src/components/DescriptionList/DescriptionList.types.ts",
+      "framework": "vue",
+      "importStatement": "import { DescriptionListItem } from '@ui-organized/vue';",
+      "reactName": "DescriptionListItem",
+      "props": [
+        {
+          "name": "term",
+          "type": "string",
+          "required": true,
+          "description": "What the details describe: \"Plan\", \"Renews\"."
+        }
+      ],
+      "usageSnippet": "<DescriptionListItem :term=\"/* string */\">…</DescriptionListItem>",
+      "propSignatureHash": "sha256:28e4dd25dcb341a1",
+      "lastSyncedAt": "2026-11-26T03:51:46.814Z",
       "status": "draft"
     },
     {
