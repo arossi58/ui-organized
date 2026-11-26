@@ -40,6 +40,7 @@ import { calendarUsage } from "./guides/calendar.js";
 import { attachmentUsage } from "./guides/attachment.js";
 import { kbdUsage } from "./guides/kbd.js";
 import { commandMenuUsage } from "./guides/command-menu.js";
+import { pageHeaderUsage } from "./guides/page-header.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -128,6 +129,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   attachment: attachmentUsage,
   kbd: kbdUsage,
   "command-menu": commandMenuUsage,
+  "page-header": pageHeaderUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

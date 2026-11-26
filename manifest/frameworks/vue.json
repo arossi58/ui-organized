@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T00:43:14.997Z",
+  "generatedAt": "2026-11-26T03:25:31.318Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -5719,6 +5719,128 @@
       "usageSnippet": "<NumberField>…</NumberField>",
       "propSignatureHash": "sha256:ac268b4a2e8578a6",
       "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PageHeader",
+      "codeName": "PageHeader",
+      "codePath": "packages/vue/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "vue",
+      "importStatement": "import { PageHeader } from '@ui-organized/vue';",
+      "reactName": "PageHeader",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One sentence on what the page is for."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`md` for an app page, `lg` for a docs or landing page."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The page's name."
+        }
+      ],
+      "usageSnippet": "<PageHeader :title=\"/* string */\">…</PageHeader>",
+      "propSignatureHash": "sha256:00f267a7cb02fd44",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionFooter",
+      "codeName": "SectionFooter",
+      "codePath": "packages/vue/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "vue",
+      "importStatement": "import { SectionFooter } from '@ui-organized/vue';",
+      "reactName": "SectionFooter",
+      "props": [
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule above the footer."
+        }
+      ],
+      "usageSnippet": "<SectionFooter>…</SectionFooter>",
+      "propSignatureHash": "sha256:79c05d259bb40ece",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionHeader",
+      "codeName": "SectionHeader",
+      "codePath": "packages/vue/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "vue",
+      "importStatement": "import { SectionHeader } from '@ui-organized/vue';",
+      "reactName": "SectionHeader",
+      "props": [
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "required": false,
+          "defaultValue": "start",
+          "description": "`center` stacks and centres everything."
+        },
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One sentence on what the section holds."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "2",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`sm` for a card or panel, `md` for a page section."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "The section's name."
+        }
+      ],
+      "usageSnippet": "<SectionHeader :title=\"/* string */\">…</SectionHeader>",
+      "propSignatureHash": "sha256:ca1beb148fb168b4",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
       "status": "draft"
     },
     {

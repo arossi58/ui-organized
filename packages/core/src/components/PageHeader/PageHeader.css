@@ -1,0 +1,135 @@
+/* ─── PageHeader, SectionHeader, SectionFooter ────────────────────────────────
+   The top of a page, the top of a section within it, and the row that closes a
+   section. PageHeader's title row and SectionHeader are the same layout, one
+   level apart, so they share their rules here rather than nesting one inside
+   the other. Actions sit beside the heading and wrap below it when the
+   container is too narrow: no media query, so it works in a panel as well as
+   on a page. */
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-space-03);
+  min-width: 0;
+}
+
+.page-header--lg {
+  gap: var(--spacing-space-04);
+}
+
+/* 1px hairline — there is no border-width token family. */
+.page-header--divided {
+  padding-block-end: var(--spacing-space-05);
+  border-block-end: 1px solid var(--color-border-primary);
+}
+
+/* With tabs the tab list's own rule is the header's lower edge, so the header
+   draws none and leaves no gap above it. */
+.page-header--tabs {
+  padding-block-end: 0;
+  border-block-end: 0;
+}
+
+.page-header__breadcrumbs {
+  display: flex;
+  min-width: 0;
+}
+
+.page-header__row,
+.section-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-space-03) var(--spacing-space-06);
+  min-width: 0;
+}
+
+.page-header__heading,
+.section-header__heading {
+  display: flex;
+  flex: 1 1 18rem;
+  flex-direction: column;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+}
+
+.page-header__title,
+.section-header__title {
+  margin: 0;
+  color: var(--color-content-primary);
+  overflow-wrap: anywhere;
+}
+
+.page-header__description,
+.section-header__description {
+  max-width: 65ch;
+  margin: 0;
+  color: var(--color-content-secondary);
+}
+
+.page-header__actions,
+.section-header__actions {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.page-header__tabs {
+  min-width: 0;
+}
+
+/* ─── SectionHeader ───────────────────────────────────────────────────────── */
+
+.section-header--divided {
+  padding-block-end: var(--spacing-space-03);
+  border-block-end: 1px solid var(--color-border-secondary);
+}
+
+.section-header--center {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.section-header--center .section-header__heading {
+  flex: none;
+  align-items: center;
+  width: 100%;
+}
+
+.section-header--center .section-header__actions {
+  justify-content: center;
+}
+
+/* ─── SectionFooter ───────────────────────────────────────────────────────── */
+
+.section-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-space-03) var(--spacing-space-06);
+  min-width: 0;
+}
+
+.section-footer--divided {
+  padding-block-start: var(--spacing-space-03);
+  border-block-start: 1px solid var(--color-border-secondary);
+}
+
+.section-footer__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: var(--color-content-secondary);
+}
+
+.section-footer__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  margin-inline-start: auto;
+}

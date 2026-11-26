@@ -20,6 +20,7 @@ import {
   Breadcrumb,
   SearchInput,
   Icon,
+  PageHeader,
 } from "@ui-organized/react";
 import { useBuilderStore } from "../state/themeState";
 import { usePreviewPortalContainer } from "./previewPortal";
@@ -127,18 +128,18 @@ function DashboardExample() {
       </div>
 
       <div className={styles.appMain}>
-        <header className={styles.appBar}>
-          <div>
-            <h1 className={styles.pageTitle}>Dashboard</h1>
-            <p className={styles.pageSubtitle}>Welcome back. Here&apos;s today at a glance.</p>
-          </div>
-          <div className={styles.appBarActions}>
-            <SearchInput size="sm" placeholder="Search…" aria-label="Search" />
-            <Button intent="primary" icon="plus">
-              New report
-            </Button>
-          </div>
-        </header>
+        <PageHeader
+          title="Dashboard"
+          description="Welcome back. Here's today at a glance."
+          actions={
+            <>
+              <SearchInput size="sm" placeholder="Search…" aria-label="Search" />
+              <Button intent="primary" icon="plus">
+                New report
+              </Button>
+            </>
+          }
+        />
 
         <div className={styles.statRow}>
           {STATS.map((s) => (
@@ -234,19 +235,19 @@ function FormExample({ portal }: { portal: HTMLElement | null }) {
   return (
     <div className={styles.page}>
       <div className={styles.pageInner}>
-        <Breadcrumb
-          items={[
-            { label: "Home", href: "#" },
-            { label: "Settings", href: "#" },
-            { label: "Profile" },
-          ]}
+        <PageHeader
+          title="Profile settings"
+          description="Manage how your information appears across the workspace."
+          breadcrumbs={
+            <Breadcrumb
+              items={[
+                { label: "Home", href: "#" },
+                { label: "Settings", href: "#" },
+                { label: "Profile" },
+              ]}
+            />
+          }
         />
-        <div className={styles.pageHead}>
-          <h1 className={styles.pageTitle}>Profile settings</h1>
-          <p className={styles.pageSubtitle}>
-            Manage how your information appears across the workspace.
-          </p>
-        </div>
 
         <Card padding="lg" className={styles.formCard}>
           <CardHeader className={styles.cardHeaderPlain}>

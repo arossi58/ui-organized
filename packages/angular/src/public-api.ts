@@ -495,3 +495,16 @@ export type { DatePreset } from "./lib/calendar/calendar-presets.js";
 export { UioAttachment, type AttachmentStatus, type AttachmentVariant } from "./lib/attachment/attachment.js";
 export { UioKbd, type KbdPlatform, type KbdSize } from "./lib/kbd/kbd.js";
 export { UioCommandMenu, type CommandMenuItem } from "./lib/command-menu/command-menu.js";
+export {
+  UioPageHeader,
+  UioPageHeaderBreadcrumbs,
+  UioPageHeaderActions,
+  UioPageHeaderTabs,
+  UioSectionHeader,
+  UioSectionHeaderActions,
+  UioSectionFooter,
+  UioSectionFooterContent,
+  UioSectionFooterActions,
+  type PageHeaderSize,
+  type SectionHeaderSize,
+} from "./lib/page-header/page-header.js";

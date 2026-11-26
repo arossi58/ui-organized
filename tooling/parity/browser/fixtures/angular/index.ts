@@ -48,6 +48,7 @@ import { VideoEmbedFixture } from "./video-embed.fixture.js";
 import { CalendarFixture } from "./calendar.fixture.js";
 import { AttachmentFixture } from "./attachment.fixture.js";
 import { KbdFixture } from "./kbd.fixture.js";
+import { PageHeaderFixture, SectionHeaderFixture, SectionFooterFixture } from "./page-header.fixture.js";
 import { CommandMenuFixture } from "./command-menu.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
@@ -147,6 +148,9 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   Calendar: CalendarFixture,
   Attachment: AttachmentFixture,
   Kbd: KbdFixture,
+  PageHeader: PageHeaderFixture,
+  SectionHeader: SectionHeaderFixture,
+  SectionFooter: SectionFooterFixture,
   CommandMenu: CommandMenuFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,

@@ -918,6 +918,34 @@
       ],
       "runtime": []
     },
+    "PageHeader": {
+      "attributes": {},
+      "classes": [
+        "page-header",
+        "page-header--divided",
+        "page-header--lg",
+        "page-header--tabs",
+        "page-header__actions",
+        "page-header__breadcrumbs",
+        "page-header__description",
+        "page-header__heading",
+        "page-header__row",
+        "page-header__tabs",
+        "page-header__title",
+        "section-footer",
+        "section-footer--divided",
+        "section-footer__actions",
+        "section-footer__content",
+        "section-header",
+        "section-header--center",
+        "section-header--divided",
+        "section-header__actions",
+        "section-header__description",
+        "section-header__heading",
+        "section-header__title"
+      ],
+      "runtime": []
+    },
     "Pagination": {
       "attributes": {
         "aria-current": [

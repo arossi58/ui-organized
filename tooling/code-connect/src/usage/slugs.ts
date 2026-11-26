@@ -58,6 +58,7 @@ export const COMPONENT_SLUGS = [
   "meter",
   "navigation",
   "number-field",
+  "page-header",
   "pagination",
   "password-input",
   "pin-input",

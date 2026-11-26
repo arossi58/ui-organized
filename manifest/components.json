@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T00:43:14.997Z",
+  "generatedAt": "2026-11-26T03:25:31.318Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -6194,6 +6194,161 @@
       "usageSnippet": "<NumberField />",
       "propSignatureHash": "sha256:b91cfb22028b086d",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "PageHeader",
+      "codeName": "PageHeader",
+      "codePath": "packages/react/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "react",
+      "importStatement": "import { PageHeader } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The page's actions, beside the title; they wrap below it when the page is narrow."
+        },
+        {
+          "name": "breadcrumbs",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "A Breadcrumb trail above the title."
+        },
+        {
+          "name": "description",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "One sentence on what the page is for."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "1",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`md` for an app page, `lg` for a docs or landing page."
+        },
+        {
+          "name": "tabs",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "A row of Tabs under the title."
+        },
+        {
+          "name": "title",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "The page's name."
+        }
+      ],
+      "usageSnippet": "<PageHeader title={/* React.ReactNode */} />",
+      "propSignatureHash": "sha256:a0a571d42ff635a8",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionFooter",
+      "codeName": "SectionFooter",
+      "codePath": "packages/react/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "react",
+      "importStatement": "import { SectionFooter } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The section's closing actions, at the end."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The status line at the start, such as \"Showing 1 to 10 of 48\"."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule above the footer."
+        }
+      ],
+      "usageSnippet": "<SectionFooter>…</SectionFooter>",
+      "propSignatureHash": "sha256:719420a4aa03f91f",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "SectionHeader",
+      "codeName": "SectionHeader",
+      "codePath": "packages/react/src/components/PageHeader/PageHeader.types.ts",
+      "framework": "react",
+      "importStatement": "import { SectionHeader } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The section's actions, beside the title."
+        },
+        {
+          "name": "align",
+          "type": "\"start\" | \"center\"",
+          "required": false,
+          "defaultValue": "start",
+          "description": "`center` stacks and centres everything, for a marketing section."
+        },
+        {
+          "name": "description",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "One sentence on what the section holds."
+        },
+        {
+          "name": "divided",
+          "type": "boolean",
+          "required": false,
+          "description": "A rule under the header."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "defaultValue": "2",
+          "description": "The title's heading level."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`sm` for a card or panel, `md` for a page section."
+        },
+        {
+          "name": "title",
+          "type": "React.ReactNode",
+          "required": true,
+          "description": "The section's name."
+        }
+      ],
+      "usageSnippet": "<SectionHeader title={/* React.ReactNode */} />",
+      "propSignatureHash": "sha256:076961d4e3dadd5a",
+      "lastSyncedAt": "2026-11-26T03:25:31.318Z",
       "status": "draft"
     },
     {
