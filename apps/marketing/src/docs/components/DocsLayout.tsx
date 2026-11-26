@@ -9,12 +9,13 @@
  * fronted by a sticky bar (`DocsNavSheet`). One or the other is mounted, never
  * both — see `DocsNav` for why.
  */
-import { useEffect, type ReactNode, type RefObject } from "react";
+import { useEffect, useState, type ReactNode, type RefObject } from "react";
 import { useLocation } from "react-router-dom";
 import { ScrollArea } from "@ui-organized/react";
 import { useMediaQuery } from "../../hooks/useMediaQuery";
 import { DocsNav, DOCS_COMPACT_QUERY } from "./DocsNav";
 import { DocsNavSheet } from "./DocsNavSheet";
+import { DocsSearch } from "./DocsSearch";
 import styles from "./layout.module.css";
 
 interface DocsLayoutProps {
@@ -26,6 +27,7 @@ interface DocsLayoutProps {
 export function DocsLayout({ children, overlayHost }: DocsLayoutProps) {
   const compact = useMediaQuery(DOCS_COMPACT_QUERY);
   const { pathname, hash } = useLocation();
+  const [searchOpen, setSearchOpen] = useState(false);
 
   // A link from outside the docs (the Theme Builder's export steps, say) lands
   // before the section it names has rendered, and the content scrolls inside
@@ -47,25 +49,27 @@ export function DocsLayout({ children, overlayHost }: DocsLayoutProps) {
   );
 
   return (
-    <div className={styles.root}>
-      {compact ? (
-        <DocsNavSheet container={overlayHost} />
-      ) : (
-        // A plain box, not an `<aside>`: the `<nav>` inside `DocsNav` is the
-        // landmark, and labelling both left two same-named landmarks in the tree.
-        <div className={styles.sidebar}>
-          <DocsNav />
-        </div>
-      )}
+    <DocsSearch open={searchOpen} onOpenChange={setSearchOpen}>
+      <div className={styles.root}>
+        {compact ? (
+          <DocsNavSheet container={overlayHost} />
+        ) : (
+          // A plain box, not an `<aside>`: the `<nav>` inside `DocsNav` is the
+          // landmark, and labelling both left two same-named landmarks in the tree.
+          <div className={styles.sidebar}>
+            <DocsNav />
+          </div>
+        )}
 
-      {/* Below the compact breakpoint the frame itself is the scroller, so the
+        {/* Below the compact breakpoint the frame itself is the scroller, so the
           column doesn't need one of its own — and dropping it is a fix, not just
           tidiness. Ark's `ScrollArea` sets `min-width: fit-content` inline on its
           content part, which sized the column to the widest thing anywhere in
           it; a single wide preview then laid every paragraph on the page out at
           787px inside a 375px frame and scrolled the lot sideways. Being inline,
           it can't be overridden from a stylesheet. */}
-      {compact ? content : <ScrollArea className={styles.main}>{content}</ScrollArea>}
-    </div>
+        {compact ? content : <ScrollArea className={styles.main}>{content}</ScrollArea>}
+      </div>
+    </DocsSearch>
   );
 }

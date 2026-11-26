@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T23:35:27.095Z",
+  "generatedAt": "2026-11-26T00:43:14.997Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3204,6 +3204,101 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "CommandMenu",
+      "codeName": "CommandMenu",
+      "codePath": "packages/react/src/components/CommandMenu/CommandMenu.types.ts",
+      "framework": "react",
+      "importStatement": "import { CommandMenu } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether running a command closes the menu."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "defaultValue": "No",
+          "description": "Shown when nothing matches."
+        },
+        {
+          "name": "hotkey",
+          "type": "string",
+          "required": false,
+          "description": "A shortcut that toggles the menu from anywhere on the page, such as `\"mod+k\"`."
+        },
+        {
+          "name": "items",
+          "type": "CommandMenuItem[]",
+          "required": true,
+          "description": "The commands, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Command",
+          "description": "The menu's accessible name, for the dialog, the search box and the list."
+        },
+        {
+          "name": "onOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the menu opens or closes: by `hotkey`, Escape, a click outside, or running a command."
+        },
+        {
+          "name": "onSelect",
+          "type": "(value: string) => void",
+          "required": false,
+          "description": "Called with a command's `value` when it runs, by click or Enter."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Controlled open state."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Type",
+          "description": "Placeholder in the search box."
+        },
+        {
+          "name": "platform",
+          "type": "KbdPlatform",
+          "required": false,
+          "description": "Whose keys the rows' shortcuts draw."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the menu into."
+        }
+      ],
+      "usageSnippet": "<CommandMenu items={/* CommandMenuItem[] */} />",
+      "propSignatureHash": "sha256:ee936c7daf517091",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
+      "status": "draft",
+      "referencedTypes": {
+        "CommandMenuItem": "{ value: string; label: string; group?: string; icon?: IconName | IconComponent; shortcut?: string[]; keywords?: string[]; disabled?: boolean }",
+        "KbdPlatform": "KeyPlatform | \"auto\"",
+        "KeyPlatform": "\"mac\" | \"other\""
+      }
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "ContextMenu",
       "codeName": "ContextMenu",
       "codePath": "packages/react/src/components/ContextMenu/ContextMenu.types.ts",
@@ -5171,6 +5266,48 @@
       "propSignatureHash": "sha256:1a73cceef72037d9",
       "lastSyncedAt": "2026-11-25T17:37:01.086Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Kbd",
+      "codeName": "Kbd",
+      "codePath": "packages/react/src/components/Kbd/Kbd.types.ts",
+      "framework": "react",
+      "importStatement": "import { Kbd } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "children",
+          "type": "ReactNode",
+          "required": false,
+          "description": "One key written out, for a key `keys` does not name."
+        },
+        {
+          "name": "keys",
+          "type": "string[]",
+          "required": false,
+          "description": "The keys of a shortcut, pressed together: `[\"mod\", \"k\"]`."
+        },
+        {
+          "name": "platform",
+          "type": "KbdPlatform",
+          "required": false,
+          "description": "Whose keys to draw."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "description": "Size."
+        }
+      ],
+      "usageSnippet": "<Kbd>…</Kbd>",
+      "propSignatureHash": "sha256:628ccf7b274eeef5",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
+      "status": "draft",
+      "referencedTypes": {
+        "KbdPlatform": "KeyPlatform | \"auto\"",
+        "KeyPlatform": "\"mac\" | \"other\""
+      }
     },
     {
       "figmaComponentKey": "",

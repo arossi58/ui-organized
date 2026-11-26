@@ -393,6 +393,30 @@
         "--reference-width"
       ]
     },
+    "CommandMenu": {
+      "attributes": {
+        "data-disabled": [],
+        "data-highlighted": []
+      },
+      "classes": [
+        "command-menu",
+        "command-menu__empty",
+        "command-menu__group",
+        "command-menu__group-label",
+        "command-menu__input",
+        "command-menu__item",
+        "command-menu__item-icon",
+        "command-menu__item-text",
+        "command-menu__label",
+        "command-menu__list",
+        "command-menu__listbox",
+        "command-menu__search",
+        "dialog__popup",
+        "dialog__positioner",
+        "kbd"
+      ],
+      "runtime": []
+    },
     "ContextMenu": {
       "attributes": {
         "data-disabled": [],
@@ -732,6 +756,16 @@
         "input-affix__adornment",
         "input-affix__adornment--end",
         "input-affix__adornment--start"
+      ],
+      "runtime": []
+    },
+    "Kbd": {
+      "attributes": {},
+      "classes": [
+        "kbd",
+        "kbd--sm",
+        "kbd__key",
+        "kbd__name"
       ],
       "runtime": []
     },

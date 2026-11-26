@@ -17,6 +17,7 @@ import {
   DialogTitle as RDialogTitle,
   Select as RSelect,
   Combobox as RCombobox,
+  CommandMenu as RCommandMenu,
   type ToastOptions as ReactToastOptions,
 } from "@ui-organized/react";
 import { SPECS } from "../src/cases/index.js";
@@ -29,6 +30,8 @@ import VueMenuOptionsFixture from "./fixtures/vue/MenuOptionsFixture.vue";
 import ComboboxAsyncFixture from "./fixtures/ComboboxAsyncFixture.svelte";
 import VueComboboxAsyncFixture from "./fixtures/vue/ComboboxAsyncFixture.vue";
 import { OPTIONS_ARRIVE_AFTER } from "./fixtures/comboboxAsync.js";
+import CommandMenuFixture from "./fixtures/CommandMenuFixture.svelte";
+import VueCommandMenuFixture from "./fixtures/vue/CommandMenuFixture.vue";
 
 /**
  * What the harness pages can mount.
@@ -162,6 +165,13 @@ const EXTRA: Record<string, BrowserSpec> = {
     react: (p) => <ReactSelectInDialogFixture {...p} />,
     svelte: SelectInDialogFixture as unknown as ComponentType<any>,
     vue: VueSelectInDialogFixture as unknown as ComponentType<any>,
+  },
+  // Browser only: everything it renders is portalled, so SSR draws nothing in
+  // any library and there is nothing for that gate to compare.
+  CommandMenu: {
+    react: (p) => <RCommandMenu {...(p as any)} />,
+    svelte: CommandMenuFixture as unknown as ComponentType<any>,
+    vue: VueCommandMenuFixture as unknown as ComponentType<any>,
   },
   ComboboxAsync: {
     react: (p) => <ReactComboboxAsyncFixture {...p} />,

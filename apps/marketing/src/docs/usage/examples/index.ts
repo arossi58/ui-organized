@@ -23,6 +23,8 @@ import { checkboxCardGroupExamples } from "./checkbox-card-group";
 import { videoEmbedExamples } from "./video-embed";
 import { calendarExamples } from "./calendar";
 import { attachmentExamples } from "./attachment";
+import { kbdExamples } from "./kbd";
+import { commandMenuExamples } from "./command-menu";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -102,6 +104,8 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "video-embed": videoEmbedExamples,
   calendar: calendarExamples,
   attachment: attachmentExamples,
+  kbd: kbdExamples,
+  "command-menu": commandMenuExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

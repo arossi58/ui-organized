@@ -493,3 +493,5 @@ export { UioVideoEmbed } from "./lib/video-embed/video-embed.js";
 export { UioCalendar, UioCalendarFooter, type CalendarVariant } from "./lib/calendar/calendar.js";
 export type { DatePreset } from "./lib/calendar/calendar-presets.js";
 export { UioAttachment, type AttachmentStatus, type AttachmentVariant } from "./lib/attachment/attachment.js";
+export { UioKbd, type KbdPlatform, type KbdSize } from "./lib/kbd/kbd.js";
+export { UioCommandMenu, type CommandMenuItem } from "./lib/command-menu/command-menu.js";

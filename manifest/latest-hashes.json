@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T23:35:27.095Z",
+  "generatedAt": "2026-11-26T00:43:14.997Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -34,6 +34,7 @@
     "packages/react/src/components/Collapsible/Collapsible.types.ts::CollapsibleTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/ColorPicker/ColorPicker.types.ts::ColorPicker": "sha256:986a424f729e6c35",
     "packages/react/src/components/Combobox/Combobox.types.ts::Combobox": "sha256:cc4796c046c537e1",
+    "packages/react/src/components/CommandMenu/CommandMenu.types.ts::CommandMenu": "sha256:ee936c7daf517091",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": "sha256:45d508fd30c96523",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuCheckboxItem": "sha256:a689780b8ecb2542",
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenuContent": "sha256:3a6de950be38dd59",
@@ -83,6 +84,7 @@
     "packages/react/src/context/IconContext.tsx::IconProvider": "sha256:b4148665bd6f188b",
     "packages/react/src/components/ImageCropper/ImageCropper.types.ts::ImageCropper": "sha256:3487396be4c6ffc5",
     "packages/react/src/components/Input/Input.types.ts::Input": "sha256:1a73cceef72037d9",
+    "packages/react/src/components/Kbd/Kbd.types.ts::Kbd": "sha256:628ccf7b274eeef5",
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": "sha256:c4aac84c484bb4e8",
     "packages/react/src/components/Marquee/Marquee.types.ts::Marquee": "sha256:5990e288f07f2275",
     "packages/react/src/components/Menu/Menu.types.ts::Menu": "sha256:45d508fd30c96523",
@@ -1571,6 +1573,84 @@
         "type": "string | string[]",
         "required": false,
         "description": "Controlled selected value; with `multiple`, the selected values."
+      }
+    ],
+    "packages/react/src/components/CommandMenu/CommandMenu.types.ts::CommandMenu": [
+      {
+        "name": "closeOnSelect",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "true",
+        "description": "Whether running a command closes the menu."
+      },
+      {
+        "name": "defaultOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Initial open state for uncontrolled usage."
+      },
+      {
+        "name": "emptyMessage",
+        "type": "string",
+        "required": false,
+        "defaultValue": "No",
+        "description": "Shown when nothing matches."
+      },
+      {
+        "name": "hotkey",
+        "type": "string",
+        "required": false,
+        "description": "A shortcut that toggles the menu from anywhere on the page, such as `\"mod+k\"`."
+      },
+      {
+        "name": "items",
+        "type": "CommandMenuItem[]",
+        "required": true,
+        "description": "The commands, in order."
+      },
+      {
+        "name": "label",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Command",
+        "description": "The menu's accessible name, for the dialog, the search box and the list."
+      },
+      {
+        "name": "onOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the menu opens or closes: by `hotkey`, Escape, a click outside, or running a command."
+      },
+      {
+        "name": "onSelect",
+        "type": "(value: string) => void",
+        "required": false,
+        "description": "Called with a command's `value` when it runs, by click or Enter."
+      },
+      {
+        "name": "open",
+        "type": "boolean",
+        "required": false,
+        "description": "Controlled open state."
+      },
+      {
+        "name": "placeholder",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Type",
+        "description": "Placeholder in the search box."
+      },
+      {
+        "name": "platform",
+        "type": "KbdPlatform",
+        "required": false,
+        "description": "Whose keys the rows' shortcuts draw."
+      },
+      {
+        "name": "portalContainer",
+        "type": "HTMLElement | null",
+        "required": false,
+        "description": "DOM element to portal the menu into."
       }
     ],
     "packages/react/src/components/ContextMenu/ContextMenu.types.ts::ContextMenu": [
@@ -3221,6 +3301,32 @@
         "type": "IconName | IconComponent",
         "required": false,
         "description": "An icon inside the control, before the text: a search glass, an at sign."
+      }
+    ],
+    "packages/react/src/components/Kbd/Kbd.types.ts::Kbd": [
+      {
+        "name": "children",
+        "type": "ReactNode",
+        "required": false,
+        "description": "One key written out, for a key `keys` does not name."
+      },
+      {
+        "name": "keys",
+        "type": "string[]",
+        "required": false,
+        "description": "The keys of a shortcut, pressed together: `[\"mod\", \"k\"]`."
+      },
+      {
+        "name": "platform",
+        "type": "KbdPlatform",
+        "required": false,
+        "description": "Whose keys to draw."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\"",
+        "required": false,
+        "description": "Size."
       }
     ],
     "packages/react/src/components/Listbox/Listbox.types.ts::Listbox": [

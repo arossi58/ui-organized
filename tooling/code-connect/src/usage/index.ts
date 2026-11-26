@@ -38,6 +38,8 @@ import { checkboxCardGroupUsage } from "./guides/checkbox-card-group.js";
 import { videoEmbedUsage } from "./guides/video-embed.js";
 import { calendarUsage } from "./guides/calendar.js";
 import { attachmentUsage } from "./guides/attachment.js";
+import { kbdUsage } from "./guides/kbd.js";
+import { commandMenuUsage } from "./guides/command-menu.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -124,6 +126,8 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "video-embed": videoEmbedUsage,
   calendar: calendarUsage,
   attachment: attachmentUsage,
+  kbd: kbdUsage,
+  "command-menu": commandMenuUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

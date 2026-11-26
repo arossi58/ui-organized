@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T23:35:27.095Z",
+  "generatedAt": "2026-11-26T00:43:14.997Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2901,6 +2901,90 @@
     },
     {
       "figmaComponentKey": "",
+      "figmaComponentName": "CommandMenu",
+      "codeName": "CommandMenu",
+      "codePath": "packages/vue/src/components/CommandMenu/CommandMenu.types.ts",
+      "framework": "vue",
+      "importStatement": "import { CommandMenu } from '@ui-organized/vue';",
+      "reactName": "CommandMenu",
+      "props": [
+        {
+          "name": "closeOnSelect",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "true",
+          "description": "Whether running a command closes the menu."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Initial open state for uncontrolled usage."
+        },
+        {
+          "name": "emptyMessage",
+          "type": "string",
+          "required": false,
+          "defaultValue": "No",
+          "description": "Shown when nothing matches."
+        },
+        {
+          "name": "hotkey",
+          "type": "string",
+          "required": false,
+          "description": "A shortcut that toggles the menu from anywhere on the page, such as `\"mod+k\"`."
+        },
+        {
+          "name": "items",
+          "type": "CommandMenuItem[]",
+          "required": true,
+          "description": "The commands, in order."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Command",
+          "description": "The menu's accessible name, for the dialog, the search box and the list."
+        },
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": false,
+          "description": "Open state."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Type",
+          "description": "Placeholder in the search box."
+        },
+        {
+          "name": "platform",
+          "type": "KbdPlatform",
+          "required": false,
+          "description": "Whose keys the rows' shortcuts draw."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "DOM element to portal the menu into."
+        }
+      ],
+      "usageSnippet": "<CommandMenu :items=\"/* CommandMenuItem[] */\">…</CommandMenu>",
+      "propSignatureHash": "sha256:683a46bb031d6967",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
+      "status": "draft",
+      "referencedTypes": {
+        "CommandMenuItem": "{ value: string; label: string; group?: string; icon?: IconName | IconComponent; shortcut?: string[]; keywords?: string[]; disabled?: boolean }",
+        "KbdPlatform": "KeyPlatform | \"auto\"",
+        "KeyPlatform": "\"mac\" | \"other\""
+      }
+    },
+    {
+      "figmaComponentKey": "",
       "figmaComponentName": "ContextMenu",
       "codeName": "ContextMenu",
       "codePath": "packages/vue/src/components/ContextMenu/ContextMenu.types.ts",
@@ -4799,6 +4883,43 @@
       "propSignatureHash": "sha256:7324289d4e6e762b",
       "lastSyncedAt": "2026-11-25T17:37:01.086Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Kbd",
+      "codeName": "Kbd",
+      "codePath": "packages/vue/src/components/Kbd/Kbd.types.ts",
+      "framework": "vue",
+      "importStatement": "import { Kbd } from '@ui-organized/vue';",
+      "reactName": "Kbd",
+      "props": [
+        {
+          "name": "keys",
+          "type": "string[]",
+          "required": false,
+          "description": "The keys of a shortcut, pressed together: `[\"mod\", \"k\"]`."
+        },
+        {
+          "name": "platform",
+          "type": "KbdPlatform",
+          "required": false,
+          "description": "Whose keys to draw."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\"",
+          "required": false,
+          "description": "Size."
+        }
+      ],
+      "usageSnippet": "<Kbd>…</Kbd>",
+      "propSignatureHash": "sha256:c144850a19426574",
+      "lastSyncedAt": "2026-11-26T00:43:14.997Z",
+      "status": "draft",
+      "referencedTypes": {
+        "KbdPlatform": "KeyPlatform | \"auto\"",
+        "KeyPlatform": "\"mac\" | \"other\""
+      }
     },
     {
       "figmaComponentKey": "",

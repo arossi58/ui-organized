@@ -23,6 +23,7 @@ import {
   untracked,
   type Signal,
 } from "@angular/core";
+import { clsx } from "clsx";
 import { dialogStyles, type DialogVariants } from "@ui-organized/core";
 import { UioPart } from "../part.js";
 import { HostPresence } from "../host-presence.js";
@@ -134,7 +135,8 @@ export type DialogSize = NonNullable<DialogVariants["size"]>;
           [attr.data-state]="state()"
           [attr.hidden]="open() ? null : ''"
           [attr.aria-modal]="modal() ? 'true' : 'false'"
-          [attr.aria-labelledby]="dialogContext.labelledBy()"
+          [attr.aria-label]="label() ?? null"
+          [attr.aria-labelledby]="label() ? null : dialogContext.labelledBy()"
           [attr.aria-describedby]="dialogContext.describedBy()"
         >
           @if (showClose()) {
@@ -162,10 +164,17 @@ export class UioDialog implements OnInit, OnDestroy {
   readonly size = input<DialogSize>("md");
   readonly showClose = input(true, { transform: booleanAttribute });
   readonly modal = input(true, { transform: booleanAttribute });
+  /**
+   * The dialog's accessible name, for a dialog with no `uioDialogTitle`.
+   * React's DialogContent takes `aria-label`; zag then drops `aria-labelledby`.
+   */
+  readonly label = input<string | undefined>(undefined);
+  /** Extra classes on the popup, as React's DialogContent takes `className`. */
+  readonly contentClass = input<string | undefined>(undefined);
 
   readonly dialogContext = inject(UioDialogContext);
   protected readonly state = computed(() => (this.open() ? "open" : "closed"));
-  protected readonly popupClass = computed(() => dialogStyles({ size: this.size() }));
+  protected readonly popupClass = computed(() => clsx(dialogStyles({ size: this.size() }), this.contentClass()));
   protected readonly CLOSE_ICON_SIZE = 20;
 
   /**

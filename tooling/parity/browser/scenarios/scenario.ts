@@ -193,6 +193,8 @@ export const ANGULAR_COMPONENTS = new Set([
   "VideoEmbed",
   "Calendar",
   "Attachment",
+  "Kbd",
+  "CommandMenu",
   "Range",
   "RatingGroup",
   "ScrollArea",

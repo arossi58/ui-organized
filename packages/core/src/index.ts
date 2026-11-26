@@ -255,3 +255,15 @@ export { attachmentStyles, formatFileSize, clampProgress } from "./components/At
 export type { AttachmentVariants, AttachmentStatus } from "./components/Attachment/Attachment.styles.js";
 export { fitTagCount, measureTagRow, TAG_MORE_WIDTH } from "./tagOverflow.js";
 export type { TagRowLike } from "./tagOverflow.js";
+export { detectPlatform, formatKey, hotkeyKeys, parseHotkey, matchesHotkey, isTextEntry } from "./keys.js";
+export type { KeyPlatform, KeyLabel, Hotkey, KeyEventLike, NavigatorLike } from "./keys.js";
+export { createContains } from "./contains.js";
+export { kbdStyles, kbdLabels } from "./components/Kbd/Kbd.styles.js";
+export type { KbdVariants, KbdPlatform } from "./components/Kbd/Kbd.styles.js";
+export {
+  filterCommandItems,
+  groupCommandItems,
+  firstCommand,
+  orderCommandItems,
+} from "./components/CommandMenu/CommandMenu.styles.js";
+export type { CommandMenuItemLike } from "./components/CommandMenu/CommandMenu.styles.js";
