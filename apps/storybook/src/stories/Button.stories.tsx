@@ -19,7 +19,16 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     intent: {
       control: "select",
-      options: ["primary", "secondary", "tertiary", "ghost", "destructive", "destructive-ghost"],
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "ghost",
+        "destructive",
+        "destructive-ghost",
+        "link",
+        "link-neutral",
+      ],
     },
     size: {
       control: "select",
@@ -34,6 +43,8 @@ const meta: Meta<typeof Button> = {
       options: ["left", "right"],
     },
     disabled: { control: "boolean" },
+    loading: { control: "boolean" },
+    href: { control: "text" },
     children: { control: "text" },
   },
 };
@@ -155,6 +166,95 @@ export const Disabled: Story = {
       <Button intent="ghost" disabled>Ghost</Button>
       <Button intent="destructive" disabled>Destructive</Button>
       <Button intent="destructive-ghost" disabled>Destructive Ghost</Button>
+    </div>
+  ),
+};
+
+/**
+ * Busy, not disabled: the spinner takes the icon's place (or the leading edge
+ * when there is no icon), the label stays, and the button keeps its focus.
+ */
+export const Loading: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button loading>Saving</Button>
+<Button intent="secondary" icon="download" loading>Exporting</Button>
+<Button intent="tertiary" icon="arrow-right" iconPosition="right" loading>Continue</Button>
+<Button intent="ghost" icon="plus" aria-label="Add item" loading />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+      <Button loading>Saving</Button>
+      <Button intent="secondary" icon="download" loading>Exporting</Button>
+      <Button intent="tertiary" icon="arrow-right" iconPosition="right" loading>Continue</Button>
+      <Button intent="ghost" icon="plus" aria-label="Add item" loading />
+    </div>
+  ),
+};
+
+/** Text with no box, for an action inside a sentence, a card footer or a row of metadata. */
+export const LinkIntents: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button intent="link">View all</Button>
+<Button intent="link" icon="arrow-right" iconPosition="right">Read the guide</Button>
+<Button intent="link-neutral">Cancel</Button>
+<Button intent="link-neutral" size="sm">Clear filters</Button>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "24px", flexWrap: "wrap" }}>
+      <Button intent="link">View all</Button>
+      <Button intent="link" icon="arrow-right" iconPosition="right">Read the guide</Button>
+      <Button intent="link-neutral">Cancel</Button>
+      <Button intent="link-neutral" size="sm">Clear filters</Button>
+    </div>
+  ),
+};
+
+/**
+ * `href` renders a real anchor with the button's appearance, so a call to action
+ * that navigates is a crawlable link. Disabled, it drops its `href`.
+ */
+export const AsLink: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Button href="https://uiorganized.com/docs">Read the docs</Button>
+<Button href="https://github.com" intent="secondary" target="_blank" rel="noreferrer" icon="arrow-right" iconPosition="right">
+  GitHub
+</Button>
+<Button href="https://uiorganized.com/docs" disabled>Unavailable</Button>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+      <Button href="https://uiorganized.com/docs">Read the docs</Button>
+      <Button
+        href="https://github.com"
+        intent="secondary"
+        target="_blank"
+        rel="noreferrer"
+        icon="arrow-right"
+        iconPosition="right"
+      >
+        GitHub
+      </Button>
+      <Button href="https://uiorganized.com/docs" disabled>
+        Unavailable
+      </Button>
     </div>
   ),
 };

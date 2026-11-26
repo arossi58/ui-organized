@@ -14,6 +14,7 @@ import { toolbarExamples } from "./toolbar";
 import { alertExamples } from "./alert";
 import { progressExamples } from "./progress";
 import { skeletonExamples } from "./skeleton";
+import { spinnerExamples } from "./spinner";
 import { checkboxExamples } from "./checkbox";
 import { radioGroupExamples } from "./radio-group";
 import { switchExamples } from "./switch";
@@ -82,6 +83,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   alert: alertExamples,
   progress: progressExamples,
   skeleton: skeletonExamples,
+  spinner: spinnerExamples,
   checkbox: checkboxExamples,
   "radio-group": radioGroupExamples,
   switch: switchExamples,

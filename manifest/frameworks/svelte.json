@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-17T15:43:02.848Z",
+  "generatedAt": "2026-11-25T15:14:02.128Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -836,7 +836,7 @@
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
       "status": "draft",
       "referencedTypes": {
-        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
       }
     },
     {
@@ -1249,7 +1249,7 @@
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft",
       "referencedTypes": {
-        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
         "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
         "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
         "DetailConfig": "{ render: (row: T) => SvelteNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => SvelteNode }",
@@ -1871,6 +1871,18 @@
           "description": "Merged after the recipe's classes."
         },
         {
+          "name": "download",
+          "type": "HTMLAnchorAttributes[\"download\"]",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Render a real `<a href>` with the button's appearance, for an action that navigates."
+        },
+        {
           "name": "icon",
           "type": "IconName | IconComponent",
           "required": false,
@@ -1885,10 +1897,22 @@
         },
         {
           "name": "intent",
-          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"",
+          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"",
           "required": false,
           "defaultValue": "primary",
           "description": "Visual style intent."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show a spinner and stop responding while an action runs."
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
         },
         {
           "name": "size",
@@ -1898,6 +1922,12 @@
           "description": "Size variant."
         },
         {
+          "name": "target",
+          "type": "HTMLAnchorAttributes[\"target\"]",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
+        },
+        {
           "name": "type",
           "type": "HTMLButtonAttributes[\"type\"]",
           "required": false,
@@ -1905,8 +1935,8 @@
         }
       ],
       "usageSnippet": "<Button>…</Button>",
-      "propSignatureHash": "sha256:222f487a50f3d919",
-      "lastSyncedAt": "2026-11-17T15:43:02.848Z",
+      "propSignatureHash": "sha256:c1d08d3a761e4e58",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft",
       "referencedTypes": {
         "ButtonPropsFn": "() => Record<string, unknown>"
@@ -7558,6 +7588,46 @@
       "usageSnippet": "<Skeleton />",
       "propSignatureHash": "sha256:2f7c3d400f9f2bc3",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Spinner",
+      "codeName": "Spinner",
+      "codePath": "packages/svelte/src/lib/components/Spinner/Spinner.types.ts",
+      "framework": "svelte",
+      "importStatement": "import { Spinner } from '@ui-organized/svelte';",
+      "reactName": "Spinner",
+      "props": [
+        {
+          "name": "class",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "required": false,
+          "description": "Hide the spinner from assistive technology, for when something else already says the work is in progress, such as a Button's `loading` state."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Loading",
+          "description": "What is loading, announced by assistive technology."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Edge length."
+        }
+      ],
+      "usageSnippet": "<Spinner />",
+      "propSignatureHash": "sha256:74b4c92ce9e4eb59",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {

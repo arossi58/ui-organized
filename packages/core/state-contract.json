@@ -97,6 +97,7 @@
     "Button": {
       "attributes": {
         "data-disabled": [],
+        "data-loading": [],
         "hidden": []
       },
       "classes": [
@@ -106,6 +107,8 @@
         "btn--ghost",
         "btn--icon-only",
         "btn--lg",
+        "btn--link",
+        "btn--link-neutral",
         "btn--md",
         "btn--primary",
         "btn--secondary",
@@ -1033,6 +1036,19 @@
         "skeleton--rounded",
         "skeleton--text",
         "skeleton-group"
+      ],
+      "runtime": []
+    },
+    "Spinner": {
+      "attributes": {
+        "hidden": []
+      },
+      "classes": [
+        "spinner",
+        "spinner--lg",
+        "spinner--md",
+        "spinner--sm",
+        "spinner--xl"
       ],
       "runtime": []
     },

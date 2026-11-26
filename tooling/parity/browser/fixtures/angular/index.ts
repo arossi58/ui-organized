@@ -50,6 +50,7 @@ import { SelectFixture } from "./select.fixture.js";
 import { SelectInDialogFixture } from "./select-in-dialog.fixture.js";
 import { SheetFixture } from "./sheet.fixture.js";
 import { SkeletonFixture } from "./skeleton.fixture.js";
+import { SpinnerFixture } from "./spinner.fixture.js";
 import { SplitterFixture } from "./splitter.fixture.js";
 import { StepsFixture } from "./steps.fixture.js";
 import { TabsFixture } from "./tabs.fixture.js";
@@ -136,6 +137,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   SelectInDialog: SelectInDialogFixture,
   Sheet: SheetFixture,
   Skeleton: SkeletonFixture,
+  Spinner: SpinnerFixture,
   Splitter: SplitterFixture,
   Steps: StepsFixture,
   Tabs: TabsFixture,

@@ -16,6 +16,29 @@ const scenarios: BrowserScenario[] = staticScenarios("Button", [
   // `.btn--icon-only` squares the button so it lines up with a labelled one.
   // Every library decides it by asking whether it was given children at all.
   { name: "icon only", props: { icon: "check", iconOnly: true } },
+  { name: "link", props: { intent: "link" } },
+  { name: "link-neutral/sm", props: { intent: "link-neutral", size: "sm" } },
+  // Busy rather than disabled: focusable, aria-busy, the click swallowed.
+  { name: "loading", props: { loading: true } },
+  { name: "loading icon right", props: { loading: true, icon: "check", iconPosition: "right" } },
+  { name: "loading icon only", props: { loading: true, icon: "check", iconOnly: true } },
+  { name: "href", props: { href: "/docs" } },
+  { name: "href target", props: { href: "/docs", target: "_blank", rel: "noreferrer" } },
+  // An inert link: no href, role="link", aria-disabled.
+  { name: "href loading", props: { href: "/docs", loading: true } },
+  {
+    name: "href disabled",
+    props: { href: "/docs", disabled: true },
+    skip: [
+      {
+        framework: "angular",
+        reason:
+          "A real difference. Angular's template compiler rejects [disabled] on <a>, and " +
+          "UioButton keeps disabled as the native property rather than shadowing it with " +
+          "an input (see button.ts), so a disabled Angular link is written as a <button>.",
+      },
+    ],
+  },
 ]);
 
 export default scenarios;

@@ -44,7 +44,8 @@
 /* ─── Loading ────────────────────────────────────────────────────────────────
    Skeleton rows are sized to the real row height, so the table does not resize
    when the data arrives — which is the entire point of a skeleton over a
-   spinner. (There is no Spinner in the library, which settles it anyway.) */
+   spinner. (A Spinner would hold no height at all, and the rows would jump
+   when the data lands.) */
 
 .data-table__skeleton-cell {
   height: var(--data-table-row-height);

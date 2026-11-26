@@ -161,6 +161,9 @@ export type { DividerProps, DividerVariants } from "./components/Divider/index.j
 export { Skeleton } from "./components/Skeleton/index.js";
 export type { SkeletonProps, SkeletonVariants } from "./components/Skeleton/index.js";
 
+export { Spinner } from "./components/Spinner/index.js";
+export type { SpinnerProps, SpinnerVariants } from "./components/Spinner/index.js";
+
 export { Avatar } from "./components/Avatar/index.js";
 export type { AvatarProps, AvatarVariants } from "./components/Avatar/index.js";
 

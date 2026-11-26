@@ -65,6 +65,7 @@ export const COMPONENT_SLUGS = [
   "sheet",
   "signature-pad",
   "skeleton",
+  "spinner",
   "splitter",
   "steps",
   "switch",

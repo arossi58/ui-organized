@@ -1,5 +1,5 @@
 import { FALLBACK_PROJECT_URL } from "../../lib/roadmap";
-import { ButtonLink } from "../chrome/ButtonLink";
+import { Button } from "@ui-organized/react";
 import "./roadmap-empty.css";
 
 /**
@@ -15,9 +15,9 @@ export function RoadmapEmpty({ projectUrl = FALLBACK_PROJECT_URL }: { projectUrl
         This board updates from GitHub Projects, and the next sync hasn&rsquo;t
         come through yet.
       </p>
-      <ButtonLink href={projectUrl} intent="primary" size="md" target="_blank" rel="noreferrer">
+      <Button href={projectUrl} intent="primary" size="md" target="_blank" rel="noreferrer">
         Open the board on GitHub
-      </ButtonLink>
+      </Button>
     </div>
   );
 }

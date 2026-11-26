@@ -9,6 +9,8 @@
 
 import "./typography.css";
 import "./components/Icon/Icon.css";
+// Before Button.css: Button imports Spinner, so React's graph reaches it first.
+import "./components/Spinner/Spinner.css";
 import "./components/Button/Button.css";
 import "./components/FieldError/FieldError.css";
 import "./components/Input/Input.css";

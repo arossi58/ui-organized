@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-13T15:40:04.020Z",
+  "generatedAt": "2026-11-25T15:14:02.128Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -919,7 +919,7 @@
       "lastSyncedAt": "2026-08-27T16:29:59.539Z",
       "status": "draft",
       "referencedTypes": {
-        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }"
       }
     },
     {
@@ -1363,7 +1363,7 @@
       "lastSyncedAt": "2026-11-12T07:22:07.538Z",
       "status": "draft",
       "referencedTypes": {
-        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
+        "TableAction": "{ id: string; label: string; icon?: IconName | IconComponent; intent?: \"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"; iconOnly?: boolean; disabled?: boolean; onRun: () => void | Promise<void> }",
         "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
         "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
         "DetailConfig": "{ render: (row: T) => ReactNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => ReactNode }",
@@ -1870,6 +1870,18 @@
       "importStatement": "import { Button } from '@ui-organized/react';",
       "props": [
         {
+          "name": "download",
+          "type": "boolean | string",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
+        },
+        {
+          "name": "href",
+          "type": "string",
+          "required": false,
+          "description": "Render a real `<a href>` with the button's appearance, for an action that navigates."
+        },
+        {
           "name": "icon",
           "type": "IconName | IconComponent",
           "required": false,
@@ -1884,10 +1896,22 @@
         },
         {
           "name": "intent",
-          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\"",
+          "type": "\"primary\" | \"secondary\" | \"tertiary\" | \"ghost\" | \"destructive\" | \"destructive-ghost\" | \"link\" | \"link-neutral\"",
           "required": false,
           "defaultValue": "primary",
           "description": "Visual style intent."
+        },
+        {
+          "name": "loading",
+          "type": "boolean",
+          "required": false,
+          "description": "Show a spinner and stop responding while an action runs."
+        },
+        {
+          "name": "rel",
+          "type": "string",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
         },
         {
           "name": "render",
@@ -1901,11 +1925,17 @@
           "required": false,
           "defaultValue": "md",
           "description": "Size variant."
+        },
+        {
+          "name": "target",
+          "type": "React.HTMLAttributeAnchorTarget",
+          "required": false,
+          "description": "Passed to the anchor when `href` is set."
         }
       ],
       "usageSnippet": "<Button />",
-      "propSignatureHash": "sha256:255caa98204c3201",
-      "lastSyncedAt": "2026-11-13T15:40:04.020Z",
+      "propSignatureHash": "sha256:f004b79877fd0a17",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {
@@ -6884,6 +6914,40 @@
       "usageSnippet": "<Skeleton />",
       "propSignatureHash": "sha256:fb1f7adb5e58b02b",
       "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "Spinner",
+      "codeName": "Spinner",
+      "codePath": "packages/react/src/components/Spinner/Spinner.types.ts",
+      "framework": "react",
+      "importStatement": "import { Spinner } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "decorative",
+          "type": "boolean",
+          "required": false,
+          "description": "Hide the spinner from assistive technology, for when something else already says the work is in progress, such as a Button's `loading` state, which marks the button itself busy."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Loading",
+          "description": "What is loading, announced by assistive technology."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\" | \"xl\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "Edge length."
+        }
+      ],
+      "usageSnippet": "<Spinner />",
+      "propSignatureHash": "sha256:f0d7d188b4f34b49",
+      "lastSyncedAt": "2026-11-25T15:14:02.128Z",
       "status": "draft"
     },
     {

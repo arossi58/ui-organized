@@ -39,6 +39,7 @@ export {
   toCssSize,
   type SkeletonVariant,
 } from "./lib/skeleton/skeleton.js";
+export { UioSpinner, type SpinnerSize } from "./lib/spinner/spinner.js";
 export {
   getIconSet,
   registerIconSet,

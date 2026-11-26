@@ -1,0 +1,67 @@
+/* ─── Spinner ─────────────────────────────────────────────────────────────── */
+
+/* A ring drawn from two borders: a faint full track and a turning quarter arc,
+   both in `currentColor`, so the spinner takes the colour of whatever it sits
+   in (a button label, a muted caption) with no colour of its own. No SVG and
+   no glyph, so it is the same markup in all four libraries and needs no icon
+   library registered. */
+.spinner {
+  --spinner-size: 20px;
+  --spinner-thickness: 2px;
+
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: var(--spinner-size);
+  height: var(--spinner-size);
+  vertical-align: middle;
+}
+
+/* `display: inline-block` above out-ranks [hidden]'s `display: none`. */
+.spinner[hidden] {
+  display: none;
+}
+
+.spinner::before,
+.spinner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: var(--spinner-thickness) solid currentColor;
+  border-radius: var(--border-radius-full);
+}
+
+.spinner::before {
+  opacity: 0.25;
+}
+
+.spinner::after {
+  border-color: currentColor transparent transparent transparent;
+  animation: spinner-rotate 0.8s linear infinite;
+}
+
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Slowed, not stopped. A ring that stands still reads as a frozen page, which
+   is the one thing a loading indicator must not say; a slow turn still says
+   "working" without the motion a reduced-motion preference asks to avoid.
+   Skeleton and Progress stop outright because their static frame still reads
+   as loading; a still ring does not. */
+@media (prefers-reduced-motion: reduce) {
+  .spinner::after {
+    animation-duration: 2.4s;
+  }
+}
+
+/* ─── Sizes ───────────────────────────────────────────────────────────────── */
+
+.spinner--sm { --spinner-size: 16px; }
+.spinner--md { --spinner-size: 20px; }
+.spinner--lg { --spinner-size: 24px; }
+.spinner--xl { --spinner-size: 40px; --spinner-thickness: 3px; }
