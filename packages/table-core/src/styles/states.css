@@ -1,7 +1,9 @@
 /* ─── Empty, loading and error states ─────────────────────────────────────────
    All three occupy the table body rather than replacing the table, so the
    header — and therefore the column widths and the scroll position — survives
-   the transition between having data and not. */
+   the transition between having data and not. The empty state is the library
+   EmptyState (size sm) inside `.data-table__state-cell`; the `.data-table__state`
+   rules below are the error state's. */
 
 .data-table__state-cell {
   padding: var(--spacing-space-08) var(--spacing-space-04);
@@ -29,12 +31,6 @@
   max-width: var(--dimension-08);
   font-size: var(--type-size-body-medium);
   color: var(--color-content-secondary);
-}
-
-.data-table__state-actions {
-  display: flex;
-  gap: var(--spacing-space-02);
-  margin-top: var(--spacing-space-02);
 }
 
 .data-table__state--error .data-table__state-title {

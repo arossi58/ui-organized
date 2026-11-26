@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T15:43:56.216Z",
+  "generatedAt": "2026-11-25T16:11:31.744Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -53,6 +53,7 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:f411b86fd0af3040",
     "packages/react/src/components/Editable/Editable.types.ts::Editable": "sha256:4acc88909e051c06",
+    "packages/react/src/components/EmptyState/EmptyState.types.ts::EmptyState": "sha256:607f0bbac47fb32f",
     "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": "sha256:7e233281cd254757",
     "packages/react/src/components/Field/Field.types.ts::Field": "sha256:1381062600517458",
     "packages/react/src/components/Field/Field.types.ts::FieldControl": "sha256:4f53cda18c2baa0c",
@@ -134,7 +135,7 @@
     "packages/react-table/src/components/TableCards/TableCards.types.ts::TableCards": "sha256:1d83a9eaf1f23632",
     "packages/react-table/src/components/Table/Table.types.ts::TableCell": "sha256:3e6664bb40751787",
     "packages/react-table/src/components/TableDetailSheet/TableDetailSheet.types.ts::TableDetailSheet": "sha256:4d40b2c45bf5c087",
-    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": "sha256:0c9cebf01d0d18eb",
+    "packages/react-table/src/components/TableStates/TableStates.types.ts::TableEmpty": "sha256:e6b8dd13abe79ad2",
     "packages/react-table/src/components/TableStates/TableStates.types.ts::TableError": "sha256:b2511e333bc5e979",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableExportMenu": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/TableFilters/TableFilters.types.ts::TableFilterAdd": "sha256:53c2a2ccb7c2e955",
@@ -2051,6 +2052,51 @@
         "type": "string",
         "required": false,
         "description": "Controlled value."
+      }
+    ],
+    "packages/react/src/components/EmptyState/EmptyState.types.ts::EmptyState": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The way out: one primary action, and at most one secondary."
+      },
+      {
+        "name": "description",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "One sentence on why, or what would fill it."
+      },
+      {
+        "name": "headingLevel",
+        "type": "1 | 2 | 3 | 4 | 5 | 6",
+        "required": false,
+        "description": "Render the title as a heading at this level."
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "An icon for the topic, drawn as a neutral subtle FeaturedIcon sized to the empty state."
+      },
+      {
+        "name": "media",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Anything else in the media slot, such as an illustration."
+      },
+      {
+        "name": "size",
+        "type": "\"sm\" | \"md\" | \"lg\"",
+        "required": false,
+        "defaultValue": "md",
+        "description": "`sm` for a table cell or a card, `md` for a panel, `lg` for a page."
+      },
+      {
+        "name": "title",
+        "type": "React.ReactNode",
+        "required": true,
+        "description": "What is missing, in a few words: \"No results\", \"Nothing here yet\"."
       }
     ],
     "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": [
@@ -4876,6 +4922,12 @@
         "name": "description",
         "type": "string",
         "required": false
+      },
+      {
+        "name": "icon",
+        "type": "IconName | IconComponent",
+        "required": false,
+        "description": "A topic icon above the title, drawn as a neutral FeaturedIcon."
       },
       {
         "name": "title",

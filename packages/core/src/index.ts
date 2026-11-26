@@ -125,6 +125,13 @@ export { dividerStyles } from "./components/Divider/Divider.styles.js";
 export type { DividerVariants } from "./components/Divider/Divider.styles.js";
 export { editableStyles } from "./components/Editable/Editable.styles.js";
 export type { EditableVariants } from "./components/Editable/Editable.styles.js";
+export {
+  emptyStateStyles,
+  EMPTY_STATE_ICON_SIZE,
+  EMPTY_STATE_TEXT_CLASS,
+  type EmptyStateSize,
+} from "./components/EmptyState/EmptyState.styles.js";
+export type { EmptyStateVariants } from "./components/EmptyState/EmptyState.styles.js";
 export { fieldStyles } from "./components/Field/Field.styles.js";
 export type { FieldVariants } from "./components/Field/Field.styles.js";
 export {

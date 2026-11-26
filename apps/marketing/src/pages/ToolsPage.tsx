@@ -1,6 +1,6 @@
 import { Fragment, Suspense } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Sidebar, NavItem, Icon, Spinner, useNavContext } from "@ui-organized/react";
+import { Sidebar, NavItem, Icon, Spinner, EmptyState, useNavContext } from "@ui-organized/react";
 import { Monitor } from "lucide-react";
 import { TOOLS, resolveTool } from "../lib/tools";
 import { TOOL_COMPONENTS } from "../lib/toolComponents";
@@ -57,16 +57,14 @@ export function ToolsPage() {
     return (
       <div className="tools-page">
         <main className="tools-page__stage" id="main">
-          <div className="tools-note">
-            <span className="tools-note__art" aria-hidden="true">
-              <Icon name={Monitor} size={40} />
-            </span>
-            <h1 className="tools-note__title">Best viewed on desktop</h1>
-            <p className="tools-note__body">
-              The design tools need a larger screen to work well. Open this page
-              on a desktop or tablet to try them.
-            </p>
-          </div>
+          <EmptyState
+            className="tools-note"
+            size="lg"
+            headingLevel={1}
+            icon={Monitor}
+            title="Best viewed on desktop"
+            description="The design tools need a larger screen to work well. Open this page on a desktop or tablet to try them."
+          />
         </main>
       </div>
     );

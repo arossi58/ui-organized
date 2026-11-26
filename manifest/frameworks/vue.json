@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T15:43:56.216Z",
+  "generatedAt": "2026-11-25T16:11:31.744Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -692,14 +692,20 @@
           "required": false
         },
         {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "A topic icon above the title, drawn as a neutral FeaturedIcon."
+        },
+        {
           "name": "title",
           "type": "string",
           "required": false
         }
       ],
       "usageSnippet": "<TableEmpty>…</TableEmpty>",
-      "propSignatureHash": "sha256:981807c74746a3a9",
-      "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "propSignatureHash": "sha256:ecb7eff12eb50e2e",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
       "status": "draft"
     },
     {
@@ -1211,7 +1217,7 @@
         "BulkAction": "{ id: string; label: string; icon?: IconName | IconComponent; destructive?: boolean; confirm?: { title?: string; description?: string; confirmLabel?: string }; onRun: (rows: T[], selection: BulkSelection) => void | Promise<void> }",
         "TableFilterInput": "Omit<TableFilterCondition, \"id\">",
         "DetailConfig": "{ render: (row: T) => VueNode; title?: (row: T) => string; description?: (row: T) => string; footer?: (row: T) => VueNode }",
-        "EmptyStateConfig": "{ title?: string; description?: string; action?: VueNode }",
+        "EmptyStateConfig": "{ title?: string; description?: string; icon?: IconName | IconComponent; action?: VueNode }",
         "FilterOperatorDef": "{ id: TableFilterOperator; label: string; labelByType?: Partial<Record<TableFilterType, string>>; arity: FilterOperatorArity; types: readonly TableFilterType[]; matchesEmpty?: boolean; compile?: (condition: TableFilterCondition, ctx: FilterCompileContext) => unknown; test: (cellValue: unknown, prepared: unknown) => boolean }",
         "TableEditPatch": "{ rowId: string; columnId: string; row: T; value: unknown; previousValue: unknown }",
         "DataTableQuery": "{ sorting: TableSortSpec[]; filters: TableFilterCondition[]; search: string; pageIndex: number; pageSize: number }",
@@ -3388,6 +3394,52 @@
       "usageSnippet": "<Editable>…</Editable>",
       "propSignatureHash": "sha256:89e1d28aabc57a94",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "EmptyState",
+      "codeName": "EmptyState",
+      "codePath": "packages/vue/src/components/EmptyState/EmptyState.types.ts",
+      "framework": "vue",
+      "importStatement": "import { EmptyState } from '@ui-organized/vue';",
+      "reactName": "EmptyState",
+      "props": [
+        {
+          "name": "description",
+          "type": "string",
+          "required": false,
+          "description": "One sentence on why, or what would fill it."
+        },
+        {
+          "name": "headingLevel",
+          "type": "1 | 2 | 3 | 4 | 5 | 6",
+          "required": false,
+          "description": "Render the title as a heading at this level."
+        },
+        {
+          "name": "icon",
+          "type": "IconName | IconComponent",
+          "required": false,
+          "description": "An icon for the topic, drawn as a neutral subtle FeaturedIcon sized to the empty state."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "required": false,
+          "defaultValue": "md",
+          "description": "`sm` for a table cell or a card, `md` for a panel, `lg` for a page."
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true,
+          "description": "What is missing, in a few words: \"No results\", \"Nothing here yet\"."
+        }
+      ],
+      "usageSnippet": "<EmptyState :title=\"/* string */\">…</EmptyState>",
+      "propSignatureHash": "sha256:f050a1c299242476",
+      "lastSyncedAt": "2026-11-25T16:11:31.744Z",
       "status": "draft"
     },
     {

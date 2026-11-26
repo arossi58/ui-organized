@@ -35,6 +35,7 @@ export const COMPONENT_SLUGS = [
   "dialog",
   "divider",
   "editable",
+  "empty-state",
   "featured-icon",
   "field-error",
   "file-upload",

@@ -176,6 +176,8 @@ export interface DetailConfig<T extends RowData> {
 export interface EmptyStateConfig {
   title?: string;
   description?: string;
+  /** A topic icon above the title, drawn as a neutral FeaturedIcon. */
+  icon?: IconName;
   action?: AngularNode;
 }
 

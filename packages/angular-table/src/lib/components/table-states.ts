@@ -1,5 +1,11 @@
 import { Component, computed, input } from "@angular/core";
-import { UioSkeleton } from "@ui-organized/angular";
+import {
+  UioEmptyState,
+  UioEmptyStateActions,
+  UioSkeleton,
+  type IconGlyph,
+  type IconName,
+} from "@ui-organized/angular";
 import { injectDataTable } from "../core/table-context.js";
 
 /**
@@ -14,15 +20,12 @@ import { injectDataTable } from "../core/table-context.js";
 @Component({
   selector: "tr[uioTableEmpty]",
   standalone: true,
+  imports: [UioEmptyState, UioEmptyStateActions],
   host: { class: "data-table__row" },
   template: `
     <td class="data-table__state-cell" [attr.colspan]="table.chrome().colCount">
-      <div class="data-table__state">
-        <span class="data-table__state-title">{{ heading() }}</span>
-        @if (detail(); as text) {
-          <span class="data-table__state-description">{{ text }}</span>
-        }
-        <div class="data-table__state-actions"><ng-content /></div>
+      <div uioEmptyState size="sm" [icon]="glyph()" [title]="heading()" [description]="detail()">
+        <div uioEmptyStateActions><ng-content /></div>
       </div>
     </td>
   `,
@@ -30,6 +33,8 @@ import { injectDataTable } from "../core/table-context.js";
 export class UioTableEmpty {
   readonly title = input<string | undefined>(undefined);
   readonly description = input<string | undefined>(undefined);
+  /** A topic icon above the title, drawn as a neutral FeaturedIcon. */
+  readonly icon = input<IconName | IconGlyph | undefined>(undefined);
 
   protected readonly table = injectDataTable();
   protected readonly heading = computed(
@@ -38,6 +43,7 @@ export class UioTableEmpty {
   protected readonly detail = computed(
     () => this.description() ?? this.table.options.empty?.description,
   );
+  protected readonly glyph = computed(() => this.icon() ?? this.table.options.empty?.icon);
 }
 
 /**

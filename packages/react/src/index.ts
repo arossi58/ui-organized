@@ -167,6 +167,9 @@ export type { SpinnerProps, SpinnerVariants } from "./components/Spinner/index.j
 export { FeaturedIcon } from "./components/FeaturedIcon/index.js";
 export type { FeaturedIconProps, FeaturedIconVariants } from "./components/FeaturedIcon/index.js";
 
+export { EmptyState } from "./components/EmptyState/index.js";
+export type { EmptyStateProps, EmptyStateVariants } from "./components/EmptyState/index.js";
+
 export { Avatar } from "./components/Avatar/index.js";
 export type { AvatarProps, AvatarVariants } from "./components/Avatar/index.js";
 

@@ -78,6 +78,8 @@ export { Spinner } from "./components/Spinner/index.js";
 export type { SpinnerProps } from "./components/Spinner/index.js";
 export { FeaturedIcon } from "./components/FeaturedIcon/index.js";
 export type { FeaturedIconProps } from "./components/FeaturedIcon/index.js";
+export { EmptyState } from "./components/EmptyState/index.js";
+export type { EmptyStateProps } from "./components/EmptyState/index.js";
 
 export { Tag } from "./components/Tag/index.js";
 export type { TagProps } from "./components/Tag/index.js";

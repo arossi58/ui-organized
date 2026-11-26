@@ -54,6 +54,7 @@ import { iconExamples } from "./icon";
 import { pinInputExamples } from "./pin-input";
 import { tagsInputExamples } from "./tags-input";
 import { editableExamples } from "./editable";
+import { emptyStateExamples } from "./empty-state";
 import { featuredIconExamples } from "./featured-icon";
 import { ratingGroupExamples } from "./rating-group";
 import { angleSliderExamples } from "./angle-slider";
@@ -124,6 +125,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "pin-input": pinInputExamples,
   "tags-input": tagsInputExamples,
   editable: editableExamples,
+  "empty-state": emptyStateExamples,
   "featured-icon": featuredIconExamples,
   "rating-group": ratingGroupExamples,
   "angle-slider": angleSliderExamples,
