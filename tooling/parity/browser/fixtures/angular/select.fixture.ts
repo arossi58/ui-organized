@@ -24,10 +24,15 @@ import { ANGULAR_ROOT, parityProps } from "./parity-props.js";
       [name]="p['name']"
       [required]="p['required'] ?? false"
       [disabled]="p['disabled'] ?? false"
-      [value]="p['defaultValue']"
+      [value]="p['multiple'] ? undefined : p['defaultValue']"
+      [multiple]="!!p['multiple']"
+      [values]="values"
+      [clearLabel]="p['clearLabel'] ?? 'Clear all'"
     ></div>
   `,
 })
 export class SelectFixture {
   protected readonly p = parityProps();
+  /** Read once into a field, for the reason DateRangeInputFixture gives. */
+  protected readonly values = (this.p["multiple"] ? (this.p["defaultValue"] ?? []) : []) as string[];
 }

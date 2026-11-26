@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:45:03.731Z",
+  "generatedAt": "2026-11-25T23:35:27.095Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2763,6 +2763,13 @@
       "reactName": "Combobox",
       "props": [
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -2773,6 +2780,12 @@
           "type": "string",
           "required": false,
           "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "defaultValues",
+          "type": "string[]",
+          "required": false,
+          "description": "With `multiple`: the initial values for uncontrolled usage."
         },
         {
           "name": "disabled",
@@ -2809,6 +2822,12 @@
           "type": "string",
           "required": false,
           "description": "Selected value."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices: tags before the text box with a \"+N\" for those that do not fit, and a button that clears them all."
         },
         {
           "name": "name",
@@ -2864,11 +2883,17 @@
           "required": false,
           "defaultValue": "md",
           "description": "Size variant."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "required": false,
+          "description": "With `multiple`: the chosen values."
         }
       ],
       "usageSnippet": "<Combobox :options=\"/* ComboboxOption[] */\">…</Combobox>",
-      "propSignatureHash": "sha256:be4b755366fa110b",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:5fafc91e2bf7a012",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
@@ -6644,6 +6669,13 @@
       "reactName": "Select",
       "props": [
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -6654,6 +6686,12 @@
           "type": "string",
           "required": false,
           "description": "Initial selected value for uncontrolled usage."
+        },
+        {
+          "name": "defaultValues",
+          "type": "string[]",
+          "required": false,
+          "description": "With `multiple`: the initial values for uncontrolled usage."
         },
         {
           "name": "disabled",
@@ -6684,6 +6722,12 @@
           "type": "string",
           "required": false,
           "description": "Selected value."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices: tags on one line with a \"+N\" for those that do not fit, and a button that clears them all."
         },
         {
           "name": "name",
@@ -6729,6 +6773,12 @@
           "description": "Size variant."
         },
         {
+          "name": "values",
+          "type": "string[]",
+          "required": false,
+          "description": "With `multiple`: the chosen values."
+        },
+        {
           "name": "variant",
           "type": "\"default\" | \"ghost\"",
           "required": false,
@@ -6737,8 +6787,8 @@
         }
       ],
       "usageSnippet": "<Select :options=\"/* SelectOption[] */\">…</Select>",
-      "propSignatureHash": "sha256:0182d1808ce0edc9",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:dbd1693bd14fbecc",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "SelectOption": "{ value: string; label: string; disabled?: boolean }"

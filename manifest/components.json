@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:45:03.731Z",
+  "generatedAt": "2026-11-25T23:35:27.095Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2197,11 +2197,103 @@
       "codePath": "packages/react/src/components/Calendar/Calendar.types.ts",
       "framework": "react",
       "importStatement": "import { Calendar } from '@ui-organized/react';",
-      "props": [],
+      "props": [
+        {
+          "name": "className",
+          "type": "string",
+          "required": false
+        },
+        {
+          "name": "defaultValue",
+          "type": "string | DateRangeValue",
+          "required": false,
+          "description": "Uncontrolled initial value."
+        },
+        {
+          "name": "footer",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "A row under the grid, for actions such as Cancel and Apply."
+        },
+        {
+          "name": "max",
+          "type": "string",
+          "required": false,
+          "description": "Latest selectable date (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "min",
+          "type": "string",
+          "required": false,
+          "description": "Earliest selectable date (ISO `YYYY-MM-DD`)."
+        },
+        {
+          "name": "mode",
+          "type": "\"single\" | \"range\"",
+          "required": false,
+          "description": "Pick one day."
+        },
+        {
+          "name": "numMonths",
+          "type": "number",
+          "required": false,
+          "defaultValue": "1",
+          "description": "Months shown side by side."
+        },
+        {
+          "name": "onRangeComplete",
+          "type": "(value: DateRangeValue) => void",
+          "required": false,
+          "description": "Called once both ends are chosen, by picking or by a preset."
+        },
+        {
+          "name": "onValueChange",
+          "type": "((value: string) => void) | ((value: DateRangeValue) => void)",
+          "required": false,
+          "description": "Called with the chosen day."
+        },
+        {
+          "name": "presets",
+          "type": "DatePreset[]",
+          "required": false,
+          "description": "Shortcuts in a column before the grid."
+        },
+        {
+          "name": "presetsLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Presets",
+          "description": "The presets column's accessible name."
+        },
+        {
+          "name": "value",
+          "type": "string | DateRangeValue",
+          "required": false,
+          "description": "Controlled value (ISO `YYYY-MM-DD`; `\"\"` when empty)."
+        },
+        {
+          "name": "variant",
+          "type": "\"plain\" | \"card\"",
+          "required": false,
+          "description": "`card` puts the calendar on a bordered surface."
+        },
+        {
+          "name": "weekStartsOn",
+          "type": "number",
+          "required": false,
+          "description": "First day of the week: 0 = Sunday (the default), 1 = Monday."
+        }
+      ],
       "usageSnippet": "<Calendar />",
-      "propSignatureHash": "sha256:4f53cda18c2baa0c",
-      "lastSyncedAt": "2026-11-25T22:15:58.332Z",
-      "status": "draft"
+      "propSignatureHash": "sha256:442a5b39c1f980ce",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
+      "status": "draft",
+      "referencedTypes": {
+        "DateRangeValue": "{ start: string; end: string }",
+        "DatePreset": "{ label: string; value: DatePresetValue; disabled?: boolean }",
+        "DatePresetValue": "string | { start: string; end: string } | DatePresetName",
+        "DatePresetName": "\"today\" | \"yesterday\" | \"last3Days\" | \"last7Days\" | \"last14Days\" | \"last30Days\" | \"last90Days\" | \"thisWeek\" | \"lastWeek\" | \"thisMonth\" | \"lastMonth\" | \"thisQuarter\" | \"lastQuarter\" | \"thisYear\" | \"lastYear\""
+      }
     },
     {
       "figmaComponentKey": "",
@@ -2986,6 +3078,13 @@
           "required": false
         },
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "The clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -2993,9 +3092,9 @@
         },
         {
           "name": "defaultValue",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
-          "description": "Initial selected value for uncontrolled usage."
+          "description": "Initial selected value for uncontrolled usage; with `multiple`, the initial values."
         },
         {
           "name": "disabled",
@@ -3028,6 +3127,12 @@
           "description": "Accessible label rendered above the control."
         },
         {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices, as tags before the text box."
+        },
+        {
           "name": "name",
           "type": "string",
           "required": false,
@@ -3041,9 +3146,9 @@
         },
         {
           "name": "onValueChange",
-          "type": "(value: string) => void",
+          "type": "((value: string) => void) | ((value: string[]) => void)",
           "required": false,
-          "description": "Called with the selected option's value (empty string when cleared)."
+          "description": "Called with the selected option's value (empty string when cleared); with `multiple`, with every selected value."
         },
         {
           "name": "open",
@@ -3084,14 +3189,14 @@
         },
         {
           "name": "value",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
-          "description": "Controlled selected value."
+          "description": "Controlled selected value; with `multiple`, the selected values."
         }
       ],
       "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
-      "propSignatureHash": "sha256:afd52166dcebfe72",
-      "lastSyncedAt": "2026-07-31T00:02:54.122Z",
+      "propSignatureHash": "sha256:cc4796c046c537e1",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
@@ -7104,6 +7209,13 @@
           "required": false
         },
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "The clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -7111,9 +7223,9 @@
         },
         {
           "name": "defaultValue",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
-          "description": "Initial selected value for uncontrolled usage."
+          "description": "Initial selected value for uncontrolled usage; with `multiple`, the initial values."
         },
         {
           "name": "disabled",
@@ -7140,6 +7252,12 @@
           "description": "Accessible label rendered above the trigger."
         },
         {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices, as tags on one line."
+        },
+        {
           "name": "name",
           "type": "string",
           "required": false,
@@ -7153,9 +7271,9 @@
         },
         {
           "name": "onValueChange",
-          "type": "(value: string) => void",
+          "type": "((value: string) => void) | ((value: string[]) => void)",
           "required": false,
-          "description": "Callback fired when the selected value changes."
+          "description": "Callback fired when the selected value changes; with `multiple`, called with every selected value."
         },
         {
           "name": "open",
@@ -7196,9 +7314,9 @@
         },
         {
           "name": "value",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
-          "description": "Controlled selected value."
+          "description": "Controlled selected value; with `multiple`, the selected values."
         },
         {
           "name": "variant",
@@ -7209,8 +7327,8 @@
         }
       ],
       "usageSnippet": "<Select options={/* SelectOption[] */} />",
-      "propSignatureHash": "sha256:a2c90f2f6a9c57da",
-      "lastSyncedAt": "2026-07-31T00:02:54.122Z",
+      "propSignatureHash": "sha256:336f1cbad4a05d1c",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "SelectOption": "{ value: string; label: string; disabled?: boolean }"
@@ -8853,14 +8971,52 @@
       "importStatement": "import { IconProvider } from '@ui-organized/react';",
       "props": [
         {
+          "name": "baseSize",
+          "type": "number",
+          "required": false,
+          "defaultValue": "24",
+          "description": "The design/reference size in pixels at which the base stroke is defined."
+        },
+        {
+          "name": "baseStroke",
+          "type": "number",
+          "required": false,
+          "defaultValue": "2",
+          "description": "Stroke width at the reference size."
+        },
+        {
           "name": "children",
           "type": "ReactNode",
           "required": true
+        },
+        {
+          "name": "icons",
+          "type": "IconSet",
+          "required": false,
+          "description": "The icon set, supplied explicitly rather than through the import-side-effect registry."
+        },
+        {
+          "name": "library",
+          "type": "\"lucide\" | \"tabler\" | \"heroicons\"",
+          "required": true,
+          "description": "Active icon library."
+        },
+        {
+          "name": "strokeAdjustment",
+          "type": "boolean",
+          "required": true,
+          "description": "When true, stroke width is adjusted per size to maintain consistent optical weight."
+        },
+        {
+          "name": "style",
+          "type": "\"outline\" | \"solid\"",
+          "required": true,
+          "description": "Icon style — outline/stroke or solid/filled."
         }
       ],
       "usageSnippet": "<IconProvider>…</IconProvider>",
-      "propSignatureHash": "sha256:5b45ed467f82e267",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:b4148665bd6f188b",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft"
     }
   ]

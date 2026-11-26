@@ -40,6 +40,11 @@ export const comboboxUsage: UsageGuide = {
       example: "scope",
     },
     {
+      do: "Set `multiple` when the reader picks several values from a long list, such as cities or recipients.",
+      dont: "Stack a separate single Combobox for each extra value the reader might need.",
+      example: "multiple",
+    },
+    {
       do: "Write an `emptyMessage` that suggests what to try instead.",
       dont: "Show an empty list, which reads as a broken field rather than a narrow filter.",
     },
@@ -48,6 +53,7 @@ export const comboboxUsage: UsageGuide = {
     "It is a text field with a list attached, so the label belongs on the field itself.",
     "Filtering rearranges the list under the reader, so the empty state has to be announced rather than blank.",
     "Front-load the distinguishing word in each option, since typeahead and screen readers both start at the beginning.",
+    "With `multiple`, a tag's remove button is for pointers; keyboard users toggle values in the list, and Backspace in an empty box removes the last.",
   ],
   content: [
     "Name what can be typed: Search cities, not Select an option.",

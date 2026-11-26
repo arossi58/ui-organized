@@ -4,15 +4,9 @@ export interface ComboboxOption {
   disabled?: boolean;
 }
 
-export interface ComboboxProps {
+interface ComboboxBaseProps {
   /** Selectable options. The list filters against each option's `label`. */
   options: ComboboxOption[];
-  /** Controlled selected value. */
-  value?: string;
-  /** Initial selected value for uncontrolled usage. */
-  defaultValue?: string;
-  /** Called with the selected option's value (empty string when cleared). */
-  onValueChange?: (value: string) => void;
   /** Controlled open state of the dropdown. */
   open?: boolean;
   /** Initial open state for uncontrolled usage. */
@@ -44,3 +38,38 @@ export interface ComboboxProps {
   /** DOM element to portal the dropdown into. Defaults to `document.body`. */
   portalContainer?: HTMLElement | null;
 }
+
+/** One choice. The default. */
+export interface ComboboxSingleProps extends ComboboxBaseProps {
+  multiple?: false;
+  /** Controlled selected value; with `multiple`, the selected values. */
+  value?: string;
+  /** Initial selected value for uncontrolled usage; with `multiple`, the initial values. */
+  defaultValue?: string;
+  /** Called with the selected option's value (empty string when cleared); with `multiple`, with every selected value. */
+  onValueChange?: (value: string) => void;
+}
+
+/**
+ * Any number of choices, shown as tags before the text box, with a "+N" for
+ * those that do not fit and a button that clears them all. Picking clears the
+ * query and keeps the list open; Backspace in an empty box removes the last
+ * value. Each value is submitted as its own hidden input named `name`.
+ */
+export interface ComboboxMultipleProps extends ComboboxBaseProps {
+  /**
+   * Any number of choices, as tags before the text box. `value`,
+   * `defaultValue` and `onValueChange` then take `string[]`.
+   */
+  multiple: true;
+  /** Controlled selected values. */
+  value?: string[];
+  /** Initial selected values for uncontrolled usage. */
+  defaultValue?: string[];
+  /** Callback fired when the selection changes. */
+  onValueChange?: (value: string[]) => void;
+  /** The clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
+}
+
+export type ComboboxProps = ComboboxSingleProps | ComboboxMultipleProps;

@@ -4,15 +4,9 @@ export interface SelectOption {
   disabled?: boolean;
 }
 
-export interface SelectProps {
+interface SelectBaseProps {
   /** Selectable options. */
   options: SelectOption[];
-  /** Controlled selected value. */
-  value?: string;
-  /** Initial selected value for uncontrolled usage. */
-  defaultValue?: string;
-  /** Callback fired when the selected value changes. */
-  onValueChange?: (value: string) => void;
   /** Controlled open state of the dropdown. */
   open?: boolean;
   /** Initial open state for uncontrolled usage. */
@@ -54,3 +48,38 @@ export interface SelectProps {
    */
   portalContainer?: HTMLElement | null;
 }
+
+/** One choice. The default. */
+export interface SelectSingleProps extends SelectBaseProps {
+  multiple?: false;
+  /** Controlled selected value; with `multiple`, the selected values. */
+  value?: string;
+  /** Initial selected value for uncontrolled usage; with `multiple`, the initial values. */
+  defaultValue?: string;
+  /** Callback fired when the selected value changes; with `multiple`, called with every selected value. */
+  onValueChange?: (value: string) => void;
+}
+
+/**
+ * Any number of choices, shown as tags on one line with a "+N" for those that
+ * do not fit, and a button that clears them all. The list stays open while
+ * choosing. A ghost select hugs its content, so it is single only.
+ */
+export interface SelectMultipleProps extends Omit<SelectBaseProps, "variant"> {
+  /**
+   * Any number of choices, as tags on one line. `value`, `defaultValue` and
+   * `onValueChange` then take `string[]`.
+   */
+  multiple: true;
+  variant?: "default";
+  /** Controlled selected values. */
+  value?: string[];
+  /** Initial selected values for uncontrolled usage. */
+  defaultValue?: string[];
+  /** Callback fired when the selection changes. */
+  onValueChange?: (value: string[]) => void;
+  /** The clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
+}
+
+export type SelectProps = SelectSingleProps | SelectMultipleProps;

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:45:03.731Z",
+  "generatedAt": "2026-11-25T23:35:27.095Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -2391,6 +2391,13 @@
       "reactName": "Combobox",
       "props": [
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear all",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "emptyMessage",
           "type": "string",
           "required": false,
@@ -2411,6 +2418,13 @@
           "name": "label",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Any number of choices."
         },
         {
           "name": "name",
@@ -2452,11 +2466,18 @@
           "type": "string",
           "required": false,
           "description": "Two-way: bind with [(value)]."
+        },
+        {
+          "name": "values",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Two-way: bind with [(values)]. With `multiple`: the chosen values."
         }
       ],
       "usageSnippet": "<!-- div[uioCombobox] -->",
-      "propSignatureHash": "sha256:54adaf6efab57020",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:c01b1b4754af109f",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
@@ -5859,6 +5880,13 @@
       "reactName": "Select",
       "props": [
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear all",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "error",
           "type": "boolean | string",
           "required": false,
@@ -5873,6 +5901,13 @@
           "name": "label",
           "type": "string",
           "required": false
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Any number of choices: tags on one line with a \"+N\" for those that do not fit, and a button that clears them all."
         },
         {
           "name": "name",
@@ -5916,6 +5951,13 @@
           "description": "Two-way: bind with [(value)]."
         },
         {
+          "name": "values",
+          "type": "string[]",
+          "required": false,
+          "defaultValue": "[]",
+          "description": "Two-way: bind with [(values)]. With `multiple`: the chosen values."
+        },
+        {
           "name": "variant",
           "type": "\"ghost\" | \"default\"",
           "required": false,
@@ -5923,8 +5965,8 @@
         }
       ],
       "usageSnippet": "<!-- div[uioSelect] -->",
-      "propSignatureHash": "sha256:100657eb65e01f1a",
-      "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "propSignatureHash": "sha256:a10f8b6c269d8c41",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "SelectOption": "{ value: string; label: string; disabled?: boolean }"

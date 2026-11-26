@@ -1,10 +1,12 @@
-<script lang="ts">
+<script lang="ts" generics="M extends boolean = false">
   import { Field, Select as ArkSelect, Portal, createListCollection } from "@ark-ui/svelte";
   import { clsx } from "clsx";
   import { CONTROL_ICON_SIZE, selectFieldStyles, OMIT_ARIA } from "@ui-organized/core";
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import SelectTrigger from "./SelectTrigger.svelte";
+  import SelectTags from "./SelectTags.svelte";
+  import MultiValueText from "./MultiValueText.svelte";
   import type { SelectProps } from "./Select.types.js";
   // The shared field chrome, ahead of this component's own sheet, which may override it.
   import "@ui-organized/core/components/Field/Field.css";
@@ -12,6 +14,7 @@
   import { glyph } from "../../icons/glyph.js";
 
   let {
+    multiple,
     options,
     value = $bindable(),
     defaultValue,
@@ -30,7 +33,10 @@
     required,
     class: className,
     portalContainer,
-  }: SelectProps = $props();
+    clearLabel = "Clear all",
+  }: SelectProps<M> = $props();
+
+  let box = $state<HTMLElement | null>(null);
 
   const isInvalid = $derived(!!error);
   const errorMessage = $derived(typeof error === "string" ? error : undefined);
@@ -72,14 +78,29 @@
   <ArkSelect.Root
     class="select-field__control"
     {collection}
-    value={value != null ? [value] : undefined}
-    defaultValue={defaultValue != null ? [defaultValue] : undefined}
+    {multiple}
+    value={multiple ? (value as string[] | undefined) : value != null ? [value as string] : undefined}
+    defaultValue={multiple
+      ? (defaultValue as string[] | undefined)
+      : defaultValue != null
+        ? [defaultValue as string]
+        : undefined}
     onValueChange={(details) => {
+      if (multiple) {
+        value = details.value as typeof value;
+        (onValueChange as ((v: string[]) => void) | undefined)?.(details.value);
+        return;
+      }
       const next = details.value[0];
       if (next != null) {
-        value = next;
-        onValueChange?.(next);
+        value = next as typeof value;
+        (onValueChange as ((v: string) => void) | undefined)?.(next);
       }
+    }}
+    onInteractOutside={(event) => {
+      // A click on a tag's remove button is inside the field, not outside the
+      // list: it must not close what is being chosen from.
+      if (multiple && box?.contains(event.target as Node)) event.preventDefault();
     }}
     {open}
     {defaultOpen}
@@ -99,14 +120,31 @@
         {#if required && !isGhost}<span class="field__required" aria-hidden="true"></span>{/if}
       </ArkSelect.Label>
     {/if}
-    <SelectTrigger hasLabel={!!label}>
-      {#snippet children()}
-        <ArkSelect.ValueText class="select-field__value" {placeholder} />
+    {#if multiple}
+      <ArkSelect.Control class="select-field__box" bind:ref={box}>
+        <SelectTrigger hasLabel={!!label}>
+          {#snippet children()}
+            <MultiValueText {placeholder} />
+          {/snippet}
+        </SelectTrigger>
+        <SelectTags {options} />
+        <ArkSelect.ClearTrigger class="select-field__clear" aria-label={clearLabel}>
+          <Icon name={glyph("close")} size={16} />
+        </ArkSelect.ClearTrigger>
         <ArkSelect.Indicator class="select-field__icon">
           <Icon name={glyph("chevron-down")} size={iconSize} />
         </ArkSelect.Indicator>
-      {/snippet}
-    </SelectTrigger>
+      </ArkSelect.Control>
+    {:else}
+      <SelectTrigger hasLabel={!!label}>
+        {#snippet children()}
+          <ArkSelect.ValueText class="select-field__value" {placeholder} />
+          <ArkSelect.Indicator class="select-field__icon">
+            <Icon name={glyph("chevron-down")} size={iconSize} />
+          </ArkSelect.Indicator>
+        {/snippet}
+      </SelectTrigger>
+    {/if}
     <Portal container={portalContainer ?? undefined}>
       <ArkSelect.Positioner class="select-positioner">
         <ArkSelect.Content

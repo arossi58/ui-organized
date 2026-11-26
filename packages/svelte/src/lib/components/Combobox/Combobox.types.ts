@@ -5,15 +5,25 @@ export interface ComboboxOption {
   disabled?: boolean;
 }
 
-export interface ComboboxProps {
+export interface ComboboxProps<M extends boolean = false> {
+  /**
+   * Any number of choices: tags before the text box, a "+N" for those that do
+   * not fit, and a button that clears them all. Picking clears the query and
+   * keeps the list open; Backspace in an empty box removes the last value. Each
+   * value is submitted as its own hidden input named `name`. The component is
+   * generic on it, as Select is, so `value` is typed to match.
+   */
+  multiple?: M;
+  /** With `multiple`: the clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
   /** Selectable options. The list filters against each option's `label`. */
   options: ComboboxOption[];
   /** Selected value. Bindable: `bind:value`. */
-  value?: string;
+  value?: M extends true ? string[] : string;
   /** Initial selected value for uncontrolled usage. */
-  defaultValue?: string;
+  defaultValue?: M extends true ? string[] : string;
   /** Called with the selected option's value (empty string when cleared). */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: M extends true ? string[] : string) => void;
   /** Open state of the dropdown. Bindable: `bind:open`. */
   open?: boolean;
   /** Initial open state for uncontrolled usage. */

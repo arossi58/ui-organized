@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T22:45:03.731Z",
+  "generatedAt": "2026-11-25T23:35:27.095Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3144,6 +3144,13 @@
           "required": false
         },
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -3151,7 +3158,7 @@
         },
         {
           "name": "defaultValue",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
           "description": "Initial selected value for uncontrolled usage."
         },
@@ -3186,6 +3193,12 @@
           "description": "Accessible label rendered above the control."
         },
         {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices: tags before the text box, a \"+N\" for those that do not fit, and a button that clears them all."
+        },
+        {
           "name": "name",
           "type": "string",
           "required": false,
@@ -3199,7 +3212,7 @@
         },
         {
           "name": "onValueChange",
-          "type": "(value: string) => void",
+          "type": "(value: string | string[]) => void",
           "required": false,
           "description": "Called with the selected option's value (empty string when cleared)."
         },
@@ -3242,14 +3255,14 @@
         },
         {
           "name": "value",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
           "description": "Selected value."
         }
       ],
       "usageSnippet": "<Combobox options={/* ComboboxOption[] */} />",
-      "propSignatureHash": "sha256:f59cf4d47f054abd",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:73531607fcdf3c23",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "ComboboxOption": "{ value: string; label: string; disabled?: boolean }"
@@ -7827,6 +7840,13 @@
           "required": false
         },
         {
+          "name": "clearLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Clear",
+          "description": "With `multiple`: the clear-all button's accessible name."
+        },
+        {
           "name": "defaultOpen",
           "type": "boolean",
           "required": false,
@@ -7834,7 +7854,7 @@
         },
         {
           "name": "defaultValue",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
           "description": "Initial selected value for uncontrolled usage."
         },
@@ -7863,6 +7883,12 @@
           "description": "Accessible label rendered above the trigger."
         },
         {
+          "name": "multiple",
+          "type": "boolean",
+          "required": false,
+          "description": "Any number of choices: tags on one line with a \"+N\" for those that do not fit, and a button that clears them all."
+        },
+        {
           "name": "name",
           "type": "string",
           "required": false,
@@ -7876,7 +7902,7 @@
         },
         {
           "name": "onValueChange",
-          "type": "(value: string) => void",
+          "type": "(value: string | string[]) => void",
           "required": false,
           "description": "Callback fired when the selected value changes."
         },
@@ -7919,21 +7945,21 @@
         },
         {
           "name": "value",
-          "type": "string",
+          "type": "string | string[]",
           "required": false,
           "description": "Selected value."
         },
         {
           "name": "variant",
-          "type": "\"default\" | \"ghost\"",
+          "type": "(\"default\" | \"ghost\") | \"default\"",
           "required": false,
           "defaultValue": "default",
           "description": "Visual variant."
         }
       ],
       "usageSnippet": "<Select options={/* SelectOption[] */} />",
-      "propSignatureHash": "sha256:cdff019321809a77",
-      "lastSyncedAt": "2026-11-09T18:50:58.301Z",
+      "propSignatureHash": "sha256:cf5807bb3c8d93be",
+      "lastSyncedAt": "2026-11-25T23:35:27.095Z",
       "status": "draft",
       "referencedTypes": {
         "SelectOption": "{ value: string; label: string; disabled?: boolean }"

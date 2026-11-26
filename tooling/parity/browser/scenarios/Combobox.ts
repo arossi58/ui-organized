@@ -82,4 +82,53 @@ const scenarios: BrowserScenario[] = [
   },
 ];
 
+const MULTI = { options: FRUIT, label: "Fruit", multiple: true, name: "fruit" };
+/** The last hidden input, which is the last value a form would submit. */
+const lastValue = (v: string) =>
+  `.combobox-field__root > input[type="hidden"][value="${v}"]:last-of-type`;
+
+scenarios.push(
+  chrome("multiple, empty", { ...MULTI, placeholder: "Search" }),
+  chrome("multiple, chosen", { ...MULTI, defaultValue: ["a", "b"], placeholder: "Search" }),
+  {
+    component: "Combobox",
+    // Picking toggles, clears the query and keeps the list open: zag's
+    // selectionBehavior "clear" with closeOnSelect off.
+    name: "multiple: choosing keeps the list open",
+    props: { ...MULTI, defaultValue: ["a"] },
+    steps: [
+      { do: "click", target: part("combobox", "trigger") },
+      { do: "wait", target: `${part("combobox", "content")}[data-state="open"]` },
+      { do: "click", target: `${part("combobox", "item")}[data-value="b"]` },
+      { do: "wait", target: `${part("combobox", "item")}[data-value="b"][data-state="checked"]` },
+    ],
+    regions: [part("combobox", "positioner"), "#mount"],
+  },
+  {
+    component: "Combobox",
+    // A tag's remove button drops that value and leaves the rest.
+    name: "multiple: a tag is removed",
+    props: { ...MULTI, defaultValue: ["a", "b"] },
+    steps: [
+      { do: "click", target: ".combobox-field__tags .tag__remove" },
+      { do: "wait", target: lastValue("b") },
+    ],
+    regions: ["#mount"],
+    exclude: part("combobox", "positioner"),
+  },
+  {
+    component: "Combobox",
+    // Backspace in an empty box removes the last value. Ours, in every library.
+    name: "multiple: Backspace removes the last value",
+    props: { ...MULTI, defaultValue: ["a", "b"] },
+    steps: [
+      { do: "focus", target: part("combobox", "input") },
+      { do: "press", key: "Backspace" },
+      { do: "wait", target: lastValue("a") },
+    ],
+    regions: ["#mount"],
+    exclude: part("combobox", "positioner"),
+  },
+);
+
 export default scenarios;

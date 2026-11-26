@@ -255,3 +255,142 @@
   height: var(--control-height-lg);
   padding: var(--Button-Large-vertical) var(--Button-Large-horizontal);
 }
+
+/* ─── Multiple ────────────────────────────────────────────────────────────────
+   With `multiple`, the chosen values are tags, which hold remove buttons and so
+   cannot sit inside the trigger <button>. Ark's Control part becomes the
+   field's box instead: the trigger still draws the border, background and every
+   state, stretched under everything with `inset: 0`, and the tags, the clear
+   button and the chevron sit above it. The trigger keeps the chosen values as
+   visually hidden text, which is what names the selection for a screen reader;
+   the tags are aria-hidden and their remove buttons pointer-only. */
+
+.select-field__box {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  width: 100%;
+  height: var(--control-height-md);
+  padding-inline: var(--Button-Medium-horizontal);
+}
+
+.select-field--sm .select-field__box {
+  height: var(--control-height-sm);
+  padding-inline: var(--Button-Small-horizontal);
+}
+
+.select-field--lg .select-field__box {
+  height: var(--control-height-lg);
+  padding-inline: var(--Button-Large-horizontal);
+}
+
+.select-field__box > .select-field__trigger {
+  position: absolute;
+  inset: 0;
+  height: auto;
+}
+
+/* The chosen values, read by a screen reader and hidden from sight. */
+.select-field__value--hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.select-field__tags {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.select-field__tags .tag {
+  flex: none;
+  max-width: 100%;
+}
+
+.select-field__tags .tag__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* One tag beside a "+N" that still does not fit: the tag gives way and its
+   label ellipsizes, so the count stays in sight. Only in that case, since a
+   shrunk tag measures short and every tag would otherwise squeeze onto the
+   line. fitTagCount never shows fewer than one. */
+.select-field__tags > .tag:first-child:has(+ [data-overflowed]) {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.select-field__tags .tag__remove {
+  pointer-events: auto;
+}
+
+/* Past the count that fits: still rendered, so it can be measured when the
+   field widens, but out of flow and out of sight. */
+.select-field__tags [data-overflowed] {
+  position: absolute;
+  visibility: hidden;
+}
+
+/* TAG_MORE_WIDTH in core, which fitTagCount reserves for it. */
+.select-field__tag-more {
+  box-sizing: border-box;
+  min-width: 32px;
+  justify-content: center;
+}
+
+.select-field__clear {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-space-005);
+  border: 0;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+}
+
+.select-field__clear:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.select-field__clear:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.select-field__clear[hidden] {
+  display: none;
+}
+
+.select-field__box > .select-field__icon {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.select-field__box[data-state="open"] .select-field__icon .icon {
+  transform: rotate(180deg);
+}

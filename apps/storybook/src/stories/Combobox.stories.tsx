@@ -93,3 +93,35 @@ function LoadingFruit({ delay }: { delay: number }) {
 export const AsyncOptions: Story = {
   render: () => <LoadingFruit delay={300} />,
 };
+
+/**
+ * Any number of choices, as tags before the text box. Picking clears the query
+ * and keeps the list open; Backspace in an empty box removes the last value.
+ * The narrow field shows the "+N" overflow.
+ */
+export const Multiple: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Combobox multiple options={FRUITS} label="Fruit you like" placeholder="Search fruits…" defaultValue={["apple", "grapes"]} />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, width: 320 }}>
+      <Combobox multiple options={FRUITS} label="Fruit you like" placeholder="Search fruits…" />
+      <Combobox multiple options={FRUITS} label="Fruit you like" placeholder="Search fruits…" defaultValue={["apple", "grapes"]} />
+      <div style={{ width: 240 }}>
+        <Combobox
+          multiple
+          options={FRUITS}
+          label="Narrow"
+          defaultValue={["apple", "banana", "orange", "strawberry"]}
+        />
+      </div>
+    </div>
+  ),
+};
+

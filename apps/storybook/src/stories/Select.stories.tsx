@@ -256,3 +256,35 @@ export const Ghost: Story = {
     </div>
   ),
 };
+
+/**
+ * Any number of choices, as tags on one line. Those that do not fit fold into
+ * a "+N" tag, and the clear button removes them all. The narrow field shows the
+ * overflow.
+ */
+export const Multiple: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Select multiple options={FRUIT_OPTIONS} label="Fruit you like" defaultValue={["apple", "cherry"]} />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, width: 320 }}>
+      <Select multiple options={FRUIT_OPTIONS} label="Fruit you like" placeholder="Pick any" />
+      <Select multiple options={FRUIT_OPTIONS} label="Fruit you like" defaultValue={["apple", "cherry"]} />
+      <div style={{ width: 220 }}>
+        <Select
+          multiple
+          options={FRUIT_OPTIONS}
+          label="Narrow"
+          defaultValue={["apple", "banana", "cherry", "elderberry"]}
+        />
+      </div>
+    </div>
+  ),
+};
+

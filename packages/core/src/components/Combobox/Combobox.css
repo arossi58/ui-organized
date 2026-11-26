@@ -12,6 +12,9 @@
 /* ─── Control (bordered shell: input + chevron trigger) ───────────────────── */
 
 .combobox-field__control {
+  /* Component-local: the chevron's column, which the multiple mode's hover
+     layer stops short of. */
+  --combobox-trigger-width: 40px;
   box-sizing: border-box;
   display: flex;
   align-items: stretch;
@@ -99,7 +102,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
+  width: var(--combobox-trigger-width);
   border: none;
   background: transparent;
   color: var(--color-content-tertiary);
@@ -218,4 +221,134 @@
 
 .combobox-popup__item[data-state="checked"] .combobox-popup__item-indicator {
   opacity: 1;
+}
+
+/* ─── Multiple ────────────────────────────────────────────────────────────────
+   With `multiple`, the chosen values are tags in the control, and the text box
+   follows straight after the last one and takes the rest of the line. The row
+   is only as wide as its tags, shrinking when they do not fit; the overflow is
+   measured against the room it could have, which is its own width plus the
+   text box's above its minimum (see measureTagRow's `extra`). The tags are not
+   aria-hidden, since the input's text is the query and these are the only
+   place the selection is written; their remove buttons are pointer-only. */
+
+.combobox-field__tags {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: var(--spacing-space-01);
+  min-width: 0;
+  padding-inline-start: var(--spacing-space-02);
+  overflow: hidden;
+}
+
+/* The rest of the line, and never less than room to type: 6ch, scrolling past
+   it, which still leaves a narrow field space for a tag beside the "+N".
+   Border-box, so the minimum the measurement reads is the width it takes. */
+.combobox-field__tags + .combobox-field__input {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: calc(6ch + 2 * var(--spacing-space-01));
+  /* The row before it already pads the start of the box. */
+  padding-inline: var(--spacing-space-01);
+}
+
+/* With tags, the text box no longer starts at the edge of the field, so the
+   hover and press fills it takes from .field__control would float partway
+   across, after the last tag. A layer behind the tags and the text box takes
+   them instead, from the edge to the chevron's column: where a single
+   combobox's text box paints them.
+
+   A layer, not the control's own background, because the interactive fills
+   are overlays (`ui-default` is 2% white, `ui-hover` 6%), not colours. Filling
+   the control and repainting the chevron's column with the resting fill would
+   stack the two, and the chevron would read as hovered too. */
+.combobox-field__control:has(> .combobox-field__tags) > .combobox-field__input:not(:disabled):is(:hover, :active) {
+  background-color: transparent;
+}
+
+.combobox-field__control:has(> .combobox-field__tags) {
+  position: relative;
+  isolation: isolate;
+}
+
+.combobox-field__control:has(> .combobox-field__tags)::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0 var(--combobox-trigger-width);
+  z-index: -1;
+  background-color: transparent;
+  pointer-events: none;
+  transition: background-color 150ms ease;
+}
+
+.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):hover:not(:has(> .combobox-field__trigger:hover))::before {
+  background-color: var(--color-interactive-ui-hover);
+}
+
+.combobox-field__control:has(> .combobox-field__tags):not([data-disabled]):has(> .combobox-field__input:active)::before {
+  background-color: var(--color-interactive-ui-active);
+}
+
+.combobox-field__tags .tag {
+  flex: none;
+  max-width: 100%;
+}
+
+.combobox-field__tags .tag__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* One tag beside a "+N" that still does not fit: the tag gives way and its
+   label ellipsizes, so the count stays in sight. Only in that case, since a
+   shrunk tag measures short and every tag would otherwise squeeze onto the
+   line. fitTagCount never shows fewer than one. */
+.combobox-field__tags > .tag:first-child:has(+ [data-overflowed]) {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+/* Past the count that fits: still rendered, so it can be measured when the
+   field widens, but out of flow and out of sight. */
+.combobox-field__tags [data-overflowed] {
+  position: absolute;
+  visibility: hidden;
+}
+
+/* TAG_MORE_WIDTH in core, which fitTagCount reserves for it. */
+.combobox-field__tag-more {
+  box-sizing: border-box;
+  min-width: 32px;
+  justify-content: center;
+}
+
+.combobox-field__clear {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding: var(--spacing-space-005);
+  border: 0;
+  border-radius: var(--radius-interactive);
+  background: transparent;
+  color: var(--color-content-tertiary);
+  cursor: pointer;
+}
+
+.combobox-field__clear:hover {
+  background-color: var(--color-interactive-ui-hover);
+  color: var(--color-content-primary);
+}
+
+.combobox-field__clear:focus-visible {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.combobox-field__clear[hidden] {
+  display: none;
 }

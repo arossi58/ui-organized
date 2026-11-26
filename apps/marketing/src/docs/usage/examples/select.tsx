@@ -34,4 +34,24 @@ export const selectExamples: UsageExampleSet = {
       />
     ),
   },
+
+  multiple: {
+    layout: "padded",
+    Do: () => (
+      <Select
+        multiple
+        label="Regions"
+        options={REGIONS}
+        placeholder="Select regions"
+        defaultValue={["eu-west", "us-east"]}
+      />
+    ),
+    // Two fields for one answer, and a third the moment someone needs it.
+    Dont: () => (
+      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+        <Select label="Region 1" options={REGIONS} defaultValue="eu-west" />
+        <Select label="Region 2" options={REGIONS} defaultValue="us-east" />
+      </div>
+    ),
+  },
 };

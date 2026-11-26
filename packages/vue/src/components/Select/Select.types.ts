@@ -7,6 +7,20 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
+  /**
+   * Any number of choices: tags on one line with a "+N" for those that do not
+   * fit, and a button that clears them all. The list stays open while choosing.
+   * The chosen values travel on their own model, `v-model:values`, as on
+   * Angular's UioSelect: widening `modelValue` to `string | string[]` would
+   * break every typed `@value-change` handler. A ghost select is single only.
+   */
+  multiple?: boolean;
+  /** With `multiple`: the chosen values. Use `v-model:values`. */
+  values?: string[];
+  /** With `multiple`: the initial values for uncontrolled usage. */
+  defaultValues?: string[];
+  /** With `multiple`: the clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
   /** Selectable options. */
   options: SelectOption[];
   /** Selected value. Use `v-model` for two-way binding. */

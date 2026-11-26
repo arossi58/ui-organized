@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, useAttrs } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { Field, Select as ArkSelect, createListCollection } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { CONTROL_ICON_SIZE, selectFieldStyles, OMIT_ARIA } from "@ui-organized/core";
@@ -7,6 +7,8 @@ import { definedOnly } from "../../props.js";
 import Icon from "../Icon/Icon.vue";
 import FieldError from "../FieldError/FieldError.vue";
 import SelectTrigger from "./SelectTrigger.vue";
+import SelectTags from "./SelectTags.vue";
+import MultiValueText from "./MultiValueText.vue";
 import type { SelectProps } from "./Select.types.js";
 // The shared field chrome, ahead of this component's own sheet, which may override it.
 import "@ui-organized/core/components/Field/Field.css";
@@ -26,6 +28,8 @@ const props = withDefaults(defineProps<SelectProps>(), {
 const emit = defineEmits<{
   "update:modelValue": [value: string];
   valueChange: [value: string];
+  "update:values": [values: string[]];
+  valuesChange: [values: string[]];
   openChange: [open: boolean];
 }>();
 
@@ -59,8 +63,17 @@ const collection = computed(() =>
 // single select. See Progress for the same rename.
 const rootProps = computed(() =>
   definedOnly({
-    modelValue: props.modelValue != null ? [props.modelValue] : undefined,
-    defaultValue: props.defaultValue != null ? [props.defaultValue] : undefined,
+    multiple: props.multiple || undefined,
+    modelValue: props.multiple
+      ? props.values
+      : props.modelValue != null
+        ? [props.modelValue]
+        : undefined,
+    defaultValue: props.multiple
+      ? props.defaultValues
+      : props.defaultValue != null
+        ? [props.defaultValue]
+        : undefined,
     open: props.open,
     defaultOpen: props.defaultOpen,
     disabled: props.disabled,
@@ -68,6 +81,24 @@ const rootProps = computed(() =>
     required: props.required,
   }),
 );
+// The Control part, so a click on a tag's remove button counts as inside the
+// field rather than outside the list.
+const box = ref<{ $el?: HTMLElement } | null>(null);
+function onValueChange(details: { value: string[] }) {
+  if (props.multiple) {
+    emit("update:values", details.value);
+    emit("valuesChange", details.value);
+    return;
+  }
+  const next = details.value[0];
+  if (next != null) {
+    emit("update:modelValue", next);
+    emit("valueChange", next);
+  }
+}
+function onInteractOutside(event: { target: EventTarget | null; preventDefault(): void }) {
+  if (props.multiple && box.value?.$el?.contains(event.target as Node)) event.preventDefault();
+}
 const contentAria = computed(() =>
   props.label ? {} : definedOnly({ "aria-labelledby": OMIT_ARIA }),
 );
@@ -85,15 +116,8 @@ const contentAria = computed(() =>
       v-bind="rootProps"
       :invalid="isInvalid"
       :positioning="{ placement: 'bottom-start', gutter: 4, strategy: 'fixed' }"
-      @value-change="
-        (details) => {
-          const next = details.value[0];
-          if (next != null) {
-            emit('update:modelValue', next);
-            emit('valueChange', next);
-          }
-        }
-      "
+      @value-change="onValueChange"
+      @interact-outside="onInteractOutside"
       @open-change="(details) => emit('openChange', details.open)"
     >
       <ArkSelect.Label
@@ -103,7 +127,19 @@ const contentAria = computed(() =>
         {{ label }}
         <span v-if="required && !isGhost" class="field__required" aria-hidden="true" />
       </ArkSelect.Label>
-      <SelectTrigger :has-label="!!label">
+      <ArkSelect.Control v-if="multiple" ref="box" class="select-field__box">
+        <SelectTrigger :has-label="!!label">
+          <MultiValueText :placeholder="placeholder" />
+        </SelectTrigger>
+        <SelectTags :options="options" />
+        <ArkSelect.ClearTrigger class="select-field__clear" :aria-label="clearLabel ?? 'Clear all'">
+          <Icon :name="glyph('close')" :size="16" />
+        </ArkSelect.ClearTrigger>
+        <ArkSelect.Indicator class="select-field__icon">
+          <Icon :name="glyph('chevron-down')" :size="iconSize" />
+        </ArkSelect.Indicator>
+      </ArkSelect.Control>
+      <SelectTrigger v-else :has-label="!!label">
         <ArkSelect.ValueText class="select-field__value" :placeholder="placeholder" />
         <ArkSelect.Indicator class="select-field__icon">
           <Icon :name="glyph('chevron-down')" :size="iconSize" />

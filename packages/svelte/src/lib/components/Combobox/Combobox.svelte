@@ -1,4 +1,4 @@
-<script lang="ts">
+<script lang="ts" generics="M extends boolean = false">
   import {
     Combobox as ArkCombobox, Field, Portal, createListCollection, useFilter,
   } from "@ark-ui/svelte";
@@ -7,6 +7,8 @@
   import Icon from "../Icon/Icon.svelte";
   import FieldError from "../FieldError/FieldError.svelte";
   import SelectedLabelSync from "./SelectedLabelSync.svelte";
+  import ComboboxTags from "./ComboboxTags.svelte";
+  import ComboboxMultiParts from "./ComboboxMultiParts.svelte";
   import type { ComboboxProps } from "./Combobox.types.js";
   // The shared field chrome, ahead of this component's own sheet, which may override it.
   import "@ui-organized/core/components/Field/Field.css";
@@ -19,6 +21,8 @@
   onMount(() => trackFocusModality());
 
   let {
+    multiple,
+    clearLabel = "Clear all",
     options,
     value = $bindable(),
     defaultValue,
@@ -37,7 +41,8 @@
     class: className,
     emptyMessage = "No results found.",
     portalContainer,
-  }: ComboboxProps = $props();
+  }: ComboboxProps<M> = $props();
+  let control = $state<HTMLElement | null>(null);
 
   const isInvalid = $derived(!!error);
   const errorMessage = $derived(typeof error === "string" ? error : undefined);
@@ -77,11 +82,27 @@
   <ArkCombobox.Root
     class="combobox-field__root"
     {collection}
-    value={value != null ? [value] : undefined}
-    defaultValue={defaultValue != null ? [defaultValue] : undefined}
+    {multiple}
+    value={multiple ? (value as string[] | undefined) : value != null ? [value as string] : undefined}
+    defaultValue={multiple
+      ? (defaultValue as string[] | undefined)
+      : defaultValue != null
+        ? [defaultValue as string]
+        : undefined}
     onValueChange={(details) => {
-      value = details.value[0] ?? "";
-      onValueChange?.(details.value[0] ?? "");
+      if (multiple) {
+        value = details.value as typeof value;
+        (onValueChange as ((v: string[]) => void) | undefined)?.(details.value);
+        return;
+      }
+      value = (details.value[0] ?? "") as typeof value;
+      (onValueChange as ((v: string) => void) | undefined)?.(details.value[0] ?? "");
+    }}
+    selectionBehavior={multiple ? "clear" : undefined}
+    closeOnSelect={multiple ? false : undefined}
+    onInteractOutside={(event) => {
+      // A click on a tag's remove button is inside the field, not outside the list.
+      if (multiple && control?.contains(event.target as Node)) event.preventDefault();
     }}
     onInputValueChange={(details) => (query = details.inputValue)}
     {open}
@@ -92,18 +113,19 @@
     }}
     invalid={isInvalid}
     {disabled}
-    {name}
-    {required}
+    name={multiple ? undefined : name}
+    required={multiple ? undefined : required}
     positioning={{ placement: "bottom-start", gutter: 4, strategy: "fixed" }}
   >
-    <SelectedLabelSync {options} />
+    {#if !multiple}<SelectedLabelSync {options} />{/if}
     {#if label}
       <ArkCombobox.Label class="field__label">
         {label}
         {#if required}<span class="field__required" aria-hidden="true"></span>{/if}
       </ArkCombobox.Label>
     {/if}
-    <ArkCombobox.Control class="combobox-field__control">
+    <ArkCombobox.Control class="combobox-field__control" bind:ref={control}>
+      {#if multiple}<ComboboxTags {options} />{/if}
       <!--
         `aria-describedby` is passed in by hand because Ark Svelte's
         `Combobox.Input` does not read the Field context, where Ark React's does:
@@ -125,15 +147,24 @@
         Delete once Ark Svelte's part reads the context — the merge order makes
         that safe either way, since the machine supplies no competing value.
       -->
-      <Field.Context>
-        {#snippet render(field)}
-          <ArkCombobox.Input
-            class="field__control combobox-field__input"
-            {placeholder}
-            aria-describedby={field()?.ariaDescribedby}
-          />
-        {/snippet}
-      </Field.Context>
+      {#if multiple}
+        <ComboboxMultiParts part="input" {placeholder} />
+      {:else}
+        <Field.Context>
+          {#snippet render(field)}
+            <ArkCombobox.Input
+              class="field__control combobox-field__input"
+              {placeholder}
+              aria-describedby={field()?.ariaDescribedby}
+            />
+          {/snippet}
+        </Field.Context>
+      {/if}
+      {#if multiple}
+        <ArkCombobox.ClearTrigger class="combobox-field__clear" aria-label={clearLabel}>
+          <Icon name={glyph("close")} size={16} />
+        </ArkCombobox.ClearTrigger>
+      {/if}
       <ArkCombobox.Trigger class="combobox-field__trigger" aria-label="Toggle options">
         <Icon name={glyph("chevron-down")} size={iconSize} />
       </ArkCombobox.Trigger>
@@ -161,6 +192,7 @@
         </ArkCombobox.Content>
       </ArkCombobox.Positioner>
     </Portal>
+    {#if multiple && name}<ComboboxMultiParts part="values" {name} />{/if}
   </ArkCombobox.Root>
   {#if helperText && !isInvalid}
     <Field.HelperText class="field__description">{helperText}</Field.HelperText>

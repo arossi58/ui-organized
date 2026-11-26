@@ -6,6 +6,21 @@ export interface ComboboxOption {
 }
 
 export interface ComboboxProps {
+  /**
+   * Any number of choices: tags before the text box with a "+N" for those
+   * that do not fit, and a button that clears them all. The list stays open
+   * and the query clears after each pick; Backspace in an empty box removes
+   * the last value. The chosen values travel on their own model,
+   * `v-model:values`, as on Select. Each value is submitted as its own hidden
+   * input under `name`, and a multiple combobox cannot be `required`.
+   */
+  multiple?: boolean;
+  /** With `multiple`: the chosen values. Use `v-model:values`. */
+  values?: string[];
+  /** With `multiple`: the initial values for uncontrolled usage. */
+  defaultValues?: string[];
+  /** With `multiple`: the clear-all button's accessible name. Defaults to "Clear all". */
+  clearLabel?: string;
   /** Selectable options. The list filters against each option's `label`. */
   options: ComboboxOption[];
   /** Selected value. Use `v-model` for two-way binding. */
@@ -39,7 +54,7 @@ export interface ComboboxProps {
   name?: string;
   /** Whether a value is required for form submission. */
   required?: boolean;
-    /** Message shown when no option matches the query. */
+  /** Message shown when no option matches the query. */
   emptyMessage?: string;
   /** DOM element to portal the dropdown into. Defaults to `document.body`. */
   portalContainer?: HTMLElement | null;

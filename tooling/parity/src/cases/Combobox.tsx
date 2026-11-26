@@ -26,6 +26,14 @@ const spec: ParitySpec = {
       { name: "selected", props: { options, defaultValue: "b", label: "Fruit" } },
       { name: "disabled", props: { options, label: "Fruit", disabled: true } },
       ...SIZES.map((size) => ({ name: `size/${size}`, props: { options, size, label: "F" } })),
+      // Multiple: tags before the text box, a clear button once something is
+      // chosen, and the values submitted as hidden inputs rather than through
+      // the text box, which holds the query.
+      { name: "multiple, empty", props: { options, label: "Fruit", multiple: true, placeholder: "Search" } },
+      { name: "multiple, chosen", props: { options, label: "Fruit", multiple: true, defaultValue: ["a", "b"], name: "fruit", placeholder: "Search" } },
+      { name: "multiple, sm", props: { options, label: "Fruit", multiple: true, size: "sm", defaultValue: ["b"] } },
+      { name: "multiple, clear label", props: { options, label: "Fruit", multiple: true, defaultValue: ["a"], clearLabel: "Remove all fruit" } },
+      { name: "multiple, disabled", props: { options, label: "Fruit", multiple: true, disabled: true, defaultValue: ["a"] } },
     ];
   })(),
 };

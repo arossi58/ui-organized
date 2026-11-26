@@ -361,6 +361,7 @@
         "data-disabled": [],
         "data-highlighted": [],
         "data-invalid": [],
+        "data-overflowed": [],
         "data-state": [
           "checked",
           "closed",
@@ -369,9 +370,12 @@
         "hidden": []
       },
       "classes": [
+        "combobox-field__clear",
         "combobox-field__control",
         "combobox-field__input",
         "combobox-field__root",
+        "combobox-field__tag-more",
+        "combobox-field__tags",
         "combobox-field__trigger",
         "combobox-popup",
         "combobox-popup__empty",
@@ -381,7 +385,9 @@
         "field",
         "field--lg",
         "field--sm",
-        "icon"
+        "icon",
+        "tag",
+        "tag__label"
       ],
       "runtime": [
         "--reference-width"
@@ -1079,6 +1085,7 @@
         "data-disabled": [],
         "data-highlighted": [],
         "data-invalid": [],
+        "data-overflowed": [],
         "data-placeholder-shown": [],
         "data-state": [
           "checked",
@@ -1093,15 +1100,23 @@
         "select-field--ghost",
         "select-field--lg",
         "select-field--sm",
+        "select-field__box",
+        "select-field__clear",
         "select-field__control",
         "select-field__icon",
         "select-field__label--hidden",
+        "select-field__tag-more",
+        "select-field__tags",
         "select-field__trigger",
         "select-field__value",
+        "select-field__value--hidden",
         "select-popup",
         "select-popup--ghost",
         "select-popup__item",
-        "select-popup__item-indicator"
+        "select-popup__item-indicator",
+        "tag",
+        "tag__label",
+        "tag__remove"
       ],
       "runtime": [
         "--reference-width"
