@@ -1,4 +1,4 @@
-import { Injectable, computed, signal, type Signal } from "@angular/core";
+import { Injectable, InjectionToken, computed, signal, type Signal } from "@angular/core";
 
 /**
  * Sidebar-level state shared with every `UioNavItem` below it, so one toggle
@@ -29,3 +29,18 @@ export class UioNavContext {
     this.source.set(source);
   }
 }
+
+/**
+ * What hosts a sidebar, when something does: an AppShell's sheet.
+ *
+ * @internal Not exported from the package. AppShell provides it, through the
+ * injector it renders the sidebar template with, only for the copy in its
+ * sheet: there the sidebar is always expanded, has no collapse toggle, and
+ * calls `onNavigate` when a click in it goes to a page, so the sheet can close.
+ */
+export interface SidebarHost {
+  inSheet: boolean;
+  onNavigate?: () => void;
+}
+
+export const UIO_SIDEBAR_HOST = new InjectionToken<SidebarHost>("UIO_SIDEBAR_HOST");

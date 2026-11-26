@@ -216,6 +216,7 @@ export const ANGULAR_COMPONENTS = new Set([
   "CodeBlock",
   "Drawer",
   "NavigationMenu",
+  "AppShell",
   "CommandMenu",
   "Range",
   "RatingGroup",

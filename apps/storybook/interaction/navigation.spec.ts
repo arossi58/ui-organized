@@ -273,3 +273,86 @@ test.describe("NavigationMenu", () => {
     await expect(page.locator(content("product"))).toBeHidden();
   });
 });
+
+// ── AppShell ─────────────────────────────────────────────────────────────────
+test.describe("AppShell", () => {
+  const menu = ".app-header__menu";
+  const sheet = `${part("dialog", "content")}.app-shell__sheet`;
+
+  storyTest(
+    "components-layout-appshell--sheet",
+    "opens the sheet from the menu button and closes it on a click that navigates",
+    async (page) => {
+      await page.locator(menu).click();
+      await expect(page.locator(sheet)).toBeVisible();
+      await page.locator(sheet).getByRole("button", { name: "Settings" }).click();
+      await expect(page.locator(sheet)).toBeHidden();
+    },
+  );
+
+  storyTest(
+    "components-layout-appshell--sheet",
+    "keeps the sheet open for an item that only opens its sub-pages",
+    async (page) => {
+      await page.locator(menu).click();
+      await page.locator(sheet).getByRole("button", { name: "Team" }).click();
+      await expect(page.locator(sheet).getByRole("button", { name: "Members" })).toBeVisible();
+      await expect(page.locator(sheet)).toBeVisible();
+    },
+  );
+
+  storyTest(
+    "components-layout-appshell--sheet",
+    "closes the sheet with Escape and gives focus back to the menu button",
+    async (page) => {
+      // Opened from the keyboard: WebKit does not focus a button it clicks.
+      await page.locator(menu).focus();
+      await page.keyboard.press("Enter");
+      await expect(page.locator(sheet)).toBeVisible();
+      // Focus inside first: the sheet listens for Escape once it has taken
+      // focus, which a loaded WebKit does a beat after it is painted.
+      await expect
+        .poll(() =>
+          page.evaluate((selector) => !!document.querySelector(selector)?.contains(document.activeElement), sheet),
+        )
+        .toBe(true);
+      await page.keyboard.press("Escape");
+      await expect(page.locator(sheet)).toBeHidden();
+      await expect(page.locator(menu)).toBeFocused();
+    },
+  );
+
+  storyTest(
+    "components-layout-appshell--auto",
+    "moves the sidebar into a sheet below the breakpoint and back",
+    async (page) => {
+      const shell = page.locator(".app-shell");
+      await expect(shell).toHaveAttribute("data-layout", "rail");
+      await expect(page.locator(".app-shell__sidebar .sidebar")).toBeVisible();
+      await expect(page.locator(menu)).toHaveCount(0);
+
+      await page.setViewportSize({ width: 800, height: 700 });
+      await expect(shell).toHaveAttribute("data-layout", "sheet");
+      await expect(page.locator(".app-shell__sidebar")).toHaveCount(0);
+      await page.locator(menu).click();
+      await expect(page.locator(sheet)).toBeVisible();
+
+      // Back to wide with the sheet open: it closes, and the rail returns.
+      await page.setViewportSize({ width: 1280, height: 720 });
+      await expect(shell).toHaveAttribute("data-layout", "rail");
+      await expect(page.locator(sheet)).toHaveCount(0);
+      await expect(page.locator(".app-shell__sidebar .sidebar")).toBeVisible();
+    },
+  );
+
+  storyTest("components-layout-appshell--rail", "the skip link takes focus to the page", async (page) => {
+    // See WEBKIT_TAB_ORDER: Safari's default tab order skips links.
+    test.skip(page.context().browser()?.browserType().name() === "webkit", WEBKIT_TAB_ORDER);
+    await page.keyboard.press("Tab");
+    const skip = page.locator(".app-shell__skip");
+    await expect(skip).toBeFocused();
+    await expect(skip).toBeVisible();
+    await page.keyboard.press("Enter");
+    await expect(page.locator("main.app-shell__main")).toBeFocused();
+  });
+});

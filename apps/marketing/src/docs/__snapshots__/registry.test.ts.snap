@@ -5,6 +5,7 @@ exports[`docs registry > resolves the whole corpus the same way it did last revi
 Alert → Alert (component)
 AlertDialog → AlertDialog (component)
 AngleSlider → AngleSlider (component)
+AppShell → AppShell (component)
 Attachment → Attachment (component)
 Avatar → Avatar (component)
 AvatarGroup → AvatarGroup (component)

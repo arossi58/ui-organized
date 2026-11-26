@@ -1,0 +1,196 @@
+/* ─── AppShell ────────────────────────────────────────────────────────────────
+   An application's frame: the header across the top, then a body holding the
+   sidebar rail and the main area. In the sheet layout the rail is gone and the
+   same sidebar is in a Sheet from the left (`.app-shell__sheet`), opened by the
+   header's menu button. */
+
+.app-shell {
+  /* The header's height, which the rail's sticky offset reads. Override it on
+     the root when a header needs more room. */
+  --app-header-height: 64px;
+  --app-header-z-index: 10;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ─── Skip link ───────────────────────────────────────────────────────────────
+   The first thing Tab reaches. Out of sight until focused, then over the
+   header's corner. */
+
+.app-shell__skip {
+  position: absolute;
+  top: var(--spacing-space-02);
+  inset-inline-start: var(--spacing-space-02);
+  z-index: calc(var(--app-header-z-index) + 1);
+  padding: var(--spacing-space-02) var(--spacing-space-03);
+  border-radius: var(--radius-interactive);
+  background-color: var(--color-surface-primary);
+  color: var(--color-content-primary);
+  text-decoration: none;
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 0;
+}
+
+.app-shell__skip:not(:focus) {
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  outline: none;
+}
+
+/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+.app-header {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-04);
+  height: var(--app-header-height, 64px);
+  padding-inline: var(--spacing-space-04);
+  background-color: var(--color-surface-primary);
+  border-bottom: 1px solid var(--color-border-primary);
+}
+
+/* Sticky only where the page scrolls. Its overflow stays visible, so a
+   NavigationMenu panel in it drops below it over the page. */
+.app-shell--scroll-page > .app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--app-header-z-index);
+}
+
+.app-header__start {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--spacing-space-02);
+}
+
+.app-header__logo {
+  display: flex;
+  align-items: center;
+}
+
+.app-header__nav {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+}
+
+.app-header__actions {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--spacing-space-02);
+  margin-inline-start: auto;
+}
+
+/* ─── Body ────────────────────────────────────────────────────────────────── */
+
+.app-shell__body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.app-shell__sidebar {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.app-shell__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The skip link's target takes focus by script only; a ring around the whole
+   page would say nothing. */
+.app-shell__main:focus {
+  outline: none;
+}
+
+/* Page scroll: the document scrolls, the header sticks, and the rail sticks
+   under it at the height of the viewport left over. */
+.app-shell--scroll-page {
+  min-height: 100dvh;
+}
+
+.app-shell--scroll-page .app-shell__sidebar {
+  position: sticky;
+  top: var(--app-header-height);
+  align-self: flex-start;
+  height: calc(100dvh - var(--app-header-height));
+}
+
+/* Main scroll: the shell fills a frame of fixed height (its parent's), and
+   only the main area scrolls, for a preview, an embed or a split view. */
+.app-shell--scroll-main {
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.app-shell--scroll-main .app-shell__main {
+  overflow: auto;
+}
+
+/* Before the page runs, `auto` has not measured the viewport and renders the
+   rail, with no `data-layout` yet. On a narrow screen that rail would show for
+   a moment and then jump into the sheet, so it is hidden until the layout is
+   known. Written for the default breakpoint; another breakpoint renders the
+   rail until the page runs. */
+@media (max-width: 900px) {
+  .app-shell:not([data-layout]) .app-shell__sidebar {
+    display: none;
+  }
+}
+
+/* ─── Sheet ───────────────────────────────────────────────────────────────────
+   The Sheet's panel holding the sidebar: the sidebar's own padding and border
+   take the place of the panel's. */
+
+.app-shell__sheet.sheet__popup {
+  padding: 0;
+  gap: 0;
+}
+
+.app-shell__sheet .sidebar {
+  width: 100%;
+  height: 100%;
+  border-right: 0;
+}
+
+/* The sheet's close button sits in the sidebar's top row, where the logo is:
+   a wide logo stops short of it, and with no logo the row is kept empty, at the
+   logo row's height, so the first item starts below the button rather than
+   under it. */
+.app-shell__sheet .sidebar__logo {
+  padding-inline-end: calc(32px + var(--spacing-space-02));
+}
+
+.app-shell__sheet .sidebar:not(:has(> .sidebar__logo))::before {
+  content: "";
+  flex: 0 0 var(--spacing-space-08);
+}
+
+/* Names the dialog for a screen reader; the sidebar is what the eye reads. */
+.app-shell__sheet-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

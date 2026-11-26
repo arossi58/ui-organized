@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T22:09:52.929Z",
+  "generatedAt": "2026-11-26T22:51:58.536Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1311,6 +1311,149 @@
       "usageSnippet": "<!-- div[uioAngleSlider] -->",
       "propSignatureHash": "sha256:3321b16c597fe4d4",
       "lastSyncedAt": "2026-11-09T18:57:44.293Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppHeader",
+      "codeName": "UioAppHeader",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppHeader } from '@ui-organized/angular';",
+      "selector": "header[uioAppHeader]",
+      "reactName": "AppHeader",
+      "props": [
+        {
+          "name": "menuLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Open navigation",
+          "description": "The menu button's accessible name, in the sheet layout."
+        }
+      ],
+      "usageSnippet": "<!-- header[uioAppHeader] -->",
+      "propSignatureHash": "sha256:63dfa5945b547d53",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppHeaderActions",
+      "codeName": "UioAppHeaderActions",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppHeaderActions } from '@ui-organized/angular';",
+      "selector": "[uioAppHeaderActions]",
+      "props": [],
+      "usageSnippet": "<!-- [uioAppHeaderActions] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppHeaderLogo",
+      "codeName": "UioAppHeaderLogo",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppHeaderLogo } from '@ui-organized/angular';",
+      "selector": "[uioAppHeaderLogo]",
+      "props": [],
+      "usageSnippet": "<!-- [uioAppHeaderLogo] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppHeaderNav",
+      "codeName": "UioAppHeaderNav",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppHeaderNav } from '@ui-organized/angular';",
+      "selector": "[uioAppHeaderNav]",
+      "props": [],
+      "usageSnippet": "<!-- [uioAppHeaderNav] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppShell",
+      "codeName": "UioAppShell",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppShell } from '@ui-organized/angular';",
+      "selector": "div[uioAppShell]",
+      "reactName": "AppShell",
+      "props": [
+        {
+          "name": "breakpoint",
+          "type": "number",
+          "required": false,
+          "defaultValue": "APP_SHELL_BREAKPOINT",
+          "description": "With `layout=\"auto\"`: the viewport width, in px, at or below which the sidebar moves into a sheet."
+        },
+        {
+          "name": "layout",
+          "type": "\"auto\" | \"rail\" | \"sheet\"",
+          "required": false,
+          "defaultValue": "auto",
+          "description": "`auto` (the default) is a rail, and a sheet below `breakpoint`."
+        },
+        {
+          "name": "mainId",
+          "type": "string",
+          "required": false,
+          "description": "The `<main>`'s id, which the skip link targets."
+        },
+        {
+          "name": "navOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "Two-way: bind with [(navOpen)]. Whether the sheet is open, in the sheet layout."
+        },
+        {
+          "name": "navTitle",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Menu",
+          "description": "The sheet's accessible name."
+        },
+        {
+          "name": "scroll",
+          "type": "\"page\" | \"main\"",
+          "required": false,
+          "defaultValue": "page",
+          "description": "`page` (the default) scrolls the document under a sticky header; `main` scrolls only the main area."
+        },
+        {
+          "name": "skipLinkLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Skip to content",
+          "description": "The skip link's text."
+        }
+      ],
+      "usageSnippet": "<!-- div[uioAppShell] -->",
+      "propSignatureHash": "sha256:a4fdd06920fe58b2",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "UioAppShellSidebar",
+      "codeName": "UioAppShellSidebar",
+      "codePath": "packages/angular/src/lib/app-shell/app-shell.ts",
+      "framework": "angular",
+      "importStatement": "import { UioAppShellSidebar } from '@ui-organized/angular';",
+      "selector": "ng-template[uioAppShellSidebar]",
+      "props": [],
+      "usageSnippet": "<!-- ng-template[uioAppShellSidebar] -->",
+      "propSignatureHash": "sha256:4f53cda18c2baa0c",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
       "status": "draft"
     },
     {
@@ -6904,6 +7047,12 @@
           "description": "Two-way: bind with [(open)]."
         },
         {
+          "name": "panelClass",
+          "type": "string",
+          "required": false,
+          "description": "A class for the panel itself."
+        },
+        {
           "name": "showClose",
           "type": "boolean",
           "required": false,
@@ -6926,8 +7075,8 @@
         }
       ],
       "usageSnippet": "<!-- uio-sheet -->",
-      "propSignatureHash": "sha256:4d28a63fa76b4eee",
-      "lastSyncedAt": "2026-11-12T07:22:07.538Z",
+      "propSignatureHash": "sha256:57b360d5fcaab749",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
       "status": "draft"
     },
     {

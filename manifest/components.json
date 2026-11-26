@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T22:09:52.929Z",
+  "generatedAt": "2026-11-26T22:51:58.536Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1784,6 +1784,150 @@
       "propSignatureHash": "sha256:ef1fcefb10a0ea3f",
       "lastSyncedAt": "2026-08-16T16:58:42.070Z",
       "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AppHeader",
+      "codeName": "AppHeader",
+      "codePath": "packages/react/src/components/AppShell/AppShell.types.ts",
+      "framework": "react",
+      "importStatement": "import { AppHeader } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "actions",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Controls at the end, such as search or an account menu."
+        },
+        {
+          "name": "logo",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The product's mark, at the start."
+        },
+        {
+          "name": "menuLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Open",
+          "description": "The menu button's accessible name, in the sheet layout."
+        },
+        {
+          "name": "nav",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "Navigation across the header, such as a `NavigationMenu`."
+        }
+      ],
+      "usageSnippet": "<AppHeader />",
+      "propSignatureHash": "sha256:198971d5fe03e80a",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AppShell",
+      "codeName": "AppShell",
+      "codePath": "packages/react/src/components/AppShell/AppShell.types.ts",
+      "framework": "react",
+      "importStatement": "import { AppShell } from '@ui-organized/react';",
+      "props": [
+        {
+          "name": "breakpoint",
+          "type": "number",
+          "required": false,
+          "defaultValue": "900",
+          "description": "With `layout=\"auto\"`: the viewport width, in px, at or below which the sidebar moves into a sheet."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The page, rendered in the shell's `<main>`."
+        },
+        {
+          "name": "defaultNavOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "The sheet's open state on first render, uncontrolled."
+        },
+        {
+          "name": "header",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The header across the top, usually an `AppHeader`."
+        },
+        {
+          "name": "layout",
+          "type": "\"auto\" | \"rail\" | \"sheet\"",
+          "required": false,
+          "description": "`auto` (the default) shows the sidebar as a rail beside the page, and in a sheet below `breakpoint`."
+        },
+        {
+          "name": "mainId",
+          "type": "string",
+          "required": false,
+          "description": "The `<main>`'s id, which the skip link targets."
+        },
+        {
+          "name": "navOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the sheet is open, in the sheet layout."
+        },
+        {
+          "name": "navTitle",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Menu",
+          "description": "The sheet's accessible name."
+        },
+        {
+          "name": "onLayoutChange",
+          "type": "(layout: AppShellResolvedLayout) => void",
+          "required": false,
+          "description": "Called with the layout in use when it is first known and whenever it changes."
+        },
+        {
+          "name": "onNavOpenChange",
+          "type": "(open: boolean) => void",
+          "required": false,
+          "description": "Called when the sheet opens or closes, including when a click in it goes to a page."
+        },
+        {
+          "name": "portalContainer",
+          "type": "React.RefObject<HTMLElement | null>",
+          "required": false,
+          "description": "Where the sheet portals to."
+        },
+        {
+          "name": "scroll",
+          "type": "\"page\" | \"main\"",
+          "required": false,
+          "description": "`page` (the default) scrolls the document under a sticky header; `main` scrolls only the main area, inside a parent of fixed height."
+        },
+        {
+          "name": "sidebar",
+          "type": "React.ReactNode",
+          "required": false,
+          "description": "The navigation down the side, usually a `Sidebar`."
+        },
+        {
+          "name": "skipLinkLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Skip",
+          "description": "The skip link's text."
+        }
+      ],
+      "usageSnippet": "<AppShell>…</AppShell>",
+      "propSignatureHash": "sha256:7f9152a514815127",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft",
+      "referencedTypes": {
+        "AppShellResolvedLayout": "\"rail\" | \"sheet\""
+      }
     },
     {
       "figmaComponentKey": "",

@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-26T22:09:52.929Z",
+  "generatedAt": "2026-11-26T22:51:58.536Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -1586,6 +1586,101 @@
       "usageSnippet": "<AngleSlider>…</AngleSlider>",
       "propSignatureHash": "sha256:55cf9f744e66cc2c",
       "lastSyncedAt": "2026-11-09T18:48:30.648Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AppHeader",
+      "codeName": "AppHeader",
+      "codePath": "packages/vue/src/components/AppShell/AppShell.types.ts",
+      "framework": "vue",
+      "importStatement": "import { AppHeader } from '@ui-organized/vue';",
+      "reactName": "AppHeader",
+      "props": [
+        {
+          "name": "menuLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Open",
+          "description": "The menu button's accessible name, in the sheet layout."
+        }
+      ],
+      "usageSnippet": "<AppHeader>…</AppHeader>",
+      "propSignatureHash": "sha256:ce0c63753286ffc8",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
+      "status": "draft"
+    },
+    {
+      "figmaComponentKey": "",
+      "figmaComponentName": "AppShell",
+      "codeName": "AppShell",
+      "codePath": "packages/vue/src/components/AppShell/AppShell.types.ts",
+      "framework": "vue",
+      "importStatement": "import { AppShell } from '@ui-organized/vue';",
+      "reactName": "AppShell",
+      "props": [
+        {
+          "name": "breakpoint",
+          "type": "number",
+          "required": false,
+          "defaultValue": "900",
+          "description": "With `layout=\"auto\"`: the viewport width, in px, at or below which the sidebar moves into a sheet."
+        },
+        {
+          "name": "defaultNavOpen",
+          "type": "boolean",
+          "required": false,
+          "defaultValue": "false",
+          "description": "The sheet's open state on first render, uncontrolled."
+        },
+        {
+          "name": "layout",
+          "type": "\"auto\" | \"rail\" | \"sheet\"",
+          "required": false,
+          "description": "`auto` (the default) is a rail, and a sheet below `breakpoint`."
+        },
+        {
+          "name": "mainId",
+          "type": "string",
+          "required": false,
+          "description": "The `<main>`'s id, which the skip link targets."
+        },
+        {
+          "name": "navOpen",
+          "type": "boolean",
+          "required": false,
+          "description": "Whether the sheet is open, in the sheet layout."
+        },
+        {
+          "name": "navTitle",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Menu",
+          "description": "The sheet's accessible name."
+        },
+        {
+          "name": "portalContainer",
+          "type": "HTMLElement | null",
+          "required": false,
+          "description": "Where the sheet teleports to."
+        },
+        {
+          "name": "scroll",
+          "type": "\"page\" | \"main\"",
+          "required": false,
+          "description": "`page` (the default) scrolls the document under a sticky header; `main` scrolls only the main area."
+        },
+        {
+          "name": "skipLinkLabel",
+          "type": "string",
+          "required": false,
+          "defaultValue": "Skip",
+          "description": "The skip link's text."
+        }
+      ],
+      "usageSnippet": "<AppShell>…</AppShell>",
+      "propSignatureHash": "sha256:891b0e30bc25b7e3",
+      "lastSyncedAt": "2026-11-26T22:51:58.536Z",
       "status": "draft"
     },
     {

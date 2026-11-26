@@ -179,7 +179,12 @@ export { marqueeStyles } from "./components/Marquee/Marquee.styles.js";
 export type { MarqueeVariants } from "./components/Marquee/Marquee.styles.js";
 export { meterStyles } from "./components/Meter/Meter.styles.js";
 export type { MeterVariants } from "./components/Meter/Meter.styles.js";
-export { navItemStyles, navSubItemStyles } from "./components/Navigation/Navigation.styles.js";
+export {
+  navItemStyles,
+  navSubItemStyles,
+  SIDEBAR_NAVIGATION_SELECTOR,
+  isSidebarNavigation,
+} from "./components/Navigation/Navigation.styles.js";
 export type {
   NavItemVariants,
   NavSubItemVariants,
@@ -332,6 +337,20 @@ export {
   type NavigationMenuContentVariants,
   type NavigationMenuColumns,
 } from "./components/NavigationMenu/NavigationMenu.styles.js";
+export {
+  appShellStyles,
+  appShellNarrowQuery,
+  appShellDataLayout,
+  resolveAppShellLayout,
+  APP_SHELL_CLASS,
+  APP_SHELL_BREAKPOINT,
+  APP_HEADER_CLASS,
+  APP_HEADER_MENU_ICON_SIZE,
+  type AppShellVariants,
+  type AppShellLayout,
+  type AppShellResolvedLayout,
+  type AppShellScroll,
+} from "./components/AppShell/AppShell.styles.js";
 export {
   DRAWER_SWIPE,
   drawerDragOffset,

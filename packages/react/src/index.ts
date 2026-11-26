@@ -549,3 +549,5 @@ export type {
   NavigationMenuItemProps,
   NavigationMenuLinkProps,
 } from "./components/NavigationMenu/index.js";
+export { AppShell, AppHeader } from "./components/AppShell/index.js";
+export type { AppShellProps, AppHeaderProps } from "./components/AppShell/index.js";

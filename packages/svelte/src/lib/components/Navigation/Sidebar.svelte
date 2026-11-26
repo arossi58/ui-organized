@@ -9,7 +9,8 @@
 <script lang="ts">
   import { clsx } from "clsx";
   import Icon from "../Icon/Icon.svelte";
-  import { setNavContext } from "./navContext.js";
+  import { isSidebarNavigation } from "@ui-organized/core";
+  import { getSidebarHost, setNavContext } from "./navContext.js";
   import type { SidebarProps } from "./Navigation.types.js";
   import "@ui-organized/core/components/Navigation/Navigation.css";
   import { glyph } from "../../icons/glyph.js";
@@ -27,8 +28,12 @@
     defaultCollapsed = false,
     onCollapsedChange,
     class: className,
+    onclick,
     ...rest
   }: SidebarProps = $props();
+
+  const host = getSidebarHost();
+  const inSheet = host?.inSheet ?? false;
 
   // `collapsed` is bindable so `bind:collapsed` works the way a Svelte consumer
   // expects, with `onCollapsedChange` kept alongside to match the React package.
@@ -36,7 +41,9 @@
   // svelte-ignore state_referenced_locally -- see NavItem.svelte: a default is
   // read once on purpose.
   let internalCollapsed = $state(defaultCollapsed);
-  const isCollapsed = $derived(collapsed ?? internalCollapsed);
+  // In an AppShell's sheet the sidebar is always expanded: a sheet is not a rail.
+  const isCollapsed = $derived(inSheet ? false : (collapsed ?? internalCollapsed));
+  const showToggle = $derived(collapsible && !inSheet);
 
   // A getter, not a snapshot: a descendant reading this after the toggle runs
   // has to see the new value. See ./navContext.ts.
@@ -54,13 +61,23 @@
   };
 
   const hasLogo = $derived(logo != null || logoCollapsed != null);
-  const showFooter = $derived(footer != null || collapsible);
+  const showFooter = $derived(footer != null || showToggle);
+
+  // Bubbling, so the item's own click (the one that navigates) has run first.
+  const handleClick = (event: MouseEvent & { currentTarget: EventTarget & HTMLDivElement }) => {
+    onclick?.(event);
+    if (host?.onNavigate && !event.defaultPrevented && isSidebarNavigation(event.target, event.currentTarget)) {
+      host.onNavigate();
+    }
+  };
   // A rail has room for a mark but not a wordmark; fall back when there is no
   // compact one.
   const shownLogo = $derived(isCollapsed ? (logoCollapsed ?? logo) : logo);
 </script>
 
-<div class={clsx("sidebar", isCollapsed && "sidebar--collapsed", className)} {...rest}>
+<!-- Delegation, not a control: it hears the clicks the links and buttons inside it receive. -->
+<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+<div class={clsx("sidebar", isCollapsed && "sidebar--collapsed", className)} onclick={handleClick} {...rest}>
   {#if hasLogo}
     <div class="sidebar__logo">
       {#if typeof shownLogo === "string"}{shownLogo}{:else}{@render shownLogo?.()}{/if}
@@ -78,7 +95,7 @@
           {#if typeof footer === "string"}{footer}{:else}{@render footer()}{/if}
         </div>
       {/if}
-      {#if collapsible}
+      {#if showToggle}
         <button
           type="button"
           class="sidebar__toggle text-default-body-medium"

@@ -63,6 +63,31 @@
         "--angle"
       ]
     },
+    "AppShell": {
+      "attributes": {
+        "data-layout": []
+      },
+      "classes": [
+        "app-header",
+        "app-header__actions",
+        "app-header__logo",
+        "app-header__nav",
+        "app-header__start",
+        "app-shell",
+        "app-shell--scroll-main",
+        "app-shell--scroll-page",
+        "app-shell__body",
+        "app-shell__main",
+        "app-shell__sheet",
+        "app-shell__sheet-title",
+        "app-shell__sidebar",
+        "app-shell__skip",
+        "sheet__popup",
+        "sidebar",
+        "sidebar__logo"
+      ],
+      "runtime": []
+    },
     "Attachment": {
       "attributes": {
         "data-status": [

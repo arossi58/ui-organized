@@ -32,6 +32,7 @@ import { itemExamples } from "./item";
 import { codeBlockExamples } from "./code-block";
 import { drawerExamples } from "./drawer";
 import { navigationMenuExamples } from "./navigation-menu";
+import { appShellExamples } from "./app-shell";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -120,6 +121,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "code-block": codeBlockExamples,
   drawer: drawerExamples,
   "navigation-menu": navigationMenuExamples,
+  "app-shell": appShellExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

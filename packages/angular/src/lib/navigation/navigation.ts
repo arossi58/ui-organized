@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from "@angular/common";
 import {
   Component,
   Directive,
+  ElementRef,
   TemplateRef,
   booleanAttribute,
   computed,
@@ -11,10 +12,10 @@ import {
   output,
 } from "@angular/core";
 import { clsx } from "clsx";
-import { navItemStyles, navSubItemStyles } from "@ui-organized/core";
+import { isSidebarNavigation, navItemStyles, navSubItemStyles } from "@ui-organized/core";
 import { nextMachineId } from "../part-ids.js";
 import { UioIcon } from "../icons/icon.js";
-import { UioNavContext } from "./nav-context.js";
+import { UIO_SIDEBAR_HOST, UioNavContext } from "./nav-context.js";
 import type { IconGlyph } from "../icons/glyph.js";
 import type { IconName } from "../icons/icon.js";
 import { glyph } from "../icons/glyph.js";
@@ -194,28 +195,28 @@ export class UioNavProvider {
             }
           </div>
         }
-        @if (collapsible()) {
+        @if (showToggle()) {
           <button
             type="button"
             class="sidebar__toggle text-default-body-medium"
-            [attr.aria-expanded]="!collapsed()"
-            [attr.aria-label]="collapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
-            [attr.title]="collapsed() ? 'Expand' : 'Collapse'"
+            [attr.aria-expanded]="!isCollapsed()"
+            [attr.aria-label]="isCollapsed() ? 'Expand sidebar' : 'Collapse sidebar'"
+            [attr.title]="isCollapsed() ? 'Expand' : 'Collapse'"
             (click)="toggle()"
           >
             <span
               uioIcon
               class="sidebar__toggle-icon"
-              [name]="glyph(collapsed() ? 'chevron-right' : 'chevron-left')"
+              [name]="glyph(isCollapsed() ? 'chevron-right' : 'chevron-left')"
               [size]="TOGGLE_ICON_SIZE"
             ></span>
-            <span class="sidebar__toggle-label">{{ collapsed() ? "Expand" : "Collapse" }}</span>
+            <span class="sidebar__toggle-label">{{ isCollapsed() ? "Expand" : "Collapse" }}</span>
           </button>
         }
       </div>
     }
   `,
-  host: { "[class]": "hostClass()" },
+  host: { "[class]": "hostClass()", "(click)": "onClick($event)" },
 })
 export class UioSidebar {
   protected readonly glyph = glyph;
@@ -237,23 +238,36 @@ export class UioSidebar {
   readonly collapsedChange = output<boolean>();
 
   private readonly nav = inject(UioNavContext);
+  /** Set only around the copy of a sidebar in an AppShell's sheet. */
+  private readonly host = inject(UIO_SIDEBAR_HOST, { optional: true });
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly TOGGLE_ICON_SIZE = TOGGLE_ICON_SIZE;
+
+  /** In an AppShell's sheet the sidebar is always expanded: a sheet is not a rail. */
+  protected readonly isCollapsed = computed(() => !this.host?.inSheet && this.collapsed());
+  protected readonly showToggle = computed(() => this.collapsible() && !this.host?.inSheet);
 
   constructor() {
     // Connected rather than pushed, so descendants read this very signal and
     // never render a frame behind it — see `UioNavContext`.
-    this.nav.connect(this.collapsed);
+    this.nav.connect(this.isCollapsed);
+  }
+
+  /** Bubbling, so the item's own click (the one that navigates) has run first. */
+  protected onClick(event: MouseEvent): void {
+    if (!this.host?.onNavigate || event.defaultPrevented) return;
+    if (isSidebarNavigation(event.target, this.element.nativeElement)) this.host.onNavigate();
   }
 
   /** A rail has room for a mark but not a wordmark; fall back when there is no compact one. */
   protected readonly logoNode = computed(() =>
-    this.collapsed() ? (this.logoCollapsed() ?? this.logo()) : this.logo(),
+    this.isCollapsed() ? (this.logoCollapsed() ?? this.logo()) : this.logo(),
   );
   protected readonly hasLogo = computed(() => this.logo() != null || this.logoCollapsed() != null);
-  protected readonly showFooter = computed(() => this.footer() != null || this.collapsible());
+  protected readonly showFooter = computed(() => this.footer() != null || this.showToggle());
   protected readonly hostClass = computed(() =>
-    clsx("sidebar", this.collapsed() && "sidebar--collapsed"),
+    clsx("sidebar", this.isCollapsed() && "sidebar--collapsed"),
   );
 
   protected asTemplate(

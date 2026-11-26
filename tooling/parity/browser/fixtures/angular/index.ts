@@ -55,6 +55,7 @@ import { ItemFixture, ItemGroupFixture } from "./item.fixture.js";
 import { CodeBlockFixture } from "./code-block.fixture.js";
 import { DrawerFixture } from "./drawer.fixture.js";
 import { NavigationMenuFixture } from "./navigation-menu.fixture.js";
+import { AppShellFixture } from "./app-shell.fixture.js";
 import { CommandMenuFixture } from "./command-menu.fixture.js";
 import { RadioCardGroupFixture } from "./radio-card-group.fixture.js";
 import { CheckboxCardGroupFixture } from "./checkbox-card-group.fixture.js";
@@ -164,6 +165,7 @@ export const ANGULAR_FIXTURES: Record<string, Type<unknown>> = {
   CodeBlock: CodeBlockFixture,
   Drawer: DrawerFixture,
   NavigationMenu: NavigationMenuFixture,
+  AppShell: AppShellFixture,
   CommandMenu: CommandMenuFixture,
   RadioCardGroup: RadioCardGroupFixture,
   CheckboxCardGroup: CheckboxCardGroupFixture,

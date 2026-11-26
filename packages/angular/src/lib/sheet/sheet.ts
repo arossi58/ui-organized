@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import { Overlay, type OverlayRef, type BlockScrollStrategy } from "@angular/cdk/overlay";
 import { TemplatePortal } from "@angular/cdk/portal";
 import { FocusTrapFactory, type FocusTrap } from "@angular/cdk/a11y";
@@ -165,11 +166,17 @@ export class UioSheet implements OnInit, OnDestroy {
    */
   readonly controlled = input(false, { transform: booleanAttribute });
   readonly closeRequest = output<void>();
+  /**
+   * A class for the panel itself. React, Svelte and Vue put a caller's class on
+   * their `SheetContent`, which is the panel; this component is both root and
+   * content, so its own `class` lands on a host that is not in the page.
+   */
+  readonly panelClass = input<string | undefined>(undefined);
 
   readonly dialogContext = inject(UioDialogContext);
   protected readonly state = computed(() => (this.open() ? "open" : "closed"));
   protected readonly popupClass = computed(() =>
-    sheetStyles({ side: this.side(), size: this.size() }),
+    clsx(sheetStyles({ side: this.side(), size: this.size() }), this.panelClass()),
   );
   protected readonly CLOSE_ICON_SIZE = 20;
 

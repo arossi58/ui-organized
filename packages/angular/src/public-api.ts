@@ -549,3 +549,14 @@ export {
   UioNavigationMenuLink,
   type NavigationMenuColumns,
 } from "./lib/navigation-menu/navigation-menu.js";
+export {
+  UioAppShell,
+  UioAppShellSidebar,
+  UioAppHeader,
+  UioAppHeaderLogo,
+  UioAppHeaderNav,
+  UioAppHeaderActions,
+  type AppShellLayout,
+  type AppShellResolvedLayout,
+  type AppShellScroll,
+} from "./lib/app-shell/app-shell.js";

@@ -10,7 +10,8 @@
 import { computed, ref, useAttrs } from "vue";
 import { clsx } from "clsx";
 import Icon from "../Icon/Icon.vue";
-import { provideNavContext } from "./navContext.js";
+import { isSidebarNavigation } from "@ui-organized/core";
+import { provideNavContext, useSidebarHost } from "./navContext.js";
 import type { SidebarProps } from "./Navigation.types.js";
 import "@ui-organized/core/components/Navigation/Navigation.css";
 import { glyph } from "../../icons/glyph.js";
@@ -50,8 +51,19 @@ const slots = defineSlots<{
 }>();
 const attrs = useAttrs();
 
+const host = useSidebarHost();
+const inSheet = host?.inSheet ?? false;
 const internalCollapsed = ref(props.defaultCollapsed);
-const isCollapsed = computed(() => props.collapsed ?? internalCollapsed.value);
+// In an AppShell's sheet the sidebar is always expanded: a sheet is not a rail.
+const isCollapsed = computed(() => (inSheet ? false : (props.collapsed ?? internalCollapsed.value)));
+const showToggle = computed(() => props.collapsible && !inSheet);
+
+// Bubbling, so the item's own click (the one that navigates) has run first.
+const onClick = (event: MouseEvent) => {
+  if (host?.onNavigate && !event.defaultPrevented && isSidebarNavigation(event.target, event.currentTarget as Element)) {
+    host.onNavigate();
+  }
+};
 
 provideNavContext(computed(() => ({ collapsed: isCollapsed.value })));
 
@@ -65,14 +77,15 @@ const toggle = () => {
 const collapsedLogoSlot = computed(() => (slots.logoCollapsed ? "logoCollapsed" : "logo-collapsed"));
 const hasCollapsedLogo = computed(() => Boolean(slots.logoCollapsed || slots["logo-collapsed"]));
 const hasLogo = computed(() => Boolean(slots.logo) || hasCollapsedLogo.value);
-const showFooter = computed(() => Boolean(slots.footer) || props.collapsible);
+const showFooter = computed(() => Boolean(slots.footer) || showToggle.value);
 const rootClass = computed(() =>
   clsx("sidebar", isCollapsed.value && "sidebar--collapsed", attrs.class as string),
 );
 </script>
 
 <template>
-  <div :class="rootClass" v-bind="{ ...$attrs, class: undefined }">
+  <!-- Delegation, not a control: it hears the clicks the links and buttons inside it receive. -->
+  <div :class="rootClass" v-bind="{ ...$attrs, class: undefined }" @click="onClick">
     <div v-if="hasLogo" class="sidebar__logo">
       <!-- A rail has room for a mark but not a wordmark; fall back when there is no compact one. -->
       <slot v-if="isCollapsed && hasCollapsedLogo" :name="collapsedLogoSlot" />
@@ -84,7 +97,7 @@ const rootClass = computed(() =>
     <div v-if="showFooter" class="sidebar__footer">
       <div v-if="$slots.footer" class="sidebar__footer-content"><slot name="footer" /></div>
       <button
-        v-if="collapsible"
+        v-if="showToggle"
         type="button"
         class="sidebar__toggle text-default-body-medium"
         :aria-expanded="!isCollapsed"

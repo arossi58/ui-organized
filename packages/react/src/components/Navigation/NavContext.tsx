@@ -37,3 +37,19 @@ export function NavProvider({ collapsed = false, children }: NavProviderProps) {
     </NavContext.Provider>
   );
 }
+
+/**
+ * What hosts a Sidebar, when something does: an AppShell's sheet.
+ *
+ * @internal Not exported from the package. AppShell provides it around the
+ * sidebar it moves into its sheet: there the sidebar is always expanded, has
+ * no collapse toggle (a sheet is not a rail), and calls `onNavigate` when a
+ * click in it goes to a page, so the sheet can close. Outside an AppShell
+ * nothing provides it and a Sidebar is unchanged.
+ */
+export interface SidebarHostValue {
+  inSheet: boolean;
+  onNavigate?: () => void;
+}
+
+export const SidebarHostContext = createContext<SidebarHostValue | null>(null);

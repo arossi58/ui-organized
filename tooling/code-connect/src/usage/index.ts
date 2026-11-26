@@ -47,6 +47,7 @@ import { itemUsage } from "./guides/item.js";
 import { codeBlockUsage } from "./guides/code-block.js";
 import { drawerUsage } from "./guides/drawer.js";
 import { navigationMenuUsage } from "./guides/navigation-menu.js";
+import { appShellUsage } from "./guides/app-shell.js";
 import { switchUsage } from "./guides/switch.js";
 import { segmentedControlUsage } from "./guides/segmented-control.js";
 import { selectUsage } from "./guides/select.js";
@@ -142,6 +143,7 @@ export const USAGE_GUIDES: Record<WrittenUsageSlug, UsageGuide> = {
   "code-block": codeBlockUsage,
   drawer: drawerUsage,
   "navigation-menu": navigationMenuUsage,
+  "app-shell": appShellUsage,
   switch: switchUsage,
   "segmented-control": segmentedControlUsage,
   select: selectUsage,

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T22:09:52.929Z",
+  "generatedAt": "2026-11-26T22:51:58.536Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -12,6 +12,8 @@
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/AlertDialog/AlertDialog.types.ts::AlertDialogTrigger": "sha256:36a696a8661c284e",
     "packages/react/src/components/AngleSlider/AngleSlider.types.ts::AngleSlider": "sha256:ef1fcefb10a0ea3f",
+    "packages/react/src/components/AppShell/AppShell.types.ts::AppHeader": "sha256:198971d5fe03e80a",
+    "packages/react/src/components/AppShell/AppShell.types.ts::AppShell": "sha256:7f9152a514815127",
     "packages/react/src/components/Attachment/Attachment.types.ts::Attachment": "sha256:b3d681e3d3ab6771",
     "packages/react/src/components/Avatar/Avatar.types.ts::Avatar": "sha256:e833306dff1f0246",
     "packages/react/src/components/AvatarGroup/AvatarGroup.types.ts::AvatarGroup": "sha256:f97ac24b509c3966",
@@ -460,6 +462,123 @@
         "type": "number",
         "required": false,
         "description": "Controlled angle in degrees, 0–360."
+      }
+    ],
+    "packages/react/src/components/AppShell/AppShell.types.ts::AppHeader": [
+      {
+        "name": "actions",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Controls at the end, such as search or an account menu."
+      },
+      {
+        "name": "logo",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The product's mark, at the start."
+      },
+      {
+        "name": "menuLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Open",
+        "description": "The menu button's accessible name, in the sheet layout."
+      },
+      {
+        "name": "nav",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "Navigation across the header, such as a `NavigationMenu`."
+      }
+    ],
+    "packages/react/src/components/AppShell/AppShell.types.ts::AppShell": [
+      {
+        "name": "breakpoint",
+        "type": "number",
+        "required": false,
+        "defaultValue": "900",
+        "description": "With `layout=\"auto\"`: the viewport width, in px, at or below which the sidebar moves into a sheet."
+      },
+      {
+        "name": "children",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The page, rendered in the shell's `<main>`."
+      },
+      {
+        "name": "defaultNavOpen",
+        "type": "boolean",
+        "required": false,
+        "defaultValue": "false",
+        "description": "The sheet's open state on first render, uncontrolled."
+      },
+      {
+        "name": "header",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The header across the top, usually an `AppHeader`."
+      },
+      {
+        "name": "layout",
+        "type": "\"auto\" | \"rail\" | \"sheet\"",
+        "required": false,
+        "description": "`auto` (the default) shows the sidebar as a rail beside the page, and in a sheet below `breakpoint`."
+      },
+      {
+        "name": "mainId",
+        "type": "string",
+        "required": false,
+        "description": "The `<main>`'s id, which the skip link targets."
+      },
+      {
+        "name": "navOpen",
+        "type": "boolean",
+        "required": false,
+        "description": "Whether the sheet is open, in the sheet layout."
+      },
+      {
+        "name": "navTitle",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Menu",
+        "description": "The sheet's accessible name."
+      },
+      {
+        "name": "onLayoutChange",
+        "type": "(layout: AppShellResolvedLayout) => void",
+        "required": false,
+        "description": "Called with the layout in use when it is first known and whenever it changes."
+      },
+      {
+        "name": "onNavOpenChange",
+        "type": "(open: boolean) => void",
+        "required": false,
+        "description": "Called when the sheet opens or closes, including when a click in it goes to a page."
+      },
+      {
+        "name": "portalContainer",
+        "type": "React.RefObject<HTMLElement | null>",
+        "required": false,
+        "description": "Where the sheet portals to."
+      },
+      {
+        "name": "scroll",
+        "type": "\"page\" | \"main\"",
+        "required": false,
+        "description": "`page` (the default) scrolls the document under a sticky header; `main` scrolls only the main area, inside a parent of fixed height."
+      },
+      {
+        "name": "sidebar",
+        "type": "React.ReactNode",
+        "required": false,
+        "description": "The navigation down the side, usually a `Sidebar`."
+      },
+      {
+        "name": "skipLinkLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Skip",
+        "description": "The skip link's text."
       }
     ],
     "packages/react/src/components/Attachment/Attachment.types.ts::Attachment": [

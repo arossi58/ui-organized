@@ -28,3 +28,26 @@ export function useNavContext(): NavContextRef {
   const fallback = computed<NavContextValue>(() => ({ collapsed: false }));
   return inject(NAV_CONTEXT_KEY, fallback);
 }
+
+/**
+ * What hosts a Sidebar, when something does: an AppShell's sheet.
+ *
+ * @internal Not exported from the package. AppShell provides it around the
+ * sidebar it moves into its sheet: there the sidebar is always expanded, has
+ * no collapse toggle, and calls `onNavigate` when a click in it goes to a page,
+ * so the sheet can close. Outside an AppShell nothing provides it.
+ */
+export interface SidebarHostValue {
+  inSheet: boolean;
+  onNavigate?: () => void;
+}
+
+const SIDEBAR_HOST_KEY: InjectionKey<SidebarHostValue> = Symbol("ui-organized.sidebarHost");
+
+export function provideSidebarHost(host: SidebarHostValue): void {
+  provide(SIDEBAR_HOST_KEY, host);
+}
+
+export function useSidebarHost(): SidebarHostValue | undefined {
+  return inject(SIDEBAR_HOST_KEY, undefined);
+}

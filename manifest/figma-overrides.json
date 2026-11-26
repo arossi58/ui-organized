@@ -39,6 +39,9 @@
     ],
     "NavigationMenuLink": [
       "state"
+    ],
+    "AppHeader": [
+      "layout"
     ]
   }
 }
