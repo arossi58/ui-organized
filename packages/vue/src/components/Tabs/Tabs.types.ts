@@ -9,6 +9,11 @@ export interface TabItem {
   content: string | Component;
   /** Whether this tab is disabled. */
   disabled?: boolean;
+  /**
+   * A count after the label, such as unread items. It is visible text, so it
+   * is read as part of the tab's name.
+   */
+  count?: number;
 }
 
 export interface TabsProps {
@@ -22,4 +27,10 @@ export interface TabsProps {
   orientation?: "horizontal" | "vertical";
   /** Tab sizing. 'default' uses body-large type, 'small' uses body-medium. */
   size?: "default" | "small";
+  /**
+   * The look. `underline` (the default) rules the list and marks the selected
+   * tab with a bar; `pill` fills the selected tab with the brand tint;
+   * `bordered` sits the tabs in a track with the selected one raised.
+   */
+  variant?: "underline" | "pill" | "bordered";
 }

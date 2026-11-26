@@ -61,4 +61,75 @@ export const tabsExamples: UsageExampleSet = {
       />
     ),
   },
+
+  variants: {
+    layout: "padded",
+    Do: () => (
+      <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-space-04)" }}>
+        <Tabs
+          size="small"
+          tabs={[
+            { value: "overview", label: "Overview", content: panel("The page's own sections.") },
+            { value: "activity", label: "Activity", content: panel("What has happened.") },
+          ]}
+        />
+        <Tabs
+          size="small"
+          variant="bordered"
+          tabs={[
+            { value: "chart", label: "Chart", content: panel("A view inside one panel.") },
+            { value: "table", label: "Table", content: panel("The same data as rows.") },
+          ]}
+        />
+      </div>
+    ),
+    // Three looks on one surface, and no way to tell which set is in charge.
+    Dont: () => (
+      <div style={{ display: "flex", flexDirection: "column", gap: "var(--spacing-space-04)" }}>
+        <Tabs
+          size="small"
+          variant="pill"
+          tabs={[
+            { value: "overview", label: "Overview", content: panel("The page's own sections.") },
+            { value: "activity", label: "Activity", content: panel("What has happened.") },
+          ]}
+        />
+        <Tabs
+          size="small"
+          variant="bordered"
+          tabs={[
+            { value: "chart", label: "Chart", content: panel("A view inside one panel.") },
+            { value: "table", label: "Table", content: panel("The same data as rows.") },
+          ]}
+        />
+      </div>
+    ),
+  },
+
+  counts: {
+    layout: "padded",
+    Do: () => (
+      <Tabs
+        size="small"
+        variant="pill"
+        tabs={[
+          { value: "inbox", label: "Inbox", count: 12, content: panel("Twelve unread.") },
+          { value: "sent", label: "Sent", content: panel("Messages you sent.") },
+          { value: "archive", label: "Archive", content: panel("Older messages.") },
+        ]}
+      />
+    ),
+    // A number on every tab, most of which change nothing.
+    Dont: () => (
+      <Tabs
+        size="small"
+        variant="pill"
+        tabs={[
+          { value: "inbox", label: "Inbox", count: 12, content: panel("Twelve unread.") },
+          { value: "sent", label: "Sent", count: 340, content: panel("Messages you sent.") },
+          { value: "archive", label: "Archive", count: 2048, content: panel("Older messages.") },
+        ]}
+      />
+    ),
+  },
 };

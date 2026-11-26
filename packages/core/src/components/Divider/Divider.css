@@ -30,3 +30,36 @@
 .divider--vertical.divider--spacing-sm { margin-inline: var(--spacing-space-02); }
 .divider--vertical.divider--spacing-md { margin-inline: var(--spacing-space-04); }
 .divider--vertical.divider--spacing-lg { margin-inline: var(--spacing-space-06); }
+
+/* ─── Labelled ──────────────────────────────────────────────────────────────────
+   Text or a control between two rules: "or" between sign-in options, "Show
+   more" under a list. It is not a separator, because a separator's children are
+   presentational and the label would not be read. The rules are pseudo-
+   elements, so the label is the element's only content. */
+
+.divider--labelled {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-space-03);
+  height: auto;
+  background-color: transparent;
+  color: var(--color-content-tertiary);
+  font-family: var(--type-font-body);
+  font-size: var(--type-size-body-medium);
+  font-weight: var(--type-weight-body-default);
+  line-height: var(--type-leading-body-medium);
+  white-space: nowrap;
+}
+
+.divider--labelled::before,
+.divider--labelled::after {
+  content: "";
+  flex: 1 1 0;
+  height: 1px;
+  background-color: var(--color-surface-overlay-tertiary);
+}
+
+.divider--label-start::before,
+.divider--label-end::after {
+  display: none;
+}

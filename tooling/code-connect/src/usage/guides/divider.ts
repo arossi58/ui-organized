@@ -37,6 +37,11 @@ export const dividerUsage: UsageGuide = {
       example: "grouping",
     },
     {
+      do: "Label a divider when the line marks a choice or a break in time, such as or between sign-in options.",
+      dont: "Give a divider a heading's job, where the label reads as decoration and the section has no title.",
+      example: "labelled",
+    },
+    {
       do: "Keep one rule weight across a surface.",
       dont: "Mix rules, borders and shadows as separators in the same view.",
     },
@@ -44,6 +49,7 @@ export const dividerUsage: UsageGuide = {
   accessibility: [
     "The rule is decorative, so it must never be the only thing conveying a grouping.",
     "Anything a divider implies should also be said by headings, spacing or labels.",
+    "A labelled divider is text between two rules, not a separator, so its label is read where it sits.",
   ],
   related: [
     { slug: "card", when: "the group deserves a surface rather than a line." },

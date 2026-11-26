@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { Divider } from "@ui-organized/react";
+import { Button, Divider } from "@ui-organized/react";
 
 const meta: Meta<typeof Divider> = {
   title: "Components/Layout/Divider",
@@ -17,6 +17,7 @@ const meta: Meta<typeof Divider> = {
   argTypes: {
     orientation: { control: "inline-radio", options: ["horizontal", "vertical"] },
     spacing: { control: "select", options: ["none", "sm", "md", "lg"] },
+    labelPosition: { control: "inline-radio", options: ["start", "center", "end"] },
   },
 };
 
@@ -60,6 +61,35 @@ export const Vertical: Story = {
       <span>Docs</span>
       <Divider orientation="vertical" spacing="md" />
       <span>Pricing</span>
+    </div>
+  ),
+};
+
+/**
+ * Children make a labelled divider: text or a control between two rules. It is
+ * horizontal, and it is not a separator, so the label is read.
+ */
+export const Labelled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Divider spacing="md">or</Divider>
+<Divider spacing="md" labelPosition="start">Today</Divider>
+<Divider spacing="md" labelPosition="end">Earlier</Divider>
+<Divider spacing="md"><Button intent="secondary" size="sm">Show more</Button></Divider>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ maxWidth: 360 }}>
+      <Divider spacing="md">or</Divider>
+      <Divider spacing="md" labelPosition="start">Today</Divider>
+      <Divider spacing="md" labelPosition="end">Earlier</Divider>
+      <Divider spacing="md">
+        <Button intent="secondary" size="sm">Show more</Button>
+      </Divider>
     </div>
   ),
 };

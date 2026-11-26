@@ -27,7 +27,7 @@ export {
   type CardVariant,
   type CardPadding,
 } from "./lib/card/card.js";
-export { UioDivider, type DividerOrientation, type DividerSpacing } from "./lib/divider/divider.js";
+export { UioDivider, type DividerOrientation, type DividerSpacing, type DividerLabelPosition } from "./lib/divider/divider.js";
 export { UioTag, type TagVariant, type TagSize, type TagShape, type TagAppearance } from "./lib/tag/tag.js";
 export {
   UioTagGroup,
@@ -154,7 +154,7 @@ export {
   type SelectSize,
   type SelectVariant,
 } from "./lib/select/select.js";
-export { UioTabs, type TabItem, type TabsOrientation, type TabsSize } from "./lib/tabs/tabs.js";
+export { UioTabs, type TabItem, type TabsOrientation, type TabsSize, type TabsVariant } from "./lib/tabs/tabs.js";
 export {
   UioAccordion,
   type AccordionItem,

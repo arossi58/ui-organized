@@ -466,6 +466,9 @@
       "classes": [
         "divider",
         "divider--horizontal",
+        "divider--label-end",
+        "divider--label-start",
+        "divider--labelled",
         "divider--spacing-lg",
         "divider--spacing-md",
         "divider--spacing-sm",
@@ -1199,8 +1202,11 @@
       },
       "classes": [
         "tabs",
+        "tabs--bordered",
+        "tabs--pill",
         "tabs--small",
         "tabs--vertical",
+        "tabs__count",
         "tabs__list",
         "tabs__panel",
         "tabs__panels",

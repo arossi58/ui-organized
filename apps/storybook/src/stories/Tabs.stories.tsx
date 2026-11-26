@@ -30,6 +30,10 @@ const meta: Meta<typeof Tabs> = {
       control: "select",
       options: ["default", "small"],
     },
+    variant: {
+      control: "select",
+      options: ["underline", "pill", "bordered"],
+    },
   },
 };
 
@@ -198,5 +202,71 @@ export const RichContent: Story = {
       ]}
       defaultValue="profile"
     />
+  ),
+};
+
+const COUNTED_TABS = [
+  { value: "inbox", label: "Inbox", count: 12, content: <p style={{ margin: 0 }}>Twelve unread messages.</p> },
+  { value: "assigned", label: "Assigned to me", count: 3, content: <p style={{ margin: 0 }}>Three open items.</p> },
+  { value: "archive", label: "Archive", content: <p style={{ margin: 0 }}>Nothing new here.</p> },
+];
+
+/** `underline` (the default), `pill` and `bordered`. */
+export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Tabs tabs={tabs} variant="underline" />
+<Tabs tabs={tabs} variant="pill" />
+<Tabs tabs={tabs} variant="bordered" />
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      {(["underline", "pill", "bordered"] as const).map((variant) => (
+        <Tabs key={variant} tabs={BASIC_TABS} defaultValue="overview" variant={variant} />
+      ))}
+    </div>
+  ),
+};
+
+/** `count` on a tab adds a pill after its label, read as part of the tab's name. */
+export const WithCounts: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Tabs
+  variant="pill"
+  tabs={[
+    { value: "inbox", label: "Inbox", count: 12, content: … },
+    { value: "assigned", label: "Assigned to me", count: 3, content: … },
+    { value: "archive", label: "Archive", content: … },
+  ]}
+/>
+`.trim(),
+      },
+    },
+  },
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      {(["underline", "pill", "bordered"] as const).map((variant) => (
+        <Tabs key={variant} tabs={COUNTED_TABS} defaultValue="inbox" variant={variant} />
+      ))}
+    </div>
+  ),
+};
+
+/** The pill and bordered looks stand up too, for settings-style navigation. */
+export const VerticalVariants: Story = {
+  render: () => (
+    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+      {(["pill", "bordered"] as const).map((variant) => (
+        <Tabs key={variant} tabs={BASIC_TABS} defaultValue="overview" variant={variant} orientation="vertical" />
+      ))}
+    </div>
   ),
 };

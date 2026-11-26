@@ -61,6 +61,19 @@ const scenarios: BrowserScenario[] = [
       { name: "second selected", props: { tabs: TABS, defaultValue: "two" } },
       { name: "vertical", props: { tabs: TABS, orientation: "vertical" } },
       { name: "small", props: { tabs: TABS, size: "small" } },
+      { name: "variant/pill", props: { tabs: TABS, variant: "pill" } },
+      { name: "variant/bordered", props: { tabs: TABS, variant: "bordered" } },
+      {
+        name: "counts",
+        props: {
+          variant: "pill",
+          tabs: [
+            { value: "inbox", label: "Inbox", content: "Mail", count: 12 },
+            { value: "sent", label: "Sent", content: "Sent mail", count: 0 },
+            { value: "drafts", label: "Drafts", content: "Drafts" },
+          ],
+        },
+      },
       // Numeric values are coerced at the Zag boundary in every library, and the
       // ids built out of them have to come out the same on all four.
       {

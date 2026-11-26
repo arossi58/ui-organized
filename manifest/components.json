@@ -1,6 +1,6 @@
 {
   "manifestVersion": 1,
-  "generatedAt": "2026-11-25T17:37:01.086Z",
+  "generatedAt": "2026-11-25T20:10:02.442Z",
   "components": [
     {
       "figmaComponentKey": "",
@@ -3693,6 +3693,13 @@
       "importStatement": "import { Divider } from '@ui-organized/react';",
       "props": [
         {
+          "name": "labelPosition",
+          "type": "\"start\" | \"center\" | \"end\"",
+          "required": false,
+          "defaultValue": "center",
+          "description": "Where a label sits when the divider has children: text such as \"or\", or a control such as a \"Show more\" button."
+        },
+        {
           "name": "orientation",
           "type": "\"horizontal\" | \"vertical\"",
           "required": false,
@@ -3708,8 +3715,8 @@
         }
       ],
       "usageSnippet": "<Divider />",
-      "propSignatureHash": "sha256:f411b86fd0af3040",
-      "lastSyncedAt": "2026-07-13T02:53:17.317Z",
+      "propSignatureHash": "sha256:61b596398a2dcd45",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft"
     },
     {
@@ -7532,14 +7539,20 @@
           "type": "string | number",
           "required": false,
           "description": "Controlled active tab value."
+        },
+        {
+          "name": "variant",
+          "type": "\"underline\" | \"pill\" | \"bordered\"",
+          "required": false,
+          "description": "The look."
         }
       ],
       "usageSnippet": "<Tabs tabs={/* TabItem[] */} />",
-      "propSignatureHash": "sha256:657142a2c38c3bdb",
-      "lastSyncedAt": "2026-07-03T01:18:35.349Z",
+      "propSignatureHash": "sha256:83aef997089ad117",
+      "lastSyncedAt": "2026-11-25T20:10:02.442Z",
       "status": "draft",
       "referencedTypes": {
-        "TabItem": "{ value: string | number; label: React.ReactNode; content: React.ReactNode; disabled?: boolean }"
+        "TabItem": "{ value: string | number; label: React.ReactNode; content: React.ReactNode; disabled?: boolean; count?: number }"
       }
     },
     {

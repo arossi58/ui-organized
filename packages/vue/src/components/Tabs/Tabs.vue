@@ -4,6 +4,7 @@ import { Tabs as ArkTabs } from "@ark-ui/vue";
 import { clsx } from "clsx";
 import { tabsStyles } from "@ui-organized/core";
 import { definedOnly } from "../../props.js";
+import Tag from "../Tag/Tag.vue";
 import type { TabsProps } from "./Tabs.types.js";
 import "@ui-organized/core/components/Tabs/Tabs.css";
 
@@ -11,6 +12,7 @@ defineOptions({ inheritAttrs: false });
 const props = withDefaults(defineProps<TabsProps>(), {
   orientation: "horizontal",
   size: "default",
+  variant: "underline",
 });
 const emit = defineEmits<{
   "update:modelValue": [value: string];
@@ -20,7 +22,7 @@ const emit = defineEmits<{
 const attrs = useAttrs();
 const rootClass = computed(() =>
   clsx(
-    tabsStyles({ orientation: props.orientation, size: props.size }),
+    tabsStyles({ orientation: props.orientation, size: props.size, variant: props.variant }),
     attrs.class as string,
   ),
 );
@@ -65,6 +67,14 @@ const isString = (v: unknown) => typeof v === "string";
       >
         <template v-if="isString(tab.label)">{{ tab.label }}</template>
         <component :is="tab.label" v-else />
+        <Tag
+          v-if="tab.count != null"
+          variant="neutral"
+          appearance="subtle"
+          shape="pill"
+          size="sm"
+          class="tabs__count"
+        >{{ tab.count }}</Tag>
       </ArkTabs.Trigger>
     </ArkTabs.List>
     <div class="tabs__panels">

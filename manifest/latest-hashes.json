@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T17:37:01.086Z",
+  "generatedAt": "2026-11-25T20:10:02.442Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -53,7 +53,7 @@
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogFooter": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTitle": "sha256:4f53cda18c2baa0c",
     "packages/react/src/components/Dialog/Dialog.types.ts::DialogTrigger": "sha256:36a696a8661c284e",
-    "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:f411b86fd0af3040",
+    "packages/react/src/components/Divider/Divider.types.ts::Divider": "sha256:61b596398a2dcd45",
     "packages/react/src/components/Editable/Editable.types.ts::Editable": "sha256:4acc88909e051c06",
     "packages/react/src/components/EmptyState/EmptyState.types.ts::EmptyState": "sha256:607f0bbac47fb32f",
     "packages/react/src/components/FeaturedIcon/FeaturedIcon.types.ts::FeaturedIcon": "sha256:7e233281cd254757",
@@ -166,7 +166,7 @@
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableToolbar": "sha256:2f00c389ec961ef4",
     "packages/react-table/src/components/TableToolbar/TableToolbar.types.ts::TableViewOptions": "sha256:cfb165bf50cb1789",
     "packages/react-table/src/components/Table/Table.types.ts::TableViewport": "sha256:b002972530fec3c2",
-    "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:657142a2c38c3bdb",
+    "packages/react/src/components/Tabs/Tabs.types.ts::Tabs": "sha256:83aef997089ad117",
     "packages/react/src/components/Tag/Tag.types.ts::Tag": "sha256:6a954f4503203af3",
     "packages/react/src/components/TagGroup/TagGroup.types.ts::TagGroup": "sha256:199676f8d2d2a85f",
     "packages/react/src/components/TagsInput/TagsInput.types.ts::TagsInput": "sha256:552c98b946bd1448",
@@ -2052,6 +2052,13 @@
       }
     ],
     "packages/react/src/components/Divider/Divider.types.ts::Divider": [
+      {
+        "name": "labelPosition",
+        "type": "\"start\" | \"center\" | \"end\"",
+        "required": false,
+        "defaultValue": "center",
+        "description": "Where a label sits when the divider has children: text such as \"or\", or a control such as a \"Show more\" button."
+      },
       {
         "name": "orientation",
         "type": "\"horizontal\" | \"vertical\"",
@@ -5622,6 +5629,12 @@
         "type": "string | number",
         "required": false,
         "description": "Controlled active tab value."
+      },
+      {
+        "name": "variant",
+        "type": "\"underline\" | \"pill\" | \"bordered\"",
+        "required": false,
+        "description": "The look."
       }
     ],
     "packages/react/src/components/Tag/Tag.types.ts::Tag": [

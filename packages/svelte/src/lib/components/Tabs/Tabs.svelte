@@ -2,6 +2,7 @@
   import { Tabs as ArkTabs } from "@ark-ui/svelte";
   import { clsx } from "clsx";
   import { tabsStyles } from "@ui-organized/core";
+  import Tag from "../Tag/Tag.svelte";
   import type { TabsProps } from "./Tabs.types.js";
   import "@ui-organized/core/components/Tabs/Tabs.css";
 
@@ -12,6 +13,7 @@
     onValueChange,
     orientation = "horizontal",
     size = "default",
+    variant = "underline",
     class: className,
   }: TabsProps = $props();
 
@@ -34,7 +36,7 @@
     onValueChange?.(details.value);
   }}
   {orientation}
-  class={clsx(tabsStyles({ orientation, size }), className)}
+  class={clsx(tabsStyles({ orientation, size, variant }), className)}
 >
   <ArkTabs.List class="tabs__list">
     {#each tabs as tab (tab.value)}
@@ -44,6 +46,9 @@
         class="tabs__tab text-emphasis-body-large"
       >
         {#if typeof tab.label === "string"}{tab.label}{:else}{@render tab.label()}{/if}
+        {#if tab.count != null}
+          <Tag variant="neutral" appearance="subtle" shape="pill" size="sm" class="tabs__count">{tab.count}</Tag>
+        {/if}
       </ArkTabs.Trigger>
     {/each}
   </ArkTabs.List>
