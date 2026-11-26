@@ -20,6 +20,7 @@ import { checkboxExamples } from "./checkbox";
 import { radioGroupExamples } from "./radio-group";
 import { radioCardGroupExamples } from "./radio-card-group";
 import { checkboxCardGroupExamples } from "./checkbox-card-group";
+import { videoEmbedExamples } from "./video-embed";
 import { switchExamples } from "./switch";
 import { segmentedControlExamples } from "./segmented-control";
 import { selectExamples } from "./select";
@@ -96,6 +97,7 @@ const EXAMPLES: Record<string, UsageExampleSet> = {
   "radio-group": radioGroupExamples,
   "radio-card-group": radioCardGroupExamples,
   "checkbox-card-group": checkboxCardGroupExamples,
+  "video-embed": videoEmbedExamples,
   switch: switchExamples,
   "segmented-control": segmentedControlExamples,
   select: selectExamples,

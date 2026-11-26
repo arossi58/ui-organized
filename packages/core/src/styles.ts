@@ -52,6 +52,7 @@ import "./components/Accordion/Accordion.css";
 import "./components/Popover/Popover.css";
 import "./components/Tooltip/Tooltip.css";
 import "./components/Dialog/Dialog.css";
+import "./components/VideoEmbed/VideoEmbed.css";
 import "./components/Menu/Menu.css";
 import "./components/Toast/Toast.css";
 import "./components/Combobox/Combobox.css";

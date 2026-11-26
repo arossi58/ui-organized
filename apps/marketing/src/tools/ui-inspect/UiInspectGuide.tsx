@@ -9,7 +9,7 @@
  * Snippets reuse the docs `CodeBlock` so copy behaviour (including a failed copy
  * reporting itself) is the same one implementation used everywhere on the site.
  */
-import { Button, Icon } from "@ui-organized/react";
+import { Button, Icon, VideoEmbed } from "@ui-organized/react";
 import type { ComponentType, ReactNode } from "react";
 import {
   ArrowUpRight,
@@ -198,20 +198,18 @@ export default function UiInspectGuide() {
           </div>
         </header>
 
-        {/* Click-to-play, `preload="none"`: the poster is the only byte that
-            loads with the panel, and the clip itself is fetched only if someone
-            actually wants the demo. Controls are on because it's a 49s
-            walkthrough people will want to scrub. */}
+        {/* Click-to-play: the poster is the only byte that loads with the
+            panel, and the clip itself is fetched only if someone actually wants
+            the demo. It plays with controls, because it's a 49s walkthrough
+            people will want to scrub. */}
         <figure className={styles.demo}>
-          <video
+          <VideoEmbed
             className={styles.demoVideo}
             src={`${DEMO}.mp4`}
             poster={`${DEMO}.poster.png`}
-            controls
-            muted
-            playsInline
-            preload="none"
-            aria-label="Screen recording: opening UI Inspect on a running app, selecting an element, replacing its font size with a token from the page's own scale, and reviewing the edit in the Changes tab."
+            aspectRatio="1440 / 884"
+            title="Screen recording: opening UI Inspect on a running app, selecting an element, replacing its font size with a token from the page's own scale, and reviewing the edit in the Changes tab."
+            playLabel="Play the UI Inspect demo"
           />
           <figcaption className={styles.demoCaption}>
             A live edit end to end: select an element, swap a hard-coded size for a token off the

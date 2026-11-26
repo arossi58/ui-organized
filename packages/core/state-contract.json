@@ -1499,6 +1499,20 @@
         "text-strong-heading-small"
       ],
       "runtime": []
+    },
+    "VideoEmbed": {
+      "attributes": {},
+      "classes": [
+        "video-embed",
+        "video-embed--background",
+        "video-embed__frame",
+        "video-embed__image",
+        "video-embed__media",
+        "video-embed__play",
+        "video-embed__poster",
+        "video-embed__sr"
+      ],
+      "runtime": []
     }
   }
 }

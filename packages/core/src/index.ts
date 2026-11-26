@@ -243,3 +243,5 @@ export { tourStyles } from "./components/Tour/Tour.styles.js";
 export type { TourVariants } from "./components/Tour/Tour.styles.js";
 export { treeViewStyles } from "./components/TreeView/TreeView.styles.js";
 export type { TreeViewVariants } from "./components/TreeView/TreeView.styles.js";
+export { videoEmbedStyles, videoEmbedKind, VIDEO_EMBED_ALLOW } from "./components/VideoEmbed/VideoEmbed.styles.js";
+export type { VideoEmbedVariants } from "./components/VideoEmbed/VideoEmbed.styles.js";

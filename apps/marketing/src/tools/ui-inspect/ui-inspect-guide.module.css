@@ -84,12 +84,9 @@
   margin: var(--spacing-space-06) 0 0;
 }
 
+/* The source is 1440×884 (a 1760×1080 capture, scaled); VideoEmbed pins that
+   ratio, so the poster never reflows the page when the clip loads. */
 .demoVideo {
-  display: block;
-  width: 100%;
-  /* The source is 1440×884 (a 1760×1080 capture, scaled); pinning the ratio
-     keeps the poster from reflowing the page when the clip loads. */
-  aspect-ratio: 1440 / 884;
   border: 1px solid var(--color-border-secondary);
   border-radius: var(--border-radius-05);
   background: var(--color-surface-secondary);

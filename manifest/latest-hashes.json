@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T21:19:16.621Z",
+  "generatedAt": "2026-11-25T21:47:31.651Z",
   "hashes": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": "sha256:582b648bb447e7b5",
     "packages/react/src/components/Alert/Alert.types.ts::Alert": "sha256:1fc8f05b3ef24ee4",
@@ -182,7 +182,8 @@
     "packages/react/src/components/Tooltip/Tooltip.types.ts::Tooltip": "sha256:e424ecc2c0d9e60c",
     "packages/react/src/components/Tooltip/Tooltip.types.ts::TooltipProvider": "sha256:7040e5e67adbe084",
     "packages/react/src/components/Tour/Tour.types.ts::Tour": "sha256:c9fda0ee4ed41a43",
-    "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38"
+    "packages/react/src/components/TreeView/TreeView.types.ts::TreeView": "sha256:6fa3af288f279d38",
+    "packages/react/src/components/VideoEmbed/VideoEmbed.types.ts::VideoEmbed": "sha256:ce5dc23be5f9ffe5"
   },
   "props": {
     "packages/react/src/components/Accordion/Accordion.types.ts::Accordion": [
@@ -6501,6 +6502,70 @@
         "required": false,
         "defaultValue": "default",
         "description": "Visual treatment."
+      }
+    ],
+    "packages/react/src/components/VideoEmbed/VideoEmbed.types.ts::VideoEmbed": [
+      {
+        "name": "aspectRatio",
+        "type": "string",
+        "required": false,
+        "description": "The box's CSS `aspect-ratio`."
+      },
+      {
+        "name": "background",
+        "type": "boolean",
+        "required": false,
+        "description": "A muted, looping, decorative video with no controls and no poster button."
+      },
+      {
+        "name": "captions",
+        "type": "string",
+        "required": false,
+        "description": "A WebVTT captions file for a `video`, shown by default."
+      },
+      {
+        "name": "captionsLang",
+        "type": "string",
+        "required": false,
+        "defaultValue": "en",
+        "description": "The captions' language, as a BCP 47 tag."
+      },
+      {
+        "name": "lightbox",
+        "type": "boolean",
+        "required": false,
+        "description": "Play in a full-screen dialog instead of in place."
+      },
+      {
+        "name": "playLabel",
+        "type": "string",
+        "required": false,
+        "defaultValue": "Play",
+        "description": "The play button's accessible name."
+      },
+      {
+        "name": "poster",
+        "type": "string",
+        "required": false,
+        "description": "An image shown until the video plays."
+      },
+      {
+        "name": "src",
+        "type": "string",
+        "required": true,
+        "description": "A video file, or the embed URL of a player page."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "required": true,
+        "description": "What the video is."
+      },
+      {
+        "name": "type",
+        "type": "\"video\" | \"iframe\"",
+        "required": false,
+        "description": "`video` plays a file in a `<video>`; `iframe` embeds a player page."
       }
     ]
   }

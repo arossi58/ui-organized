@@ -1,0 +1,125 @@
+/* ─── Video embed ───────────────────────────────────────────────────────────────
+   A poster button in a box of a fixed aspect ratio. Pressing it swaps in the
+   player (or, with `lightbox`, opens it in a dialog), so nothing third-party
+   loads until it is asked for. The ratio is a property the caller can set
+   inline; 16 / 9 is the default. */
+
+.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--border-radius-05);
+  background-color: var(--color-surface-secondary);
+}
+
+/* The poster button fills the box. Its focus ring is drawn on the box, because
+   the box clips anything drawn outside it. */
+.video-embed__poster {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+
+.video-embed:has(.video-embed__poster:focus-visible) {
+  outline: 2px solid var(--color-interactive-focus);
+  outline-offset: 2px;
+}
+
+.video-embed__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* A brand disc with a triangle drawn in CSS, so it needs no icon set. The
+   triangle takes the filled-button label colour, chosen against the brand. */
+.video-embed__play {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-interactive-primary-default);
+  color: var(--color-interactive-contents);
+  transition:
+    background-color 150ms ease,
+    transform 150ms ease;
+}
+
+.video-embed__play::before {
+  content: "";
+  width: 18px;
+  height: 20px;
+  margin-left: 4px;
+  background-color: currentColor;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+
+.video-embed__poster:hover .video-embed__play {
+  background-color: var(--color-interactive-primary-hover);
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-embed__play {
+    transition: background-color 150ms ease;
+  }
+
+  .video-embed__poster:hover .video-embed__play {
+    transform: none;
+  }
+}
+
+.video-embed__media {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background-color: var(--color-surface-curtain);
+}
+
+/* A decorative loop covers its box; a playing video is letterboxed. */
+.video-embed--background .video-embed__media {
+  object-fit: cover;
+  background-color: transparent;
+}
+
+/* ─── Lightbox ──────────────────────────────────────────────────────────────── */
+
+.video-embed__frame {
+  position: relative;
+  width: min(100%, calc((100vh - 160px) * 16 / 9));
+  aspect-ratio: 16 / 9;
+  margin: auto;
+  overflow: hidden;
+  border-radius: var(--border-radius-05);
+}
+
+.video-embed__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

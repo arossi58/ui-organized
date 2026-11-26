@@ -481,3 +481,5 @@ export type { SignaturePadProps, SignaturePadVariants } from "./components/Signa
 
 export { QRCode } from "./components/QRCode/index.js";
 export type { QRCodeProps, QRCodeVariants } from "./components/QRCode/index.js";
+export { VideoEmbed } from "./components/VideoEmbed/index.js";
+export type { VideoEmbedProps, VideoEmbedVariants } from "./components/VideoEmbed/index.js";

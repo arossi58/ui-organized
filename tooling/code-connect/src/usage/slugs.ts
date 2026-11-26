@@ -87,6 +87,7 @@ export const COMPONENT_SLUGS = [
   "tooltip",
   "tour",
   "tree-view",
+  "video-embed",
 ] as const;
 
 export type ComponentSlug = (typeof COMPONENT_SLUGS)[number];
